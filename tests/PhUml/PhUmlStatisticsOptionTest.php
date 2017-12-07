@@ -52,7 +52,7 @@ OUTPUT;
         passthru(sprintf(
             'php %s %s -statistics %s',
             __DIR__ . '/../../src/app/phuml',
-            __DIR__ . '/../../src/classes',
+            __DIR__ . '/../.code/classes',
             $file
         ));
 
@@ -103,7 +103,7 @@ OUTPUT;
         passthru(sprintf(
             'php %s -r %s -statistics %s',
             __DIR__ . '/../../src/app/phuml',
-            __DIR__ . '/../../src/classes',
+            __DIR__ . '/../.code/classes',
             $file
         ));
 

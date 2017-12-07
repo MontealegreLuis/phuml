@@ -29,7 +29,7 @@ MESSAGE;
         passthru(sprintf(
             'php %s %s -graphviz -dot %s',
             __DIR__ . '/../../src/app/phuml',
-            __DIR__ . '/../../src/classes',
+            __DIR__ . '/../.code/classes',
             $diagram
         ));
 
@@ -55,7 +55,7 @@ MESSAGE;
         passthru(sprintf(
             'php %s -r %s -graphviz -dot %s',
             __DIR__ . '/../../src/app/phuml',
-            __DIR__ . '/../../src',
+            __DIR__ . '/../.code',
             $diagram
         ));
 
