@@ -2,34 +2,40 @@
 
 class plPhpFunction
 {
-    private $properties;
+    private static $symbols = [
+        'private' => '-',
+        'protected' => '#',
+        'public' => '+',
+    ];
 
-    public function __construct( $name, $modifier = 'public', $params = array() ) 
+    /** @var string */
+    public $name;
+
+    /** @var string */
+    public $modifier;
+
+    /** @var plPhpFunctionParameter[] */
+    public $params;
+
+    public function __construct(string $name, string $modifier = 'public', array $params = [])
     {
-        $this->properties = array( 
-            'name'      =>  $name,
-            'modifier'  =>  $modifier,
-            'params'    =>  $params,
+        $this->name = $name;
+        $this->modifier = $modifier;
+        $this->params = $params;
+    }
+
+    public function isConstructor(): bool
+    {
+        return $this->name === '__construct';
+    }
+
+    public function __toString()
+    {
+        return sprintf(
+            '%s%s%s',
+            self::$symbols[$this->modifier],
+            $this->name,
+            empty($this->params) ? '()' : '( ' . implode($this->params, ', ') . ' )'
         );
     }
-
-    public function __get( $key )
-    {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::READ );
-        }
-        return $this->properties[$key];
-    }
-
-    public function __set( $key, $val )
-    {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::WRITE );
-        }
-        $this->properties[$key] = $val;            
-    }
 }
-
-?>

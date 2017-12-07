@@ -2,36 +2,42 @@
 
 class plPhpClass
 {
-    private $properties;
+    /** @var string */
+    public $name;
 
-    public function __construct( $name, $attributes = array(), $functions = array(), $implements = array(), $extends = null ) 
-    {
-        $this->properties = array( 
-            'name'          =>  $name,
-            'attributes'    =>  $attributes,
-            'functions'     =>  $functions,
-            'implements'    =>  $implements,
-            'extends'       =>  $extends,
-        );
+    /** @var plPhpAttribute[] */
+    public $attributes;
+
+    /** @var plPhpFunction[] */
+    public $functions;
+
+    /** @var plPhpInterface[] */
+    public $implements;
+
+    /** @var plPhpClass */
+    public $extends;
+
+    public function __construct(
+        string $name,
+        array $attributes = [],
+        array $functions = [],
+        array $implements = [],
+        $extends = null
+    ) {
+        $this->name = $name;
+        $this->attributes = $attributes;
+        $this->functions = $functions;
+        $this->implements = $implements;
+        $this->extends = $extends;
     }
 
-    public function __get( $key )
+    public function identifier(): string
     {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::READ );
-        }
-        return $this->properties[$key];
+        return spl_object_hash($this);
     }
 
-    public function __set( $key, $val )
+    public function hasParent(): bool
     {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::WRITE );
-        }
-        $this->properties[$key] = $val;            
+        return $this->extends !== null;
     }
 }
-
-?>

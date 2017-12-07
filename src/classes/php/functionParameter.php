@@ -2,33 +2,29 @@
 
 class plPhpFunctionParameter
 {
-    private $properties;
+    /** @var string */
+    public $name;
 
-    public function __construct( $name, $type = null ) 
+    /** @var string */
+    public $type;
+
+    public function __construct(string $name, string $type = null)
     {
-        $this->properties = array( 
-            'name'      =>  $name,
-            'type'      =>  $type,
+        $this->name = $name;
+        $this->type = $type;
+    }
+
+    public function hasType(): bool
+    {
+        return $this->type !== null;
+    }
+
+    public function __toString()
+    {
+        return sprintf(
+            '%s%s',
+            $this->type ? "{$this->type} " : '',
+            $this->name
         );
     }
-
-    public function __get( $key )
-    {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::READ );
-        }
-        return $this->properties[$key];
-    }
-
-    public function __set( $key, $val )
-    {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::WRITE );
-        }
-        $this->properties[$key] = $val;            
-    }
 }
-
-?>

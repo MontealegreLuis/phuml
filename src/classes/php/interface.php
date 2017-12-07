@@ -2,34 +2,29 @@
 
 class plPhpInterface
 {
-    private $properties;
+    /** @var string */
+    public $name;
 
-    public function __construct( $name, $functions = array(), $extends = null ) 
+    /** @var plPhpFunction[] */
+    public $functions;
+
+    /** @var plPhpInterface */
+    public $extends;
+
+    public function __construct(string $name, array $functions = [], $extends = null)
     {
-        $this->properties = array( 
-            'name'      =>  $name,
-            'functions' =>  $functions,
-            'extends'   =>  $extends,
-        );
+        $this->name = $name;
+        $this->functions = $functions;
+        $this->extends = $extends;
     }
 
-    public function __get( $key )
+    public function identifier(): string
     {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::READ );
-        }
-        return $this->properties[$key];
+        return spl_object_hash($this);
     }
 
-    public function __set( $key, $val )
+    public function hasParent(): bool
     {
-        if ( !array_key_exists( $key, $this->properties ) )
-        {
-            throw new plBasePropertyException( $key, plBasePropertyException::WRITE );
-        }
-        $this->properties[$key] = $val;            
+        return $this->extends !== null;
     }
 }
-
-?>
