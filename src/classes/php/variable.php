@@ -1,29 +1,34 @@
 <?php
 
-class plPhpFunctionParameter
+class plPhpVariable
 {
     /** @var string */
     public $name;
 
-    /** @var string */
+    /** @var plPhpTypeDeclaration */
     public $type;
 
     public function __construct(string $name, string $type = null)
     {
         $this->name = $name;
-        $this->type = $type;
+        $this->type = new plPhpTypeDeclaration($type);
     }
 
     public function hasType(): bool
     {
-        return $this->type !== null;
+        return $this->type->isPresent();
+    }
+
+    public function isBuiltIn(): bool
+    {
+        return $this->type->isBuiltIn();
     }
 
     public function __toString()
     {
         return sprintf(
             '%s%s',
-            $this->type ? "{$this->type} " : '',
+            $this->type->isPresent() ? "{$this->type} " : '',
             $this->name
         );
     }

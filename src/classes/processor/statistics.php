@@ -5,27 +5,27 @@ class plStatisticsProcessor extends plProcessor
     private $information;
     public $options;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->options   = new plProcessorOptions();
         $this->information = array();
     }
 
-    public function getInputTypes() 
+    public function getInputTypes()
     {
-        return array( 
+        return array(
             'application/phuml-structure'
         );
     }
 
-    public function getOutputType() 
+    public function getOutputType()
     {
         return 'text/plain';
     }
 
-    public function process( $input, $type ) 
+    public function process( $input, $type )
     {
-        // Initialize the values        
+        // Initialize the values
         $this->information['interfaceCount']           = 0;
         $this->information['classCount']               = 0;
         $this->information['publicFunctionCount']      = 0;
@@ -39,49 +39,49 @@ class plStatisticsProcessor extends plProcessor
         $this->information['privateTypedAttributes']   = 0;
 
         // Loop through the classes and interfaces
-        foreach ( $input as $definition ) 
+        foreach ( $input as $definition )
         {
-            if ( $definition instanceof plPhpInterface ) 
+            if ( $definition instanceof plPhpInterface )
             {
                 $this->information['interfaceCount']++;
             }
 
-            if ( $definition instanceof plPhpClass ) 
+            if ( $definition instanceof plPhpClass )
             {
                 $this->information['classCount']++;
 
-                foreach( $definition->attributes as $attribute ) 
+                foreach( $definition->attributes as $attribute )
                 {
-                    switch ( $attribute->modifier ) 
+                    switch ( $attribute->modifier )
                     {
                         case 'public':
                             $this->information['publicAttributeCount']++;
-                            if ( $attribute->type !== null ) 
+                            if ( $attribute->type->isPresent() )
                             {
                                 $this->information['publicTypedAttributes']++;
                             }
                         break;
                         case 'protected':
                             $this->information['protectedAttributeCount']++;
-                            if ( $attribute->type !== null ) 
+                            if ( $attribute->type->isPresent() )
                             {
                                 $this->information['protectedTypedAttributes']++;
                             }
                         break;
                         case 'private':
                             $this->information['privateAttributeCount']++;
-                            if ( $attribute->type !== null ) 
+                            if ( $attribute->type->isPresent() )
                             {
                                 $this->information['privateTypedAttributes']++;
                             }
-                        break;                    
+                        break;
                     }
                 }
             }
 
-            foreach( $definition->functions as $function ) 
+            foreach( $definition->functions as $function )
             {
-                switch ( $function->modifier ) 
+                switch ( $function->modifier )
                 {
                     case 'public':
                         $this->information['publicFunctionCount']++;
@@ -91,7 +91,7 @@ class plStatisticsProcessor extends plProcessor
                     break;
                     case 'private':
                         $this->information['privateFunctionCount']++;
-                    break;                    
+                    break;
                 }
             }
         }
@@ -101,7 +101,7 @@ class plStatisticsProcessor extends plProcessor
         $this->information['typedAttributeCount'] = $this->information['publicTypedAttributes'] + $this->information['protectedTypedAttributes'] + $this->information['privateTypedAttributes'];
         $this->information['attributesPerClass']  = round( $this->information['attributeCount'] / $this->information['classCount'], 2 );
         $this->information['functionsPerClass']   = round( $this->information['functionCount'] / $this->information['classCount'], 2 );
-        
+
         // Generate the needed text output
         return <<<END
 Phuml generated statistics

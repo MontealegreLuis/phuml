@@ -37,7 +37,7 @@ class plPhpAttributeTest extends TestCase
 
         $type = $noTypeAttribute->type;
 
-        $this->assertNull($type);
+        $this->assertFalse($type->isPresent());
     }
 
     /** @test */

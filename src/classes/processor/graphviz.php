@@ -85,7 +85,7 @@ class plGraphvizProcessor extends plProcessor
             // Create association if the function is the constructor and takes
             // other classes as parameters
             if ($function->isConstructor()) {
-                /** @var plPhpFunctionParameter $param */
+                /** @var plPhpVariable $param */
                 foreach ($function->params as $param) {
                     if ($param->hasType() && $this->isTypeInStructure($param->type) && !$this->isAssociationResolved($param->type, $associations)) {
                         $def .= plEdge::association($this->structure[$param->type], $class)->toDotLanguage();

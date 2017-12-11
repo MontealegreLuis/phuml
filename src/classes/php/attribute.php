@@ -1,6 +1,6 @@
 <?php
 
-class plPhpAttribute
+class plPhpAttribute extends plPhpVariable
 {
     private static $symbols = [
         'private' => '-',
@@ -9,24 +9,12 @@ class plPhpAttribute
     ];
 
     /** @var string */
-    public $name;
-
-    /** @var string */
     public $modifier;
-
-    /** @var string */
-    public $type;
 
     public function __construct(string $name, string $modifier = 'public', string $type = null)
     {
-        $this->name = $name;
+        parent::__construct($name, $type);
         $this->modifier = $modifier;
-        $this->type = $type;
-    }
-
-    public function hasType(): bool
-    {
-        return $this->type !== null;
     }
 
     /**

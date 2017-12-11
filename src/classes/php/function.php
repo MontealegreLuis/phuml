@@ -14,7 +14,7 @@ class plPhpFunction
     /** @var string */
     public $modifier;
 
-    /** @var plPhpFunctionParameter[] */
+    /** @var plPhpVariable[] */
     public $params;
 
     public function __construct(string $name, string $modifier = 'public', array $params = [])

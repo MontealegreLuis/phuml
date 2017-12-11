@@ -43,8 +43,8 @@ class plPhpFunctionTest extends TestCase
     function it_knows_its_parameters()
     {
         $expectedParameters = [
-            new plPhpFunctionParameter('first'),
-            new plPhpFunctionParameter('second'),
+            new plPhpVariable('first'),
+            new plPhpVariable('second'),
         ];
         $functionWithParameters = new plPhpFunction('functionWithParameters', 'public', $expectedParameters);
 
@@ -77,8 +77,8 @@ class plPhpFunctionTest extends TestCase
     function its_string_representation_includes_its_parameters()
     {
         $methodWithParameters = new plPhpFunction('withParameters', 'protected', [
-            new plPhpFunctionParameter('parameterOne'),
-            new plPhpFunctionParameter('parameterTwoWithType', 'int'),
+            new plPhpVariable('parameterOne'),
+            new plPhpVariable('parameterTwoWithType', 'int'),
         ]);
 
         $methodAsString = $methodWithParameters->__toString();

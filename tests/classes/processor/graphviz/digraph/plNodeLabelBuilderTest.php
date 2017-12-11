@@ -45,7 +45,7 @@ class plNodeLabelBuilderTest extends TestCase
             new plPhpAttribute('category', 'protected', 'string')
         ], [
             new plPhpFunction('getAge'),
-            new plPhpFunction('setCategory', 'protected', [new plPhpFunctionParameter('category', 'string')])
+            new plPhpFunction('setCategory', 'protected', [new plPhpVariable('category', 'string')])
         ]));
 
         $this->assertEquals(
@@ -71,7 +71,7 @@ class plNodeLabelBuilderTest extends TestCase
         $html = $this->labelBuilder->labelForInterface(new plPhpInterface('AnInterface', [
             new plPhpFunction('doSomething'),
             new plPhpFunction('changeValue', 'public', [
-                new plPhpFunctionParameter('value', 'int')
+                new plPhpVariable('value', 'int')
             ])
         ]));
 
