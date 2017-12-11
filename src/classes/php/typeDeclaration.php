@@ -31,7 +31,7 @@ class plPhpTypeDeclaration
      */
     public function isBuiltIn(): bool
     {
-        return in_array($this->name, self::$builtInTypes, true);
+        return !empty($this->name) && in_array($this->name, self::$builtInTypes, true);
     }
 
     public function __toString()

@@ -69,8 +69,8 @@ class plGraphvizProcessor extends plProcessor
             }
 
             // Create associations if the attribute type is set
-            if ($attribute->hasType() && $this->isTypeInStructure($attribute->type) && !$this->isAssociationResolved($attribute->type, $associations)) {
-                $def .= plEdge::association($this->structure[$attribute->type], $class)->toDotLanguage();
+            if ($attribute->hasType()  && !$attribute->isBuiltIn() && !$this->isAssociationResolved($attribute->type, $associations)) {
+                $def .= plEdge::association($this->structure[(string)$attribute->type], $class)->toDotLanguage();
                 $associations[strtolower($attribute->type)] = true;
             }
         }
@@ -87,8 +87,8 @@ class plGraphvizProcessor extends plProcessor
             if ($function->isConstructor()) {
                 /** @var plPhpVariable $param */
                 foreach ($function->params as $param) {
-                    if ($param->hasType() && $this->isTypeInStructure($param->type) && !$this->isAssociationResolved($param->type, $associations)) {
-                        $def .= plEdge::association($this->structure[$param->type], $class)->toDotLanguage();
+                    if ($param->hasType() && !$param->isBuiltIn() && !$this->isAssociationResolved($param->type, $associations)) {
+                        $def .= plEdge::association($this->structure[(string)$param->type], $class)->toDotLanguage();
                         $associations[strtolower($param->type)] = true;
                     }
                 }
