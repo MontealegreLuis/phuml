@@ -1,5 +1,8 @@
 <?php
 
+use Twig_Environment as TemplateEngine;
+use Twig_Loader_Filesystem as Filesystem;
+
 class plGraphvizProcessor extends plProcessor
 {
     private $output;
@@ -8,9 +11,15 @@ class plGraphvizProcessor extends plProcessor
 
     public $options;
 
-    public function __construct()
+    /** @var plNodeLabelBuilder */
+    private $labelBuilder;
+
+    public function __construct(plNodeLabelBuilder $labelBuilder = null)
     {
         $this->options = new plGraphvizProcessorOptions();
+        $this->labelBuilder = $labelBuilder ??  new plNodeLabelBuilder(new TemplateEngine(
+            new FileSystem(__DIR__ . '/../processor/graphviz/digraph/templates')
+        ), new plGraphvizProcessorDefaultStyle());
     }
 
     public function getInputTypes()
@@ -51,15 +60,9 @@ class plGraphvizProcessor extends plProcessor
     {
         $def = '';
 
-        // First we need to create the needed data arrays
-        $name = $class->name;
-
-        $attributes = [];
         $associations = [];
         /** @var plPhpAttribute $attribute */
         foreach ($class->attributes as $attribute) {
-            $attributes[] = (string)$attribute;
-
             // Association creation is optional
             if ($this->options->createAssociations === false) {
                 continue;
@@ -72,11 +75,8 @@ class plGraphvizProcessor extends plProcessor
             }
         }
 
-        $functions = [];
         /** @var plPhpFunction $function */
         foreach ($class->functions as $function) {
-            $functions[] = (string)$function;
-
             // Association creation is optional
             if ($this->options->createAssociations === false) {
                 continue;
@@ -99,7 +99,7 @@ class plGraphvizProcessor extends plProcessor
         $def .= $this->createNode(
             "\"{$class->identifier()}\"",
             [
-                'label' => $this->createClassLabel($name, $attributes, $functions),
+                'label' => $this->labelBuilder->labelForClass($class),
                 'shape' => 'plaintext',
             ]
         );
@@ -129,9 +129,6 @@ class plGraphvizProcessor extends plProcessor
     {
         $def = '';
 
-        // First we need to create the needed data arrays
-        $name = $interface->name;
-
         $functions = [];
         foreach ($interface->functions as $function) {
             $functions[] = (string)$function;
@@ -141,7 +138,7 @@ class plGraphvizProcessor extends plProcessor
         $def .= $this->createNode(
             $interface->identifier(),
             [
-                'label' => $this->createInterfaceLabel($name, [], $functions),
+                'label' => $this->labelBuilder->labelForInterface($interface),
                 'shape' => 'plaintext',
             ]
         );
@@ -166,74 +163,6 @@ class plGraphvizProcessor extends plProcessor
         }
         $node .= "]\n";
         return $node;
-    }
-
-    private function createInterfaceLabel($name, $attributes, $functions)
-    {
-        // Start the table
-        $label = '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">';
-
-        // The title
-        $label .= '<TR><TD BORDER="' . $this->options->style->interfaceTableBorder . '" ALIGN="CENTER" BGCOLOR="' . $this->options->style->interfaceTitleBackground . '"><FONT COLOR="' . $this->options->style->interfaceTitleColor . '" FACE="' . $this->options->style->interfaceTitleFont . '" POINT-SIZE="' . $this->options->style->interfaceTitleFontsize . '">' . $name . '</FONT></TD></TR>';
-
-        // The attributes block
-        $label .= '<TR><TD BORDER="' . $this->options->style->interfaceTableBorder . '" ALIGN="LEFT" BGCOLOR="' . $this->options->style->interfaceAttributesBackground . '">';
-        if (count($attributes) === 0) {
-            $label .= ' ';
-        }
-        foreach ($attributes as $attribute) {
-            $label .= '<FONT COLOR="' . $this->options->style->interfaceAttributesColor . '" FACE="' . $this->options->style->interfaceAttributesFont . '" POINT-SIZE="' . $this->options->style->interfaceAttributesFontsize . '">' . $attribute . '</FONT><BR ALIGN="LEFT"/>';
-        }
-        $label .= '</TD></TR>';
-
-        // The function block
-        $label .= '<TR><TD BORDER="' . $this->options->style->interfaceTableBorder . '" ALIGN="LEFT" BGCOLOR="' . $this->options->style->interfaceFunctionsBackground . '">';
-        if (count($functions) === 0) {
-            $label .= ' ';
-        }
-        foreach ($functions as $function) {
-            $label .= '<FONT COLOR="' . $this->options->style->interfaceFunctionsColor . '" FACE="' . $this->options->style->interfaceFunctionsFont . '" POINT-SIZE="' . $this->options->style->interfaceFunctionsFontsize . '">' . $function . '</FONT><BR ALIGN="LEFT"/>';
-        }
-        $label .= '</TD></TR>';
-
-        // End the table
-        $label .= '</TABLE>>';
-
-        return $label;
-    }
-
-    private function createClassLabel($name, $attributes, $functions)
-    {
-        // Start the table
-        $label = '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">';
-
-        // The title
-        $label .= '<TR><TD BORDER="' . $this->options->style->classTableBorder . '" ALIGN="CENTER" BGCOLOR="' . $this->options->style->classTitleBackground . '"><FONT COLOR="' . $this->options->style->classTitleColor . '" FACE="' . $this->options->style->classTitleFont . '" POINT-SIZE="' . $this->options->style->classTitleFontsize . '">' . $name . '</FONT></TD></TR>';
-
-        // The attributes block
-        $label .= '<TR><TD BORDER="' . $this->options->style->classTableBorder . '" ALIGN="LEFT" BGCOLOR="' . $this->options->style->classAttributesBackground . '">';
-        if (count($attributes) === 0) {
-            $label .= ' ';
-        }
-        foreach ($attributes as $attribute) {
-            $label .= '<FONT COLOR="' . $this->options->style->classAttributesColor . '" FACE="' . $this->options->style->classAttributesFont . '" POINT-SIZE="' . $this->options->style->classAttributesFontsize . '">' . $attribute . '</FONT><BR ALIGN="LEFT"/>';
-        }
-        $label .= '</TD></TR>';
-
-        // The function block
-        $label .= '<TR><TD BORDER="' . $this->options->style->classTableBorder . '" ALIGN="LEFT" BGCOLOR="' . $this->options->style->classFunctionsBackground . '">';
-        if (count($functions) === 0) {
-            $label .= ' ';
-        }
-        foreach ($functions as $function) {
-            $label .= '<FONT COLOR="' . $this->options->style->classFunctionsColor . '" FACE="' . $this->options->style->classFunctionsFont . '" POINT-SIZE="' . $this->options->style->classFunctionsFontsize . '">' . $function . '</FONT><BR ALIGN="LEFT"/>';
-        }
-        $label .= '</TD></TR>';
-
-        // End the table
-        $label .= '</TABLE>>';
-
-        return $label;
     }
 
     private function isTypeInStructure(string $type): bool

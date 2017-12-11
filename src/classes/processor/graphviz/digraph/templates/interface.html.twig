@@ -1,0 +1,31 @@
+<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">
+    <TR>
+        <TD BORDER="{{ style.interfaceTableBorder }}" ALIGN="CENTER" BGCOLOR="{{ style.interfaceTitleBackground }}">
+            <FONT COLOR="{{ style.interfaceTitleColor }}" FACE="{{ style.interfaceTitleFont }}" POINT-SIZE="{{ style.interfaceTitleFontsize }}">
+                {{ interface.name }}
+            </FONT>
+        </TD>
+    </TR>
+    <TR>
+        <TD BORDER="{{ style.interfaceTableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.interfaceAttributesBackground }}">
+            {% for attribute in interface.attributes %}
+                <FONT COLOR="{{ style.interfaceAttributesColor }}" FACE="{{ style.interfaceAttributesFont }}" POINT-SIZE="{{ style.interfaceAttributesFontsize }}">{{ attribute }}</FONT>
+                <BR ALIGN="LEFT"/>
+            {% else %}
+                &nbsp;
+            {% endfor %}
+        </TD>
+    </TR>
+    <TR>
+        <TD BORDER="{{ style.interfaceTableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.interfaceFunctionsBackground }}">
+            {% for method in interface.functions %}
+                <FONT COLOR="{{ style.interfaceFunctionsColor }}" FACE="{{ style.interfaceFunctionsFont }}" POINT-SIZE="{{ style.interfaceFunctionsFontsize }}">
+                    {{ method }}
+                </FONT>
+                <BR ALIGN="LEFT"/>
+            {% else %}
+                &nbsp;
+            {% endfor %}
+        </TD>
+    </TR>
+</TABLE>
