@@ -1,7 +1,9 @@
 <?php
 
-class plPhpClass
+class plPhpClass implements plHasNodeIdentifier
 {
+    use plObjectHashIdentifier;
+
     /** @var string */
     public $name;
 
@@ -29,11 +31,6 @@ class plPhpClass
         $this->functions = $functions;
         $this->implements = $implements;
         $this->extends = $extends;
-    }
-
-    public function identifier(): string
-    {
-        return spl_object_hash($this);
     }
 
     public function hasParent(): bool

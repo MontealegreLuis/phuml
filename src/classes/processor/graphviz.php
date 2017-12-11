@@ -67,15 +67,7 @@ class plGraphvizProcessor extends plProcessor
 
             // Create associations if the attribute type is set
             if ($attribute->hasType() && $this->isTypeInStructure($attribute->type) && !$this->isAssociationResolved($attribute->type, $associations)) {
-                $def .= $this->createNodeRelation(
-                    $this->structure[$attribute->type]->identifier(),
-                    $class->identifier(),
-                    [
-                        'dir' => 'back',
-                        'arrowtail' => 'none',
-                        'style' => 'dashed',
-                    ]
-                );
+                $def .= plEdge::association($this->structure[$attribute->type], $class)->toDotLanguage();
                 $associations[strtolower($attribute->type)] = true;
             }
         }
@@ -96,15 +88,7 @@ class plGraphvizProcessor extends plProcessor
                 /** @var plPhpFunctionParameter $param */
                 foreach ($function->params as $param) {
                     if ($param->hasType() && $this->isTypeInStructure($param->type) && !$this->isAssociationResolved($param->type, $associations)) {
-                        $def .= $this->createNodeRelation(
-                            $this->structure[$param->type]->identifier(),
-                            $class->identifier(),
-                            [
-                                'dir' => 'back',
-                                'arrowtail' => 'none',
-                                'style' => 'dashed',
-                            ]
-                        );
+                        $def .= plEdge::association($this->structure[$param->type], $class)->toDotLanguage();
                         $associations[strtolower($param->type)] = true;
                     }
                 }
@@ -126,16 +110,7 @@ class plGraphvizProcessor extends plProcessor
             if (!$this->isTypeInStructure($class->extends->name)) {
                 $def .= $this->getClassDefinition($class->extends);
             }
-
-            $def .= $this->createNodeRelation(
-                "\"{$class->extends->identifier()}\"",
-                "\"{$class->identifier()}\"",
-                [
-                    'dir' => 'back',
-                    'arrowtail' => 'empty',
-                    'style' => 'solid'
-                ]
-            );
+            $def .= plEdge::inheritance($class->extends, $class)->toDotLanguage();
         }
 
         // Create class implements relation
@@ -144,16 +119,7 @@ class plGraphvizProcessor extends plProcessor
             if (!$this->isTypeInStructure($interface)) {
                 $def .= $this->getInterfaceDefinition($interface);
             }
-
-            $def .= $this->createNodeRelation(
-                "\"{$interface->identifier()}\"",
-                "\"{$class->identifier()}\"",
-                [
-                    'dir' => 'back',
-                    'arrowtail' => 'normal',
-                    'style' => 'dashed',
-                ]
-            );
+            $def .= plEdge::implementation($interface, $class)->toDotLanguage();
         }
 
         return $def;
@@ -186,16 +152,7 @@ class plGraphvizProcessor extends plProcessor
             if (!$this->isTypeInStructure($interface->extends)) {
                 $def .= $this->getInterfaceDefinition($interface->extends);
             }
-
-            $def .= $this->createNodeRelation(
-                $interface->extends->identifier(),
-                $interface->identifier(),
-                [
-                    'dir' => 'back',
-                    'arrowtail' => 'empty',
-                    'style' => 'solid'
-                ]
-            );
+            $def .= plEdge::inheritance($interface->extends, $interface)->toDotLanguage();
         }
 
         return $def;
@@ -209,16 +166,6 @@ class plGraphvizProcessor extends plProcessor
         }
         $node .= "]\n";
         return $node;
-    }
-
-    private function createNodeRelation($node1, $node2, $options)
-    {
-        $relation = $node1 . ' -> ' . $node2 . ' [';
-        foreach ($options as $key => $value) {
-            $relation .= $key . '=' . $value . ' ';
-        }
-        $relation .= "]\n";
-        return $relation;
     }
 
     private function createInterfaceLabel($name, $attributes, $functions)
