@@ -7,8 +7,8 @@
 
 namespace PhUml\Graphviz;
 
-use plPhpClass;
-use plPhpInterface;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
 
 class Digraph implements HasDotRepresentation
 {
@@ -33,20 +33,20 @@ class Digraph implements HasDotRepresentation
     public function fromCodeStructure(array $structure): void
     {
         foreach ($structure as $definition) {
-            if ($definition instanceof plPhpClass) {
+            if ($definition instanceof ClassDefinition) {
                 $this->classElementsFrom($definition, $structure);
-            } else if ($definition instanceof plPhpInterface) {
+            } else if ($definition instanceof InterfaceDefinition) {
                 $this->interfaceElementsFrom($definition);
             }
         }
     }
 
-    private function classElementsFrom(plPhpClass $class, array $structure): void
+    private function classElementsFrom(ClassDefinition $class, array $structure): void
     {
         $this->dotElements = array_merge($this->dotElements, $this->classElements->extractFrom($class, $structure));
     }
 
-    private function interfaceElementsFrom(plPhpInterface $interface): void
+    private function interfaceElementsFrom(InterfaceDefinition $interface): void
     {
         $this->dotElements = array_merge($this->dotElements, $this->interfaceElements->extractFrom($interface));
     }

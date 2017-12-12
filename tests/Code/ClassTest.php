@@ -5,14 +5,16 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+namespace PhUml\Code;
+
 use PHPUnit\Framework\TestCase;
 
-class plPhpClassTest extends TestCase
+class ClassTest extends TestCase
 {
     /** @test */
     function it_knows_its_name()
     {
-        $namedClass = new plPhpClass('NamedClass');
+        $namedClass = new ClassDefinition('NamedClass');
 
         $name = $namedClass->name;
 
@@ -22,7 +24,7 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_has_by_default_no_attributes()
     {
-        $noAttributesClass = new plPhpClass('NoAttributesClass');
+        $noAttributesClass = new ClassDefinition('NoAttributesClass');
 
         $attributes = $noAttributesClass->attributes;
 
@@ -32,7 +34,7 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_has_by_default_no_methods()
     {
-        $noMethodsClass = new plPhpClass('NoMethodsClass');
+        $noMethodsClass = new ClassDefinition('NoMethodsClass');
 
         $methods = $noMethodsClass->functions;
 
@@ -42,7 +44,7 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_does_not_implements_any_interface_by_default()
     {
-        $noInterfacesClass = new plPhpClass('NoInterfacesClass');
+        $noInterfacesClass = new ClassDefinition('NoInterfacesClass');
 
         $interfaces = $noInterfacesClass->implements;
 
@@ -52,7 +54,7 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_does_not_have_a_parent_class_by_default()
     {
-        $noParentClass = new plPhpClass('NoParentClass');
+        $noParentClass = new ClassDefinition('NoParentClass');
 
         $parent = $noParentClass->extends;
 
@@ -63,10 +65,10 @@ class plPhpClassTest extends TestCase
     function it_knows_its_attributes()
     {
         $attributes = [
-            new plPhpAttribute('firstAttribute'),
-            new plPhpAttribute('secondAttribute'),
+            new Attribute('firstAttribute'),
+            new Attribute('secondAttribute'),
         ];
-        $classWithAttributes = new plPhpClass('ClassWithAttributes', $attributes);
+        $classWithAttributes = new ClassDefinition('ClassWithAttributes', $attributes);
 
         $classAttributes = $classWithAttributes->attributes;
 
@@ -77,10 +79,10 @@ class plPhpClassTest extends TestCase
     function it_knows_its_methods()
     {
         $methods = [
-            new plPhpFunction('methodOne'),
-            new plPhpFunction('methodTwo'),
+            new Method('methodOne'),
+            new Method('methodTwo'),
         ];
-        $classWithMethods = new plPhpClass('ClassWithMethods', [], $methods);
+        $classWithMethods = new ClassDefinition('ClassWithMethods', [], $methods);
 
         $classMethods = $classWithMethods->functions;
 
@@ -90,10 +92,10 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_knows_it_has_a_constructor()
     {
-        $class = new plPhpClass('ClassWithConstructor', [], [
-            new plPhpFunction('notAConstructor'),
-            new plPhpFunction('__construct'),
-            new plPhpFunction('notAConstructorEither'),
+        $class = new ClassDefinition('ClassWithConstructor', [], [
+            new Method('notAConstructor'),
+            new Method('__construct'),
+            new Method('notAConstructorEither'),
         ]);
 
         $this->assertTrue($class->hasConstructor());
@@ -102,9 +104,9 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_knows_it_does_not_have_a_constructor()
     {
-        $class = new plPhpClass('ClassWithConstructor', [], [
-            new plPhpFunction('notAConstructor'),
-            new plPhpFunction('notAConstructorEither'),
+        $class = new ClassDefinition('ClassWithConstructor', [], [
+            new Method('notAConstructor'),
+            new Method('notAConstructorEither'),
         ]);
 
         $this->assertFalse($class->hasConstructor());
@@ -114,13 +116,13 @@ class plPhpClassTest extends TestCase
     function it_has_access_to_its_constructor_parameters()
     {
         $parameters = [
-            new plPhpVariable('first'),
-            new plPhpVariable('second', 'float'),
+            new Variable('first'),
+            new Variable('second', 'float'),
         ];
-        $class = new plPhpClass('ClassWithConstructor', [], [
-            new plPhpFunction('notAConstructor'),
-            new plPhpFunction('__construct', 'public', $parameters),
-            new plPhpFunction('notAConstructorEither'),
+        $class = new ClassDefinition('ClassWithConstructor', [], [
+            new Method('notAConstructor'),
+            new Method('__construct', 'public', $parameters),
+            new Method('notAConstructorEither'),
         ]);
 
         $constructorParameters = $class->constructorParameters();
@@ -132,10 +134,10 @@ class plPhpClassTest extends TestCase
     function it_knows_the_interfaces_it_implements()
     {
         $interfaces = [
-            new plPhpInterface('InterfaceOne'),
-            new plPhpInterface('InterfaceTwo'),
+            new InterfaceDefinition('InterfaceOne'),
+            new InterfaceDefinition('InterfaceTwo'),
         ];
-        $classWithInterfaces = new plPhpClass('ClassWithInterfaces', [], [], $interfaces);
+        $classWithInterfaces = new ClassDefinition('ClassWithInterfaces', [], [], $interfaces);
 
         $classInterfaces = $classWithInterfaces->implements;
 
@@ -145,8 +147,8 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_knows_its_parent_class()
     {
-        $parent = new plPhpClass('ParentClass');
-        $classWithParent = new plPhpClass('ClassWithParent', [], [], [], $parent);
+        $parent = new ClassDefinition('ParentClass');
+        $classWithParent = new ClassDefinition('ClassWithParent', [], [], [], $parent);
 
         $parentClass = $classWithParent->extends;
 
@@ -156,7 +158,7 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_has_an_identifier()
     {
-        $class = new plPhpClass('ClassWithIdentifier');
+        $class = new ClassDefinition('ClassWithIdentifier');
 
         $classId = $class->identifier();
 
@@ -166,8 +168,8 @@ class plPhpClassTest extends TestCase
     /** @test */
     function its_identifier_is_unique_per_object()
     {
-        $classOne = new plPhpClass('ClassOne');
-        $classTwo = new plPhpClass('ClassOne');
+        $classOne = new ClassDefinition('ClassOne');
+        $classTwo = new ClassDefinition('ClassOne');
 
         $this->assertNotEquals($classOne->identifier(), $classTwo->identifier());
     }
@@ -175,8 +177,8 @@ class plPhpClassTest extends TestCase
     /** @test */
     function it_knows_if_it_has_a_parent_class()
     {
-        $parentClass = new plPhpClass('ParentClass');
-        $classWithParent = new plPhpClass('ClassWithParent', [], [], [], $parentClass);
+        $parentClass = new ClassDefinition('ParentClass');
+        $classWithParent = new ClassDefinition('ClassWithParent', [], [], [], $parentClass);
 
         $hasParent = $classWithParent->hasParent();
 

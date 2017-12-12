@@ -8,11 +8,11 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use plPhpAttribute;
-use plPhpClass;
-use plPhpFunction;
-use plPhpInterface;
-use plPhpVariable;
+use PhUml\Code\Attribute;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Method;
+use PhUml\Code\Variable;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
 
@@ -21,7 +21,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class()
     {
-        $html = $this->labelBuilder->labelForClass(new plPhpClass('AClass'));
+        $html = $this->labelBuilder->labelForClass(new ClassDefinition('AClass'));
 
         $this->assertEquals(
             '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AClass</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>>',
@@ -32,10 +32,10 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class_with_attributes()
     {
-        $html = $this->labelBuilder->labelForClass(new plPhpClass('AClass', [
-            new plPhpAttribute('name'),
-            new plPhpAttribute('age', 'private'),
-            new plPhpAttribute('category', 'protected', 'string')
+        $html = $this->labelBuilder->labelForClass(new ClassDefinition('AClass', [
+            new Attribute('name'),
+            new Attribute('age', 'private'),
+            new Attribute('category', 'protected', 'string')
         ]));
 
         $this->assertEquals(
@@ -47,12 +47,12 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class_with_attributes_and_methods()
     {
-        $html = $this->labelBuilder->labelForClass(new plPhpClass('AClass', [
-            new plPhpAttribute('age', 'private'),
-            new plPhpAttribute('category', 'protected', 'string')
+        $html = $this->labelBuilder->labelForClass(new ClassDefinition('AClass', [
+            new Attribute('age', 'private'),
+            new Attribute('category', 'protected', 'string')
         ], [
-            new plPhpFunction('getAge'),
-            new plPhpFunction('setCategory', 'protected', [new plPhpVariable('category', 'string')])
+            new Method('getAge'),
+            new Method('setCategory', 'protected', [new Variable('category', 'string')])
         ]));
 
         $this->assertEquals(
@@ -64,7 +64,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_an_interface()
     {
-        $html = $this->labelBuilder->labelForInterface(new plPhpInterface('AnInterface'));
+        $html = $this->labelBuilder->labelForInterface(new InterfaceDefinition('AnInterface'));
 
         $this->assertEquals(
             '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#729fcf"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AnInterface</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>>',
@@ -75,10 +75,10 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_an_interface_with_methods()
     {
-        $html = $this->labelBuilder->labelForInterface(new plPhpInterface('AnInterface', [
-            new plPhpFunction('doSomething'),
-            new plPhpFunction('changeValue', 'public', [
-                new plPhpVariable('value', 'int')
+        $html = $this->labelBuilder->labelForInterface(new InterfaceDefinition('AnInterface', [
+            new Method('doSomething'),
+            new Method('changeValue', 'public', [
+                new Variable('value', 'int')
             ])
         ]));
 

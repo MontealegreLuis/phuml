@@ -5,14 +5,16 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+namespace PhUml\Code;
+
 use PHPUnit\Framework\TestCase;
 
-class plPhpInterfaceTest extends TestCase
+class InterfaceDefinitionTest extends TestCase
 {
     /** @test */
     function it_knows_its_name()
     {
-        $namedInterface = new plPhpInterface('NamedInterface');
+        $namedInterface = new InterfaceDefinition('NamedInterface');
 
         $name = $namedInterface->name;
 
@@ -22,7 +24,7 @@ class plPhpInterfaceTest extends TestCase
     /** @test */
     function it_has_no_methods_by_default()
     {
-        $noMethodsInterface = new plPhpInterface('WithNoMethods');
+        $noMethodsInterface = new InterfaceDefinition('WithNoMethods');
 
         $methods = $noMethodsInterface->functions;
 
@@ -32,7 +34,7 @@ class plPhpInterfaceTest extends TestCase
     /** @test */
     function it_does_not_extends_another_interface_by_default()
     {
-        $interfaceWithoutParent = new plPhpInterface('InterfacesWithoutParent');
+        $interfaceWithoutParent = new InterfaceDefinition('InterfacesWithoutParent');
 
         $parent = $interfaceWithoutParent->extends;
 
@@ -43,10 +45,10 @@ class plPhpInterfaceTest extends TestCase
     function it_knows_its_methods()
     {
         $methods = [
-            new plPhpFunction('firstMethod'),
-            new plPhpFunction('secondMethod'),
+            new Method('firstMethod'),
+            new Method('secondMethod'),
         ];
-        $interfaceWithMethods = new plPhpInterface('InterfaceWithMethods', $methods);
+        $interfaceWithMethods = new InterfaceDefinition('InterfaceWithMethods', $methods);
 
         $interfaceMethods = $interfaceWithMethods->functions;
 
@@ -56,8 +58,8 @@ class plPhpInterfaceTest extends TestCase
     /** @test */
     function it_knows_its_parent_interface()
     {
-        $parent = new plPhpInterface('ParentInterface');
-        $interfaceWithParent = new plPhpInterface('InterfaceWithMethods', [], $parent);
+        $parent = new InterfaceDefinition('ParentInterface');
+        $interfaceWithParent = new InterfaceDefinition('InterfaceWithMethods', [], $parent);
 
         $parentClass = $interfaceWithParent->extends;
 
@@ -67,8 +69,8 @@ class plPhpInterfaceTest extends TestCase
     /** @test */
     function it_knows_it_has_a_parent_interface()
     {
-        $parent = new plPhpInterface('ParentInterface');
-        $interfaceWithParent = new plPhpInterface('InterfaceWithMethods', [], $parent);
+        $parent = new InterfaceDefinition('ParentInterface');
+        $interfaceWithParent = new InterfaceDefinition('InterfaceWithMethods', [], $parent);
 
         $hasParent = $interfaceWithParent->hasParent();
 
@@ -78,7 +80,7 @@ class plPhpInterfaceTest extends TestCase
     /** @test */
     function it_has_an_identifier()
     {
-        $interface = new plPhpInterface('InterfaceWithIdentifier');
+        $interface = new InterfaceDefinition('InterfaceWithIdentifier');
 
         $interfaceId = $interface->identifier();
 
@@ -88,8 +90,8 @@ class plPhpInterfaceTest extends TestCase
     /** @test */
     function its_identifier_is_unique_per_object()
     {
-        $interfaceOne = new plPhpInterface('InterfaceOne');
-        $interfaceTwo = new plPhpInterface('InterfaceOne');
+        $interfaceOne = new InterfaceDefinition('InterfaceOne');
+        $interfaceTwo = new InterfaceDefinition('InterfaceOne');
 
         $this->assertNotEquals($interfaceOne->identifier(), $interfaceTwo->identifier());
     }

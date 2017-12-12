@@ -1,5 +1,11 @@
 <?php
 
+use PhUml\Code\Attribute;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Method;
+use PhUml\Code\Variable;
+
 class plStructureTokenparserGenerator extends plStructureGenerator
 {
     private $classes;
@@ -522,15 +528,15 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                 $params = array();
                 foreach( $function[2] as $param)
                 {
-                    $params[] = new plPhpVariable( $param[1], $param[0] );
+                    $params[] = new Variable( $param[1], $param[0] );
                 }
-                $functions[] = new plPhpFunction(
+                $functions[] = new Method(
                     $function[0],
                     $function[1],
                     $params
                 );
             }
-            $interface = new plPhpInterface(
+            $interface = new InterfaceDefinition(
                 $this->parserStruct['interface'],
                 $functions,
                 $this->parserStruct['extends']
@@ -553,9 +559,9 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                 $params = array();
                 foreach( $function[2] as $param)
                 {
-                    $params[] = new plPhpVariable( $param[1], $param[0] );
+                    $params[] = new Variable( $param[1], $param[0] );
                 }
-                $functions[] = new plPhpFunction(
+                $functions[] = new Method(
                     $function[0],
                     $function[1],
                     $params
@@ -578,13 +584,13 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                         $type = trim( $matches[1] );
                     }
                 }
-                $attributes[] = new plPhpAttribute(
+                $attributes[] = new Attribute(
                     $attribute[0],
                     $attribute[1],
                     $type
                 );
             }
-            $class = new plPhpClass(
+            $class = new ClassDefinition(
                 $this->parserStruct['class'],
                 $attributes,
                 $functions,
@@ -607,7 +613,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
             {
                 $implements[$key] = array_key_exists( $impl, $this->interfaces )
                                     ? $this->interfaces[$impl]
-                                    : $this->interfaces[$impl] = new plPhpInterface( $impl );
+                                    : $this->interfaces[$impl] = new InterfaceDefinition( $impl );
             }
             $class->implements = $implements;
 
@@ -617,7 +623,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
             }
             $class->extends = array_key_exists( $class->extends, $this->classes )
                               ? $this->classes[$class->extends]
-                              : ( $this->classes[$class->extends] = new plPhpClass( $class->extends ) );
+                              : ( $this->classes[$class->extends] = new ClassDefinition( $class->extends ) );
         }
         foreach( $this->interfaces as $interface )
         {
@@ -627,7 +633,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
             }
             $interface->extends = array_key_exists( $interface->extends, $this->interfaces )
                                  ? $this->interfaces[$interface->extends]
-                                 : ( $this->interfaces[$interface->extends] = new plPhpInterface( $interface->extends ) );
+                                 : ( $this->interfaces[$interface->extends] = new InterfaceDefinition( $interface->extends ) );
         }
     }
 }

@@ -5,7 +5,9 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-class plNumericIdInterface extends plPhpInterface
+use PhUml\Code\InterfaceDefinition;
+
+class plNumericIdInterface extends InterfaceDefinition
 {
     private static $id = 0;
     private $identifier;

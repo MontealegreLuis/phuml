@@ -1,5 +1,8 @@
 <?php
 
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
+
 class plStatisticsProcessor extends plProcessor
 {
     private $information;
@@ -41,12 +44,12 @@ class plStatisticsProcessor extends plProcessor
         // Loop through the classes and interfaces
         foreach ( $input as $definition )
         {
-            if ( $definition instanceof plPhpInterface )
+            if ( $definition instanceof InterfaceDefinition )
             {
                 $this->information['interfaceCount']++;
             }
 
-            if ( $definition instanceof plPhpClass )
+            if ( $definition instanceof ClassDefinition )
             {
                 $this->information['classCount']++;
 

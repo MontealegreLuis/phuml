@@ -5,9 +5,11 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+namespace PhUml\Code;
+
 use PHPUnit\Framework\TestCase;
 
-class plTypeDeclarationTest extends TestCase
+class TypeDeclarationTest extends TestCase
 {
     /**
      * @test
@@ -15,7 +17,7 @@ class plTypeDeclarationTest extends TestCase
      */
     function it_knows_if_it_is_a_built_in_type(string $type)
     {
-        $builtInType = new plPhpTypeDeclaration($type);
+        $builtInType = new TypeDeclaration($type);
 
         $isBuiltIn = $builtInType->isBuiltIn();
 
@@ -25,7 +27,7 @@ class plTypeDeclarationTest extends TestCase
     /** @test */
     function it_knows_it_is_not_a_built_in_type()
     {
-        $type = new plPhpTypeDeclaration('MyClass');
+        $type = new TypeDeclaration('MyClass');
 
         $isBuiltIn = $type->isBuiltIn();
 
@@ -35,7 +37,7 @@ class plTypeDeclarationTest extends TestCase
     /** @test */
     function it_knows_if_no_type_declaration_was_provided()
     {
-        $noType = new plPhpTypeDeclaration(null);
+        $noType = new TypeDeclaration(null);
 
         $isPresent = $noType->isPresent();
 

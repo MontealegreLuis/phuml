@@ -8,19 +8,19 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\Attribute;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Method;
+use PhUml\Code\Variable;
 use plClassNameLabelBuilder;
-use plPhpAttribute;
-use plPhpClass;
-use plPhpFunction;
-use plPhpInterface;
-use plPhpVariable;
 
 class ClassGraphElementsTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_for_a_simple_class()
     {
-        $class = new plPhpClass('ClassName');
+        $class = new ClassDefinition('ClassName');
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, new plClassNameLabelBuilder());
 
@@ -32,8 +32,8 @@ class ClassGraphElementsTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_with_a_parent()
     {
-        $parent = new plPhpClass('ParentClass');
-        $class = new plPhpClass('ChildClass', [], [], [], $parent);
+        $parent = new ClassDefinition('ParentClass');
+        $class = new ClassDefinition('ChildClass', [], [], [], $parent);
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, $nodeBuilder);
@@ -49,9 +49,9 @@ class ClassGraphElementsTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_implementing_interfaces()
     {
-        $firstInterface = new plPhpInterface('FirstInterface');
-        $secondInterface = new plPhpInterface('FirstInterface');
-        $class = new plPhpClass('AClass', [], [], [
+        $firstInterface = new InterfaceDefinition('FirstInterface');
+        $secondInterface = new InterfaceDefinition('FirstInterface');
+        $class = new ClassDefinition('AClass', [], [], [
             $firstInterface,
             $secondInterface,
         ]);
@@ -71,10 +71,10 @@ class ClassGraphElementsTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_with_associations_in_the_constructor()
     {
-        $reference = new plPhpClass('AnotherClass');
-        $class = new plPhpClass('AClass', [], [
-            new plPhpFunction('__construct', 'public', [
-                new plPhpVariable('reference', 'AnotherClass'),
+        $reference = new ClassDefinition('AnotherClass');
+        $class = new ClassDefinition('AClass', [], [
+            new Method('__construct', 'public', [
+                new Variable('reference', 'AnotherClass'),
             ]),
         ]);
         $nodeBuilder = new plClassNameLabelBuilder();
@@ -92,11 +92,11 @@ class ClassGraphElementsTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_with_associations_in_the_attributes()
     {
-        $firstReference = new plPhpClass('FirstClass');
-        $secondReference = new plPhpClass('SecondClass');
-        $class = new plPhpClass('AClass', [
-                new plPhpAttribute('firstReference', 'private', 'FirstClass'),
-                new plPhpAttribute('secondReference', 'private', 'SecondClass'),
+        $firstReference = new ClassDefinition('FirstClass');
+        $secondReference = new ClassDefinition('SecondClass');
+        $class = new ClassDefinition('AClass', [
+                new Attribute('firstReference', 'private', 'FirstClass'),
+                new Attribute('secondReference', 'private', 'SecondClass'),
             ]
         );
         $nodeBuilder = new plClassNameLabelBuilder();
@@ -118,23 +118,23 @@ class ClassGraphElementsTest extends TestCase
     /** @test */
     function it_extracts_the_elements_of_a_class_with_all_types_of_associations()
     {
-        $firstReference = new plPhpClass('FirstClass');
-        $secondReference = new plPhpClass('SecondClass');
-        $thirdReference = new plPhpClass('ThirdClass');
-        $fourthReference = new plPhpClass('FourthClass');
-        $firstInterface = new plPhpInterface('FirstInterface');
-        $secondInterface = new plPhpInterface('FirstInterface');
-        $parent = new plPhpClass('ParentClass');
+        $firstReference = new ClassDefinition('FirstClass');
+        $secondReference = new ClassDefinition('SecondClass');
+        $thirdReference = new ClassDefinition('ThirdClass');
+        $fourthReference = new ClassDefinition('FourthClass');
+        $firstInterface = new InterfaceDefinition('FirstInterface');
+        $secondInterface = new InterfaceDefinition('FirstInterface');
+        $parent = new ClassDefinition('ParentClass');
 
-        $class = new plPhpClass('AClass',
+        $class = new ClassDefinition('AClass',
             [
-                new plPhpAttribute('firstReference', 'private', 'FirstClass'),
-                new plPhpAttribute('secondReference', 'private', 'SecondClass'),
+                new Attribute('firstReference', 'private', 'FirstClass'),
+                new Attribute('secondReference', 'private', 'SecondClass'),
             ],
             [
-                new plPhpFunction('__construct', 'public', [
-                    new plPhpVariable('thirdReference', 'ThirdClass'),
-                    new plPhpVariable('fourthReference', 'FourthClass'),
+                new Method('__construct', 'public', [
+                    new Variable('thirdReference', 'ThirdClass'),
+                    new Variable('fourthReference', 'FourthClass'),
                 ]),
             ],
             [
@@ -169,15 +169,15 @@ class ClassGraphElementsTest extends TestCase
     /** @test */
     function it_ignores_associations_if_specified()
     {
-        $class = new plPhpClass('AClass',
+        $class = new ClassDefinition('AClass',
             [
-                new plPhpAttribute('firstReference', 'private', 'FirstClass'),
-                new plPhpAttribute('secondReference', 'private', 'SecondClass'),
+                new Attribute('firstReference', 'private', 'FirstClass'),
+                new Attribute('secondReference', 'private', 'SecondClass'),
             ],
             [
-                new plPhpFunction('__construct', 'public', [
-                    new plPhpVariable('thirdReference', 'ThirdClass'),
-                    new plPhpVariable('fourthReference', 'FourthClass'),
+                new Method('__construct', 'public', [
+                    new Variable('thirdReference', 'ThirdClass'),
+                    new Variable('fourthReference', 'FourthClass'),
                 ]),
             ]
         );

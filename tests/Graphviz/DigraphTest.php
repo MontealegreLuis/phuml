@@ -7,11 +7,11 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\Method;
+use PhUml\Code\Variable;
 use plClassNameLabelBuilder;
 use plNumericIdClass;
 use plNumericIdInterface;
-use plPhpFunction;
-use plPhpVariable;
 
 class DigraphTest extends TestCase
 {
@@ -50,8 +50,8 @@ mindist = 0.6;
         $parentClass = new plNumericIdClass('ParentClass');
         $referenceClass = new plNumericIdClass('AReference');
         $testClass = new plNumericIdClass('TestClass', [], [
-            new plPhpFunction('__construct', 'public', [
-                new plPhpVariable('aReference', 'AReference')
+            new Method('__construct', 'public', [
+                new Variable('aReference', 'AReference')
             ])
         ], [$childInterface, $anotherInterface], $parentClass);
         $digraph->fromCodeStructure([

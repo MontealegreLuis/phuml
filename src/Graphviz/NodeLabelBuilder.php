@@ -7,8 +7,8 @@
 
 namespace PhUml\Graphviz;
 
-use plPhpClass;
-use plPhpInterface;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
 use Twig_Environment as TemplateEngine;
 use Twig_Error_Loader as LoaderError;
 use Twig_Error_Runtime as RuntimeError;
@@ -28,7 +28,7 @@ class NodeLabelBuilder
         $this->style = $style;
     }
 
-    public function labelForClass(plPhpClass $class): string
+    public function labelForClass(ClassDefinition $class): string
     {
         return $this->buildLabel('class.html.twig', [
             'class' => $class,
@@ -36,7 +36,7 @@ class NodeLabelBuilder
         ]);
     }
 
-    public function labelForInterface(plPhpInterface $interface): string
+    public function labelForInterface(InterfaceDefinition $interface): string
     {
         return $this->buildLabel('interface.html.twig', [
             'interface' => $interface,

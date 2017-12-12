@@ -1,19 +1,26 @@
 <?php
+/**
+ * PHP version 7.1
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+
+namespace PhUml\Code;
 
 use PhUml\Graphviz\HasNodeIdentifier;
 use PhUml\Graphviz\ObjectHashIdentifier;
 
-class plPhpInterface implements HasNodeIdentifier
+class InterfaceDefinition implements HasNodeIdentifier
 {
     use ObjectHashIdentifier;
 
     /** @var string */
     public $name;
 
-    /** @var plPhpFunction[] */
+    /** @var Method[] */
     public $functions;
 
-    /** @var plPhpInterface */
+    /** @var InterfaceDefinition */
     public $extends;
 
     public function __construct(string $name, array $functions = [], $extends = null)

@@ -5,7 +5,9 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-class plPhpTypeDeclaration
+namespace PhUml\Code;
+
+class TypeDeclaration
 {
     /** @var string[] All valid types for PHP 7.1 */
     private static $builtInTypes = [

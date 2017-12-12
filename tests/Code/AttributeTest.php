@@ -5,14 +5,16 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+namespace PhUml\Code;
+
 use PHPUnit\Framework\TestCase;
 
-class plPhpAttributeTest extends TestCase
+class AttributeTest extends TestCase
 {
     /** @test */
     function it_knows_its_name()
     {
-        $namedAttribute = new plPhpAttribute('namedAttribute');
+        $namedAttribute = new Attribute('namedAttribute');
 
         $name = $namedAttribute->name;
 
@@ -23,7 +25,7 @@ class plPhpAttributeTest extends TestCase
     /** @test */
     function it_is_public_by_default()
     {
-        $publicAttribute = new plPhpAttribute('attribute');
+        $publicAttribute = new Attribute('attribute');
 
         $modifier = $publicAttribute->modifier;
 
@@ -33,7 +35,7 @@ class plPhpAttributeTest extends TestCase
     /** @test */
     function it_has_no_type_by_default()
     {
-        $noTypeAttribute = new plPhpAttribute('attribute');
+        $noTypeAttribute = new Attribute('attribute');
 
         $type = $noTypeAttribute->type;
 
@@ -43,7 +45,7 @@ class plPhpAttributeTest extends TestCase
     /** @test */
     function it_knows_if_it_does_not_have_a_type()
     {
-        $noTypeAttribute = new plPhpAttribute('noTypeAttribute');
+        $noTypeAttribute = new Attribute('noTypeAttribute');
 
         $hasType = $noTypeAttribute->hasType();
 
@@ -53,9 +55,9 @@ class plPhpAttributeTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $privateAttribute = new plPhpAttribute('privateAttribute', 'private');
-        $publicAttribute = new plPhpAttribute('publicAttribute', 'public');
-        $protectedAttribute = new plPhpAttribute('protectedAttribute', 'protected');
+        $privateAttribute = new Attribute('privateAttribute', 'private');
+        $publicAttribute = new Attribute('publicAttribute', 'public');
+        $protectedAttribute = new Attribute('protectedAttribute', 'protected');
 
         $private = $privateAttribute->__toString();
         $public = $publicAttribute->__toString();

@@ -5,14 +5,17 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-use PHPUnit\Framework\TestCase;
+namespace PhUml\Code;
 
-class plPhpVariableTest extends TestCase
+use PHPUnit\Framework\TestCase;
+use PhUml\Code\Variable;
+
+class VariableTest extends TestCase
 {
     /** @test */
     function it_knows_its_name()
     {
-        $namedParameter = new plPhpVariable('namedParameter');
+        $namedParameter = new Variable('namedParameter');
 
         $name = $namedParameter->name;
 
@@ -22,7 +25,7 @@ class plPhpVariableTest extends TestCase
     /** @test */
     function it_has_no_type_by_default()
     {
-        $noTypeParameter = new plPhpVariable('noTypeForParameter');
+        $noTypeParameter = new Variable('noTypeForParameter');
 
         $type = $noTypeParameter->type;
 
@@ -32,7 +35,7 @@ class plPhpVariableTest extends TestCase
     /** @test */
     function it_knows_it_has_no_type()
     {
-        $noTypeParameter = new plPhpVariable('noTypeForParameter');
+        $noTypeParameter = new Variable('noTypeForParameter');
 
         $hasType = $noTypeParameter->hasType();
 
@@ -42,7 +45,7 @@ class plPhpVariableTest extends TestCase
     /** @test */
     function it_knows_it_has_a_type()
     {
-        $typedParameter = new plPhpVariable('typedParameter', 'string');
+        $typedParameter = new Variable('typedParameter', 'string');
 
         $hasType = $typedParameter->hasType();
 
@@ -52,7 +55,7 @@ class plPhpVariableTest extends TestCase
     /** @test */
     function it_knows_its_type()
     {
-        $typedParameter = new plPhpVariable('typedParameter', 'string');
+        $typedParameter = new Variable('typedParameter', 'string');
 
         $type = $typedParameter->type;
 
@@ -62,7 +65,7 @@ class plPhpVariableTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $parameter = new plPhpVariable('parameterName', 'string');
+        $parameter = new Variable('parameterName', 'string');
 
         $parameterAsString = $parameter->__toString();
 

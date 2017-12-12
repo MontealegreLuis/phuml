@@ -7,8 +7,8 @@
 
 namespace PhUml\Graphviz;
 
-use plPhpClass;
-use plPhpVariable;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\Variable;
 
 class ClassGraphElements
 {
@@ -37,7 +37,7 @@ class ClassGraphElements
      * @param HasNodeIdentifier[] $structure
      * @return HasDotRepresentation[]
      */
-    public function extractFrom(plPhpClass $class, array $structure): array
+    public function extractFrom(ClassDefinition $class, array $structure): array
     {
         $this->dotElements = [];
         $this->associations = [];
@@ -62,16 +62,16 @@ class ClassGraphElements
     }
 
     /** @return HasDotRepresentation[] */
-    private function addElementsForAttributes(plPhpClass $class): void
+    private function addElementsForAttributes(ClassDefinition $class): void
     {
-        /** @var plPhpAttribute $attribute */
+        /** @var \PhUml\Code\Attribute $attribute */
         foreach ($class->attributes as $attribute) {
             $this->addAssociationForVariable($class, $attribute);
         }
     }
 
     /** @return HasDotRepresentation[] */
-    private function addElementsForParameters(plPhpClass $class): void
+    private function addElementsForParameters(ClassDefinition $class): void
     {
         if (!$class->hasConstructor()) {
             return;
@@ -81,7 +81,7 @@ class ClassGraphElements
         }
     }
 
-    private function addAssociationForVariable(plPhpClass $class, plPhpVariable $attribute): void
+    private function addAssociationForVariable(ClassDefinition $class, Variable $attribute): void
     {
         if ($this->needAssociation($attribute)) {
             $this->dotElements[] = Edge::association($this->structure[(string)$attribute->type], $class);
@@ -89,7 +89,7 @@ class ClassGraphElements
         }
     }
 
-    private function needAssociation(plPhpVariable $attribute): bool
+    private function needAssociation(Variable $attribute): bool
     {
         return $attribute->hasType() && !$attribute->isBuiltIn() && !$this->isAssociationResolved($attribute->type);
     }

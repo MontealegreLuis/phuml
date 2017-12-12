@@ -5,6 +5,8 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
 use PhUml\Graphviz\NodeLabelBuilder;
 
 class plClassNameLabelBuilder extends NodeLabelBuilder
@@ -13,12 +15,12 @@ class plClassNameLabelBuilder extends NodeLabelBuilder
     {
     }
 
-    public function labelForClass(plPhpClass $class): string
+    public function labelForClass(ClassDefinition $class): string
     {
         return $this->template($class);
     }
 
-    public function labelForInterface(plPhpInterface $interface): string
+    public function labelForInterface(InterfaceDefinition $interface): string
     {
         return $this->template($interface);
     }

@@ -7,7 +7,7 @@
 
 namespace PhUml\Graphviz;
 
-use plPhpInterface;
+use PhUml\Code\InterfaceDefinition;
 
 class InterfaceGraphElements
 {
@@ -22,7 +22,7 @@ class InterfaceGraphElements
     /**
      * @return HasDotRepresentation[]
      */
-    public function extractFrom(plPhpInterface $interface): array
+    public function extractFrom(InterfaceDefinition $interface): array
     {
         $dotElements = [];
 

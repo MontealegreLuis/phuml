@@ -1,25 +1,32 @@
 <?php
+/**
+ * PHP version 7.1
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+
+namespace PhUml\Code;
 
 use PhUml\Graphviz\HasNodeIdentifier;
 use PhUml\Graphviz\ObjectHashIdentifier;
 
-class plPhpClass implements HasNodeIdentifier
+class ClassDefinition implements HasNodeIdentifier
 {
     use ObjectHashIdentifier;
 
     /** @var string */
     public $name;
 
-    /** @var plPhpAttribute[] */
+    /** @var Attribute[] */
     public $attributes;
 
-    /** @var plPhpFunction[] */
+    /** @var Method[] */
     public $functions;
 
-    /** @var plPhpInterface[] */
+    /** @var InterfaceDefinition[] */
     public $implements;
 
-    /** @var plPhpClass */
+    /** @var ClassDefinition */
     public $extends;
 
     public function __construct(
@@ -36,22 +43,21 @@ class plPhpClass implements HasNodeIdentifier
         $this->extends = $extends;
     }
 
-
     public function hasConstructor(): bool
     {
-        return count(array_filter($this->functions, function (plPhpFunction $function) {
+        return \count(array_filter($this->functions, function (Method $function) {
             return $function->isConstructor();
         })) === 1;
     }
 
-    /** @return plPhpVariable[] */
+    /** @return Variable[] */
     public function constructorParameters(): array
     {
         if (!$this->hasConstructor()) {
             return [];
         }
 
-        $constructors = array_filter($this->functions, function (plPhpFunction $function) {
+        $constructors = array_filter($this->functions, function (Method $function) {
             return $function->isConstructor();
         });
 
