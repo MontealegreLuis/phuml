@@ -95,14 +95,7 @@ class plGraphvizProcessor extends plProcessor
             }
         }
 
-        // Create the node
-        $def .= $this->createNode(
-            "\"{$class->identifier()}\"",
-            [
-                'label' => $this->labelBuilder->labelForClass($class),
-                'shape' => 'plaintext',
-            ]
-        );
+        $def .= (new plNode($class, $this->labelBuilder->labelForClass($class)))->toDotLanguage();
 
         // Create class inheritance relation
         if ($class->hasParent()) {
@@ -134,14 +127,7 @@ class plGraphvizProcessor extends plProcessor
             $functions[] = (string)$function;
         }
 
-        // Create the node
-        $def .= $this->createNode(
-            $interface->identifier(),
-            [
-                'label' => $this->labelBuilder->labelForInterface($interface),
-                'shape' => 'plaintext',
-            ]
-        );
+        $def .= (new plNode($interface, $this->labelBuilder->labelForInterface($interface)))->toDotLanguage();
 
         // Create interface inheritance relation
         if ($interface->hasParent()) {
@@ -153,16 +139,6 @@ class plGraphvizProcessor extends plProcessor
         }
 
         return $def;
-    }
-
-    private function createNode($name, $options)
-    {
-        $node = $name . " [";
-        foreach ($options as $key => $value) {
-            $node .= $key . '=' . $value . ' ';
-        }
-        $node .= "]\n";
-        return $node;
     }
 
     private function isTypeInStructure(string $type): bool
