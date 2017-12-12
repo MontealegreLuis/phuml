@@ -19,7 +19,7 @@ class plGraphvizProcessor extends plProcessor
         $this->options = new plGraphvizProcessorOptions();
         $labelBuilder =  new NodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../../Graphviz/templates')
-        ), new plGraphvizProcessorDefaultStyle());
+        ), new plGraphvizProcessorStyle());
         $classElements = new ClassGraphElements($this->options->createAssociations, $labelBuilder);
         $interfaceElements = new InterfaceGraphElements($labelBuilder);
         $this->digraph = $digraph ?? new Digraph($interfaceElements, $classElements);
