@@ -9,21 +9,21 @@ namespace PhUml\Graphviz;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Method;
 use PhUml\Code\Variable;
-use plClassNameLabelBuilder;
-use plNumericIdClass;
-use plNumericIdInterface;
+use PhUml\Fakes\ClassNameLabelBuilder;
+use PhUml\Fakes\NumericIdClass;
+use PhUml\Fakes\NumericIdInterface;
 
 class DigraphTest extends TestCase
 {
     /** @test */
     function it_can_be_represented_as_dot_language_from_a_structure_with_one_definition()
     {
-        $labelBuilder = new plClassNameLabelBuilder();
+        $labelBuilder = new ClassNameLabelBuilder();
         $interfaceElements = new InterfaceGraphElements($labelBuilder);
         $classElements = new ClassGraphElements(true, $labelBuilder);
         $digraph = new Digraph($interfaceElements, $classElements);
 
-        $digraph->fromCodeStructure([new plNumericIdClass('TestClass')]);
+        $digraph->fromCodeStructure([new NumericIdClass('TestClass')]);
 
         $dotLanguage = $digraph->toDotLanguage();
 
@@ -39,17 +39,17 @@ mindist = 0.6;
     /** @test */
     function it_can_be_represented_as_dot_language_from_a_structure_with_several_definitions()
     {
-        $labelBuilder = new plClassNameLabelBuilder();
+        $labelBuilder = new ClassNameLabelBuilder();
         $interfaceElements = new InterfaceGraphElements($labelBuilder);
         $classElements = new ClassGraphElements(true, $labelBuilder);
         $digraph = new Digraph($interfaceElements, $classElements);
 
-        $parentInterface = new plNumericIdInterface('ParentInterface');
-        $childInterface = new plNumericIdInterface('ChildInterface', [], $parentInterface);
-        $anotherInterface = new plNumericIdInterface('AnotherInterface');
-        $parentClass = new plNumericIdClass('ParentClass');
-        $referenceClass = new plNumericIdClass('AReference');
-        $testClass = new plNumericIdClass('TestClass', [], [
+        $parentInterface = new NumericIdInterface('ParentInterface');
+        $childInterface = new NumericIdInterface('ChildInterface', [], $parentInterface);
+        $anotherInterface = new NumericIdInterface('AnotherInterface');
+        $parentClass = new NumericIdClass('ParentClass');
+        $referenceClass = new NumericIdClass('AReference');
+        $testClass = new NumericIdClass('TestClass', [], [
             new Method('__construct', 'public', [
                 new Variable('aReference', 'AReference')
             ])

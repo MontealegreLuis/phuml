@@ -9,7 +9,7 @@ namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\InterfaceDefinition;
-use plClassNameLabelBuilder;
+use PhUml\Fakes\ClassNameLabelBuilder;
 
 class InterfaceGraphElementsTest extends TestCase
 {
@@ -17,7 +17,7 @@ class InterfaceGraphElementsTest extends TestCase
     function it_extracts_the_elements_from_a_single_interface()
     {
         $interface = new InterfaceDefinition('AnInterface');
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
         $graphElements = new InterfaceGraphElements($nodeBuilder);
 
@@ -31,7 +31,7 @@ class InterfaceGraphElementsTest extends TestCase
     {
         $parent = new InterfaceDefinition('ParentInterface');
         $interface = new InterfaceDefinition('AnInterface', [], $parent);
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
         $graphElements = new InterfaceGraphElements($nodeBuilder);
 

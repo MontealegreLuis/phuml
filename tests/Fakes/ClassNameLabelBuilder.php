@@ -5,11 +5,13 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+namespace PhUml\Fakes;
+
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Graphviz\NodeLabelBuilder;
 
-class plClassNameLabelBuilder extends NodeLabelBuilder
+class ClassNameLabelBuilder extends NodeLabelBuilder
 {
     public function __construct()
     {

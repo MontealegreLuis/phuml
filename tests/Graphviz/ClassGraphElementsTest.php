@@ -13,7 +13,7 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\Variable;
-use plClassNameLabelBuilder;
+use PhUml\Fakes\ClassNameLabelBuilder;
 
 class ClassGraphElementsTest extends TestCase
 {
@@ -22,7 +22,7 @@ class ClassGraphElementsTest extends TestCase
     {
         $class = new ClassDefinition('ClassName');
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(false, new plClassNameLabelBuilder());
+        $graphElements = new ClassGraphElements(false, new ClassNameLabelBuilder());
 
         $dotElements = $graphElements->extractFrom($class, []);
 
@@ -34,7 +34,7 @@ class ClassGraphElementsTest extends TestCase
     {
         $parent = new ClassDefinition('ParentClass');
         $class = new ClassDefinition('ChildClass', [], [], [], $parent);
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
@@ -55,7 +55,7 @@ class ClassGraphElementsTest extends TestCase
             $firstInterface,
             $secondInterface,
         ]);
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
@@ -77,7 +77,7 @@ class ClassGraphElementsTest extends TestCase
                 new Variable('reference', 'AnotherClass'),
             ]),
         ]);
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(true, $nodeBuilder);
 
@@ -99,7 +99,7 @@ class ClassGraphElementsTest extends TestCase
                 new Attribute('secondReference', 'private', 'SecondClass'),
             ]
         );
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(true, $nodeBuilder);
 
@@ -143,7 +143,7 @@ class ClassGraphElementsTest extends TestCase
             ],
             $parent
         );
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(true, $nodeBuilder);
 
@@ -181,7 +181,7 @@ class ClassGraphElementsTest extends TestCase
                 ]),
             ]
         );
-        $nodeBuilder = new plClassNameLabelBuilder();
+        $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
