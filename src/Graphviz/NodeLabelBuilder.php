@@ -5,12 +5,17 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+namespace PhUml\Graphviz;
+
+use plGraphvizProcessorStyle;
+use plPhpClass;
+use plPhpInterface;
 use Twig_Environment as TemplateEngine;
 use Twig_Error_Loader as LoaderError;
 use Twig_Error_Runtime as RuntimeError;
 use Twig_Error_Syntax as SyntaxError;
 
-class plNodeLabelBuilder
+class NodeLabelBuilder
 {
     /** @var TemplateEngine */
     private $engine;
@@ -45,7 +50,7 @@ class plNodeLabelBuilder
         try {
             return "<{$this->removeNewLinesFrom($this->engine->render($template, $options))}>";
         } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            throw new plNodeLabelError($e);
+            throw new NodeLabelError($e);
         }
     }
 

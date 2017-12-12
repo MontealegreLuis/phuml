@@ -5,28 +5,32 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-class plInterfaceGraphElements
+namespace PhUml\Graphviz;
+
+use plPhpInterface;
+
+class InterfaceGraphElements
 {
-    /** @var plNodeLabelBuilder */
+    /** @var NodeLabelBuilder */
     private $labelBuilder;
 
-    public function __construct(plNodeLabelBuilder $labelBuilder)
+    public function __construct(NodeLabelBuilder $labelBuilder)
     {
         $this->labelBuilder = $labelBuilder;
     }
 
     /**
-     * @return plHasDotRepresentation[]
+     * @return HasDotRepresentation[]
      */
     public function extractFrom(plPhpInterface $interface): array
     {
         $dotElements = [];
 
-        $dotElements[] = new plNode($interface, $this->labelBuilder->labelForInterface($interface));
+        $dotElements[] = new Node($interface, $this->labelBuilder->labelForInterface($interface));
 
         // Create interface inheritance relation
         if ($interface->hasParent()) {
-            $dotElements[] = plEdge::inheritance($interface->extends, $interface);
+            $dotElements[] = Edge::inheritance($interface->extends, $interface);
         }
 
         return $dotElements;

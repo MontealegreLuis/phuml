@@ -1,6 +1,9 @@
 {
     "autoload": {
-        "classmap": ["src"]
+        "classmap": ["src/classes", "src/exceptions", "src/interfaces"],
+        "psr-4": {
+            "PhUml\\": "src"
+        }
     },
     "autoload-dev": {
         "classmap": ["tests/fakes"]

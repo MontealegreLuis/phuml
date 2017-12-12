@@ -5,20 +5,28 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-use PHPUnit\Framework\TestCase;
+namespace PhUml\Graphviz;
 
-class plClassGraphElementsTest extends TestCase
+use PHPUnit\Framework\TestCase;
+use plClassNameLabelBuilder;
+use plPhpAttribute;
+use plPhpClass;
+use plPhpFunction;
+use plPhpInterface;
+use plPhpVariable;
+
+class ClassGraphElementsTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_for_a_simple_class()
     {
         $class = new plPhpClass('ClassName');
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new plClassGraphElements(false, new plClassNameLabelBuilder());
+        $graphElements = new ClassGraphElements(false, new plClassNameLabelBuilder());
 
         $dotElements = $graphElements->extractFrom($class, []);
 
-        $this->assertEquals([new plNode($class, $label)], $dotElements);
+        $this->assertEquals([new Node($class, $label)], $dotElements);
     }
 
     /** @test */
@@ -28,13 +36,13 @@ class plClassGraphElementsTest extends TestCase
         $class = new plPhpClass('ChildClass', [], [], [], $parent);
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new plClassGraphElements(false, $nodeBuilder);
+        $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, []);
 
         $this->assertEquals([
-            new plNode($class, $label),
-            plEdge::inheritance($parent, $class),
+            new Node($class, $label),
+            Edge::inheritance($parent, $class),
         ], $dotElements);
     }
 
@@ -49,14 +57,14 @@ class plClassGraphElementsTest extends TestCase
         ]);
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new plClassGraphElements(false, $nodeBuilder);
+        $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, []);
 
         $this->assertEquals([
-            new plNode($class, $label),
-            plEdge::implementation($firstInterface, $class),
-            plEdge::implementation($secondInterface, $class),
+            new Node($class, $label),
+            Edge::implementation($firstInterface, $class),
+            Edge::implementation($secondInterface, $class),
         ], $dotElements);
     }
 
@@ -71,13 +79,13 @@ class plClassGraphElementsTest extends TestCase
         ]);
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new plClassGraphElements(true, $nodeBuilder);
+        $graphElements = new ClassGraphElements(true, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, [$reference->name => $reference]);
 
         $this->assertEquals([
-            plEdge::association($reference, $class),
-            new plNode($class, $label),
+            Edge::association($reference, $class),
+            new Node($class, $label),
         ], $dotElements);
     }
 
@@ -93,7 +101,7 @@ class plClassGraphElementsTest extends TestCase
         );
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new plClassGraphElements(true, $nodeBuilder);
+        $graphElements = new ClassGraphElements(true, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, [
             $firstReference->name => $firstReference,
@@ -101,9 +109,9 @@ class plClassGraphElementsTest extends TestCase
         ]);
 
         $this->assertEquals([
-            plEdge::association($firstReference, $class),
-            plEdge::association($secondReference, $class),
-            new plNode($class, $label),
+            Edge::association($firstReference, $class),
+            Edge::association($secondReference, $class),
+            new Node($class, $label),
         ], $dotElements);
     }
 
@@ -137,7 +145,7 @@ class plClassGraphElementsTest extends TestCase
         );
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new plClassGraphElements(true, $nodeBuilder);
+        $graphElements = new ClassGraphElements(true, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, [
             $firstReference->name => $firstReference,
@@ -147,14 +155,14 @@ class plClassGraphElementsTest extends TestCase
         ]);
 
         $this->assertEquals([
-            plEdge::association($firstReference, $class),
-            plEdge::association($secondReference, $class),
-            plEdge::association($thirdReference, $class),
-            plEdge::association($fourthReference, $class),
-            new plNode($class, $label),
-            plEdge::inheritance($parent, $class),
-            plEdge::implementation($firstInterface, $class),
-            plEdge::implementation($secondInterface, $class),
+            Edge::association($firstReference, $class),
+            Edge::association($secondReference, $class),
+            Edge::association($thirdReference, $class),
+            Edge::association($fourthReference, $class),
+            new Node($class, $label),
+            Edge::inheritance($parent, $class),
+            Edge::implementation($firstInterface, $class),
+            Edge::implementation($secondInterface, $class),
         ], $dotElements);
     }
 
@@ -175,10 +183,10 @@ class plClassGraphElementsTest extends TestCase
         );
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new plClassGraphElements(false, $nodeBuilder);
+        $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, []);
 
-        $this->assertEquals([new plNode($class, $label)], $dotElements);
+        $this->assertEquals([new Node($class, $label)], $dotElements);
     }
 }

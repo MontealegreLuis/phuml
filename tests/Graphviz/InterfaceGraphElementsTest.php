@@ -5,9 +5,13 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-use PHPUnit\Framework\TestCase;
+namespace PhUml\Graphviz;
 
-class plInterfaceGraphElementsTest extends TestCase
+use PHPUnit\Framework\TestCase;
+use plClassNameLabelBuilder;
+use plPhpInterface;
+
+class InterfaceGraphElementsTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_from_a_single_interface()
@@ -15,11 +19,11 @@ class plInterfaceGraphElementsTest extends TestCase
         $interface = new plPhpInterface('AnInterface');
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
-        $graphElements = new plInterfaceGraphElements($nodeBuilder);
+        $graphElements = new InterfaceGraphElements($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);
 
-        $this->assertEquals([new plNode($interface, $label)], $dotElements);
+        $this->assertEquals([new Node($interface, $label)], $dotElements);
     }
 
     /** @test */
@@ -29,14 +33,13 @@ class plInterfaceGraphElementsTest extends TestCase
         $interface = new plPhpInterface('AnInterface', [], $parent);
         $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
-        $graphElements = new plInterfaceGraphElements($nodeBuilder);
+        $graphElements = new InterfaceGraphElements($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);
 
         $this->assertEquals([
-            new plNode($interface, $label),
-            plEdge::inheritance($parent, $interface)
+            new Node($interface, $label),
+            Edge::inheritance($parent, $interface)
         ], $dotElements);
     }
-
 }

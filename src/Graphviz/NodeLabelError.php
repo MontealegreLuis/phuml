@@ -5,7 +5,12 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-class plNodeLabelError extends RuntimeException
+namespace PhUml\Graphviz;
+
+use Exception;
+use RuntimeException;
+
+class NodeLabelError extends RuntimeException
 {
     public function __construct(Exception $e)
     {

@@ -5,20 +5,25 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-class plDigraph implements plHasDotRepresentation
+namespace PhUml\Graphviz;
+
+use plPhpClass;
+use plPhpInterface;
+
+class Digraph implements HasDotRepresentation
 {
-    /** @var plHasDotRepresentation[] */
+    /** @var HasDotRepresentation[] */
     private $dotElements;
 
-    /** @var plInterfaceGraphElements */
+    /** @var InterfaceGraphElements */
     private $interfaceElements;
 
-    /** @var plClassGraphElements */
+    /** @var ClassGraphElements */
     private $classElements;
 
     public function __construct(
-        plInterfaceGraphElements $interfaceElements,
-        plClassGraphElements $classElements
+        InterfaceGraphElements $interfaceElements,
+        ClassGraphElements $classElements
     ) {
         $this->dotElements = [];
         $this->interfaceElements = $interfaceElements;
@@ -57,7 +62,7 @@ mindist = 0.6;
 
     private function elementsToDotLanguage(): string
     {
-        $dotFormat = array_map(function (plHasDotRepresentation $element) {
+        $dotFormat = array_map(function (HasDotRepresentation $element) {
             return $element->toDotLanguage();
         }, $this->dotElements);
 

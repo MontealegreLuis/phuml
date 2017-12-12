@@ -5,11 +5,19 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
+namespace PhUml\Graphviz;
+
 use PHPUnit\Framework\TestCase;
+use plGraphvizProcessorDefaultStyle;
+use plPhpAttribute;
+use plPhpClass;
+use plPhpFunction;
+use plPhpInterface;
+use plPhpVariable;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
 
-class plNodeLabelBuilderTest extends TestCase
+class NodeLabelBuilderTest extends TestCase
 {
     /** @test */
     function it_builds_an_html_label_for_a_class()
@@ -84,11 +92,11 @@ class plNodeLabelBuilderTest extends TestCase
     /** @before */
     function createLabel()
     {
-        $this->labelBuilder = new plNodeLabelBuilder(new TemplateEngine(
-            new FileSystem(__DIR__ . '/../../../../../src/classes/processor/graphviz/digraph/templates')
+        $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(
+            new FileSystem(__DIR__ . '/../../src/Graphviz/templates')
         ), new plGraphvizProcessorDefaultStyle());
     }
 
-    /** @var plNodeLabelBuilder */
+    /** @var NodeLabelBuilder */
     private $labelBuilder;
 }

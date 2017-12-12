@@ -5,9 +5,14 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-class plClassGraphElements
+namespace PhUml\Graphviz;
+
+use plPhpClass;
+use plPhpVariable;
+
+class ClassGraphElements
 {
-    /** @var plHasDotRepresentation[] */
+    /** @var HasDotRepresentation[] */
     private $dotElements = [];
 
     /** @var bool[] */
@@ -16,21 +21,21 @@ class plClassGraphElements
     /** @var bool */
     private $createAssociations;
 
-    /** @var plNodeLabelBuilder */
+    /** @var NodeLabelBuilder */
     private $labelBuilder;
 
-    /** @var plHasNodeIdentifier[] */
+    /** @var HasNodeIdentifier[] */
     private $structure;
 
-    public function __construct(bool $createAssociations, plNodeLabelBuilder $labelBuilder)
+    public function __construct(bool $createAssociations, NodeLabelBuilder $labelBuilder)
     {
         $this->createAssociations = $createAssociations;
         $this->labelBuilder = $labelBuilder;
     }
 
     /**
-     * @param plHasNodeIdentifier[] $structure
-     * @return plHasDotRepresentation[]
+     * @param HasNodeIdentifier[] $structure
+     * @return HasDotRepresentation[]
      */
     public function extractFrom(plPhpClass $class, array $structure): array
     {
@@ -43,20 +48,20 @@ class plClassGraphElements
             $this->addElementsForParameters($class);
         }
 
-        $this->dotElements[] = new plNode($class, $this->labelBuilder->labelForClass($class));
+        $this->dotElements[] = new Node($class, $this->labelBuilder->labelForClass($class));
 
         if ($class->hasParent()) {
-            $this->dotElements[] = plEdge::inheritance($class->extends, $class);
+            $this->dotElements[] = Edge::inheritance($class->extends, $class);
         }
 
         foreach ($class->implements as $interface) {
-            $this->dotElements[] = plEdge::implementation($interface, $class);
+            $this->dotElements[] = Edge::implementation($interface, $class);
         }
 
         return $this->dotElements;
     }
 
-    /** @return plHasDotRepresentation[] */
+    /** @return HasDotRepresentation[] */
     private function addElementsForAttributes(plPhpClass $class): void
     {
         /** @var plPhpAttribute $attribute */
@@ -65,7 +70,7 @@ class plClassGraphElements
         }
     }
 
-    /** @return plHasDotRepresentation[] */
+    /** @return HasDotRepresentation[] */
     private function addElementsForParameters(plPhpClass $class): void
     {
         if (!$class->hasConstructor()) {
@@ -79,7 +84,7 @@ class plClassGraphElements
     private function addAssociationForVariable(plPhpClass $class, plPhpVariable $attribute): void
     {
         if ($this->needAssociation($attribute)) {
-            $this->dotElements[] = plEdge::association($this->structure[(string)$attribute->type], $class);
+            $this->dotElements[] = Edge::association($this->structure[(string)$attribute->type], $class);
             $this->associations[strtolower($attribute->type)] = true;
         }
     }

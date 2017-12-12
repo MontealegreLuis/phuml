@@ -5,10 +5,9 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-trait plObjectHashIdentifier
+namespace PhUml\Graphviz;
+
+interface HasDotRepresentation
 {
-    public function identifier(): string
-    {
-        return spl_object_hash($this);
-    }
+    public function toDotLanguage(): string;
 }

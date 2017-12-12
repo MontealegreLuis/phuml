@@ -5,7 +5,9 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-class plClassNameLabelBuilder extends plNodeLabelBuilder
+use PhUml\Graphviz\NodeLabelBuilder;
+
+class plClassNameLabelBuilder extends NodeLabelBuilder
 {
     public function __construct()
     {

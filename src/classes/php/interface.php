@@ -1,8 +1,11 @@
 <?php
 
-class plPhpInterface implements plHasNodeIdentifier
+use PhUml\Graphviz\HasNodeIdentifier;
+use PhUml\Graphviz\ObjectHashIdentifier;
+
+class plPhpInterface implements HasNodeIdentifier
 {
-    use plObjectHashIdentifier;
+    use ObjectHashIdentifier;
 
     /** @var string */
     public $name;

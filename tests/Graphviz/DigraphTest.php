@@ -4,18 +4,24 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
+use plClassNameLabelBuilder;
+use plNumericIdClass;
+use plNumericIdInterface;
+use plPhpFunction;
+use plPhpVariable;
 
-class plDigraphTest extends TestCase
+class DigraphTest extends TestCase
 {
     /** @test */
     function it_can_be_represented_as_dot_language_from_a_structure_with_one_definition()
     {
         $labelBuilder = new plClassNameLabelBuilder();
-        $interfaceElements = new plInterfaceGraphElements($labelBuilder);
-        $classElements = new plClassGraphElements(true, $labelBuilder);
-        $digraph = new plDigraph($interfaceElements, $classElements);
+        $interfaceElements = new InterfaceGraphElements($labelBuilder);
+        $classElements = new ClassGraphElements(true, $labelBuilder);
+        $digraph = new Digraph($interfaceElements, $classElements);
 
         $digraph->fromCodeStructure([new plNumericIdClass('TestClass')]);
 
@@ -34,9 +40,9 @@ mindist = 0.6;
     function it_can_be_represented_as_dot_language_from_a_structure_with_several_definitions()
     {
         $labelBuilder = new plClassNameLabelBuilder();
-        $interfaceElements = new plInterfaceGraphElements($labelBuilder);
-        $classElements = new plClassGraphElements(true, $labelBuilder);
-        $digraph = new plDigraph($interfaceElements, $classElements);
+        $interfaceElements = new InterfaceGraphElements($labelBuilder);
+        $classElements = new ClassGraphElements(true, $labelBuilder);
+        $digraph = new Digraph($interfaceElements, $classElements);
 
         $parentInterface = new plNumericIdInterface('ParentInterface');
         $childInterface = new plNumericIdInterface('ChildInterface', [], $parentInterface);
