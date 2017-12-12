@@ -13,10 +13,9 @@ class plInterfaceGraphElementsTest extends TestCase
     function it_extracts_the_elements_from_a_single_interface()
     {
         $interface = new plPhpInterface('AnInterface');
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
-        $nodeBuilder->labelForInterface($interface)->willReturn($label);
-        $graphElements = new plInterfaceGraphElements($nodeBuilder->reveal());
+        $graphElements = new plInterfaceGraphElements($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);
 
@@ -28,10 +27,9 @@ class plInterfaceGraphElementsTest extends TestCase
     {
         $parent = new plPhpInterface('ParentInterface');
         $interface = new plPhpInterface('AnInterface', [], $parent);
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
-        $nodeBuilder->labelForInterface($interface)->willReturn($label);
-        $graphElements = new plInterfaceGraphElements($nodeBuilder->reveal());
+        $graphElements = new plInterfaceGraphElements($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);
 

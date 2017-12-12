@@ -13,10 +13,8 @@ class plClassGraphElementsTest extends TestCase
     function it_extracts_the_elements_for_a_simple_class()
     {
         $class = new plPhpClass('ClassName');
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $nodeBuilder->labelForClass($class)->willReturn($label);
-        $graphElements = new plClassGraphElements(false, $nodeBuilder->reveal());
+        $graphElements = new plClassGraphElements(false, new plClassNameLabelBuilder());
 
         $dotElements = $graphElements->extractFrom($class, []);
 
@@ -28,10 +26,9 @@ class plClassGraphElementsTest extends TestCase
     {
         $parent = new plPhpClass('ParentClass');
         $class = new plPhpClass('ChildClass', [], [], [], $parent);
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $nodeBuilder->labelForClass($class)->willReturn($label);
-        $graphElements = new plClassGraphElements(false, $nodeBuilder->reveal());
+        $graphElements = new plClassGraphElements(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, []);
 
@@ -50,10 +47,9 @@ class plClassGraphElementsTest extends TestCase
             $firstInterface,
             $secondInterface,
         ]);
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $nodeBuilder->labelForClass($class)->willReturn($label);
-        $graphElements = new plClassGraphElements(false, $nodeBuilder->reveal());
+        $graphElements = new plClassGraphElements(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, []);
 
@@ -73,10 +69,9 @@ class plClassGraphElementsTest extends TestCase
                 new plPhpVariable('reference', 'AnotherClass'),
             ]),
         ]);
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $nodeBuilder->labelForClass($class)->willReturn($label);
-        $graphElements = new plClassGraphElements(true, $nodeBuilder->reveal());
+        $graphElements = new plClassGraphElements(true, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, [$reference->name => $reference]);
 
@@ -96,10 +91,9 @@ class plClassGraphElementsTest extends TestCase
                 new plPhpAttribute('secondReference', 'private', 'SecondClass'),
             ]
         );
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $nodeBuilder->labelForClass($class)->willReturn($label);
-        $graphElements = new plClassGraphElements(true, $nodeBuilder->reveal());
+        $graphElements = new plClassGraphElements(true, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, [
             $firstReference->name => $firstReference,
@@ -141,10 +135,9 @@ class plClassGraphElementsTest extends TestCase
             ],
             $parent
         );
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $nodeBuilder->labelForClass($class)->willReturn($label);
-        $graphElements = new plClassGraphElements(true, $nodeBuilder->reveal());
+        $graphElements = new plClassGraphElements(true, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, [
             $firstReference->name => $firstReference,
@@ -180,10 +173,9 @@ class plClassGraphElementsTest extends TestCase
                 ]),
             ]
         );
-        $nodeBuilder = $this->prophesize(plNodeLabelBuilder::class);
+        $nodeBuilder = new plClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $nodeBuilder->labelForClass($class)->willReturn($label);
-        $graphElements = new plClassGraphElements(false, $nodeBuilder->reveal());
+        $graphElements = new plClassGraphElements(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, []);
 

@@ -2,6 +2,9 @@
     "autoload": {
         "classmap": ["src"]
     },
+    "autoload-dev": {
+        "classmap": ["tests/fakes"]
+    },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
         "lupka/phpunit-compare-images": "^1.0"
