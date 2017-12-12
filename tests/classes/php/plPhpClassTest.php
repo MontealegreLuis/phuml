@@ -88,6 +88,47 @@ class plPhpClassTest extends TestCase
     }
 
     /** @test */
+    function it_knows_it_has_a_constructor()
+    {
+        $class = new plPhpClass('ClassWithConstructor', [], [
+            new plPhpFunction('notAConstructor'),
+            new plPhpFunction('__construct'),
+            new plPhpFunction('notAConstructorEither'),
+        ]);
+
+        $this->assertTrue($class->hasConstructor());
+    }
+
+    /** @test */
+    function it_knows_it_does_not_have_a_constructor()
+    {
+        $class = new plPhpClass('ClassWithConstructor', [], [
+            new plPhpFunction('notAConstructor'),
+            new plPhpFunction('notAConstructorEither'),
+        ]);
+
+        $this->assertFalse($class->hasConstructor());
+    }
+
+    /** @test */
+    function it_has_access_to_its_constructor_parameters()
+    {
+        $parameters = [
+            new plPhpVariable('first'),
+            new plPhpVariable('second', 'float'),
+        ];
+        $class = new plPhpClass('ClassWithConstructor', [], [
+            new plPhpFunction('notAConstructor'),
+            new plPhpFunction('__construct', 'public', $parameters),
+            new plPhpFunction('notAConstructorEither'),
+        ]);
+
+        $constructorParameters = $class->constructorParameters();
+
+        $this->assertEquals($parameters, $constructorParameters);
+    }
+
+    /** @test */
     function it_knows_the_interfaces_it_implements()
     {
         $interfaces = [

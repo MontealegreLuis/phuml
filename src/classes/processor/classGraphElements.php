@@ -68,16 +68,11 @@ class plClassGraphElements
     /** @return plHasDotRepresentation[] */
     private function addElementsForParameters(plPhpClass $class): void
     {
-        /** @var plPhpFunction $function */
-        foreach ($class->functions as $function) {
-            // Create association if the function is the constructor and takes
-            // other classes as parameters
-            if ($function->isConstructor()) {
-                /** @var plPhpVariable $param */
-                foreach ($function->params as $param) {
-                    $this->addAssociationForVariable($class, $param);
-                }
-            }
+        if (!$class->hasConstructor()) {
+            return;
+        }
+        foreach ($class->constructorParameters() as $parameter) {
+            $this->addAssociationForVariable($class, $parameter);
         }
     }
 
