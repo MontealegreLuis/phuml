@@ -7,7 +7,6 @@
 
 namespace PhUml\Graphviz;
 
-use plGraphvizProcessorStyle;
 use plPhpClass;
 use plPhpInterface;
 use Twig_Environment as TemplateEngine;
@@ -20,10 +19,10 @@ class NodeLabelBuilder
     /** @var TemplateEngine */
     private $engine;
 
-    /** @var plGraphvizProcessorStyle */
+    /** @var HtmlLabelStyle */
     private $style;
 
-    public function __construct(TemplateEngine $engine, plGraphvizProcessorStyle $style)
+    public function __construct(TemplateEngine $engine, HtmlLabelStyle $style)
     {
         $this->engine = $engine;
         $this->style = $style;

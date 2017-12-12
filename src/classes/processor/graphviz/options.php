@@ -1,12 +1,14 @@
 <?php
 
+use PhUml\Graphviz\HtmlLabelStyle;
+
 class plGraphvizProcessorOptions extends plProcessorOptions
 {
     public function __construct()
     {
         $this->properties = [
             'style' => [
-                'data' => new plGraphvizProcessorStyle(),
+                'data' => new HtmlLabelStyle(),
                 'type' => self::STRING,
                 'description' => 'Style to use for the dot creation'
             ],
@@ -22,7 +24,7 @@ class plGraphvizProcessorOptions extends plProcessorOptions
     {
         switch ($key) {
             case 'style':
-                $this->properties[$key]['data'] = plGraphvizProcessorStyle::factory((string)$val);
+                $this->properties[$key]['data'] = HtmlLabelStyle::factory((string)$val);
                 break;
             case 'createAssociations':
                 $this->properties[$key]['data'] = ($val === '0' || $val === 'false') ? false : true;

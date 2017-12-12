@@ -8,7 +8,6 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use plGraphvizProcessorStyle;
 use plPhpAttribute;
 use plPhpClass;
 use plPhpFunction;
@@ -94,7 +93,7 @@ class NodeLabelBuilderTest extends TestCase
     {
         $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../../src/Graphviz/templates')
-        ), new plGraphvizProcessorStyle());
+        ), new HtmlLabelStyle());
     }
 
     /** @var NodeLabelBuilder */

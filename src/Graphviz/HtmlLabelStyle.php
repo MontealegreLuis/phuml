@@ -1,6 +1,13 @@
 <?php
+/**
+ * PHP version 7.1
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
 
-class plGraphvizProcessorStyle
+namespace PhUml\Graphviz;
+
+class HtmlLabelStyle
 {
     public $interfaceTableBorder            = 1;
     public $interfaceTitleBackground        = '#729fcf';
