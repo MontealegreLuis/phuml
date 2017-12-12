@@ -11,19 +11,22 @@ class plGraphvizProcessor extends plProcessor
 
     public $options;
 
-    /** @var plNodeLabelBuilder */
-    private $labelBuilder;
-
     /** @var plClassGraphElements */
     private $classElements;
 
-    public function __construct(plNodeLabelBuilder $labelBuilder = null, plClassGraphElements $classElements = null)
-    {
+    /** @var plInterfaceGraphElements */
+    private $interfaceElements;
+
+    public function __construct(
+        plClassGraphElements $classElements = null,
+        plInterfaceGraphElements $interfaceElements = null
+    ) {
         $this->options = new plGraphvizProcessorOptions();
-        $this->labelBuilder = $labelBuilder ??  new plNodeLabelBuilder(new TemplateEngine(
+        $labelBuilder =  new plNodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../processor/graphviz/digraph/templates')
         ), new plGraphvizProcessorDefaultStyle());
-        $this->classElements = $classElements ?? new plClassGraphElements($this->options->createAssociations, $this->labelBuilder);
+        $this->classElements = $classElements ?? new plClassGraphElements($this->options->createAssociations, $labelBuilder);
+        $this->interfaceElements = $interfaceElements ?? new plInterfaceGraphElements($labelBuilder);
     }
 
     public function getInputTypes()
@@ -71,39 +74,14 @@ class plGraphvizProcessor extends plProcessor
         return implode('', $dotFormat);
     }
 
-    private function getInterfaceDefinition(plPhpInterface $interface)
+    private function getInterfaceDefinition(plPhpInterface $interface): string
     {
-        $def = '';
+        $dotElements = $this->interfaceElements->extractFrom($interface);
 
-        $functions = [];
-        foreach ($interface->functions as $function) {
-            $functions[] = (string)$function;
-        }
+        $dotFormat = array_map(function (plHasDotRepresentation $element) {
+            return $element->toDotLanguage();
+        }, $dotElements);
 
-        $def .= (new plNode($interface, $this->labelBuilder->labelForInterface($interface)))->toDotLanguage();
-
-        // Create interface inheritance relation
-        if ($interface->hasParent()) {
-            // Check if we need an "external" interface node
-            if (!$this->isTypeInStructure($interface->extends)) {
-                $def .= $this->getInterfaceDefinition($interface->extends);
-            }
-            $def .= plEdge::inheritance($interface->extends, $interface)->toDotLanguage();
-        }
-
-        return $def;
-    }
-
-    private function isTypeInStructure(string $type): bool
-    {
-        return array_key_exists($type, $this->structure);
-    }
-
-    /**
-     * @param bool[] $associations
-     */
-    private function isAssociationResolved(string $type, array $associations): bool
-    {
-        return array_key_exists(strtolower($type), $associations);
+        return implode('', $dotFormat);
     }
 }
