@@ -14,12 +14,16 @@ class plGraphvizProcessor extends plProcessor
     /** @var plNodeLabelBuilder */
     private $labelBuilder;
 
-    public function __construct(plNodeLabelBuilder $labelBuilder = null)
+    /** @var plClassGraphElements */
+    private $classElements;
+
+    public function __construct(plNodeLabelBuilder $labelBuilder = null, plClassGraphElements $classElements = null)
     {
         $this->options = new plGraphvizProcessorOptions();
         $this->labelBuilder = $labelBuilder ??  new plNodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../processor/graphviz/digraph/templates')
         ), new plGraphvizProcessorDefaultStyle());
+        $this->classElements = $classElements ?? new plClassGraphElements($this->options->createAssociations, $this->labelBuilder);
     }
 
     public function getInputTypes()
@@ -58,64 +62,13 @@ class plGraphvizProcessor extends plProcessor
 
     private function getClassDefinition(plPhpClass $class)
     {
-        $def = '';
+        $dotElements = $this->classElements->extractFrom($class, $this->structure);
 
-        $associations = [];
-        /** @var plPhpAttribute $attribute */
-        foreach ($class->attributes as $attribute) {
-            // Association creation is optional
-            if ($this->options->createAssociations === false) {
-                continue;
-            }
+        $dotFormat = array_map(function (plHasDotRepresentation $element) {
+            return $element->toDotLanguage();
+        }, $dotElements);
 
-            // Create associations if the attribute type is set
-            if ($attribute->hasType()  && !$attribute->isBuiltIn() && !$this->isAssociationResolved($attribute->type, $associations)) {
-                $def .= plEdge::association($this->structure[(string)$attribute->type], $class)->toDotLanguage();
-                $associations[strtolower($attribute->type)] = true;
-            }
-        }
-
-        /** @var plPhpFunction $function */
-        foreach ($class->functions as $function) {
-            // Association creation is optional
-            if ($this->options->createAssociations === false) {
-                continue;
-            }
-
-            // Create association if the function is the constructor and takes
-            // other classes as parameters
-            if ($function->isConstructor()) {
-                /** @var plPhpVariable $param */
-                foreach ($function->params as $param) {
-                    if ($param->hasType() && !$param->isBuiltIn() && !$this->isAssociationResolved($param->type, $associations)) {
-                        $def .= plEdge::association($this->structure[(string)$param->type], $class)->toDotLanguage();
-                        $associations[strtolower($param->type)] = true;
-                    }
-                }
-            }
-        }
-
-        $def .= (new plNode($class, $this->labelBuilder->labelForClass($class)))->toDotLanguage();
-
-        // Create class inheritance relation
-        if ($class->hasParent()) {
-            // Check if we need an "external" class node
-            if (!$this->isTypeInStructure($class->extends->name)) {
-                $def .= $this->getClassDefinition($class->extends);
-            }
-            $def .= plEdge::inheritance($class->extends, $class)->toDotLanguage();
-        }
-
-        // Create class implements relation
-        foreach ($class->implements as $interface) {
-            // Check if we need an "external" interface node
-            if (!$this->isTypeInStructure($interface)) {
-                $def .= $this->getInterfaceDefinition($interface);
-            }
-            $def .= plEdge::implementation($interface, $class)->toDotLanguage();
-        }
-
-        return $def;
+        return implode('', $dotFormat);
     }
 
     private function getInterfaceDefinition(plPhpInterface $interface)
