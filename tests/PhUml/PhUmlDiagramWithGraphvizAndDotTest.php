@@ -12,7 +12,10 @@ class PhUmlDiagramWithGraphvizAndDotTest extends TestCase
 {
     use CompareImagesTrait;
 
-    /** @test */
+    /**
+     * @test
+     * @group mac
+     */
     function it_generates_a_class_diagram_using_graphviz_and_dot_processors()
     {
         $success = <<<MESSAGE
@@ -38,7 +41,10 @@ MESSAGE;
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group mac
+     */
     function it_generates_a_class_diagram_using_graphviz_and_dot_processors_using_the_recursive_option()
     {
         $success = <<<MESSAGE

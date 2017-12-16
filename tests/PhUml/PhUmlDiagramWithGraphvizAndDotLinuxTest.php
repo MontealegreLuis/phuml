@@ -8,64 +8,67 @@
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 
-class PhUmlDiagramWithGraphvizAndNeatoTest extends TestCase
+class PhUmlDiagramWithGraphvizAndDotLinuxTest extends TestCase
 {
     use CompareImagesTrait;
 
     /**
      * @test
-     * @group mac
+     * @group linux
      */
-    function it_generates_a_class_diagram_using_graphviz_and_neato_processors()
+    function it_generates_a_class_diagram_using_graphviz_and_dot_processors()
     {
         $success = <<<MESSAGE
 phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 [|] Running... (This may take some time)
 [|] Parsing class structure
 [|] Running 'Graphviz' processor
-[|] Running 'Neato' processor
+[|] Running 'Dot' processor
 [|] Writing generated data to disk
 
 MESSAGE;
-        $diagram = __DIR__ . '/../../tests/.output/graphviz-neato.png';
+        $diagramPath = __DIR__ . '/../../tests/.output/graphviz-dot-linux.png';
 
         passthru(sprintf(
-            'php %s %s -graphviz -neato %s',
+            'php %s %s -graphviz -dot %s',
             __DIR__ . '/../../src/app/phuml',
             __DIR__ . '/../.code/classes',
-            $diagram
+            $diagramPath
         ));
 
-        $expectedDiagram = __DIR__ . '/../images/graphviz-neato.png';
         $this->expectOutputString($success);
-        $this->assertImagesSame($expectedDiagram, $diagram);
+
+        $expectedImage = new Imagick(__DIR__ . '/../images/graphviz-dot-linux.png');
+        $diagram = new Imagick($diagramPath);
+        $this->assertEquals($expectedImage->getImageLength(), $diagram->getImageLength());
+        $this->assertImagesSame($expectedImage, $diagram);
     }
 
     /**
      * @test
-     * @group mac
+     * @group linux
      */
-    function it_generates_a_class_diagram_using_graphviz_and_neato_processors_using_the_recursive_option()
+    function it_generates_a_class_diagram_using_graphviz_and_dot_processors_using_the_recursive_option()
     {
         $success = <<<MESSAGE
 phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 [|] Running... (This may take some time)
 [|] Parsing class structure
 [|] Running 'Graphviz' processor
-[|] Running 'Neato' processor
+[|] Running 'Dot' processor
 [|] Writing generated data to disk
 
 MESSAGE;
-        $diagram = __DIR__ . '/../../tests/.output/graphviz-neato-recursive.png';
+        $diagram = __DIR__ . '/../../tests/.output/graphviz-dot-recursive-linux.png';
 
         passthru(sprintf(
-            'php %s -r %s -graphviz -neato %s',
+            'php %s -r %s -graphviz -dot %s',
             __DIR__ . '/../../src/app/phuml',
             __DIR__ . '/../.code',
             $diagram
         ));
 
-        $expectedDiagram = __DIR__ . '/../images/graphviz-neato-recursive.png';
+        $expectedDiagram = __DIR__ . '/../images/graphviz-dot-recursive-linux.png';
         $this->expectOutputString($success);
         $this->assertImagesSame($expectedDiagram, $diagram);
     }

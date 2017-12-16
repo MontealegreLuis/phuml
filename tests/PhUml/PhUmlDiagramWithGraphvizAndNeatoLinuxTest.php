@@ -8,13 +8,13 @@
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 
-class PhUmlDiagramWithGraphvizAndNeatoTest extends TestCase
+class PhUmlDiagramWithGraphvizAndNeatoLinuxTest extends TestCase
 {
     use CompareImagesTrait;
 
     /**
      * @test
-     * @group mac
+     * @group linux
      */
     function it_generates_a_class_diagram_using_graphviz_and_neato_processors()
     {
@@ -27,7 +27,7 @@ phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 [|] Writing generated data to disk
 
 MESSAGE;
-        $diagram = __DIR__ . '/../../tests/.output/graphviz-neato.png';
+        $diagram = __DIR__ . '/../../tests/.output/graphviz-neato-linux.png';
 
         passthru(sprintf(
             'php %s %s -graphviz -neato %s',
@@ -36,14 +36,14 @@ MESSAGE;
             $diagram
         ));
 
-        $expectedDiagram = __DIR__ . '/../images/graphviz-neato.png';
+        $expectedDiagram = __DIR__ . '/../images/graphviz-neato-linux.png';
         $this->expectOutputString($success);
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
     /**
      * @test
-     * @group mac
+     * @group linux
      */
     function it_generates_a_class_diagram_using_graphviz_and_neato_processors_using_the_recursive_option()
     {
@@ -56,7 +56,7 @@ phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 [|] Writing generated data to disk
 
 MESSAGE;
-        $diagram = __DIR__ . '/../../tests/.output/graphviz-neato-recursive.png';
+        $diagram = __DIR__ . '/../../tests/.output/graphviz-neato-recursive-linux.png';
 
         passthru(sprintf(
             'php %s -r %s -graphviz -neato %s',
@@ -65,7 +65,7 @@ MESSAGE;
             $diagram
         ));
 
-        $expectedDiagram = __DIR__ . '/../images/graphviz-neato-recursive.png';
+        $expectedDiagram = __DIR__ . '/../images/graphviz-neato-recursive-linux.png';
         $this->expectOutputString($success);
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
