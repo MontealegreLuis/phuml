@@ -27,21 +27,18 @@ phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 [|] Writing generated data to disk
 
 MESSAGE;
-        $diagramPath = __DIR__ . '/../../tests/.output/graphviz-dot-linux.png';
+        $diagram = __DIR__ . '/../../tests/.output/graphviz-dot-linux.png';
 
         passthru(sprintf(
             'php %s %s -graphviz -dot %s',
             __DIR__ . '/../../src/app/phuml',
             __DIR__ . '/../.code/classes',
-            $diagramPath
+            $diagram
         ));
 
+        $expectedDiagram = __DIR__ . '/../images/graphviz-dot-linux.png';
         $this->expectOutputString($success);
-
-        $expectedImage = new Imagick(__DIR__ . '/../images/graphviz-dot-linux.png');
-        $diagram = new Imagick($diagramPath);
-        $this->assertEquals($expectedImage->getImageLength(), $diagram->getImageLength());
-        $this->assertImagesSame($expectedImage, $diagram);
+        $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
     /**
