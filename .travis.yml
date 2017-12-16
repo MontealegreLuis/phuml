@@ -1,0 +1,38 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+matrix:
+  allow_failures:
+    - php: 7.2
+
+# This triggers builds to run on the new TravisCI infrastructure.
+# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+
+## Cache composer
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
+
+before_install:
+  # We need GraphViz to create the UML diagrams
+  - sudo apt-get install graphviz
+  # Install Imagick extension
+  - sudo apt-get update
+  - sudo apt-get -y --reinstall install imagemagick
+  - yes | pecl install imagick
+
+before_script:
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+
+script:
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group mac,linux
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
