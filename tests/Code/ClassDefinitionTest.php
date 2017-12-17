@@ -9,7 +9,7 @@ namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
 
-class ClassTest extends TestCase
+class ClassDefinitionTest extends TestCase
 {
     /** @test */
     function it_knows_its_name()
@@ -128,6 +128,19 @@ class ClassTest extends TestCase
         $constructorParameters = $class->constructorParameters();
 
         $this->assertEquals($parameters, $constructorParameters);
+    }
+
+    /** @test */
+    function it_knows_its_constructor_has_no_parameters_if_no_constructor_is_specified()
+    {
+        $class = new ClassDefinition('ClassWithConstructor', [], [
+            new Method('notAConstructor'),
+            new Method('notAConstructorEither'),
+        ]);
+
+        $constructorParameters = $class->constructorParameters();
+
+        $this->assertCount(0, $constructorParameters);
     }
 
     /** @test */

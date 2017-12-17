@@ -15,6 +15,7 @@ use PhUml\Code\Method;
 use PhUml\Code\Variable;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
+use Twig_Error_Runtime as RuntimeError;
 
 class NodeLabelBuilderTest extends TestCase
 {
@@ -86,6 +87,22 @@ class NodeLabelBuilderTest extends TestCase
             '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#729fcf"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AnInterface</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+doSomething()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+changeValue( int value )</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>>',
             $html
         );
+    }
+
+    /** @test */
+    function it_fails_to_build_a_label_if_twig_fails()
+    {
+        $templateEngine = new class() extends TemplateEngine {
+            public function render($name, array $context = []) {
+                throw new RuntimeError("Twig runtime error");
+            }
+            public function __construct() {} // Constructor does not needs to be run
+        };
+        $labelBuilder = new NodeLabelBuilder($templateEngine, new HtmlLabelStyle());
+
+        $this->expectException(NodeLabelError::class);
+
+        $labelBuilder->labelForClass(new ClassDefinition('AnyClass'));
     }
 
     /** @before */
