@@ -22,27 +22,27 @@ class plStructureTokenparserGenerator extends plStructureGenerator
 
     private function initGlobalAttributes()
     {
-        $this->classes = array();
-        $this->interfaces = array();
+        $this->classes = [];
+        $this->interfaces = [];
     }
 
     private function initParserAttributes()
     {
-        $this->parserStruct = array(
+        $this->parserStruct = [
             'class' => null,
             'interface' => null,
             'function' => null,
-            'attributes' => array(),
-            'functions' => array(),
+            'attributes' => [],
+            'functions' => [],
             'typehint' => null,
-            'params' => array(),
-            'implements' => array(),
+            'params' => [],
+            'implements' => [],
             'extends' => null,
             'modifier' => 'public',
             'docblock' => null,
-        );
+        ];
 
-        $this->lastToken = array();
+        $this->lastToken = [];
     }
 
     public function createStructure(array $files)
@@ -190,18 +190,18 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                 // The function declaration has been closed
 
                 // Add the current function
-                $this->parserStruct['functions'][] = array(
+                $this->parserStruct['functions'][] = [
                     $this->parserStruct['function'],
                     $this->parserStruct['modifier'],
                     $this->parserStruct['params'],
                     $this->parserStruct['docblock']
-                );
+                ];
                 // Reset the last token
                 $this->lastToken = null;
                 //Reset the modifier state
                 $this->parserStruct['modifier'] = 'public';
                 // Reset the params array
-                $this->parserStruct['params'] = array();
+                $this->parserStruct['params'] = [];
                 $this->parserStruct['typehint'] = null;
                 // Reset the function name
                 $this->parserStruct['function'] = null;
@@ -261,21 +261,21 @@ class plStructureTokenparserGenerator extends plStructureGenerator
             case T_PROTECTED:
             case T_PRIVATE:
                 // A new class attribute
-                $this->parserStruct['attributes'][] = array(
+                $this->parserStruct['attributes'][] = [
                     $token[1],
                     $this->parserStruct['modifier'],
                     $this->parserStruct['docblock'],
-                );
+                ];
                 $this->lastToken = null;
                 $this->parserStruct['modifier'] = 'public';
                 $this->parserStruct['docblock'] = null;
                 break;
             case T_FUNCTION:
                 // A new function parameter
-                $this->parserStruct['params'][] = array(
+                $this->parserStruct['params'][] = [
                     $this->parserStruct['typehint'],
                     $token[1]
-                );
+                ];
                 break;
         }
     }
@@ -489,12 +489,12 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         // First we need to check if we should store interface data found so far
         if ($this->parserStruct['interface'] !== null) {
             // Init data storage
-            $functions = array();
+            $functions = [];
 
             // Create the data objects
             foreach ($this->parserStruct['functions'] as $function) {
                 // Create the needed parameter objects
-                $params = array();
+                $params = [];
                 foreach ($function[2] as $param) {
                     $params[] = new Variable($param[1], $param[0]);
                 }
@@ -515,13 +515,13 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         } // If there is no interface, we maybe need to store a class
         else if ($this->parserStruct['class'] !== null) {
             // Init data storage
-            $functions = array();
-            $attributes = array();
+            $functions = [];
+            $attributes = [];
 
             // Create the data objects
             foreach ($this->parserStruct['functions'] as $function) {
                 // Create the needed parameter objects
-                $params = array();
+                $params = [];
                 foreach ($function[2] as $param) {
                     $params[] = new Variable($param[1], $param[0]);
                 }
@@ -566,7 +566,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
     private function fixObjectConnections()
     {
         foreach ($this->classes as $class) {
-            $implements = array();
+            $implements = [];
             foreach ($class->implements as $key => $impl) {
                 $implements[$key] = array_key_exists($impl, $this->interfaces)
                     ? $this->interfaces[$impl]
