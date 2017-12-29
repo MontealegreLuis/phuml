@@ -56,7 +56,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
             // Loop through all tokens
             foreach ($tokens as $token) {
                 // Split into Simple and complex token
-                if (is_array($token) !== true) {
+                if (!is_array($token)) {
                     switch ($token) {
                         case ',':
                             $this->comma();
@@ -77,7 +77,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             // Ignore everything else
                             $this->lastToken = null;
                     }
-                } else if (is_array($token) === true) {
+                } else {
                     switch ($token[0]) {
                         case T_WHITESPACE:
                             $this->t_whitespace($token);
@@ -185,42 +185,78 @@ class plStructureTokenparserGenerator extends plStructureGenerator
 
     private function closing_bracket()
     {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // The function declaration has been closed
+        if ($this->lastToken === T_FUNCTION) {
+            // The function declaration has been closed
 
-                // Add the current function
-                $this->parserStruct['functions'][] = [
-                    $this->parserStruct['function'],
-                    $this->parserStruct['modifier'],
-                    $this->parserStruct['params'],
-                    $this->parserStruct['docblock']
-                ];
-                // Reset the last token
-                $this->lastToken = null;
-                //Reset the modifier state
-                $this->parserStruct['modifier'] = 'public';
-                // Reset the params array
-                $this->parserStruct['params'] = [];
-                $this->parserStruct['typehint'] = null;
-                // Reset the function name
-                $this->parserStruct['function'] = null;
-                // Reset the docblock
-                $this->parserStruct['docblock'] = null;
-                break;
-            default:
-                $this->lastToken = null;
+            // Add the current function
+            $this->parserStruct['functions'][] = [
+                $this->parserStruct['function'],
+                $this->parserStruct['modifier'],
+                $this->parserStruct['params'],
+                $this->parserStruct['docblock']
+            ];
+            // Reset the last token
+            $this->lastToken = null;
+            //Reset the modifier state
+            $this->parserStruct['modifier'] = 'public';
+            // Reset the params array
+            $this->parserStruct['params'] = [];
+            $this->parserStruct['typehint'] = null;
+            // Reset the function name
+            $this->parserStruct['function'] = null;
+            // Reset the docblock
+            $this->parserStruct['docblock'] = null;
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function equal_sign()
     {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // just ignore the equal sign
-                break;
-            default:
-                $this->lastToken = null;
+        if ($this->lastToken !== T_FUNCTION) {
+            $this->lastToken = null;
+        }
+    }
+
+    private function t_var()
+    {
+        if ($this->lastToken !== T_FUNCTION) {
+            $this->lastToken = null;
+        }
+    }
+
+    private function t_array()
+    {
+        if ($this->lastToken !== T_FUNCTION) {
+            $this->lastToken = null;
+        }
+    }
+
+    private function t_constant_encapsed_string()
+    {
+        if ($this->lastToken !== T_FUNCTION) {
+            $this->lastToken = null;
+        }
+    }
+
+    private function t_lnumber()
+    {
+        if ($this->lastToken !== T_FUNCTION) {
+            $this->lastToken = null;
+        }
+    }
+
+    private function t_dnumber()
+    {
+        if ($this->lastToken !== T_FUNCTION) {
+            $this->lastToken = null;
+        }
+    }
+
+    private function t_paamayim_neukudotayim()
+    {
+        if ($this->lastToken !== T_FUNCTION) {
+            $this->lastToken = null;
         }
     }
 
@@ -237,17 +273,6 @@ class plStructureTokenparserGenerator extends plStructureGenerator
             case T_PROTECTED:
             case T_PRIVATE:
                 $this->lastToken = $token[0];
-                break;
-            default:
-                $this->lastToken = null;
-        }
-    }
-
-    private function t_var()
-    {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // just ignore the T_VAR
                 break;
             default:
                 $this->lastToken = null;
@@ -277,61 +302,6 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                     $token[1]
                 ];
                 break;
-        }
-    }
-
-    private function t_array()
-    {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // just ignore the T_ARRAY
-                break;
-            default:
-                $this->lastToken = null;
-        }
-    }
-
-    private function t_constant_encapsed_string()
-    {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // just ignore the T_CONSTANT_ENCAPSED_STRING
-                break;
-            default:
-                $this->lastToken = null;
-        }
-    }
-
-    private function t_lnumber()
-    {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // just ignore the T_LNUMBER
-                break;
-            default:
-                $this->lastToken = null;
-        }
-    }
-
-    private function t_dnumber()
-    {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // just ignore the T_DNUMBER
-                break;
-            default:
-                $this->lastToken = null;
-        }
-    }
-
-    private function t_paamayim_neukudotayim()
-    {
-        switch ($this->lastToken) {
-            case T_FUNCTION:
-                // just ignore the T_PAAMAYIM_NEKUDOTAYIM
-                break;
-            default:
-                $this->lastToken = null;
         }
     }
 
@@ -380,107 +350,91 @@ class plStructureTokenparserGenerator extends plStructureGenerator
 
     private function t_interface($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                // New initial interface token
-                // Store the class or interface definition if there is any in the
-                // parser arrays ( There might be more than one class/interface per
-                // file )
-                $this->storeClassOrInterface();
+        if ($this->lastToken === null) {
+            // New initial interface token
+            // Store the class or interface definition if there is any in the
+            // parser arrays ( There might be more than one class/interface per
+            // file )
+            $this->storeClassOrInterface();
 
-                // Remember the last token
-                $this->lastToken = $token[0];
-                break;
-            default:
-                $this->lastToken = null;
+            // Remember the last token
+            $this->lastToken = $token[0];
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function t_class($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                // New initial interface token
-                // Store the class or interface definition if there is any in the
-                // parser arrays ( There might be more than one class/interface per
-                // file )
-                $this->storeClassOrInterface();
+        if ($this->lastToken === null) {
+            // New initial interface token
+            // Store the class or interface definition if there is any in the
+            // parser arrays ( There might be more than one class/interface per
+            // file )
+            $this->storeClassOrInterface();
 
-                // Remember the last token
-                $this->lastToken = $token[0];
-                break;
-            default:
-                $this->lastToken = null;
+            // Remember the last token
+            $this->lastToken = $token[0];
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function t_implements($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                $this->lastToken = $token[0];
-                break;
-            default:
-                $this->lastToken = null;
+        if ($this->lastToken === null) {
+            $this->lastToken = $token[0];
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function t_extends($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                $this->lastToken = $token[0];
-                break;
-            default:
-                $this->lastToken = null;
+        if ($this->lastToken === null) {
+            $this->lastToken = $token[0];
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function t_public($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                $this->lastToken = $token[0];
-                $this->parserStruct['modifier'] = $token[1];
-                break;
-            default:
-                $this->lastToken = null;
+        if ($this->lastToken === null) {
+            $this->lastToken = $token[0];
+            $this->parserStruct['modifier'] = $token[1];
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function t_protected($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                $this->lastToken = $token[0];
-                $this->parserStruct['modifier'] = $token[1];
-                break;
-            default:
-                $this->lastToken = null;
+        if ($this->lastToken === null) {
+            $this->lastToken = $token[0];
+            $this->parserStruct['modifier'] = $token[1];
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function t_private($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                $this->lastToken = $token[0];
-                $this->parserStruct['modifier'] = $token[1];
-                break;
-            default:
-                $this->lastToken = null;
+        if ($this->lastToken === null) {
+            $this->lastToken = $token[0];
+            $this->parserStruct['modifier'] = $token[1];
+        } else {
+            $this->lastToken = null;
         }
     }
 
     private function t_doc_comment($token)
     {
-        switch ($this->lastToken) {
-            case null:
-                $this->parserStruct['docblock'] = $token[1];
-                break;
-            default:
-                $this->lastToken = null;
-                $this->parserStruct['docblock'] = null;
+        if ($this->lastToken === null) {
+            $this->parserStruct['docblock'] = $token[1];
+        } else {
+            $this->lastToken = null;
+            $this->parserStruct['docblock'] = null;
         }
     }
 
