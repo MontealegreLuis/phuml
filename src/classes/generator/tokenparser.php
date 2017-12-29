@@ -20,32 +20,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
     /** @var int */
     private $lastToken;
 
-    private function initGlobalAttributes()
-    {
-        $this->classes = [];
-        $this->interfaces = [];
-    }
-
-    private function initParserAttributes()
-    {
-        $this->parserStruct = [
-            'class' => null,
-            'interface' => null,
-            'function' => null,
-            'attributes' => [],
-            'functions' => [],
-            'typehint' => null,
-            'params' => [],
-            'implements' => [],
-            'extends' => null,
-            'modifier' => 'public',
-            'docblock' => null,
-        ];
-
-        $this->lastToken = [];
-    }
-
-    public function createStructure(array $files)
+    public function createStructure(array $files): array
     {
         $this->initGlobalAttributes();
 
@@ -59,14 +34,14 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                 if (!is_array($token)) {
                     switch ($token) {
                         case ',':
-                            $this->comma();
+                            $this->resetTypeHint();
                             break;
 
                         case '(':
                             break;
 
                         case ')':
-                            $this->closing_bracket();
+                            $this->saveMethodDefinition();
                             break;
 
                         case '=':
@@ -82,7 +57,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_FUNCTION:
-                            $this->t_function($token);
+                            $this->startMethodDefinition($token);
                             break;
 
                         case T_VAR:
@@ -95,11 +70,11 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_VARIABLE:
-                            $this->t_variable($token);
+                            $this->saveAttributeOrParameter($token);
                             break;
 
                         case T_STRING:
-                            $this->t_string($token);
+                            $this->saveIdentifier($token);
                             break;
 
                         case T_INTERFACE:
@@ -119,7 +94,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_DOC_COMMENT:
-                            $this->t_doc_comment($token);
+                            $this->saveDocBlock($token);
                             break;
 
                         default:
@@ -143,13 +118,37 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         return array_merge($this->classes, $this->interfaces);
     }
 
-    private function comma()
+    private function initGlobalAttributes(): void
     {
-        // Reset typehints on each comma
+        $this->classes = [];
+        $this->interfaces = [];
+    }
+
+    private function initParserAttributes(): void
+    {
+        $this->parserStruct = [
+            'class' => null,
+            'interface' => null,
+            'function' => null,
+            'attributes' => [],
+            'functions' => [],
+            'typehint' => null,
+            'params' => [],
+            'implements' => [],
+            'extends' => null,
+            'modifier' => 'public',
+            'docblock' => null,
+        ];
+
+        $this->lastToken = [];
+    }
+
+    private function resetTypeHint(): void
+    {
         $this->parserStruct['typehint'] = null;
     }
 
-    private function closing_bracket()
+    private function saveMethodDefinition(): void
     {
         if ($this->lastToken === T_FUNCTION) {
             // The function declaration has been closed
@@ -184,7 +183,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_function($token)
+    private function startMethodDefinition($token): void
     {
         switch ($this->lastToken) {
             case null:
@@ -198,7 +197,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_variable($token)
+    private function saveAttributeOrParameter($token): void
     {
         switch ($this->lastToken) {
             case T_PUBLIC:
@@ -224,7 +223,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_string($token)
+    private function saveIdentifier($token): void
     {
         switch ($this->lastToken) {
             case T_IMPLEMENTS:
@@ -302,7 +301,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_doc_comment($token)
+    private function saveDocBlock($token): void
     {
         if ($this->lastToken === null) {
             $this->parserStruct['docblock'] = $token[1];
@@ -312,7 +311,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function storeClassOrInterface()
+    private function storeClassOrInterface(): void
     {
         // First we need to check if we should store interface data found so far
         if ($this->parserStruct['interface'] !== null) {
@@ -391,7 +390,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         $this->initParserAttributes();
     }
 
-    private function fixObjectConnections()
+    private function fixObjectConnections(): void
     {
         foreach ($this->classes as $class) {
             $implements = [];
