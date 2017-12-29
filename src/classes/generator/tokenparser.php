@@ -63,7 +63,6 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case '(':
-                            $this->opening_bracket();
                             break;
 
                         case ')':
@@ -80,7 +79,6 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                 } else {
                     switch ($token[0]) {
                         case T_WHITESPACE:
-                            $this->t_whitespace($token);
                             break;
 
                         case T_FUNCTION:
@@ -151,11 +149,6 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         $this->parserStruct['typehint'] = null;
     }
 
-    private function opening_bracket()
-    {
-        // Ignore opening brackets
-    }
-
     private function closing_bracket()
     {
         if ($this->lastToken === T_FUNCTION) {
@@ -189,11 +182,6 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         if ($this->lastToken !== T_FUNCTION) {
             $this->lastToken = null;
         }
-    }
-
-    private function t_whitespace($token)
-    {
-        // Ignore whitespaces
     }
 
     private function t_function($token)
