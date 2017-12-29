@@ -115,15 +115,9 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_PUBLIC:
-                            $this->t_public($token);
-                            break;
-
                         case T_PROTECTED:
-                            $this->t_protected($token);
-                            break;
-
                         case T_PRIVATE:
-                            $this->t_private($token);
+                            $this->saveModifier($token);
                             break;
 
                         case T_DOC_COMMENT:
@@ -310,27 +304,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_public($token)
-    {
-        if ($this->lastToken === null) {
-            $this->lastToken = $token[0];
-            $this->parserStruct['modifier'] = $token[1];
-        } else {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_protected($token)
-    {
-        if ($this->lastToken === null) {
-            $this->lastToken = $token[0];
-            $this->parserStruct['modifier'] = $token[1];
-        } else {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_private($token)
+    private function saveModifier($token): void
     {
         if ($this->lastToken === null) {
             $this->lastToken = $token[0];
