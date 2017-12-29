@@ -8,17 +8,17 @@ use PhUml\Code\Variable;
 
 class plStructureTokenparserGenerator extends plStructureGenerator
 {
+    /** @var ClassDefinition[] */
     private $classes;
+
+    /** @var InterfaceDefinition[] */
     private $interfaces;
 
+    /** @var array */
     private $parserStruct;
-    private $lastToken;
 
-    public function __construct()
-    {
-        $this->initGlobalAttributes();
-        $this->initParserAttributes();
-    }
+    /** @var int */
+    private $lastToken;
 
     private function initGlobalAttributes()
     {
@@ -88,7 +88,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_VAR:
-                            $this->t_var($token);
+                            $this->t_var();
                             break;
 
                         case T_VARIABLE:
@@ -96,23 +96,23 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_ARRAY:
-                            $this->t_array($token);
+                            $this->t_array();
                             break;
 
                         case T_CONSTANT_ENCAPSED_STRING:
-                            $this->t_constant_encapsed_string($token);
+                            $this->t_constant_encapsed_string();
                             break;
 
                         case T_LNUMBER:
-                            $this->t_lnumber($token);
+                            $this->t_lnumber();
                             break;
 
                         case T_DNUMBER:
-                            $this->t_dnumber($token);
+                            $this->t_dnumber();
                             break;
 
                         case T_PAAMAYIM_NEKUDOTAYIM:
-                            $this->t_paamayim_neukudotayim($token);
+                            $this->t_paamayim_neukudotayim();
                             break;
 
                         case T_STRING:
@@ -243,7 +243,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_var($token)
+    private function t_var()
     {
         switch ($this->lastToken) {
             case T_FUNCTION:
@@ -280,7 +280,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_array($token)
+    private function t_array()
     {
         switch ($this->lastToken) {
             case T_FUNCTION:
@@ -291,7 +291,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_constant_encapsed_string($token)
+    private function t_constant_encapsed_string()
     {
         switch ($this->lastToken) {
             case T_FUNCTION:
@@ -302,7 +302,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_lnumber($token)
+    private function t_lnumber()
     {
         switch ($this->lastToken) {
             case T_FUNCTION:
@@ -313,7 +313,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_dnumber($token)
+    private function t_dnumber()
     {
         switch ($this->lastToken) {
             case T_FUNCTION:
@@ -324,7 +324,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_paamayim_neukudotayim($token)
+    private function t_paamayim_neukudotayim()
     {
         switch ($this->lastToken) {
             case T_FUNCTION:
