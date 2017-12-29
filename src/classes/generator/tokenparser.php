@@ -71,7 +71,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case '=':
-                            $this->equal_sign();
+                            $this->resetToken();
                             break;
                         default:
                             // Ignore everything else
@@ -88,31 +88,16 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_VAR:
-                            $this->t_var();
+                        case T_ARRAY:
+                        case T_CONSTANT_ENCAPSED_STRING:
+                        case T_LNUMBER:
+                        case T_DNUMBER:
+                        case T_PAAMAYIM_NEKUDOTAYIM:
+                            $this->resetToken();
                             break;
 
                         case T_VARIABLE:
                             $this->t_variable($token);
-                            break;
-
-                        case T_ARRAY:
-                            $this->t_array();
-                            break;
-
-                        case T_CONSTANT_ENCAPSED_STRING:
-                            $this->t_constant_encapsed_string();
-                            break;
-
-                        case T_LNUMBER:
-                            $this->t_lnumber();
-                            break;
-
-                        case T_DNUMBER:
-                            $this->t_dnumber();
-                            break;
-
-                        case T_PAAMAYIM_NEKUDOTAYIM:
-                            $this->t_paamayim_neukudotayim();
                             break;
 
                         case T_STRING:
@@ -211,49 +196,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function equal_sign()
-    {
-        if ($this->lastToken !== T_FUNCTION) {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_var()
-    {
-        if ($this->lastToken !== T_FUNCTION) {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_array()
-    {
-        if ($this->lastToken !== T_FUNCTION) {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_constant_encapsed_string()
-    {
-        if ($this->lastToken !== T_FUNCTION) {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_lnumber()
-    {
-        if ($this->lastToken !== T_FUNCTION) {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_dnumber()
-    {
-        if ($this->lastToken !== T_FUNCTION) {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_paamayim_neukudotayim()
+    private function resetToken(): void
     {
         if ($this->lastToken !== T_FUNCTION) {
             $this->lastToken = null;
