@@ -105,11 +105,8 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_INTERFACE:
-                            $this->t_interface($token);
-                            break;
-
                         case T_CLASS:
-                            $this->t_class($token);
+                            $this->startClassOrInterfaceDefinition($token);
                             break;
 
                         case T_IMPLEMENTS:
@@ -291,26 +288,10 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_interface($token)
+    private function startClassOrInterfaceDefinition($token): void
     {
         if ($this->lastToken === null) {
-            // New initial interface token
-            // Store the class or interface definition if there is any in the
-            // parser arrays ( There might be more than one class/interface per
-            // file )
-            $this->storeClassOrInterface();
-
-            // Remember the last token
-            $this->lastToken = $token[0];
-        } else {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_class($token)
-    {
-        if ($this->lastToken === null) {
-            // New initial interface token
+            // New initial interface or class token
             // Store the class or interface definition if there is any in the
             // parser arrays ( There might be more than one class/interface per
             // file )
