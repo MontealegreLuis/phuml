@@ -110,11 +110,8 @@ class plStructureTokenparserGenerator extends plStructureGenerator
                             break;
 
                         case T_IMPLEMENTS:
-                            $this->t_implements($token);
-                            break;
-
                         case T_EXTENDS:
-                            $this->t_extends($token);
+                            $this->startExtendsOrImplementsDeclaration($token);
                             break;
 
                         case T_PUBLIC:
@@ -304,16 +301,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
         }
     }
 
-    private function t_implements($token)
-    {
-        if ($this->lastToken === null) {
-            $this->lastToken = $token[0];
-        } else {
-            $this->lastToken = null;
-        }
-    }
-
-    private function t_extends($token)
+    private function startExtendsOrImplementsDeclaration($token): void
     {
         if ($this->lastToken === null) {
             $this->lastToken = $token[0];
