@@ -42,7 +42,7 @@ class plStatisticsProcessor extends plProcessor
         $this->information['privateTypedAttributes']   = 0;
 
         // Loop through the classes and interfaces
-        foreach ( $input as $definition )
+        foreach ( $input->definitions() as $definition )
         {
             if ( $definition instanceof InterfaceDefinition )
             {

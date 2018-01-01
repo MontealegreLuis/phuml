@@ -33,7 +33,9 @@ class MyClass
 CLASS;
         $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
 
-        $this->assertEquals(['MyClass' => new ClassDefinition('MyClass')], $structure);
+        $class = new ClassDefinition('MyClass');
+        $this->assertTrue($structure->has('MyClass'));
+        $this->assertEquals($class, $structure->get('MyClass'));
     }
 
     /** @test */
@@ -50,11 +52,13 @@ class MyClass
 CLASS;
         $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
 
-        $this->assertEquals(['MyClass' => new ClassDefinition('MyClass', [
+        $class = new ClassDefinition('MyClass', [
             new Attribute('$name', 'private'),
             new Attribute('$age', 'protected'),
             new Attribute('$phone'),
-        ])], $structure);
+        ]);
+        $this->assertTrue($structure->has('MyClass'));
+        $this->assertEquals($class, $structure->get('MyClass'));
     }
 
     /** @test */
@@ -82,11 +86,13 @@ class MyClass
 CLASS;
         $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
 
-        $this->assertEquals(['MyClass' => new ClassDefinition('MyClass', [
+        $class = new ClassDefinition('MyClass', [
             new Attribute('$names', 'private', 'string'),
             new Attribute('$age', 'protected', 'int'),
             new Attribute('$phones', 'public', 'string'),
-        ])], $structure);
+        ]);
+        $this->assertTrue($structure->has('MyClass'));
+        $this->assertEquals($class, $structure->get('MyClass'));
     }
 
     /** @test */
@@ -110,11 +116,13 @@ class MyClass
 CLASS;
         $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
 
-        $this->assertEquals(['MyClass' => new ClassDefinition('MyClass', [], [
+        $class = new ClassDefinition('MyClass', [], [
             new Method('changeName', 'private', [new Variable('$newName', new TypeDeclaration('string'))]),
             new Method('getAge', 'protected'),
             new Method('formatPhone', 'public', [new Variable('$format', new TypeDeclaration('string'))]),
-        ])], $structure);
+        ]);
+        $this->assertTrue($structure->has('MyClass'));
+        $this->assertEquals($class, $structure->get('MyClass'));
     }
 
     /** @test */
@@ -134,14 +142,16 @@ class MyClass
 CLASS;
         $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
 
-        $this->assertEquals(['MyClass' => new ClassDefinition('MyClass', [], [
+        $class = new ClassDefinition('MyClass', [], [
             new Method('__construct'),
             new Method('changeValues', 'public', [
                 new Variable('$name', 'string'),
                 new Variable('$age', 'int'),
                 new Variable('$phone', 'string'),
             ])
-        ])], $structure);
+        ]);
+        $this->assertTrue($structure->has('MyClass'));
+        $this->assertEquals($class, $structure->get('MyClass'));
     }
 
     /** @test */
@@ -165,10 +175,12 @@ CLASS;
         ]);
 
         $parentClass = new ClassDefinition('ParentClass');
-        $this->assertEquals([
-            'ParentClass' => $parentClass,
-            'ChildClass' => new ClassDefinition('ChildClass', [], [], [], $parentClass)
-        ], $structure);
+        $childClass = new ClassDefinition('ChildClass', [], [], [], $parentClass);
+
+        $this->assertTrue($structure->has('ParentClass'));
+        $this->assertEquals($parentClass, $structure->get('ParentClass'));
+        $this->assertTrue($structure->has('ChildClass'));
+        $this->assertEquals($childClass, $structure->get('ChildClass'));
     }
 
     /** @test */
@@ -200,11 +212,14 @@ CLASS;
 
         $interfaceOne = new InterfaceDefinition('InterfaceOne');
         $interfaceTwo = new InterfaceDefinition('InterfaceTwo');
-        $this->assertEquals([
-            'MyClass' => new ClassDefinition('MyClass', [], [], [$interfaceOne, $interfaceTwo]),
-            'InterfaceOne' => new InterfaceDefinition('InterfaceOne'),
-            'InterfaceTwo' => new InterfaceDefinition('InterfaceTwo')
-        ], $structure);
+        $class = new ClassDefinition('MyClass', [], [], [$interfaceOne, $interfaceTwo]);
+
+        $this->assertTrue($structure->has('InterfaceOne'));
+        $this->assertEquals($interfaceOne, $structure->get('InterfaceOne'));
+        $this->assertTrue($structure->has('InterfaceTwo'));
+        $this->assertEquals($interfaceTwo, $structure->get('InterfaceTwo'));
+        $this->assertTrue($structure->has('MyClass'));
+        $this->assertEquals($class, $structure->get('MyClass'));
     }
 
     /** @test */
@@ -220,14 +235,16 @@ interface MyInterface
 INTERFACE;
         $structure = $this->parser->createStructure([$this->buildDefinition('MyInterface', $interface)]);
 
-        $this->assertEquals(['MyInterface' => new InterfaceDefinition('MyInterface', [
+        $interface = new InterfaceDefinition('MyInterface', [
             new Method('changeValues', 'public', [
                 new Variable('$name', 'string'),
                 new Variable('$age', 'int'),
                 new Variable('$phone', 'string'),
             ]),
             new Method('ageToMonths', 'public')
-        ])], $structure);
+        ]);
+        $this->assertTrue($structure->has('MyInterface'));
+        $this->assertEquals($interface, $structure->get('MyInterface'));
     }
 
     /** @test */
@@ -251,10 +268,11 @@ INTERFACE;
         ]);
 
         $parentInterface = new InterfaceDefinition('ParentInterface');
-        $this->assertEquals([
-            'ParentInterface' => $parentInterface,
-            'ChildInterface' => new InterfaceDefinition('ChildInterface', [], $parentInterface)
-        ], $structure);
+        $childInterface = new InterfaceDefinition('ChildInterface', [], $parentInterface);
+        $this->assertTrue($structure->has('ParentInterface'));
+        $this->assertEquals($parentInterface, $structure->get('ParentInterface'));
+        $this->assertTrue($structure->has('ChildInterface'));
+        $this->assertEquals($childInterface, $structure->get('ChildInterface'));
     }
 
     /** @test */
@@ -363,26 +381,32 @@ CLASS;
         $students = new InterfaceDefinition('Students', [
             new Method('named', 'public', [new Variable('$name', 'string')]),
         ], $pageable);
-        $this->assertEquals([
-            'User' => $user,
-            'Student' => new ClassDefinition('Student', [
-                new Attribute('$grades', 'private', 'string')
-            ], [
-                new Method('__construct', 'public', [new Variable('$name', 'string')]),
-            ], [], $user),
-            'InMemoryStudents' => new ClassDefinition('InMemoryStudents', [
-                new Attribute('$students', 'private', 'Student'),
-                new Attribute('$page', 'private'),
-            ], [
-                new Method('__construct', 'public', [new Variable('$page', 'Page')]),
-                new Method('current'),
-                new Method('named', 'public', [new Variable('$name', 'string')]),
-            ], [
-                $students,
-            ]),
-            'Pageable' => $pageable,
-            'Students' => $students,
-        ], $structure);
+        $student = new ClassDefinition('Student', [
+            new Attribute('$grades', 'private', 'string')
+        ], [
+            new Method('__construct', 'public', [new Variable('$name', 'string')]),
+        ], [], $user);
+        $inMemoryStudents = new ClassDefinition('InMemoryStudents', [
+            new Attribute('$students', 'private', 'Student'),
+            new Attribute('$page', 'private'),
+        ], [
+            new Method('__construct', 'public', [new Variable('$page', 'Page')]),
+            new Method('current'),
+            new Method('named', 'public', [new Variable('$name', 'string')]),
+        ], [
+            $students,
+        ]);
+
+        $this->assertTrue($structure->has('User'));
+        $this->assertEquals($user, $structure->get('User'));
+        $this->assertTrue($structure->has('Student'));
+        $this->assertEquals($student, $structure->get('Student'));
+        $this->assertTrue($structure->has('InMemoryStudents'));
+        $this->assertEquals($inMemoryStudents, $structure->get('InMemoryStudents'));
+        $this->assertTrue($structure->has('Pageable'));
+        $this->assertEquals($pageable, $structure->get('Pageable'));
+        $this->assertTrue($structure->has('Students'));
+        $this->assertEquals($students, $structure->get('Students'));
     }
 
     private function buildDefinition(string $classOrInterface, string $code): string

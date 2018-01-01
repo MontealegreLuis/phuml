@@ -4,11 +4,11 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
 namespace PhUml\Graphviz;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Structure;
 
 class Digraph implements HasDotRepresentation
 {
@@ -30,9 +30,9 @@ class Digraph implements HasDotRepresentation
         $this->classElements = $classElements;
     }
 
-    public function fromCodeStructure(array $structure): void
+    public function fromCodeStructure(Structure $structure): void
     {
-        foreach ($structure as $definition) {
+        foreach ($structure->definitions() as $definition) {
             if ($definition instanceof ClassDefinition) {
                 $this->classElementsFrom($definition, $structure);
             } else if ($definition instanceof InterfaceDefinition) {
@@ -41,7 +41,7 @@ class Digraph implements HasDotRepresentation
         }
     }
 
-    private function classElementsFrom(ClassDefinition $class, array $structure): void
+    private function classElementsFrom(ClassDefinition $class, Structure $structure): void
     {
         $this->dotElements = array_merge($this->dotElements, $this->classElements->extractFrom($class, $structure));
     }

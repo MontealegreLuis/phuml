@@ -6,8 +6,13 @@
  */
 namespace PhUml\Code;
 
-class Definition
+use PhUml\Graphviz\HasNodeIdentifier;
+use PhUml\Graphviz\ObjectHashIdentifier;
+
+class Definition implements HasNodeIdentifier
 {
+    use ObjectHashIdentifier;
+
     /** @var string */
     public $name;
 

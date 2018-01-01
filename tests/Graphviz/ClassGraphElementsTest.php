@@ -12,6 +12,7 @@ use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
+use PhUml\Code\Structure;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 
@@ -24,7 +25,7 @@ class ClassGraphElementsTest extends TestCase
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, new ClassNameLabelBuilder());
 
-        $dotElements = $graphElements->extractFrom($class, []);
+        $dotElements = $graphElements->extractFrom($class, new Structure());
 
         $this->assertEquals([new Node($class, $label)], $dotElements);
     }
@@ -38,7 +39,7 @@ class ClassGraphElementsTest extends TestCase
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
-        $dotElements = $graphElements->extractFrom($class, []);
+        $dotElements = $graphElements->extractFrom($class, new Structure());
 
         $this->assertEquals([
             new Node($class, $label),
@@ -59,7 +60,7 @@ class ClassGraphElementsTest extends TestCase
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
-        $dotElements = $graphElements->extractFrom($class, []);
+        $dotElements = $graphElements->extractFrom($class, new Structure());
 
         $this->assertEquals([
             new Node($class, $label),
@@ -80,8 +81,10 @@ class ClassGraphElementsTest extends TestCase
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(true, $nodeBuilder);
+        $structure = new Structure();
+        $structure->addClass($reference);
 
-        $dotElements = $graphElements->extractFrom($class, [$reference->name => $reference]);
+        $dotElements = $graphElements->extractFrom($class, $structure);
 
         $this->assertEquals([
             Edge::association($reference, $class),
@@ -102,11 +105,11 @@ class ClassGraphElementsTest extends TestCase
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(true, $nodeBuilder);
+        $structure = new Structure();
+        $structure->addClass($firstReference);
+        $structure->addClass($secondReference);
 
-        $dotElements = $graphElements->extractFrom($class, [
-            $firstReference->name => $firstReference,
-            $secondReference->name => $secondReference,
-        ]);
+        $dotElements = $graphElements->extractFrom($class, $structure);
 
         $this->assertEquals([
             Edge::association($firstReference, $class),
@@ -146,13 +149,13 @@ class ClassGraphElementsTest extends TestCase
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(true, $nodeBuilder);
+        $structure = new Structure();
+        $structure->addClass($firstReference);
+        $structure->addClass($secondReference);
+        $structure->addClass($thirdReference);
+        $structure->addClass($fourthReference);
 
-        $dotElements = $graphElements->extractFrom($class, [
-            $firstReference->name => $firstReference,
-            $secondReference->name => $secondReference,
-            $thirdReference->name => $thirdReference,
-            $fourthReference->name => $fourthReference,
-        ]);
+        $dotElements = $graphElements->extractFrom($class, $structure);
 
         $this->assertEquals([
             Edge::association($firstReference, $class),
@@ -185,7 +188,7 @@ class ClassGraphElementsTest extends TestCase
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
         $graphElements = new ClassGraphElements(false, $nodeBuilder);
 
-        $dotElements = $graphElements->extractFrom($class, []);
+        $dotElements = $graphElements->extractFrom($class, new Structure());
 
         $this->assertEquals([new Node($class, $label)], $dotElements);
     }

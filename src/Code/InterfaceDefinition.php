@@ -6,13 +6,8 @@
  */
 namespace PhUml\Code;
 
-use PhUml\Graphviz\HasNodeIdentifier;
-use PhUml\Graphviz\ObjectHashIdentifier;
-
-class InterfaceDefinition extends Definition implements HasNodeIdentifier
+class InterfaceDefinition extends Definition
 {
-    use ObjectHashIdentifier;
-
     public function hasParent(): bool
     {
         return $this->extends !== null;

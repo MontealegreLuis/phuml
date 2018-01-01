@@ -8,6 +8,7 @@
 namespace PhUml\Graphviz;
 
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\Structure;
 use PhUml\Code\Variable;
 
 class ClassGraphElements
@@ -24,7 +25,7 @@ class ClassGraphElements
     /** @var NodeLabelBuilder */
     private $labelBuilder;
 
-    /** @var HasNodeIdentifier[] */
+    /** @var Structure */
     private $structure;
 
     public function __construct(bool $createAssociations, NodeLabelBuilder $labelBuilder)
@@ -34,10 +35,9 @@ class ClassGraphElements
     }
 
     /**
-     * @param HasNodeIdentifier[] $structure
      * @return HasDotRepresentation[]
      */
-    public function extractFrom(ClassDefinition $class, array $structure): array
+    public function extractFrom(ClassDefinition $class, Structure $structure): array
     {
         $this->dotElements = [];
         $this->associations = [];
@@ -84,7 +84,10 @@ class ClassGraphElements
     private function addAssociationForVariable(ClassDefinition $class, Variable $attribute): void
     {
         if ($this->needAssociation($attribute)) {
-            $this->dotElements[] = Edge::association($this->structure[(string)$attribute->type], $class);
+            $this->dotElements[] = Edge::association(
+                $this->structure->get((string)$attribute->type),
+                $class
+            );
             $this->associations[strtolower($attribute->type)] = true;
         }
     }

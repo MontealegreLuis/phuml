@@ -6,6 +6,8 @@
  */
 namespace PhUml\Parser;
 
+use PhUml\Code\Structure;
+
 class TokenParser
 {
     /** @var array */
@@ -33,7 +35,7 @@ class TokenParser
         $this->resolver = $resolver ?? new RelationsResolver();
     }
 
-    public function createStructure(array $files): array
+    public function createStructure(array $files): Structure
     {
         $this->initGlobalAttributes();
         foreach ($files as $file) {
@@ -43,9 +45,7 @@ class TokenParser
             $this->storeClassOrInterface();
         }
         $this->resolver->resolve($this->definitions);
-        $structure = $this->builder->buildFromDefinitions($this->definitions);
-
-        return $structure->definitions();
+        return $this->builder->buildFromDefinitions($this->definitions);
     }
 
     private function process(array $tokens): void

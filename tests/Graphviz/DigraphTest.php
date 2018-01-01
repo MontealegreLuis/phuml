@@ -8,6 +8,7 @@ namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Method;
+use PhUml\Code\Structure;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
@@ -22,8 +23,10 @@ class DigraphTest extends TestCase
         $interfaceElements = new InterfaceGraphElements($labelBuilder);
         $classElements = new ClassGraphElements(true, $labelBuilder);
         $digraph = new Digraph($interfaceElements, $classElements);
+        $structure = new Structure();
+        $structure->addClass(new NumericIdClass('TestClass'));
 
-        $digraph->fromCodeStructure([new NumericIdClass('TestClass')]);
+        $digraph->fromCodeStructure($structure);
 
         $dotLanguage = $digraph->toDotLanguage();
 
@@ -54,32 +57,33 @@ mindist = 0.6;
                 new Variable('aReference', 'AReference')
             ])
         ], [$childInterface, $anotherInterface], $parentClass);
-        $digraph->fromCodeStructure([
-            $referenceClass->name => $referenceClass,
-            $parentInterface->name => $parentInterface,
-            $childInterface->name => $childInterface,
-            $anotherInterface->name => $anotherInterface,
-            $parentClass->name => $parentClass,
-            $testClass->name => $testClass,
-        ]);
+        $structure = new Structure();
+        $structure->addClass($referenceClass);
+        $structure->addInterface($parentInterface);
+        $structure->addInterface($childInterface);
+        $structure->addInterface($anotherInterface);
+        $structure->addClass($parentClass);
+        $structure->addClass($testClass);
+        $digraph->fromCodeStructure($structure);
 
         $dotLanguage = $digraph->toDotLanguage();
+
         $this->assertRegExp('/^digraph "([0-9a-f]){40}"/', $dotLanguage);
         $this->assertStringEndsWith(' {
 splines = true;
 overlap = false;
 mindist = 0.6;
 "103" [label=<<table><tr><td>AReference</td></tr></table>> shape=plaintext]
-"1" [label=<<table><tr><td>ParentInterface</td></tr></table>> shape=plaintext]
-"2" [label=<<table><tr><td>ChildInterface</td></tr></table>> shape=plaintext]
-"1" -> "2" [dir=back arrowtail=empty style=solid]
-"3" [label=<<table><tr><td>AnotherInterface</td></tr></table>> shape=plaintext]
 "102" [label=<<table><tr><td>ParentClass</td></tr></table>> shape=plaintext]
 "103" -> "104" [dir=back arrowtail=none style=dashed]
 "104" [label=<<table><tr><td>TestClass</td></tr></table>> shape=plaintext]
 "102" -> "104" [dir=back arrowtail=empty style=solid]
 "2" -> "104" [dir=back arrowtail=normal style=dashed]
 "3" -> "104" [dir=back arrowtail=normal style=dashed]
+"1" [label=<<table><tr><td>ParentInterface</td></tr></table>> shape=plaintext]
+"2" [label=<<table><tr><td>ChildInterface</td></tr></table>> shape=plaintext]
+"1" -> "2" [dir=back arrowtail=empty style=solid]
+"3" [label=<<table><tr><td>AnotherInterface</td></tr></table>> shape=plaintext]
 }', $dotLanguage);
     }
 }
