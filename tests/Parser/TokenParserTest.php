@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Attribute;
@@ -13,12 +14,12 @@ use PhUml\Code\Method;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 
-class plStructureTokenparserGeneratorTest extends TestCase
+class TokenParserTest extends TestCase
 {
     /** @before */
     function buildParser()
     {
-        $this->parser = new plStructureTokenparserGenerator();
+        $this->parser = new TokenParser();
     }
 
     /** @test */
@@ -391,6 +392,6 @@ CLASS;
         return $path;
     }
 
-    /** @var plStructureTokenparserGenerator */
+    /** @var TokenParser */
     private $parser;
 }

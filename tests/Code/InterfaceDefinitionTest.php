@@ -94,6 +94,7 @@ class InterfaceDefinitionTest extends TestCase
         $interfaceTwo = new InterfaceDefinition('InterfaceOne');
 
         $this->assertNotEquals($interfaceOne->identifier(), $interfaceTwo->identifier());
+        $this->assertEquals($interfaceOne->identifier(), $interfaceOne->identifier());
+        $this->assertEquals($interfaceTwo->identifier(), $interfaceTwo->identifier());
     }
-
 }

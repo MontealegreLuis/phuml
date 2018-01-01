@@ -4,30 +4,20 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
 namespace PhUml\Code;
 
 use PhUml\Graphviz\HasNodeIdentifier;
 use PhUml\Graphviz\ObjectHashIdentifier;
 
-class ClassDefinition implements HasNodeIdentifier
+class ClassDefinition extends Definition implements HasNodeIdentifier
 {
     use ObjectHashIdentifier;
-
-    /** @var string */
-    public $name;
 
     /** @var Attribute[] */
     public $attributes;
 
-    /** @var Method[] */
-    public $functions;
-
     /** @var InterfaceDefinition[] */
     public $implements;
-
-    /** @var ClassDefinition */
-    public $extends;
 
     public function __construct(
         string $name,
@@ -36,11 +26,9 @@ class ClassDefinition implements HasNodeIdentifier
         array $implements = [],
         $extends = null
     ) {
-        $this->name = $name;
+        parent::__construct($name, $functions, $extends);
         $this->attributes = $attributes;
-        $this->functions = $functions;
         $this->implements = $implements;
-        $this->extends = $extends;
     }
 
     public function hasConstructor(): bool

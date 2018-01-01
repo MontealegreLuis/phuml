@@ -1,6 +1,8 @@
 <?php
 
-class plPhuml 
+use PhUml\Parser\TokenParser;
+
+class plPhuml
 {
     private $properties;
     
@@ -9,11 +11,11 @@ class plPhuml
 
     public function __construct() 
     {
-        $this->properties = array( 
-            'generator'     => plStructureGenerator::factory( 'tokenparser' ),
-        );
+        $this->properties = [
+            'generator'     => new TokenParser()
+        ];
 
-        $this->files = array();
+        $this->files = [];
     }
 
     public function addFile( $file ) 

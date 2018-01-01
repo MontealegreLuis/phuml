@@ -2,6 +2,8 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
 
+use PhUml\Parser\TokenParser;
+
 function showHeader()
 {
     echo <<<HEADER
@@ -189,7 +191,7 @@ $recursive = false;
 $outfile   = 'out';
 
 $phuml            = new plPhuml();
-$phuml->generator = plStructureGenerator::factory( 'tokenparser' );
+$phuml->generator = new TokenParser();
 
 // Remove the application name
 updateArguments( 1 );

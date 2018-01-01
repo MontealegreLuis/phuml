@@ -185,6 +185,8 @@ class ClassDefinitionTest extends TestCase
         $classTwo = new ClassDefinition('ClassOne');
 
         $this->assertNotEquals($classOne->identifier(), $classTwo->identifier());
+        $this->assertEquals($classOne->identifier(), $classOne->identifier());
+        $this->assertEquals($classTwo->identifier(), $classTwo->identifier());
     }
 
     /** @test */
