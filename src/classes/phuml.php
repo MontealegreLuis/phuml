@@ -1,6 +1,8 @@
 <?php
 
 use PhUml\Parser\TokenParser;
+use PhUml\Processors\InvalidInitialProcessor;
+use PhUml\Processors\InvalidProcessorChain;
 
 class plPhuml
 {
@@ -16,6 +18,7 @@ class plPhuml
     public function __construct()
     {
         $this->generator = new TokenParser();
+        $this->processors = [];
         $this->files = [];
     }
 
@@ -35,29 +38,19 @@ class plPhuml
     }
 
     /**
-     * @throws plPhumlInvalidProcessorChainException
+     * @throws InvalidInitialProcessor
+     * @throws InvalidProcessorChain
      */
-    public function addProcessor(plProcessor $processor)
+    public function addProcessor(plProcessor $processor): void
     {
-        if (count($this->processors) === 0) {
-            // First processor must support application/phuml-structure
-            if ('application/phuml-structure' !== $processor->getInputType()) {
-                throw new plPhumlInvalidProcessorChainException('application/phuml-structure', $processor->getInputType());
-            }
-        } else {
-            $this->checkProcessorCompatibility(end($this->processors), $processor);
+        if (count($this->processors) === 0 && !$processor->isInitial()) {
+            throw InvalidInitialProcessor::given($processor);
+        }
+        $lastProcessor = end($this->processors);
+        if (count($this->processors) > 0 && !$lastProcessor->isCompatibleWith($processor)) {
+            throw InvalidProcessorChain::with($lastProcessor, $processor);
         }
         $this->processors[] = $processor;
-    }
-
-    /**
-     * @throws plPhumlInvalidProcessorChainException
-     */
-    private function checkProcessorCompatibility(plProcessor $first, plProcessor $second)
-    {
-        if (!$first->isCompatibleWith($second)) {
-            throw new plPhumlInvalidProcessorChainException($first->getOutputType(), $second->getInputType());
-        }
     }
 
     public function generate($outfile)
@@ -67,11 +60,7 @@ class plPhuml
 
         $input = $structure;
         foreach ($this->processors as $processor) {
-            preg_match(
-                '@^pl([A-Z][a-z]*)Processor$@',
-                get_class($processor),
-                $matches
-            );
+            preg_match('@^pl([A-Z][a-z]*)Processor$@', get_class($processor), $matches);
 
             echo "[|] Running '{$matches[1]}' processor\n";
             $input = $processor->process($input);

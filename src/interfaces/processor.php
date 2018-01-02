@@ -2,6 +2,8 @@
 
 abstract class plProcessor
 {
+    public const INITIAL_INPUT_TYPE = 'application/phuml-structure';
+
     /**
      * @throws plProcessorNotFoundException
      */
@@ -32,6 +34,11 @@ abstract class plProcessor
     public function isCompatibleWith(plProcessor $nextProcessor): bool
     {
         return $this->getOutputType() === $nextProcessor->getInputType();
+    }
+
+    public function isInitial(): bool
+    {
+        return self::INITIAL_INPUT_TYPE === $this->getInputType();
     }
 
     abstract public function getInputType(): string;

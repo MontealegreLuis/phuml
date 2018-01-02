@@ -18,7 +18,7 @@ class PhUmlIncompatibleProcessorsTest extends TestCase
         $incompatibleProcessors = <<<MESSAGE
 phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 A fatal error occured during the process:
-Two processors in the chain are incompatible. The first processor's output is "application/phuml-structure". The next Processor in the queue does only support the following input type: text/dot.
+Given processor does not support input type "application/phuml-structure", input type "text/dot" found
 
 MESSAGE;
 
