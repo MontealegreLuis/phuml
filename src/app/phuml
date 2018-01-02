@@ -154,9 +154,7 @@ function cmdProcessor()
     // We do not need to check for correct options here, because the option
     // will throw an exception if there is something wrong
 
-    $processor = plProcessor::factory(
-        substr( $argv[0], 1 )
-    );
+    $processor = plProcessor::factory(substr( $argv[0], 1 ));
 
     updateArguments( 1 );
 

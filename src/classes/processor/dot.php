@@ -19,7 +19,7 @@ class plDotProcessor extends plExternalCommandProcessor
         return 'image/png';
     }
 
-    public function execute($infile, $outfile, $type)
+    public function execute(string $infile, string $outfile): void
     {
         exec(
             'dot -Tpng -o ' . escapeshellarg($outfile) . ' ' . escapeshellarg($infile),

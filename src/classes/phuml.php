@@ -18,31 +18,18 @@ class plPhuml
         $this->files = [];
     }
 
-    public function addFile($file)
+    public function addDirectory(string $directory, string $extension = 'php', bool $recursive = true)
     {
-        $this->files[] = $file;
-    }
-
-    public function addDirectory($directory, $extension = 'php', $recursive = true)
-    {
-        if ($recursive === false) {
+        if (!$recursive) {
             $iterator = new DirectoryIterator($directory);
         } else {
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($directory)
-            );
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
         }
 
         foreach ($iterator as $entry) {
-            if ($entry->isDir() === true) {
-                continue;
+            if (!$entry->isDir() && $entry->getExtension() === $extension) {
+                $this->files[] = $entry->getPathname();
             }
-
-            if ($sub = strtolower(substr($entry->getFilename(), -1 * strlen($extension))) !== strtolower($extension)) {
-                continue;
-            }
-
-            $this->files[] = $entry->getPathname();
         }
     }
 
@@ -67,7 +54,7 @@ class plPhuml
      */
     private function checkProcessorCompatibility(plProcessor $first, plProcessor $second)
     {
-        if ($first->getOutputType() !== $second->getInputType()) {
+        if (!$first->isCompatibleWith($second)) {
             throw new plPhumlInvalidProcessorChainException($first->getOutputType(), $second->getInputType());
         }
     }
@@ -77,7 +64,7 @@ class plPhuml
         echo "[|] Parsing class structure", "\n";
         $structure = $this->generator->createStructure($this->files);
 
-        $temporary = array($structure, 'application/phuml-structure');
+        $input = $structure;
         foreach ($this->processors as $processor) {
             preg_match(
                 '@^pl([A-Z][a-z]*)Processor$@',
@@ -86,14 +73,11 @@ class plPhuml
             );
 
             echo "[|] Running '" . $matches[1] . "' processor", "\n";
-            $temporary = array(
-                $processor->process($temporary[0], $temporary[1]),
-                $processor->getOutputType(),
-            );
+            $input = $processor->process($input);
         }
 
         echo "[|] Writing generated data to disk", "\n";
-        end($this->processors)->writeToDisk($temporary[0], $outfile);
+        end($this->processors)->writeToDisk($input, $outfile);
     }
 
 
@@ -112,5 +96,4 @@ class plPhuml
         }
         $this->properties[$key] = $val;
     }
-
 }

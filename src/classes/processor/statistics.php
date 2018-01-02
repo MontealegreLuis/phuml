@@ -24,7 +24,7 @@ class plStatisticsProcessor extends plProcessor
         return 'text/plain';
     }
 
-    public function process($input, $type)
+    public function process($input)
     {
         // Initialize the values
         $this->information['interfaceCount'] = 0;

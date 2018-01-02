@@ -1,29 +1,27 @@
 <?php
 
-abstract class plExternalCommandProcessor extends plProcessor 
+abstract class plExternalCommandProcessor extends plProcessor
 {
 
-    abstract public function execute( $infile, $outfile, $type );
+    abstract public function execute(string $infile, string $outfile): void;
 
-    public function process( $input, $type ) 
+    public function process($input)
     {
         // Create temporary datafiles
-        $infile  = tempnam( '/tmp', 'phuml' );
-        $outfile = tempnam( '/tmp', 'phuml' );
-        
-        file_put_contents( $infile, $input );
+        $infile = tempnam('/tmp', 'phuml');
+        $outfile = tempnam('/tmp', 'phuml');
 
-        unlink( $outfile );
+        file_put_contents($infile, $input);
 
-        $this->execute( $infile, $outfile, $type );
-        
-        $outdata = file_get_contents( $outfile );
+        unlink($outfile);
 
-        unlink( $infile );
-        unlink( $outfile );
+        $this->execute($infile, $outfile);
+
+        $outdata = file_get_contents($outfile);
+
+        unlink($infile);
+        unlink($outfile);
 
         return $outdata;
     }
 }
-
-?>

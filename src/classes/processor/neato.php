@@ -19,7 +19,7 @@ class plNeatoProcessor extends plExternalCommandProcessor
         return 'image/png';
     }
 
-    public function execute($infile, $outfile, $type)
+    public function execute(string $infile, string $outfile): void
     {
         exec(
             'neato -Tpng -o ' . escapeshellarg($outfile) . ' ' . escapeshellarg($infile),

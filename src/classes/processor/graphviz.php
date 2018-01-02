@@ -36,7 +36,7 @@ class plGraphvizProcessor extends plProcessor
         return 'text/dot';
     }
 
-    public function process($input, $type)
+    public function process($input)
     {
         $this->digraph->fromCodeStructure($input);
 
