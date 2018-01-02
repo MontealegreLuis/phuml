@@ -18,7 +18,7 @@ class PhUmlIncompatibleProcessorsTest extends TestCase
         $incompatibleProcessors = <<<MESSAGE
 phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 A fatal error occured during the process:
-To processors in the chain are incompatible. The first processor's output is "application/phuml-structure". The next Processor in the queue does only support the following input types: text/dot.
+Two processors in the chain are incompatible. The first processor's output is "application/phuml-structure". The next Processor in the queue does only support the following input type: text/dot.
 
 MESSAGE;
 
@@ -41,7 +41,7 @@ MESSAGE;
             'dot -> graphviz' => ['dot', 'graphviz'],
             'neato -> dot' => ['neato', 'dot'],
             'neato -> statistics' => ['neato', 'statistics'],
-            'neato -> graphviz' => ['dot', 'graphviz'],
+            'neato -> graphviz' => ['neato', 'graphviz'],
         ];
     }
 
@@ -54,7 +54,7 @@ MESSAGE;
         $incompatibleProcessors = <<<MESSAGE
 phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 A fatal error occured during the process:
-To processors in the chain are incompatible. The first processor's output is "text/plain". The next Processor in the queue does only support the following input types: text/dot.
+Two processors in the chain are incompatible. The first processor's output is "text/plain". The next Processor in the queue does only support the following input type: text/dot.
 
 MESSAGE;
 
@@ -83,7 +83,7 @@ MESSAGE;
         $incompatibleProcessors = <<<MESSAGE
 phUML Version 0.2 (Jakob Westhoff <jakob@php.net>)
 A fatal error occured during the process:
-To processors in the chain are incompatible. The first processor's output is "text/plain". The next Processor in the queue does only support the following input types: application/phuml-structure.
+Two processors in the chain are incompatible. The first processor's output is "text/plain". The next Processor in the queue does only support the following input type: application/phuml-structure.
 
 MESSAGE;
 

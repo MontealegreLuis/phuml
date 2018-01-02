@@ -2,16 +2,6 @@
 
 abstract class plProcessor
 {
-    public static function factory( $processor )
-    {
-        $classname = 'pl' . ucfirst( $processor ) . 'Processor';
-        if ( class_exists( $classname ) === false )
-        {
-            throw new plProcessorNotFoundException( $processor );
-        }
-        return new $classname();
-    }
-
     public static function getProcessors()
     {
         $processors = [
@@ -23,13 +13,14 @@ abstract class plProcessor
         return $processors;
     }
 
-    public function writeToDisk( $input, $output )
+    public function writeToDisk($input, $output)
     {
-        file_put_contents( $output, $input );
+        file_put_contents($output, $input);
     }
 
-    abstract public function getInputTypes();
-    abstract public function getOutputType();
-    abstract public function process( $input, $type );
+    abstract public function getInputType(): string;
 
+    abstract public function getOutputType(): string;
+
+    abstract public function process($input, $type);
 }

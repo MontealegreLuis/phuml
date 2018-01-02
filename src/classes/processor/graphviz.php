@@ -18,7 +18,7 @@ class plGraphvizProcessor extends plProcessor
     public function __construct(Digraph $digraph = null)
     {
         $this->options = new plGraphvizProcessorOptions();
-        $labelBuilder =  new NodeLabelBuilder(new TemplateEngine(
+        $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../../Graphviz/templates')
         ), new HtmlLabelStyle());
         $classElements = new ClassGraphElements($this->options->createAssociations, $labelBuilder);
@@ -26,14 +26,12 @@ class plGraphvizProcessor extends plProcessor
         $this->digraph = $digraph ?? new Digraph($interfaceElements, $classElements);
     }
 
-    public function getInputTypes()
+    public function getInputType(): string
     {
-        return [
-            'application/phuml-structure'
-        ];
+        return 'application/phuml-structure';
     }
 
-    public function getOutputType()
+    public function getOutputType(): string
     {
         return 'text/dot';
     }
