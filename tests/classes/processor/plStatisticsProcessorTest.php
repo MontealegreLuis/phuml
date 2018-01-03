@@ -10,6 +10,16 @@ use PHPUnit\Framework\TestCase;
 class plStatisticsProcessorTest extends TestCase 
 {
     /** @test */
+    function it_has_a_name()
+    {
+        $processor = new plStatisticsProcessor();
+
+        $name = $processor->name();
+
+        $this->assertEquals('Statistics', $name);
+    }
+
+    /** @test */
     function it_knows_it_is_a_valid_initial_processor()
     {
         $processor = new plStatisticsProcessor();

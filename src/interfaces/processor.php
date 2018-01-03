@@ -1,5 +1,8 @@
 <?php
 
+use PhUml\Processors\DotProcessor;
+use PhUml\Processors\NeatoProcessor;
+
 abstract class plProcessor
 {
     public const INITIAL_INPUT_TYPE = 'application/phuml-structure';
@@ -9,7 +12,14 @@ abstract class plProcessor
      */
     public static function factory($processor): plProcessor
     {
-        $classname = 'pl' . ucfirst($processor) . 'Processor';
+        $processor = ucfirst($processor);
+        if ($processor === 'Dot') {
+            return new DotProcessor();
+        }
+        if ($processor === 'Neato') {
+            return new NeatoProcessor();
+        }
+        $classname = "pl{$processor}Processor";
         if (!class_exists($classname)) {
             throw new plProcessorNotFoundException($processor);
         }
@@ -40,6 +50,8 @@ abstract class plProcessor
     {
         return self::INITIAL_INPUT_TYPE === $this->getInputType();
     }
+
+    abstract public function name(): string;
 
     abstract public function getInputType(): string;
 

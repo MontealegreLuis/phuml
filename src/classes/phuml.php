@@ -60,9 +60,7 @@ class plPhuml
 
         $input = $structure;
         foreach ($this->processors as $processor) {
-            preg_match('@^pl([A-Z][a-z]*)Processor$@', get_class($processor), $matches);
-
-            echo "[|] Running '{$matches[1]}' processor\n";
+            echo "[|] Running '{$processor->name()}' processor\n";
             $input = $processor->process($input);
         }
 

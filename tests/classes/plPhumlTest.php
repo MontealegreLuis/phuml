@@ -6,8 +6,10 @@
  */
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Processors\DotProcessor;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
+use PhUml\Processors\NeatoProcessor;
 
 class plPhumlTest extends TestCase 
 {
@@ -26,8 +28,8 @@ class plPhumlTest extends TestCase
     function invalidInitialProcessors()
     {
         return [
-            'neato' => [new plNeatoProcessor()],
-            'dot' => [new plDotProcessor()],
+            'neato' => [new NeatoProcessor()],
+            'dot' => [new DotProcessor()],
         ];
     }
 
@@ -47,8 +49,8 @@ class plPhumlTest extends TestCase
     function incompatibleStatisticsCombinations()
     {
         return [
-            'statistics -> dot' => [new plStatisticsProcessor(), new plDotProcessor()],
-            'statistics -> neato' => [new plStatisticsProcessor(), new plNeatoProcessor()],
+            'statistics -> dot' => [new plStatisticsProcessor(), new DotProcessor()],
+            'statistics -> neato' => [new plStatisticsProcessor(), new NeatoProcessor()],
             'statistics -> graphviz' => [new plStatisticsProcessor(), new plGraphvizProcessor()],
             'graphviz -> statistics' => [new plGraphvizProcessor(), new plStatisticsProcessor()],
         ];

@@ -26,6 +26,11 @@ class plGraphvizProcessor extends plProcessor
         $this->digraph = $digraph ?? new Digraph($interfaceElements, $classElements);
     }
 
+    public function name(): string
+    {
+        return 'Graphviz';
+    }
+
     public function getInputType(): string
     {
         return 'application/phuml-structure';

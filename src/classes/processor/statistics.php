@@ -14,6 +14,11 @@ class plStatisticsProcessor extends plProcessor
         $this->information = array();
     }
 
+    public function name(): string
+    {
+        return 'Statistics';
+    }
+
     public function getInputType(): string
     {
         return 'application/phuml-structure';

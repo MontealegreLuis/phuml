@@ -44,7 +44,7 @@ function showProcessorList()
         echo "* Processor: ", $processor, "\n";
         echo "  - Options:", "\n";
 
-        $class = 'pl' . $processor . 'Processor';
+        $class = plProcessor::factory($processor);
         $p = new $class();
         $o = $p->options;
 
