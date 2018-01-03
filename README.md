@@ -4,6 +4,7 @@ My plan is to publish this library in Packagist and add support for PHP 7.
 
 [![Build Status][3]][4]
 [![Scrutinizer Code Quality][5]][6]
+[![Code Coverage][12]][13]
 
 # phUML
 
@@ -65,3 +66,5 @@ $ phuml -r ./ -dot -createAssociations false -neato example.png
 [9]: https://raw.githubusercontent.com/jakobwesthoff/phuml/master/images/phuml_example_thumbnail.jpg
 [10]: https://raw.githubusercontent.com/jakobwesthoff/phuml/master/images/phuml_example.png
 [11]: http://www.graphviz.org
+[12]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/badges/coverage.png?b=master
+[13]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/?branch=master
