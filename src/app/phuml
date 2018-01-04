@@ -2,8 +2,6 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
 
-use PhUml\Parser\TokenParser;
-
 function showHeader()
 {
     echo <<<HEADER
@@ -130,7 +128,7 @@ function cmdDirOrFile()
 
     if ( is_dir( $argv[0] ) )
     {
-        $phuml->addDirectory( $argv[0], 'php', $recursive );
+        $phuml->addDirectory( $argv[0], $recursive );
         updateArguments( 1 );
     }
     else
@@ -189,7 +187,6 @@ $recursive = false;
 $outfile   = 'out';
 
 $phuml            = new plPhuml();
-$phuml->generator = new TokenParser();
 
 // Remove the application name
 updateArguments( 1 );

@@ -31,7 +31,7 @@ class MyClass
 {
 }
 CLASS;
-        $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
+        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
 
         $class = new ClassDefinition('MyClass');
         $this->assertTrue($structure->has('MyClass'));
@@ -50,7 +50,7 @@ class MyClass
     public $phone;
 }
 CLASS;
-        $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
+        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
 
         $class = new ClassDefinition('MyClass', [
             new Attribute('$name', 'private'),
@@ -84,7 +84,7 @@ class MyClass
     public $phones;
 }
 CLASS;
-        $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
+        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
 
         $class = new ClassDefinition('MyClass', [
             new Attribute('$names', 'private', 'string'),
@@ -114,7 +114,7 @@ class MyClass
     }
 }
 CLASS;
-        $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
+        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
 
         $class = new ClassDefinition('MyClass', [], [
             new Method('changeName', 'private', [new Variable('$newName', new TypeDeclaration('string'))]),
@@ -140,7 +140,7 @@ class MyClass
     }
 }
 CLASS;
-        $structure = $this->parser->createStructure([$this->buildDefinition('MyClass', $class)]);
+        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
 
         $class = new ClassDefinition('MyClass', [], [
             new Method('__construct'),
@@ -169,7 +169,7 @@ class ChildClass extends ParentClass
 {
 }
 CLASS;
-        $structure = $this->parser->createStructure([
+        $structure = $this->parser->parse([
             $this->buildDefinition('ParentClass', $parentClassCode),
             $this->buildDefinition('ChildClass', $childClassCode),
         ]);
@@ -204,7 +204,7 @@ class MyClass implements InterfaceOne, InterfaceTwo
 {
 }
 CLASS;
-        $structure = $this->parser->createStructure([
+        $structure = $this->parser->parse([
             $this->buildDefinition('InterfaceOne', $interfaceOneCode),
             $this->buildDefinition('InterfaceTwo', $interfaceTwoCode),
             $this->buildDefinition('MyClass', $class),
@@ -233,7 +233,7 @@ interface MyInterface
     public function ageToMonths(): int;
 }
 INTERFACE;
-        $structure = $this->parser->createStructure([$this->buildDefinition('MyInterface', $interface)]);
+        $structure = $this->parser->parse([$this->buildDefinition('MyInterface', $interface)]);
 
         $interface = new InterfaceDefinition('MyInterface', [
             new Method('changeValues', 'public', [
@@ -262,7 +262,7 @@ interface ChildInterface extends ParentInterface
 {
 }
 INTERFACE;
-        $structure = $this->parser->createStructure([
+        $structure = $this->parser->parse([
             $this->buildDefinition('ParentInterface', $parentInterfaceCode),
             $this->buildDefinition('ChildInterface', $childInterfaceCode),
         ]);
@@ -361,7 +361,7 @@ class InMemoryStudents implements Students
 }
 CLASS;
 
-        $structure = $this->parser->createStructure([
+        $structure = $this->parser->parse([
             $this->buildDefinition('Pageable', $parentInterfaceCode),
             $this->buildDefinition('Students', $childInterfaceCode),
             $this->buildDefinition('User', $parentClassCode),

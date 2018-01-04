@@ -35,9 +35,8 @@ class TokenParser
         $this->resolver = $resolver ?? new RelationsResolver();
     }
 
-    public function createStructure(array $files): Structure
+    public function parse(array $files): Structure
     {
-        $this->initGlobalAttributes();
         foreach ($files as $file) {
             $this->initParserAttributes();
             $tokens = token_get_all(file_get_contents($file));
@@ -123,12 +122,6 @@ class TokenParser
                 // And reset the docblock
                 $this->structure['docblock'] = null;
         }
-    }
-
-    private function initGlobalAttributes(): void
-    {
-        $this->classes = [];
-        $this->interfaces = [];
     }
 
     private function initParserAttributes(): void

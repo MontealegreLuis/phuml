@@ -3,11 +3,12 @@
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
+use Symfony\Component\Finder\Finder;
 
 class plPhuml
 {
     /** @var TokenParser */
-    public $generator;
+    private $parser;
 
     /** @var string[] */
     private $files;
@@ -15,26 +16,32 @@ class plPhuml
     /** @var plProcessor[] */
     private $processors;
 
-    public function __construct()
+    /** @var Finder */
+    private $finder;
+
+    public function __construct(TokenParser $parser = null, Finder $finder = null)
     {
-        $this->generator = new TokenParser();
+        $this->parser = $parser ?? new TokenParser();
+        $this->finder = $finder ?? new Finder();
         $this->processors = [];
         $this->files = [];
     }
 
-    public function addDirectory(string $directory, string $extension = 'php', bool $recursive = true)
+    public function addDirectory(string $directory, bool $recursive = true): void
     {
         if (!$recursive) {
-            $iterator = new DirectoryIterator($directory);
-        } else {
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+            $this->finder->depth(0);
         }
+        $this->finder->in($directory)->files()->name('*.php');
+        foreach ($this->finder as $file) {
+            $this->files[] = $file->getRealPath();
+        }
+    }
 
-        foreach ($iterator as $entry) {
-            if (!$entry->isDir() && $entry->getExtension() === $extension) {
-                $this->files[] = $entry->getPathname();
-            }
-        }
+    /** @return string[] */
+    public function files(): array
+    {
+        return $this->files;
     }
 
     /**
@@ -53,10 +60,10 @@ class plPhuml
         $this->processors[] = $processor;
     }
 
-    public function generate($outfile)
+    public function generate($outfile): void
     {
         echo "[|] Parsing class structure\n";
-        $structure = $this->generator->createStructure($this->files);
+        $structure = $this->parser->parse($this->files);
 
         $input = $structure;
         foreach ($this->processors as $processor) {

@@ -55,4 +55,30 @@ class plPhumlTest extends TestCase
             'graphviz -> statistics' => [new plGraphvizProcessor(), new plStatisticsProcessor()],
         ];
     }
+
+    /** @test */
+    function it_finds_files_only_in_the_given_directory()
+    {
+        $phUml = new plPhuml();
+
+        $phUml->addDirectory(__DIR__ . '/../.code/classes', false);
+
+        $this->assertCount(2, $phUml->files());
+        $this->assertStringEndsWith('base.php', $phUml->files()[0]);
+        $this->assertStringEndsWith('phuml.php', $phUml->files()[1]);
+    }
+
+    /** @test */
+    function it_finds_files_recursively()
+    {
+        $phUml = new plPhuml();
+
+        $phUml->addDirectory(__DIR__ . '/../.code/interfaces');
+
+        $this->assertCount(4, $phUml->files());
+        $this->assertStringEndsWith('processor.php', $phUml->files()[0]);
+        $this->assertStringEndsWith('generator.php', $phUml->files()[1]);
+        $this->assertStringEndsWith('style.php', $phUml->files()[2]);
+        $this->assertStringEndsWith('externalCommand.php', $phUml->files()[3]);
+    }
 }
