@@ -25,4 +25,9 @@ class NumericIdInterface extends InterfaceDefinition
     {
         return (string)$this->identifier;
     }
+
+    public static function reset(): void
+    {
+        self::$id = 0;
+    }
 }

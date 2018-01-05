@@ -35,12 +35,11 @@ class TokenParser
         $this->resolver = $resolver ?? new RelationsResolver();
     }
 
-    public function parse(array $files): Structure
+    public function parse(CodeFinder $finder): Structure
     {
-        foreach ($files as $file) {
+        foreach ($finder->files() as $code) {
             $this->initParserAttributes();
-            $tokens = token_get_all(file_get_contents($file));
-            $this->process($tokens);
+            $this->process(token_get_all($code));
             $this->storeClassOrInterface();
         }
         $this->resolver->resolve($this->definitions);

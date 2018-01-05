@@ -1,6 +1,7 @@
 <?php
 
 use PhUml\Processors\DotProcessor;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
 
 abstract class plProcessor
@@ -18,6 +19,9 @@ abstract class plProcessor
         }
         if ($processor === 'Neato') {
             return new NeatoProcessor();
+        }
+        if ($processor === 'Graphviz') {
+            return new GraphvizProcessor();
         }
         $classname = "pl{$processor}Processor";
         if (!class_exists($classname)) {

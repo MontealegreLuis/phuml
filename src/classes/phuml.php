@@ -1,9 +1,9 @@
 <?php
 
+use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
-use Symfony\Component\Finder\Finder;
 
 class plPhuml
 {
@@ -16,32 +16,26 @@ class plPhuml
     /** @var plProcessor[] */
     private $processors;
 
-    /** @var Finder */
+    /** @var CodeFinder */
     private $finder;
 
-    public function __construct(TokenParser $parser = null, Finder $finder = null)
+    public function __construct(TokenParser $parser = null, CodeFinder $finder = null)
     {
         $this->parser = $parser ?? new TokenParser();
-        $this->finder = $finder ?? new Finder();
+        $this->finder = $finder ?? new CodeFinder();
         $this->processors = [];
         $this->files = [];
     }
 
     public function addDirectory(string $directory, bool $recursive = true): void
     {
-        if (!$recursive) {
-            $this->finder->depth(0);
-        }
-        $this->finder->in($directory)->files()->name('*.php');
-        foreach ($this->finder as $file) {
-            $this->files[] = $file->getRealPath();
-        }
+        $this->finder->addDirectory($directory, $recursive);
     }
 
     /** @return string[] */
     public function files(): array
     {
-        return $this->files;
+        return $this->finder->files();
     }
 
     /**
@@ -63,7 +57,7 @@ class plPhuml
     public function generate($outfile): void
     {
         echo "[|] Parsing class structure\n";
-        $structure = $this->parser->parse($this->files);
+        $structure = $this->parser->parse($this->finder);
 
         $input = $structure;
         foreach ($this->processors as $processor) {

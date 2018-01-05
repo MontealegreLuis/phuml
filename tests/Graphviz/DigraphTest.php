@@ -16,6 +16,13 @@ use PhUml\Fakes\NumericIdInterface;
 
 class DigraphTest extends TestCase
 {
+    /** @before */
+    function resetIds()
+    {
+        NumericIdClass::reset();
+        NumericIdInterface::reset();
+    }
+
     /** @test */
     function it_can_be_represented_as_dot_language_from_a_structure_with_one_definition()
     {
@@ -73,13 +80,13 @@ mindist = 0.6;
 splines = true;
 overlap = false;
 mindist = 0.6;
-"103" [label=<<table><tr><td>AReference</td></tr></table>> shape=plaintext]
-"102" [label=<<table><tr><td>ParentClass</td></tr></table>> shape=plaintext]
-"103" -> "104" [dir=back arrowtail=none style=dashed]
-"104" [label=<<table><tr><td>TestClass</td></tr></table>> shape=plaintext]
-"102" -> "104" [dir=back arrowtail=empty style=solid]
-"2" -> "104" [dir=back arrowtail=normal style=dashed]
-"3" -> "104" [dir=back arrowtail=normal style=dashed]
+"102" [label=<<table><tr><td>AReference</td></tr></table>> shape=plaintext]
+"101" [label=<<table><tr><td>ParentClass</td></tr></table>> shape=plaintext]
+"102" -> "103" [dir=back arrowtail=none style=dashed]
+"103" [label=<<table><tr><td>TestClass</td></tr></table>> shape=plaintext]
+"101" -> "103" [dir=back arrowtail=empty style=solid]
+"2" -> "103" [dir=back arrowtail=normal style=dashed]
+"3" -> "103" [dir=back arrowtail=normal style=dashed]
 "1" [label=<<table><tr><td>ParentInterface</td></tr></table>> shape=plaintext]
 "2" [label=<<table><tr><td>ChildInterface</td></tr></table>> shape=plaintext]
 "1" -> "2" [dir=back arrowtail=empty style=solid]

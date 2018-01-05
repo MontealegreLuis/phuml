@@ -27,7 +27,7 @@ class Attribute extends Variable
     /**
      * It doesn't currently support information type
      *
-     * @see plGraphvizProcessor#getClassDefinition In its original version
+     * @see GraphvizProcessor#getClassDefinition In its original version
      */
     public function __toString()
     {

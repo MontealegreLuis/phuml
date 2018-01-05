@@ -7,6 +7,7 @@
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Processors\DotProcessor;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
 use PhUml\Processors\NeatoProcessor;
@@ -51,8 +52,8 @@ class plPhumlTest extends TestCase
         return [
             'statistics -> dot' => [new plStatisticsProcessor(), new DotProcessor()],
             'statistics -> neato' => [new plStatisticsProcessor(), new NeatoProcessor()],
-            'statistics -> graphviz' => [new plStatisticsProcessor(), new plGraphvizProcessor()],
-            'graphviz -> statistics' => [new plGraphvizProcessor(), new plStatisticsProcessor()],
+            'statistics -> graphviz' => [new plStatisticsProcessor(), new GraphvizProcessor()],
+            'graphviz -> statistics' => [new GraphvizProcessor(), new plStatisticsProcessor()],
         ];
     }
 
@@ -64,8 +65,8 @@ class plPhumlTest extends TestCase
         $phUml->addDirectory(__DIR__ . '/../.code/classes', false);
 
         $this->assertCount(2, $phUml->files());
-        $this->assertStringEndsWith('base.php', $phUml->files()[0]);
-        $this->assertStringEndsWith('phuml.php', $phUml->files()[1]);
+        $this->assertRegExp('/class plBase/', $phUml->files()[0]);
+        $this->assertRegExp('/class plPhuml/', $phUml->files()[1]);
     }
 
     /** @test */
@@ -76,9 +77,9 @@ class plPhumlTest extends TestCase
         $phUml->addDirectory(__DIR__ . '/../.code/interfaces');
 
         $this->assertCount(4, $phUml->files());
-        $this->assertStringEndsWith('processor.php', $phUml->files()[0]);
-        $this->assertStringEndsWith('generator.php', $phUml->files()[1]);
-        $this->assertStringEndsWith('style.php', $phUml->files()[2]);
-        $this->assertStringEndsWith('externalCommand.php', $phUml->files()[3]);
+        $this->assertRegExp('/abstract class plProcessor/', $phUml->files()[0]);
+        $this->assertRegExp('/abstract class plStructureGenerator/', $phUml->files()[1]);
+        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $phUml->files()[2]);
+        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $phUml->files()[3]);
     }
 }

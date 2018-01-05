@@ -30,4 +30,9 @@ class NumericIdClass extends ClassDefinition
     {
         return (string)$this->identifier;
     }
+
+    public static function reset(): void
+    {
+        self::$id = 100;
+    }
 }

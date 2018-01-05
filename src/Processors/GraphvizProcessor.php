@@ -1,15 +1,24 @@
 <?php
+/**
+ * PHP version 7.1
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace PhUml\Processors;
 
 use PhUml\Graphviz\ClassGraphElements;
 use PhUml\Graphviz\Digraph;
 use PhUml\Graphviz\HtmlLabelStyle;
 use PhUml\Graphviz\InterfaceGraphElements;
 use PhUml\Graphviz\NodeLabelBuilder;
+use plGraphvizProcessorOptions;
+use plProcessor;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
 
-class plGraphvizProcessor extends plProcessor
+class GraphvizProcessor extends plProcessor
 {
+    /** @var plGraphvizProcessorOptions */
     public $options;
 
     /** @var Digraph */
@@ -19,7 +28,7 @@ class plGraphvizProcessor extends plProcessor
     {
         $this->options = new plGraphvizProcessorOptions();
         $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
-            new FileSystem(__DIR__ . '/../../Graphviz/templates')
+            new FileSystem(__DIR__ . '/../Graphviz/templates')
         ), new HtmlLabelStyle());
         $classElements = new ClassGraphElements($this->options->createAssociations, $labelBuilder);
         $interfaceElements = new InterfaceGraphElements($labelBuilder);

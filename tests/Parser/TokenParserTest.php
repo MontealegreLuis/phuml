@@ -13,6 +13,7 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
+use PhUml\Fakes\StringCodeFinder;
 
 class TokenParserTest extends TestCase
 {
@@ -20,18 +21,21 @@ class TokenParserTest extends TestCase
     function buildParser()
     {
         $this->parser = new TokenParser();
+        $this->finder = new StringCodeFinder();
     }
 
     /** @test */
     function it_parses_a_class_with_no_attributes_and_no_methods()
     {
-        $class = <<<'CLASS'
+        $this->finder->add(<<<'CLASS'
 <?php
 class MyClass
 {
 }
-CLASS;
-        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
+CLASS
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass');
         $this->assertTrue($structure->has('MyClass'));
@@ -41,7 +45,7 @@ CLASS;
     /** @test */
     function it_parses_access_modifiers_for_attributes()
     {
-        $class = <<<'CLASS'
+        $this->finder->add(<<<'CLASS'
 <?php
 class MyClass
 {
@@ -49,8 +53,10 @@ class MyClass
     protected $age;
     public $phone;
 }
-CLASS;
-        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
+CLASS
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [
             new Attribute('$name', 'private'),
@@ -84,7 +90,9 @@ class MyClass
     public $phones;
 }
 CLASS;
-        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
+        $this->finder->add($class);
+
+        $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [
             new Attribute('$names', 'private', 'string'),
@@ -98,7 +106,7 @@ CLASS;
     /** @test */
     function it_parses_access_modifiers_for_methods()
     {
-        $class = <<<'CLASS'
+        $this->finder->add(<<<'CLASS'
 <?php
 class MyClass
 {
@@ -113,8 +121,10 @@ class MyClass
     {
     }
 }
-CLASS;
-        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
+CLASS
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [], [
             new Method('changeName', 'private', [new Variable('$newName', new TypeDeclaration('string'))]),
@@ -128,7 +138,7 @@ CLASS;
     /** @test */
     function it_parses_methods_and_its_arguments()
     {
-        $class = <<<'CLASS'
+        $this->finder->add(<<<'CLASS'
 <?php
 class MyClass
 {
@@ -139,8 +149,10 @@ class MyClass
     {
     }
 }
-CLASS;
-        $structure = $this->parser->parse([$this->buildDefinition('MyClass', $class)]);
+CLASS
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [], [
             new Method('__construct'),
@@ -157,22 +169,22 @@ CLASS;
     /** @test */
     function it_parses_parent_child_class_relationships()
     {
-        $parentClassCode = <<<'CLASS'
+        $this->finder->add(<<<'CLASS'
 <?php
 class ParentClass
 {
 }
-CLASS;
-        $childClassCode = <<<'CLASS'
+CLASS
+        );
+        $this->finder->add(<<<'CLASS'
 <?php
 class ChildClass extends ParentClass
 {
 }
-CLASS;
-        $structure = $this->parser->parse([
-            $this->buildDefinition('ParentClass', $parentClassCode),
-            $this->buildDefinition('ChildClass', $childClassCode),
-        ]);
+CLASS
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $parentClass = new ClassDefinition('ParentClass');
         $childClass = new ClassDefinition('ChildClass', [], [], [], $parentClass);
@@ -186,29 +198,29 @@ CLASS;
     /** @test */
     function it_parses_a_class_implementing_interfaces()
     {
-        $interfaceOneCode = <<<'CLASS'
+        $this->finder->add(<<<'CLASS'
 <?php
 interface InterfaceOne
 {
 }
-CLASS;
-        $interfaceTwoCode = <<<'CLASS'
+CLASS
+        );
+        $this->finder->add(<<<'CLASS'
 <?php
 interface InterfaceTwo
 {
 }
-CLASS;
-        $class = <<<'CLASS'
+CLASS
+        );
+        $this->finder->add(<<<'CLASS'
 <?php
 class MyClass implements InterfaceOne, InterfaceTwo
 {
 }
-CLASS;
-        $structure = $this->parser->parse([
-            $this->buildDefinition('InterfaceOne', $interfaceOneCode),
-            $this->buildDefinition('InterfaceTwo', $interfaceTwoCode),
-            $this->buildDefinition('MyClass', $class),
-        ]);
+CLASS
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $interfaceOne = new InterfaceDefinition('InterfaceOne');
         $interfaceTwo = new InterfaceDefinition('InterfaceTwo');
@@ -225,15 +237,17 @@ CLASS;
     /** @test */
     function it_parses_an_interface_with_methods()
     {
-        $interface = <<<'INTERFACE'
+        $this->finder->add(<<<'INTERFACE'
 <?php
 interface MyInterface
 {
     public function changeValues(string $name, int $age, string $phone): void;
     public function ageToMonths(): int;
 }
-INTERFACE;
-        $structure = $this->parser->parse([$this->buildDefinition('MyInterface', $interface)]);
+INTERFACE
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $interface = new InterfaceDefinition('MyInterface', [
             new Method('changeValues', 'public', [
@@ -250,22 +264,22 @@ INTERFACE;
     /** @test */
     function it_parses_parent_child_interface_relationships()
     {
-        $parentInterfaceCode = <<<'INTERFACE'
+        $this->finder->add(<<<'INTERFACE'
 <?php
 interface ParentInterface
 {
 }
-INTERFACE;
-        $childInterfaceCode = <<<'INTERFACE'
+INTERFACE
+        );
+        $this->finder->add(<<<'INTERFACE'
 <?php
 interface ChildInterface extends ParentInterface
 {
 }
-INTERFACE;
-        $structure = $this->parser->parse([
-            $this->buildDefinition('ParentInterface', $parentInterfaceCode),
-            $this->buildDefinition('ChildInterface', $childInterfaceCode),
-        ]);
+INTERFACE
+        );
+
+        $structure = $this->parser->parse($this->finder);
 
         $parentInterface = new InterfaceDefinition('ParentInterface');
         $childInterface = new InterfaceDefinition('ChildInterface', [], $parentInterface);
@@ -361,13 +375,13 @@ class InMemoryStudents implements Students
 }
 CLASS;
 
-        $structure = $this->parser->parse([
-            $this->buildDefinition('Pageable', $parentInterfaceCode),
-            $this->buildDefinition('Students', $childInterfaceCode),
-            $this->buildDefinition('User', $parentClassCode),
-            $this->buildDefinition('Student', $childClassCode),
-            $this->buildDefinition('InMemoryStudents', $classCode),
-        ]);
+        $this->finder->add($parentInterfaceCode);
+        $this->finder->add($childInterfaceCode);
+        $this->finder->add($parentClassCode);
+        $this->finder->add($childClassCode);
+        $this->finder->add($classCode);
+
+        $structure = $this->parser->parse($this->finder);
 
         $user = new ClassDefinition('User', [
             new Attribute('$name', 'protected', 'string')
@@ -409,13 +423,9 @@ CLASS;
         $this->assertEquals($students, $structure->get('Students'));
     }
 
-    private function buildDefinition(string $classOrInterface, string $code): string
-    {
-        $path = sys_get_temp_dir() . "/$classOrInterface.php";
-        file_put_contents($path, $code);
-        return $path;
-    }
-
     /** @var TokenParser */
     private $parser;
+
+    /** @var StringCodeFinder */
+    private $finder;
 }

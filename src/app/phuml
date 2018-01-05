@@ -2,6 +2,13 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
 
+use PhUml\Actions\CanGenerateClassDiagram;
+use PhUml\Actions\GenerateClassDiagram;
+use PhUml\Parser\CodeFinder;
+use PhUml\Parser\TokenParser;
+use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\ImageProcessor;
+
 function showHeader()
 {
     echo <<<HEADER
@@ -123,12 +130,13 @@ function cmdOptions()
 
 function cmdDirOrFile()
 {
-    global $argc, $argv;
-    global $phuml, $recursive;
+    global $argv;
+    global $phuml, $recursive, $finder;
 
     if ( is_dir( $argv[0] ) )
     {
-        $phuml->addDirectory( $argv[0], $recursive );
+        $finder->addDirectory($argv[0], $recursive);
+        $phuml->addDirectory($argv[0], $recursive);
         updateArguments( 1 );
     }
     else
@@ -141,7 +149,7 @@ function cmdDirOrFile()
 function cmdProcessor()
 {
     global $argc, $argv;
-    global $phuml;
+    global $phuml, $action, $dotProcessor;
 
     if ( substr( $argv[0], 0, 1 ) !== '-' )
     {
@@ -160,6 +168,28 @@ function cmdProcessor()
     {
         $processor->options->$option = $argv[1];
         updateArguments( 2 );
+    }
+
+    if ($processor instanceof GraphvizProcessor) {
+        $dotProcessor = $processor;
+    }
+    if (null !== $dotProcessor && $processor instanceof ImageProcessor) {
+        $action = new GenerateClassDiagram(new TokenParser(), $dotProcessor);
+        $action->attach(new class() implements CanGenerateClassDiagram {
+            public function runningParser(): void
+            {
+                echo "[|] Parsing class structure\n";
+            }
+            public function runningProcessor(plProcessor $processor): void
+            {
+                echo "[|] Running '{$processor->name()}' processor\n";
+            }
+            public function savingResult(): void
+            {
+                echo "[|] Writing generated data to disk\n";
+            }
+        });
+        $action->setImageProcessor($processor);
     }
 
     $phuml->addProcessor( $processor );
@@ -185,6 +215,9 @@ if ( $argc < 2 )
 
 $recursive = false;
 $outfile   = 'out';
+$action = null;
+$dotProcessor = null;
+$finder = new CodeFinder();
 
 $phuml            = new plPhuml();
 
@@ -204,7 +237,11 @@ try
 
     echo '[|] Running... (This may take some time)', "\n";
 
-    $phuml->generate( $outfile );
+    if ($action !== null) {
+        $action->generate($finder, $outfile);
+    } else {
+        $phuml->generate($outfile);
+    }
 }
 catch ( Exception $e )
 {
