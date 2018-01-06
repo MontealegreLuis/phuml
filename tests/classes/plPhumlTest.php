@@ -6,11 +6,14 @@
  */
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Parser\CodeFinder;
+use PhUml\Parser\TokenParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
 use PhUml\Processors\NeatoProcessor;
+use Symfony\Component\Finder\Finder;
 
 class plPhumlTest extends TestCase 
 {
@@ -72,14 +75,16 @@ class plPhumlTest extends TestCase
     /** @test */
     function it_finds_files_recursively()
     {
-        $phUml = new plPhuml();
+        $finder = new Finder();
+        $finder->sortByName();
+        $phUml = new plPhuml(new TokenParser(), new CodeFinder($finder));
 
         $phUml->addDirectory(__DIR__ . '/../.code/interfaces');
 
         $this->assertCount(4, $phUml->files());
-        $this->assertRegExp('/abstract class plProcessor/', $phUml->files()[0]);
-        $this->assertRegExp('/abstract class plStructureGenerator/', $phUml->files()[1]);
-        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $phUml->files()[2]);
-        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $phUml->files()[3]);
+        $this->assertRegExp('/abstract class plStructureGenerator/', $phUml->files()[0]);
+        $this->assertRegExp('/abstract class plProcessor/', $phUml->files()[1]);
+        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $phUml->files()[2]);
+        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $phUml->files()[3]);
     }
 }

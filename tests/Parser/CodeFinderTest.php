@@ -7,13 +7,16 @@
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Finder\Finder;
 
 class CodeFinderTest extends TestCase 
 {
     /** @test */
     function it_finds_files_only_in_the_given_directory()
     {
-        $finder = new CodeFinder();
+        $orderedFinder = new Finder();
+        $orderedFinder->sortByName();
+        $finder = new CodeFinder($orderedFinder);
 
         $finder->addDirectory(__DIR__ . '/../.code/classes', false);
 
@@ -25,14 +28,16 @@ class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_recursively()
     {
-        $finder = new CodeFinder();
+        $orderedFinder = new Finder();
+        $orderedFinder->sortByName();
+        $finder = new CodeFinder($orderedFinder);
 
         $finder->addDirectory(__DIR__ . '/../.code/interfaces');
 
         $this->assertCount(4, $finder->files());
-        $this->assertRegExp('/abstract class plProcessor/', $finder->files()[0]);
-        $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[1]);
-        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $finder->files()[2]);
-        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $finder->files()[3]);
+        $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[0]);
+        $this->assertRegExp('/abstract class plProcessor/', $finder->files()[1]);
+        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $finder->files()[2]);
+        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $finder->files()[3]);
     }
 }
