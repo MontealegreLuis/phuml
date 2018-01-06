@@ -10,7 +10,7 @@ use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
-use Symfony\Component\Process\Exception\LogicException;
+use LogicException;
 
 class GenerateClassDiagram
 {
@@ -41,6 +41,9 @@ class GenerateClassDiagram
         $this->imageProcessor = $imageProcessor;
     }
 
+    /**
+     * @throws LogicException If either the image processor or the command are missing
+     */
     public function generate(CodeFinder $finder, string $imagePath): void
     {
         $this->command()->runningParser();
@@ -53,6 +56,7 @@ class GenerateClassDiagram
         $this->imageProcessor->writeToDisk($image, $imagePath);
     }
 
+    /** @throws LogicException */
     private function command(): CanGenerateClassDiagram
     {
         if (!$this->command) {
@@ -61,6 +65,7 @@ class GenerateClassDiagram
         return $this->command;
     }
 
+    /** @throws LogicException */
     private function imageProcessor(): ImageProcessor
     {
         if (!$this->imageProcessor) {

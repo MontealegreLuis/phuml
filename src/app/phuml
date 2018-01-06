@@ -3,11 +3,14 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use PhUml\Actions\CanGenerateClassDiagram;
+use PhUml\Actions\CanGenerateStatistics;
 use PhUml\Actions\GenerateClassDiagram;
+use PhUml\Actions\GenerateStatistics;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
+use PhUml\Processors\StatisticsProcessor;
 
 function showHeader()
 {
@@ -190,6 +193,23 @@ function cmdProcessor()
             }
         });
         $action->setImageProcessor($processor);
+    }
+    if ($processor instanceof StatisticsProcessor) {
+        $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
+        $action->attach(new class() implements CanGenerateStatistics {
+            public function runningParser(): void
+            {
+                echo "[|] Parsing class structure\n";
+            }
+            public function runningProcessor(StatisticsProcessor $processor): void
+            {
+                echo "[|] Running '{$processor->name()}' processor\n";
+            }
+            public function savingResult(): void
+            {
+                echo "[|] Writing generated data to disk\n";
+            }
+        });
     }
 
     $phuml->addProcessor( $processor );
