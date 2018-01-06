@@ -13,6 +13,7 @@ use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
 use PhUml\Processors\NeatoProcessor;
+use PhUml\Processors\StatisticsProcessor;
 use Symfony\Component\Finder\Finder;
 
 class plPhumlTest extends TestCase 
@@ -53,10 +54,10 @@ class plPhumlTest extends TestCase
     function incompatibleStatisticsCombinations()
     {
         return [
-            'statistics -> dot' => [new plStatisticsProcessor(), new DotProcessor()],
-            'statistics -> neato' => [new plStatisticsProcessor(), new NeatoProcessor()],
-            'statistics -> graphviz' => [new plStatisticsProcessor(), new GraphvizProcessor()],
-            'graphviz -> statistics' => [new GraphvizProcessor(), new plStatisticsProcessor()],
+            'statistics -> dot' => [new StatisticsProcessor(), new DotProcessor()],
+            'statistics -> neato' => [new StatisticsProcessor(), new NeatoProcessor()],
+            'statistics -> graphviz' => [new StatisticsProcessor(), new GraphvizProcessor()],
+            'graphviz -> statistics' => [new GraphvizProcessor(), new StatisticsProcessor()],
         ];
     }
 

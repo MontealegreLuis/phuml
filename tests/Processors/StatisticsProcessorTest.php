@@ -4,15 +4,16 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace PhUml\Processors;
 
 use PHPUnit\Framework\TestCase;
 
-class plStatisticsProcessorTest extends TestCase 
+class StatisticsProcessorTest extends TestCase
 {
     /** @test */
     function it_has_a_name()
     {
-        $processor = new plStatisticsProcessor();
+        $processor = new StatisticsProcessor();
 
         $name = $processor->name();
 
@@ -22,7 +23,7 @@ class plStatisticsProcessorTest extends TestCase
     /** @test */
     function it_knows_it_is_a_valid_initial_processor()
     {
-        $processor = new plStatisticsProcessor();
+        $processor = new StatisticsProcessor();
 
         $isInitial = $processor->isInitial();
 

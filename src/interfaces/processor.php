@@ -3,6 +3,7 @@
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
+use PhUml\Processors\StatisticsProcessor;
 
 abstract class plProcessor
 {
@@ -22,6 +23,9 @@ abstract class plProcessor
         }
         if ($processor === 'Graphviz') {
             return new GraphvizProcessor();
+        }
+        if ($processor === 'Statistics') {
+            return new StatisticsProcessor();
         }
         $classname = "pl{$processor}Processor";
         if (!class_exists($classname)) {
