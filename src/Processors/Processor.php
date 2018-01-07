@@ -24,7 +24,7 @@ abstract class Processor
             return new NeatoProcessor();
         }
         if ($processor === 'Graphviz') {
-            return new GraphvizProcessor();
+            return new GraphvizProcessor(true);
         }
         if ($processor === 'Statistics') {
             return new StatisticsProcessor();

@@ -53,8 +53,7 @@ function showProcessorList()
         echo "* Processor: ", $processor, "\n";
         echo "  - Options:", "\n";
 
-        $class = Processor::factory($processor);
-        $p = new $class();
+        $p = Processor::factory($processor);
         $o = $p->options;
 
         if ( count( $o->getOptions() ) === 0 )

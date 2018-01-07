@@ -57,8 +57,8 @@ class plPhumlTest extends TestCase
         return [
             'statistics -> dot' => [new StatisticsProcessor(), new DotProcessor()],
             'statistics -> neato' => [new StatisticsProcessor(), new NeatoProcessor()],
-            'statistics -> graphviz' => [new StatisticsProcessor(), new GraphvizProcessor()],
-            'graphviz -> statistics' => [new GraphvizProcessor(), new StatisticsProcessor()],
+            'statistics -> graphviz' => [new StatisticsProcessor(), new GraphvizProcessor(true)],
+            'graphviz -> statistics' => [new GraphvizProcessor(true), new StatisticsProcessor()],
         ];
     }
 

@@ -23,13 +23,13 @@ class GraphvizProcessor extends Processor
     /** @var Digraph */
     private $digraph;
 
-    public function __construct(Digraph $digraph = null)
+    public function __construct(bool $createAssociations, Digraph $digraph = null)
     {
         $this->options = new plGraphvizProcessorOptions();
         $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../Graphviz/templates')
         ), new HtmlLabelStyle());
-        $classElements = new ClassGraphElements($this->options->createAssociations, $labelBuilder);
+        $classElements = new ClassGraphElements($createAssociations, $labelBuilder);
         $interfaceElements = new InterfaceGraphElements($labelBuilder);
         $this->digraph = $digraph ?? new Digraph($interfaceElements, $classElements);
     }

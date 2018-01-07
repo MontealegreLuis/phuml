@@ -29,7 +29,7 @@ class GraphvizProcessorTest extends TestCase
     /** @test */
     function it_has_a_name()
     {
-        $processor = new GraphvizProcessor();
+        $processor = new GraphvizProcessor(true);
 
         $name = $processor->name();
 
@@ -39,7 +39,7 @@ class GraphvizProcessorTest extends TestCase
     /** @test */
     function it_knows_it_is_a_valid_initial_processor()
     {
-        $processor = new GraphvizProcessor();
+        $processor = new GraphvizProcessor(true);
 
         $isInitial = $processor->isInitial();
 
@@ -54,7 +54,7 @@ class GraphvizProcessorTest extends TestCase
             new InterfaceGraphElements($labelBuilder),
             new ClassGraphElements(true, $labelBuilder)
         );
-        $processor = new GraphvizProcessor($digraph);
+        $processor = new GraphvizProcessor(true, $digraph);
 
         $structure = new Structure();
         $parentInterface = new NumericIdInterface('ParentInterface');
