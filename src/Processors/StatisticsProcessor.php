@@ -7,10 +7,9 @@
 namespace PhUml\Processors;
 
 use PhUml\Code\Summary;
-use plProcessor;
 use plProcessorOptions;
 
-class StatisticsProcessor extends plProcessor
+class StatisticsProcessor extends Processor
 {
     public $options;
 

@@ -12,11 +12,10 @@ use PhUml\Graphviz\HtmlLabelStyle;
 use PhUml\Graphviz\InterfaceGraphElements;
 use PhUml\Graphviz\NodeLabelBuilder;
 use plGraphvizProcessorOptions;
-use plProcessor;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
 
-class GraphvizProcessor extends plProcessor
+class GraphvizProcessor extends Processor
 {
     /** @var plGraphvizProcessorOptions */
     public $options;

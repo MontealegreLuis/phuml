@@ -10,6 +10,7 @@ use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
+use PhUml\Processors\Processor;
 use PhUml\Processors\StatisticsProcessor;
 
 function showHeader()
@@ -47,12 +48,12 @@ USAGE;
 function showProcessorList()
 {
     echo "The following processors are available:\n\n";
-    foreach( plProcessor::getProcessors() as $processor )
+    foreach(Processor::getProcessors() as $processor )
     {
         echo "* Processor: ", $processor, "\n";
         echo "  - Options:", "\n";
 
-        $class = plProcessor::factory($processor);
+        $class = Processor::factory($processor);
         $p = new $class();
         $o = $p->options;
 
@@ -163,11 +164,11 @@ function cmdProcessor()
     // We do not need to check for correct options here, because the option
     // will throw an exception if there is something wrong
 
-    $processor = plProcessor::factory(substr( $argv[0], 1 ));
+    $processor = Processor::factory(substr( $argv[0], 1 ));
 
     updateArguments( 1 );
 
-    while( $argc > 1 && !in_array( ucfirst( $option = substr( $argv[0], 1 ) ), plProcessor::getProcessors() ) )
+    while( $argc > 1 && !in_array( ucfirst( $option = substr( $argv[0], 1 ) ), Processor::getProcessors() ) )
     {
         $processor->options->$option = $argv[1];
         updateArguments( 2 );
@@ -183,7 +184,7 @@ function cmdProcessor()
             {
                 echo "[|] Parsing class structure\n";
             }
-            public function runningProcessor(plProcessor $processor): void
+            public function runningProcessor(Processor $processor): void
             {
                 echo "[|] Running '{$processor->name()}' processor\n";
             }

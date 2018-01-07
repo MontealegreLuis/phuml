@@ -4,6 +4,7 @@ use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
+use PhUml\Processors\Processor;
 
 class plPhuml
 {
@@ -13,7 +14,7 @@ class plPhuml
     /** @var string[] */
     private $files;
 
-    /** @var plProcessor[] */
+    /** @var Processor[] */
     private $processors;
 
     /** @var CodeFinder */
@@ -42,7 +43,7 @@ class plPhuml
      * @throws InvalidInitialProcessor
      * @throws InvalidProcessorChain
      */
-    public function addProcessor(plProcessor $processor): void
+    public function addProcessor(Processor $processor): void
     {
         if (count($this->processors) === 0 && !$processor->isInitial()) {
             throw InvalidInitialProcessor::given($processor);

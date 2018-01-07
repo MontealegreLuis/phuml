@@ -13,6 +13,7 @@ use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\InvalidInitialProcessor;
 use PhUml\Processors\InvalidProcessorChain;
 use PhUml\Processors\NeatoProcessor;
+use PhUml\Processors\Processor;
 use PhUml\Processors\StatisticsProcessor;
 use Symfony\Component\Finder\Finder;
 
@@ -22,7 +23,7 @@ class plPhumlTest extends TestCase
      * @test
      * @dataProvider invalidInitialProcessors
      */
-    function it_fails_to_accept_an_invalid_initial_processor(plProcessor $processor)
+    function it_fails_to_accept_an_invalid_initial_processor(Processor $processor)
     {
         $phUml = new plPhuml();
 
@@ -42,7 +43,7 @@ class plPhumlTest extends TestCase
      * @test
      * @dataProvider incompatibleStatisticsCombinations
      */
-    function it_fails_to_accept_incompatible_processors(plProcessor $statistics, plProcessor $next)
+    function it_fails_to_accept_incompatible_processors(Processor $statistics, Processor $next)
     {
         $phUml = new plPhuml();
         $phUml->addProcessor($statistics);

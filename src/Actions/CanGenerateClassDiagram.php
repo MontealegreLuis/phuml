@@ -6,13 +6,13 @@
  */
 namespace PhUml\Actions;
 
-use plProcessor;
+use PhUml\Processors\Processor;
 
 interface CanGenerateClassDiagram
 {
     public function runningParser(): void;
 
-    public function runningProcessor(plProcessor $processor): void;
+    public function runningProcessor(Processor $processor): void;
 
     public function savingResult(): void;
 }

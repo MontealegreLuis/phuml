@@ -1,18 +1,20 @@
 <?php
+/**
+ * PHP version 7.1
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace PhUml\Processors;
 
-use PhUml\Processors\DotProcessor;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\NeatoProcessor;
-use PhUml\Processors\StatisticsProcessor;
 
-abstract class plProcessor
+abstract class Processor
 {
     public const INITIAL_INPUT_TYPE = 'application/phuml-structure';
 
     /**
-     * @throws plProcessorNotFoundException
+     * @throws \plProcessorNotFoundException
      */
-    public static function factory($processor): plProcessor
+    public static function factory($processor): Processor
     {
         $processor = ucfirst($processor);
         if ($processor === 'Dot') {
@@ -49,7 +51,7 @@ abstract class plProcessor
         file_put_contents($output, $input);
     }
 
-    public function isCompatibleWith(plProcessor $nextProcessor): bool
+    public function isCompatibleWith(Processor $nextProcessor): bool
     {
         return $this->getOutputType() === $nextProcessor->getInputType();
     }

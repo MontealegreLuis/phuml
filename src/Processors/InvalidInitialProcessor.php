@@ -6,20 +6,19 @@
  */
 namespace PhUml\Processors;
 
-use plProcessor;
 use RuntimeException;
 
 class InvalidInitialProcessor extends RuntimeException
 {
     /**
-     * @param plProcessor $processor
+     * @param Processor $processor
      * @return InvalidInitialProcessor
      */
-    public static function given(plProcessor $processor)
+    public static function given(Processor $processor)
     {
         return new InvalidInitialProcessor(sprintf(
             'Given processor does not support input type "%s", input type "%s" found',
-            plProcessor::INITIAL_INPUT_TYPE,
+            Processor::INITIAL_INPUT_TYPE,
             $processor->getInputType()
         ));
     }

@@ -6,12 +6,11 @@
  */
 namespace PhUml\Processors;
 
-use plProcessor;
 use plProcessorOptions;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
-abstract class ImageProcessor extends plProcessor
+abstract class ImageProcessor extends Processor
 {
     /** @var plProcessorOptions */
     public $options;
