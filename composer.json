@@ -20,5 +20,6 @@
         "symfony/process": "^4.0",
         "symfony/finder": "^4.0",
         "symfony/console": "^4.0"
-    }
+    },
+    "bin": ["bin/phuml"]
 }
