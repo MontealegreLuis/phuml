@@ -23,12 +23,12 @@ abstract class ImageProcessor extends Processor
         $this->fileSystem = $fileSystem ?? new Filesystem();
     }
 
-    public function process($input)
+    public function process(string $digraphInDotFormat): string
     {
         $dotFile = $this->fileSystem->tempnam('/tmp', 'phuml');
         $imageFile = $this->fileSystem->tempnam('/tmp', 'phuml');
 
-        $this->fileSystem->dumpFile($dotFile, $input);
+        $this->fileSystem->dumpFile($dotFile, $digraphInDotFormat);
         $this->fileSystem->remove($imageFile);
 
         $this->execute($dotFile, $imageFile);

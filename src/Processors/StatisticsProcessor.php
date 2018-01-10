@@ -6,6 +6,7 @@
  */
 namespace PhUml\Processors;
 
+use PhUml\Code\Structure;
 use PhUml\Code\Summary;
 
 class StatisticsProcessor extends Processor
@@ -15,7 +16,7 @@ class StatisticsProcessor extends Processor
         return 'Statistics';
     }
 
-    public function process($structure)
+    public function process(Structure $structure): string
     {
         $summary = new Summary();
         $summary->from($structure);

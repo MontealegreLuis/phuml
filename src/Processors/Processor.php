@@ -9,12 +9,10 @@ namespace PhUml\Processors;
 
 abstract class Processor
 {
-    public function writeToDisk(string $input, string $output): void
+    public function writeToDisk(string $contents, string $filePath): void
     {
-        file_put_contents($output, $input);
+        file_put_contents($filePath, $contents);
     }
 
     abstract public function name(): string;
-
-    abstract public function process($input);
 }

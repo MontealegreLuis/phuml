@@ -6,6 +6,7 @@
  */
 namespace PhUml\Processors;
 
+use PhUml\Code\Structure;
 use PhUml\Graphviz\ClassGraphElements;
 use PhUml\Graphviz\Digraph;
 use PhUml\Graphviz\HtmlLabelStyle;
@@ -34,9 +35,9 @@ class GraphvizProcessor extends Processor
         return 'Graphviz';
     }
 
-    public function process($input)
+    public function process(Structure $structure): string
     {
-        $this->digraph->fromCodeStructure($input);
+        $this->digraph->fromCodeStructure($structure);
 
         return $this->digraph->toDotLanguage();
     }
