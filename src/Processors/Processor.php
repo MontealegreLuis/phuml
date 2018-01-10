@@ -16,9 +16,5 @@ abstract class Processor
 
     abstract public function name(): string;
 
-    abstract public function getInputType(): string;
-
-    abstract public function getOutputType(): string;
-
     abstract public function process($input);
 }

@@ -23,16 +23,6 @@ abstract class ImageProcessor extends Processor
         $this->fileSystem = $fileSystem ?? new Filesystem();
     }
 
-    public function getInputType(): string
-    {
-        return 'text/dot';
-    }
-
-    public function getOutputType(): string
-    {
-        return 'image/png';
-    }
-
     public function process($input)
     {
         $dotFile = $this->fileSystem->tempnam('/tmp', 'phuml');

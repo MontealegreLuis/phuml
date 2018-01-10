@@ -16,18 +16,6 @@ abstract class ImageProcessorTest extends TestCase
     abstract function processor(Process $process = null): ImageProcessor;
 
     /** @test */
-    function it_accepts_dot_language_as_input_and_produces_a_png_image_as_output()
-    {
-        $processor = $this->processor();
-
-        $input = $processor->getInputType();
-        $output = $processor->getOutputType();
-
-        $this->assertEquals('text/dot', $input);
-        $this->assertEquals('image/png', $output);
-    }
-
-    /** @test */
     function it_generates_an_image_from_a_dot_file()
     {
         $dotFilePath = __DIR__ . '/../.fixtures/classes.dot';

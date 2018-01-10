@@ -34,16 +34,6 @@ class GraphvizProcessor extends Processor
         return 'Graphviz';
     }
 
-    public function getInputType(): string
-    {
-        return 'application/phuml-structure';
-    }
-
-    public function getOutputType(): string
-    {
-        return 'text/dot';
-    }
-
     public function process($input)
     {
         $this->digraph->fromCodeStructure($input);

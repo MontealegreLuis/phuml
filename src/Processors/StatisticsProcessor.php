@@ -15,16 +15,6 @@ class StatisticsProcessor extends Processor
         return 'Statistics';
     }
 
-    public function getInputType(): string
-    {
-        return 'application/phuml-structure';
-    }
-
-    public function getOutputType(): string
-    {
-        return 'text/plain';
-    }
-
     public function process($structure)
     {
         $summary = new Summary();
