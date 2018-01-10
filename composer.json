@@ -1,6 +1,5 @@
 {
     "autoload": {
-        "classmap": ["src/classes", "src/exceptions"],
         "psr-4": {
             "PhUml\\": "src"
         }
