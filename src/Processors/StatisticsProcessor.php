@@ -7,17 +7,9 @@
 namespace PhUml\Processors;
 
 use PhUml\Code\Summary;
-use plProcessorOptions;
 
 class StatisticsProcessor extends Processor
 {
-    public $options;
-
-    public function __construct()
-    {
-        $this->options = new plProcessorOptions();
-    }
-
     public function name(): string
     {
         return 'Statistics';

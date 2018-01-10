@@ -11,21 +11,16 @@ use PhUml\Graphviz\Digraph;
 use PhUml\Graphviz\HtmlLabelStyle;
 use PhUml\Graphviz\InterfaceGraphElements;
 use PhUml\Graphviz\NodeLabelBuilder;
-use plGraphvizProcessorOptions;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
 
 class GraphvizProcessor extends Processor
 {
-    /** @var plGraphvizProcessorOptions */
-    public $options;
-
     /** @var Digraph */
     private $digraph;
 
     public function __construct(bool $createAssociations, Digraph $digraph = null)
     {
-        $this->options = new plGraphvizProcessorOptions();
         $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../Graphviz/templates')
         ), new HtmlLabelStyle());

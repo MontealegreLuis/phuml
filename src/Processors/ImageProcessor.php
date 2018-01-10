@@ -6,15 +6,11 @@
  */
 namespace PhUml\Processors;
 
-use plProcessorOptions;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 abstract class ImageProcessor extends Processor
 {
-    /** @var plProcessorOptions */
-    public $options;
-
     /** @var Process */
     protected $process;
 
@@ -23,7 +19,6 @@ abstract class ImageProcessor extends Processor
 
     public function __construct(Process $process = null, Filesystem $fileSystem = null)
     {
-        $this->options = new plProcessorOptions();
         $this->process = $process ?? new Process($this->command());
         $this->fileSystem = $fileSystem ?? new Filesystem();
     }
