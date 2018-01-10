@@ -61,7 +61,7 @@ class GenerateStatisticsCommandTest extends TestCase
         $this->assertFileExists($this->statistics);
     }
 
-    /** @var GenerateClassDiagramCommand */
+    /** @var ExecuteActionCommand */
     private $command;
 
     /** @var CommandTester */

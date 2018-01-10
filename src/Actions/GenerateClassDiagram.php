@@ -6,13 +6,13 @@
  */
 namespace PhUml\Actions;
 
+use LogicException;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
-use LogicException;
 
-class GenerateClassDiagram
+class GenerateClassDiagram extends Action
 {
     /** @var TokenParser */
     private $parser;
@@ -23,17 +23,9 @@ class GenerateClassDiagram
     /** @var ImageProcessor */
     private $imageProcessor;
 
-    /** @var CanGenerateClassDiagram */
-    private $command;
-
     public function __construct(TokenParser $parser, GraphvizProcessor $dotProcessor) {
         $this->parser = $parser;
         $this->dotProcessor = $dotProcessor;
-    }
-
-    public function attach(CanGenerateClassDiagram $action): void
-    {
-        $this->command = $action;
     }
 
     public function setImageProcessor(ImageProcessor $imageProcessor): void
@@ -54,15 +46,6 @@ class GenerateClassDiagram
         $image = $this->imageProcessor()->process($dotLanguage);
         $this->command()->savingResult();
         $this->imageProcessor->writeToDisk($image, $imagePath);
-    }
-
-    /** @throws LogicException */
-    private function command(): CanGenerateClassDiagram
-    {
-        if (!$this->command) {
-            throw new LogicException('No command was attached');
-        }
-        return $this->command;
     }
 
     /** @throws LogicException */

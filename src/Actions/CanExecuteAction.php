@@ -6,13 +6,13 @@
  */
 namespace PhUml\Actions;
 
-use PhUml\Processors\StatisticsProcessor;
+use PhUml\Processors\Processor;
 
-interface CanGenerateStatistics
+interface CanExecuteAction
 {
     public function runningParser(): void;
 
-    public function runningProcessor(StatisticsProcessor $processor): void;
+    public function runningProcessor(Processor $processor): void;
 
     public function savingResult(): void;
 }

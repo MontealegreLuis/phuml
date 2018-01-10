@@ -7,7 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\CanGenerateClassDiagram;
+use PhUml\Actions\CanExecuteAction;
 use PhUml\Actions\GenerateClassDiagram;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateClassDiagramCommand extends Command implements CanGenerateClassDiagram
+class GenerateClassDiagramCommand extends Command implements CanExecuteAction
 {
     /** @var OutputInterface */
     private $output;

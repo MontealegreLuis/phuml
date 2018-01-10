@@ -6,10 +6,11 @@
  */
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\CanGenerateStatistics;
+use PhUml\Actions\CanExecuteAction;
 use PhUml\Actions\GenerateStatistics;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
+use PhUml\Processors\Processor;
 use PhUml\Processors\StatisticsProcessor;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateStatisticsCommand extends Command implements CanGenerateStatistics
+class GenerateStatisticsCommand extends Command implements CanExecuteAction
 {
     /** @var OutputInterface */
     private $output;
@@ -93,7 +94,7 @@ HELP
         $this->output->writeln('[|] Parsing class structure');
     }
 
-    public function runningProcessor(StatisticsProcessor $processor): void
+    public function runningProcessor(Processor $processor): void
     {
         $this->output->writeln("[|] Running '{$processor->name()}' processor");
     }

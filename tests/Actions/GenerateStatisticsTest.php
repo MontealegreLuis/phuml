@@ -56,7 +56,7 @@ STATS;
         $file = __DIR__ . '/../../tests/.output/statistics.txt';
 
         $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
-        $action->attach($this->prophesize(CanGenerateStatistics::class)->reveal());
+        $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../.code/classes', false);
 
@@ -98,7 +98,7 @@ STATS;
         $file = __DIR__ . '/../../tests/.output/statistics.txt';
 
         $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
-        $action->attach($this->prophesize(CanGenerateStatistics::class)->reveal());
+        $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../.code/classes');
 

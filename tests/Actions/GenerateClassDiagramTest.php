@@ -15,7 +15,7 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
 
-class GenerateClassDiagramTest extends TestCase 
+class GenerateClassDiagramTest extends TestCase
 {
     use CompareImagesTrait;
 
@@ -35,7 +35,7 @@ class GenerateClassDiagramTest extends TestCase
     /** @test */
     function it_fails_to_generate_diagram_if_no_image_processor_is_provided()
     {
-        $this->action->attach($this->prophesize(CanGenerateClassDiagram::class)->reveal());
+        $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
 
         $this->expectException(LogicException::class);
         $this->action->generate(new CodeFinder(), 'wont-be-generated.png');
@@ -47,7 +47,7 @@ class GenerateClassDiagramTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_dot_processor()
     {
-        $this->action->attach($this->prophesize(CanGenerateClassDiagram::class)->reveal());
+        $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new DotProcessor());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../.code/classes', false);
@@ -65,7 +65,7 @@ class GenerateClassDiagramTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_dot_processors_and_the_recursive_option()
     {
-        $this->action->attach($this->prophesize(CanGenerateClassDiagram::class)->reveal());
+        $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new DotProcessor());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../.code');
@@ -83,7 +83,7 @@ class GenerateClassDiagramTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_neato_processor()
     {
-        $this->action->attach($this->prophesize(CanGenerateClassDiagram::class)->reveal());
+        $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new NeatoProcessor());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../.code/classes', false);
@@ -101,7 +101,7 @@ class GenerateClassDiagramTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_neato_processors_and_the_recursive_option()
     {
-        $this->action->attach($this->prophesize(CanGenerateClassDiagram::class)->reveal());
+        $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new NeatoProcessor());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../.code');
