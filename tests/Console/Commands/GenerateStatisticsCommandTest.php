@@ -7,18 +7,17 @@
 namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\PhUmlApplication;
 use RuntimeException;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GenerateStatisticsCommandTest extends TestCase 
+class GenerateStatisticsCommandTest extends TestCase
 {
     /** @before */
     function configureCommandTester()
     {
-        $application = new Application();
-        $this->command = new GenerateStatisticsCommand();
-        $application->add($this->command);
+        $application = new PhUmlApplication();
+        $this->command = $application->find('phuml:statistics');
         $this->tester = new CommandTester($this->command);
         $this->statistics = __DIR__ . '/../../.output/statistics.txt';
         if (file_exists($this->statistics)) {

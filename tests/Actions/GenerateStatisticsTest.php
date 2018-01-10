@@ -6,13 +6,23 @@
  */
 namespace PhUml\Actions;
 
+use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\StatisticsProcessor;
 
-class GenerateStatisticsTest extends TestCase 
+class GenerateStatisticsTest extends TestCase
 {
+    /** @test */
+    function it_fails_to_generate_the_statistics_if_command_is_not_provided()
+    {
+        $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
+
+        $this->expectException(LogicException::class);
+        $action->generate(new CodeFinder(), 'wont-be-generated.txt');
+    }
+
     /** @test */
     function it_shows_the_statistics_of_a_directory()
     {

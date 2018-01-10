@@ -7,18 +7,17 @@
 namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\PhUmlApplication;
 use RuntimeException;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GenerateClassDiagramCommandTest extends TestCase 
+class GenerateClassDiagramCommandTest extends TestCase
 {
     /** @before */
     function configureCommandTester()
     {
-        $application = new Application();
-        $this->command = new GenerateClassDiagramCommand();
-        $application->add($this->command);
+        $application = new PhUmlApplication();
+        $this->command = $application->find('phuml:diagram');
         $this->tester = new CommandTester($this->command);
         $this->diagram = __DIR__ . '/../../.output/out.png';
         if (file_exists($this->diagram)) {
