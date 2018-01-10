@@ -19,14 +19,4 @@ class StatisticsProcessorTest extends TestCase
 
         $this->assertEquals('Statistics', $name);
     }
-
-    /** @test */
-    function it_knows_it_is_a_valid_initial_processor()
-    {
-        $processor = new StatisticsProcessor();
-
-        $isInitial = $processor->isInitial();
-
-        $this->assertTrue($isInitial);
-    }
 }

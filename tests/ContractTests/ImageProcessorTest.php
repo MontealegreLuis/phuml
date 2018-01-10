@@ -16,16 +16,6 @@ abstract class ImageProcessorTest extends TestCase
     abstract function processor(Process $process = null): ImageProcessor;
 
     /** @test */
-    function it_knows_its_an_invalid_initial_processor()
-    {
-        $processor = $this->processor();
-
-        $isInitial = $processor->isInitial();
-
-        $this->assertFalse($isInitial);
-    }
-
-    /** @test */
     function it_accepts_dot_language_as_input_and_produces_a_png_image_as_output()
     {
         $processor = $this->processor();

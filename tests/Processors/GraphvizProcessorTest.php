@@ -37,16 +37,6 @@ class GraphvizProcessorTest extends TestCase
     }
 
     /** @test */
-    function it_knows_it_is_a_valid_initial_processor()
-    {
-        $processor = new GraphvizProcessor(true);
-
-        $isInitial = $processor->isInitial();
-
-        $this->assertTrue($isInitial);
-    }
-
-    /** @test */
     function it_turns_a_code_structure_into_dot_language()
     {
         $labelBuilder = new ClassNameLabelBuilder();
