@@ -36,7 +36,7 @@ class StructureBuilder
         return $this->structure;
     }
 
-    private function buildInterface(Definitions $definitions, array $interface): InterfaceDefinition
+    protected function buildInterface(Definitions $definitions, array $interface): InterfaceDefinition
     {
         return new InterfaceDefinition(
             $interface['interface'],
@@ -45,7 +45,7 @@ class StructureBuilder
         );
     }
 
-    private function buildClass(Definitions $definitions, array $class): ClassDefinition
+    protected function buildClass(Definitions $definitions, array $class): ClassDefinition
     {
         return new ClassDefinition(
             $class['class'],
@@ -57,7 +57,7 @@ class StructureBuilder
     }
 
     /** @return Method[] */
-    private function buildMethods(array $definition): array
+    protected function buildMethods(array $definition): array
     {
         $methods = [];
         foreach ($definition['functions'] as $method) {
@@ -78,7 +78,7 @@ class StructureBuilder
     }
 
     /** @return Attribute[] */
-    private function buildAttributes(array $class): array
+    protected function buildAttributes(array $class): array
     {
         $attributes = [];
         foreach ($class['attributes'] as $attribute) {
@@ -112,7 +112,7 @@ class StructureBuilder
      * @param string[] $implements
      * @return Definition[]
      */
-    private function buildInterfaces(Definitions $definitions, array $implements): array
+    protected function buildInterfaces(Definitions $definitions, array $implements): array
     {
         $interfaces = [];
         foreach ($implements as $interface) {
@@ -121,7 +121,7 @@ class StructureBuilder
         return $interfaces;
     }
 
-    private function resolveRelatedInterface(Definitions $definitions, ?string $interface): ?Definition
+    protected function resolveRelatedInterface(Definitions $definitions, ?string $interface): ?Definition
     {
         if ($interface === null) {
             return null;
@@ -135,7 +135,7 @@ class StructureBuilder
         return $this->structure->get($interface);
     }
 
-    private function resolveParentClass(Definitions $definitions, ?string $parent): ?Definition
+    protected function resolveParentClass(Definitions $definitions, ?string $parent): ?Definition
     {
         if ($parent === null) {
             return null;
