@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
@@ -12,17 +13,17 @@ use PhUml\Console\ProgressDisplay;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GenerateStatisticsCommandTest extends TestCase
+class GenerateDotFileCommandTest extends TestCase
 {
     /** @before */
     function configureCommandTester()
     {
         $application = new PhUmlApplication(new ProgressDisplay());
-        $this->command = $application->find('phuml:statistics');
+        $this->command = $application->find('phuml:dot');
         $this->tester = new CommandTester($this->command);
-        $this->statistics = __DIR__ . '/../../.output/statistics.txt';
-        if (file_exists($this->statistics)) {
-            unlink($this->statistics);
+        $this->dotFile = __DIR__ . '/../../.output/dot.gv';
+        if (file_exists($this->dotFile)) {
+            unlink($this->dotFile);
         }
     }
 
@@ -37,37 +38,52 @@ class GenerateStatisticsCommandTest extends TestCase
     }
 
     /** @test */
-    function it_fails_to_generate_a_diagram_if_directory_with_classes_does_not_exist()
+    function it_fails_to_generate_a_dot_file_if_directory_with_classes_does_not_exist()
     {
         $this->expectException(RuntimeException::class);
 
         $this->tester->execute([
             'command' => $this->command->getName(),
             'directory' => 'invalid-directory',
-            'output' => $this->statistics,
+            'output' => $this->dotFile,
         ]);
     }
 
     /** @test */
-    function it_generates_the_statistics_of_a_given_directory()
+    function it_generates_the_dot_file_of_a_given_directory()
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
             'directory' => __DIR__ . '/../../.code',
-            'output' => $this->statistics,
-            '--recursive' => true,
+            'output' => $this->dotFile,
+            '--associations' => true,
         ]);
 
         $this->assertEquals(0, $status);
-        $this->assertFileExists($this->statistics);
+        $this->assertFileExists($this->dotFile);
     }
 
-    /** @var GenerateStatisticsCommand */
+    /** @test */
+    function it_generates_a_dot_file_searching_for_classes_recursively()
+    {
+        $status = $this->tester->execute([
+            'command' => $this->command->getName(),
+            'directory' => __DIR__ . '/../../.code',
+            'output' => $this->dotFile,
+            '--recursive' => true,
+            '--associations' => true,
+        ]);
+
+        $this->assertEquals(0, $status);
+        $this->assertFileExists($this->dotFile);
+    }
+
+    /** @var string */
+    private $dotFile;
+
+    /** @var GenerateDotFileCommand */
     private $command;
 
     /** @var CommandTester */
     private $tester;
-
-    /** @var string */
-    private $statistics;
 }

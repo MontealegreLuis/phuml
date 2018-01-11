@@ -54,7 +54,7 @@ HELP
             ->addArgument(
                 'directory',
                 InputArgument::REQUIRED,
-                'The directory to be scanned to generate the class diagram'
+                'The directory to be scanned to generate the statistics'
             )
             ->addArgument(
                 'output',
@@ -71,8 +71,6 @@ HELP
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
-
         $directory = $input->getArgument('directory');
         $statisticsFile = $input->getArgument('output');
         $recursive = (bool)$input->getOption('recursive');

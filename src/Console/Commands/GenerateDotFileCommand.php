@@ -7,13 +7,11 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\GenerateClassDiagram;
+use PhUml\Actions\GenerateDotFile;
 use PhUml\Console\ProgressDisplay;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
-use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\NeatoProcessor;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,7 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateClassDiagramCommand extends Command
+class GenerateDotFileCommand extends Command
 {
     /** @var ProgressDisplay */
     private $display;
@@ -32,19 +30,18 @@ class GenerateClassDiagramCommand extends Command
         $this->display = $display;
     }
 
-    /** @throws \InvalidArgumentException */
     protected function configure()
     {
         $this
-            ->setName('phuml:diagram')
-            ->setDescription('Generate a class diagram scanning the given directory')
+            ->setName('phuml:dot')
+            ->setDescription('Generates a digraph in DOT format of a given directory')
             ->setHelp(<<<HELP
 Example:
-    php bin/phuml phuml:diagram -r -a -p neato ./src out.png
+    php bin/phuml phuml:dot -r -a ./src dot.gv
 
     This example will scan the `./src` directory recursively for php files.
-    It will process them with the option `associations` set to true. After that it 
-    will be send to the `neato` processor and saved to the file `out.png`.
+    It will process them with the option `associations` set to true.
+    It will generate a digraph in dot format and save it to the file `dot.gv`.
 HELP
             )
             ->addOption(
@@ -52,12 +49,6 @@ HELP
                 'r',
                 InputOption::VALUE_NONE,
                 'Look for classes in the given directory recursively'
-            )
-            ->addOption(
-                'processor',
-                'p',
-                InputOption::VALUE_REQUIRED,
-                'Choose between the neato and dot processors'
             )
             ->addOption(
                 'associations',
@@ -68,51 +59,36 @@ HELP
             ->addArgument(
                 'directory',
                 InputArgument::REQUIRED,
-                'The directory to be scanned to generate the class diagram'
+                'The directory to be scanned to generate the dot file'
             )
             ->addArgument(
                 'output',
                 InputArgument::REQUIRED,
-                'The file name for your class diagram'
-            );
+                'The file name for your dot file'
+            )
+        ;
     }
 
-    /**
-     * @throws \LogicException
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws \RuntimeException
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $directory = $input->getArgument('directory');
-        $diagramFile = $input->getArgument('output');
-        $recursive = (bool)$input->getOption('recursive');
+        $dotFile = $input->getArgument('output');
         $associations = (bool)$input->getOption('associations');
-        $processor = $input->getOption('processor');
+        $recursive = (bool)$input->getOption('recursive');
 
         if (!is_dir($directory)) {
             throw new RuntimeException("'$directory' is not a valid directory");
         }
 
-        $action = new GenerateClassDiagram(new TokenParser(), new GraphvizProcessor($associations));
+        $action = new GenerateDotFile(new TokenParser(), new GraphvizProcessor($associations));
         $action->attach($this->display);
 
         $finder = new CodeFinder();
         $finder->addDirectory($directory, $recursive);
 
-        if (!\in_array($processor, ['neato', 'dot'], true)) {
-            throw new RuntimeException("Expected processors are neato and dot, '$processor' found");
-        }
-
-        if ($processor === 'dot') {
-            $action->setImageProcessor(new DotProcessor());
-        } else {
-            $action->setImageProcessor(new NeatoProcessor());
-        }
-
         $output->writeln('[|] Running... (This may take some time)');
 
-        $action->generate($finder, $diagramFile);
+        $action->generate($finder, $dotFile);
 
         return 0;
     }
