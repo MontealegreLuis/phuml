@@ -15,10 +15,10 @@ class PhUmlApplication extends Application
     /**
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct()
+    public function __construct(ProgressDisplay $display)
     {
         parent::__construct('phUML', '1.0.0');
-        $this->add(new GenerateClassDiagramCommand());
-        $this->add(new GenerateStatisticsCommand());
+        $this->add(new GenerateClassDiagramCommand($display));
+        $this->add(new GenerateStatisticsCommand($display));
     }
 }

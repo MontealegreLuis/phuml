@@ -6,11 +6,10 @@
  */
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\CanExecuteAction;
 use PhUml\Actions\GenerateStatistics;
+use PhUml\Console\ProgressDisplay;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
-use PhUml\Processors\Processor;
 use PhUml\Processors\StatisticsProcessor;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -19,10 +18,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateStatisticsCommand extends Command implements CanExecuteAction
+class GenerateStatisticsCommand extends Command
 {
-    /** @var OutputInterface */
-    private $output;
+    /** @var ProgressDisplay */
+    private $display;
+
+    public function __construct(ProgressDisplay $display)
+    {
+        parent::__construct(null);
+        $this->display = $display;
+    }
 
     /**
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
@@ -77,7 +82,7 @@ HELP
         }
 
         $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
-        $action->attach($this);
+        $action->attach($this->display);
 
         $finder = new CodeFinder();
         $finder->addDirectory($directory, $recursive);
@@ -87,20 +92,5 @@ HELP
         $action->generate($finder, $statisticsFile);
 
         return 0;
-    }
-
-    public function runningParser(): void
-    {
-        $this->output->writeln('[|] Parsing class structure');
-    }
-
-    public function runningProcessor(Processor $processor): void
-    {
-        $this->output->writeln("[|] Running '{$processor->name()}' processor");
-    }
-
-    public function savingResult(): void
-    {
-        $this->output->writeln('[|] Writing generated data to disk');
     }
 }

@@ -7,14 +7,13 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\CanExecuteAction;
 use PhUml\Actions\GenerateClassDiagram;
+use PhUml\Console\ProgressDisplay;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
-use PhUml\Processors\Processor;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,10 +21,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateClassDiagramCommand extends Command implements CanExecuteAction
+class GenerateClassDiagramCommand extends Command
 {
-    /** @var OutputInterface */
-    private $output;
+    /** @var ProgressDisplay */
+    private $display;
+
+    public function __construct(ProgressDisplay $display)
+    {
+        parent::__construct(null);
+        $this->display = $display;
+    }
 
     /** @throws \InvalidArgumentException */
     protected function configure()
@@ -92,7 +97,7 @@ HELP
         }
 
         $action = new GenerateClassDiagram(new TokenParser(), new GraphvizProcessor($associations));
-        $action->attach($this);
+        $action->attach($this->display);
 
         $finder = new CodeFinder();
         $finder->addDirectory($directory, $recursive);
@@ -112,20 +117,5 @@ HELP
         $action->generate($finder, $diagramFile);
 
         return 0;
-    }
-
-    public function runningParser(): void
-    {
-        $this->output->writeln('[|] Parsing class structure');
-    }
-
-    public function runningProcessor(Processor $processor): void
-    {
-        $this->output->writeln("[|] Running '{$processor->name()}' processor");
-    }
-
-    public function savingResult(): void
-    {
-        $this->output->writeln('[|] Writing generated data to disk');
     }
 }

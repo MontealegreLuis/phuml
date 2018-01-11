@@ -8,6 +8,7 @@ namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
+use PhUml\Console\ProgressDisplay;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -16,7 +17,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     /** @before */
     function configureCommandTester()
     {
-        $application = new PhUmlApplication();
+        $application = new PhUmlApplication(new ProgressDisplay());
         $this->command = $application->find('phuml:diagram');
         $this->tester = new CommandTester($this->command);
         $this->diagram = __DIR__ . '/../../.output/out.png';
@@ -48,7 +49,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     }
 
     /** @test */
-    function it_fails_to_generate_a_diagram_if_no_processor_is_specified()
+    function it_fails_to_generate_a_diagram_if_no_image_processor_is_specified()
     {
         $this->expectException(RuntimeException::class);
 

@@ -8,6 +8,7 @@ namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
+use PhUml\Console\ProgressDisplay;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -16,7 +17,7 @@ class GenerateStatisticsCommandTest extends TestCase
     /** @before */
     function configureCommandTester()
     {
-        $application = new PhUmlApplication();
+        $application = new PhUmlApplication(new ProgressDisplay());
         $this->command = $application->find('phuml:statistics');
         $this->tester = new CommandTester($this->command);
         $this->statistics = __DIR__ . '/../../.output/statistics.txt';
