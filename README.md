@@ -29,13 +29,13 @@ The console application works with so called processors.
 Processors may be used to create different output formats.
 There's currently 3 types of processors:
 
-* Processors to produce a digraph using dot language
+* Processors to produce a digraph using [DOT language][14]
 * Processors to produce `png` class diagrams
 * Processors to produce statistics
 
 To successfully create UML diagrams you will need the [graphviz][11] toolkit installed on your system.
 You may then call the `neato` or `dot` executables, which are part of graphviz, to process the created file
-manually or you may have `phUML` do this for you by using the dot or neato processor.
+manually or you may have `phUML` do this for you.
 
 This is the command used to generate the example you can see above.
 
@@ -48,6 +48,14 @@ This is the command used to generate the statistics of a codebase.
 ```
 $ vendor/bin/phuml phuml:statistics -r tests/.code stats.txt
 ```
+
+If you want to generate a different output using either `neato` or `dot` use the `phuml:dot` command
+
+```
+$ vendor/bin/phuml phuml:dot -r -a tests/.code dot.gv
+```
+
+It will generate a file with the class diagram information in DOT format.
 
 [1]: https://github.com/jakobwesthoff/phuml
 [2]: https://github.com/jakobwesthoff/phuml/pull/8
@@ -62,3 +70,4 @@ $ vendor/bin/phuml phuml:statistics -r tests/.code stats.txt
 [11]: http://www.graphviz.org
 [12]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/badges/coverage.png?b=master
 [13]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/?branch=master
+[14]: https://en.wikipedia.org/wiki/DOT_(graph_description_language)
