@@ -7,28 +7,17 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateStatistics;
-use PhUml\Console\ProgressDisplay;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\StatisticsProcessor;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateStatisticsCommand extends Command
+class GenerateStatisticsCommand extends GeneratorCommand
 {
-    /** @var ProgressDisplay */
-    private $display;
-
-    public function __construct(ProgressDisplay $display)
-    {
-        parent::__construct(null);
-        $this->display = $display;
-    }
-
     /**
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */

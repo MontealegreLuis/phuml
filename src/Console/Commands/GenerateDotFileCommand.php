@@ -8,28 +8,17 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateDotFile;
-use PhUml\Console\ProgressDisplay;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\GraphvizProcessor;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateDotFileCommand extends Command
+class GenerateDotFileCommand extends GeneratorCommand
 {
-    /** @var ProgressDisplay */
-    private $display;
-
-    public function __construct(ProgressDisplay $display)
-    {
-        parent::__construct(null);
-        $this->display = $display;
-    }
-
     protected function configure()
     {
         $this

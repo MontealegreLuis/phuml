@@ -8,30 +8,19 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateClassDiagram;
-use PhUml\Console\ProgressDisplay;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
 use RuntimeException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateClassDiagramCommand extends Command
+class GenerateClassDiagramCommand extends GeneratorCommand
 {
-    /** @var ProgressDisplay */
-    private $display;
-
-    public function __construct(ProgressDisplay $display)
-    {
-        parent::__construct(null);
-        $this->display = $display;
-    }
-
     /** @throws \InvalidArgumentException */
     protected function configure()
     {
