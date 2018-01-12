@@ -36,8 +36,8 @@ General statistics
 Classes:    2
 Interfaces: 0
 
-Attributes: 3 (0 are typed)
-    * private:   3
+Attributes: 5 (0 are typed)
+    * private:   5
     * protected: 0
     * public:    0
 
@@ -49,7 +49,7 @@ Functions:  11
 Average statistics
 ------------------
 
-Attributes per class: 1.5
+Attributes per class: 2.5
 Functions per class:  5.5
 
 STATS;
@@ -78,8 +78,8 @@ General statistics
 Classes:    19
 Interfaces: 0
 
-Attributes: 21 (0 are typed)
-    * private:   16
+Attributes: 23 (0 are typed)
+    * private:   18
     * protected: 1
     * public:    4
 
@@ -91,7 +91,7 @@ Functions:  86
 Average statistics
 ------------------
 
-Attributes per class: 1.11
+Attributes per class: 1.21
 Functions per class:  4.53
 
 STATS;
