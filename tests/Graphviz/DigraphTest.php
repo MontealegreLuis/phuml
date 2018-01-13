@@ -13,6 +13,8 @@ use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
+use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 
 class DigraphTest extends TestCase
 {
@@ -27,8 +29,8 @@ class DigraphTest extends TestCase
     function it_can_be_represented_as_dot_language_from_a_structure_with_one_definition()
     {
         $labelBuilder = new ClassNameLabelBuilder();
-        $interfaceElements = new InterfaceGraphElements($labelBuilder);
-        $classElements = new ClassGraphElements(true, $labelBuilder);
+        $interfaceElements = new InterfaceGraphBuilder($labelBuilder);
+        $classElements = new ClassGraphBuilder(true, $labelBuilder);
         $digraph = new Digraph($interfaceElements, $classElements);
         $structure = new Structure();
         $structure->addClass(new NumericIdClass('TestClass'));
@@ -50,8 +52,8 @@ mindist = 0.6;
     function it_can_be_represented_as_dot_language_from_a_structure_with_several_definitions()
     {
         $labelBuilder = new ClassNameLabelBuilder();
-        $interfaceElements = new InterfaceGraphElements($labelBuilder);
-        $classElements = new ClassGraphElements(true, $labelBuilder);
+        $interfaceElements = new InterfaceGraphBuilder($labelBuilder);
+        $classElements = new ClassGraphBuilder(true, $labelBuilder);
         $digraph = new Digraph($interfaceElements, $classElements);
 
         $parentInterface = new NumericIdInterface('ParentInterface');

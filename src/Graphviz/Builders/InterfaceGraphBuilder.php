@@ -5,11 +5,13 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Graphviz;
+namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\Node;
 
-class InterfaceGraphElements
+class InterfaceGraphBuilder
 {
     /** @var NodeLabelBuilder */
     private $labelBuilder;
@@ -20,7 +22,7 @@ class InterfaceGraphElements
     }
 
     /**
-     * @return HasDotRepresentation[]
+     * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
     public function extractFrom(InterfaceDefinition $interface): array
     {
@@ -28,7 +30,6 @@ class InterfaceGraphElements
 
         $dotElements[] = new Node($interface, $this->labelBuilder->labelForInterface($interface));
 
-        // Create interface inheritance relation
         if ($interface->hasParent()) {
             $dotElements[] = Edge::inheritance($interface->extends, $interface);
         }

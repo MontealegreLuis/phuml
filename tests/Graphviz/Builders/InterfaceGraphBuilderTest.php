@@ -5,13 +5,15 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Graphviz;
+namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Fakes\ClassNameLabelBuilder;
+use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\Node;
 
-class InterfaceGraphElementsTest extends TestCase
+class InterfaceGraphBuilderTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_from_a_single_interface()
@@ -19,7 +21,7 @@ class InterfaceGraphElementsTest extends TestCase
         $interface = new InterfaceDefinition('AnInterface');
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
-        $graphElements = new InterfaceGraphElements($nodeBuilder);
+        $graphElements = new InterfaceGraphBuilder($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);
 
@@ -33,7 +35,7 @@ class InterfaceGraphElementsTest extends TestCase
         $interface = new InterfaceDefinition('AnInterface', [], $parent);
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
-        $graphElements = new InterfaceGraphElements($nodeBuilder);
+        $graphElements = new InterfaceGraphBuilder($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);
 

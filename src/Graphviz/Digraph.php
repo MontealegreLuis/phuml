@@ -9,21 +9,23 @@ namespace PhUml\Graphviz;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Structure;
+use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 
 class Digraph implements HasDotRepresentation
 {
     /** @var HasDotRepresentation[] */
     private $dotElements;
 
-    /** @var InterfaceGraphElements */
+    /** @var InterfaceGraphBuilder */
     private $interfaceElements;
 
-    /** @var ClassGraphElements */
+    /** @var ClassGraphBuilder */
     private $classElements;
 
     public function __construct(
-        InterfaceGraphElements $interfaceElements,
-        ClassGraphElements $classElements
+        InterfaceGraphBuilder $interfaceElements,
+        ClassGraphBuilder $classElements
     ) {
         $this->dotElements = [];
         $this->interfaceElements = $interfaceElements;
@@ -35,7 +37,7 @@ class Digraph implements HasDotRepresentation
         foreach ($structure->definitions() as $definition) {
             if ($definition instanceof ClassDefinition) {
                 $this->classElementsFrom($definition, $structure);
-            } else if ($definition instanceof InterfaceDefinition) {
+            } elseif ($definition instanceof InterfaceDefinition) {
                 $this->interfaceElementsFrom($definition);
             }
         }

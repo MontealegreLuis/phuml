@@ -13,9 +13,9 @@ use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
-use PhUml\Graphviz\ClassGraphElements;
+use PhUml\Graphviz\ClassGraphBuilder;
 use PhUml\Graphviz\Digraph;
-use PhUml\Graphviz\InterfaceGraphElements;
+use PhUml\Graphviz\InterfaceGraphBuilder;
 
 class GraphvizProcessorTest extends TestCase
 {
@@ -41,8 +41,8 @@ class GraphvizProcessorTest extends TestCase
     {
         $labelBuilder = new ClassNameLabelBuilder();
         $digraph = new Digraph(
-            new InterfaceGraphElements($labelBuilder),
-            new ClassGraphElements(true, $labelBuilder)
+            new InterfaceGraphBuilder($labelBuilder),
+            new ClassGraphBuilder(true, $labelBuilder)
         );
         $processor = new GraphvizProcessor(true, $digraph);
 

@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Graphviz;
+namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Attribute;
@@ -15,15 +15,17 @@ use PhUml\Code\Method;
 use PhUml\Code\Structure;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
+use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\Node;
 
-class ClassGraphElementsTest extends TestCase
+class ClassGraphBuilderTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_for_a_simple_class()
     {
         $class = new ClassDefinition('ClassName');
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(false, new ClassNameLabelBuilder());
+        $graphElements = new ClassGraphBuilder(false, new ClassNameLabelBuilder());
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 
@@ -37,7 +39,7 @@ class ClassGraphElementsTest extends TestCase
         $class = new ClassDefinition('ChildClass', [], [], [], $parent);
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(false, $nodeBuilder);
+        $graphElements = new ClassGraphBuilder(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 
@@ -58,7 +60,7 @@ class ClassGraphElementsTest extends TestCase
         ]);
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(false, $nodeBuilder);
+        $graphElements = new ClassGraphBuilder(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 
@@ -80,7 +82,7 @@ class ClassGraphElementsTest extends TestCase
         ]);
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(true, $nodeBuilder);
+        $graphElements = new ClassGraphBuilder(true, $nodeBuilder);
         $structure = new Structure();
         $structure->addClass($reference);
 
@@ -104,7 +106,7 @@ class ClassGraphElementsTest extends TestCase
         );
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(true, $nodeBuilder);
+        $graphElements = new ClassGraphBuilder(true, $nodeBuilder);
         $structure = new Structure();
         $structure->addClass($firstReference);
         $structure->addClass($secondReference);
@@ -148,7 +150,7 @@ class ClassGraphElementsTest extends TestCase
         );
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(true, $nodeBuilder);
+        $graphElements = new ClassGraphBuilder(true, $nodeBuilder);
         $structure = new Structure();
         $structure->addClass($firstReference);
         $structure->addClass($secondReference);
@@ -186,7 +188,7 @@ class ClassGraphElementsTest extends TestCase
         );
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
-        $graphElements = new ClassGraphElements(false, $nodeBuilder);
+        $graphElements = new ClassGraphBuilder(false, $nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 

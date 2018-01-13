@@ -5,15 +5,17 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Graphviz;
+namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Structure;
 use PhUml\Code\Variable;
+use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\Node;
 
-class ClassGraphElements
+class ClassGraphBuilder
 {
-    /** @var HasDotRepresentation[] */
+    /** @var \PhUml\Graphviz\HasDotRepresentation[] */
     private $dotElements = [];
 
     /** @var bool[] */
@@ -61,7 +63,7 @@ class ClassGraphElements
         return $this->dotElements;
     }
 
-    /** @return HasDotRepresentation[] */
+    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
     private function addElementsForAttributes(ClassDefinition $class): void
     {
         /** @var \PhUml\Code\Attribute $attribute */
@@ -70,7 +72,7 @@ class ClassGraphElements
         }
     }
 
-    /** @return HasDotRepresentation[] */
+    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
     private function addElementsForParameters(ClassDefinition $class): void
     {
         if (!$class->hasConstructor()) {

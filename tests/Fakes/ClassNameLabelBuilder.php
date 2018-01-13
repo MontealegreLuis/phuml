@@ -9,7 +9,7 @@ namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Graphviz\NodeLabelBuilder;
+use PhUml\Graphviz\Builders\NodeLabelBuilder;
 
 class ClassNameLabelBuilder extends NodeLabelBuilder
 {
