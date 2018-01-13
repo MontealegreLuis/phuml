@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
-class CodeFinderTest extends TestCase 
+class CodeFinderTest extends TestCase
 {
     /** @test */
     function it_finds_files_only_in_the_given_directory()
@@ -18,7 +18,7 @@ class CodeFinderTest extends TestCase
         $orderedFinder->sortByName();
         $finder = new CodeFinder($orderedFinder);
 
-        $finder->addDirectory(__DIR__ . '/../.code/classes', false);
+        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
 
         $this->assertCount(2, $finder->files());
         $this->assertRegExp('/class plBase/', $finder->files()[0]);
@@ -32,7 +32,7 @@ class CodeFinderTest extends TestCase
         $orderedFinder->sortByName();
         $finder = new CodeFinder($orderedFinder);
 
-        $finder->addDirectory(__DIR__ . '/../.code/interfaces');
+        $finder->addDirectory(__DIR__ . '/../resources/.code/interfaces');
 
         $this->assertCount(4, $finder->files());
         $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[0]);

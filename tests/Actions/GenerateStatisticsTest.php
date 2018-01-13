@@ -53,12 +53,12 @@ Attributes per class: 2.5
 Functions per class:  5.5
 
 STATS;
-        $file = __DIR__ . '/../../tests/.output/statistics.txt';
+        $file = __DIR__ . '/../resources/.output/statistics.txt';
 
         $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../.code/classes', false);
+        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
 
         $action->generate($finder, $file);
 
@@ -95,12 +95,12 @@ Attributes per class: 1.21
 Functions per class:  4.53
 
 STATS;
-        $file = __DIR__ . '/../../tests/.output/statistics.txt';
+        $file = __DIR__ . '/../resources/.output/statistics.txt';
 
         $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../.code/classes');
+        $finder->addDirectory(__DIR__ . '/../resources/.code/classes');
 
         $action->generate($finder, $file);
 

@@ -50,9 +50,9 @@ class GenerateClassDiagramTest extends TestCase
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new DotProcessor());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../.code/classes', false);
-        $diagram = __DIR__ . '/../../tests/.output/graphviz-dot-linux.png';
-        $expectedDiagram = __DIR__ . '/../images/graphviz-dot-linux.png';
+        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
+        $diagram = __DIR__ . '/../resources/.output/graphviz-dot-linux.png';
+        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-dot-linux.png';
 
         $this->action->generate($finder, $diagram);
 
@@ -68,9 +68,9 @@ class GenerateClassDiagramTest extends TestCase
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new DotProcessor());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../.code');
-        $diagram = __DIR__ . '/../.output/graphviz-dot-recursive-linux.png';
-        $expectedDiagram = __DIR__ . '/../images/graphviz-dot-recursive-linux.png';
+        $finder->addDirectory(__DIR__ . '/../resources/.code');
+        $diagram = __DIR__ . '/../resources/.output/graphviz-dot-recursive-linux.png';
+        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-dot-recursive-linux.png';
 
         $this->action->generate($finder, $diagram);
 
@@ -86,9 +86,9 @@ class GenerateClassDiagramTest extends TestCase
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new NeatoProcessor());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../.code/classes', false);
-        $diagram = __DIR__ . '/../../tests/.output/graphviz-neato-linux.png';
-        $expectedDiagram = __DIR__ . '/../images/graphviz-neato-linux.png';
+        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
+        $diagram = __DIR__ . '/../resources/.output/graphviz-neato-linux.png';
+        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-neato-linux.png';
 
         $this->action->generate($finder, $diagram);
 
@@ -104,9 +104,9 @@ class GenerateClassDiagramTest extends TestCase
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new NeatoProcessor());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../.code');
-        $diagram = __DIR__ . '/../.output/graphviz-neato-recursive-linux.png';
-        $expectedDiagram = __DIR__ . '/../images/graphviz-neato-recursive-linux.png';
+        $finder->addDirectory(__DIR__ . '/../resources/.code');
+        $diagram = __DIR__ . '/../resources/.output/graphviz-neato-recursive-linux.png';
+        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-neato-recursive-linux.png';
 
         $this->action->generate($finder, $diagram);
 

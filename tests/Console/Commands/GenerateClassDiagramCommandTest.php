@@ -20,7 +20,7 @@ class GenerateClassDiagramCommandTest extends TestCase
         $application = new PhUmlApplication(new ProgressDisplay());
         $this->command = $application->find('phuml:diagram');
         $this->tester = new CommandTester($this->command);
-        $this->diagram = __DIR__ . '/../../.output/out.png';
+        $this->diagram = __DIR__ . '/../../resources/.output/out.png';
         if (file_exists($this->diagram)) {
             unlink($this->diagram);
         }
@@ -65,7 +65,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../.code/classes',
+            'directory' => __DIR__ . '/../../resources/.code/classes',
             'output' => $this->diagram,
             '--processor' => 'dot',
         ]);
@@ -79,7 +79,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../.code',
+            'directory' => __DIR__ . '/../../resources/.code',
             'output' => $this->diagram,
             '--recursive' => true,
             '--processor' => 'neato',

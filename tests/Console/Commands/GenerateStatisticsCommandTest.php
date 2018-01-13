@@ -20,7 +20,7 @@ class GenerateStatisticsCommandTest extends TestCase
         $application = new PhUmlApplication(new ProgressDisplay());
         $this->command = $application->find('phuml:statistics');
         $this->tester = new CommandTester($this->command);
-        $this->statistics = __DIR__ . '/../../.output/statistics.txt';
+        $this->statistics = __DIR__ . '/../../resources/.output/statistics.txt';
         if (file_exists($this->statistics)) {
             unlink($this->statistics);
         }
@@ -53,7 +53,7 @@ class GenerateStatisticsCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../.code',
+            'directory' => __DIR__ . '/../../resources/.code',
             'output' => $this->statistics,
             '--recursive' => true,
         ]);

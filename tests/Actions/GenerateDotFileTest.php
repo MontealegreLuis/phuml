@@ -41,14 +41,14 @@ class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
-        $file = __DIR__ . '/../../tests/.output/dot.gv';
+        $file = __DIR__ . '/../resources/.output/dot.gv';
         $action = new GenerateDotFile(
             new TokenParser(new Definitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
             new GraphvizProcessor(true)
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../.code/classes', false);
+        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
 
         $action->generate($finder, $file);
 
@@ -88,7 +88,7 @@ class GenerateDotFileTest extends TestCase
 "119" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plStatisticsProcessor</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$information</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+$options</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__construct()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getInputTypes()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getOutputType()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+process( $input, $type )</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>> shape=plaintext]
 "112" -> "119" [dir=back arrowtail=empty style=solid]
 DOT;
-        $file = __DIR__ . '/../../tests/.output/dot.gv';
+        $file = __DIR__ . '/../resources/.output/dot.gv';
 
         $action = new GenerateDotFile(
             new TokenParser(new Definitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
@@ -98,7 +98,7 @@ DOT;
         $finder = new Finder();
         $finder->sortByName();
         $finder = new CodeFinder($finder);
-        $finder->addDirectory(__DIR__ . '/../.code/classes');
+        $finder->addDirectory(__DIR__ . '/../resources/.code/classes');
 
         $action->generate($finder, $file);
 

@@ -21,7 +21,7 @@ class GenerateDotFileCommandTest extends TestCase
         $application = new PhUmlApplication(new ProgressDisplay());
         $this->command = $application->find('phuml:dot');
         $this->tester = new CommandTester($this->command);
-        $this->dotFile = __DIR__ . '/../../.output/dot.gv';
+        $this->dotFile = __DIR__ . '/../../resources/.output/dot.gv';
         if (file_exists($this->dotFile)) {
             unlink($this->dotFile);
         }
@@ -54,7 +54,7 @@ class GenerateDotFileCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../.code',
+            'directory' => __DIR__ . '/../../resources/.code',
             'output' => $this->dotFile,
             '--associations' => true,
         ]);
@@ -68,7 +68,7 @@ class GenerateDotFileCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../.code',
+            'directory' => __DIR__ . '/../../resources/.code',
             'output' => $this->dotFile,
             '--recursive' => true,
             '--associations' => true,

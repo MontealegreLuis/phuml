@@ -18,8 +18,8 @@ abstract class ImageProcessorTest extends TestCase
     /** @test */
     function it_generates_an_image_from_a_dot_file()
     {
-        $dotFilePath = __DIR__ . '/../.fixtures/classes.dot';
-        $classDiagramPath = __DIR__ . '/../.output/diagram.png';
+        $dotFilePath = __DIR__ . '/../resources/.fixtures/classes.dot';
+        $classDiagramPath = __DIR__ . '/../resources/.output/diagram.png';
         if (file_exists($classDiagramPath)) {
             unlink($classDiagramPath);
         }
