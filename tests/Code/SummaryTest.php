@@ -18,14 +18,14 @@ class SummaryTest extends TestCase
             Attribute::public('$value', TypeDeclaration::from('float')),
             Attribute::public('isValid'),
         ], [
-            new Method('getAttribute', 'protected'),
-            new Method('privateAction', 'private')
+            Method::protected('getAttribute'),
+            Method::private('privateAction'),
         ]);
         $parentInterface = new InterfaceDefinition('ParentInterface', [
-            new Method('dance'),
+            Method::public('dance'),
         ]);
         $interface = new InterfaceDefinition('SomeAbility', [
-            new Method('fly')
+            Method::public('fly')
         ], $parentInterface);
 
         $structure = new Structure();
@@ -37,8 +37,8 @@ class SummaryTest extends TestCase
             Attribute::private('$salary'),
             Attribute::protected('$age', TypeDeclaration::from('int')),
         ], [
-            new Method('getName'),
-            new Method('getAge'),
+            Method::public('getName'),
+            Method::public('getAge'),
         ], [$interface], $parentClass));
         $summary = new Summary();
 

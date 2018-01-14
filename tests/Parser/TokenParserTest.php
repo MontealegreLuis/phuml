@@ -127,9 +127,9 @@ CLASS
         $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [], [
-            new Method('changeName', 'private', [new Variable('$newName', TypeDeclaration::from('string'))]),
-            new Method('getAge', 'protected'),
-            new Method('formatPhone', 'public', [new Variable('$format', TypeDeclaration::from('string'))]),
+            Method::private('changeName', [new Variable('$newName', TypeDeclaration::from('string'))]),
+            Method::protected('getAge'),
+            Method::public('formatPhone', [new Variable('$format', TypeDeclaration::from('string'))]),
         ]);
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
@@ -155,8 +155,8 @@ CLASS
         $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [], [
-            new Method('__construct'),
-            new Method('changeValues', 'public', [
+            Method::public('__construct'),
+            Method::public('changeValues', [
                 new Variable('$name', TypeDeclaration::from('string')),
                 new Variable('$age', TypeDeclaration::from('int')),
                 new Variable('$phone', TypeDeclaration::from('string')),
@@ -250,12 +250,12 @@ INTERFACE
         $structure = $this->parser->parse($this->finder);
 
         $interface = new InterfaceDefinition('MyInterface', [
-            new Method('changeValues', 'public', [
+            Method::public('changeValues', [
                 new Variable('$name', TypeDeclaration::from('string')),
                 new Variable('$age', TypeDeclaration::from('int')),
                 new Variable('$phone', TypeDeclaration::from('string')),
             ]),
-            new Method('ageToMonths', 'public')
+            Method::public('ageToMonths')
         ]);
         $this->assertTrue($structure->has('MyInterface'));
         $this->assertEquals($interface, $structure->get('MyInterface'));
@@ -386,27 +386,27 @@ CLASS;
         $user = new ClassDefinition('User', [
             Attribute::protected('$name', TypeDeclaration::from('string'))
         ], [
-            new Method('__construct', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
-            new Method('isNamed', 'public', [new Variable('$name', TypeDeclaration::from('string'))])
+            Method::public('__construct', [new Variable('$name', TypeDeclaration::from('string'))]),
+            Method::public('isNamed', [new Variable('$name', TypeDeclaration::from('string'))])
         ]);
         $pageable = new InterfaceDefinition('Pageable', [
-            new Method('current'),
+            Method::public('current'),
         ]);
         $students = new InterfaceDefinition('Students', [
-            new Method('named', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
+            Method::public('named', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], $pageable);
         $student = new ClassDefinition('Student', [
             Attribute::private('$grades', TypeDeclaration::from('string'))
         ], [
-            new Method('__construct', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
+            Method::public('__construct', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], [], $user);
         $inMemoryStudents = new ClassDefinition('InMemoryStudents', [
             Attribute::private('$students', TypeDeclaration::from('Student')),
             Attribute::private('$page'),
         ], [
-            new Method('__construct', 'public', [new Variable('$page', TypeDeclaration::from('Page'))]),
-            new Method('current'),
-            new Method('named', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
+            Method::public('__construct', [new Variable('$page', TypeDeclaration::from('Page'))]),
+            Method::public('current'),
+            Method::public('named', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], [
             $students,
         ]);

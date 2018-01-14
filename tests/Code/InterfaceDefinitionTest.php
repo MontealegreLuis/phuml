@@ -45,8 +45,8 @@ class InterfaceDefinitionTest extends TestCase
     function it_knows_its_methods()
     {
         $methods = [
-            new Method('firstMethod'),
-            new Method('secondMethod'),
+            Method::public('firstMethod'),
+            Method::public('secondMethod'),
         ];
         $interfaceWithMethods = new InterfaceDefinition('InterfaceWithMethods', $methods);
 

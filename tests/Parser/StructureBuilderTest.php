@@ -36,8 +36,8 @@ class StructureBuilderTest extends TestCase
 
         $this->assertEquals(
             new InterfaceDefinition('InterfaceName', [
-                new Method('doSomething'),
-                new Method('changeThing', 'public', [
+                Method::public('doSomething'),
+                Method::public('changeThing', [
                     new Variable('$name', TypeDeclaration::from('string')),
                 ]),
             ], new InterfaceDefinition('ParentInterface')),
@@ -84,8 +84,8 @@ class StructureBuilderTest extends TestCase
                 Attribute::private('$age', TypeDeclaration::from('int')),
                 Attribute::public('$phoneNumbers', TypeDeclaration::from('string')),
             ], [
-                new Method('doSomething'),
-                new Method('changeThing', 'public', [
+                Method::public('doSomething'),
+                Method::public('changeThing', [
                     new Variable('$name', TypeDeclaration::from('string')),
                 ]),
             ], [

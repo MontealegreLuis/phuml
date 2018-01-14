@@ -14,7 +14,7 @@ class MethodTest extends TestCase
     /** @test */
     function it_knows_its_name()
     {
-        $namedFunction = new Method('namedFunction');
+        $namedFunction = Method::public('namedFunction');
 
         $name = $namedFunction->name;
 
@@ -22,19 +22,21 @@ class MethodTest extends TestCase
     }
 
     /** @test */
-    function it_is_public_by_default()
+    function it_knows_its_visibility()
     {
-        $publicFunction = new Method('publicFunction');
+        $publicFunction = Method::public('publicFunction');
+        $protectedFunction = Method::protected('protectedFunction');
+        $privateFunction = Method::private('privateFunction');
 
-        $modifier = $publicFunction->modifier;
-
-        $this->assertEquals('public', $modifier);
+        $this->assertEquals('public', $publicFunction->modifier);
+        $this->assertEquals('protected', $protectedFunction->modifier);
+        $this->assertEquals('private', $privateFunction->modifier);
     }
 
     /** @test */
     function it_has_no_parameters_by_default()
     {
-        $noParametersFunction = new Method('noParametersFunction');
+        $noParametersFunction = Method::public('noParametersFunction');
 
         $parameters = $noParametersFunction->params;
 
@@ -48,7 +50,7 @@ class MethodTest extends TestCase
             new Variable('first'),
             new Variable('second'),
         ];
-        $functionWithParameters = new Method('functionWithParameters', 'public', $expectedParameters);
+        $functionWithParameters = Method::public('functionWithParameters', $expectedParameters);
 
         $parameters = $functionWithParameters->params;
 
@@ -58,7 +60,7 @@ class MethodTest extends TestCase
     /** @test */
     function it_knows_if_it_is_a_constructor()
     {
-        $constructor = new Method('__construct');
+        $constructor = Method::public('__construct');
 
         $isConstructor = $constructor->isConstructor();
 
@@ -68,7 +70,7 @@ class MethodTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $method = new Method('method');
+        $method = Method::public('method');
 
         $methodAsString = $method->__toString();
 
@@ -78,7 +80,7 @@ class MethodTest extends TestCase
     /** @test */
     function its_string_representation_includes_its_parameters()
     {
-        $methodWithParameters = new Method('withParameters', 'protected', [
+        $methodWithParameters = Method::protected('withParameters', [
             new Variable('parameterOne'),
             new Variable('parameterTwoWithType', TypeDeclaration::from('int')),
         ]);

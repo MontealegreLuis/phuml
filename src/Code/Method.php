@@ -24,11 +24,26 @@ class Method
     /** @var Variable[] */
     public $params;
 
-    public function __construct(string $name, string $modifier = 'public', array $params = [])
+    private function __construct(string $name, string $modifier = 'public', array $params = [])
     {
         $this->name = $name;
         $this->modifier = $modifier;
         $this->params = $params;
+    }
+
+    public static function public(string $name, array $params = []): Method
+    {
+        return new Method($name, 'public', $params);
+    }
+
+    public static function protected(string $name, array $params = []): Method
+    {
+        return new Method($name, 'protected', $params);
+    }
+
+    public static function private(string $name, array $params = []): Method
+    {
+        return new Method($name, 'private', $params);
     }
 
     public function isConstructor(): bool

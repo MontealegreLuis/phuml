@@ -63,7 +63,7 @@ class StructureBuilder
         $methods = [];
         foreach ($definition['functions'] as $method) {
             [$name, $modifier, $parameters] = $method;
-            $methods[] = new Method($name, $modifier, $this->buildParameters($parameters));
+            $methods[] = Method::$modifier($name, $this->buildParameters($parameters));
         }
         return $methods;
     }

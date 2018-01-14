@@ -53,8 +53,8 @@ class NodeLabelBuilderTest extends TestCase
             Attribute::private('age'),
             Attribute::protected('category', TypeDeclaration::from('string'))
         ], [
-            new Method('getAge'),
-            new Method('setCategory', 'protected', [new Variable('category', TypeDeclaration::from('string'))])
+            Method::public('getAge'),
+            Method::protected('setCategory', [new Variable('category', TypeDeclaration::from('string'))])
         ]));
 
         $this->assertEquals(
@@ -78,8 +78,8 @@ class NodeLabelBuilderTest extends TestCase
     function it_builds_an_html_label_for_an_interface_with_methods()
     {
         $html = $this->labelBuilder->forInterface(new InterfaceDefinition('AnInterface', [
-            new Method('doSomething'),
-            new Method('changeValue', 'public', [
+            Method::public('doSomething'),
+            Method::public('changeValue', [
                 new Variable('value', TypeDeclaration::from('int'))
             ])
         ]));

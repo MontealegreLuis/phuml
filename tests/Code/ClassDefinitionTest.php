@@ -79,8 +79,8 @@ class ClassDefinitionTest extends TestCase
     function it_knows_its_methods()
     {
         $methods = [
-            new Method('methodOne'),
-            new Method('methodTwo'),
+            Method::public('methodOne'),
+            Method::public('methodTwo'),
         ];
         $classWithMethods = new ClassDefinition('ClassWithMethods', [], $methods);
 
@@ -93,9 +93,9 @@ class ClassDefinitionTest extends TestCase
     function it_knows_it_has_a_constructor()
     {
         $class = new ClassDefinition('ClassWithConstructor', [], [
-            new Method('notAConstructor'),
-            new Method('__construct'),
-            new Method('notAConstructorEither'),
+            Method::public('notAConstructor'),
+            Method::public('__construct'),
+            Method::public('notAConstructorEither'),
         ]);
 
         $this->assertTrue($class->hasConstructor());
@@ -105,8 +105,8 @@ class ClassDefinitionTest extends TestCase
     function it_knows_it_does_not_have_a_constructor()
     {
         $class = new ClassDefinition('ClassWithConstructor', [], [
-            new Method('notAConstructor'),
-            new Method('notAConstructorEither'),
+            Method::public('notAConstructor'),
+            Method::public('notAConstructorEither'),
         ]);
 
         $this->assertFalse($class->hasConstructor());
@@ -120,9 +120,9 @@ class ClassDefinitionTest extends TestCase
             new Variable('second', TypeDeclaration::from('float')),
         ];
         $class = new ClassDefinition('ClassWithConstructor', [], [
-            new Method('notAConstructor'),
-            new Method('__construct', 'public', $parameters),
-            new Method('notAConstructorEither'),
+            Method::public('notAConstructor'),
+            Method::public('__construct', $parameters),
+            Method::public('notAConstructorEither'),
         ]);
 
         $constructorParameters = $class->constructorParameters();
@@ -134,8 +134,8 @@ class ClassDefinitionTest extends TestCase
     function it_knows_its_constructor_has_no_parameters_if_no_constructor_is_specified()
     {
         $class = new ClassDefinition('ClassWithConstructor', [], [
-            new Method('notAConstructor'),
-            new Method('notAConstructorEither'),
+            Method::public('notAConstructor'),
+            Method::public('notAConstructorEither'),
         ]);
 
         $constructorParameters = $class->constructorParameters();
