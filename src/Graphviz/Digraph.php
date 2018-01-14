@@ -4,53 +4,23 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-namespace PhUml\Graphviz;
 
-use PhUml\Code\ClassDefinition;
-use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Structure;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
+namespace PhUml\Graphviz;
 
 class Digraph implements HasDotRepresentation
 {
     /** @var HasDotRepresentation[] */
     private $dotElements;
 
-    /** @var InterfaceGraphBuilder */
-    private $interfaceElements;
-
-    /** @var ClassGraphBuilder */
-    private $classElements;
-
-    public function __construct(
-        InterfaceGraphBuilder $interfaceElements,
-        ClassGraphBuilder $classElements
-    ) {
+    public function __construct()
+    {
         $this->dotElements = [];
-        $this->interfaceElements = $interfaceElements;
-        $this->classElements = $classElements;
     }
 
-    public function fromCodeStructure(Structure $structure): void
+    /** @param HasDotRepresentation[] */
+    public function add(array $definitions): void
     {
-        foreach ($structure->definitions() as $definition) {
-            if ($definition instanceof ClassDefinition) {
-                $this->classElementsFrom($definition, $structure);
-            } elseif ($definition instanceof InterfaceDefinition) {
-                $this->interfaceElementsFrom($definition);
-            }
-        }
-    }
-
-    private function classElementsFrom(ClassDefinition $class, Structure $structure): void
-    {
-        $this->dotElements = array_merge($this->dotElements, $this->classElements->extractFrom($class, $structure));
-    }
-
-    private function interfaceElementsFrom(InterfaceDefinition $interface): void
-    {
-        $this->dotElements = array_merge($this->dotElements, $this->interfaceElements->extractFrom($interface));
+        $this->dotElements = array_merge($this->dotElements, $definitions);
     }
 
     public function toDotLanguage(): string

@@ -8,13 +8,10 @@ namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Method;
-use PhUml\Code\Structure;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 
 class DigraphTest extends TestCase
 {
@@ -29,13 +26,10 @@ class DigraphTest extends TestCase
     function it_can_be_represented_as_dot_language_from_a_structure_with_one_definition()
     {
         $labelBuilder = new ClassNameLabelBuilder();
-        $interfaceElements = new InterfaceGraphBuilder($labelBuilder);
-        $classElements = new ClassGraphBuilder(true, $labelBuilder);
-        $digraph = new Digraph($interfaceElements, $classElements);
-        $structure = new Structure();
-        $structure->addClass(new NumericIdClass('TestClass'));
+        $digraph = new Digraph();
 
-        $digraph->fromCodeStructure($structure);
+        $class = new NumericIdClass('TestClass');
+        $digraph->add([new Node($class, $labelBuilder->forClass($class))]);
 
         $dotLanguage = $digraph->toDotLanguage();
 
@@ -52,9 +46,7 @@ mindist = 0.6;
     function it_can_be_represented_as_dot_language_from_a_structure_with_several_definitions()
     {
         $labelBuilder = new ClassNameLabelBuilder();
-        $interfaceElements = new InterfaceGraphBuilder($labelBuilder);
-        $classElements = new ClassGraphBuilder(true, $labelBuilder);
-        $digraph = new Digraph($interfaceElements, $classElements);
+        $digraph = new Digraph();
 
         $parentInterface = new NumericIdInterface('ParentInterface');
         $childInterface = new NumericIdInterface('ChildInterface', [], $parentInterface);
@@ -66,14 +58,20 @@ mindist = 0.6;
                 new Variable('aReference', 'AReference')
             ])
         ], [$childInterface, $anotherInterface], $parentClass);
-        $structure = new Structure();
-        $structure->addClass($referenceClass);
-        $structure->addInterface($parentInterface);
-        $structure->addInterface($childInterface);
-        $structure->addInterface($anotherInterface);
-        $structure->addClass($parentClass);
-        $structure->addClass($testClass);
-        $digraph->fromCodeStructure($structure);
+
+        $digraph->add([
+            new Node($referenceClass, $labelBuilder->forClass($referenceClass)),
+            new Node($parentClass, $labelBuilder->forClass($parentClass)),
+            Edge::association($referenceClass, $testClass),
+            new Node($testClass, $labelBuilder->forClass($testClass)),
+            Edge::inheritance($parentClass, $testClass),
+            Edge::implementation($childInterface, $testClass),
+            Edge::implementation($anotherInterface, $testClass),
+            new Node($parentInterface, $labelBuilder->forInterface($parentInterface)),
+            new Node($childInterface, $labelBuilder->forInterface($childInterface)),
+            Edge::inheritance($parentInterface, $childInterface),
+            new Node($anotherInterface, $labelBuilder->forInterface($anotherInterface)),
+        ]);
 
         $dotLanguage = $digraph->toDotLanguage();
 

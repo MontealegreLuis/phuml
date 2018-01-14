@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Processors;
 
 use PHPUnit\Framework\TestCase;
@@ -13,9 +14,8 @@ use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
-use PhUml\Graphviz\ClassGraphBuilder;
-use PhUml\Graphviz\Digraph;
-use PhUml\Graphviz\InterfaceGraphBuilder;
+use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 
 class GraphvizProcessorTest extends TestCase
 {
@@ -40,11 +40,11 @@ class GraphvizProcessorTest extends TestCase
     function it_turns_a_code_structure_into_dot_language()
     {
         $labelBuilder = new ClassNameLabelBuilder();
-        $digraph = new Digraph(
-            new InterfaceGraphBuilder($labelBuilder),
-            new ClassGraphBuilder(true, $labelBuilder)
+        $processor = new GraphvizProcessor(
+            true,
+            new ClassGraphBuilder(true, $labelBuilder),
+            new InterfaceGraphBuilder($labelBuilder)
         );
-        $processor = new GraphvizProcessor(true, $digraph);
 
         $structure = new Structure();
         $parentInterface = new NumericIdInterface('ParentInterface');

@@ -17,12 +17,12 @@ class ClassNameLabelBuilder extends NodeLabelBuilder
     {
     }
 
-    public function labelForClass(ClassDefinition $class): string
+    public function forClass(ClassDefinition $class): string
     {
         return $this->template($class);
     }
 
-    public function labelForInterface(InterfaceDefinition $interface): string
+    public function forInterface(InterfaceDefinition $interface): string
     {
         return $this->template($interface);
     }

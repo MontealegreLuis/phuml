@@ -22,7 +22,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class()
     {
-        $html = $this->labelBuilder->labelForClass(new ClassDefinition('AClass'));
+        $html = $this->labelBuilder->forClass(new ClassDefinition('AClass'));
 
         $this->assertEquals(
             '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AClass</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>>',
@@ -33,7 +33,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class_with_attributes()
     {
-        $html = $this->labelBuilder->labelForClass(new ClassDefinition('AClass', [
+        $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
             new Attribute('name'),
             new Attribute('age', 'private'),
             new Attribute('category', 'protected', 'string')
@@ -48,7 +48,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class_with_attributes_and_methods()
     {
-        $html = $this->labelBuilder->labelForClass(new ClassDefinition('AClass', [
+        $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
             new Attribute('age', 'private'),
             new Attribute('category', 'protected', 'string')
         ], [
@@ -65,7 +65,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_an_interface()
     {
-        $html = $this->labelBuilder->labelForInterface(new InterfaceDefinition('AnInterface'));
+        $html = $this->labelBuilder->forInterface(new InterfaceDefinition('AnInterface'));
 
         $this->assertEquals(
             '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#729fcf"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AnInterface</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>>',
@@ -76,7 +76,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_an_interface_with_methods()
     {
-        $html = $this->labelBuilder->labelForInterface(new InterfaceDefinition('AnInterface', [
+        $html = $this->labelBuilder->forInterface(new InterfaceDefinition('AnInterface', [
             new Method('doSomething'),
             new Method('changeValue', 'public', [
                 new Variable('value', 'int')
@@ -102,14 +102,14 @@ class NodeLabelBuilderTest extends TestCase
 
         $this->expectException(NodeLabelError::class);
 
-        $labelBuilder->labelForClass(new ClassDefinition('AnyClass'));
+        $labelBuilder->forClass(new ClassDefinition('AnyClass'));
     }
 
     /** @before */
     function createLabel()
     {
         $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(
-            new FileSystem(__DIR__ . '/../../src/Graphviz/templates')
+            new FileSystem(__DIR__ . '/../../../src/Graphviz/templates')
         ), new HtmlLabelStyle());
     }
 

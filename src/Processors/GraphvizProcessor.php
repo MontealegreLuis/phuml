@@ -6,6 +6,8 @@
  */
 namespace PhUml\Processors;
 
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Structure;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\HtmlLabelStyle;
@@ -17,17 +19,24 @@ use Twig_Loader_Filesystem as Filesystem;
 
 class GraphvizProcessor extends Processor
 {
-    /** @var Digraph */
-    private $digraph;
+    /** @var ClassGraphBuilder */
+    private $classBuilder;
 
-    public function __construct(bool $createAssociations, Digraph $digraph = null)
-    {
+    /** @var InterfaceGraphBuilder */
+    private $interfaceBuilder;
+
+    public function __construct(
+        bool $createAssociations,
+        ClassGraphBuilder $classBuilder = null,
+        InterfaceGraphBuilder $interfaceBuilder = null
+    ) {
         $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../Graphviz/templates')
         ), new HtmlLabelStyle());
         $classElements = new ClassGraphBuilder($createAssociations, $labelBuilder);
         $interfaceElements = new InterfaceGraphBuilder($labelBuilder);
-        $this->digraph = $digraph ?? new Digraph($interfaceElements, $classElements);
+        $this->classBuilder = $classBuilder ?? $classElements;
+        $this->interfaceBuilder = $interfaceBuilder ?? $interfaceElements;
     }
 
     public function name(): string
@@ -37,8 +46,14 @@ class GraphvizProcessor extends Processor
 
     public function process(Structure $structure): string
     {
-        $this->digraph->fromCodeStructure($structure);
-
-        return $this->digraph->toDotLanguage();
+        $digraph = new Digraph();
+        foreach ($structure->definitions() as $definition) {
+            if ($definition instanceof ClassDefinition) {
+                $digraph->add($this->classBuilder->extractFrom($definition, $structure));
+            } elseif ($definition instanceof InterfaceDefinition) {
+                $digraph->add($this->interfaceBuilder->extractFrom($definition));
+            }
+        }
+        return $digraph->toDotLanguage();
     }
 }

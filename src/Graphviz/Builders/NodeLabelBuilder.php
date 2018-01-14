@@ -28,7 +28,7 @@ class NodeLabelBuilder
         $this->style = $style;
     }
 
-    public function labelForClass(ClassDefinition $class): string
+    public function forClass(ClassDefinition $class): string
     {
         return $this->buildLabel('class.html.twig', [
             'class' => $class,
@@ -36,7 +36,7 @@ class NodeLabelBuilder
         ]);
     }
 
-    public function labelForInterface(InterfaceDefinition $interface): string
+    public function forInterface(InterfaceDefinition $interface): string
     {
         return $this->buildLabel('interface.html.twig', [
             'interface' => $interface,

@@ -50,7 +50,7 @@ class ClassGraphBuilder
             $this->addElementsForParameters($class);
         }
 
-        $this->dotElements[] = new Node($class, $this->labelBuilder->labelForClass($class));
+        $this->dotElements[] = new Node($class, $this->labelBuilder->forClass($class));
 
         if ($class->hasParent()) {
             $this->dotElements[] = Edge::inheritance($class->extends, $class);
