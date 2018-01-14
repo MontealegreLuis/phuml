@@ -18,7 +18,7 @@ class Attribute extends Variable
     /** @var string */
     public $modifier;
 
-    public function __construct(string $name, string $modifier, TypeDeclaration $type = null)
+    protected function __construct(string $name, string $modifier, TypeDeclaration $type)
     {
         parent::__construct($name, $type);
         $this->modifier = $modifier;

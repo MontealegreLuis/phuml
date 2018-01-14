@@ -15,15 +15,15 @@ class Variable
     /** @var TypeDeclaration */
     public $type;
 
-    public function __construct(string $name, TypeDeclaration $type = null)
+    protected function __construct(string $name, TypeDeclaration $type)
     {
         $this->name = $name;
-        $this->type = $type ?? TypeDeclaration::absent();
+        $this->type = $type;
     }
 
     public static function declaredWith(string $name, TypeDeclaration $type = null): Variable
     {
-        return new Variable($name, $type);
+        return new Variable($name, $type ?? TypeDeclaration::absent());
     }
 
     public function hasType(): bool
