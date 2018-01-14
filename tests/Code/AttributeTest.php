@@ -14,18 +14,17 @@ class AttributeTest extends TestCase
     /** @test */
     function it_knows_its_name()
     {
-        $namedAttribute = new Attribute('namedAttribute');
+        $namedAttribute = Attribute::public('namedAttribute');
 
         $name = $namedAttribute->name;
 
         $this->assertEquals('namedAttribute', $name);
     }
 
-
     /** @test */
-    function it_is_public_by_default()
+    function it_can_be_public()
     {
-        $publicAttribute = new Attribute('attribute');
+        $publicAttribute = Attribute::public('attribute');
 
         $modifier = $publicAttribute->modifier;
 
@@ -33,9 +32,29 @@ class AttributeTest extends TestCase
     }
 
     /** @test */
+    function it_can_be_protected()
+    {
+        $publicAttribute = Attribute::protected('attribute');
+
+        $modifier = $publicAttribute->modifier;
+
+        $this->assertEquals('protected', $modifier);
+    }
+
+    /** @test */
+    function it_can_be_private()
+    {
+        $publicAttribute = Attribute::private('attribute');
+
+        $modifier = $publicAttribute->modifier;
+
+        $this->assertEquals('private', $modifier);
+    }
+
+    /** @test */
     function it_has_no_type_by_default()
     {
-        $noTypeAttribute = new Attribute('attribute');
+        $noTypeAttribute = Attribute::public('attribute');
 
         $type = $noTypeAttribute->type;
 
@@ -45,7 +64,7 @@ class AttributeTest extends TestCase
     /** @test */
     function it_knows_if_it_does_not_have_a_type()
     {
-        $noTypeAttribute = new Attribute('noTypeAttribute');
+        $noTypeAttribute = Attribute::public('noTypeAttribute');
 
         $hasType = $noTypeAttribute->hasType();
 
@@ -55,9 +74,9 @@ class AttributeTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $privateAttribute = new Attribute('privateAttribute', 'private');
-        $publicAttribute = new Attribute('publicAttribute', 'public');
-        $protectedAttribute = new Attribute('protectedAttribute', 'protected');
+        $privateAttribute = Attribute::private('privateAttribute');
+        $publicAttribute = Attribute::public('publicAttribute');
+        $protectedAttribute = Attribute::protected('protectedAttribute');
 
         $private = $privateAttribute->__toString();
         $public = $publicAttribute->__toString();

@@ -65,8 +65,8 @@ class ClassDefinitionTest extends TestCase
     function it_knows_its_attributes()
     {
         $attributes = [
-            new Attribute('firstAttribute'),
-            new Attribute('secondAttribute'),
+            Attribute::public('firstAttribute'),
+            Attribute::public('secondAttribute'),
         ];
         $classWithAttributes = new ClassDefinition('ClassWithAttributes', $attributes);
 

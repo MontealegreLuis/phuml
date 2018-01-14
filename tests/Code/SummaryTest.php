@@ -8,15 +8,15 @@ namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
 
-class SummaryTest extends TestCase 
+class SummaryTest extends TestCase
 {
     /** @test */
     function it_generates_a_summary_from_a_code_structure()
     {
         $parentClass = new ClassDefinition('ParentClass', [
-            new Attribute('$attribute', 'protected'),
-            new Attribute('$value', 'public', 'float'),
-            new Attribute('isValid'),
+            Attribute::protected('$attribute'),
+            Attribute::public('$value', 'float'),
+            Attribute::public('isValid'),
         ], [
             new Method('getAttribute', 'protected'),
             new Method('privateAction', 'private')
@@ -33,9 +33,9 @@ class SummaryTest extends TestCase
         $structure->addInterface($parentInterface);
         $structure->addInterface($interface);
         $structure->addClass(new ClassDefinition('ChildClass', [
-            new Attribute('$name', 'private', 'string'),
-            new Attribute('$salary', 'private'),
-            new Attribute('$age', 'protected', 'int'),
+            Attribute::private('$name', 'string'),
+            Attribute::private('$salary'),
+            Attribute::protected('$age', 'int'),
         ], [
             new Method('getName'),
             new Method('getAge'),

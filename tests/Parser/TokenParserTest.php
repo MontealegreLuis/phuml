@@ -59,9 +59,9 @@ CLASS
         $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [
-            new Attribute('$name', 'private'),
-            new Attribute('$age', 'protected'),
-            new Attribute('$phone'),
+            Attribute::private('$name'),
+            Attribute::protected('$age'),
+            Attribute::public('$phone'),
         ]);
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
@@ -95,9 +95,9 @@ CLASS;
         $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [
-            new Attribute('$names', 'private', 'string'),
-            new Attribute('$age', 'protected', 'int'),
-            new Attribute('$phones', 'public', 'string'),
+            Attribute::private('$names', 'string'),
+            Attribute::protected('$age', 'int'),
+            Attribute::public('$phones', 'string'),
         ]);
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
@@ -384,7 +384,7 @@ CLASS;
         $structure = $this->parser->parse($this->finder);
 
         $user = new ClassDefinition('User', [
-            new Attribute('$name', 'protected', 'string')
+            Attribute::protected('$name', 'string')
         ], [
             new Method('__construct', 'public', [new Variable('$name', 'string')]),
             new Method('isNamed', 'public', [new Variable('$name', 'string')])
@@ -396,13 +396,13 @@ CLASS;
             new Method('named', 'public', [new Variable('$name', 'string')]),
         ], $pageable);
         $student = new ClassDefinition('Student', [
-            new Attribute('$grades', 'private', 'string')
+            Attribute::private('$grades', 'string')
         ], [
             new Method('__construct', 'public', [new Variable('$name', 'string')]),
         ], [], $user);
         $inMemoryStudents = new ClassDefinition('InMemoryStudents', [
-            new Attribute('$students', 'private', 'Student'),
-            new Attribute('$page', 'private'),
+            Attribute::private('$students', 'Student'),
+            Attribute::private('$page'),
         ], [
             new Method('__construct', 'public', [new Variable('$page', 'Page')]),
             new Method('current'),

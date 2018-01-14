@@ -34,9 +34,9 @@ class NodeLabelBuilderTest extends TestCase
     function it_builds_an_html_label_for_a_class_with_attributes()
     {
         $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
-            new Attribute('name'),
-            new Attribute('age', 'private'),
-            new Attribute('category', 'protected', 'string')
+            Attribute::public('name'),
+            Attribute::private('age'),
+            Attribute::protected('category', 'string')
         ]));
 
         $this->assertEquals(
@@ -49,8 +49,8 @@ class NodeLabelBuilderTest extends TestCase
     function it_builds_an_html_label_for_a_class_with_attributes_and_methods()
     {
         $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
-            new Attribute('age', 'private'),
-            new Attribute('category', 'protected', 'string')
+            Attribute::private('age'),
+            Attribute::protected('category', 'string')
         ], [
             new Method('getAge'),
             new Method('setCategory', 'protected', [new Variable('category', 'string')])

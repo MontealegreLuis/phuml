@@ -18,10 +18,25 @@ class Attribute extends Variable
     /** @var string */
     public $modifier;
 
-    public function __construct(string $name, string $modifier = 'public', string $type = null)
+    public function __construct(string $name, string $modifier, string $type = null)
     {
         parent::__construct($name, $type);
         $this->modifier = $modifier;
+    }
+
+    public static function public(string $name, string $type = null): Attribute
+    {
+        return new Attribute($name, 'public', $type);
+    }
+
+    public static function protected(string $name, string $type = null): Attribute
+    {
+        return new Attribute($name, 'protected', $type);
+    }
+
+    public static function private(string $name, string $type = null): Attribute
+    {
+        return new Attribute($name, 'private', $type);
     }
 
     /**
