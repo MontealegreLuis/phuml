@@ -78,7 +78,7 @@ class ClassGraphBuilderTest extends TestCase
         $reference = new ClassDefinition('AnotherClass');
         $class = new ClassDefinition('AClass', [], [
             Method::public('__construct', [
-                new Variable('reference', TypeDeclaration::from('AnotherClass')),
+                Variable::declaredWith('reference', TypeDeclaration::from('AnotherClass')),
             ]),
         ]);
         $nodeBuilder = new ClassNameLabelBuilder();
@@ -141,8 +141,8 @@ class ClassGraphBuilderTest extends TestCase
             ],
             [
                 Method::public('__construct', [
-                    new Variable('thirdReference', TypeDeclaration::from('ThirdClass')),
-                    new Variable('fourthReference', TypeDeclaration::from('FourthClass')),
+                    Variable::declaredWith('thirdReference', TypeDeclaration::from('ThirdClass')),
+                    Variable::declaredWith('fourthReference', TypeDeclaration::from('FourthClass')),
                 ]),
             ],
             [
@@ -185,8 +185,8 @@ class ClassGraphBuilderTest extends TestCase
             ],
             [
                 Method::public('__construct', [
-                    new Variable('thirdReference', TypeDeclaration::from('ThirdClass')),
-                    new Variable('fourthReference', TypeDeclaration::from('FourthClass')),
+                    Variable::declaredWith('thirdReference', TypeDeclaration::from('ThirdClass')),
+                    Variable::declaredWith('fourthReference', TypeDeclaration::from('FourthClass')),
                 ]),
             ]
         );

@@ -21,6 +21,11 @@ class Variable
         $this->type = $type ?? TypeDeclaration::absent();
     }
 
+    public static function declaredWith(string $name, TypeDeclaration $type = null): Variable
+    {
+        return new Variable($name, $type);
+    }
+
     public function hasType(): bool
     {
         return $this->type->isPresent();

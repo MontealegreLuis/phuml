@@ -54,7 +54,7 @@ class NodeLabelBuilderTest extends TestCase
             Attribute::protected('category', TypeDeclaration::from('string'))
         ], [
             Method::public('getAge'),
-            Method::protected('setCategory', [new Variable('category', TypeDeclaration::from('string'))])
+            Method::protected('setCategory', [Variable::declaredWith('category', TypeDeclaration::from('string'))])
         ]));
 
         $this->assertEquals(
@@ -80,7 +80,7 @@ class NodeLabelBuilderTest extends TestCase
         $html = $this->labelBuilder->forInterface(new InterfaceDefinition('AnInterface', [
             Method::public('doSomething'),
             Method::public('changeValue', [
-                new Variable('value', TypeDeclaration::from('int'))
+                Variable::declaredWith('value', TypeDeclaration::from('int'))
             ])
         ]));
 

@@ -116,8 +116,8 @@ class ClassDefinitionTest extends TestCase
     function it_has_access_to_its_constructor_parameters()
     {
         $parameters = [
-            new Variable('first'),
-            new Variable('second', TypeDeclaration::from('float')),
+            Variable::declaredWith('first'),
+            Variable::declaredWith('second', TypeDeclaration::from('float')),
         ];
         $class = new ClassDefinition('ClassWithConstructor', [], [
             Method::public('notAConstructor'),

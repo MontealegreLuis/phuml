@@ -71,11 +71,12 @@ class StructureBuilder
     /** @return Variable[] */
     private function buildParameters(array $parameters): array
     {
-        $params = [];
-        foreach ($parameters as $param) {
-            $params[] = new Variable($param[1], TypeDeclaration::from($param[0]));
+        $methodParameters = [];
+        foreach ($parameters as $parameter) {
+            [$type, $name] = $parameter;
+            $methodParameters[] = Variable::declaredWith($name, TypeDeclaration::from($type));
         }
-        return $params;
+        return $methodParameters;
     }
 
     /** @return Attribute[] */

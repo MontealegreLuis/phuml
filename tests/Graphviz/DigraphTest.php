@@ -56,7 +56,7 @@ mindist = 0.6;
         $referenceClass = new NumericIdClass('AReference');
         $testClass = new NumericIdClass('TestClass', [], [
             Method::public('__construct', [
-                new Variable('aReference', TypeDeclaration::from('AReference'))
+                Variable::declaredWith('aReference', TypeDeclaration::from('AReference'))
             ])
         ], [$childInterface, $anotherInterface], $parentClass);
 

@@ -38,7 +38,7 @@ class StructureBuilderTest extends TestCase
             new InterfaceDefinition('InterfaceName', [
                 Method::public('doSomething'),
                 Method::public('changeThing', [
-                    new Variable('$name', TypeDeclaration::from('string')),
+                    Variable::declaredWith('$name', TypeDeclaration::from('string')),
                 ]),
             ], new InterfaceDefinition('ParentInterface')),
             $interface
@@ -86,7 +86,7 @@ class StructureBuilderTest extends TestCase
             ], [
                 Method::public('doSomething'),
                 Method::public('changeThing', [
-                    new Variable('$name', TypeDeclaration::from('string')),
+                    Variable::declaredWith('$name', TypeDeclaration::from('string')),
                 ]),
             ], [
                 new InterfaceDefinition('FirstInterface'),

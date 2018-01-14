@@ -15,7 +15,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_knows_its_name()
     {
-        $namedParameter = new Variable('namedParameter');
+        $namedParameter = Variable::declaredWith('namedParameter');
 
         $name = $namedParameter->name;
 
@@ -25,7 +25,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_has_no_type_by_default()
     {
-        $noTypeParameter = new Variable('noTypeForParameter');
+        $noTypeParameter = Variable::declaredWith('noTypeForParameter');
 
         $type = $noTypeParameter->type;
 
@@ -35,7 +35,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_knows_it_has_no_type()
     {
-        $noTypeParameter = new Variable('noTypeForParameter');
+        $noTypeParameter = Variable::declaredWith('noTypeForParameter');
 
         $hasType = $noTypeParameter->hasType();
 
@@ -45,7 +45,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_knows_it_has_a_type()
     {
-        $typedParameter = new Variable('typedParameter', TypeDeclaration::from('string'));
+        $typedParameter = Variable::declaredWith('typedParameter', TypeDeclaration::from('string'));
 
         $hasType = $typedParameter->hasType();
 
@@ -55,7 +55,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_knows_its_type()
     {
-        $typedParameter = new Variable('typedParameter', TypeDeclaration::from('string'));
+        $typedParameter = Variable::declaredWith('typedParameter', TypeDeclaration::from('string'));
 
         $type = $typedParameter->type;
 
@@ -65,7 +65,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $parameter = new Variable('parameterName', TypeDeclaration::from('string'));
+        $parameter = Variable::declaredWith('parameterName', TypeDeclaration::from('string'));
 
         $parameterAsString = $parameter->__toString();
 

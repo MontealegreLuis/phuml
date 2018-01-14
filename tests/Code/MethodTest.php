@@ -47,8 +47,8 @@ class MethodTest extends TestCase
     function it_knows_its_parameters()
     {
         $expectedParameters = [
-            new Variable('first'),
-            new Variable('second'),
+            Variable::declaredWith('first'),
+            Variable::declaredWith('second'),
         ];
         $functionWithParameters = Method::public('functionWithParameters', $expectedParameters);
 
@@ -81,8 +81,8 @@ class MethodTest extends TestCase
     function its_string_representation_includes_its_parameters()
     {
         $methodWithParameters = Method::protected('withParameters', [
-            new Variable('parameterOne'),
-            new Variable('parameterTwoWithType', TypeDeclaration::from('int')),
+            Variable::declaredWith('parameterOne'),
+            Variable::declaredWith('parameterTwoWithType', TypeDeclaration::from('int')),
         ]);
 
         $methodAsString = $methodWithParameters->__toString();
