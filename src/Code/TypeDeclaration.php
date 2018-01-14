@@ -34,7 +34,7 @@ class TypeDeclaration
 
     public function isPresent(): bool
     {
-        return $this->name !== null;
+        return !empty($this->name); // $name cannot be null because of the type hint in the constructor
     }
 
     /**

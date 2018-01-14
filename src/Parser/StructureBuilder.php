@@ -84,7 +84,7 @@ class StructureBuilder
         $attributes = [];
         foreach ($class['attributes'] as $attribute) {
             [$name, $modifier, $comment] = $attribute;
-            $attributes[] = new Attribute($name, $modifier, $this->extractTypeFrom($comment));
+            $attributes[] = Attribute::$modifier($name, $this->extractTypeFrom($comment));
         }
         return $attributes;
     }
