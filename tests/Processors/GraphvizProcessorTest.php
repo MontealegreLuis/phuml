@@ -29,7 +29,7 @@ class GraphvizProcessorTest extends TestCase
     /** @test */
     function it_has_a_name()
     {
-        $processor = new GraphvizProcessor(true);
+        $processor = new GraphvizProcessor();
 
         $name = $processor->name();
 
@@ -41,10 +41,10 @@ class GraphvizProcessorTest extends TestCase
     {
         $labelBuilder = new ClassNameLabelBuilder();
         $processor = new GraphvizProcessor(
-            true,
-            new ClassGraphBuilder(true, $labelBuilder),
+            new ClassGraphBuilder($labelBuilder),
             new InterfaceGraphBuilder($labelBuilder)
         );
+        $processor->createAssociations();
 
         $structure = new Structure();
         $parentInterface = new NumericIdInterface('ParentInterface');

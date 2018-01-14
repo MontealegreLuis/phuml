@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Processors;
 
 use PhUml\Code\ClassDefinition;
@@ -26,17 +27,19 @@ class GraphvizProcessor extends Processor
     private $interfaceBuilder;
 
     public function __construct(
-        bool $createAssociations,
         ClassGraphBuilder $classBuilder = null,
         InterfaceGraphBuilder $interfaceBuilder = null
     ) {
         $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
             new FileSystem(__DIR__ . '/../Graphviz/templates')
         ), new HtmlLabelStyle());
-        $classElements = new ClassGraphBuilder($createAssociations, $labelBuilder);
-        $interfaceElements = new InterfaceGraphBuilder($labelBuilder);
-        $this->classBuilder = $classBuilder ?? $classElements;
-        $this->interfaceBuilder = $interfaceBuilder ?? $interfaceElements;
+        $this->classBuilder = $classBuilder ?? new ClassGraphBuilder($labelBuilder);
+        $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder($labelBuilder);
+    }
+
+    public function createAssociations(): void
+    {
+        $this->classBuilder->createAssociations();
     }
 
     public function name(): string

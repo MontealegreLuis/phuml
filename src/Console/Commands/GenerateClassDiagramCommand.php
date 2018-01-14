@@ -27,7 +27,8 @@ class GenerateClassDiagramCommand extends GeneratorCommand
         $this
             ->setName('phuml:diagram')
             ->setDescription('Generate a class diagram scanning the given directory')
-            ->setHelp(<<<HELP
+            ->setHelp(
+                <<<HELP
 Example:
     php bin/phuml phuml:diagram -r -a -p neato ./src out.png
 
@@ -82,12 +83,16 @@ HELP
         if (!is_dir($directory)) {
             throw new RuntimeException("'$directory' is not a valid directory");
         }
-
-        $action = new GenerateClassDiagram(new TokenParser(), new GraphvizProcessor($associations));
-        $action->attach($this->display);
-
         $finder = new CodeFinder();
         $finder->addDirectory($directory, $recursive);
+
+        $dotProcessor = new GraphvizProcessor();
+        if ($associations) {
+            $dotProcessor->createAssociations();
+        }
+
+        $action = new GenerateClassDiagram(new TokenParser(), $dotProcessor);
+        $action->attach($this->display);
 
         if (!\in_array($processor, ['neato', 'dot'], true)) {
             throw new RuntimeException("Expected processors are neato and dot, '$processor' found");

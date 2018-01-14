@@ -31,7 +31,7 @@ class GenerateDotFileTest extends TestCase
     /** @test */
     function it_fails_to_generate_the_dot_file_if_command_is_not_provided()
     {
-        $action = new GenerateDotFile(new TokenParser(), new GraphvizProcessor(true));
+        $action = new GenerateDotFile(new TokenParser(), new GraphvizProcessor());
 
         $this->expectException(LogicException::class);
 
@@ -44,7 +44,7 @@ class GenerateDotFileTest extends TestCase
         $file = __DIR__ . '/../resources/.output/dot.gv';
         $action = new GenerateDotFile(
             new TokenParser(new Definitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
-            new GraphvizProcessor(true)
+            new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
@@ -92,7 +92,7 @@ DOT;
 
         $action = new GenerateDotFile(
             new TokenParser(new Definitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
-            new GraphvizProcessor(true)
+            new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new Finder();

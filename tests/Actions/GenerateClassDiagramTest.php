@@ -22,7 +22,7 @@ class GenerateClassDiagramTest extends TestCase
     /** @before */
     function createAction()
     {
-        $this->action = new GenerateClassDiagram(new TokenParser(), new GraphvizProcessor(true));
+        $this->action = new GenerateClassDiagram(new TokenParser(), new GraphvizProcessor());
     }
 
     /** @test */

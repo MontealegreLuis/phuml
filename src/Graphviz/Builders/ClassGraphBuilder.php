@@ -30,15 +30,18 @@ class ClassGraphBuilder
     /** @var Structure */
     private $structure;
 
-    public function __construct(bool $createAssociations, NodeLabelBuilder $labelBuilder)
+    public function __construct(NodeLabelBuilder $labelBuilder)
     {
-        $this->createAssociations = $createAssociations;
+        $this->createAssociations = false;
         $this->labelBuilder = $labelBuilder;
     }
 
-    /**
-     * @return HasDotRepresentation[]
-     */
+    public function createAssociations(): void
+    {
+        $this->createAssociations = true;
+    }
+
+    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
     public function extractFrom(ClassDefinition $class, Structure $structure): array
     {
         $this->dotElements = [];

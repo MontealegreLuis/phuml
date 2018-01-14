@@ -24,7 +24,8 @@ class GenerateDotFileCommand extends GeneratorCommand
         $this
             ->setName('phuml:dot')
             ->setDescription('Generates a digraph in DOT format of a given directory')
-            ->setHelp(<<<HELP
+            ->setHelp(
+                <<<HELP
 Example:
     php bin/phuml phuml:dot -r -a ./src dot.gv
 
@@ -69,7 +70,7 @@ HELP
             throw new RuntimeException("'$directory' is not a valid directory");
         }
 
-        $action = new GenerateDotFile(new TokenParser(), new GraphvizProcessor($associations));
+        $action = new GenerateDotFile(new TokenParser(), new GraphvizProcessor());
         $action->attach($this->display);
 
         $finder = new CodeFinder();
