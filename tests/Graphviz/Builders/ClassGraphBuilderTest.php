@@ -102,8 +102,8 @@ class ClassGraphBuilderTest extends TestCase
         $firstReference = new ClassDefinition('FirstClass');
         $secondReference = new ClassDefinition('SecondClass');
         $class = new ClassDefinition('AClass', [
-                Attribute::private('firstReference', 'FirstClass'),
-                Attribute::private('secondReference', 'SecondClass'),
+                Attribute::private('firstReference', TypeDeclaration::from('FirstClass')),
+                Attribute::private('secondReference', TypeDeclaration::from('SecondClass')),
             ]
         );
         $nodeBuilder = new ClassNameLabelBuilder();
@@ -136,8 +136,8 @@ class ClassGraphBuilderTest extends TestCase
 
         $class = new ClassDefinition('AClass',
             [
-                Attribute::private('firstReference', 'FirstClass'),
-                Attribute::private('secondReference', 'SecondClass'),
+                Attribute::private('firstReference', TypeDeclaration::from('FirstClass')),
+                Attribute::private('secondReference', TypeDeclaration::from('SecondClass')),
             ],
             [
                 new Method('__construct', 'public', [
@@ -180,8 +180,8 @@ class ClassGraphBuilderTest extends TestCase
     {
         $class = new ClassDefinition('AClass',
             [
-                Attribute::private('firstReference', 'FirstClass'),
-                Attribute::private('secondReference', 'SecondClass'),
+                Attribute::private('firstReference', TypeDeclaration::from('FirstClass')),
+                Attribute::private('secondReference', TypeDeclaration::from('SecondClass')),
             ],
             [
                 new Method('__construct', 'public', [

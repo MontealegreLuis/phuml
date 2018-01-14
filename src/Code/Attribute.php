@@ -24,19 +24,19 @@ class Attribute extends Variable
         $this->modifier = $modifier;
     }
 
-    public static function public(string $name, string $type = null): Attribute
+    public static function public(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, 'public', TypeDeclaration::from($type));
+        return new Attribute($name, 'public', $type ?? TypeDeclaration::absent());
     }
 
-    public static function protected(string $name, string $type = null): Attribute
+    public static function protected(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, 'protected', TypeDeclaration::from($type));
+        return new Attribute($name, 'protected', $type ?? TypeDeclaration::absent());
     }
 
-    public static function private(string $name, string $type = null): Attribute
+    public static function private(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, 'private', TypeDeclaration::from($type));
+        return new Attribute($name, 'private', $type ?? TypeDeclaration::absent());
     }
 
     /**

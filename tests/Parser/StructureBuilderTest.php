@@ -81,8 +81,8 @@ class StructureBuilderTest extends TestCase
         $this->assertEquals(
             new ClassDefinition('ClassName', [
                 Attribute::protected('$name'),
-                Attribute::private('$age', 'int'),
-                Attribute::public('$phoneNumbers', 'string'),
+                Attribute::private('$age', TypeDeclaration::from('int')),
+                Attribute::public('$phoneNumbers', TypeDeclaration::from('string')),
             ], [
                 new Method('doSomething'),
                 new Method('changeThing', 'public', [

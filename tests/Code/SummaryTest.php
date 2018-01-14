@@ -15,7 +15,7 @@ class SummaryTest extends TestCase
     {
         $parentClass = new ClassDefinition('ParentClass', [
             Attribute::protected('$attribute'),
-            Attribute::public('$value', 'float'),
+            Attribute::public('$value', TypeDeclaration::from('float')),
             Attribute::public('isValid'),
         ], [
             new Method('getAttribute', 'protected'),
@@ -33,9 +33,9 @@ class SummaryTest extends TestCase
         $structure->addInterface($parentInterface);
         $structure->addInterface($interface);
         $structure->addClass(new ClassDefinition('ChildClass', [
-            Attribute::private('$name', 'string'),
+            Attribute::private('$name', TypeDeclaration::from('string')),
             Attribute::private('$salary'),
-            Attribute::protected('$age', 'int'),
+            Attribute::protected('$age', TypeDeclaration::from('int')),
         ], [
             new Method('getName'),
             new Method('getAge'),

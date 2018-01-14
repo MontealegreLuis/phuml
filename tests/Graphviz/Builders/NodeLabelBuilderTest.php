@@ -37,7 +37,7 @@ class NodeLabelBuilderTest extends TestCase
         $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
             Attribute::public('name'),
             Attribute::private('age'),
-            Attribute::protected('category', 'string')
+            Attribute::protected('category', TypeDeclaration::from('string'))
         ]));
 
         $this->assertEquals(
@@ -51,7 +51,7 @@ class NodeLabelBuilderTest extends TestCase
     {
         $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
             Attribute::private('age'),
-            Attribute::protected('category', 'string')
+            Attribute::protected('category', TypeDeclaration::from('string'))
         ], [
             new Method('getAge'),
             new Method('setCategory', 'protected', [new Variable('category', TypeDeclaration::from('string'))])

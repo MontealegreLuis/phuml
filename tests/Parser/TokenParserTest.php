@@ -95,9 +95,9 @@ CLASS;
         $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [
-            Attribute::private('$names', 'string'),
-            Attribute::protected('$age', 'int'),
-            Attribute::public('$phones', 'string'),
+            Attribute::private('$names', TypeDeclaration::from('string')),
+            Attribute::protected('$age', TypeDeclaration::from('int')),
+            Attribute::public('$phones', TypeDeclaration::from('string')),
         ]);
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
@@ -384,7 +384,7 @@ CLASS;
         $structure = $this->parser->parse($this->finder);
 
         $user = new ClassDefinition('User', [
-            Attribute::protected('$name', 'string')
+            Attribute::protected('$name', TypeDeclaration::from('string'))
         ], [
             new Method('__construct', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
             new Method('isNamed', 'public', [new Variable('$name', TypeDeclaration::from('string'))])
@@ -396,12 +396,12 @@ CLASS;
             new Method('named', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], $pageable);
         $student = new ClassDefinition('Student', [
-            Attribute::private('$grades', 'string')
+            Attribute::private('$grades', TypeDeclaration::from('string'))
         ], [
             new Method('__construct', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], [], $user);
         $inMemoryStudents = new ClassDefinition('InMemoryStudents', [
-            Attribute::private('$students', 'Student'),
+            Attribute::private('$students', TypeDeclaration::from('Student')),
             Attribute::private('$page'),
         ], [
             new Method('__construct', 'public', [new Variable('$page', TypeDeclaration::from('Page'))]),
