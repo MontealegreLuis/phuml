@@ -11,6 +11,7 @@ use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
+use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 
 class StructureBuilderTest extends TestCase
@@ -37,7 +38,7 @@ class StructureBuilderTest extends TestCase
             new InterfaceDefinition('InterfaceName', [
                 new Method('doSomething'),
                 new Method('changeThing', 'public', [
-                    new Variable('$name', 'string'),
+                    new Variable('$name', TypeDeclaration::from('string')),
                 ]),
             ], new InterfaceDefinition('ParentInterface')),
             $interface
@@ -85,7 +86,7 @@ class StructureBuilderTest extends TestCase
             ], [
                 new Method('doSomething'),
                 new Method('changeThing', 'public', [
-                    new Variable('$name', 'string'),
+                    new Variable('$name', TypeDeclaration::from('string')),
                 ]),
             ], [
                 new InterfaceDefinition('FirstInterface'),

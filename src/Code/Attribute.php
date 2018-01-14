@@ -20,7 +20,7 @@ class Attribute extends Variable
 
     public function __construct(string $name, string $modifier, string $type = null)
     {
-        parent::__construct($name, $type);
+        parent::__construct($name, TypeDeclaration::from($type));
         $this->modifier = $modifier;
     }
 

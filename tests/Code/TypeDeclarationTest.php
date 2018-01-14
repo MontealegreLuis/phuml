@@ -37,7 +37,7 @@ class TypeDeclarationTest extends TestCase
     /** @test */
     function it_knows_if_no_type_declaration_was_provided()
     {
-        $noType = TypeDeclaration::from(null);
+        $noType = TypeDeclaration::absent();
 
         $isPresent = $noType->isPresent();
 

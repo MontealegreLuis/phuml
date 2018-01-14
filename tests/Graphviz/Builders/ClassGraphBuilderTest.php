@@ -13,6 +13,7 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\Structure;
+use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Graphviz\Edge;
@@ -77,7 +78,7 @@ class ClassGraphBuilderTest extends TestCase
         $reference = new ClassDefinition('AnotherClass');
         $class = new ClassDefinition('AClass', [], [
             new Method('__construct', 'public', [
-                new Variable('reference', 'AnotherClass'),
+                new Variable('reference', TypeDeclaration::from('AnotherClass')),
             ]),
         ]);
         $nodeBuilder = new ClassNameLabelBuilder();
@@ -140,8 +141,8 @@ class ClassGraphBuilderTest extends TestCase
             ],
             [
                 new Method('__construct', 'public', [
-                    new Variable('thirdReference', 'ThirdClass'),
-                    new Variable('fourthReference', 'FourthClass'),
+                    new Variable('thirdReference', TypeDeclaration::from('ThirdClass')),
+                    new Variable('fourthReference', TypeDeclaration::from('FourthClass')),
                 ]),
             ],
             [
@@ -184,8 +185,8 @@ class ClassGraphBuilderTest extends TestCase
             ],
             [
                 new Method('__construct', 'public', [
-                    new Variable('thirdReference', 'ThirdClass'),
-                    new Variable('fourthReference', 'FourthClass'),
+                    new Variable('thirdReference', TypeDeclaration::from('ThirdClass')),
+                    new Variable('fourthReference', TypeDeclaration::from('FourthClass')),
                 ]),
             ]
         );

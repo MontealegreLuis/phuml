@@ -12,6 +12,7 @@ use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
+use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
@@ -53,7 +54,7 @@ class NodeLabelBuilderTest extends TestCase
             Attribute::protected('category', 'string')
         ], [
             new Method('getAge'),
-            new Method('setCategory', 'protected', [new Variable('category', 'string')])
+            new Method('setCategory', 'protected', [new Variable('category', TypeDeclaration::from('string'))])
         ]));
 
         $this->assertEquals(
@@ -79,7 +80,7 @@ class NodeLabelBuilderTest extends TestCase
         $html = $this->labelBuilder->forInterface(new InterfaceDefinition('AnInterface', [
             new Method('doSomething'),
             new Method('changeValue', 'public', [
-                new Variable('value', 'int')
+                new Variable('value', TypeDeclaration::from('int'))
             ])
         ]));
 

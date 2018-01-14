@@ -45,7 +45,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_knows_it_has_a_type()
     {
-        $typedParameter = new Variable('typedParameter', 'string');
+        $typedParameter = new Variable('typedParameter', TypeDeclaration::from('string'));
 
         $hasType = $typedParameter->hasType();
 
@@ -55,7 +55,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_knows_its_type()
     {
-        $typedParameter = new Variable('typedParameter', 'string');
+        $typedParameter = new Variable('typedParameter', TypeDeclaration::from('string'));
 
         $type = $typedParameter->type;
 
@@ -65,7 +65,7 @@ class VariableTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $parameter = new Variable('parameterName', 'string');
+        $parameter = new Variable('parameterName', TypeDeclaration::from('string'));
 
         $parameterAsString = $parameter->__toString();
 

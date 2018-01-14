@@ -117,7 +117,7 @@ class ClassDefinitionTest extends TestCase
     {
         $parameters = [
             new Variable('first'),
-            new Variable('second', 'float'),
+            new Variable('second', TypeDeclaration::from('float')),
         ];
         $class = new ClassDefinition('ClassWithConstructor', [], [
             new Method('notAConstructor'),

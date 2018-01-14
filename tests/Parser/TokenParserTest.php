@@ -157,9 +157,9 @@ CLASS
         $class = new ClassDefinition('MyClass', [], [
             new Method('__construct'),
             new Method('changeValues', 'public', [
-                new Variable('$name', 'string'),
-                new Variable('$age', 'int'),
-                new Variable('$phone', 'string'),
+                new Variable('$name', TypeDeclaration::from('string')),
+                new Variable('$age', TypeDeclaration::from('int')),
+                new Variable('$phone', TypeDeclaration::from('string')),
             ])
         ]);
         $this->assertTrue($structure->has('MyClass'));
@@ -251,9 +251,9 @@ INTERFACE
 
         $interface = new InterfaceDefinition('MyInterface', [
             new Method('changeValues', 'public', [
-                new Variable('$name', 'string'),
-                new Variable('$age', 'int'),
-                new Variable('$phone', 'string'),
+                new Variable('$name', TypeDeclaration::from('string')),
+                new Variable('$age', TypeDeclaration::from('int')),
+                new Variable('$phone', TypeDeclaration::from('string')),
             ]),
             new Method('ageToMonths', 'public')
         ]);
@@ -386,27 +386,27 @@ CLASS;
         $user = new ClassDefinition('User', [
             Attribute::protected('$name', 'string')
         ], [
-            new Method('__construct', 'public', [new Variable('$name', 'string')]),
-            new Method('isNamed', 'public', [new Variable('$name', 'string')])
+            new Method('__construct', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
+            new Method('isNamed', 'public', [new Variable('$name', TypeDeclaration::from('string'))])
         ]);
         $pageable = new InterfaceDefinition('Pageable', [
             new Method('current'),
         ]);
         $students = new InterfaceDefinition('Students', [
-            new Method('named', 'public', [new Variable('$name', 'string')]),
+            new Method('named', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], $pageable);
         $student = new ClassDefinition('Student', [
             Attribute::private('$grades', 'string')
         ], [
-            new Method('__construct', 'public', [new Variable('$name', 'string')]),
+            new Method('__construct', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], [], $user);
         $inMemoryStudents = new ClassDefinition('InMemoryStudents', [
             Attribute::private('$students', 'Student'),
             Attribute::private('$page'),
         ], [
-            new Method('__construct', 'public', [new Variable('$page', 'Page')]),
+            new Method('__construct', 'public', [new Variable('$page', TypeDeclaration::from('Page'))]),
             new Method('current'),
-            new Method('named', 'public', [new Variable('$name', 'string')]),
+            new Method('named', 'public', [new Variable('$name', TypeDeclaration::from('string'))]),
         ], [
             $students,
         ]);

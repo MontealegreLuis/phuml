@@ -15,10 +15,10 @@ class Variable
     /** @var TypeDeclaration */
     public $type;
 
-    public function __construct(string $name, string $type = null)
+    public function __construct(string $name, TypeDeclaration $type = null)
     {
         $this->name = $name;
-        $this->type = TypeDeclaration::from($type);
+        $this->type = $type ?? TypeDeclaration::absent();
     }
 
     public function hasType(): bool

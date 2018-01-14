@@ -22,6 +22,11 @@ class TypeDeclaration
         $this->name = $name;
     }
 
+    public static function absent(): TypeDeclaration
+    {
+        return new TypeDeclaration(null);
+    }
+
     public static function from(?string $text): TypeDeclaration
     {
         return new TypeDeclaration($text);

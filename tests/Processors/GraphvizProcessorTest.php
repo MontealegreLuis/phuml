@@ -10,6 +10,7 @@ namespace PhUml\Processors;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Method;
 use PhUml\Code\Structure;
+use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
@@ -56,7 +57,7 @@ class GraphvizProcessorTest extends TestCase
         $structure->addInterface($interface);
         $structure->addClass(new NumericIdClass('MyClass', [], [
                 new Method('__construct', 'public', [
-                    new Variable('$reference', 'ReferencedClass'),
+                    new Variable('$reference', TypeDeclaration::from('ReferencedClass')),
                 ])
             ], [$interface], $parentClass)
         );

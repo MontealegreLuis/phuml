@@ -12,6 +12,7 @@ use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\Structure;
+use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 
 class StructureBuilder
@@ -72,7 +73,7 @@ class StructureBuilder
     {
         $params = [];
         foreach ($parameters as $param) {
-            $params[] = new Variable($param[1], $param[0]);
+            $params[] = new Variable($param[1], TypeDeclaration::from($param[0]));
         }
         return $params;
     }

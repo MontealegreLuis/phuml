@@ -80,7 +80,7 @@ class MethodTest extends TestCase
     {
         $methodWithParameters = new Method('withParameters', 'protected', [
             new Variable('parameterOne'),
-            new Variable('parameterTwoWithType', 'int'),
+            new Variable('parameterTwoWithType', TypeDeclaration::from('int')),
         ]);
 
         $methodAsString = $methodWithParameters->__toString();

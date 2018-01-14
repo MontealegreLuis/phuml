@@ -8,6 +8,7 @@ namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Method;
+use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
@@ -55,7 +56,7 @@ mindist = 0.6;
         $referenceClass = new NumericIdClass('AReference');
         $testClass = new NumericIdClass('TestClass', [], [
             new Method('__construct', 'public', [
-                new Variable('aReference', 'AReference')
+                new Variable('aReference', TypeDeclaration::from('AReference'))
             ])
         ], [$childInterface, $anotherInterface], $parentClass);
 
