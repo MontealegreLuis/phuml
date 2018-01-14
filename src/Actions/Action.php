@@ -9,6 +9,12 @@ namespace PhUml\Actions;
 
 use LogicException;
 
+/**
+ * All Action classes will see the console commands as listeners that will provide feedback
+ * to the end users about their progress
+ *
+ * @see CanExecuteAction for the details about the events that are tracked
+ */
 abstract class Action
 {
     /** @var CanExecuteAction */
