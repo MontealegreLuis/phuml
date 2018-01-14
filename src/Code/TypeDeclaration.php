@@ -22,6 +22,11 @@ class TypeDeclaration
         $this->name = $name;
     }
 
+    public static function from(?string $text): TypeDeclaration
+    {
+        return new TypeDeclaration($text);
+    }
+
     public function isPresent(): bool
     {
         return $this->name !== null;
@@ -33,7 +38,7 @@ class TypeDeclaration
      */
     public function isBuiltIn(): bool
     {
-        return !empty($this->name) && in_array($this->name, self::$builtInTypes, true);
+        return null !== $this->name && \in_array($this->name, self::$builtInTypes, true);
     }
 
     public function __toString()

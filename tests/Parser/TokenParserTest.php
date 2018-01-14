@@ -127,9 +127,9 @@ CLASS
         $structure = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass', [], [
-            new Method('changeName', 'private', [new Variable('$newName', new TypeDeclaration('string'))]),
+            new Method('changeName', 'private', [new Variable('$newName', TypeDeclaration::from('string'))]),
             new Method('getAge', 'protected'),
-            new Method('formatPhone', 'public', [new Variable('$format', new TypeDeclaration('string'))]),
+            new Method('formatPhone', 'public', [new Variable('$format', TypeDeclaration::from('string'))]),
         ]);
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));

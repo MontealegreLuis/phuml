@@ -18,7 +18,7 @@ class Variable
     public function __construct(string $name, string $type = null)
     {
         $this->name = $name;
-        $this->type = new TypeDeclaration($type);
+        $this->type = TypeDeclaration::from($type);
     }
 
     public function hasType(): bool

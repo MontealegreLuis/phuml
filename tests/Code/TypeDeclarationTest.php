@@ -17,7 +17,7 @@ class TypeDeclarationTest extends TestCase
      */
     function it_knows_if_it_is_a_built_in_type(string $type)
     {
-        $builtInType = new TypeDeclaration($type);
+        $builtInType = TypeDeclaration::from($type);
 
         $isBuiltIn = $builtInType->isBuiltIn();
 
@@ -27,7 +27,7 @@ class TypeDeclarationTest extends TestCase
     /** @test */
     function it_knows_it_is_not_a_built_in_type()
     {
-        $type = new TypeDeclaration('MyClass');
+        $type = TypeDeclaration::from('MyClass');
 
         $isBuiltIn = $type->isBuiltIn();
 
@@ -37,7 +37,7 @@ class TypeDeclarationTest extends TestCase
     /** @test */
     function it_knows_if_no_type_declaration_was_provided()
     {
-        $noType = new TypeDeclaration(null);
+        $noType = TypeDeclaration::from(null);
 
         $isPresent = $noType->isPresent();
 
