@@ -84,19 +84,19 @@ class StructureBuilder
         $attributes = [];
         foreach ($class['attributes'] as $attribute) {
             [$name, $modifier, $comment] = $attribute;
-            $attributes[] = new Attribute($name, $modifier, $this->extractType($comment));
+            $attributes[] = new Attribute($name, $modifier, $this->extractTypeFrom($comment));
         }
         return $attributes;
     }
 
-    private function extractType(?string $comment): ?string
+    private function extractTypeFrom(?string $comment): TypeDeclaration
     {
-        $type = null;
         if ($comment === null) {
-            return $type;
+            return TypeDeclaration::absent();
         }
 
-        $matches = null;
+        $type = null;  // There might be no type information in the comment
+        $matches = [];
         $arrayExpression = '/^[\s*]*@var\s+array\(\s*(\w+\s*=>\s*)?(\w+)\s*\).*$/m';
         if (preg_match($arrayExpression, $comment, $matches)) {
             $type = $matches[2];
@@ -106,7 +106,7 @@ class StructureBuilder
                 $type = trim($matches[1]);
             }
         }
-        return $type;
+        return TypeDeclaration::from($type);
     }
 
     /**
