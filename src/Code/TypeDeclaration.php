@@ -7,6 +7,9 @@
 
 namespace PhUml\Code;
 
+/**
+ * It represents a variable's type declaration
+ */
 class TypeDeclaration
 {
     /** @var string[] All valid types for PHP 7.1 */

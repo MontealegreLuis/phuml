@@ -6,6 +6,9 @@
  */
 namespace PhUml\Code;
 
+/**
+ * Collection of all the classes and interfaces definitions
+ */
 class Structure
 {
     /** @var ClassDefinition[] */

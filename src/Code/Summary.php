@@ -7,6 +7,9 @@
 
 namespace PhUml\Code;
 
+/**
+ * It creates a summary of the classes, interfaces, methods, and attributes of a codebase
+ */
 class Summary
 {
     private $interfaceCount;

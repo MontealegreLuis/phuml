@@ -7,6 +7,9 @@
 
 namespace PhUml\Code;
 
+/**
+ * It represents a variable declaration
+ */
 class Variable
 {
     /** @var string */

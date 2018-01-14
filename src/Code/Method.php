@@ -7,6 +7,11 @@
 
 namespace PhUml\Code;
 
+/**
+ * It represents a class or interface method
+ *
+ * It doesn't distinguish neither static methods nor return types yet
+ */
 class Method
 {
     private static $symbols = [

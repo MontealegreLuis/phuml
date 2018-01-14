@@ -7,6 +7,11 @@
 
 namespace PhUml\Code;
 
+/**
+ * It represents a class attribute
+ *
+ * It does not distinguish yet static attributes
+ */
 class Attribute extends Variable
 {
     private static $symbols = [

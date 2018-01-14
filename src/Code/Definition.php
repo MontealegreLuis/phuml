@@ -4,11 +4,17 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Code;
 
 use PhUml\Graphviz\HasNodeIdentifier;
 use PhUml\Graphviz\ObjectHashIdentifier;
 
+/**
+ * Base class for interfaces and classes
+ *
+ * It does not support traits yet
+ */
 class Definition implements HasNodeIdentifier
 {
     use ObjectHashIdentifier;

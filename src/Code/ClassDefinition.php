@@ -4,8 +4,14 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Code;
 
+/**
+ * It represents a class definition
+ *
+ * It does not support class constants yet
+ */
 class ClassDefinition extends Definition
 {
     /** @var Attribute[] */
@@ -19,7 +25,7 @@ class ClassDefinition extends Definition
         array $attributes = [],
         array $functions = [],
         array $implements = [],
-        $extends = null
+        ClassDefinition $extends = null
     ) {
         parent::__construct($name, $functions, $extends);
         $this->attributes = $attributes;
