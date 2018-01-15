@@ -19,6 +19,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * This command will generate a UML class diagram by reading an OO codebase
+ *
+ * This command has 2 required arguments
+ *
+ * 1. `directory`. The path where your codebase lives
+ * 2. `output`. The path to where the generated `png` image will be saved
+ *
+ * There are 3 options
+ *
+ * 1. `processor`. The command to be used to create the `png` image, it can be either `neato` or `dot`
+ *    This is the only required option
+ * 2. `recursive`. If present it will look recursively within the `directory` provided
+ * 3. `associations`. If present the command will generate associations to the classes/interfaces
+ *    injected through the constructor and the attributes of the class
+ */
 class GenerateClassDiagramCommand extends GeneratorCommand
 {
     /** @throws \InvalidArgumentException */

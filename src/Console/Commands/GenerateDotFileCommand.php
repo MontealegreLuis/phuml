@@ -17,6 +17,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * This command will generate file in `DOT` format that is ready to use to generate a UML class
+ * diagram using either `neato` or `dot`
+ *
+ * This command has 2 required arguments
+ *
+ * 1. `directory`. The path where your codebase lives
+ * 2. `output`. The path to where the generated `gv` file will be saved
+ *
+ * There are 2 options
+ *
+ * 1. `recursive`. If present it will look recursively within the `directory` provided
+ * 2. `associations`. If present the command will generate associations to the classes/interfaces
+ *    injected through the constructor and the attributes of the class
+ */
 class GenerateDotFileCommand extends GeneratorCommand
 {
     protected function configure()

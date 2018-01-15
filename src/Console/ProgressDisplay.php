@@ -12,6 +12,11 @@ use PhUml\Processors\Processor;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 
+/**
+ * It provides visual feedback to the use about the progress of the current command
+ *
+ * @see CanExecuteAction for more details about the things that are reported by this display
+ */
 class ProgressDisplay implements CanExecuteAction
 {
     /** @var OutputInterface */
