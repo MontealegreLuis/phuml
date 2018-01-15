@@ -62,13 +62,24 @@ class AttributeTest extends TestCase
     }
 
     /** @test */
-    function it_knows_if_it_does_not_have_a_type()
+    function it_knows_if_it_refers_to_another_class_or_interface()
     {
-        $noTypeAttribute = Attribute::public('noTypeAttribute');
+        $reference = Attribute::public ('reference', TypeDeclaration::from('AClass'));
 
-        $hasType = $noTypeAttribute->hasType();
+        $isAReference = $reference->isAReference();
 
-        $this->assertFalse($hasType);
+        $this->assertTrue($isAReference);
+    }
+
+
+    /** @test */
+    function it_knows_it_does_not_refers_to_another_class_or_interface()
+    {
+        $noType = Attribute::public('noTypeAttribute');
+        $builtInType = Attribute::public('builtInAttribute', TypeDeclaration::from('float'));
+
+        $this->assertFalse($noType->isAReference());
+        $this->assertFalse($builtInType->isAReference());
     }
 
     /** @test */

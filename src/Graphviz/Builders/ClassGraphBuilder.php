@@ -99,7 +99,7 @@ class ClassGraphBuilder
 
     private function needAssociation(Variable $attribute): bool
     {
-        return $attribute->hasType() && !$attribute->isBuiltIn() && !$this->isAssociationResolved($attribute->type);
+        return $attribute->isAReference() && !$this->isAssociationResolved($attribute->type);
     }
 
     private function isAssociationResolved(string $type): bool

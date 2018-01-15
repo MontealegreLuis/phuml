@@ -29,12 +29,22 @@ class Variable
         return new Variable($name, $type ?? TypeDeclaration::absent());
     }
 
-    public function hasType(): bool
+    /**
+     * An attribute is a reference if it has a type and it's not a built-in type
+     *
+     * This is used when building the digraph and the option `createAssociations` is set
+     */
+    public function isAReference(): bool
+    {
+        return $this->hasType() && !$this->isBuiltIn();
+    }
+
+    private function hasType(): bool
     {
         return $this->type->isPresent();
     }
 
-    public function isBuiltIn(): bool
+    private function isBuiltIn(): bool
     {
         return $this->type->isBuiltIn();
     }

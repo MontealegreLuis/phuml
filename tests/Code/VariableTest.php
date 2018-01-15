@@ -33,33 +33,23 @@ class VariableTest extends TestCase
     }
 
     /** @test */
-    function it_knows_it_has_no_type()
+    function it_knows_if_it_refers_to_another_class_or_interface()
     {
-        $noTypeParameter = Variable::declaredWith('noTypeForParameter');
+        $reference = Variable::declaredWith('reference', TypeDeclaration::from('AClass'));
 
-        $hasType = $noTypeParameter->hasType();
+        $isAReference = $reference->isAReference();
 
-        $this->assertFalse($hasType);
+        $this->assertTrue($isAReference);
     }
 
     /** @test */
-    function it_knows_it_has_a_type()
+    function it_knows_it_does_not_refers_to_another_class_or_interface()
     {
-        $typedParameter = Variable::declaredWith('typedParameter', TypeDeclaration::from('string'));
+        $noType = Variable::declaredWith('noTypeAttribute');
+        $builtInType = Variable::declaredWith('builtInAttribute', TypeDeclaration::from('float'));
 
-        $hasType = $typedParameter->hasType();
-
-        $this->assertTrue($hasType);
-    }
-
-    /** @test */
-    function it_knows_its_type()
-    {
-        $typedParameter = Variable::declaredWith('typedParameter', TypeDeclaration::from('string'));
-
-        $type = $typedParameter->type;
-
-        $this->assertEquals('string', $type->__toString());
+        $this->assertFalse($noType->isAReference());
+        $this->assertFalse($builtInType->isAReference());
     }
 
     /** @test */
