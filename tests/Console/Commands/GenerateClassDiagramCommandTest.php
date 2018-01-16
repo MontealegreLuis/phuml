@@ -55,7 +55,7 @@ class GenerateClassDiagramCommandTest extends TestCase
 
         $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../.code/classes',
+            'directory' => __DIR__ . '/../../resources/.code/classes',
             'output' => $this->diagram,
         ]);
     }
@@ -75,13 +75,14 @@ class GenerateClassDiagramCommandTest extends TestCase
     }
 
     /** @test */
-    function it_generates_a_class_diagram_searching_for_files_recursively()
+    function it_generates_a_class_diagram_searching_for_files_recursively_with_associations()
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $this->diagram,
             '--recursive' => true,
+            '--associations' => true,
             '--processor' => 'neato',
         ]);
 
