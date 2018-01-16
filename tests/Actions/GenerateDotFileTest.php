@@ -14,7 +14,7 @@ use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\NumericIdStructureBuilder;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\Raw\RawDefinitions;
-use PhUml\Parser\RelationsResolver;
+use PhUml\Parser\ExternalDefinitionsResolver;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use Symfony\Component\Finder\Finder;

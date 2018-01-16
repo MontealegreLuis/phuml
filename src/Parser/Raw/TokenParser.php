@@ -13,7 +13,6 @@ use PhpParser\ParserFactory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\Raw\Visitors\ClassVisitor;
 use PhUml\Parser\Raw\Visitors\InterfaceVisitor;
-use PhUml\Parser\RelationsResolver;
 
 class TokenParser
 {
@@ -23,7 +22,7 @@ class TokenParser
     /** @var NodeTraverser */
     private $traverser;
 
-    /** @var RelationsResolver */
+    /** @var ExternalDefinitionsResolver */
     private $resolver;
 
     /** @var RawDefinitions */
@@ -32,12 +31,12 @@ class TokenParser
     public function __construct(
         Parser $parser = null,
         NodeTraverser $traverser = null,
-        RelationsResolver $resolver = null
+        ExternalDefinitionsResolver $resolver = null
     ) {
         $this->definitions = new RawDefinitions();
         $this->parser = $parser ?? (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
         $this->traverser = $traverser ?? $this->defaultTraverser();
-        $this->resolver = $resolver ?? new RelationsResolver();
+        $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
     }
 
     private function defaultTraverser(): NodeTraverser

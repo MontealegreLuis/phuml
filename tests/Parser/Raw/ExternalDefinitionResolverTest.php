@@ -4,19 +4,17 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-namespace PhUml\Parser;
+namespace PhUml\Parser\Raw;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Parser\Raw\RawDefinition;
-use PhUml\Parser\Raw\RawDefinitions;
 
-class RelationsResolverTest extends TestCase
+class ExternalDefinitionResolverTest extends TestCase
 {
     /** @test */
     function it_does_not_change_the_definitions_if_no_relations_are_declared()
     {
         $definitions = new RawDefinitions();
-        $resolver = new RelationsResolver();
+        $resolver = new ExternalDefinitionsResolver();
 
         $definitions->addExternalClass('AClass');
         $definitions->addExternalClass('AnotherClass');
@@ -32,7 +30,7 @@ class RelationsResolverTest extends TestCase
     function it_adds_missing_interfaces()
     {
         $definitions = new RawDefinitions();
-        $resolver = new RelationsResolver();
+        $resolver = new ExternalDefinitionsResolver();
 
         $definitions->add(RawDefinition::class(['class' => 'AClass', 'implements' => [
             'AnExternalInterface', 'AnExistingInterface',
@@ -51,7 +49,7 @@ class RelationsResolverTest extends TestCase
     function it_adds_missing_classes()
     {
         $definitions = new RawDefinitions();
-        $resolver = new RelationsResolver();
+        $resolver = new ExternalDefinitionsResolver();
 
         $definitions->add(RawDefinition::class(['class' => 'AClass', 'extends' => 'AnExternalClass', 'implements' => []]));
         $definitions->add(RawDefinition::class(['class' => 'AnotherClass', 'extends' => 'AnotherExternalClass', 'implements' => []]));

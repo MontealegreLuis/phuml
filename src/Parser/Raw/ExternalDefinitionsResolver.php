@@ -4,12 +4,12 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-namespace PhUml\Parser;
+namespace PhUml\Parser\Raw;
 
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 
-class RelationsResolver
+class ExternalDefinitionsResolver
 {
     public function resolve(RawDefinitions $definitions): void
     {

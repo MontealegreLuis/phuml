@@ -13,6 +13,7 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
+use PhUml\Parser\Raw\ExternalDefinitionsResolver;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 
@@ -103,7 +104,7 @@ class StructureBuilderTest extends TestCase
     {
         $builder = new StructureBuilder();
         $definitions = new RawDefinitions();
-        $resolver = new RelationsResolver();
+        $resolver = new ExternalDefinitionsResolver();
 
         $definitions->add(RawDefinition::class([
             'class' => 'AClass',
