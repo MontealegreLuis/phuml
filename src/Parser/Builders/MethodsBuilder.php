@@ -7,18 +7,29 @@
 
 namespace PhUml\Parser\Builders;
 
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 
+/**
+ * It builds an array with the meta-information of a method
+ *
+ * The generated array has the following structure
+ *
+ * - name
+ * - visibility
+ * - parameters
+ *    - name
+ *    - type
+ * - doc block
+ */
 class MethodsBuilder
 {
     /** @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_ $definition */
     public function build($definition): array
     {
-        $methods = [];
-        foreach ($definition->getMethods() as $method) {
-            $methods[] = $this->buildMethod($method);
-        }
-        return $methods;
+        return array_map(function (ClassMethod $method) {
+            return $this->buildMethod($method);
+        }, $definition->getMethods());
     }
 
     public function buildMethod(ClassMethod $method): array
@@ -45,14 +56,11 @@ class MethodsBuilder
 
     private function buildParameters(array $parameters): array
     {
-        $params = [];
-        /** @var \PhpParser\Node\Param $parameter */
-        foreach ($parameters as $parameter) {
-            $params[] = [
-                $parameter->type,
+        return array_map(function (Param $parameter) {
+            return [
                 "\${$parameter->name}",
+                $parameter->type,
             ];
-        }
-        return $params;
+        }, $parameters);
     }
 }

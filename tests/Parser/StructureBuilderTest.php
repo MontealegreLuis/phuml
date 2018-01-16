@@ -24,9 +24,9 @@ class StructureBuilderTest extends TestCase
         $definitions->add(['interface' => 'ParentInterface']);
         $definitions->add([
             'interface' => 'InterfaceName',
-            'functions' => [
+            'methods' => [
                 ['doSomething', 'public', []],
-                ['changeThing', 'public', [['string', '$name']]],
+                ['changeThing', 'public', [['$name', 'string']]],
             ],
             'extends' => 'ParentInterface',
         ]);
@@ -64,9 +64,9 @@ class StructureBuilderTest extends TestCase
                                               * @var array(int => string) 
                                               */'],
             ],
-            'functions' => [
+            'methods' => [
                 ['doSomething', 'public', []],
-                ['changeThing', 'public', [['string', '$name']]],
+                ['changeThing', 'public', [['$name', 'string']]],
             ],
             'implements' => [
                 'FirstInterface',

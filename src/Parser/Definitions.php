@@ -10,13 +10,13 @@ class Definitions
 {
     private static $classDefaults = [
         'attributes' => [],
-        'functions' => [],
+        'methods' => [],
         'implements' => [],
         'extends' => null,
     ];
 
     private static $interfaceDefaults = [
-        'functions' => [],
+        'methods' => [],
         'extends' => null,
     ];
 
@@ -93,7 +93,7 @@ class Definitions
         $this->definitions[$definition['class']] = [
             'class' => $definition['class'],
             'attributes' => $definition['attributes'] ?? self::$classDefaults['attributes'],
-            'functions' => $definition['functions'] ?? self::$classDefaults['functions'],
+            'methods' => $definition['methods'] ?? self::$classDefaults['methods'],
             'implements' => $definition['implements'] ?? self::$classDefaults['implements'],
             'extends' => $definition['extends'] ?? self::$classDefaults['extends'],
         ];
@@ -103,7 +103,7 @@ class Definitions
     {
         $this->definitions[$definition['interface']] = [
             'interface' => $definition['interface'],
-            'functions' => $definition['functions'] ?? self::$interfaceDefaults['functions'],
+            'methods' => $definition['methods'] ?? self::$interfaceDefaults['methods'],
             'extends' => $definition['extends'] ?? self::$interfaceDefaults['extends'],
         ];
     }

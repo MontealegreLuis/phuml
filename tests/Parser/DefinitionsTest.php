@@ -8,7 +8,7 @@ namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
 
-class DefinitionsTest extends TestCase 
+class DefinitionsTest extends TestCase
 {
     /** @test */
     function it_adds_a_class_definition()
@@ -39,7 +39,7 @@ class DefinitionsTest extends TestCase
 
         $class = $definitions->get('MyClass');
         $this->assertCount(0, $class['attributes']);
-        $this->assertCount(0, $class['functions']);
+        $this->assertCount(0, $class['methods']);
         $this->assertCount(0, $class['implements']);
         $this->assertNull($class['extends']);
     }
@@ -52,7 +52,7 @@ class DefinitionsTest extends TestCase
         $definitions->addExternalClass('MyInterface');
 
         $interface = $definitions->get('MyInterface');
-        $this->assertCount(0, $interface['functions']);
+        $this->assertCount(0, $interface['methods']);
         $this->assertNull($interface['extends']);
     }
 

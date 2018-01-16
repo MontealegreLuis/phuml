@@ -61,7 +61,7 @@ class StructureBuilder
     protected function buildMethods(array $definition): array
     {
         $methods = [];
-        foreach ($definition['functions'] as $method) {
+        foreach ($definition['methods'] as $method) {
             [$name, $modifier, $parameters] = $method;
             $methods[] = Method::$modifier($name, $this->buildParameters($parameters));
         }
@@ -73,7 +73,7 @@ class StructureBuilder
     {
         $methodParameters = [];
         foreach ($parameters as $parameter) {
-            [$type, $name] = $parameter;
+            [$name, $type] = $parameter;
             $methodParameters[] = Variable::declaredWith($name, TypeDeclaration::from($type));
         }
         return $methodParameters;

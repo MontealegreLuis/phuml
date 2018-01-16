@@ -9,31 +9,36 @@ namespace PhUml\Parser\Builders;
 
 use PhpParser\Node\Stmt\Property;
 
+/**
+ * It builds an array with the meta-information of a class attribute
+ *
+ * The generated array has the following structure
+ *
+ * - name
+ * - visibility
+ * - doc block
+ */
 class AttributesBuilder
 {
     public function build(array $classAttributes): array
     {
-        $attributes = [];
-        foreach ($classAttributes as $attribute) {
-            if (!($attribute instanceof Property)) {
-                continue;
-            }
-            $attributes[] = [
+        return array_map(function (Property $attribute) {
+            return [
                 "\${$attribute->props[0]->name}",
                 $this->resolveVisibility($attribute),
                 $attribute->getDocComment()
             ];
-        }
-        return $attributes;
+        }, array_filter($classAttributes, function ($attribute) {
+            return $attribute instanceof Property;
+        }));
     }
 
-    /** @param Property $statement */
-    private function resolveVisibility($statement): string
+    private function resolveVisibility(Property $attribute): string
     {
         switch (true) {
-            case $statement->isPublic():
+            case $attribute->isPublic():
                 return 'public';
-            case $statement->isPrivate():
+            case $attribute->isPrivate():
                 return 'private';
             default:
                 return 'protected';

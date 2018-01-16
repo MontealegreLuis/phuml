@@ -7,8 +7,23 @@
 
 namespace PhUml\Parser\Builders;
 
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 
+/**
+ * It builds an associative array with meta-information of a class
+ *
+ * The array has the following structure
+ *
+ * - `class` The class name
+ * - `attributes` The meta-information of the class attributes
+ * - `methods` The meta-information of the methods of the class
+ * - `implements` The names of the interfaces it implements, if any
+ * - `extends` The name of the class it extends, if any
+ *
+ * @see AttributesBuilder for more details about the attributes information
+ * @see MethodsBuilder for more details about the methods information
+ */
 class ClassBuilder
 {
     /** @var AttributesBuilder */
@@ -30,19 +45,17 @@ class ClassBuilder
         return [
             'class' => $class->name,
             'attributes' => $this->attributesBuilder->build($class->stmts),
-            'functions' => $this->methodsBuilder->build($class),
+            'methods' => $this->methodsBuilder->build($class),
             'implements' => $this->buildInterfaces($class->implements),
             'extends' => !empty($class->extends) ? end($class->extends->parts) : null,
         ];
     }
 
+    /** @return string[] */
     private function buildInterfaces(array $implements): array
     {
-        $interfaces = [];
-        /** @var \PhpParser\Node\Name $name */
-        foreach ($implements as $name) {
-            $interfaces[] = $name->getLast();
-        }
-        return $interfaces;
+        return array_map(function (Name $name) {
+            return $name->getLast();
+        }, $implements);
     }
 }

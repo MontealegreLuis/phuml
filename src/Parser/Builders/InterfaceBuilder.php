@@ -9,6 +9,17 @@ namespace PhUml\Parser\Builders;
 
 use PhpParser\Node\Stmt\Interface_;
 
+/**
+ * It builds an associative array with meta-information of an interface
+ *
+ * The array has the following structure
+ *
+ * - `interface` The interface name
+ * - `methods` The meta-information of the methods of the interface
+ * - `extends` The name of the interface it extends, if any
+ *
+ * @see MethodsBuilder for more details about the methods information
+ */
 class InterfaceBuilder
 {
     /** @var MethodsBuilder */
@@ -23,7 +34,7 @@ class InterfaceBuilder
     {
         return [
             'interface' => $interface->name,
-            'functions' => $this->methodsBuilder->build($interface),
+            'methods' => $this->methodsBuilder->build($interface),
             'extends' => !empty($interface->extends) ? end($interface->extends)->getLast() : null,
         ];
     }
