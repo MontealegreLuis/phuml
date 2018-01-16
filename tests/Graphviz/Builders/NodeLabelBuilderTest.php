@@ -110,7 +110,7 @@ class NodeLabelBuilderTest extends TestCase
     function createLabel()
     {
         $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(
-            new FileSystem(__DIR__ . '/../../../src/Graphviz/templates')
+            new FileSystem(__DIR__ . '/../../../src/resources/templates')
         ), new HtmlLabelStyle());
     }
 

@@ -31,7 +31,7 @@ class GraphvizProcessor extends Processor
         InterfaceGraphBuilder $interfaceBuilder = null
     ) {
         $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
-            new FileSystem(__DIR__ . '/../Graphviz/templates')
+            new FileSystem(__DIR__ . '/../resources/templates')
         ), new HtmlLabelStyle());
         $this->classBuilder = $classBuilder ?? new ClassGraphBuilder($labelBuilder);
         $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder($labelBuilder);
