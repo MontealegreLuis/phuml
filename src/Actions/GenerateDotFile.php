@@ -8,7 +8,7 @@
 namespace PhUml\Actions;
 
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 
 /**
@@ -24,13 +24,13 @@ use PhUml\Processors\GraphvizProcessor;
  */
 class GenerateDotFile extends Action
 {
-    /** @var TokenParser */
+    /** @var CodeParser */
     private $parser;
 
     /** @var GraphvizProcessor */
     private $dotProcessor;
 
-    public function __construct(TokenParser $parser, GraphvizProcessor $dotProcessor)
+    public function __construct(CodeParser $parser, GraphvizProcessor $dotProcessor)
     {
         $this->parser = $parser;
         $this->dotProcessor = $dotProcessor;

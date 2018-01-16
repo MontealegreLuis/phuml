@@ -9,7 +9,7 @@ namespace PhUml\Actions;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
 
 class GenerateStatisticsTest extends TestCase
@@ -17,7 +17,7 @@ class GenerateStatisticsTest extends TestCase
     /** @test */
     function it_fails_to_generate_the_statistics_if_command_is_not_provided()
     {
-        $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
+        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
 
         $this->expectException(LogicException::class);
         $action->generate(new CodeFinder(), 'wont-be-generated.txt');
@@ -55,7 +55,7 @@ Functions per class:  5.5
 STATS;
         $file = __DIR__ . '/../resources/.output/statistics.txt';
 
-        $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
+        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
@@ -97,7 +97,7 @@ Functions per class:  4.53
 STATS;
         $file = __DIR__ . '/../resources/.output/statistics.txt';
 
-        $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
+        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../resources/.code/classes');

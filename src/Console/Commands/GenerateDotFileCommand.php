@@ -9,7 +9,7 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateDotFile;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -85,7 +85,7 @@ HELP
             throw new RuntimeException("'$directory' is not a valid directory");
         }
 
-        $action = new GenerateDotFile(new TokenParser(), new GraphvizProcessor());
+        $action = new GenerateDotFile(new CodeParser(), new GraphvizProcessor());
         $action->attach($this->display);
 
         $finder = new CodeFinder();

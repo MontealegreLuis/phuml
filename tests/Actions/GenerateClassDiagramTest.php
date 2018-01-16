@@ -10,7 +10,7 @@ use LogicException;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
@@ -22,7 +22,7 @@ class GenerateClassDiagramTest extends TestCase
     /** @before */
     function createAction()
     {
-        $this->action = new GenerateClassDiagram(new TokenParser(), new GraphvizProcessor());
+        $this->action = new GenerateClassDiagram(new CodeParser(), new GraphvizProcessor());
     }
 
     /** @test */

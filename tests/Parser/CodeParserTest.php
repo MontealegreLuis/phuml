@@ -15,12 +15,12 @@ use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Fakes\StringCodeFinder;
 
-class TokenParserTest extends TestCase
+class CodeParserTest extends TestCase
 {
     /** @before */
     function buildParser()
     {
-        $this->parser = new TokenParser();
+        $this->parser = new CodeParser();
         $this->finder = new StringCodeFinder();
     }
 
@@ -423,7 +423,7 @@ CLASS;
         $this->assertEquals($students, $structure->get('Students'));
     }
 
-    /** @var TokenParser */
+    /** @var CodeParser */
     private $parser;
 
     /** @var StringCodeFinder */

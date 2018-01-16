@@ -9,7 +9,7 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateClassDiagram;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
@@ -107,7 +107,7 @@ HELP
             $dotProcessor->createAssociations();
         }
 
-        $action = new GenerateClassDiagram(new TokenParser(), $dotProcessor);
+        $action = new GenerateClassDiagram(new CodeParser(), $dotProcessor);
         $action->attach($this->display);
 
         if (!\in_array($processor, ['neato', 'dot'], true)) {

@@ -21,10 +21,10 @@ class InterfaceVisitor extends NodeVisitorAbstract
     /** @var InterfaceBuilder */
     private $builder;
 
-    public function __construct(RawDefinitions $definitions, InterfaceBuilder $builder)
+    public function __construct(RawDefinitions $definitions, InterfaceBuilder $builder = null)
     {
         $this->definitions = $definitions;
-        $this->builder = $builder;
+        $this->builder = $builder ?? new InterfaceBuilder();
     }
 
     public function leaveNode(Node $node)

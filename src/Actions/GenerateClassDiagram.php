@@ -9,7 +9,7 @@ namespace PhUml\Actions;
 
 use LogicException;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 
@@ -20,7 +20,7 @@ use PhUml\Processors\ImageProcessor;
  */
 class GenerateClassDiagram extends Action
 {
-    /** @var TokenParser */
+    /** @var CodeParser */
     private $parser;
 
     /** @var GraphvizProcessor */
@@ -29,7 +29,7 @@ class GenerateClassDiagram extends Action
     /** @var ImageProcessor */
     private $imageProcessor;
 
-    public function __construct(TokenParser $parser, GraphvizProcessor $dotProcessor)
+    public function __construct(CodeParser $parser, GraphvizProcessor $dotProcessor)
     {
         $this->parser = $parser;
         $this->dotProcessor = $dotProcessor;

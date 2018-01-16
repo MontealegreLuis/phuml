@@ -9,7 +9,7 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateStatistics;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -82,7 +82,7 @@ HELP
             throw new RuntimeException("'$directory' is not a valid directory");
         }
 
-        $action = new GenerateStatistics(new TokenParser(), new StatisticsProcessor());
+        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->display);
 
         $finder = new CodeFinder();

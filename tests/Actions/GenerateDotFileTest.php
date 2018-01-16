@@ -15,7 +15,7 @@ use PhUml\Fakes\NumericIdStructureBuilder;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\Parser\RelationsResolver;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use Symfony\Component\Finder\Finder;
 
@@ -31,7 +31,7 @@ class GenerateDotFileTest extends TestCase
     /** @test */
     function it_fails_to_generate_the_dot_file_if_command_is_not_provided()
     {
-        $action = new GenerateDotFile(new TokenParser(), new GraphvizProcessor());
+        $action = new GenerateDotFile(new CodeParser(), new GraphvizProcessor());
 
         $this->expectException(LogicException::class);
 
@@ -43,7 +43,7 @@ class GenerateDotFileTest extends TestCase
     {
         $file = __DIR__ . '/../resources/.output/dot.gv';
         $action = new GenerateDotFile(
-            new TokenParser(new RawDefinitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
+            new CodeParser(new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
@@ -91,7 +91,7 @@ DOT;
         $file = __DIR__ . '/../resources/.output/dot.gv';
 
         $action = new GenerateDotFile(
-            new TokenParser(new RawDefinitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
+            new CodeParser(new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());

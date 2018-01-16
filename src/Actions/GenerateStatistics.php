@@ -8,7 +8,7 @@
 namespace PhUml\Actions;
 
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\TokenParser;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
 
 /**
@@ -19,13 +19,13 @@ use PhUml\Processors\StatisticsProcessor;
  */
 class GenerateStatistics extends Action
 {
-    /** @var TokenParser */
+    /** @var CodeParser */
     private $parser;
 
     /** @var StatisticsProcessor */
     private $processor;
 
-    public function __construct(TokenParser $parser, StatisticsProcessor $processor)
+    public function __construct(CodeParser $parser, StatisticsProcessor $processor)
     {
         $this->parser = $parser;
         $this->processor = $processor;
