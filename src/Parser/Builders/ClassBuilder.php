@@ -9,6 +9,7 @@ namespace PhUml\Parser\Builders;
 
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
+use PhUml\Parser\RawDefinition;
 
 /**
  * It builds an associative array with meta-information of a class
@@ -40,15 +41,15 @@ class ClassBuilder
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
     }
 
-    public function build(Class_ $class): array
+    public function build(Class_ $class): RawDefinition
     {
-        return [
+        return RawDefinition::class([
             'class' => $class->name,
             'attributes' => $this->attributesBuilder->build($class->stmts),
             'methods' => $this->methodsBuilder->build($class),
             'implements' => $this->buildInterfaces($class->implements),
             'extends' => !empty($class->extends) ? end($class->extends->parts) : null,
-        ];
+        ]);
     }
 
     /** @return string[] */

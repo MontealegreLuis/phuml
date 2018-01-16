@@ -21,15 +21,15 @@ class StructureBuilderTest extends TestCase
     {
         $builder = new StructureBuilder();
         $definitions = new Definitions();
-        $definitions->add(['interface' => 'ParentInterface']);
-        $definitions->add([
+        $definitions->add(RawDefinition::interface(['interface' => 'ParentInterface']));
+        $definitions->add(RawDefinition::interface([
             'interface' => 'InterfaceName',
             'methods' => [
                 ['doSomething', 'public', []],
                 ['changeThing', 'public', [['$name', 'string']]],
             ],
             'extends' => 'ParentInterface',
-        ]);
+        ]));
 
         $structure = $builder->buildFromDefinitions($definitions);
         $interface = $structure->get('InterfaceName');
@@ -50,10 +50,10 @@ class StructureBuilderTest extends TestCase
     {
         $builder = new StructureBuilder();
         $definitions = new Definitions();
-        $definitions->add(['interface' => 'FirstInterface']);
-        $definitions->add(['interface' => 'SecondInterface']);
-        $definitions->add(['class' => 'ParentClass']);
-        $definitions->add([
+        $definitions->add(RawDefinition::interface(['interface' => 'FirstInterface']));
+        $definitions->add(RawDefinition::interface(['interface' => 'SecondInterface']));
+        $definitions->add(RawDefinition::class(['class' => 'ParentClass']));
+        $definitions->add(RawDefinition::class([
             'class' => 'ClassName',
             'attributes' => [
                 ['$name', 'protected', null],
@@ -73,7 +73,7 @@ class StructureBuilderTest extends TestCase
                 'SecondInterface',
             ],
             'extends' => 'ParentClass',
-        ]);
+        ]));
 
         $structure = $builder->buildFromDefinitions($definitions);
         $class = $structure->get('ClassName');
@@ -103,25 +103,25 @@ class StructureBuilderTest extends TestCase
         $definitions = new Definitions();
         $resolver = new RelationsResolver();
 
-        $definitions->add([
+        $definitions->add(RawDefinition::class([
             'class' => 'AClass',
             'implements' => [
                 'AnInterface',
             ],
             'extends' => 'ExternalClass',
-        ]);
-        $definitions->add([
+        ]));
+        $definitions->add(RawDefinition::class([
             'class' => 'AnotherClass',
             'extends' => 'AClass',
             'implements' => [
                 'AnInterface',
                 'ExternalInterface'
             ]
-        ]);
-        $definitions->add([
+        ]));
+        $definitions->add(RawDefinition::interface([
             'interface' => 'AnInterface',
             'extends' => 'ExternalInterface',
-        ]);
+        ]));
         $resolver->resolve($definitions);
 
         $structure = $builder->buildFromDefinitions($definitions);

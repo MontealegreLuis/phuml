@@ -8,6 +8,7 @@
 namespace PhUml\Parser\Builders;
 
 use PhpParser\Node\Stmt\Interface_;
+use PhUml\Parser\RawDefinition;
 
 /**
  * It builds an associative array with meta-information of an interface
@@ -30,12 +31,12 @@ class InterfaceBuilder
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
     }
 
-    public function build(Interface_ $interface): array
+    public function build(Interface_ $interface): RawDefinition
     {
-        return [
+        return RawDefinition::interface([
             'interface' => $interface->name,
             'methods' => $this->methodsBuilder->build($interface),
             'extends' => !empty($interface->extends) ? end($interface->extends)->getLast() : null,
-        ];
+        ]);
     }
 }

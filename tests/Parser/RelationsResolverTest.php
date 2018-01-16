@@ -32,11 +32,11 @@ class RelationsResolverTest extends TestCase
         $definitions = new Definitions();
         $resolver = new RelationsResolver();
 
-        $definitions->add(['class' => 'AClass', 'implements' => [
+        $definitions->add(RawDefinition::class(['class' => 'AClass', 'implements' => [
             'AnExternalInterface', 'AnExistingInterface',
-        ]]);
-        $definitions->add(['interface' => 'AnInterface', 'extends' => 'AnotherExternalInterface']);
-        $definitions->add(['interface' => 'AnExistingInterface']);
+        ]]));
+        $definitions->add(RawDefinition::interface(['interface' => 'AnInterface', 'extends' => 'AnotherExternalInterface']));
+        $definitions->add(RawDefinition::interface(['interface' => 'AnExistingInterface']));
 
         $resolver->resolve($definitions);
 
@@ -51,8 +51,8 @@ class RelationsResolverTest extends TestCase
         $definitions = new Definitions();
         $resolver = new RelationsResolver();
 
-        $definitions->add(['class' => 'AClass', 'extends' => 'AnExternalClass', 'implements' => []]);
-        $definitions->add(['class' => 'AnotherClass', 'extends' => 'AnotherExternalClass', 'implements' => []]);
+        $definitions->add(RawDefinition::class(['class' => 'AClass', 'extends' => 'AnExternalClass', 'implements' => []]));
+        $definitions->add(RawDefinition::class(['class' => 'AnotherClass', 'extends' => 'AnotherExternalClass', 'implements' => []]));
 
         $resolver->resolve($definitions);
 

@@ -28,40 +28,43 @@ class StructureBuilder
     public function buildFromDefinitions(Definitions $definitions): Structure
     {
         foreach ($definitions->all() as $definition) {
-            if ($definitions->isClass($definition) && !$this->structure->has($definition['class'])) {
+            if ($this->structure->has($definition->name())) {
+                continue;
+            }
+            if ($definition->isClass()) {
                 $this->structure->addClass($this->buildClass($definitions, $definition));
-            } elseif ($definitions->isInterface($definition) && !$this->structure->has($definition['interface'])) {
+            } elseif ($definition->isInterface()) {
                 $this->structure->addInterface($this->buildInterface($definitions, $definition));
             }
         }
         return $this->structure;
     }
 
-    protected function buildInterface(Definitions $definitions, array $interface): InterfaceDefinition
+    protected function buildInterface(Definitions $definitions, RawDefinition $interface): InterfaceDefinition
     {
         return new InterfaceDefinition(
-            $interface['interface'],
+            $interface->name(),
             $this->buildMethods($interface),
-            $this->resolveRelatedInterface($definitions, $interface['extends'])
+            $this->resolveRelatedInterface($definitions, $interface->parent())
         );
     }
 
-    protected function buildClass(Definitions $definitions, array $class): ClassDefinition
+    protected function buildClass(Definitions $definitions, RawDefinition $class): ClassDefinition
     {
         return new ClassDefinition(
-            $class['class'],
+            $class->name(),
             $this->buildAttributes($class),
             $this->buildMethods($class),
-            $this->buildInterfaces($definitions, $class['implements']),
-            $this->resolveParentClass($definitions, $class['extends'])
+            $this->buildInterfaces($definitions, $class->interfaces()),
+            $this->resolveParentClass($definitions, $class->parent())
         );
     }
 
     /** @return Method[] */
-    protected function buildMethods(array $definition): array
+    protected function buildMethods(RawDefinition $definition): array
     {
         $methods = [];
-        foreach ($definition['methods'] as $method) {
+        foreach ($definition->methods() as $method) {
             [$name, $modifier, $parameters] = $method;
             $methods[] = Method::$modifier($name, $this->buildParameters($parameters));
         }
@@ -80,10 +83,10 @@ class StructureBuilder
     }
 
     /** @return Attribute[] */
-    protected function buildAttributes(array $class): array
+    protected function buildAttributes(RawDefinition $class): array
     {
         $attributes = [];
-        foreach ($class['attributes'] as $attribute) {
+        foreach ($class->attributes() as $attribute) {
             [$name, $modifier, $comment] = $attribute;
             $attributes[] = Attribute::$modifier($name, $this->extractTypeFrom($comment));
         }

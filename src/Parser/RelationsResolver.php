@@ -11,7 +11,7 @@ class RelationsResolver
     public function resolve(Definitions $definitions): void
     {
         foreach ($definitions->all() as $definition) {
-            if ($definitions->isClass($definition)) {
+            if ($definition->isClass()) {
                 $this->resolveForClass($definitions, $definition);
             } else {
                 $this->resolveForInterface($definitions, $definition);
@@ -19,9 +19,9 @@ class RelationsResolver
         }
     }
 
-    private function resolveForClass(Definitions $definitions, array $definition): void
+    private function resolveForClass(Definitions $definitions, RawDefinition $definition): void
     {
-        foreach ($definitions->interfaces($definition) as $interface) {
+        foreach ($definition->interfaces() as $interface) {
             if (!$definitions->has($interface)) {
                 $definitions->addExternalInterface($interface);
             }
@@ -29,25 +29,25 @@ class RelationsResolver
         $this->resolveParentClass($definitions, $definition);
     }
 
-    private function resolveForInterface(Definitions $definitions, array $definition): void
+    private function resolveForInterface(Definitions $definitions, RawDefinition $definition): void
     {
         $this->resolveParentInterface($definitions, $definition);
     }
 
-    private function resolveParentClass(Definitions $definitions, array $definition): void
+    private function resolveParentClass(Definitions $definitions, RawDefinition $definition): void
     {
-        if ($definitions->hasParent($definition)) {
-            $parent = $definitions->parent($definition);
+        if ($definition->hasParent()) {
+            $parent = $definition->parent();
             if (!$definitions->has($parent)) {
                 $definitions->addExternalClass($parent);
             }
         }
     }
 
-    private function resolveParentInterface(Definitions $definitions, array $definition): void
+    private function resolveParentInterface(Definitions $definitions, RawDefinition $definition): void
     {
-        if ($definitions->hasParent($definition)) {
-            $parent = $definitions->parent($definition);
+        if ($definition->hasParent()) {
+            $parent = $definition->parent();
             if (!$definitions->has($parent)) {
                 $definitions->addExternalInterface($parent);
             }
