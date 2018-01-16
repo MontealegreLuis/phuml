@@ -12,6 +12,12 @@ use PhUml\Code\Structure;
 use PhUml\Code\Variable;
 use PhUml\Graphviz\Edge;
 
+/**
+ * It creates edges by inspecting a class
+ *
+ * 1. It creates edges by inspecting the attributes of a class
+ * 2. It creates edges by inspecting the parameters of the constructor of a class
+ */
 class EdgesBuilder implements AssociationsBuilder
 {
     /** @var bool[] */
@@ -25,7 +31,14 @@ class EdgesBuilder implements AssociationsBuilder
         $this->structure = $structure;
     }
 
-    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
+    /**
+     * It creates an edge if the attribute
+     *
+     * - Has type information and it's not a PHP's built-in type
+     * - The association hasn't already been resolved
+     *
+     * @return \PhUml\Graphviz\HasDotRepresentation[]
+     */
     public function attributesAssociationsFrom(ClassDefinition $class): array
     {
         return array_map(function (Variable $attribute) use ($class) {
@@ -33,7 +46,14 @@ class EdgesBuilder implements AssociationsBuilder
         }, array_filter($class->attributes, [$this, 'needAssociation']));
     }
 
-    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
+    /**
+     * It creates an edge if the constructor parameter
+     *
+     * - Has type information and it's not a PHP's built-in type
+     * - The association hasn't already been resolved
+     *
+     * @return \PhUml\Graphviz\HasDotRepresentation[]
+     */
     public function parametersAssociationsFom(ClassDefinition $class): array
     {
         if (!$class->hasConstructor()) {

@@ -7,6 +7,15 @@
 
 namespace PhUml\Graphviz;
 
+/**
+ * An edge represents 1 of 3 types of relationships between classes and interfaces
+ *
+ * 1. Inheritance
+ * 2. Interface implementation
+ * 3. Associations
+ *      - Via constructor injection
+ *      - Via class attributes
+ */
 class Edge implements HasDotRepresentation
 {
     /** @var HasNodeIdentifier */

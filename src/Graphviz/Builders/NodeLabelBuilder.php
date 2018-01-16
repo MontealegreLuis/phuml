@@ -14,6 +14,11 @@ use Twig_Error_Loader as LoaderError;
 use Twig_Error_Runtime as RuntimeError;
 use Twig_Error_Syntax as SyntaxError;
 
+/**
+ * It creates an HTML table out of either a class or an interface.
+ *
+ * The table is used as a label for the nodes in the digraph use to create the class diagram
+ */
 class NodeLabelBuilder
 {
     /** @var TemplateEngine */

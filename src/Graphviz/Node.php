@@ -7,6 +7,11 @@
 
 namespace PhUml\Graphviz;
 
+/**
+ * Both `ClassDefinition` and `InterfaceDefinition` objects can be nodes
+ *
+ * All nodes labels are HTML tables
+ */
 class Node implements HasDotRepresentation
 {
     /** @var HasNodeIdentifier */

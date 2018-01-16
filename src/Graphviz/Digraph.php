@@ -7,6 +7,11 @@
 
 namespace PhUml\Graphviz;
 
+/**
+ * It is a collection of nodes and edges that can be represented using DOT language
+ *
+ * @link https://en.wikipedia.org/wiki/DOT_(graph_description_language) See for more details about DOT language
+ */
 class Digraph implements HasDotRepresentation
 {
     /** @var HasDotRepresentation[] */

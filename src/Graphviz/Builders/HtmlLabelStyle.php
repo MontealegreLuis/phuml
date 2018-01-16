@@ -7,6 +7,10 @@
 
 namespace PhUml\Graphviz\Builders;
 
+/**
+ * It contains the font-sizes and colors to be used in the HTML that generates the classes and
+ * interfaces labels
+ */
 class HtmlLabelStyle
 {
     public $interfaceTableBorder            = 1;

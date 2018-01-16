@@ -10,6 +10,9 @@ namespace PhUml\Graphviz\Builders;
 use Exception;
 use RuntimeException;
 
+/**
+ * Custom exception to catch problems related to Twig
+ */
 class NodeLabelError extends RuntimeException
 {
     public function __construct(Exception $e)

@@ -11,6 +11,12 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 
+/**
+ * It produces the collection of nodes and edges related to an interface
+ *
+ * It creates a node with the interface itself
+ * It creates an edge using the interface it extends, if any
+ */
 class InterfaceGraphBuilder
 {
     /** @var NodeLabelBuilder */
@@ -22,6 +28,11 @@ class InterfaceGraphBuilder
     }
 
     /**
+     * The order in which the nodes and edges are created is as follows
+     *
+     * 1. The node representing the interface itself
+     * 2. The parent interface, if any
+     *
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
     public function extractFrom(InterfaceDefinition $interface): array

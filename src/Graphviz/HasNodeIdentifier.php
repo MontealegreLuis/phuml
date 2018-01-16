@@ -7,6 +7,9 @@
 
 namespace PhUml\Graphviz;
 
+/**
+ * Nodes in DOT language require a unique identifier in order to be able to create edges between them
+ */
 interface HasNodeIdentifier
 {
     public function identifier(): string;
