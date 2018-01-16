@@ -6,7 +6,7 @@
  */
 namespace PhUml\Parser;
 
-class Definitions
+class RawDefinitions
 {
     /** @var RawDefinition[] */
     private $definitions;

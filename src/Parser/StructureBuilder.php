@@ -25,7 +25,7 @@ class StructureBuilder
         $this->structure = $structure ?? new Structure();
     }
 
-    public function buildFromDefinitions(Definitions $definitions): Structure
+    public function buildFromDefinitions(RawDefinitions $definitions): Structure
     {
         foreach ($definitions->all() as $definition) {
             if ($this->structure->has($definition->name())) {
@@ -40,7 +40,7 @@ class StructureBuilder
         return $this->structure;
     }
 
-    protected function buildInterface(Definitions $definitions, RawDefinition $interface): InterfaceDefinition
+    protected function buildInterface(RawDefinitions $definitions, RawDefinition $interface): InterfaceDefinition
     {
         return new InterfaceDefinition(
             $interface->name(),
@@ -49,7 +49,7 @@ class StructureBuilder
         );
     }
 
-    protected function buildClass(Definitions $definitions, RawDefinition $class): ClassDefinition
+    protected function buildClass(RawDefinitions $definitions, RawDefinition $class): ClassDefinition
     {
         return new ClassDefinition(
             $class->name(),
@@ -117,7 +117,7 @@ class StructureBuilder
      * @param string[] $implements
      * @return Definition[]
      */
-    protected function buildInterfaces(Definitions $definitions, array $implements): array
+    protected function buildInterfaces(RawDefinitions $definitions, array $implements): array
     {
         $interfaces = [];
         foreach ($implements as $interface) {
@@ -126,7 +126,7 @@ class StructureBuilder
         return $interfaces;
     }
 
-    protected function resolveRelatedInterface(Definitions $definitions, ?string $interface): ?Definition
+    protected function resolveRelatedInterface(RawDefinitions $definitions, ?string $interface): ?Definition
     {
         if ($interface === null) {
             return null;
@@ -140,7 +140,7 @@ class StructureBuilder
         return $this->structure->get($interface);
     }
 
-    protected function resolveParentClass(Definitions $definitions, ?string $parent): ?Definition
+    protected function resolveParentClass(RawDefinitions $definitions, ?string $parent): ?Definition
     {
         if ($parent === null) {
             return null;

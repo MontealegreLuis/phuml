@@ -14,7 +14,7 @@ use PhUml\Parser\Builders\InterfaceBuilder;
 
 class TokenParser
 {
-    /** @var Definitions */
+    /** @var RawDefinitions */
     private $definitions;
 
     /** @var RelationsResolver */
@@ -30,11 +30,11 @@ class TokenParser
     private $builder;
 
     public function __construct(
-        Definitions $definitions = null,
+        RawDefinitions $definitions = null,
         RelationsResolver $resolver = null,
         StructureBuilder $builder = null
     ) {
-        $this->definitions = $definitions ?? new Definitions();
+        $this->definitions = $definitions ?? new RawDefinitions();
         $this->resolver = $resolver ?? new RelationsResolver();
         $this->builder = $builder ?? new StructureBuilder();
         $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP5);

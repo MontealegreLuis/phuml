@@ -8,7 +8,7 @@ namespace PhUml\Parser;
 
 class RelationsResolver
 {
-    public function resolve(Definitions $definitions): void
+    public function resolve(RawDefinitions $definitions): void
     {
         foreach ($definitions->all() as $definition) {
             if ($definition->isClass()) {
@@ -19,7 +19,7 @@ class RelationsResolver
         }
     }
 
-    private function resolveForClass(Definitions $definitions, RawDefinition $definition): void
+    private function resolveForClass(RawDefinitions $definitions, RawDefinition $definition): void
     {
         foreach ($definition->interfaces() as $interface) {
             if (!$definitions->has($interface)) {
@@ -29,12 +29,12 @@ class RelationsResolver
         $this->resolveParentClass($definitions, $definition);
     }
 
-    private function resolveForInterface(Definitions $definitions, RawDefinition $definition): void
+    private function resolveForInterface(RawDefinitions $definitions, RawDefinition $definition): void
     {
         $this->resolveParentInterface($definitions, $definition);
     }
 
-    private function resolveParentClass(Definitions $definitions, RawDefinition $definition): void
+    private function resolveParentClass(RawDefinitions $definitions, RawDefinition $definition): void
     {
         if ($definition->hasParent()) {
             $parent = $definition->parent();
@@ -44,7 +44,7 @@ class RelationsResolver
         }
     }
 
-    private function resolveParentInterface(Definitions $definitions, RawDefinition $definition): void
+    private function resolveParentInterface(RawDefinitions $definitions, RawDefinition $definition): void
     {
         if ($definition->hasParent()) {
             $parent = $definition->parent();

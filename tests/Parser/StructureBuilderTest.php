@@ -20,7 +20,7 @@ class StructureBuilderTest extends TestCase
     function it_builds_an_interface_definition()
     {
         $builder = new StructureBuilder();
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
         $definitions->add(RawDefinition::interface(['interface' => 'ParentInterface']));
         $definitions->add(RawDefinition::interface([
             'interface' => 'InterfaceName',
@@ -49,7 +49,7 @@ class StructureBuilderTest extends TestCase
     function it_builds_a_class_definition()
     {
         $builder = new StructureBuilder();
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
         $definitions->add(RawDefinition::interface(['interface' => 'FirstInterface']));
         $definitions->add(RawDefinition::interface(['interface' => 'SecondInterface']));
         $definitions->add(RawDefinition::class(['class' => 'ParentClass']));
@@ -100,7 +100,7 @@ class StructureBuilderTest extends TestCase
     function it_builds_a_structure()
     {
         $builder = new StructureBuilder();
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
         $resolver = new RelationsResolver();
 
         $definitions->add(RawDefinition::class([

@@ -8,12 +8,12 @@ namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
 
-class DefinitionsTest extends TestCase
+class RawDefinitionsTest extends TestCase
 {
     /** @test */
     function it_adds_a_class_definition()
     {
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
 
         $definitions->add(RawDefinition::class(['class' => 'MyClass']));
 
@@ -23,7 +23,7 @@ class DefinitionsTest extends TestCase
     /** @test */
     function it_adds_an_interface_definition()
     {
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
 
         $definitions->add(RawDefinition::interface(['interface' => 'MyInterface']));
 
@@ -33,7 +33,7 @@ class DefinitionsTest extends TestCase
     /** @test */
     function it_adds_an_external_class()
     {
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
 
         $definitions->addExternalClass('MyClass');
 
@@ -47,7 +47,7 @@ class DefinitionsTest extends TestCase
     /** @test */
     function it_adds_an_external_interface()
     {
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
 
         $definitions->addExternalClass('MyInterface');
 

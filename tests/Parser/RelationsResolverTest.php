@@ -13,7 +13,7 @@ class RelationsResolverTest extends TestCase
     /** @test */
     function it_does_not_change_the_definitions_if_no_relations_are_declared()
     {
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
         $resolver = new RelationsResolver();
 
         $definitions->addExternalClass('AClass');
@@ -29,7 +29,7 @@ class RelationsResolverTest extends TestCase
     /** @test */
     function it_adds_missing_interfaces()
     {
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
         $resolver = new RelationsResolver();
 
         $definitions->add(RawDefinition::class(['class' => 'AClass', 'implements' => [
@@ -48,7 +48,7 @@ class RelationsResolverTest extends TestCase
     /** @test */
     function it_adds_missing_classes()
     {
-        $definitions = new Definitions();
+        $definitions = new RawDefinitions();
         $resolver = new RelationsResolver();
 
         $definitions->add(RawDefinition::class(['class' => 'AClass', 'extends' => 'AnExternalClass', 'implements' => []]));

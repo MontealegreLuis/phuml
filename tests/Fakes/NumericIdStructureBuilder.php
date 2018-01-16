@@ -9,13 +9,13 @@ namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Parser\Definitions;
+use PhUml\Parser\RawDefinitions;
 use PhUml\Parser\RawDefinition;
 use PhUml\Parser\StructureBuilder;
 
 class NumericIdStructureBuilder extends StructureBuilder
 {
-    protected function buildInterface(Definitions $definitions, RawDefinition $interface): InterfaceDefinition
+    protected function buildInterface(RawDefinitions $definitions, RawDefinition $interface): InterfaceDefinition
     {
         return new NumericIdInterface(
             $interface->name(),
@@ -24,7 +24,7 @@ class NumericIdStructureBuilder extends StructureBuilder
         );
     }
 
-    protected function buildClass(Definitions $definitions, RawDefinition $class): ClassDefinition
+    protected function buildClass(RawDefinitions $definitions, RawDefinition $class): ClassDefinition
     {
         return new NumericIdClass(
             $class->name(),

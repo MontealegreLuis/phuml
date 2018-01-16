@@ -13,7 +13,7 @@ use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\NumericIdStructureBuilder;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\Definitions;
+use PhUml\Parser\RawDefinitions;
 use PhUml\Parser\RelationsResolver;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\GraphvizProcessor;
@@ -43,7 +43,7 @@ class GenerateDotFileTest extends TestCase
     {
         $file = __DIR__ . '/../resources/.output/dot.gv';
         $action = new GenerateDotFile(
-            new TokenParser(new Definitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
+            new TokenParser(new RawDefinitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
@@ -91,7 +91,7 @@ DOT;
         $file = __DIR__ . '/../resources/.output/dot.gv';
 
         $action = new GenerateDotFile(
-            new TokenParser(new Definitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
+            new TokenParser(new RawDefinitions(), new RelationsResolver(), new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());

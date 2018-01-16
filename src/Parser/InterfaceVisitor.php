@@ -14,13 +14,13 @@ use PhUml\Parser\Builders\InterfaceBuilder;
 
 class InterfaceVisitor extends NodeVisitorAbstract
 {
-    /** @var Definitions */
+    /** @var RawDefinitions */
     private $definitions;
 
     /** @var InterfaceBuilder */
     private $builder;
 
-    public function __construct(Definitions $definitions, InterfaceBuilder $builder)
+    public function __construct(RawDefinitions $definitions, InterfaceBuilder $builder)
     {
         $this->definitions = $definitions;
         $this->builder = $builder;

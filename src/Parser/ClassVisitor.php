@@ -14,13 +14,13 @@ use PhUml\Parser\Builders\ClassBuilder;
 
 class ClassVisitor extends NodeVisitorAbstract
 {
-    /** @var Definitions */
+    /** @var RawDefinitions */
     private $definitions;
 
     /** @var ClassBuilder */
     private $builder;
 
-    public function __construct(Definitions $definitions, ClassBuilder $builder)
+    public function __construct(RawDefinitions $definitions, ClassBuilder $builder)
     {
         $this->definitions = $definitions;
         $this->builder = $builder;
