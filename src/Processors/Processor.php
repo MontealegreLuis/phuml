@@ -6,7 +6,6 @@
  */
 namespace PhUml\Processors;
 
-
 abstract class Processor
 {
     public function writeToDisk(string $contents, string $filePath): void

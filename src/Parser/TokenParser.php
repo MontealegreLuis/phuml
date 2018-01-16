@@ -12,6 +12,8 @@ use PhUml\Code\Structure;
 use PhUml\Parser\Raw\Builders\ClassBuilder;
 use PhUml\Parser\Raw\Builders\InterfaceBuilder;
 use PhUml\Parser\Raw\RawDefinitions;
+use PhUml\Parser\Raw\Visitors\ClassVisitor;
+use PhUml\Parser\Raw\Visitors\InterfaceVisitor;
 
 class TokenParser
 {

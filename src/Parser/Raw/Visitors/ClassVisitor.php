@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser;
+namespace PhUml\Parser\Raw\Visitors;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
