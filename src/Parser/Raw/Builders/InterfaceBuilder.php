@@ -5,10 +5,10 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Builders;
+namespace PhUml\Parser\Raw\Builders;
 
 use PhpParser\Node\Stmt\Interface_;
-use PhUml\Parser\RawDefinition;
+use PhUml\Parser\Raw\RawDefinition;
 
 /**
  * It builds an associative array with meta-information of an interface

@@ -13,7 +13,7 @@ use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\NumericIdStructureBuilder;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\RawDefinitions;
+use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\Parser\RelationsResolver;
 use PhUml\Parser\TokenParser;
 use PhUml\Processors\GraphvizProcessor;

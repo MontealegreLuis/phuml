@@ -6,6 +6,9 @@
  */
 namespace PhUml\Parser;
 
+use PhUml\Parser\Raw\RawDefinition;
+use PhUml\Parser\Raw\RawDefinitions;
+
 class RelationsResolver
 {
     public function resolve(RawDefinitions $definitions): void

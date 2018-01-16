@@ -10,7 +10,8 @@ namespace PhUml\Parser;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeVisitorAbstract;
-use PhUml\Parser\Builders\ClassBuilder;
+use PhUml\Parser\Raw\Builders\ClassBuilder;
+use PhUml\Parser\Raw\RawDefinitions;
 
 class ClassVisitor extends NodeVisitorAbstract
 {

@@ -7,6 +7,8 @@
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Parser\Raw\RawDefinition;
+use PhUml\Parser\Raw\RawDefinitions;
 
 class RelationsResolverTest extends TestCase
 {

@@ -9,8 +9,8 @@ namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Parser\RawDefinitions;
-use PhUml\Parser\RawDefinition;
+use PhUml\Parser\Raw\RawDefinitions;
+use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\StructureBuilder;
 
 class NumericIdStructureBuilder extends StructureBuilder

@@ -10,7 +10,8 @@ namespace PhUml\Parser;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\NodeVisitorAbstract;
-use PhUml\Parser\Builders\InterfaceBuilder;
+use PhUml\Parser\Raw\Builders\InterfaceBuilder;
+use PhUml\Parser\Raw\RawDefinitions;
 
 class InterfaceVisitor extends NodeVisitorAbstract
 {

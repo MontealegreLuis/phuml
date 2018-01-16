@@ -9,8 +9,9 @@ namespace PhUml\Parser;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhUml\Code\Structure;
-use PhUml\Parser\Builders\ClassBuilder;
-use PhUml\Parser\Builders\InterfaceBuilder;
+use PhUml\Parser\Raw\Builders\ClassBuilder;
+use PhUml\Parser\Raw\Builders\InterfaceBuilder;
+use PhUml\Parser\Raw\RawDefinitions;
 
 class TokenParser
 {
