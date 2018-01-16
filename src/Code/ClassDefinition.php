@@ -46,8 +46,8 @@ class ClassDefinition extends Definition
             return [];
         }
 
-        $constructors = array_filter($this->functions, function (Method $function) {
-            return $function->isConstructor();
+        $constructors = array_filter($this->functions, function (Method $method) {
+            return $method->isConstructor();
         });
 
         return reset($constructors)->params;

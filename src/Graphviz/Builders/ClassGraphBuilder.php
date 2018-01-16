@@ -9,17 +9,16 @@ namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Structure;
-use PhUml\Code\Variable;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 
 class ClassGraphBuilder
 {
     /** @var \PhUml\Graphviz\HasDotRepresentation[] */
-    private $dotElements = [];
+    private $dotElements;
 
-    /** @var bool[] */
-    private $associations = [];
+    /** @var AssociationsBuilder */
+    private $associationsBuilder;
 
     /** @var bool */
     private $createAssociations;
@@ -27,12 +26,9 @@ class ClassGraphBuilder
     /** @var NodeLabelBuilder */
     private $labelBuilder;
 
-    /** @var Structure */
-    private $structure;
-
     public function __construct(NodeLabelBuilder $labelBuilder)
     {
-        $this->createAssociations = false;
+        $this->associationsBuilder = new NoAssociationsBuilder();
         $this->labelBuilder = $labelBuilder;
     }
 
@@ -45,13 +41,13 @@ class ClassGraphBuilder
     public function extractFrom(ClassDefinition $class, Structure $structure): array
     {
         $this->dotElements = [];
-        $this->associations = [];
-        $this->structure = $structure;
 
         if ($this->createAssociations) {
-            $this->addElementsForAttributes($class);
-            $this->addElementsForParameters($class);
+            $this->associationsBuilder = new EdgesBuilder($structure);
         }
+
+        $this->addAssociations($this->associationsBuilder->attributesAssociationsFrom($class));
+        $this->addAssociations($this->associationsBuilder->parametersAssociationsFom($class));
 
         $this->dotElements[] = new Node($class, $this->labelBuilder->forClass($class));
 
@@ -66,44 +62,9 @@ class ClassGraphBuilder
         return $this->dotElements;
     }
 
-    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
-    private function addElementsForAttributes(ClassDefinition $class): void
+    /** @param Edge[] */
+    private function addAssociations(array $edges): void
     {
-        /** @var \PhUml\Code\Attribute $attribute */
-        foreach ($class->attributes as $attribute) {
-            $this->addAssociationForVariable($class, $attribute);
-        }
-    }
-
-    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
-    private function addElementsForParameters(ClassDefinition $class): void
-    {
-        if (!$class->hasConstructor()) {
-            return;
-        }
-        foreach ($class->constructorParameters() as $parameter) {
-            $this->addAssociationForVariable($class, $parameter);
-        }
-    }
-
-    private function addAssociationForVariable(ClassDefinition $class, Variable $attribute): void
-    {
-        if ($this->needAssociation($attribute)) {
-            $this->dotElements[] = Edge::association(
-                $this->structure->get((string)$attribute->type),
-                $class
-            );
-            $this->associations[strtolower($attribute->type)] = true;
-        }
-    }
-
-    private function needAssociation(Variable $attribute): bool
-    {
-        return $attribute->isAReference() && !$this->isAssociationResolved($attribute->type);
-    }
-
-    private function isAssociationResolved(string $type): bool
-    {
-        return array_key_exists(strtolower($type), $this->associations);
+        $this->dotElements = array_merge($this->dotElements, $edges);
     }
 }
