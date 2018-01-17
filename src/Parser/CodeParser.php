@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Parser;
 
 use PhUml\Code\Structure;
@@ -27,6 +28,6 @@ class CodeParser
 
     public function parse(CodeFinder $finder): Structure
     {
-        return $this->builder->buildFromDefinitions($this->parser->parse($finder));
+        return $this->builder->buildFrom($this->parser->parse($finder));
     }
 }

@@ -34,7 +34,7 @@ class StructureBuilderTest extends TestCase
             'extends' => 'ParentInterface',
         ]));
 
-        $structure = $builder->buildFromDefinitions($definitions);
+        $structure = $builder->buildFrom($definitions);
         $interface = $structure->get('InterfaceName');
 
         $this->assertEquals(
@@ -78,7 +78,7 @@ class StructureBuilderTest extends TestCase
             'extends' => 'ParentClass',
         ]));
 
-        $structure = $builder->buildFromDefinitions($definitions);
+        $structure = $builder->buildFrom($definitions);
         $class = $structure->get('ClassName');
 
         $this->assertEquals(
@@ -127,7 +127,7 @@ class StructureBuilderTest extends TestCase
         ]));
         $resolver->resolve($definitions);
 
-        $structure = $builder->buildFromDefinitions($definitions);
+        $structure = $builder->buildFrom($definitions);
 
         $this->assertCount(5, $structure->definitions());
         $this->assertTrue($structure->has('AClass'));

@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Parser;
 
 use PhUml\Code\Attribute;
@@ -22,12 +23,16 @@ class StructureBuilder
     /** @var Structure */
     private $structure;
 
-    public function __construct(Structure $structure = null)
+    /** @var DefinitionBuilder */
+    protected $builder;
+
+    public function __construct(Structure $structure = null, DefinitionBuilder $builder = null)
     {
         $this->structure = $structure ?? new Structure();
+        $this->builder = $builder ?? new DefinitionBuilder();
     }
 
-    public function buildFromDefinitions(RawDefinitions $definitions): Structure
+    public function buildFrom(RawDefinitions $definitions): Structure
     {
         foreach ($definitions->all() as $definition) {
             if ($this->structure->has($definition->name())) {
@@ -46,7 +51,7 @@ class StructureBuilder
     {
         return new InterfaceDefinition(
             $interface->name(),
-            $this->buildMethods($interface),
+            $this->builder->methods($interface),
             $this->resolveRelatedInterface($definitions, $interface->parent())
         );
     }
@@ -55,64 +60,11 @@ class StructureBuilder
     {
         return new ClassDefinition(
             $class->name(),
-            $this->buildAttributes($class),
-            $this->buildMethods($class),
+            $this->builder->attributes($class),
+            $this->builder->methods($class),
             $this->buildInterfaces($definitions, $class->interfaces()),
             $this->resolveParentClass($definitions, $class->parent())
         );
-    }
-
-    /** @return Method[] */
-    protected function buildMethods(RawDefinition $definition): array
-    {
-        $methods = [];
-        foreach ($definition->methods() as $method) {
-            [$name, $modifier, $parameters] = $method;
-            $methods[] = Method::$modifier($name, $this->buildParameters($parameters));
-        }
-        return $methods;
-    }
-
-    /** @return Variable[] */
-    private function buildParameters(array $parameters): array
-    {
-        $methodParameters = [];
-        foreach ($parameters as $parameter) {
-            [$name, $type] = $parameter;
-            $methodParameters[] = Variable::declaredWith($name, TypeDeclaration::from($type));
-        }
-        return $methodParameters;
-    }
-
-    /** @return Attribute[] */
-    protected function buildAttributes(RawDefinition $class): array
-    {
-        $attributes = [];
-        foreach ($class->attributes() as $attribute) {
-            [$name, $modifier, $comment] = $attribute;
-            $attributes[] = Attribute::$modifier($name, $this->extractTypeFrom($comment));
-        }
-        return $attributes;
-    }
-
-    private function extractTypeFrom(?string $comment): TypeDeclaration
-    {
-        if ($comment === null) {
-            return TypeDeclaration::absent();
-        }
-
-        $type = null;  // There might be no type information in the comment
-        $matches = [];
-        $arrayExpression = '/^[\s*]*@var\s+array\(\s*(\w+\s*=>\s*)?(\w+)\s*\).*$/m';
-        if (preg_match($arrayExpression, $comment, $matches)) {
-            $type = $matches[2];
-        } else {
-            $typeExpression = '/^[\s*]*@var\s+(\S+).*$/m';
-            if (preg_match($typeExpression, $comment, $matches)) {
-                $type = trim($matches[1]);
-            }
-        }
-        return TypeDeclaration::from($type);
     }
 
     /**
@@ -121,11 +73,9 @@ class StructureBuilder
      */
     protected function buildInterfaces(RawDefinitions $definitions, array $implements): array
     {
-        $interfaces = [];
-        foreach ($implements as $interface) {
-            $interfaces[] = $this->resolveRelatedInterface($definitions, $interface);
-        }
-        return $interfaces;
+        return array_map(function (string $interface) use ($definitions) {
+            return $this->resolveRelatedInterface($definitions, $interface);
+        }, $implements);
     }
 
     protected function resolveRelatedInterface(RawDefinitions $definitions, ?string $interface): ?Definition
