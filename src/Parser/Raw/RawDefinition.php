@@ -10,8 +10,8 @@ namespace PhUml\Parser\Raw;
 /**
  * A raw definition is a wrapper for an associative array of strings used to build `Definition`s
  *
- * @see \PhUml\Parser\Raw\Builders\ClassBuilder To check how a `RawDefinition` for a class is built
- * @see \PhUml\Parser\Raw\Builders\InterfaceBuilder To check how a `RawDefinition` for an interface is built
+ * @see \PhUml\Parser\Raw\Builders\RawClassBuilder To check how a `RawDefinition` for a class is built
+ * @see \PhUml\Parser\Raw\Builders\RawInterfaceBuilder To check how a `RawDefinition` for an interface is built
  */
 class RawDefinition
 {

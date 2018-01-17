@@ -10,7 +10,7 @@ namespace PhUml\Parser\Raw\Visitors;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\NodeVisitorAbstract;
-use PhUml\Parser\Raw\Builders\InterfaceBuilder;
+use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\RawDefinitions;
 
 /**
@@ -21,13 +21,13 @@ class InterfaceVisitor extends NodeVisitorAbstract
     /** @var RawDefinitions */
     private $definitions;
 
-    /** @var InterfaceBuilder */
+    /** @var RawInterfaceBuilder */
     private $builder;
 
-    public function __construct(RawDefinitions $definitions, InterfaceBuilder $builder = null)
+    public function __construct(RawDefinitions $definitions, RawInterfaceBuilder $builder = null)
     {
         $this->definitions = $definitions;
-        $this->builder = $builder ?? new InterfaceBuilder();
+        $this->builder = $builder ?? new RawInterfaceBuilder();
     }
 
     public function leaveNode(Node $node)

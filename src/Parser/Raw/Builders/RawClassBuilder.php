@@ -25,7 +25,7 @@ use PhUml\Parser\Raw\RawDefinition;
  * @see AttributesBuilder for more details about the attributes information
  * @see MethodsBuilder for more details about the methods information
  */
-class ClassBuilder
+class RawClassBuilder
 {
     /** @var AttributesBuilder */
     private $attributesBuilder;

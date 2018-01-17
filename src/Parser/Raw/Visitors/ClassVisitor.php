@@ -10,7 +10,7 @@ namespace PhUml\Parser\Raw\Visitors;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeVisitorAbstract;
-use PhUml\Parser\Raw\Builders\ClassBuilder;
+use PhUml\Parser\Raw\Builders\RawClassBuilder;
 use PhUml\Parser\Raw\RawDefinitions;
 
 /**
@@ -21,13 +21,13 @@ class ClassVisitor extends NodeVisitorAbstract
     /** @var RawDefinitions */
     private $definitions;
 
-    /** @var ClassBuilder */
+    /** @var RawClassBuilder */
     private $builder;
 
-    public function __construct(RawDefinitions $definitions, ClassBuilder $builder = null)
+    public function __construct(RawDefinitions $definitions, RawClassBuilder $builder = null)
     {
         $this->definitions = $definitions;
-        $this->builder = $builder ?? new ClassBuilder();
+        $this->builder = $builder ?? new RawClassBuilder();
     }
 
     public function leaveNode(Node $node)

@@ -21,7 +21,7 @@ use PhUml\Parser\Raw\RawDefinition;
  *
  * @see MethodsBuilder for more details about the methods information
  */
-class InterfaceBuilder
+class RawInterfaceBuilder
 {
     /** @var MethodsBuilder */
     private $methodsBuilder;
