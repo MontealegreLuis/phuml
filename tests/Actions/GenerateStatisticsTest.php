@@ -27,7 +27,7 @@ class GenerateStatisticsTest extends TestCase
     function it_shows_the_statistics_of_a_directory()
     {
         $statistics = <<<STATS
-Phuml generated statistics
+phUML generated statistics
 ==========================
 
 General statistics
@@ -41,7 +41,7 @@ Attributes: 5 (0 are typed)
     * protected: 0
     * public:    0
 
-Functions:  11 
+Functions:  11
     * private:   1
     * protected: 0
     * public:    10
@@ -69,7 +69,7 @@ STATS;
     function it_accepts_the_recursive_options_for_the_statistics_processor()
     {
         $statistics = <<<STATS
-Phuml generated statistics
+phUML generated statistics
 ==========================
 
 General statistics
@@ -83,7 +83,7 @@ Attributes: 23 (0 are typed)
     * protected: 1
     * public:    4
 
-Functions:  86 
+Functions:  86
     * private:   36
     * protected: 0
     * public:    50
