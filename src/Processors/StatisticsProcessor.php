@@ -8,8 +8,8 @@ namespace PhUml\Processors;
 
 use PhUml\Code\Structure;
 use PhUml\Code\Summary;
-use Twig_Environment as TemplateEngine;
-use Twig_Loader_Filesystem as Filesystem;
+use PhUml\Templates\TemplateEngine;
+use PhUml\Templates\TemplateFailure;
 
 /**
  * It takes a code `Structure` and extracts a `Summary` of its contents as text
@@ -21,9 +21,7 @@ class StatisticsProcessor extends Processor
 
     public function __construct(TemplateEngine $engine = null)
     {
-        $this->engine = $engine ?? new TemplateEngine(
-            new FileSystem(__DIR__ . '/../resources/templates')
-        );
+        $this->engine = $engine ?? new TemplateEngine();
     }
 
     public function name(): string
@@ -32,9 +30,7 @@ class StatisticsProcessor extends Processor
     }
 
     /**
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws TemplateFailure
      */
     public function process(Structure $structure): string
     {

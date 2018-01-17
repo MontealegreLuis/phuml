@@ -14,9 +14,9 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
-use Twig_Environment as TemplateEngine;
-use Twig_Loader_Filesystem as Filesystem;
-use Twig_Error_Runtime as RuntimeError;
+use PhUml\Templates\TemplateEngine;
+use PhUml\Templates\TemplateFailure;
+use RuntimeException;
 
 class NodeLabelBuilderTest extends TestCase
 {
@@ -94,14 +94,14 @@ class NodeLabelBuilderTest extends TestCase
     function it_fails_to_build_a_label_if_twig_fails()
     {
         $templateEngine = new class() extends TemplateEngine {
-            public function render($name, array $context = []) {
-                throw new RuntimeError("Twig runtime error");
+            public function render($name, array $context = []): string {
+                throw new TemplateFailure(new RuntimeException('Twig runtime error'));
             }
             public function __construct() {} // Constructor does not needs to be run
         };
         $labelBuilder = new NodeLabelBuilder($templateEngine, new HtmlLabelStyle());
 
-        $this->expectException(NodeLabelError::class);
+        $this->expectException(TemplateFailure::class);
 
         $labelBuilder->forClass(new ClassDefinition('AnyClass'));
     }
@@ -109,9 +109,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @before */
     function createLabel()
     {
-        $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(
-            new FileSystem(__DIR__ . '/../../../src/resources/templates')
-        ), new HtmlLabelStyle());
+        $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(), new HtmlLabelStyle());
     }
 
     /** @var NodeLabelBuilder */

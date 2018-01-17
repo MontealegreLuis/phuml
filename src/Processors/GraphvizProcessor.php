@@ -15,8 +15,7 @@ use PhUml\Graphviz\Builders\HtmlLabelStyle;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NodeLabelBuilder;
 use PhUml\Graphviz\Digraph;
-use Twig_Environment as TemplateEngine;
-use Twig_Loader_Filesystem as Filesystem;
+use PhUml\Templates\TemplateEngine;
 
 /**
  * It creates a digraph from a `Structure` and returns it as a string in DOT format
@@ -33,9 +32,7 @@ class GraphvizProcessor extends Processor
         ClassGraphBuilder $classBuilder = null,
         InterfaceGraphBuilder $interfaceBuilder = null
     ) {
-        $labelBuilder = new NodeLabelBuilder(new TemplateEngine(
-            new FileSystem(__DIR__ . '/../resources/templates')
-        ), new HtmlLabelStyle());
+        $labelBuilder = new NodeLabelBuilder(new TemplateEngine(), new HtmlLabelStyle());
         $this->classBuilder = $classBuilder ?? new ClassGraphBuilder($labelBuilder);
         $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder($labelBuilder);
     }

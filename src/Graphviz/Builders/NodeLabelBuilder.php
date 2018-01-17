@@ -9,10 +9,7 @@ namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use Twig_Environment as TemplateEngine;
-use Twig_Error_Loader as LoaderError;
-use Twig_Error_Runtime as RuntimeError;
-use Twig_Error_Syntax as SyntaxError;
+use PhUml\Templates\TemplateEngine;
 
 /**
  * It creates an HTML table out of either a class or an interface.
@@ -51,11 +48,7 @@ class NodeLabelBuilder
 
     private function buildLabel(string $template, array $options): string
     {
-        try {
-            return "<{$this->removeNewLinesFrom($this->engine->render($template, $options))}>";
-        } catch (LoaderError | RuntimeError | SyntaxError $e) {
-            throw new NodeLabelError($e);
-        }
+        return "<{$this->removeNewLinesFrom($this->engine->render($template, $options))}>";
     }
 
     private function removeNewLinesFrom(string $label): string

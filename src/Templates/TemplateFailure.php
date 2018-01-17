@@ -5,17 +5,17 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Graphviz\Builders;
+namespace PhUml\Templates;
 
-use Exception;
 use RuntimeException;
+use Throwable;
 
 /**
  * Custom exception to catch problems related to Twig
  */
-class NodeLabelError extends RuntimeException
+class TemplateFailure extends RuntimeException
 {
-    public function __construct(Exception $e)
+    public function __construct(Throwable $e)
     {
         parent::__construct($e);
     }
