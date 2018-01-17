@@ -14,16 +14,10 @@ namespace PhUml\Code;
  */
 class Attribute extends Variable
 {
-    private static $symbols = [
-        'private' => '-',
-        'public' => '+',
-        'protected' => '#',
-    ];
-
-    /** @var string */
+    /** @var Visibility */
     public $modifier;
 
-    protected function __construct(string $name, string $modifier, TypeDeclaration $type)
+    protected function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {
         parent::__construct($name, $type);
         $this->modifier = $modifier;
@@ -31,17 +25,22 @@ class Attribute extends Variable
 
     public static function public(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, 'public', $type ?? TypeDeclaration::absent());
+        return new Attribute($name, Visibility::public(), $type ?? TypeDeclaration::absent());
     }
 
     public static function protected(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, 'protected', $type ?? TypeDeclaration::absent());
+        return new Attribute($name, Visibility::protected(), $type ?? TypeDeclaration::absent());
     }
 
     public static function private(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, 'private', $type ?? TypeDeclaration::absent());
+        return new Attribute($name, Visibility::private(), $type ?? TypeDeclaration::absent());
+    }
+
+    public function isTyped(): bool
+    {
+        return $this->type->isPresent();
     }
 
     /**
@@ -51,6 +50,6 @@ class Attribute extends Variable
      */
     public function __toString()
     {
-        return sprintf('%s%s', self::$symbols[$this->modifier], $this->name);
+        return sprintf('%s%s', $this->modifier, $this->name);
     }
 }

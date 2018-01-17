@@ -23,13 +23,13 @@ class Method
     /** @var string */
     public $name;
 
-    /** @var string */
+    /** @var Visibility */
     public $modifier;
 
     /** @var Variable[] */
     public $params;
 
-    private function __construct(string $name, string $modifier = 'public', array $params = [])
+    private function __construct(string $name, Visibility $modifier, array $params = [])
     {
         $this->name = $name;
         $this->modifier = $modifier;
@@ -38,17 +38,17 @@ class Method
 
     public static function public(string $name, array $params = []): Method
     {
-        return new Method($name, 'public', $params);
+        return new Method($name, Visibility::public(), $params);
     }
 
     public static function protected(string $name, array $params = []): Method
     {
-        return new Method($name, 'protected', $params);
+        return new Method($name, Visibility::protected(), $params);
     }
 
     public static function private(string $name, array $params = []): Method
     {
-        return new Method($name, 'private', $params);
+        return new Method($name, Visibility::private(), $params);
     }
 
     public function isConstructor(): bool
@@ -60,7 +60,7 @@ class Method
     {
         return sprintf(
             '%s%s%s',
-            self::$symbols[$this->modifier],
+            $this->modifier,
             $this->name,
             empty($this->params) ? '()' : '( ' . implode($this->params, ', ') . ' )'
         );

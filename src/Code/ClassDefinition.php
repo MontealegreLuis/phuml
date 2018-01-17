@@ -57,4 +57,18 @@ class ClassDefinition extends Definition
     {
         return $this->extends !== null;
     }
+
+    public function countAttributesByVisibility(Visibility $modifier): int
+    {
+        return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
+            return $attribute->modifier->equals($modifier);
+        }));
+    }
+
+    public function countTypedAttributesByVisibility(Visibility $modifier): int
+    {
+        return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
+            return $attribute->isTyped() && $attribute->modifier->equals($modifier);
+        }));
+    }
 }

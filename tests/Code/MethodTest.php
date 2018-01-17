@@ -28,9 +28,9 @@ class MethodTest extends TestCase
         $protectedFunction = Method::protected('protectedFunction');
         $privateFunction = Method::private('privateFunction');
 
-        $this->assertEquals('public', $publicFunction->modifier);
-        $this->assertEquals('protected', $protectedFunction->modifier);
-        $this->assertEquals('private', $privateFunction->modifier);
+        $this->assertEquals(Visibility::public(), $publicFunction->modifier);
+        $this->assertEquals(Visibility::protected(), $protectedFunction->modifier);
+        $this->assertEquals(Visibility::private(), $privateFunction->modifier);
     }
 
     /** @test */

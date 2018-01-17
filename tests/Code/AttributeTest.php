@@ -28,7 +28,7 @@ class AttributeTest extends TestCase
 
         $modifier = $publicAttribute->modifier;
 
-        $this->assertEquals('public', $modifier);
+        $this->assertEquals(Visibility::public(), $modifier);
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class AttributeTest extends TestCase
 
         $modifier = $publicAttribute->modifier;
 
-        $this->assertEquals('protected', $modifier);
+        $this->assertEquals(Visibility::protected(), $modifier);
     }
 
     /** @test */
@@ -48,7 +48,7 @@ class AttributeTest extends TestCase
 
         $modifier = $publicAttribute->modifier;
 
-        $this->assertEquals('private', $modifier);
+        $this->assertEquals(Visibility::private(), $modifier);
     }
 
     /** @test */

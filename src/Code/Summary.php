@@ -55,45 +55,22 @@ class Summary
 
     private function attributesSummary(ClassDefinition $definition): void
     {
-        foreach ($definition->attributes as $attribute) {
-            switch ($attribute->modifier) {
-                case 'public':
-                    $this->publicAttributeCount++;
-                    if ($attribute->type->isPresent()) {
-                        $this->publicTypedAttributes++;
-                    }
-                    break;
-                case 'protected':
-                    $this->protectedAttributeCount++;
-                    if ($attribute->type->isPresent()) {
-                        $this->protectedTypedAttributes++;
-                    }
-                    break;
-                case 'private':
-                    $this->privateAttributeCount++;
-                    if ($attribute->type->isPresent()) {
-                        $this->privateTypedAttributes++;
-                    }
-                    break;
-            }
-        }
+        // Attributes count
+        $this->publicAttributeCount += $definition->countAttributesByVisibility(Visibility::public());
+        $this->protectedAttributeCount += $definition->countAttributesByVisibility(Visibility::protected());
+        $this->privateAttributeCount += $definition->countAttributesByVisibility(Visibility::private());
+
+        // Typed attributes count
+        $this->publicTypedAttributes += $definition->countTypedAttributesByVisibility(Visibility::public());
+        $this->protectedTypedAttributes += $definition->countTypedAttributesByVisibility(Visibility::protected());
+        $this->privateTypedAttributes += $definition->countTypedAttributesByVisibility(Visibility::private());
     }
 
     private function methodsSummary(Definition $definition): void
     {
-        foreach ($definition->functions as $function) {
-            switch ($function->modifier) {
-                case 'public':
-                    $this->publicFunctionCount++;
-                    break;
-                case 'protected':
-                    $this->protectedFunctionCount++;
-                    break;
-                case 'private':
-                    $this->privateFunctionCount++;
-                    break;
-            }
-        }
+        $this->publicFunctionCount += $definition->countMethodsByVisibility(Visibility::public());
+        $this->protectedFunctionCount += $definition->countMethodsByVisibility(Visibility::protected());
+        $this->privateFunctionCount += $definition->countMethodsByVisibility(Visibility::private());
     }
 
     public function interfaceCount(): int
