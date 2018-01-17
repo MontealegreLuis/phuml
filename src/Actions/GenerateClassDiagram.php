@@ -59,7 +59,7 @@ class GenerateClassDiagram extends Action
         $this->command()->runningProcessor($this->imageProcessor());
         $image = $this->imageProcessor()->process($dotLanguage);
         $this->command()->savingResult();
-        $this->imageProcessor->writeToDisk($image, $imagePath);
+        $this->imageProcessor->saveToFile($image, $imagePath);
     }
 
     /** @throws LogicException If no image processor is provided */

@@ -52,6 +52,6 @@ class GenerateDotFile extends Action
         $this->command()->runningProcessor($this->dotProcessor);
         $dotLanguage = $this->dotProcessor->process($structure);
         $this->command()->savingResult();
-        $this->dotProcessor->writeToDisk($dotLanguage, $dotFilePath);
+        $this->dotProcessor->saveToFile($dotLanguage, $dotFilePath);
     }
 }

@@ -47,6 +47,6 @@ class GenerateStatistics extends Action
         $this->command()->runningProcessor($this->processor);
         $statistics = $this->processor->process($structure);
         $this->command()->savingResult();
-        $this->processor->writeToDisk($statistics, $filePath);
+        $this->processor->saveToFile($statistics, $filePath);
     }
 }

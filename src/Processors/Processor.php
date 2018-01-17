@@ -6,9 +6,12 @@
  */
 namespace PhUml\Processors;
 
+/**
+ * Every processor has a name and can write their output to a file
+ */
 abstract class Processor
 {
-    public function writeToDisk(string $contents, string $filePath): void
+    public function saveToFile(string $contents, string $filePath): void
     {
         file_put_contents($filePath, $contents);
     }

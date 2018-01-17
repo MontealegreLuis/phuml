@@ -18,6 +18,9 @@ use PhUml\Graphviz\Digraph;
 use Twig_Environment as TemplateEngine;
 use Twig_Loader_Filesystem as Filesystem;
 
+/**
+ * It creates a digraph from a `Structure` and returns it as a string in DOT format
+ */
 class GraphvizProcessor extends Processor
 {
     /** @var ClassGraphBuilder */

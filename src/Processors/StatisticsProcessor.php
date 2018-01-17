@@ -9,6 +9,9 @@ namespace PhUml\Processors;
 use PhUml\Code\Structure;
 use PhUml\Code\Summary;
 
+/**
+ * It takes a code `Structure` and extracts a `Summary` of its contents as text
+ */
 class StatisticsProcessor extends Processor
 {
     public function name(): string
