@@ -4,11 +4,19 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Parser\Raw;
 
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 
+/**
+ * It checks the parent of a definition and the interfaces it implements looking for external
+ * definitions
+ *
+ * An external definition is a class or interface that belongs to a third party library or
+ * a PHP's built-in class
+ */
 class ExternalDefinitionsResolver
 {
     public function resolve(RawDefinitions $definitions): void

@@ -10,6 +10,11 @@ namespace PhUml\Parser;
 use PhUml\Code\Structure;
 use PhUml\Parser\Raw\TokenParser;
 
+/**
+ * It takes the files found by the `CodeFinder` and turns the into a code `Structure`
+ *
+ * A code `Structure` is a collection of `Definition`s (classes and interfaces)
+ */
 class CodeParser
 {
     /** @var StructureBuilder */

@@ -13,6 +13,9 @@ use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Parser\Raw\RawDefinition;
 
+/**
+ * It builds the attributes and methods of both classes and interfaces
+ */
 class DefinitionBuilder
 {
     /** @return Method[] */

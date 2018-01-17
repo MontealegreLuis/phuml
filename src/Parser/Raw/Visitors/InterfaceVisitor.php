@@ -13,6 +13,9 @@ use PhpParser\NodeVisitorAbstract;
 use PhUml\Parser\Raw\Builders\InterfaceBuilder;
 use PhUml\Parser\Raw\RawDefinitions;
 
+/**
+ * It extracts the `RawDefinition` of a interface and adds it to the collection of `RawDefinitions`
+ */
 class InterfaceVisitor extends NodeVisitorAbstract
 {
     /** @var RawDefinitions */

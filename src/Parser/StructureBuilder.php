@@ -18,6 +18,9 @@ use PhUml\Code\Variable;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 
+/**
+ * It builds a `Structure` from a `RawDefinitions`
+ */
 class StructureBuilder
 {
     /** @var Structure */

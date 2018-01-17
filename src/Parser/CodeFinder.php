@@ -4,10 +4,17 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Parser;
 
 use Symfony\Component\Finder\Finder;
 
+/**
+ * It inspects a directory finding all the files with PHP code and saves their contents
+ *
+ * The directory can be inspected recursively or not.
+ * The contents of the files are used by the `TokenParser` to build the `RawDefinitions`
+ */
 class CodeFinder
 {
     /** @var Finder */
@@ -21,7 +28,6 @@ class CodeFinder
         $this->finder = $finder ?? new Finder();
         $this->files = [];
     }
-
 
     public function addDirectory(string $directory, bool $recursive = true): void
     {

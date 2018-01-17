@@ -4,8 +4,16 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Parser\Raw;
 
+/**
+ * It represents the collection of the classes and interfaces of the codebase being analyzed
+ *
+ * This collection of raw definitions is used to build a code `Structure`
+ *
+ * @see \PhUml\Parser\StructureBuilder For the details on how a `Structure` is built from a `RawDefinitions` object
+ */
 class RawDefinitions
 {
     /** @var RawDefinition[] */

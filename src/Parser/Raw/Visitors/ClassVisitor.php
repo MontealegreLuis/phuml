@@ -13,6 +13,9 @@ use PhpParser\NodeVisitorAbstract;
 use PhUml\Parser\Raw\Builders\ClassBuilder;
 use PhUml\Parser\Raw\RawDefinitions;
 
+/**
+ * It extracts the `RawDefinition` of a class and adds it to the collection of `RawDefinitions`
+ */
 class ClassVisitor extends NodeVisitorAbstract
 {
     /** @var RawDefinitions */
