@@ -14,31 +14,31 @@ class MethodTest extends TestCase
     /** @test */
     function it_knows_its_name()
     {
-        $namedFunction = Method::public('namedFunction');
+        $namedMethod = Method::public('namedMethod');
 
-        $name = $namedFunction->name;
+        $name = $namedMethod->name;
 
-        $this->assertEquals('namedFunction', $name);
+        $this->assertEquals('namedMethod', $name);
     }
 
     /** @test */
     function it_knows_its_visibility()
     {
-        $publicFunction = Method::public('publicFunction');
-        $protectedFunction = Method::protected('protectedFunction');
-        $privateFunction = Method::private('privateFunction');
+        $publicMethod = Method::public('publicMethod');
+        $protectedMethod = Method::protected('protectedMethod');
+        $privateMethod = Method::private('privateMethod');
 
-        $this->assertEquals(Visibility::public(), $publicFunction->modifier);
-        $this->assertEquals(Visibility::protected(), $protectedFunction->modifier);
-        $this->assertEquals(Visibility::private(), $privateFunction->modifier);
+        $this->assertEquals(Visibility::public(), $publicMethod->modifier);
+        $this->assertEquals(Visibility::protected(), $protectedMethod->modifier);
+        $this->assertEquals(Visibility::private(), $privateMethod->modifier);
     }
 
     /** @test */
     function it_has_no_parameters_by_default()
     {
-        $noParametersFunction = Method::public('noParametersFunction');
+        $noParametersMethod = Method::public('noParametersMethod');
 
-        $parameters = $noParametersFunction->params;
+        $parameters = $noParametersMethod->params;
 
         $this->assertCount(0, $parameters);
     }
@@ -50,15 +50,15 @@ class MethodTest extends TestCase
             Variable::declaredWith('first'),
             Variable::declaredWith('second'),
         ];
-        $functionWithParameters = Method::public('functionWithParameters', $expectedParameters);
+        $methodWithParameters = Method::public('methodWithParameters', $expectedParameters);
 
-        $parameters = $functionWithParameters->params;
+        $parameters = $methodWithParameters->params;
 
         $this->assertEquals($expectedParameters, $parameters);
     }
 
     /** @test */
-    function it_knows_if_it_is_a_constructor()
+    function it_knows_it_is_a_constructor()
     {
         $constructor = Method::public('__construct');
 
@@ -81,14 +81,14 @@ class MethodTest extends TestCase
     function its_string_representation_includes_its_parameters()
     {
         $methodWithParameters = Method::protected('withParameters', [
-            Variable::declaredWith('parameterOne'),
-            Variable::declaredWith('parameterTwoWithType', TypeDeclaration::from('int')),
+            Variable::declaredWith('$parameterOne'),
+            Variable::declaredWith('$parameterTwoWithType', TypeDeclaration::from('int')),
         ]);
 
         $methodAsString = $methodWithParameters->__toString();
 
         $this->assertEquals(
-        '#withParameters( parameterOne, int parameterTwoWithType )',
+        '#withParameters( $parameterOne, int $parameterTwoWithType )',
             $methodAsString
         );
     }

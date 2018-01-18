@@ -7,7 +7,6 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\Variable;
@@ -24,7 +23,8 @@ class InterfaceBuilder extends DefinitionBuilder
         return $this;
     }
 
-    public function build(): Definition
+    /** @return InterfaceDefinition */
+    public function build()
     {
         return new InterfaceDefinition($this->name, $this->methods, $this->parent);
     }

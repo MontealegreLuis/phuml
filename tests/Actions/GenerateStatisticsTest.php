@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Actions;
 
 use LogicException;
@@ -15,7 +16,7 @@ use PhUml\Processors\StatisticsProcessor;
 class GenerateStatisticsTest extends TestCase
 {
     /** @test */
-    function it_fails_to_generate_the_statistics_if_command_is_not_provided()
+    function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()
     {
         $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
 
@@ -66,7 +67,7 @@ STATS;
     }
 
     /** @test */
-    function it_accepts_the_recursive_options_for_the_statistics_processor()
+    function it_shows_the_statistics_of_a_directory_using_the_recursive_option()
     {
         $statistics = <<<STATS
 phUML generated statistics

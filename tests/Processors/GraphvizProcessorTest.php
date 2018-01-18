@@ -15,17 +15,13 @@ use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
+use PhUml\Fakes\ProvidesNumericIds;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 
 class GraphvizProcessorTest extends TestCase
 {
-    /** @before */
-    function resetIds()
-    {
-        NumericIdClass::reset();
-        NumericIdInterface::reset();
-    }
+    use ProvidesNumericIds;
 
     /** @test */
     function it_has_a_name()

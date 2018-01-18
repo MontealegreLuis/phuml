@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Processors;
 
 use PhUml\ContractTests\ImageProcessorTest;
@@ -20,7 +21,6 @@ class DotProcessorTest extends ImageProcessorTest
 
         $this->assertEquals('Dot', $name);
     }
-
 
     function processor(Process $process = null): ImageProcessor
     {

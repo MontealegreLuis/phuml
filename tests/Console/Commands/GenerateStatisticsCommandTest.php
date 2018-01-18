@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
@@ -49,7 +50,7 @@ class GenerateStatisticsCommandTest extends TestCase
     }
 
     /** @test */
-    function it_generates_the_statistics_of_a_given_directory()
+    function it_generates_the_statistics_of_a_given_directory_using_the_recursive_option()
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),

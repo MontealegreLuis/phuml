@@ -42,7 +42,7 @@ class ClassDefinitionTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_implements_any_interface_by_default()
+    function it_does_not_implement_any_interface_by_default()
     {
         $noInterfacesClass = new ClassDefinition('NoInterfacesClass');
 
@@ -56,9 +56,9 @@ class ClassDefinitionTest extends TestCase
     {
         $noParentClass = new ClassDefinition('NoParentClass');
 
-        $parent = $noParentClass->extends;
+        $hasParent = $noParentClass->hasParent();
 
-        $this->assertNull($parent);
+        $this->assertFalse($hasParent);
     }
 
     /** @test */
@@ -187,16 +187,5 @@ class ClassDefinitionTest extends TestCase
         $this->assertNotEquals($classOne->identifier(), $classTwo->identifier());
         $this->assertEquals($classOne->identifier(), $classOne->identifier());
         $this->assertEquals($classTwo->identifier(), $classTwo->identifier());
-    }
-
-    /** @test */
-    function it_knows_if_it_has_a_parent_class()
-    {
-        $parentClass = new ClassDefinition('ParentClass');
-        $classWithParent = new ClassDefinition('ClassWithParent', [], [], [], $parentClass);
-
-        $hasParent = $classWithParent->hasParent();
-
-        $this->assertTrue($hasParent);
     }
 }

@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
@@ -13,15 +14,11 @@ use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
+use PhUml\Fakes\ProvidesNumericIds;
 
 class DigraphTest extends TestCase
 {
-    /** @before */
-    function resetIds()
-    {
-        NumericIdClass::reset();
-        NumericIdInterface::reset();
-    }
+    use ProvidesNumericIds;
 
     /** @test */
     function it_can_be_represented_as_dot_language_from_a_structure_with_one_definition()

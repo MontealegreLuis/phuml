@@ -9,27 +9,19 @@ namespace PhUml\Actions;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\NumericIdStructureBuilder;
+use PhUml\Fakes\ProvidesNumericIds;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\Raw\RawDefinitions;
-use PhUml\Parser\ExternalDefinitionsResolver;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use Symfony\Component\Finder\Finder;
 
 class GenerateDotFileTest extends TestCase
 {
-    /** @before */
-    function resetIds()
-    {
-        NumericIdClass::reset();
-        NumericIdInterface::reset();
-    }
+    use ProvidesNumericIds;
 
     /** @test */
-    function it_fails_to_generate_the_dot_file_if_command_is_not_provided()
+    function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()
     {
         $action = new GenerateDotFile(new CodeParser(), new GraphvizProcessor());
 
@@ -58,7 +50,7 @@ class GenerateDotFileTest extends TestCase
     }
 
     /** @test */
-    function it_accepts_the_recursive_option_for_the_dot_file_processor()
+    function it_creates_the_dot_file_of_a_directory_using_the_recursive_option()
     {
         $expectedDigraph = <<<'DOT'
 "101" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plBase</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$autoload</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$autoloadDirectory</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+autoload( $classname )</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addAutoloadDirectory( $directory )</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getAutoloadClasses()</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>> shape=plaintext]

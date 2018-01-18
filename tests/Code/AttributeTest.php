@@ -14,17 +14,17 @@ class AttributeTest extends TestCase
     /** @test */
     function it_knows_its_name()
     {
-        $namedAttribute = Attribute::public('namedAttribute');
+        $namedAttribute = Attribute::public('$namedAttribute');
 
         $name = $namedAttribute->name;
 
-        $this->assertEquals('namedAttribute', $name);
+        $this->assertEquals('$namedAttribute', $name);
     }
 
     /** @test */
     function it_can_be_public()
     {
-        $publicAttribute = Attribute::public('attribute');
+        $publicAttribute = Attribute::public('$attribute');
 
         $modifier = $publicAttribute->modifier;
 
@@ -34,7 +34,7 @@ class AttributeTest extends TestCase
     /** @test */
     function it_can_be_protected()
     {
-        $publicAttribute = Attribute::protected('attribute');
+        $publicAttribute = Attribute::protected('$attribute');
 
         $modifier = $publicAttribute->modifier;
 
@@ -44,7 +44,7 @@ class AttributeTest extends TestCase
     /** @test */
     function it_can_be_private()
     {
-        $publicAttribute = Attribute::private('attribute');
+        $publicAttribute = Attribute::private('$attribute');
 
         $modifier = $publicAttribute->modifier;
 
@@ -54,7 +54,7 @@ class AttributeTest extends TestCase
     /** @test */
     function it_has_no_type_by_default()
     {
-        $noTypeAttribute = Attribute::public('attribute');
+        $noTypeAttribute = Attribute::public('$attribute');
 
         $type = $noTypeAttribute->type;
 
@@ -62,7 +62,7 @@ class AttributeTest extends TestCase
     }
 
     /** @test */
-    function it_knows_if_it_refers_to_another_class_or_interface()
+    function it_knows_it_refers_to_another_class_or_interface()
     {
         $reference = Attribute::public ('reference', TypeDeclaration::from('AClass'));
 
@@ -71,9 +71,8 @@ class AttributeTest extends TestCase
         $this->assertTrue($isAReference);
     }
 
-
     /** @test */
-    function it_knows_it_does_not_refers_to_another_class_or_interface()
+    function it_knows_it_does_not_refer_to_another_class_or_interface()
     {
         $noType = Attribute::public('noTypeAttribute');
         $builtInType = Attribute::public('builtInAttribute', TypeDeclaration::from('float'));

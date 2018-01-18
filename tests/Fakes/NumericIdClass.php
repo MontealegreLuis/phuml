@@ -12,6 +12,8 @@ use PhUml\Code\ClassDefinition;
 class NumericIdClass extends ClassDefinition
 {
     private static $id = 100;
+
+    /** @var int */
     private $identifier;
 
     public function __construct(

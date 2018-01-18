@@ -17,6 +17,12 @@ use RuntimeException;
 
 class NodeLabelBuilderTest extends TestCase
 {
+    /** @before */
+    function createLabel()
+    {
+        $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(), new HtmlLabelStyle());
+    }
+
     /** @test */
     function it_builds_an_html_label_for_a_class()
     {
@@ -101,12 +107,6 @@ class NodeLabelBuilderTest extends TestCase
         $this->expectException(TemplateFailure::class);
 
         $labelBuilder->forClass(new ClassDefinition('AnyClass'));
-    }
-
-    /** @before */
-    function createLabel()
-    {
-        $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(), new HtmlLabelStyle());
     }
 
     /** @var NodeLabelBuilder */

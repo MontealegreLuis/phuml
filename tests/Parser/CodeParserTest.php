@@ -65,7 +65,7 @@ CLASS
     }
 
     /** @test */
-    function it_parses_type_declarations_for_attributes_from_annotations()
+    function it_parses_type_declarations_for_attributes_from_doc_blocks()
     {
         $class = <<<'CLASS'
 <?php

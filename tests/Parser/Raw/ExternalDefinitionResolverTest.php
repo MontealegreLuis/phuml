@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Parser\Raw;
 
 use PHPUnit\Framework\TestCase;
@@ -27,7 +28,7 @@ class ExternalDefinitionResolverTest extends TestCase
     }
 
     /** @test */
-    function it_adds_missing_interfaces()
+    function it_adds_external_interfaces()
     {
         $definitions = new RawDefinitions();
         $resolver = new ExternalDefinitionsResolver();
@@ -46,7 +47,7 @@ class ExternalDefinitionResolverTest extends TestCase
     }
 
     /** @test */
-    function it_adds_missing_classes()
+    function it_adds_external_classes()
     {
         $definitions = new RawDefinitions();
         $resolver = new ExternalDefinitionsResolver();

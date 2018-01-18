@@ -29,5 +29,5 @@ abstract class DefinitionBuilder
         return $this;
     }
 
-    abstract public function build(): Definition;
+    abstract public function build();
 }

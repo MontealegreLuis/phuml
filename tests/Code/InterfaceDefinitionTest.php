@@ -36,9 +36,9 @@ class InterfaceDefinitionTest extends TestCase
     {
         $interfaceWithoutParent = new InterfaceDefinition('InterfacesWithoutParent');
 
-        $parent = $interfaceWithoutParent->extends;
+        $hasParent = $interfaceWithoutParent->hasParent();
 
-        $this->assertNull($parent);
+        $this->assertFalse($hasParent);
     }
 
     /** @test */
@@ -64,17 +64,6 @@ class InterfaceDefinitionTest extends TestCase
         $parentClass = $interfaceWithParent->extends;
 
         $this->assertEquals($parent, $parentClass);
-    }
-
-    /** @test */
-    function it_knows_it_has_a_parent_interface()
-    {
-        $parent = new InterfaceDefinition('ParentInterface');
-        $interfaceWithParent = new InterfaceDefinition('InterfaceWithMethods', [], $parent);
-
-        $hasParent = $interfaceWithParent->hasParent();
-
-        $this->assertTrue($hasParent);
     }
 
     /** @test */

@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Actions;
 
 use LogicException;
@@ -26,7 +27,7 @@ class GenerateClassDiagramTest extends TestCase
     }
 
     /** @test */
-    function it_fails_to_generate_diagram_if_command_is_not_provided()
+    function it_fails_to_generate_diagram_if_a_command_is_not_provided()
     {
         $this->expectException(LogicException::class);
         $this->action->generate(new CodeFinder(), 'wont-be-generated.png');
@@ -63,7 +64,7 @@ class GenerateClassDiagramTest extends TestCase
      * @test
      * @group linux
      */
-    function it_generates_a_class_diagram_using_the_dot_processors_and_the_recursive_option()
+    function it_generates_a_class_diagram_using_the_dot_processor_and_the_recursive_option()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new DotProcessor());
@@ -99,7 +100,7 @@ class GenerateClassDiagramTest extends TestCase
      * @test
      * @group linux
      */
-    function it_generates_a_class_diagram_using_the_neato_processors_and_the_recursive_option()
+    function it_generates_a_class_diagram_using_the_neato_processor_and_the_recursive_option()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new NeatoProcessor());

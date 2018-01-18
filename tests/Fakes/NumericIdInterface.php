@@ -12,6 +12,8 @@ use PhUml\Code\InterfaceDefinition;
 class NumericIdInterface extends InterfaceDefinition
 {
     private static $id = 0;
+
+    /** @var int */
     private $identifier;
 
     public function __construct($name, array $functions = [], $extends = null)

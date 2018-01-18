@@ -15,7 +15,7 @@ class TypeDeclarationTest extends TestCase
      * @test
      * @dataProvider builtInTypes
      */
-    function it_knows_if_it_is_a_built_in_type(string $type)
+    function it_knows_it_is_a_built_in_type(string $type)
     {
         $builtInType = TypeDeclaration::from($type);
 

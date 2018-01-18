@@ -9,7 +9,6 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
-use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Method;
 use PhUml\Code\TypeDeclaration;
@@ -75,7 +74,8 @@ class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
-    public function build(): Definition
+    /** @return ClassDefinition */
+    public function build()
     {
         return new ClassDefinition(
             $this->name,
