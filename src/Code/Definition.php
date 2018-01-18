@@ -23,7 +23,7 @@ class Definition implements HasNodeIdentifier
     public $name;
 
     /** @var Method[] */
-    public $functions;
+    public $methods;
 
     /** @var Definition */
     public $extends;
@@ -34,13 +34,13 @@ class Definition implements HasNodeIdentifier
     public function __construct(string $name, array $methods = [], Definition $extends = null)
     {
         $this->name = $name;
-        $this->functions = $methods;
+        $this->methods = $methods;
         $this->extends = $extends;
     }
 
     public function countMethodsByVisibility(Visibility $modifier): int
     {
-        return \count(array_filter($this->functions, function (Method $method) use ($modifier) {
+        return \count(array_filter($this->methods, function (Method $method) use ($modifier) {
             return $method->modifier->equals($modifier);
         }));
     }

@@ -26,7 +26,7 @@ class InterfaceDefinitionTest extends TestCase
     {
         $noMethodsInterface = new InterfaceDefinition('WithNoMethods');
 
-        $methods = $noMethodsInterface->functions;
+        $methods = $noMethodsInterface->methods;
 
         $this->assertCount(0, $methods);
     }
@@ -50,7 +50,7 @@ class InterfaceDefinitionTest extends TestCase
         ];
         $interfaceWithMethods = new InterfaceDefinition('InterfaceWithMethods', $methods);
 
-        $interfaceMethods = $interfaceWithMethods->functions;
+        $interfaceMethods = $interfaceWithMethods->methods;
 
         $this->assertEquals($methods, $interfaceMethods);
     }

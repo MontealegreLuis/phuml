@@ -36,7 +36,7 @@ class ClassDefinitionTest extends TestCase
     {
         $noMethodsClass = new ClassDefinition('NoMethodsClass');
 
-        $methods = $noMethodsClass->functions;
+        $methods = $noMethodsClass->methods;
 
         $this->assertCount(0, $methods);
     }
@@ -84,7 +84,7 @@ class ClassDefinitionTest extends TestCase
         ];
         $classWithMethods = new ClassDefinition('ClassWithMethods', [], $methods);
 
-        $classMethods = $classWithMethods->functions;
+        $classMethods = $classWithMethods->methods;
 
         $this->assertEquals($methods, $classMethods);
     }

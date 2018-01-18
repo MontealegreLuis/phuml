@@ -14,12 +14,6 @@ namespace PhUml\Code;
  */
 class Method
 {
-    private static $symbols = [
-        'private' => '-',
-        'protected' => '#',
-        'public' => '+',
-    ];
-
     /** @var string */
     public $name;
 

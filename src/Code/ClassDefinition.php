@@ -34,7 +34,7 @@ class ClassDefinition extends Definition
 
     public function hasConstructor(): bool
     {
-        return \count(array_filter($this->functions, function (Method $function) {
+        return \count(array_filter($this->methods, function (Method $function) {
             return $function->isConstructor();
         })) === 1;
     }
@@ -46,7 +46,7 @@ class ClassDefinition extends Definition
             return [];
         }
 
-        $constructors = array_filter($this->functions, function (Method $method) {
+        $constructors = array_filter($this->methods, function (Method $method) {
             return $method->isConstructor();
         });
 
