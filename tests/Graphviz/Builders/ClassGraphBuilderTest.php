@@ -22,7 +22,7 @@ class ClassGraphBuilderTest extends TestCase
     function it_extracts_the_elements_for_a_simple_class()
     {
         $class = new ClassDefinition('ClassName');
-        $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
         $graphElements = new ClassGraphBuilder(new ClassNameLabelBuilder());
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
@@ -36,7 +36,7 @@ class ClassGraphBuilderTest extends TestCase
         $parent = new ClassDefinition('ParentClass');
         $class = A::class('ChildClass')->extending($parent)->build();
         $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
         $graphElements = new ClassGraphBuilder($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
@@ -56,7 +56,7 @@ class ClassGraphBuilderTest extends TestCase
             ->implementing($firstInterface, $secondInterface)
             ->build();
         $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
         $graphElements = new ClassGraphBuilder($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
@@ -75,11 +75,11 @@ class ClassGraphBuilderTest extends TestCase
         $class = A::class('AClass')
             ->withAPublicMethod(
                 '__construct',
-                A::parameter('$reference')->withType($reference->name)->build()
+                A::parameter('$reference')->withType($reference->name())->build()
             )
             ->build();
         $labelBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
         $classGraphBuilder = new ClassGraphBuilder($labelBuilder);
         $classGraphBuilder->createAssociations();
         $structure = new Structure();
@@ -99,11 +99,11 @@ class ClassGraphBuilderTest extends TestCase
         $firstReference = new ClassDefinition('FirstClass');
         $secondReference = new ClassDefinition('SecondClass');
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', $firstReference->name)
-            ->withAPrivateAttribute('$secondReference', $secondReference->name)
+            ->withAPrivateAttribute('$firstReference', $firstReference->name())
+            ->withAPrivateAttribute('$secondReference', $secondReference->name())
             ->build();
         $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
         $classGraphBuilder = new ClassGraphBuilder($nodeBuilder);
         $classGraphBuilder->createAssociations();
         $structure = new Structure();
@@ -131,18 +131,18 @@ class ClassGraphBuilderTest extends TestCase
         $parent = new ClassDefinition('ParentClass');
 
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', $firstReference->name)
-            ->withAPrivateAttribute('$secondReference', $secondReference->name)
+            ->withAPrivateAttribute('$firstReference', $firstReference->name())
+            ->withAPrivateAttribute('$secondReference', $secondReference->name())
             ->withAPublicMethod(
                 '__construct',
-                A::parameter('$thirdReference')->withType($thirdReference->name)->build(),
-                A::parameter('$fourthReference')->withType($fourthReference->name)->build()
+                A::parameter('$thirdReference')->withType($thirdReference->name())->build(),
+                A::parameter('$fourthReference')->withType($fourthReference->name())->build()
             )
             ->implementing($firstInterface, $secondInterface)
             ->extending($parent)
             ->build();
         $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
         $classGraphBuilder = new ClassGraphBuilder($nodeBuilder);
         $classGraphBuilder->createAssociations();
         $structure = new Structure();
@@ -178,7 +178,7 @@ class ClassGraphBuilderTest extends TestCase
             )
             ->build();
         $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
         $graphElements = new ClassGraphBuilder($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($class, new Structure());

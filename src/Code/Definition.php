@@ -20,13 +20,13 @@ class Definition implements HasNodeIdentifier
     use ObjectHashIdentifier;
 
     /** @var string */
-    public $name;
+    protected $name;
 
     /** @var Method[] */
-    public $methods;
+    protected $methods;
 
     /** @var Definition */
-    public $extends;
+    protected $extends;
 
     /**
      * @param Method[] $methods
@@ -43,5 +43,21 @@ class Definition implements HasNodeIdentifier
         return \count(array_filter($this->methods, function (Method $method) use ($modifier) {
             return $method->modifier->equals($modifier);
         }));
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    /** @return Method[] */
+    public function methods(): array
+    {
+        return $this->methods;
+    }
+
+    public function extends(): Definition
+    {
+        return $this->extends;
     }
 }

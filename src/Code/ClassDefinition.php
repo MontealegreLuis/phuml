@@ -15,10 +15,10 @@ namespace PhUml\Code;
 class ClassDefinition extends Definition
 {
     /** @var Attribute[] */
-    public $attributes;
+    private $attributes;
 
     /** @var InterfaceDefinition[] */
-    public $implements;
+    private $implements;
 
     public function __construct(
         string $name,
@@ -70,5 +70,17 @@ class ClassDefinition extends Definition
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
             return $attribute->isTyped() && $attribute->modifier->equals($modifier);
         }));
+    }
+
+    /** @return Attribute[] */
+    public function attributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /** @return InterfaceDefinition[] */
+    public function implements(): array
+    {
+        return $this->implements;
     }
 }

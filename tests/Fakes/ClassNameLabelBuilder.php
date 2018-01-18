@@ -27,8 +27,9 @@ class ClassNameLabelBuilder extends NodeLabelBuilder
         return $this->template($interface);
     }
 
+    /** @param ClassDefinition|InterfaceDefinition $classOrInterface */
     private function template($classOrInterface): string
     {
-        return "<<table><tr><td>{$classOrInterface->name}</td></tr></table>>";
+        return "<<table><tr><td>{$classOrInterface->name()}</td></tr></table>>";
     }
 }

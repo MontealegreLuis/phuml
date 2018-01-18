@@ -42,7 +42,7 @@ class InterfaceGraphBuilder
         $dotElements[] = new Node($interface, $this->labelBuilder->forInterface($interface));
 
         if ($interface->hasParent()) {
-            $dotElements[] = Edge::inheritance($interface->extends, $interface);
+            $dotElements[] = Edge::inheritance($interface->extends(), $interface);
         }
 
         return $dotElements;

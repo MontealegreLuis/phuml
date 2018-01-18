@@ -132,7 +132,7 @@ class StructureBuilderTest extends TestCase
         $this->assertTrue($structure->has('ExternalInterface'));
         $this->assertInstanceOf(InterfaceDefinition::class, $structure->get('ExternalInterface'));
         $this->assertEquals(
-            $structure->get('AClass')->extends->identifier(),
+            $structure->get('AClass')->extends()->identifier(),
             $structure->get('ExternalClass')->identifier()
         );
     }

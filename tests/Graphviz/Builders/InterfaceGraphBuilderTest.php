@@ -21,7 +21,7 @@ class InterfaceGraphBuilderTest extends TestCase
     {
         $interface = new InterfaceDefinition('AnInterface');
         $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$interface->name()}</td></tr></table>>";
         $graphElements = new InterfaceGraphBuilder($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);
@@ -35,7 +35,7 @@ class InterfaceGraphBuilderTest extends TestCase
         $parent = new InterfaceDefinition('ParentInterface');
         $interface = A::interface('AnInterface')->extending($parent)->build();
         $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
+        $label = "<<table><tr><td>{$interface->name()}</td></tr></table>>";
         $graphElements = new InterfaceGraphBuilder($nodeBuilder);
 
         $dotElements = $graphElements->extractFrom($interface);

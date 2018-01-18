@@ -16,7 +16,7 @@ class ClassDefinitionTest extends TestCase
     {
         $namedClass = new ClassDefinition('NamedClass');
 
-        $name = $namedClass->name;
+        $name = $namedClass->name();
 
         $this->assertEquals('NamedClass', $name);
     }
@@ -26,7 +26,7 @@ class ClassDefinitionTest extends TestCase
     {
         $noAttributesClass = new ClassDefinition('NoAttributesClass');
 
-        $attributes = $noAttributesClass->attributes;
+        $attributes = $noAttributesClass->attributes();
 
         $this->assertCount(0, $attributes);
     }
@@ -36,7 +36,7 @@ class ClassDefinitionTest extends TestCase
     {
         $noMethodsClass = new ClassDefinition('NoMethodsClass');
 
-        $methods = $noMethodsClass->methods;
+        $methods = $noMethodsClass->methods();
 
         $this->assertCount(0, $methods);
     }
@@ -46,7 +46,7 @@ class ClassDefinitionTest extends TestCase
     {
         $noInterfacesClass = new ClassDefinition('NoInterfacesClass');
 
-        $interfaces = $noInterfacesClass->implements;
+        $interfaces = $noInterfacesClass->implements();
 
         $this->assertCount(0, $interfaces);
     }
@@ -70,7 +70,7 @@ class ClassDefinitionTest extends TestCase
         ];
         $classWithAttributes = new ClassDefinition('ClassWithAttributes', $attributes);
 
-        $classAttributes = $classWithAttributes->attributes;
+        $classAttributes = $classWithAttributes->attributes();
 
         $this->assertEquals($attributes, $classAttributes);
     }
@@ -84,7 +84,7 @@ class ClassDefinitionTest extends TestCase
         ];
         $classWithMethods = new ClassDefinition('ClassWithMethods', [], $methods);
 
-        $classMethods = $classWithMethods->methods;
+        $classMethods = $classWithMethods->methods();
 
         $this->assertEquals($methods, $classMethods);
     }
@@ -152,7 +152,7 @@ class ClassDefinitionTest extends TestCase
         ];
         $classWithInterfaces = new ClassDefinition('ClassWithInterfaces', [], [], $interfaces);
 
-        $classInterfaces = $classWithInterfaces->implements;
+        $classInterfaces = $classWithInterfaces->implements();
 
         $this->assertEquals($interfaces, $classInterfaces);
     }
@@ -163,7 +163,7 @@ class ClassDefinitionTest extends TestCase
         $parent = new ClassDefinition('ParentClass');
         $classWithParent = new ClassDefinition('ClassWithParent', [], [], [], $parent);
 
-        $parentClass = $classWithParent->extends;
+        $parentClass = $classWithParent->extends();
 
         $this->assertEquals($parent, $parentClass);
     }

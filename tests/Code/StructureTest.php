@@ -55,19 +55,19 @@ class StructureTest extends TestCase
 
         $this->assertCount(5, $definitions);
 
-        $this->assertArrayHasKey($interfaceA->name, $definitions);
-        $this->assertEquals($interfaceA, $definitions[$interfaceA->name]);
+        $this->assertArrayHasKey($interfaceA->name(), $definitions);
+        $this->assertEquals($interfaceA, $definitions[$interfaceA->name()]);
 
-        $this->assertArrayHasKey($interfaceB->name, $definitions);
-        $this->assertEquals($interfaceB, $definitions[$interfaceB->name]);
+        $this->assertArrayHasKey($interfaceB->name(), $definitions);
+        $this->assertEquals($interfaceB, $definitions[$interfaceB->name()]);
 
-        $this->assertArrayHasKey($classA->name, $definitions);
-        $this->assertEquals($classA, $definitions[$classA->name]);
+        $this->assertArrayHasKey($classA->name(), $definitions);
+        $this->assertEquals($classA, $definitions[$classA->name()]);
 
-        $this->assertArrayHasKey($classB->name, $definitions);
-        $this->assertEquals($classB, $definitions[$classB->name]);
+        $this->assertArrayHasKey($classB->name(), $definitions);
+        $this->assertEquals($classB, $definitions[$classB->name()]);
 
-        $this->assertArrayHasKey($classC->name, $definitions);
-        $this->assertEquals($classC, $definitions[$classC->name]);
+        $this->assertArrayHasKey($classC->name(), $definitions);
+        $this->assertEquals($classC, $definitions[$classC->name()]);
     }
 }

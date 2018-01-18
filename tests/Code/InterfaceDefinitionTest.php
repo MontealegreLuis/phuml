@@ -16,7 +16,7 @@ class InterfaceDefinitionTest extends TestCase
     {
         $namedInterface = new InterfaceDefinition('NamedInterface');
 
-        $name = $namedInterface->name;
+        $name = $namedInterface->name();
 
         $this->assertEquals('NamedInterface', $name);
     }
@@ -26,7 +26,7 @@ class InterfaceDefinitionTest extends TestCase
     {
         $noMethodsInterface = new InterfaceDefinition('WithNoMethods');
 
-        $methods = $noMethodsInterface->methods;
+        $methods = $noMethodsInterface->methods();
 
         $this->assertCount(0, $methods);
     }
@@ -50,7 +50,7 @@ class InterfaceDefinitionTest extends TestCase
         ];
         $interfaceWithMethods = new InterfaceDefinition('InterfaceWithMethods', $methods);
 
-        $interfaceMethods = $interfaceWithMethods->methods;
+        $interfaceMethods = $interfaceWithMethods->methods();
 
         $this->assertEquals($methods, $interfaceMethods);
     }
@@ -61,7 +61,7 @@ class InterfaceDefinitionTest extends TestCase
         $parent = new InterfaceDefinition('ParentInterface');
         $interfaceWithParent = new InterfaceDefinition('InterfaceWithMethods', [], $parent);
 
-        $parentClass = $interfaceWithParent->extends;
+        $parentClass = $interfaceWithParent->extends();
 
         $this->assertEquals($parent, $parentClass);
     }

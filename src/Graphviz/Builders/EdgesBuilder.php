@@ -43,7 +43,7 @@ class EdgesBuilder implements AssociationsBuilder
     {
         return array_map(function (Variable $attribute) use ($class) {
             return $this->addAssociation($class, $attribute);
-        }, array_filter($class->attributes, [$this, 'needAssociation']));
+        }, array_filter($class->attributes(), [$this, 'needAssociation']));
     }
 
     /**

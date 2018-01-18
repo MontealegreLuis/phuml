@@ -398,7 +398,7 @@ CLASS;
             ->extending($user)
             ->build();
         $inMemoryStudents = A::class('InMemoryStudents')
-            ->withAPrivateAttribute('$students', $student->name)
+            ->withAPrivateAttribute('$students', $student->name())
             ->withAPrivateAttribute('$page')
             ->withAPublicMethod('__construct', A::parameter('$page')->withType('Page')->build())
             ->withAPublicMethod('current')

@@ -7,7 +7,9 @@
 
 namespace PhUml\TestBuilders;
 
+use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
+use PhUml\Code\InterfaceDefinition;
 
 abstract class DefinitionBuilder
 {
@@ -29,5 +31,6 @@ abstract class DefinitionBuilder
         return $this;
     }
 
+    /** @return ClassDefinition|InterfaceDefinition */
     abstract public function build();
 }

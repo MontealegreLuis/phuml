@@ -25,12 +25,12 @@ class Structure
 
     public function addClass(ClassDefinition $class): void
     {
-        $this->classes[$class->name] = $class;
+        $this->classes[$class->name()] = $class;
     }
 
     public function addInterface(InterfaceDefinition $interface): void
     {
-        $this->interfaces[$interface->name] = $interface;
+        $this->interfaces[$interface->name()] = $interface;
     }
 
     public function has(string $name): bool
