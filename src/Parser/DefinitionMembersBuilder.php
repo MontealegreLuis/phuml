@@ -16,7 +16,7 @@ use PhUml\Parser\Raw\RawDefinition;
 /**
  * It builds the attributes and methods of both classes and interfaces
  */
-class DefinitionBuilder
+class DefinitionMembersBuilder
 {
     /** @return Method[] */
     public function methods(RawDefinition $definition): array

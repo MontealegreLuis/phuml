@@ -8,14 +8,11 @@
 namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Method;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
 use PhUml\Templates\TemplateEngine;
 use PhUml\Templates\TemplateFailure;
+use PhUml\TestBuilders\A;
 use RuntimeException;
 
 class NodeLabelBuilderTest extends TestCase
@@ -34,11 +31,11 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class_with_attributes()
     {
-        $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
-            Attribute::public('name'),
-            Attribute::private('age'),
-            Attribute::protected('category', TypeDeclaration::from('string'))
-        ]));
+        $html = $this->labelBuilder->forClass(A::class('AClass')
+            ->withAPublicAttribute('name')
+            ->withAPrivateAttribute('age')
+            ->withAProtectedAttribute('category', 'string')
+            ->build());
 
         $this->assertEquals(
             '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AClass</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+name</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-age</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#category</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>>',
@@ -49,13 +46,15 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_a_class_with_attributes_and_methods()
     {
-        $html = $this->labelBuilder->forClass(new ClassDefinition('AClass', [
-            Attribute::private('age'),
-            Attribute::protected('category', TypeDeclaration::from('string'))
-        ], [
-            Method::public('getAge'),
-            Method::protected('setCategory', [Variable::declaredWith('category', TypeDeclaration::from('string'))])
-        ]));
+        $html = $this->labelBuilder->forClass(A::class('AClass')
+            ->withAPrivateAttribute('age')
+            ->withAProtectedAttribute('category', 'string')
+            ->withAPublicMethod('getAge')
+            ->withAProtectedMethod(
+                'setCategory',
+                A::parameter('category')->withType('string')->build()
+            )
+            ->build());
 
         $this->assertEquals(
             '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AClass</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-age</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#category</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getAge()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#setCategory( string category )</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>>',
@@ -77,15 +76,13 @@ class NodeLabelBuilderTest extends TestCase
     /** @test */
     function it_builds_an_html_label_for_an_interface_with_methods()
     {
-        $html = $this->labelBuilder->forInterface(new InterfaceDefinition('AnInterface', [
-            Method::public('doSomething'),
-            Method::public('changeValue', [
-                Variable::declaredWith('value', TypeDeclaration::from('int'))
-            ])
-        ]));
+        $html = $this->labelBuilder->forInterface(A::interface('AnInterface')
+            ->withAPublicMethod('doSomething')
+            ->withAPublicMethod('changeValue', A::parameter('$value')->withType('int')->build())
+            ->build());
 
         $this->assertEquals(
-            '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#729fcf"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AnInterface</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+doSomething()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+changeValue( int value )</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>>',
+            '<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#729fcf"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AnInterface</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+doSomething()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+changeValue( int $value )</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>>',
             $html
         );
     }

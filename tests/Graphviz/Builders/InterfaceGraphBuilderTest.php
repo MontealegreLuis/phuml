@@ -12,6 +12,7 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
+use PhUml\TestBuilders\A;
 
 class InterfaceGraphBuilderTest extends TestCase
 {
@@ -32,7 +33,7 @@ class InterfaceGraphBuilderTest extends TestCase
     function it_extracts_the_elements_from_an_interface_with_a_parent()
     {
         $parent = new InterfaceDefinition('ParentInterface');
-        $interface = new InterfaceDefinition('AnInterface', [], $parent);
+        $interface = A::interface('AnInterface')->extending($parent)->build();
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$interface->name}</td></tr></table>>";
         $graphElements = new InterfaceGraphBuilder($nodeBuilder);

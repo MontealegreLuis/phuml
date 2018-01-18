@@ -23,11 +23,11 @@ class ClassDefinition extends Definition
     public function __construct(
         string $name,
         array $attributes = [],
-        array $functions = [],
+        array $methods = [],
         array $implements = [],
         ClassDefinition $extends = null
     ) {
-        parent::__construct($name, $functions, $extends);
+        parent::__construct($name, $methods, $extends);
         $this->attributes = $attributes;
         $this->implements = $implements;
     }

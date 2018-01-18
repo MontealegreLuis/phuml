@@ -8,7 +8,7 @@ namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
 
-class StructureTest extends TestCase 
+class StructureTest extends TestCase
 {
     /** @test */
     function it_adds_a_new_class_definition()

@@ -4,42 +4,45 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\TestBuilders\A;
 
 class SummaryTest extends TestCase
 {
     /** @test */
     function it_generates_a_summary_from_a_code_structure()
     {
-        $parentClass = new ClassDefinition('ParentClass', [
-            Attribute::protected('$attribute'),
-            Attribute::public('$value', TypeDeclaration::from('float')),
-            Attribute::public('isValid'),
-        ], [
-            Method::protected('getAttribute'),
-            Method::private('privateAction'),
-        ]);
-        $parentInterface = new InterfaceDefinition('ParentInterface', [
-            Method::public('dance'),
-        ]);
-        $interface = new InterfaceDefinition('SomeAbility', [
-            Method::public('fly')
-        ], $parentInterface);
+        $parentClass = A::class('ParentClass')
+            ->withAProtectedAttribute('$attribute')
+            ->withAPublicAttribute('$value', 'float')
+            ->withAPublicAttribute('isValid')
+            ->withAProtectedMethod('getAttribute')
+            ->withAPrivateMethod('privateAction')
+            ->build();
+        $parentInterface = A::interface('ParentInterface')
+            ->withAPublicMethod('dance')
+            ->build();
+        $interface = A::interface('SomeAbility')
+            ->withAPublicMethod('fly')
+            ->extending($parentInterface)
+            ->build();
 
         $structure = new Structure();
         $structure->addClass($parentClass);
         $structure->addInterface($parentInterface);
         $structure->addInterface($interface);
-        $structure->addClass(new ClassDefinition('ChildClass', [
-            Attribute::private('$name', TypeDeclaration::from('string')),
-            Attribute::private('$salary'),
-            Attribute::protected('$age', TypeDeclaration::from('int')),
-        ], [
-            Method::public('getName'),
-            Method::public('getAge'),
-        ], [$interface], $parentClass));
+        $structure->addClass(A::class('ChildClass')
+            ->withAPrivateAttribute('$name', 'string')
+            ->withAPrivateAttribute('$salary')
+            ->withAProtectedAttribute('$age', 'int')
+            ->withAPublicMethod('getName')
+            ->withAPublicMethod('getAge')
+            ->implementing($interface)
+            ->extending($parentClass)
+            ->build());
         $summary = new Summary();
 
         $summary->from($structure);

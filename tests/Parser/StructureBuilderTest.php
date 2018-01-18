@@ -7,15 +7,12 @@
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Method;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
 use PhUml\Parser\Raw\ExternalDefinitionsResolver;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
+use PhUml\TestBuilders\A;
 
 class StructureBuilderTest extends TestCase
 {
@@ -37,13 +34,11 @@ class StructureBuilderTest extends TestCase
         $structure = $builder->buildFrom($definitions);
         $interface = $structure->get('InterfaceName');
 
-        $this->assertEquals(
-            new InterfaceDefinition('InterfaceName', [
-                Method::public('doSomething'),
-                Method::public('changeThing', [
-                    Variable::declaredWith('$name', TypeDeclaration::from('string')),
-                ]),
-            ], new InterfaceDefinition('ParentInterface')),
+        $this->assertEquals(A::interface('InterfaceName')
+            ->withAPublicMethod('doSomething')
+            ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
+            ->extending(new InterfaceDefinition('ParentInterface'))
+            ->build(),
             $interface
         );
     }
@@ -82,19 +77,15 @@ class StructureBuilderTest extends TestCase
         $class = $structure->get('ClassName');
 
         $this->assertEquals(
-            new ClassDefinition('ClassName', [
-                Attribute::protected('$name'),
-                Attribute::private('$age', TypeDeclaration::from('int')),
-                Attribute::public('$phoneNumbers', TypeDeclaration::from('string')),
-            ], [
-                Method::public('doSomething'),
-                Method::public('changeThing', [
-                    Variable::declaredWith('$name', TypeDeclaration::from('string')),
-                ]),
-            ], [
-                new InterfaceDefinition('FirstInterface'),
-                new InterfaceDefinition('SecondInterface'),
-            ],new ClassDefinition('ParentClass')),
+            A::class('ClassName')
+                ->withAProtectedAttribute('$name')
+                ->withAPrivateAttribute('$age', 'int')
+                ->withAPublicAttribute('$phoneNumbers', 'string')
+                ->withAPublicMethod('doSomething')
+                ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
+                ->implementing(new InterfaceDefinition('FirstInterface'), new InterfaceDefinition('SecondInterface'))
+                ->extending(new ClassDefinition('ParentClass'))
+                ->build(),
             $class
         );
     }

@@ -26,13 +26,13 @@ class StructureBuilder
     /** @var Structure */
     private $structure;
 
-    /** @var DefinitionBuilder */
+    /** @var DefinitionMembersBuilder */
     protected $builder;
 
-    public function __construct(Structure $structure = null, DefinitionBuilder $builder = null)
+    public function __construct(Structure $structure = null, DefinitionMembersBuilder $builder = null)
     {
         $this->structure = $structure ?? new Structure();
-        $this->builder = $builder ?? new DefinitionBuilder();
+        $this->builder = $builder ?? new DefinitionMembersBuilder();
     }
 
     public function buildFrom(RawDefinitions $definitions): Structure

@@ -7,13 +7,10 @@
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Method;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
 use PhUml\Fakes\StringCodeFinder;
+use PhUml\TestBuilders\A;
 
 class CodeParserTest extends TestCase
 {
@@ -58,11 +55,11 @@ CLASS
 
         $structure = $this->parser->parse($this->finder);
 
-        $class = new ClassDefinition('MyClass', [
-            Attribute::private('$name'),
-            Attribute::protected('$age'),
-            Attribute::public('$phone'),
-        ]);
+        $class = A::class('MyClass')
+            ->withAPrivateAttribute('$name')
+            ->withAProtectedAttribute('$age')
+            ->withAPublicAttribute('$phone')
+            ->build();
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
     }
@@ -94,11 +91,11 @@ CLASS;
 
         $structure = $this->parser->parse($this->finder);
 
-        $class = new ClassDefinition('MyClass', [
-            Attribute::private('$names', TypeDeclaration::from('string')),
-            Attribute::protected('$age', TypeDeclaration::from('int')),
-            Attribute::public('$phones', TypeDeclaration::from('string')),
-        ]);
+        $class = A::class('MyClass')
+            ->withAPrivateAttribute('$names', 'string')
+            ->withAProtectedAttribute('$age', 'int')
+            ->withAPublicAttribute('$phones', 'string')
+            ->build();
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
     }
@@ -126,11 +123,11 @@ CLASS
 
         $structure = $this->parser->parse($this->finder);
 
-        $class = new ClassDefinition('MyClass', [], [
-            Method::private('changeName', [Variable::declaredWith('$newName', TypeDeclaration::from('string'))]),
-            Method::protected('getAge'),
-            Method::public('formatPhone', [Variable::declaredWith('$format', TypeDeclaration::from('string'))]),
-        ]);
+        $class = A::class('MyClass')
+            ->withAPrivateMethod('changeName', A::parameter('$newName')->withType('string')->build())
+            ->withAProtectedMethod('getAge')
+            ->withAPublicMethod('formatPhone', A::parameter('$format')->withType('string')->build())
+            ->build();
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
     }
@@ -154,14 +151,15 @@ CLASS
 
         $structure = $this->parser->parse($this->finder);
 
-        $class = new ClassDefinition('MyClass', [], [
-            Method::public('__construct'),
-            Method::public('changeValues', [
-                Variable::declaredWith('$name', TypeDeclaration::from('string')),
-                Variable::declaredWith('$age', TypeDeclaration::from('int')),
-                Variable::declaredWith('$phone', TypeDeclaration::from('string')),
-            ])
-        ]);
+        $class = A::class('MyClass')
+            ->withAPublicMethod('__construct')
+            ->withAPublicMethod(
+                'changeValues',
+                A::parameter('$name')->withType('string')->build(),
+                A::parameter('$age')->withType('int')->build(),
+                A::parameter('$phone')->withType('string')->build()
+            )
+            ->build();
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
     }
@@ -187,7 +185,7 @@ CLASS
         $structure = $this->parser->parse($this->finder);
 
         $parentClass = new ClassDefinition('ParentClass');
-        $childClass = new ClassDefinition('ChildClass', [], [], [], $parentClass);
+        $childClass = A::class('ChildClass')->extending($parentClass)->build();
 
         $this->assertTrue($structure->has('ParentClass'));
         $this->assertEquals($parentClass, $structure->get('ParentClass'));
@@ -224,7 +222,7 @@ CLASS
 
         $interfaceOne = new InterfaceDefinition('InterfaceOne');
         $interfaceTwo = new InterfaceDefinition('InterfaceTwo');
-        $class = new ClassDefinition('MyClass', [], [], [$interfaceOne, $interfaceTwo]);
+        $class = A::class('MyClass')->implementing($interfaceOne, $interfaceTwo)->build();
 
         $this->assertTrue($structure->has('InterfaceOne'));
         $this->assertEquals($interfaceOne, $structure->get('InterfaceOne'));
@@ -249,14 +247,15 @@ INTERFACE
 
         $structure = $this->parser->parse($this->finder);
 
-        $interface = new InterfaceDefinition('MyInterface', [
-            Method::public('changeValues', [
-                Variable::declaredWith('$name', TypeDeclaration::from('string')),
-                Variable::declaredWith('$age', TypeDeclaration::from('int')),
-                Variable::declaredWith('$phone', TypeDeclaration::from('string')),
-            ]),
-            Method::public('ageToMonths')
-        ]);
+        $interface = A::interface('MyInterface')
+            ->withAPublicMethod(
+                'changeValues',
+                A::parameter('$name')->withType('string')->build(),
+                A::parameter('$age')->withType('int')->build(),
+                A::parameter('$phone')->withType('string')->build()
+            )
+            ->withAPublicMethod('ageToMonths')
+            ->build();
         $this->assertTrue($structure->has('MyInterface'));
         $this->assertEquals($interface, $structure->get('MyInterface'));
     }
@@ -282,7 +281,7 @@ INTERFACE
         $structure = $this->parser->parse($this->finder);
 
         $parentInterface = new InterfaceDefinition('ParentInterface');
-        $childInterface = new InterfaceDefinition('ChildInterface', [], $parentInterface);
+        $childInterface = A::interface('ChildInterface')->extending($parentInterface)->build();
         $this->assertTrue($structure->has('ParentInterface'));
         $this->assertEquals($parentInterface, $structure->get('ParentInterface'));
         $this->assertTrue($structure->has('ChildInterface'));
@@ -383,33 +382,29 @@ CLASS;
 
         $structure = $this->parser->parse($this->finder);
 
-        $user = new ClassDefinition('User', [
-            Attribute::protected('$name', TypeDeclaration::from('string'))
-        ], [
-            Method::public('__construct', [Variable::declaredWith('$name', TypeDeclaration::from('string'))]),
-            Method::public('isNamed', [Variable::declaredWith('$name', TypeDeclaration::from('string'))])
-        ]);
-        $pageable = new InterfaceDefinition('Pageable', [
-            Method::public('current'),
-        ]);
-        $students = new InterfaceDefinition('Students', [
-            Method::public('named', [Variable::declaredWith('$name', TypeDeclaration::from('string'))]),
-        ], $pageable);
-        $student = new ClassDefinition('Student', [
-            Attribute::private('$grades', TypeDeclaration::from('string'))
-        ], [
-            Method::public('__construct', [Variable::declaredWith('$name', TypeDeclaration::from('string'))]),
-        ], [], $user);
-        $inMemoryStudents = new ClassDefinition('InMemoryStudents', [
-            Attribute::private('$students', TypeDeclaration::from('Student')),
-            Attribute::private('$page'),
-        ], [
-            Method::public('__construct', [Variable::declaredWith('$page', TypeDeclaration::from('Page'))]),
-            Method::public('current'),
-            Method::public('named', [Variable::declaredWith('$name', TypeDeclaration::from('string'))]),
-        ], [
-            $students,
-        ]);
+        $user = A::class('User')
+            ->withAProtectedAttribute('$name', 'string')
+            ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
+            ->withAPublicMethod('isNamed', A::parameter('$name')->withType('string')->build())
+            ->build();
+        $pageable = A::interface('Pageable')->withAPublicMethod('current')->build();
+        $students = A::interface('Students')
+            ->withAPublicMethod('named', A::parameter('$name')->withType('string')->build())
+            ->extending($pageable)
+            ->build();
+        $student = A::class('Student')
+            ->withAPrivateAttribute('$grades', 'string')
+            ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
+            ->extending($user)
+            ->build();
+        $inMemoryStudents = A::class('InMemoryStudents')
+            ->withAPrivateAttribute('$students', $student->name)
+            ->withAPrivateAttribute('$page')
+            ->withAPublicMethod('__construct', A::parameter('$page')->withType('Page')->build())
+            ->withAPublicMethod('current')
+            ->withAPublicMethod('named', A::parameter('$name')->withType('string')->build())
+            ->implementing($students)
+            ->build();
 
         $this->assertTrue($structure->has('User'));
         $this->assertEquals($user, $structure->get('User'));
