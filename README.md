@@ -61,11 +61,9 @@ $ vendor/bin/phuml phuml:dot -r -a tests/resources/.code dot.gv
 
 It will generate a file with the class diagram information in DOT format.
 
-## Tests
+## Contribute
 
-Run the test suite using PHPUnit:
-
-$ vendor/bin/phpunit --testdox
+Please refer to [CONTRIBUTING](CONTRIBUTING.md) for information on how to contribute to phUML.
 
 ## License
 
