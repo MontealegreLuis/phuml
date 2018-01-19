@@ -16,7 +16,7 @@ class MethodTest extends TestCase
     {
         $namedMethod = Method::public('namedMethod');
 
-        $name = $namedMethod->name;
+        $name = $namedMethod->name();
 
         $this->assertEquals('namedMethod', $name);
     }
@@ -28,9 +28,9 @@ class MethodTest extends TestCase
         $protectedMethod = Method::protected('protectedMethod');
         $privateMethod = Method::private('privateMethod');
 
-        $this->assertEquals(Visibility::public(), $publicMethod->modifier);
-        $this->assertEquals(Visibility::protected(), $protectedMethod->modifier);
-        $this->assertEquals(Visibility::private(), $privateMethod->modifier);
+        $this->assertEquals(Visibility::public(), $publicMethod->modifier());
+        $this->assertEquals(Visibility::protected(), $protectedMethod->modifier());
+        $this->assertEquals(Visibility::private(), $privateMethod->modifier());
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class MethodTest extends TestCase
     {
         $noParametersMethod = Method::public('noParametersMethod');
 
-        $parameters = $noParametersMethod->params;
+        $parameters = $noParametersMethod->params();
 
         $this->assertCount(0, $parameters);
     }
@@ -52,7 +52,7 @@ class MethodTest extends TestCase
         ];
         $methodWithParameters = Method::public('methodWithParameters', $expectedParameters);
 
-        $parameters = $methodWithParameters->params;
+        $parameters = $methodWithParameters->params();
 
         $this->assertEquals($expectedParameters, $parameters);
     }

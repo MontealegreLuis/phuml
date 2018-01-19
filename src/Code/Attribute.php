@@ -15,7 +15,7 @@ namespace PhUml\Code;
 class Attribute extends Variable
 {
     /** @var Visibility */
-    public $modifier;
+    private $modifier;
 
     protected function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {
@@ -41,6 +41,11 @@ class Attribute extends Variable
     public function isTyped(): bool
     {
         return $this->type->isPresent();
+    }
+
+    public function modifier(): Visibility
+    {
+        return $this->modifier;
     }
 
     /**

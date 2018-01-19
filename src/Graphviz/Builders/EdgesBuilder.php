@@ -68,14 +68,14 @@ class EdgesBuilder implements AssociationsBuilder
     {
         $this->markAssociationResolvedFor($attribute);
         return Edge::association(
-            $this->structure->get((string)$attribute->type),
+            $this->structure->get((string)$attribute->type()),
             $class
         );
     }
 
     private function needAssociation(Variable $attribute): bool
     {
-        return $attribute->isAReference() && !$this->isAssociationResolved($attribute->type);
+        return $attribute->isAReference() && !$this->isAssociationResolved($attribute->type());
     }
 
     private function isAssociationResolved(string $type): bool
@@ -85,6 +85,6 @@ class EdgesBuilder implements AssociationsBuilder
 
     private function markAssociationResolvedFor(Variable $attribute): void
     {
-        $this->associations[strtolower($attribute->type)] = true;
+        $this->associations[strtolower($attribute->type())] = true;
     }
 }

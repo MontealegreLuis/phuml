@@ -13,10 +13,10 @@ namespace PhUml\Code;
 class Variable
 {
     /** @var string */
-    public $name;
+    protected $name;
 
     /** @var TypeDeclaration */
-    public $type;
+    protected $type;
 
     protected function __construct(string $name, TypeDeclaration $type)
     {
@@ -47,6 +47,16 @@ class Variable
     private function isBuiltIn(): bool
     {
         return $this->type->isBuiltIn();
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function type(): TypeDeclaration
+    {
+        return $this->type;
     }
 
     public function __toString()

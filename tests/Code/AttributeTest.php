@@ -16,7 +16,7 @@ class AttributeTest extends TestCase
     {
         $namedAttribute = Attribute::public('$namedAttribute');
 
-        $name = $namedAttribute->name;
+        $name = $namedAttribute->name();
 
         $this->assertEquals('$namedAttribute', $name);
     }
@@ -26,7 +26,7 @@ class AttributeTest extends TestCase
     {
         $publicAttribute = Attribute::public('$attribute');
 
-        $modifier = $publicAttribute->modifier;
+        $modifier = $publicAttribute->modifier();
 
         $this->assertEquals(Visibility::public(), $modifier);
     }
@@ -36,7 +36,7 @@ class AttributeTest extends TestCase
     {
         $publicAttribute = Attribute::protected('$attribute');
 
-        $modifier = $publicAttribute->modifier;
+        $modifier = $publicAttribute->modifier();
 
         $this->assertEquals(Visibility::protected(), $modifier);
     }
@@ -46,7 +46,7 @@ class AttributeTest extends TestCase
     {
         $publicAttribute = Attribute::private('$attribute');
 
-        $modifier = $publicAttribute->modifier;
+        $modifier = $publicAttribute->modifier();
 
         $this->assertEquals(Visibility::private(), $modifier);
     }
@@ -56,7 +56,7 @@ class AttributeTest extends TestCase
     {
         $noTypeAttribute = Attribute::public('$attribute');
 
-        $type = $noTypeAttribute->type;
+        $type = $noTypeAttribute->type();
 
         $this->assertFalse($type->isPresent());
     }

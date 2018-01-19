@@ -15,13 +15,13 @@ namespace PhUml\Code;
 class Method
 {
     /** @var string */
-    public $name;
+    private $name;
 
     /** @var Visibility */
-    public $modifier;
+    private $modifier;
 
     /** @var Variable[] */
-    public $params;
+    private $params;
 
     private function __construct(string $name, Visibility $modifier, array $params = [])
     {
@@ -48,6 +48,21 @@ class Method
     public function isConstructor(): bool
     {
         return $this->name === '__construct';
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function modifier(): Visibility
+    {
+        return $this->modifier;
+    }
+
+    public function params(): array
+    {
+        return $this->params;
     }
 
     public function __toString()

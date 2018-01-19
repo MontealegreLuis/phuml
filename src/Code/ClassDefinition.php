@@ -50,7 +50,7 @@ class ClassDefinition extends Definition
             return $method->isConstructor();
         });
 
-        return reset($constructors)->params;
+        return reset($constructors)->params();
     }
 
     public function hasParent(): bool
@@ -61,14 +61,14 @@ class ClassDefinition extends Definition
     public function countAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
-            return $attribute->modifier->equals($modifier);
+            return $attribute->modifier()->equals($modifier);
         }));
     }
 
     public function countTypedAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
-            return $attribute->isTyped() && $attribute->modifier->equals($modifier);
+            return $attribute->isTyped() && $attribute->modifier()->equals($modifier);
         }));
     }
 

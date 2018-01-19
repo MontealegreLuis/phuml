@@ -16,7 +16,7 @@ class VariableTest extends TestCase
     {
         $namedParameter = Variable::declaredWith('$namedParameter');
 
-        $name = $namedParameter->name;
+        $name = $namedParameter->name();
 
         $this->assertEquals('$namedParameter', $name);
     }
@@ -26,7 +26,7 @@ class VariableTest extends TestCase
     {
         $noTypeParameter = Variable::declaredWith('$noTypeForParameter');
 
-        $type = $noTypeParameter->type;
+        $type = $noTypeParameter->type();
 
         $this->assertFalse($type->isPresent());
     }
