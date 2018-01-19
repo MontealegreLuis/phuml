@@ -50,7 +50,7 @@ class ClassDefinition extends Definition
             return $method->isConstructor();
         });
 
-        return reset($constructors)->params();
+        return reset($constructors)->parameters();
     }
 
     public function hasParent(): bool

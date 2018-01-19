@@ -21,13 +21,13 @@ class Method
     private $modifier;
 
     /** @var Variable[] */
-    private $params;
+    private $parameters;
 
     private function __construct(string $name, Visibility $modifier, array $params = [])
     {
         $this->name = $name;
         $this->modifier = $modifier;
-        $this->params = $params;
+        $this->parameters = $params;
     }
 
     public static function public(string $name, array $params = []): Method
@@ -60,9 +60,9 @@ class Method
         return $this->modifier;
     }
 
-    public function params(): array
+    public function parameters(): array
     {
-        return $this->params;
+        return $this->parameters;
     }
 
     public function __toString()
@@ -71,7 +71,7 @@ class Method
             '%s%s%s',
             $this->modifier,
             $this->name,
-            empty($this->params) ? '()' : '( ' . implode($this->params, ', ') . ' )'
+            empty($this->parameters) ? '()' : '( ' . implode($this->parameters, ', ') . ' )'
         );
     }
 }

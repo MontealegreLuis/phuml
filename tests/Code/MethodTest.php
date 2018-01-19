@@ -38,7 +38,7 @@ class MethodTest extends TestCase
     {
         $noParametersMethod = Method::public('noParametersMethod');
 
-        $parameters = $noParametersMethod->params();
+        $parameters = $noParametersMethod->parameters();
 
         $this->assertCount(0, $parameters);
     }
@@ -52,7 +52,7 @@ class MethodTest extends TestCase
         ];
         $methodWithParameters = Method::public('methodWithParameters', $expectedParameters);
 
-        $parameters = $methodWithParameters->params();
+        $parameters = $methodWithParameters->parameters();
 
         $this->assertEquals($expectedParameters, $parameters);
     }
