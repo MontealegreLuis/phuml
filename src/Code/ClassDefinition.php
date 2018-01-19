@@ -61,14 +61,14 @@ class ClassDefinition extends Definition
     public function countAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
-            return $attribute->modifier()->equals($modifier);
+            return $attribute->hasVisibility($modifier);
         }));
     }
 
     public function countTypedAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
-            return $attribute->isTyped() && $attribute->modifier()->equals($modifier);
+            return $attribute->isTyped() && $attribute->hasVisibility($modifier);
         }));
     }
 

@@ -41,7 +41,7 @@ class Definition implements HasNodeIdentifier
     public function countMethodsByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->methods, function (Method $method) use ($modifier) {
-            return $method->modifier()->equals($modifier);
+            return $method->hasVisibility($modifier);
         }));
     }
 

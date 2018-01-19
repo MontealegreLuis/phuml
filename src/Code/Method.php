@@ -50,6 +50,11 @@ class Method
         return $this->name === '__construct';
     }
 
+    public function hasVisibility(Visibility $modifier): bool
+    {
+        return $this->modifier->equals($modifier);
+    }
+
     public function name(): string
     {
         return $this->name;

@@ -43,6 +43,11 @@ class Attribute extends Variable
         return $this->type->isPresent();
     }
 
+    public function hasVisibility(Visibility $modifier): bool
+    {
+        return $this->modifier()->equals($modifier);
+    }
+
     public function modifier(): Visibility
     {
         return $this->modifier;
