@@ -11,7 +11,6 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Structure;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\HtmlLabelStyle;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NodeLabelBuilder;
 use PhUml\Graphviz\Digraph;
@@ -32,7 +31,7 @@ class GraphvizProcessor extends Processor
         ClassGraphBuilder $classBuilder = null,
         InterfaceGraphBuilder $interfaceBuilder = null
     ) {
-        $labelBuilder = new NodeLabelBuilder(new TemplateEngine(), new HtmlLabelStyle());
+        $labelBuilder = new NodeLabelBuilder(new TemplateEngine());
         $this->classBuilder = $classBuilder ?? new ClassGraphBuilder($labelBuilder);
         $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder($labelBuilder);
     }

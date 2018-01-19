@@ -20,7 +20,7 @@ class NodeLabelBuilderTest extends TestCase
     /** @before */
     function createLabel()
     {
-        $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine(), new HtmlLabelStyle());
+        $this->labelBuilder = new NodeLabelBuilder(new TemplateEngine());
     }
 
     /** @test */
@@ -102,7 +102,7 @@ class NodeLabelBuilderTest extends TestCase
             }
             public function __construct() {} // Constructor does not needs to be run
         };
-        $labelBuilder = new NodeLabelBuilder($templateEngine, new HtmlLabelStyle());
+        $labelBuilder = new NodeLabelBuilder($templateEngine);
 
         $this->expectException(TemplateFailure::class);
 

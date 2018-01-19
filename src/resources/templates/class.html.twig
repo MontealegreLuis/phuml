@@ -1,15 +1,17 @@
+{% extends 'style.html.twig' %}
+{% block content %}
 <TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">
     <TR>
-        <TD BORDER="{{ style.classTableBorder }}" ALIGN="CENTER" BGCOLOR="{{ style.classTitleBackground }}">
-            <FONT COLOR="{{ style.classTitleColor }}" FACE="{{ style.classTitleFont }}" POINT-SIZE="{{ style.classTitleFontsize }}">
+        <TD BORDER="{{ classTableBorder }}" ALIGN="CENTER" BGCOLOR="{{ classTitleBackground }}">
+            <FONT COLOR="{{ classTitleColor }}" FACE="{{ classTitleFont }}" POINT-SIZE="{{ classTitleFontSize }}">
                 {{ class.name }}
             </FONT>
         </TD>
     </TR>
     <TR>
-        <TD BORDER="{{ style.classTableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.classAttributesBackground }}">
+        <TD BORDER="{{ classTableBorder }}" ALIGN="LEFT" BGCOLOR="{{ classAttributesBackground }}">
             {% for attribute in class.attributes %}
-                <FONT COLOR="{{ style.classAttributesColor }}" FACE="{{ style.classAttributesFont }}" POINT-SIZE="{{ style.classAttributesFontsize }}">{{ attribute }}</FONT>
+                <FONT COLOR="{{ classAttributesColor }}" FACE="{{ classAttributesFont }}" POINT-SIZE="{{ classAttributesFontSize }}">{{ attribute }}</FONT>
                 <BR ALIGN="LEFT"/>
             {% else %}
                 &nbsp;
@@ -17,9 +19,9 @@
         </TD>
     </TR>
     <TR>
-        <TD BORDER="{{ style.classTableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.classFunctionsBackground }}">
+        <TD BORDER="{{ classTableBorder }}" ALIGN="LEFT" BGCOLOR="{{ classMethodsBackground }}">
             {% for method in class.methods %}
-                <FONT COLOR="{{ style.classFunctionsColor }}" FACE="{{ style.classFunctionsFont }}" POINT-SIZE="{{ style.classFunctionsFontsize }}">
+                <FONT COLOR="{{ classMethodsColor }}" FACE="{{ classMethodsFont }}" POINT-SIZE="{{ classMethodsFontSize }}">
                     {{ method }}
                 </FONT>
                 <BR ALIGN="LEFT"/>
@@ -29,3 +31,4 @@
         </TD>
     </TR>
 </TABLE>
+{% endblock %}
