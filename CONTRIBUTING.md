@@ -31,7 +31,7 @@ $ git clone git://github.com/MontealegreLuis/phuml.git
 $ cd phuml
 ```
 
-Retrieve PHPUnit's dependencies using [Composer](https://getcomposer.org/):
+Retrieve phUML's dependencies using [Composer](https://getcomposer.org/):
 
 ```bash
 $ composer install
