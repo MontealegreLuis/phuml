@@ -1,6 +1,17 @@
 #!/usr/bin/env php
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+$composerPaths = [
+    __DIR__ . '/../../autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/vendor/autoload.php'
+];
+
+foreach ($composerPaths as $composerAutoloadFile) {
+    if (file_exists($composerAutoloadFile)) {
+        require_once $composerAutoloadFile;
+        break;
+    }
+}
 
 use PhUml\Console\PhUmlApplication;
 use PhUml\Console\ProgressDisplay;
