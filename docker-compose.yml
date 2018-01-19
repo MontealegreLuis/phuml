@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  tests:
+    container_name: phuml_tests
+    build:
+      context: .
+    image: phuml/tests
+    volumes:
+      - .:/usr/src/phuml
