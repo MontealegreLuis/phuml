@@ -14,7 +14,6 @@ use PhUml\Fakes\ProvidesNumericIds;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
-use Symfony\Component\Finder\Finder;
 
 class GenerateDotFileTest extends TestCase
 {

@@ -8,7 +8,6 @@
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Finder\Finder;
 
 class CodeFinderTest extends TestCase
 {

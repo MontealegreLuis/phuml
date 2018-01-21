@@ -7,14 +7,10 @@
 
 namespace PhUml\Parser;
 
-use PhUml\Code\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Method;
 use PhUml\Code\Structure;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 

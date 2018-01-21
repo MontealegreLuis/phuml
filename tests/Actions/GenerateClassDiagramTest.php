@@ -15,7 +15,6 @@ use PhUml\Parser\CodeParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
-use Symfony\Component\Finder\Finder;
 
 class GenerateClassDiagramTest extends TestCase
 {

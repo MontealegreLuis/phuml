@@ -7,9 +7,6 @@
 
 namespace PhUml\Parser\Raw;
 
-use PhUml\Parser\Raw\RawDefinition;
-use PhUml\Parser\Raw\RawDefinitions;
-
 /**
  * It checks the parent of a definition and the interfaces it implements looking for external
  * definitions

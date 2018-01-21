@@ -15,10 +15,22 @@ This project follows the coding standards proposed in [PSR-2][1]
 
 You can use [PHP CS fixer][2] to (re)format your sourcecode for compliance with this project's coding guidelines:
 
+Run the following command to install the fixer.
+
 ```bash
 $ composer global require friendsofphp/php-cs-fixer
+```
 
-$ php-cs-fixer fix src
+Run the following command if you modified production code (`src` directory).
+
+```bash
+$ php-cs-fixer fix src --rules=@PSR2,no_unused_imports
+```
+
+Run the following command if you either added or modified tests (`tests` directory).
+
+```bash
+$ php-cs-fixer fix src --rules=no_unused_imports
 ```
 
 ## Using phUML from a Git checkout
