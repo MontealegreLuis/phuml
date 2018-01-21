@@ -5,6 +5,7 @@ This is the **new official repository**.
 [![Scrutinizer Code Quality][4]][5]
 [![Code Coverage][11]][12]
 [![Latest Stable Version][16]][17]
+[![Packagist Pre Release][20]][17]
 [![Minimum PHP Version][18]][19]
 
 # phUML
@@ -89,3 +90,4 @@ Released under the [BSD-3-Clause](LICENSE).
 [17]: https://packagist.org/packages/phuml/phuml
 [18]: https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square
 [19]: https://php.net/
+[20]: https://img.shields.io/packagist/vpre/phuml/phuml.svg
