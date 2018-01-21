@@ -15,9 +15,7 @@ class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_only_in_the_given_directory()
     {
-        $orderedFinder = new Finder();
-        $orderedFinder->sortByName();
-        $finder = new CodeFinder($orderedFinder);
+        $finder = new CodeFinder();
 
         $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
 
@@ -29,9 +27,7 @@ class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_recursively()
     {
-        $orderedFinder = new Finder();
-        $orderedFinder->sortByName();
-        $finder = new CodeFinder($orderedFinder);
+        $finder = new CodeFinder();
 
         $finder->addDirectory(__DIR__ . '/../resources/.code/interfaces');
 

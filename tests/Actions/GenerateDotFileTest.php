@@ -87,9 +87,7 @@ DOT;
             new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
-        $finder = new Finder();
-        $finder->sortByName();
-        $finder = new CodeFinder($finder);
+        $finder = new CodeFinder();
         $finder->addDirectory(__DIR__ . '/../resources/.code/classes');
 
         $action->generate($finder, $file);

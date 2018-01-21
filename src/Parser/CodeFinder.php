@@ -34,7 +34,7 @@ class CodeFinder
         if (!$recursive) {
             $this->finder->depth(0);
         }
-        $this->finder->in($directory)->files()->name('*.php');
+        $this->finder->in($directory)->files()->name('*.php')->sortByName();
         foreach ($this->finder as $file) {
             $this->files[] = $file->getContents();
         }
