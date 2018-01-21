@@ -43,7 +43,10 @@ class GenerateClassDiagramTest extends TestCase
         $this->action->generate(new CodeFinder(), 'wont-be-generated.png');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group snapshot
+     */
     function it_generates_a_class_diagram_using_the_dot_processor()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
@@ -58,7 +61,10 @@ class GenerateClassDiagramTest extends TestCase
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group snapshot
+     */
     function it_generates_a_class_diagram_using_the_dot_processor_and_the_recursive_option()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
@@ -73,7 +79,10 @@ class GenerateClassDiagramTest extends TestCase
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group snapshot
+     */
     function it_generates_a_class_diagram_using_the_neato_processor()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
@@ -88,7 +97,10 @@ class GenerateClassDiagramTest extends TestCase
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group snapshot
+     */
     function it_generates_a_class_diagram_using_the_neato_processor_and_the_recursive_option()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
