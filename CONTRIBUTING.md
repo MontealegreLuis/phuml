@@ -39,14 +39,36 @@ $ composer install
 
 ## Running phUML's test suite
 
-Run the test suite using PHPUnit:
+There's a group of tests that verify that the generated class diagrams didn't change.
+Since there's a slight difference in the output between operating systems.
+It is recommended to run the whole test suite using the provided [Docker][4] container.
+The container mimics the environment in [Travis][5].
+Please make sure the tests pass in the container so you can be sure they will pass in Travis too.
 
-$ vendor/bin/phpunit --testdox
+You can run the tests as follows:
+
+```
+$ make test
+```
+
+[Make][6] will run PHPUnit with the same options it runs in Travis inside the Docker container.
+
+You can alternatively run the test suite without this group of tests without the container
+
+```
+$ vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group=snapshot
+```
+
+You will need [XDebug][7] installed to be able to generate the code coverage report.
 
 ## Reporting issues
 
-Before opening a new ticket, please search for [existing issues][3].
+Before opening a new ticket, please search through the [existing issues][3].
 
 [1]: http://www.php-fig.org/psr/psr-2/
 [2]: https://github.com/FriendsOfPHP/PHP-CS-Fixer
 [3]: https://github.com/MontealegreLuis/phuml/issues
+[4]: https://www.docker.com/
+[5]: https://travis-ci.org/
+[6]: https://en.wikipedia.org/wiki/Make_(software)
+[7]: https://xdebug.org/
