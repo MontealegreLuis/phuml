@@ -15,6 +15,7 @@ use PhUml\Parser\CodeParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
+use Symfony\Component\Finder\Finder;
 
 class GenerateClassDiagramTest extends TestCase
 {
@@ -62,12 +63,14 @@ class GenerateClassDiagramTest extends TestCase
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new DotProcessor());
-        $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../resources/.code');
+        $finder = new Finder();
+        $finder->sortByName();
+        $codeFinder = new CodeFinder($finder);
+        $codeFinder->addDirectory(__DIR__ . '/../resources/.code');
         $diagram = __DIR__ . '/../resources/.output/graphviz-dot-recursive.png';
         $expectedDiagram = __DIR__ . '/../resources/images/graphviz-dot-recursive.png';
 
-        $this->action->generate($finder, $diagram);
+        $this->action->generate($codeFinder, $diagram);
 
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
@@ -92,12 +95,14 @@ class GenerateClassDiagramTest extends TestCase
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $this->action->setImageProcessor(new NeatoProcessor());
-        $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../resources/.code');
+        $finder = new Finder();
+        $finder->sortByName();
+        $codeFinder = new CodeFinder($finder);
+        $codeFinder->addDirectory(__DIR__ . '/../resources/.code');
         $diagram = __DIR__ . '/../resources/.output/graphviz-neato-recursive.png';
         $expectedDiagram = __DIR__ . '/../resources/images/graphviz-neato-recursive.png';
 
-        $this->action->generate($finder, $diagram);
+        $this->action->generate($codeFinder, $diagram);
 
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
