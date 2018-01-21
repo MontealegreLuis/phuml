@@ -39,9 +39,10 @@ $ composer install
 
 ## Running phUML's test suite
 
-There's a group of tests that verify that the generated class diagrams didn't change.
+There's a group of tests that verify that the generated class diagrams did not change.
 Since there's a slight difference in the output between operating systems.
 It is recommended to run the whole test suite using the provided [Docker][4] container.
+In order to run the container you'll also need to have [Docker Compose][8] installed.
 The container mimics the environment in [Travis][5].
 Please make sure the tests pass in the container so you can be sure they will pass in Travis too.
 
@@ -72,3 +73,4 @@ Before opening a new ticket, please search through the [existing issues][3].
 [5]: https://travis-ci.org/
 [6]: https://en.wikipedia.org/wiki/Make_(software)
 [7]: https://xdebug.org/
+[8]: https://docs.docker.com/compose/overview/
