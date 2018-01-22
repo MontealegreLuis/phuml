@@ -78,8 +78,8 @@ Released under the [BSD-3-Clause](LICENSE).
 [5]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/?branch=master
 [6]: http://en.wikipedia.org/wiki/Unified_Modeling_Language
 [7]: http://php.net
-[8]: https://raw.githubusercontent.com/jakobwesthoff/phuml/master/images/phuml_example_thumbnail.jpg
-[9]: https://raw.githubusercontent.com/jakobwesthoff/phuml/master/images/phuml_example.png
+[8]: https://raw.githubusercontent.com/jakobwesthoff/phuml/master/docs/phuml_example_thumbnail.jpg
+[9]: https://raw.githubusercontent.com/jakobwesthoff/phuml/master/docs/phuml_example.png
 [10]: http://www.graphviz.org
 [11]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/badges/coverage.png?b=master
 [12]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/?branch=master

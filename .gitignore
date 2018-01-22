@@ -3,3 +3,4 @@ composer.lock
 build
 coverage.clover
 .php_cs.cache
+.couscous
