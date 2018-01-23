@@ -54,6 +54,6 @@ Released under the [BSD-3-Clause](LICENSE).
 [13]: https://github.com/jakobwesthoff/phuml/tree/master/src
 [14]: https://img.shields.io/packagist/v/phuml/phuml.svg?style=flat-square
 [15]: https://packagist.org/packages/phuml/phuml
-[16]: https://img.shields.io/badge/php-%3E%3D%187.1-8892BF.svg?style=flat-square
+[16]: https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square
 [17]: https://php.net/
 [18]: https://img.shields.io/packagist/vpre/phuml/phuml.svg
