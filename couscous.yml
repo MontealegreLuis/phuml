@@ -1,6 +1,6 @@
 title: phUML
 subTitle: phUML is a fully automatic UML diagram generator
-baseUrl: https://montealegreluis/phuml
+baseUrl: http://montealegreluis/phuml
 template:
   url: https://github.com/CouscousPHP/Template-Light
   index: index.md
