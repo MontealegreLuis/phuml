@@ -25,8 +25,8 @@ You can take a look at the complete image by clicking [here][5].
 [1]: http://en.wikipedia.org/wiki/Unified_Modeling_Language
 [2]: http://php.net
 [3]: http://www.graphviz.org
-[4]: docs/phuml_example_thumbnail.jpg
-[5]: docs/phuml_example.png
+[4]: docs/phuml-example-thumbnail.png
+[5]: docs/phuml-example.png
 [6]: https://github.com/jakobwesthoff/phuml/tree/master/src
 [7]: https://travis-ci.org/MontealegreLuis/phuml.svg?branch=master
 [8]: https://travis-ci.org/MontealegreLuis/phuml
