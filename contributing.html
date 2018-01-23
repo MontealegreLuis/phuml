@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>phUML</title>
+
+        <link rel="stylesheet" href="https://montealegreluis/phuml/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://montealegreluis/phuml/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://montealegreluis/phuml/css/highlight.dark.css">
+        <link rel="stylesheet" href="https://montealegreluis/phuml/css/main.css">
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <a class="navbar-brand" href="https://montealegreluis/phuml/">
+                phUML
+                <small class="hidden-xs hidden-sm">
+                    phUML is a fully automatic UML diagram generator
+                </small>
+            </a>
+
+                            <a href="https://github.com/MontealegreLuis/phuml">
+                    <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+                </a>
+            
+        </header>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                
+                    <nav id="sidebar" class="col-sm-3 col-lg-2" role="navigation">
+
+                        <ul class="nav nav-pills nav-stacked">
+                                                            <li class="">
+                                    <a href="https://montealegreluis/phuml/docs/installation.html">
+                                        Installation
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://montealegreluis/phuml/docs/class-diagram.html">
+                                        Generate a class diagram
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://montealegreluis/phuml/docs/statistics.html">
+                                        Generate statistics
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://montealegreluis/phuml/docs/dot-file.html">
+                                        Generate a DOT file
+                                    </a>
+                                </li>
+                                                    </ul>
+
+                    </nav>
+
+                
+                <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
+                    <h1 id="contributing-to-phuml">Contributing to phUML</h1>
+<h2 id="workflow">Workflow</h2>
+<ul>
+<li>Fork the project.</li>
+<li>Make your bug fix or feature addition.</li>
+<li>Add tests for it. This is important so we don't break it in a future version unintentionally.</li>
+<li>Send a pull request. Bonus points for topic branches.</li>
+</ul>
+<p>Pull requests for bug fixes must be based on the current stable branch whereas pull requests for new features must be based on the <code>master</code> branch.</p>
+<h2 id="coding-guidelines">Coding Guidelines</h2>
+<p>This project follows the coding standards proposed in <a href="http://www.php-fig.org/psr/psr-2/">PSR-2</a></p>
+<p>You can use <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS fixer</a> to (re)format your sourcecode for compliance with this project's coding guidelines:</p>
+<p>Run the following command to install the fixer.</p>
+<pre><code class="language-bash">$ composer global require friendsofphp/php-cs-fixer</code></pre>
+<p>Run the following command if you modified production code (<code>src</code> directory).</p>
+<pre><code class="language-bash">$ php-cs-fixer fix src --rules=@PSR2,no_unused_imports</code></pre>
+<p>Run the following command if you either added or modified tests (<code>tests</code> directory).</p>
+<pre><code class="language-bash">$ php-cs-fixer fix src --rules=no_unused_imports</code></pre>
+<h2 id="using-phuml-from-a-git-checkout">Using phUML from a Git checkout</h2>
+<p>The following commands can be used to perform the initial checkout of phUML:</p>
+<pre><code class="language-bash">$ git clone git://github.com/MontealegreLuis/phuml.git
+
+$ cd phuml</code></pre>
+<p>Retrieve phUML's dependencies using <a href="https://getcomposer.org/">Composer</a>:</p>
+<pre><code class="language-bash">$ composer install</code></pre>
+<h2 id="running-phumls-test-suite">Running phUML's test suite</h2>
+<p>There's a group of tests that verify that the generated class diagrams did not change.
+Since there's a slight difference in the output between operating systems.
+It is recommended to run the whole test suite using the provided <a href="https://www.docker.com/">Docker</a> container.
+In order to run the container you'll also need to have <a href="https://docs.docker.com/compose/overview/">Docker Compose</a> installed.
+The container mimics the environment in <a href="https://travis-ci.org/">Travis</a>.
+Please make sure the tests pass in the container so you can be sure they will pass in Travis too.</p>
+<p>You can run the tests as follows:</p>
+<pre><code>$ make test</code></pre>
+<p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run PHPUnit with the same options it runs in Travis inside the Docker container.</p>
+<p>You can alternatively run the test suite without this group of tests without the container</p>
+<pre><code>$ vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group=snapshot</code></pre>
+<p>You will need <a href="https://xdebug.org/">XDebug</a> installed to be able to generate the code coverage report.</p>
+<h2 id="reporting-issues">Reporting issues</h2>
+<p>Before opening a new ticket, please search through the <a href="https://github.com/MontealegreLuis/phuml/issues">existing issues</a>.</p>
+                </section>
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="container-fluid">
+                <p class="text-muted">
+                    website generated with <a href="http://couscous.io" title="Markdown website generator">Couscous</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="//yastatic.net/highlightjs/8.2/highlight.min.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+                // Syntax highlighting
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+    </body>
+</html>
