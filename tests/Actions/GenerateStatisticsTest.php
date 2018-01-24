@@ -9,6 +9,7 @@ namespace PhUml\Actions;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
@@ -59,7 +60,7 @@ STATS;
         $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'), false);
 
         $action->generate($finder, $file);
 
@@ -101,7 +102,7 @@ STATS;
         $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../resources/.code/classes');
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
         $action->generate($finder, $file);
 

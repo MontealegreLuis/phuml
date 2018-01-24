@@ -11,6 +11,7 @@ use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\NumericIdStructureBuilder;
 use PhUml\Fakes\ProvidesNumericIds;
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
@@ -39,7 +40,7 @@ class GenerateDotFileTest extends TestCase
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'), false);
 
         $action->generate($finder, $file);
 
@@ -87,7 +88,7 @@ DOT;
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(__DIR__ . '/../resources/.code/classes');
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
         $action->generate($finder, $file);
 

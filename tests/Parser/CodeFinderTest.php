@@ -16,7 +16,7 @@ class CodeFinderTest extends TestCase
     {
         $finder = new CodeFinder();
 
-        $finder->addDirectory(__DIR__ . '/../resources/.code/classes', false);
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'), false);
 
         $this->assertCount(2, $finder->files());
         $this->assertRegExp('/class plBase/', $finder->files()[0]);
@@ -28,7 +28,7 @@ class CodeFinderTest extends TestCase
     {
         $finder = new CodeFinder();
 
-        $finder->addDirectory(__DIR__ . '/../resources/.code/interfaces');
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/interfaces'));
 
         $this->assertCount(4, $finder->files());
         $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[0]);

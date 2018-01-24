@@ -28,7 +28,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     }
 
     /** @test */
-    function it_fails_to_execute_if_either_directory_or_output_arguments_are_missing()
+    function it_fails_to_execute_if_the_arguments_are_missing()
     {
         $this->expectException(RuntimeException::class);
 
@@ -46,6 +46,7 @@ class GenerateClassDiagramCommandTest extends TestCase
             'command' => $this->command->getName(),
             'directory' => 'invalid-directory',
             'output' => $this->diagram,
+            '--processor' => 'neato',
         ]);
     }
 
@@ -58,6 +59,19 @@ class GenerateClassDiagramCommandTest extends TestCase
             'command' => $this->command->getName(),
             'directory' => __DIR__ . '/../../resources/.code/classes',
             'output' => $this->diagram,
+        ]);
+    }
+
+    /** @test */
+    function it_fails_to_generate_a_diagram_if_an_invalid_image_processor_name_is_specified()
+    {
+        $this->expectException(RuntimeException::class);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+            'directory' => __DIR__ . '/../../resources/.code/classes',
+            'output' => $this->diagram,
+            '--processor' => 'invalid-image-processor-name'
         ]);
     }
 

@@ -29,12 +29,12 @@ class CodeFinder
         $this->files = [];
     }
 
-    public function addDirectory(string $directory, bool $recursive = true): void
+    public function addDirectory(CodebaseDirectory $codebaseDirectory, bool $recursive = true): void
     {
         if (!$recursive) {
             $this->finder->depth(0);
         }
-        $this->finder->in($directory)->files()->name('*.php')->sortByName();
+        $this->finder->in($codebaseDirectory->absolutePath())->files()->name('*.php')->sortByName();
         foreach ($this->finder as $file) {
             $this->files[] = $file->getContents();
         }

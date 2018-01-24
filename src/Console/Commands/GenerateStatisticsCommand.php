@@ -8,6 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateStatistics;
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
@@ -78,15 +79,11 @@ HELP
         $statisticsFile = $input->getArgument('output');
         $recursive = (bool)$input->getOption('recursive');
 
-        if (!is_dir($directory)) {
-            throw new RuntimeException("'$directory' is not a valid directory");
-        }
-
         $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->display);
 
         $finder = new CodeFinder();
-        $finder->addDirectory($directory, $recursive);
+        $finder->addDirectory(CodebaseDirectory::from($directory), $recursive);
 
         $output->writeln('[|] Running... (This may take some time)');
 

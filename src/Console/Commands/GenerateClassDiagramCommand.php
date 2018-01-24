@@ -8,6 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateClassDiagram;
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\DotProcessor;
@@ -96,11 +97,8 @@ HELP
         $associations = (bool)$input->getOption('associations');
         $processor = $input->getOption('processor');
 
-        if (!is_dir($directory)) {
-            throw new RuntimeException("'$directory' is not a valid directory");
-        }
         $finder = new CodeFinder();
-        $finder->addDirectory($directory, $recursive);
+        $finder->addDirectory(CodebaseDirectory::from($directory), $recursive);
 
         $dotProcessor = new GraphvizProcessor();
         if ($associations) {

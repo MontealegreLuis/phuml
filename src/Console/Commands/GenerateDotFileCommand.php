@@ -8,6 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Actions\GenerateDotFile;
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
@@ -78,18 +79,13 @@ HELP
     {
         $directory = $input->getArgument('directory');
         $dotFile = $input->getArgument('output');
-        $associations = (bool)$input->getOption('associations');
         $recursive = (bool)$input->getOption('recursive');
-
-        if (!is_dir($directory)) {
-            throw new RuntimeException("'$directory' is not a valid directory");
-        }
 
         $action = new GenerateDotFile(new CodeParser(), new GraphvizProcessor());
         $action->attach($this->display);
 
         $finder = new CodeFinder();
-        $finder->addDirectory($directory, $recursive);
+        $finder->addDirectory(CodebaseDirectory::from($directory), $recursive);
 
         $output->writeln('[|] Running... (This may take some time)');
 
