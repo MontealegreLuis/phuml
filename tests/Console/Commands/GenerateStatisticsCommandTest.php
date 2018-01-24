@@ -10,6 +10,7 @@ namespace PhUml\Console\Commands;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
 use PhUml\Console\ProgressDisplay;
+use PhUml\Parser\InvalidDirectory;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -28,7 +29,7 @@ class GenerateStatisticsCommandTest extends TestCase
     }
 
     /** @test */
-    function it_fails_to_execute_if_either_directory_or_output_arguments_are_missing()
+    function it_fails_to_execute_if_the_arguments_are_missing()
     {
         $this->expectException(RuntimeException::class);
 
@@ -40,7 +41,7 @@ class GenerateStatisticsCommandTest extends TestCase
     /** @test */
     function it_fails_to_generate_a_diagram_if_directory_with_classes_does_not_exist()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidDirectory::class);
 
         $this->tester->execute([
             'command' => $this->command->getName(),
