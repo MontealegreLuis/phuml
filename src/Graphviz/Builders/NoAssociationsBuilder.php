@@ -8,6 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\Structure;
 
 /**
  * Null object pattern implementation of `AssociationsBuilder`
@@ -17,12 +18,12 @@ use PhUml\Code\ClassDefinition;
  */
 class NoAssociationsBuilder implements AssociationsBuilder
 {
-    public function attributesAssociationsFrom(ClassDefinition $class): array
+    public function fromAttributes(ClassDefinition $class, Structure $structure): array
     {
         return [];
     }
 
-    public function parametersAssociationsFom(ClassDefinition $class): array
+    public function fromConstructor(ClassDefinition $class, Structure $structure): array
     {
         return [];
     }

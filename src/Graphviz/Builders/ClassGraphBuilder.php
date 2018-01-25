@@ -63,11 +63,11 @@ class ClassGraphBuilder
         $this->dotElements = [];
 
         if ($this->createAssociations) {
-            $this->associationsBuilder = new EdgesBuilder($structure);
+            $this->associationsBuilder = new EdgesBuilder();
         }
 
-        $this->addAssociations($this->associationsBuilder->attributesAssociationsFrom($class));
-        $this->addAssociations($this->associationsBuilder->parametersAssociationsFom($class));
+        $this->addAssociations($this->associationsBuilder->fromAttributes($class, $structure));
+        $this->addAssociations($this->associationsBuilder->fromConstructor($class, $structure));
 
         $this->dotElements[] = new Node($class, $this->labelBuilder->forClass($class));
 

@@ -23,14 +23,6 @@ class EdgesBuilder implements AssociationsBuilder
     /** @var bool[] */
     private $associations = [];
 
-    /** @var Structure */
-    private $structure;
-
-    public function __construct(Structure $structure)
-    {
-        $this->structure = $structure;
-    }
-
     /**
      * It creates an edge if the attribute
      *
@@ -39,10 +31,10 @@ class EdgesBuilder implements AssociationsBuilder
      *
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
-    public function attributesAssociationsFrom(ClassDefinition $class): array
+    public function fromAttributes(ClassDefinition $class, Structure $structure): array
     {
-        return array_map(function (Variable $attribute) use ($class) {
-            return $this->addAssociation($class, $attribute);
+        return array_map(function (Variable $attribute) use ($class, $structure) {
+            return $this->addAssociation($class, $attribute, $structure);
         }, array_filter($class->attributes(), [$this, 'needAssociation']));
     }
 
@@ -54,21 +46,21 @@ class EdgesBuilder implements AssociationsBuilder
      *
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
-    public function parametersAssociationsFom(ClassDefinition $class): array
+    public function fromConstructor(ClassDefinition $class, Structure $structure): array
     {
         if (!$class->hasConstructor()) {
             return [];
         }
-        return array_map(function (Variable $attribute) use ($class) {
-            return $this->addAssociation($class, $attribute);
+        return array_map(function (Variable $attribute) use ($class, $structure) {
+            return $this->addAssociation($class, $attribute, $structure);
         }, array_filter($class->constructorParameters(), [$this, 'needAssociation']));
     }
 
-    private function addAssociation(ClassDefinition $class, Variable $attribute): Edge
+    private function addAssociation(ClassDefinition $class, Variable $attribute, Structure $structure): Edge
     {
         $this->markAssociationResolvedFor($attribute);
         return Edge::association(
-            $this->structure->get((string)$attribute->type()),
+            $structure->get((string)$attribute->type()),
             $class
         );
     }
