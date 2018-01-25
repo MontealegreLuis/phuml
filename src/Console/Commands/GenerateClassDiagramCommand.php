@@ -7,14 +7,10 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\GenerateClassDiagram;
+use PhUml\Actions\ClassDiagramBuilder;
+use PhUml\Actions\ClassDiagramConfiguration;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\DotProcessor;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\NeatoProcessor;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -91,36 +87,20 @@ HELP
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $directory = $input->getArgument('directory');
-        $diagramFile = $input->getArgument('output');
+        $codebasePath = $input->getArgument('directory');
+        $classDiagramPath = $input->getArgument('output');
+
         $recursive = (bool)$input->getOption('recursive');
-        $associations = (bool)$input->getOption('associations');
-        $processor = $input->getOption('processor');
 
         $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($directory), $recursive);
+        $finder->addDirectory(CodebaseDirectory::from($codebasePath), $recursive);
 
-        $dotProcessor = new GraphvizProcessor();
-        if ($associations) {
-            $dotProcessor->createAssociations();
-        }
-
-        $action = new GenerateClassDiagram(new CodeParser(), $dotProcessor);
+        $action = ClassDiagramBuilder::from(ClassDiagramConfiguration::from($input->getOptions()));
         $action->attach($this->display);
-
-        if (!\in_array($processor, ['neato', 'dot'], true)) {
-            throw new RuntimeException("Expected processors are neato and dot, '$processor' found");
-        }
-
-        if ($processor === 'dot') {
-            $action->setImageProcessor(new DotProcessor());
-        } else {
-            $action->setImageProcessor(new NeatoProcessor());
-        }
 
         $output->writeln('[|] Running... (This may take some time)');
 
-        $action->generate($finder, $diagramFile);
+        $action->generate($finder, $classDiagramPath);
 
         return 0;
     }
