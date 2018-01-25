@@ -18,21 +18,14 @@ use PhUml\Processors\ImageProcessor;
  *
  * The image produced is a `.png` that will be saved in a specified path
  */
-class GenerateClassDiagram extends Action
+class GenerateClassDiagram extends DigraphGenerator
 {
-    /** @var CodeParser */
-    private $parser;
-
-    /** @var GraphvizProcessor */
-    private $dotProcessor;
-
     /** @var ImageProcessor */
     private $imageProcessor;
 
-    public function __construct(CodeParser $parser, GraphvizProcessor $dotProcessor)
+    public function __construct(CodeParser $parser, GraphvizProcessor $digraphProcessor)
     {
-        $this->parser = $parser;
-        $this->dotProcessor = $dotProcessor;
+        parent::__construct($parser, $digraphProcessor);
     }
 
     public function setImageProcessor(ImageProcessor $imageProcessor): void
@@ -52,14 +45,8 @@ class GenerateClassDiagram extends Action
      */
     public function generate(CodeFinder $finder, string $imagePath): void
     {
-        $this->command()->runningParser();
-        $structure = $this->parser->parse($finder);
-        $this->command()->runningProcessor($this->dotProcessor);
-        $dotLanguage = $this->dotProcessor->process($structure);
-        $this->command()->runningProcessor($this->imageProcessor());
-        $image = $this->imageProcessor()->process($dotLanguage);
-        $this->command()->savingResult();
-        $this->imageProcessor->saveToFile($image, $imagePath);
+        $image = $this->generateClassDiagram($this->generateDigraph($this->parseCode($finder)));
+        $this->save($this->imageProcessor, $image, $imagePath);
     }
 
     /** @throws LogicException If no image processor is provided */
@@ -69,5 +56,12 @@ class GenerateClassDiagram extends Action
             throw new LogicException('No image processor was provided');
         }
         return $this->imageProcessor;
+    }
+
+    /** @throws LogicException If no command or image processor is provided */
+    private function generateClassDiagram(string $digraph): string
+    {
+        $this->command()->runningProcessor($this->imageProcessor());
+        return $this->imageProcessor()->process($digraph);
     }
 }
