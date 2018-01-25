@@ -36,11 +36,6 @@ class GraphvizProcessor extends Processor
         $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder($labelBuilder);
     }
 
-    public function createAssociations(): void
-    {
-        $this->classBuilder->createAssociations();
-    }
-
     public function name(): string
     {
         return 'Graphviz';

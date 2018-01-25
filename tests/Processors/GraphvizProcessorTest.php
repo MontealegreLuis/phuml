@@ -17,6 +17,7 @@ use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\ProvidesNumericIds;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 
 class GraphvizProcessorTest extends TestCase
@@ -38,10 +39,9 @@ class GraphvizProcessorTest extends TestCase
     {
         $labelBuilder = new ClassNameLabelBuilder();
         $processor = new GraphvizProcessor(
-            new ClassGraphBuilder($labelBuilder),
+            new ClassGraphBuilder($labelBuilder, new EdgesBuilder()),
             new InterfaceGraphBuilder($labelBuilder)
         );
-        $processor->createAssociations();
 
         $structure = new Structure();
         $parentInterface = new NumericIdInterface('ParentInterface');

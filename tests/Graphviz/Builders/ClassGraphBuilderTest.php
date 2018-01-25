@@ -80,8 +80,7 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $labelBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $classGraphBuilder = new ClassGraphBuilder($labelBuilder);
-        $classGraphBuilder->createAssociations();
+        $classGraphBuilder = new ClassGraphBuilder($labelBuilder, new EdgesBuilder());
         $structure = new Structure();
         $structure->addClass($reference);
 
@@ -104,8 +103,7 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $classGraphBuilder = new ClassGraphBuilder($nodeBuilder);
-        $classGraphBuilder->createAssociations();
+        $classGraphBuilder = new ClassGraphBuilder($nodeBuilder, new EdgesBuilder());
         $structure = new Structure();
         $structure->addClass($firstReference);
         $structure->addClass($secondReference);
@@ -143,8 +141,7 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $nodeBuilder = new ClassNameLabelBuilder();
         $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $classGraphBuilder = new ClassGraphBuilder($nodeBuilder);
-        $classGraphBuilder->createAssociations();
+        $classGraphBuilder = new ClassGraphBuilder($nodeBuilder, new EdgesBuilder());
         $structure = new Structure();
         $structure->addClass($firstReference);
         $structure->addClass($secondReference);

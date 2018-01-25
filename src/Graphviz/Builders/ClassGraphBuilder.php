@@ -36,15 +36,10 @@ class ClassGraphBuilder
     /** @var NodeLabelBuilder */
     private $labelBuilder;
 
-    public function __construct(NodeLabelBuilder $labelBuilder)
+    public function __construct(NodeLabelBuilder $labelBuilder, AssociationsBuilder $associationsBuilder = null)
     {
-        $this->associationsBuilder = new NoAssociationsBuilder();
+        $this->associationsBuilder = $associationsBuilder ?? new NoAssociationsBuilder();
         $this->labelBuilder = $labelBuilder;
-    }
-
-    public function createAssociations(): void
-    {
-        $this->createAssociations = true;
     }
 
     /**
