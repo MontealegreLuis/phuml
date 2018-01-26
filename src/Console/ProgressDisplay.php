@@ -27,18 +27,28 @@ class ProgressDisplay implements CanExecuteAction
         $this->output = $output ?? new StreamOutput(fopen('php://memory', 'w', false));
     }
 
+    public function start(): void
+    {
+        $this->display('Running... (This may take some time)');
+    }
+
     public function runningParser(): void
     {
-        $this->output->writeln('[|] Parsing class structure');
+        $this->display('Parsing codebase structure');
     }
 
     public function runningProcessor(Processor $processor): void
     {
-        $this->output->writeln("[|] Running '{$processor->name()}' processor");
+        $this->display("Running '{$processor->name()}' processor");
     }
 
     public function savingResult(): void
     {
-        $this->output->writeln('[|] Writing generated data to disk');
+        $this->display('Writing generated data to disk');
+    }
+
+    private function display(string $message)
+    {
+        $this->output->writeln("<info>[|]</info> $message");
     }
 }

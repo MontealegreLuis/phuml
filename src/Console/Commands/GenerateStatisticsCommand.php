@@ -68,11 +68,6 @@ HELP
         ;
     }
 
-    /**
-     * @throws \LogicException
-     * @throws \RuntimeException
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $directory = $input->getArgument('directory');
@@ -84,8 +79,6 @@ HELP
 
         $finder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from($directory));
-
-        $output->writeln('[|] Running... (This may take some time)');
 
         $action->generate($finder, $statisticsFile);
 

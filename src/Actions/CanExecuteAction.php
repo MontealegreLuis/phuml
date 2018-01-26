@@ -18,6 +18,8 @@ use PhUml\Processors\Processor;
  */
 interface CanExecuteAction
 {
+    public function start(): void;
+
     public function runningParser(): void;
 
     public function runningProcessor(Processor $processor): void;

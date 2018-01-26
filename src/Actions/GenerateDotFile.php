@@ -33,6 +33,7 @@ class GenerateDotFile extends DigraphGenerator
      */
     public function generate(CodeFinder $finder, string $dotFilePath): void
     {
+        $this->command()->start();
         $this->save(
             $this->digraphProcessor,
             $this->generateDigraph($this->parseCode($finder)),

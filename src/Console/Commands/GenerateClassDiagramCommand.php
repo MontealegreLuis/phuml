@@ -79,11 +79,6 @@ HELP
             );
     }
 
-    /**
-     * @throws \LogicException
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws \RuntimeException
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $codebasePath = $input->getArgument('directory');
@@ -96,8 +91,6 @@ HELP
 
         $action = $builder->action();
         $action->attach($this->display);
-
-        $output->writeln('[|] Running... (This may take some time)');
 
         $action->generate($finder, $classDiagramPath);
 

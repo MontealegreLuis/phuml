@@ -43,6 +43,7 @@ class GenerateStatistics extends Action
      */
     public function generate(CodeFinder $finder, string $filePath): void
     {
+        $this->command()->start();
         $this->command()->runningParser();
         $structure = $this->parser->parse($finder);
         $this->command()->runningProcessor($this->processor);

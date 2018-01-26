@@ -87,8 +87,6 @@ HELP
         $finder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from($directory));
 
-        $output->writeln('[|] Running... (This may take some time)');
-
         $action->generate($finder, $dotFile);
 
         return 0;
