@@ -7,8 +7,8 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Generators\ClassDiagramBuilder;
-use PhUml\Generators\ClassDiagramConfiguration;
+use PhUml\Configuration\ClassDiagramBuilder;
+use PhUml\Configuration\ClassDiagramConfiguration;
 use PhUml\Parser\CodebaseDirectory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -89,7 +89,7 @@ HELP
         $codeFinder = $builder->codeFinder();
         $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
 
-        $classDiagramGenerator = $builder->generator();
+        $classDiagramGenerator = $builder->classDiagramGenerator();
         $classDiagramGenerator->attach($this->display);
 
         $classDiagramGenerator->generate($codeFinder, $classDiagramPath);

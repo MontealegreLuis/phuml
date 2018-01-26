@@ -5,8 +5,9 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Generators;
+namespace PhUml\Configuration;
 
+use PhUml\Generators\ClassDiagramGenerator;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
@@ -33,7 +34,7 @@ class ClassDiagramBuilder
         $this->configuration = $configuration;
     }
 
-    public function generator(): ClassDiagramGenerator
+    public function classDiagramGenerator(): ClassDiagramGenerator
     {
         $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
         $digraphProcessor = new GraphvizProcessor(
