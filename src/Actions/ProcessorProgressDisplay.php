@@ -16,7 +16,7 @@ use PhUml\Processors\Processor;
  * - Running a processor
  * - Saving the results produced by the processors
  */
-interface CanExecuteAction
+interface ProcessorProgressDisplay
 {
     public function start(): void;
 

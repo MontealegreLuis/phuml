@@ -17,12 +17,12 @@ use PhUml\Processors\Processor;
  * All generators will see the console commands as listeners that will provide feedback
  * to the end users about their progress
  *
- * @see CanExecuteAction for the details about the events that are tracked
+ * @see ProcessorProgressDisplay for the details about the events that are tracked
  */
 abstract class Generator
 {
-    /** @var CanExecuteAction */
-    private $command;
+    /** @var ProcessorProgressDisplay */
+    private $display;
 
     /** @var CodeParser */
     private $parser;
@@ -32,18 +32,18 @@ abstract class Generator
         $this->parser = $parser;
     }
 
-    public function attach(CanExecuteAction $command): void
+    public function attach(ProcessorProgressDisplay $display): void
     {
-        $this->command = $command;
+        $this->display = $display;
     }
 
     /** @throws LogicException */
-    protected function command(): CanExecuteAction
+    protected function display(): ProcessorProgressDisplay
     {
-        if (!$this->command) {
-            throw new LogicException('No command was attached');
+        if (!$this->display) {
+            throw new LogicException('No display was attached');
         }
-        return $this->command;
+        return $this->display;
     }
 
     /**
@@ -51,13 +51,13 @@ abstract class Generator
      */
     protected function parseCode(CodeFinder $finder): Structure
     {
-        $this->command()->runningParser();
+        $this->display()->runningParser();
         return $this->parser->parse($finder);
     }
 
     protected function save(Processor $processor, string $content, string $path): void
     {
-        $this->command()->savingResult();
+        $this->display()->savingResult();
         $processor->saveToFile($content, $path);
     }
 }

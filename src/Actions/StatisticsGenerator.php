@@ -41,14 +41,14 @@ class StatisticsGenerator extends Generator
      */
     public function generate(CodeFinder $finder, string $statisticsFilePath): void
     {
-        $this->command()->start();
+        $this->display()->start();
         $statistics = $this->generateStatistics($this->parseCode($finder));
         $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath);
     }
 
     private function generateStatistics(Structure $structure): string
     {
-        $this->command()->runningProcessor($this->statisticsProcessor);
+        $this->display()->runningProcessor($this->statisticsProcessor);
         return $this->statisticsProcessor->process($structure);
     }
 }

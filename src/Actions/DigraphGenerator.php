@@ -24,7 +24,7 @@ class DigraphGenerator extends Generator
 
     protected function generateDigraph(Structure $structure): string
     {
-        $this->command()->runningProcessor($this->digraphProcessor);
+        $this->display()->runningProcessor($this->digraphProcessor);
         return $this->digraphProcessor->process($structure);
     }
 }

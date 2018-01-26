@@ -44,7 +44,7 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram()
     {
-        $this->generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
         $diagram = __DIR__ . '/../resources/.output/graphviz-neato.png';
@@ -61,7 +61,7 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram_using_a_recursive_finder()
     {
-        $this->generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $codeFinder = new CodeFinder();
         $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code'));
         $diagram = __DIR__ . '/../resources/.output/graphviz-neato-recursive.png';

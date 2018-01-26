@@ -44,7 +44,7 @@ class ClassDiagramGenerator extends DigraphGenerator
      */
     public function generate(CodeFinder $finder, string $imagePath): void
     {
-        $this->command()->start();
+        $this->display()->start();
         $image = $this->generateClassDiagram($this->generateDigraph($this->parseCode($finder)));
         $this->save($this->imageProcessor, $image, $imagePath);
     }
@@ -52,7 +52,7 @@ class ClassDiagramGenerator extends DigraphGenerator
     /** @throws LogicException If no command or image processor is provided */
     private function generateClassDiagram(string $digraph): string
     {
-        $this->command()->runningProcessor($this->imageProcessor);
+        $this->display()->runningProcessor($this->imageProcessor);
         return $this->imageProcessor->process($digraph);
     }
 }

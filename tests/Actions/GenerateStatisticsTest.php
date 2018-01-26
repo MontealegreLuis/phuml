@@ -59,7 +59,7 @@ STATS;
         $file = __DIR__ . '/../resources/.output/statistics.txt';
 
         $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
-        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
@@ -101,7 +101,7 @@ STATS;
         $file = __DIR__ . '/../resources/.output/statistics.txt';
 
         $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
-        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 

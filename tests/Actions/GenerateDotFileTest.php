@@ -39,7 +39,7 @@ class GenerateDotFileTest extends TestCase
             new CodeParser(new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
-        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
@@ -87,7 +87,7 @@ DOT;
             new CodeParser(new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
-        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 

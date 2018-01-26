@@ -13,7 +13,7 @@ use Symfony\Component\Console\Command\Command;
 /**
  * All commands provide visual feedback about the progress of the current task to the user
  *
- * @see CanExecuteAction for the details about the feedback provided by the display
+ * @see ProcessorProgressDisplay for the details about the feedback provided by the display
  */
 class GeneratorCommand extends Command
 {
