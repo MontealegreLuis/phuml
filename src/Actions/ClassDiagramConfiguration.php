@@ -30,9 +30,9 @@ class ClassDiagramConfiguration
         return $this->extractAssociations;
     }
 
-    public function imageProcessor(): string
+    public function isDotProcessor(): bool
     {
-        return $this->imageProcessor;
+        return $this->imageProcessor === 'dot';
     }
 
     private function __construct(bool $extractAssociations, ?string $imageProcessor) {

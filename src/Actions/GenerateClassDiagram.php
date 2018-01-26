@@ -23,13 +23,12 @@ class GenerateClassDiagram extends DigraphGenerator
     /** @var ImageProcessor */
     private $imageProcessor;
 
-    public function __construct(CodeParser $parser, GraphvizProcessor $digraphProcessor)
-    {
+    public function __construct(
+        CodeParser $parser,
+        GraphvizProcessor $digraphProcessor,
+        ImageProcessor $imageProcessor
+    ) {
         parent::__construct($parser, $digraphProcessor);
-    }
-
-    public function setImageProcessor(ImageProcessor $imageProcessor): void
-    {
         $this->imageProcessor = $imageProcessor;
     }
 
@@ -49,19 +48,10 @@ class GenerateClassDiagram extends DigraphGenerator
         $this->save($this->imageProcessor, $image, $imagePath);
     }
 
-    /** @throws LogicException If no image processor is provided */
-    private function imageProcessor(): ImageProcessor
-    {
-        if (!$this->imageProcessor) {
-            throw new LogicException('No image processor was provided');
-        }
-        return $this->imageProcessor;
-    }
-
     /** @throws LogicException If no command or image processor is provided */
     private function generateClassDiagram(string $digraph): string
     {
-        $this->command()->runningProcessor($this->imageProcessor());
-        return $this->imageProcessor()->process($digraph);
+        $this->command()->runningProcessor($this->imageProcessor);
+        return $this->imageProcessor->process($digraph);
     }
 }

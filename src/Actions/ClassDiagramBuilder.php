@@ -22,17 +22,12 @@ class ClassDiagramBuilder
     public static function from(ClassDiagramConfiguration $configuration): GenerateClassDiagram
     {
         $associationsBuilder = $configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
-        $dotProcessor = new GraphvizProcessor(
+        $digraphProcessor = new GraphvizProcessor(
             new ClassGraphBuilder(new NodeLabelBuilder(new TemplateEngine()), $associationsBuilder)
         );
+        $imageProcessor = $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor();
 
-        $action = new GenerateClassDiagram(new CodeParser(), $dotProcessor);
-
-        if ($configuration->imageProcessor() === 'dot') {
-            $action->setImageProcessor(new DotProcessor());
-        } else {
-            $action->setImageProcessor(new NeatoProcessor());
-        }
+        $action = new GenerateClassDiagram(new CodeParser(), $digraphProcessor, $imageProcessor);
 
         return $action;
     }

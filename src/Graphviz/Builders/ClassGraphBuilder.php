@@ -30,9 +30,6 @@ class ClassGraphBuilder
     /** @var AssociationsBuilder */
     private $associationsBuilder;
 
-    /** @var bool */
-    private $createAssociations;
-
     /** @var NodeLabelBuilder */
     private $labelBuilder;
 
@@ -56,10 +53,6 @@ class ClassGraphBuilder
     public function extractFrom(ClassDefinition $class, Structure $structure): array
     {
         $this->dotElements = [];
-
-        if ($this->createAssociations) {
-            $this->associationsBuilder = new EdgesBuilder();
-        }
 
         $this->addAssociations($this->associationsBuilder->fromAttributes($class, $structure));
         $this->addAssociations($this->associationsBuilder->fromConstructor($class, $structure));
