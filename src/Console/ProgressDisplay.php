@@ -7,7 +7,7 @@
 
 namespace PhUml\Console;
 
-use PhUml\Actions\ProcessorProgressDisplay;
+use PhUml\Generators\ProcessorProgressDisplay;
 use PhUml\Processors\Processor;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;

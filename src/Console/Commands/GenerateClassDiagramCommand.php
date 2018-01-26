@@ -7,8 +7,8 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\ClassDiagramBuilder;
-use PhUml\Actions\ClassDiagramConfiguration;
+use PhUml\Generators\ClassDiagramBuilder;
+use PhUml\Generators\ClassDiagramConfiguration;
 use PhUml\Parser\CodebaseDirectory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

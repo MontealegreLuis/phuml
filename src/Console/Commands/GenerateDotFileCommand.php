@@ -7,7 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\DotFileGenerator;
+use PhUml\Generators\DotFileGenerator;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;

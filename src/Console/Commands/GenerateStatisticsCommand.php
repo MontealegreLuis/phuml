@@ -7,7 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\StatisticsGenerator;
+use PhUml\Generators\StatisticsGenerator;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
