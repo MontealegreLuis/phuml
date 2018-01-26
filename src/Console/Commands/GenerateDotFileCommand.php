@@ -7,12 +7,9 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Generators\DotFileGenerator;
+use PhUml\Configuration\DigraphConfiguration;
+use PhUml\Configuration\DotFileBuilder;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
-use PhUml\Processors\GraphvizProcessor;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -79,12 +76,13 @@ HELP
     {
         $codebasePath = $input->getArgument('directory');
         $dotFilePath = $input->getArgument('output');
-        $recursive = (bool)$input->getOption('recursive');
 
-        $dotFileGenerator = new DotFileGenerator(new CodeParser(), new GraphvizProcessor());
+        $builder = new DotFileBuilder(new DigraphConfiguration($input->getOptions()));
+
+        $dotFileGenerator = $builder->dotFileGenerator();
         $dotFileGenerator->attach($this->display);
 
-        $codeFinder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
+        $codeFinder = $builder->codeFinder();
         $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
 
         $dotFileGenerator->generate($codeFinder, $dotFilePath);

@@ -8,45 +8,28 @@
 namespace PhUml\Configuration;
 
 use PhUml\Generators\ClassDiagramGenerator;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\EdgesBuilder;
-use PhUml\Graphviz\Builders\NoAssociationsBuilder;
-use PhUml\Graphviz\Builders\NodeLabelBuilder;
-use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\DotProcessor;
-use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\NeatoProcessor;
-use PhUml\Templates\TemplateEngine;
 
-class ClassDiagramBuilder
+class ClassDiagramBuilder extends DigraphBuilder
 {
-    private $configuration;
-
-    public static function from(ClassDiagramConfiguration $configuration): ClassDiagramBuilder
-    {
-        return new ClassDiagramBuilder($configuration);
-    }
-
-    private function __construct(ClassDiagramConfiguration $configuration)
+    public function __construct(ClassDiagramConfiguration $configuration)
     {
         $this->configuration = $configuration;
     }
 
     public function classDiagramGenerator(): ClassDiagramGenerator
     {
-        $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
-        $digraphProcessor = new GraphvizProcessor(
-            new ClassGraphBuilder(new NodeLabelBuilder(new TemplateEngine()), $associationsBuilder)
+        return new ClassDiagramGenerator(
+            $this->codeParser(),
+            $this->digraphProcessor(),
+            $this->imageProcessor()
         );
-        $imageProcessor = $this->configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor();
-
-        return new ClassDiagramGenerator(new CodeParser(), $digraphProcessor, $imageProcessor);
     }
 
-    public function codeFinder(): CodeFinder
+    private function imageProcessor(): ImageProcessor
     {
-        return $this->configuration->searchRecursively() ? new CodeFinder() : new NonRecursiveCodeFinder();
+        return $this->configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor();
     }
 }

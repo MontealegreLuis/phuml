@@ -84,7 +84,7 @@ HELP
         $codebasePath = $input->getArgument('directory');
         $classDiagramPath = $input->getArgument('output');
 
-        $builder = ClassDiagramBuilder::from(ClassDiagramConfiguration::with($input->getOptions()));
+        $builder = new ClassDiagramBuilder(new ClassDiagramConfiguration($input->getOptions()));
 
         $codeFinder = $builder->codeFinder();
         $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));

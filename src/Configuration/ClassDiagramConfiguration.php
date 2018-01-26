@@ -9,44 +9,20 @@ namespace PhUml\Configuration;
 
 use RuntimeException;
 
-class ClassDiagramConfiguration
+class ClassDiagramConfiguration extends DigraphConfiguration
 {
-    /** @var bool */
-    private $extractAssociations;
-
     /** @var string */
     private $imageProcessor;
 
-    /** @var bool */
-    private $searchRecursively;
-
-    public static function with(array $input): ClassDiagramConfiguration
+    public function __construct(array $input)
     {
-        return new ClassDiagramConfiguration(
-            $input['recursive'],
-            $input['associations'],
-            $input['processor']
-        );
-    }
-
-    public function extractAssociations(): bool
-    {
-        return $this->extractAssociations;
+        parent::__construct($input);
+        $this->setImageProcessor($input['processor']);
     }
 
     public function isDotProcessor(): bool
     {
         return $this->imageProcessor === 'dot';
-    }
-
-    private function __construct(
-        bool $searchRecursively,
-        bool $extractAssociations,
-        ?string $imageProcessor
-    ) {
-        $this->searchRecursively = $searchRecursively;
-        $this->extractAssociations = $extractAssociations;
-        $this->setImageProcessor($imageProcessor);
     }
 
     private function setImageProcessor(?string $imageProcessor): void
@@ -55,10 +31,5 @@ class ClassDiagramConfiguration
             throw new RuntimeException("Invalid processor '$imageProcessor' found, expected processors are neato and dot");
         }
         $this->imageProcessor = $imageProcessor;
-    }
-
-    public function searchRecursively(): bool
-    {
-        return $this->searchRecursively;
     }
 }
