@@ -11,8 +11,8 @@ use PhUml\Actions\GenerateDotFile;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -84,8 +84,8 @@ HELP
         $action = new GenerateDotFile(new CodeParser(), new GraphvizProcessor());
         $action->attach($this->display);
 
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($directory), $recursive);
+        $finder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
+        $finder->addDirectory(CodebaseDirectory::from($directory));
 
         $output->writeln('[|] Running... (This may take some time)');
 

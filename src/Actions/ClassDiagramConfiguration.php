@@ -17,9 +17,13 @@ class ClassDiagramConfiguration
     /** @var string */
     private $imageProcessor;
 
+    /** @var bool */
+    private $searchRecursively;
+
     public static function from(array $input): ClassDiagramConfiguration
     {
         return new ClassDiagramConfiguration(
+            $input['recursive'],
             $input['associations'],
             $input['processor']
         );
@@ -35,7 +39,12 @@ class ClassDiagramConfiguration
         return $this->imageProcessor === 'dot';
     }
 
-    private function __construct(bool $extractAssociations, ?string $imageProcessor) {
+    private function __construct(
+        bool $searchRecursively,
+        bool $extractAssociations,
+        ?string $imageProcessor
+    ) {
+        $this->searchRecursively = $searchRecursively;
         $this->extractAssociations = $extractAssociations;
         $this->setImageProcessor($imageProcessor);
     }
@@ -46,5 +55,10 @@ class ClassDiagramConfiguration
             throw new RuntimeException("Invalid processor '$imageProcessor' found, expected processors are neato and dot");
         }
         $this->imageProcessor = $imageProcessor;
+    }
+
+    public function searchRecursively(): bool
+    {
+        return $this->searchRecursively;
     }
 }

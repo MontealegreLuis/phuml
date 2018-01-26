@@ -14,6 +14,7 @@ use PhUml\Fakes\ProvidesNumericIds;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 
 class GenerateDotFileTest extends TestCase
@@ -27,7 +28,7 @@ class GenerateDotFileTest extends TestCase
 
         $this->expectException(LogicException::class);
 
-        $action->generate(new CodeFinder(), 'wont-be-generated.gv');
+        $action->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.gv');
     }
 
     /** @test */
@@ -39,8 +40,8 @@ class GenerateDotFileTest extends TestCase
             new GraphvizProcessor()
         );
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'), false);
+        $finder = new NonRecursiveCodeFinder();
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
         $action->generate($finder, $file);
 
@@ -50,7 +51,7 @@ class GenerateDotFileTest extends TestCase
     }
 
     /** @test */
-    function it_creates_the_dot_file_of_a_directory_using_the_recursive_option()
+    function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
         $expectedDigraph = <<<'DOT'
 "101" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plBase</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$autoload</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$autoloadDirectory</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+autoload( $classname )</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addAutoloadDirectory( $directory )</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getAutoloadClasses()</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>> shape=plaintext]

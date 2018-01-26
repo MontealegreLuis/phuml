@@ -6,9 +6,9 @@
  */
 namespace PhUml\Fakes;
 
-use PhUml\Parser\CodeFinder;
+use PhUml\Parser\NonRecursiveCodeFinder;
 
-class StringCodeFinder extends CodeFinder
+class StringCodeFinder extends NonRecursiveCodeFinder
 {
     /** @var string[] */
     protected $files;

@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 
@@ -34,7 +35,7 @@ class GenerateClassDiagramWithDotTest extends TestCase
     function it_fails_to_generate_diagram_if_a_command_is_not_provided()
     {
         $this->expectException(LogicException::class);
-        $this->action->generate(new CodeFinder(), 'wont-be-generated.png');
+        $this->action->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.png');
     }
 
     /**
@@ -44,8 +45,8 @@ class GenerateClassDiagramWithDotTest extends TestCase
     function it_generates_a_class_diagram()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'), false);
+        $finder = new NonRecursiveCodeFinder();
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
         $diagram = __DIR__ . '/../resources/.output/graphviz-dot.png';
         $expectedDiagram = __DIR__ . '/../resources/images/graphviz-dot.png';
 
@@ -58,7 +59,7 @@ class GenerateClassDiagramWithDotTest extends TestCase
      * @test
      * @group snapshot
      */
-    function it_generates_a_class_diagram_using_the_recursive_option()
+    function it_generates_a_class_diagram_using_a_recursive_finder()
     {
         $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $codeFinder = new CodeFinder();

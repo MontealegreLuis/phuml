@@ -11,8 +11,8 @@ use PhUml\Actions\GenerateStatistics;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -82,8 +82,8 @@ HELP
         $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->display);
 
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($directory), $recursive);
+        $finder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
+        $finder->addDirectory(CodebaseDirectory::from($directory));
 
         $output->writeln('[|] Running... (This may take some time)');
 

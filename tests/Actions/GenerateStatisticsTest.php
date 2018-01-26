@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
 
 class GenerateStatisticsTest extends TestCase
@@ -22,7 +23,7 @@ class GenerateStatisticsTest extends TestCase
         $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
 
         $this->expectException(LogicException::class);
-        $action->generate(new CodeFinder(), 'wont-be-generated.txt');
+        $action->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.txt');
     }
 
     /** @test */
@@ -59,8 +60,8 @@ STATS;
 
         $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
         $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'), false);
+        $finder = new NonRecursiveCodeFinder();
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
         $action->generate($finder, $file);
 
@@ -68,7 +69,7 @@ STATS;
     }
 
     /** @test */
-    function it_shows_the_statistics_of_a_directory_using_the_recursive_option()
+    function it_shows_the_statistics_of_a_directory_using_a_recursive_finder()
     {
         $statistics = <<<STATS
 phUML generated statistics

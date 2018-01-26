@@ -14,9 +14,9 @@ class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_only_in_the_given_directory()
     {
-        $finder = new CodeFinder();
+        $finder = new NonRecursiveCodeFinder();
 
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'), false);
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
         $this->assertCount(2, $finder->files());
         $this->assertRegExp('/class plBase/', $finder->files()[0]);

@@ -12,28 +12,25 @@ use Symfony\Component\Finder\Finder;
 /**
  * It inspects a directory finding all the files with PHP code and saves their contents
  *
- * The directory can be inspected recursively or not.
+ * This finder inspect inner directories recursively.
  * The contents of the files are used by the `TokenParser` to build the `RawDefinitions`
  */
 class CodeFinder
 {
     /** @var Finder */
-    private $finder;
+    protected $finder;
 
     /** @var string[] */
     private $files;
 
-    public function __construct(Finder $finder = null)
+    public function __construct()
     {
-        $this->finder = $finder ?? new Finder();
+        $this->finder = new Finder();
         $this->files = [];
     }
 
-    public function addDirectory(CodebaseDirectory $codebaseDirectory, bool $recursive = true): void
+    public function addDirectory(CodebaseDirectory $codebaseDirectory): void
     {
-        if (!$recursive) {
-            $this->finder->depth(0);
-        }
         $this->finder->in($codebaseDirectory->absolutePath())->files()->name('*.php')->sortByName();
         foreach ($this->finder as $file) {
             $this->files[] = $file->getContents();

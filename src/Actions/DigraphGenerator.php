@@ -26,6 +26,7 @@ class DigraphGenerator extends Action
         $this->parser = $parser;
         $this->digraphProcessor = $digraphProcessor;
     }
+
     /**
      * @throws \LogicException If the command is missing
      */

@@ -38,6 +38,7 @@ class GenerateStatistics extends Action
      * 2. The `statistics` processor takes this collection and creates a summary
      * 4. The text file with the statistics is saved to the given path
      *
+     * @throws \PhUml\Templates\TemplateFailure If Twig fails
      * @throws \LogicException If the command is missing
      */
     public function generate(CodeFinder $finder, string $filePath): void
