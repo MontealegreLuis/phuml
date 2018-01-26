@@ -86,13 +86,13 @@ HELP
 
         $builder = ClassDiagramBuilder::from(ClassDiagramConfiguration::with($input->getOptions()));
 
-        $finder = $builder->codeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($codebasePath));
+        $codeFinder = $builder->codeFinder();
+        $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
 
-        $action = $builder->action();
-        $action->attach($this->display);
+        $classDiagramGenerator = $builder->generator();
+        $classDiagramGenerator->attach($this->display);
 
-        $action->generate($finder, $classDiagramPath);
+        $classDiagramGenerator->generate($codeFinder, $classDiagramPath);
 
         return 0;
     }

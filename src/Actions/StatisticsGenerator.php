@@ -7,6 +7,7 @@
 
 namespace PhUml\Actions;
 
+use PhUml\Code\Structure;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
@@ -17,18 +18,15 @@ use PhUml\Processors\StatisticsProcessor;
  * It reports the number of classes and interfaces, number of private, public and protected methods
  * among other details
  */
-class GenerateStatistics extends Action
+class StatisticsGenerator extends Generator
 {
-    /** @var CodeParser */
-    private $parser;
-
     /** @var StatisticsProcessor */
-    private $processor;
+    private $statisticsProcessor;
 
-    public function __construct(CodeParser $parser, StatisticsProcessor $processor)
+    public function __construct(CodeParser $parser, StatisticsProcessor $statisticsProcessor)
     {
-        $this->parser = $parser;
-        $this->processor = $processor;
+        parent::__construct($parser);
+        $this->statisticsProcessor = $statisticsProcessor;
     }
 
     /**
@@ -41,14 +39,16 @@ class GenerateStatistics extends Action
      * @throws \PhUml\Templates\TemplateFailure If Twig fails
      * @throws \LogicException If the command is missing
      */
-    public function generate(CodeFinder $finder, string $filePath): void
+    public function generate(CodeFinder $finder, string $statisticsFilePath): void
     {
         $this->command()->start();
-        $this->command()->runningParser();
-        $structure = $this->parser->parse($finder);
-        $this->command()->runningProcessor($this->processor);
-        $statistics = $this->processor->process($structure);
-        $this->command()->savingResult();
-        $this->processor->saveToFile($statistics, $filePath);
+        $statistics = $this->generateStatistics($this->parseCode($finder));
+        $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath);
+    }
+
+    private function generateStatistics(Structure $structure): string
+    {
+        $this->command()->runningProcessor($this->statisticsProcessor);
+        return $this->statisticsProcessor->process($structure);
     }
 }

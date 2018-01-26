@@ -24,26 +24,26 @@ class GenerateDotFileTest extends TestCase
     /** @test */
     function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()
     {
-        $action = new GenerateDotFile(new CodeParser(), new GraphvizProcessor());
+        $generator = new DotFileGenerator(new CodeParser(), new GraphvizProcessor());
 
         $this->expectException(LogicException::class);
 
-        $action->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.gv');
+        $generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.gv');
     }
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
         $file = __DIR__ . '/../resources/.output/dot.gv';
-        $action = new GenerateDotFile(
+        $generator = new DotFileGenerator(
             new CodeParser(new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
-        $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
-        $action->generate($finder, $file);
+        $generator->generate($finder, $file);
 
         $digraphInDotFormat = file_get_contents($file);
         $this->assertContains('"101" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plBase</FONT></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$autoload</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$autoloadDirectory</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+autoload( $classname )</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addAutoloadDirectory( $directory )</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getAutoloadClasses()</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>> shape=plaintext]', $digraphInDotFormat);
@@ -83,15 +83,15 @@ class GenerateDotFileTest extends TestCase
 DOT;
         $file = __DIR__ . '/../resources/.output/dot.gv';
 
-        $action = new GenerateDotFile(
+        $generator = new DotFileGenerator(
             new CodeParser(new NumericIdStructureBuilder()),
             new GraphvizProcessor()
         );
-        $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
-        $action->generate($finder, $file);
+        $generator->generate($finder, $file);
 
         $digraphInDotFormat = file_get_contents($file);
         $this->assertContains($expectedDigraph, $digraphInDotFormat);

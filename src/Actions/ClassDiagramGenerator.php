@@ -18,7 +18,7 @@ use PhUml\Processors\ImageProcessor;
  *
  * The image produced is a `.png` that will be saved in a specified path
  */
-class GenerateClassDiagram extends DigraphGenerator
+class ClassDiagramGenerator extends DigraphGenerator
 {
     /** @var ImageProcessor */
     private $imageProcessor;

@@ -33,7 +33,7 @@ class ClassDiagramBuilder
         $this->configuration = $configuration;
     }
 
-    public function action(): GenerateClassDiagram
+    public function generator(): ClassDiagramGenerator
     {
         $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
         $digraphProcessor = new GraphvizProcessor(
@@ -41,9 +41,7 @@ class ClassDiagramBuilder
         );
         $imageProcessor = $this->configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor();
 
-        $action = new GenerateClassDiagram(new CodeParser(), $digraphProcessor, $imageProcessor);
-
-        return $action;
+        return new ClassDiagramGenerator(new CodeParser(), $digraphProcessor, $imageProcessor);
     }
 
     public function codeFinder(): CodeFinder

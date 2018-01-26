@@ -7,7 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\GenerateDotFile;
+use PhUml\Actions\DotFileGenerator;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -77,17 +77,17 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $directory = $input->getArgument('directory');
-        $dotFile = $input->getArgument('output');
+        $codebasePath = $input->getArgument('directory');
+        $dotFilePath = $input->getArgument('output');
         $recursive = (bool)$input->getOption('recursive');
 
-        $action = new GenerateDotFile(new CodeParser(), new GraphvizProcessor());
-        $action->attach($this->display);
+        $dotFileGenerator = new DotFileGenerator(new CodeParser(), new GraphvizProcessor());
+        $dotFileGenerator->attach($this->display);
 
-        $finder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($directory));
+        $codeFinder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
+        $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
 
-        $action->generate($finder, $dotFile);
+        $dotFileGenerator->generate($codeFinder, $dotFilePath);
 
         return 0;
     }

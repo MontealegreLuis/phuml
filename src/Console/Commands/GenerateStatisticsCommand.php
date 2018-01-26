@@ -7,7 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Actions\GenerateStatistics;
+use PhUml\Actions\StatisticsGenerator;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -70,17 +70,17 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $directory = $input->getArgument('directory');
-        $statisticsFile = $input->getArgument('output');
+        $codebasePath = $input->getArgument('directory');
+        $statisticsFilePath = $input->getArgument('output');
         $recursive = (bool)$input->getOption('recursive');
 
-        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
-        $action->attach($this->display);
+        $statisticsGenerator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $statisticsGenerator->attach($this->display);
 
-        $finder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($directory));
+        $codeFinder = $recursive ? new CodeFinder() : new NonRecursiveCodeFinder();
+        $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
 
-        $action->generate($finder, $statisticsFile);
+        $statisticsGenerator->generate($codeFinder, $statisticsFilePath);
 
         return 0;
     }

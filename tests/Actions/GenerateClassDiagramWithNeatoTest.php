@@ -22,9 +22,9 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
     use CompareImagesTrait;
 
     /** @before */
-    function createAction()
+    function createGenerator()
     {
-        $this->action = new GenerateClassDiagram(
+        $this->generator = new ClassDiagramGenerator(
             new CodeParser(),
             new GraphvizProcessor(),
             new NeatoProcessor()
@@ -35,7 +35,7 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
     function it_fails_to_generate_diagram_if_a_command_is_not_provided()
     {
         $this->expectException(LogicException::class);
-        $this->action->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.png');
+        $this->generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.png');
     }
 
     /**
@@ -44,13 +44,13 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram()
     {
-        $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $this->generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
         $diagram = __DIR__ . '/../resources/.output/graphviz-neato.png';
         $expectedDiagram = __DIR__ . '/../resources/images/graphviz-neato.png';
 
-        $this->action->generate($finder, $diagram);
+        $this->generator->generate($finder, $diagram);
 
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
@@ -61,17 +61,17 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram_using_a_recursive_finder()
     {
-        $this->action->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $this->generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $codeFinder = new CodeFinder();
         $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code'));
         $diagram = __DIR__ . '/../resources/.output/graphviz-neato-recursive.png';
         $expectedDiagram = __DIR__ . '/../resources/images/graphviz-neato-recursive.png';
 
-        $this->action->generate($codeFinder, $diagram);
+        $this->generator->generate($codeFinder, $diagram);
 
         $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
-    /** @var GenerateClassDiagram */
-    private $action;
+    /** @var ClassDiagramGenerator */
+    private $generator;
 }

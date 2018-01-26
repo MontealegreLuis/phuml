@@ -20,10 +20,10 @@ class GenerateStatisticsTest extends TestCase
     /** @test */
     function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()
     {
-        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
+        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
 
         $this->expectException(LogicException::class);
-        $action->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.txt');
+        $generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.txt');
     }
 
     /** @test */
@@ -58,12 +58,12 @@ Functions per class:  5.5
 STATS;
         $file = __DIR__ . '/../resources/.output/statistics.txt';
 
-        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
-        $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
-        $action->generate($finder, $file);
+        $generator->generate($finder, $file);
 
         $this->assertStringEqualsFile($file, $statistics);
     }
@@ -100,12 +100,12 @@ Functions per class:  4.53
 STATS;
         $file = __DIR__ . '/../resources/.output/statistics.txt';
 
-        $action = new GenerateStatistics(new CodeParser(), new StatisticsProcessor());
-        $action->attach($this->prophesize(CanExecuteAction::class)->reveal());
+        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $generator->attach($this->prophesize(CanExecuteAction::class)->reveal());
         $finder = new CodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
 
-        $action->generate($finder, $file);
+        $generator->generate($finder, $file);
 
         $this->assertStringEqualsFile($file, $statistics);
     }
