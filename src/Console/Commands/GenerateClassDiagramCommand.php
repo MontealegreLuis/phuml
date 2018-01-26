@@ -10,8 +10,6 @@ namespace PhUml\Console\Commands;
 use PhUml\Actions\ClassDiagramBuilder;
 use PhUml\Actions\ClassDiagramConfiguration;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\NonRecursiveCodeFinder;
-use PhUml\Parser\CodeFinder;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -90,12 +88,13 @@ HELP
     {
         $codebasePath = $input->getArgument('directory');
         $classDiagramPath = $input->getArgument('output');
-        $configuration = ClassDiagramConfiguration::from($input->getOptions());
 
-        $finder = $configuration->searchRecursively() ? new CodeFinder() : new NonRecursiveCodeFinder();
+        $builder = ClassDiagramBuilder::from(ClassDiagramConfiguration::with($input->getOptions()));
+
+        $finder = $builder->codeFinder();
         $finder->addDirectory(CodebaseDirectory::from($codebasePath));
 
-        $action = ClassDiagramBuilder::from($configuration);
+        $action = $builder->action();
         $action->attach($this->display);
 
         $output->writeln('[|] Running... (This may take some time)');

@@ -11,7 +11,9 @@ use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Builders\NodeLabelBuilder;
+use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
@@ -19,16 +21,33 @@ use PhUml\Templates\TemplateEngine;
 
 class ClassDiagramBuilder
 {
-    public static function from(ClassDiagramConfiguration $configuration): GenerateClassDiagram
+    private $configuration;
+
+    public static function from(ClassDiagramConfiguration $configuration): ClassDiagramBuilder
     {
-        $associationsBuilder = $configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
+        return new ClassDiagramBuilder($configuration);
+    }
+
+    private function __construct(ClassDiagramConfiguration $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    public function action(): GenerateClassDiagram
+    {
+        $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
         $digraphProcessor = new GraphvizProcessor(
             new ClassGraphBuilder(new NodeLabelBuilder(new TemplateEngine()), $associationsBuilder)
         );
-        $imageProcessor = $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor();
+        $imageProcessor = $this->configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor();
 
         $action = new GenerateClassDiagram(new CodeParser(), $digraphProcessor, $imageProcessor);
 
         return $action;
+    }
+
+    public function codeFinder(): CodeFinder
+    {
+        return $this->configuration->searchRecursively() ? new CodeFinder() : new NonRecursiveCodeFinder();
     }
 }

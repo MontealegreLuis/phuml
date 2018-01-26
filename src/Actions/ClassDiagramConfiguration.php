@@ -20,7 +20,7 @@ class ClassDiagramConfiguration
     /** @var bool */
     private $searchRecursively;
 
-    public static function from(array $input): ClassDiagramConfiguration
+    public static function with(array $input): ClassDiagramConfiguration
     {
         return new ClassDiagramConfiguration(
             $input['recursive'],
