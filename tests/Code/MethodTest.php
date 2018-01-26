@@ -28,9 +28,9 @@ class MethodTest extends TestCase
         $protectedMethod = Method::protected('protectedMethod');
         $privateMethod = Method::private('privateMethod');
 
-        $this->assertEquals(Visibility::public(), $publicMethod->modifier());
-        $this->assertEquals(Visibility::protected(), $protectedMethod->modifier());
-        $this->assertEquals(Visibility::private(), $privateMethod->modifier());
+        $this->assertTrue($publicMethod->isPublic());
+        $this->assertTrue($protectedMethod->isProtected());
+        $this->assertTrue($privateMethod->isPrivate());
     }
 
     /** @test */

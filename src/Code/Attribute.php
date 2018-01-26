@@ -12,10 +12,9 @@ namespace PhUml\Code;
  *
  * It does not distinguish yet static attributes
  */
-class Attribute extends Variable
+class Attribute extends Variable implements HasVisibility
 {
-    /** @var Visibility */
-    private $modifier;
+    use ProvidesVisibility;
 
     protected function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {
@@ -41,16 +40,6 @@ class Attribute extends Variable
     public function isTyped(): bool
     {
         return $this->type->isPresent();
-    }
-
-    public function hasVisibility(Visibility $modifier): bool
-    {
-        return $this->modifier()->equals($modifier);
-    }
-
-    public function modifier(): Visibility
-    {
-        return $this->modifier;
     }
 
     /**

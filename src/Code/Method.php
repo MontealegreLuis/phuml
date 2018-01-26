@@ -12,13 +12,12 @@ namespace PhUml\Code;
  *
  * It doesn't distinguish neither static methods nor return types yet
  */
-class Method
+class Method implements HasVisibility
 {
+    use ProvidesVisibility;
+
     /** @var string */
     private $name;
-
-    /** @var Visibility */
-    private $modifier;
 
     /** @var Variable[] */
     private $parameters;
@@ -50,19 +49,9 @@ class Method
         return $this->name === '__construct';
     }
 
-    public function hasVisibility(Visibility $modifier): bool
-    {
-        return $this->modifier->equals($modifier);
-    }
-
     public function name(): string
     {
         return $this->name;
-    }
-
-    public function modifier(): Visibility
-    {
-        return $this->modifier;
     }
 
     public function parameters(): array

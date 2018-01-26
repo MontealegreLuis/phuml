@@ -26,29 +26,29 @@ class AttributeTest extends TestCase
     {
         $publicAttribute = Attribute::public('$attribute');
 
-        $modifier = $publicAttribute->modifier();
+        $isPublic = $publicAttribute->isPublic();
 
-        $this->assertEquals(Visibility::public(), $modifier);
+        $this->assertTrue($isPublic);
     }
 
     /** @test */
     function it_can_be_protected()
     {
-        $publicAttribute = Attribute::protected('$attribute');
+        $protectedAttribute = Attribute::protected('$attribute');
 
-        $modifier = $publicAttribute->modifier();
+        $isProtected = $protectedAttribute->isProtected();
 
-        $this->assertEquals(Visibility::protected(), $modifier);
+        $this->assertTrue($isProtected);
     }
 
     /** @test */
     function it_can_be_private()
     {
-        $publicAttribute = Attribute::private('$attribute');
+        $privateAttribute = Attribute::private('$attribute');
 
-        $modifier = $publicAttribute->modifier();
+        $isPrivate = $privateAttribute->isPrivate();
 
-        $this->assertEquals(Visibility::private(), $modifier);
+        $this->assertTrue($isPrivate);
     }
 
     /** @test */
