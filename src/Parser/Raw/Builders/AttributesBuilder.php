@@ -10,7 +10,6 @@ namespace PhUml\Parser\Raw\Builders;
 use PhpParser\Node\Stmt\Property;
 use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
 
 /**
  * It builds an array with the meta-information of a class attribute
@@ -30,16 +29,8 @@ use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
  * @see PrivateMembersFilter
  * @see ProtectedMembersFilter
  */
-class AttributesBuilder
+class AttributesBuilder extends MembersBuilder
 {
-    /** @var MembersFilter[] */
-    private $filters;
-
-    public function __construct(array $filters = [])
-    {
-        $this->filters = $filters;
-    }
-
     public function build(array $classAttributes): array
     {
         $attributes = array_filter($classAttributes, function ($attribute) {
@@ -53,30 +44,5 @@ class AttributesBuilder
                 $attribute->getDocComment()
             ];
         }, $this->runFilters($attributes));
-    }
-
-    /**
-     * @param Property[] $classAttributes
-     * @return Property[]
-     */
-    private function runFilters(array $classAttributes): array
-    {
-        $attributes = $classAttributes;
-        foreach ($this->filters as $filter) {
-            $attributes = array_filter($attributes, [$filter, 'accept']);
-        }
-        return $attributes;
-    }
-
-    private function resolveVisibility(Property $attribute): string
-    {
-        switch (true) {
-            case $attribute->isPublic():
-                return 'public';
-            case $attribute->isPrivate():
-                return 'private';
-            default:
-                return 'protected';
-        }
     }
 }

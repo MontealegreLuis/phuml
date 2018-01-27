@@ -46,7 +46,7 @@ class RawClassBuilder
         return RawDefinition::class([
             'class' => $class->name,
             'attributes' => $this->attributesBuilder->build($class->stmts),
-            'methods' => $this->methodsBuilder->build($class),
+            'methods' => $this->methodsBuilder->build($class->getMethods()),
             'implements' => $this->buildInterfaces($class->implements),
             'extends' => !empty($class->extends) ? end($class->extends->parts) : null,
         ]);

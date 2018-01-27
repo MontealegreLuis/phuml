@@ -21,18 +21,27 @@ use PhpParser\Node\Stmt\ClassMethod;
  *    - name
  *    - type
  * - doc block
+ *
+ * You can run one or more filters, the current available filters will exclude
+ *
+ * - protected methods
+ * - private methods
+ * - both protected and private if both filters are provided
+ *
+ * @see PrivateMembersFilter
+ * @see ProtectedMembersFilter
  */
-class MethodsBuilder
+class MethodsBuilder extends MembersBuilder
 {
     /** @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_ $definition */
-    public function build($definition): array
+    public function build(array $classMethods): array
     {
         return array_map(function (ClassMethod $method) {
             return $this->buildMethod($method);
-        }, $definition->getMethods());
+        }, $this->runFilters($classMethods));
     }
 
-    public function buildMethod(ClassMethod $method): array
+    private function buildMethod(ClassMethod $method): array
     {
         return [
             $method->name,
@@ -40,18 +49,6 @@ class MethodsBuilder
             $this->buildParameters($method->params),
             $method->getDocComment(),
         ];
-    }
-
-    private function resolveVisibility(ClassMethod $statement): string
-    {
-        switch (true) {
-            case $statement->isPublic():
-                return 'public';
-            case $statement->isPrivate():
-                return 'private';
-            default:
-                return 'protected';
-        }
     }
 
     private function buildParameters(array $parameters): array

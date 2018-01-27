@@ -35,7 +35,7 @@ class RawInterfaceBuilder
     {
         return RawDefinition::interface([
             'interface' => $interface->name,
-            'methods' => $this->methodsBuilder->build($interface),
+            'methods' => $this->methodsBuilder->build($interface->getMethods()),
             'extends' => !empty($interface->extends) ? end($interface->extends)->getLast() : null,
         ]);
     }

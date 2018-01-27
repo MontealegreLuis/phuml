@@ -31,7 +31,7 @@ class AttributesBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_excludes_private_methods()
+    function it_excludes_private_attributes()
     {
         $builder = new AttributesBuilder([new PrivateMembersFilter()]);
 
@@ -45,7 +45,7 @@ class AttributesBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_excludes_protected_methods()
+    function it_excludes_protected_attributes()
     {
         $builder = new AttributesBuilder([new ProtectedMembersFilter()]);
 
@@ -60,7 +60,7 @@ class AttributesBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_excludes_both_protected_and_public_methods()
+    function it_excludes_both_protected_and_public_attributes()
     {
         $builder = new AttributesBuilder([new PrivateMembersFilter(), new ProtectedMembersFilter()]);
 
