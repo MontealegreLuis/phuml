@@ -47,6 +47,16 @@ Example:
     It will generate a digraph in dot format and save it to the file `dot.gv`.
 HELP
             )
+            ->addArgument(
+                'directory',
+                InputArgument::REQUIRED,
+                'The directory to be scanned to generate the dot file'
+            )
+            ->addArgument(
+                'output',
+                InputArgument::REQUIRED,
+                'The file name for your dot file'
+            )
             ->addOption(
                 'recursive',
                 'r',
@@ -59,15 +69,17 @@ HELP
                 InputOption::VALUE_NONE,
                 'If present, the Graphviz processor will generate association among classes'
             )
-            ->addArgument(
-                'directory',
-                InputArgument::REQUIRED,
-                'The directory to be scanned to generate the dot file'
+            ->addOption(
+                'hide-private',
+                'i',
+                InputOption::VALUE_NONE,
+                'If present, no private attributes or methods will be processed'
             )
-            ->addArgument(
-                'output',
-                InputArgument::REQUIRED,
-                'The file name for your dot file'
+            ->addOption(
+                'hide-protected',
+                'o',
+                InputOption::VALUE_NONE,
+                'If present, no protected attributes or methods will be processed'
             )
         ;
     }

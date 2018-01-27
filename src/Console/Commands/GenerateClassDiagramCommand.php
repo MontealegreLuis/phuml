@@ -49,6 +49,16 @@ Example:
     will be send to the `neato` processor and saved to the file `out.png`.
 HELP
             )
+            ->addArgument(
+                'directory',
+                InputArgument::REQUIRED,
+                'The directory to be scanned to generate the class diagram'
+            )
+            ->addArgument(
+                'output',
+                InputArgument::REQUIRED,
+                'The file name for your class diagram'
+            )
             ->addOption(
                 'recursive',
                 'r',
@@ -67,16 +77,19 @@ HELP
                 InputOption::VALUE_NONE,
                 'If present, the Graphviz processor will generate association among classes'
             )
-            ->addArgument(
-                'directory',
-                InputArgument::REQUIRED,
-                'The directory to be scanned to generate the class diagram'
+            ->addOption(
+                'hide-private',
+                'i',
+                InputOption::VALUE_NONE,
+                'If present, no private attributes or methods will be processed'
             )
-            ->addArgument(
-                'output',
-                InputArgument::REQUIRED,
-                'The file name for your class diagram'
-            );
+            ->addOption(
+                'hide-protected',
+                'o',
+                InputOption::VALUE_NONE,
+                'If present, no protected attributes or methods will be processed'
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

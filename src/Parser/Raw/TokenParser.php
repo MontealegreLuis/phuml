@@ -44,9 +44,10 @@ class TokenParser
     public function __construct(
         Parser $parser = null,
         NodeTraverser $traverser = null,
-        ExternalDefinitionsResolver $resolver = null
+        ExternalDefinitionsResolver $resolver = null,
+        RawDefinitions $definitions = null
     ) {
-        $this->definitions = new RawDefinitions();
+        $this->definitions = $definitions ?? new RawDefinitions();
         $this->parser = $parser ?? (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
         $this->traverser = $traverser ?? $this->defaultTraverser();
         $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
