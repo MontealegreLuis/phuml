@@ -33,12 +33,11 @@ class RawClassBuilder
     /** @var MethodsBuilder */
     private $methodsBuilder;
 
-    public function __construct(
-        AttributesBuilder $attributesBuilder = null,
-        MethodsBuilder $methodsBuilder = null
-    ) {
-        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder();
-        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
+    /** @param \PhUml\Parser\Raw\Builders\Filters\MembersFilter[] */
+    public function __construct(array $filters = [])
+    {
+        $this->attributesBuilder = new AttributesBuilder($filters);
+        $this->methodsBuilder = new MethodsBuilder($filters);
     }
 
     public function build(Class_ $class): RawDefinition

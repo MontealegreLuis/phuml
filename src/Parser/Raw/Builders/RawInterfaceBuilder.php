@@ -26,9 +26,10 @@ class RawInterfaceBuilder
     /** @var MethodsBuilder */
     private $methodsBuilder;
 
-    public function __construct(MethodsBuilder $methodsBuilder = null)
+    /** @param \PhUml\Parser\Raw\Builders\Filters\MembersFilter[] */
+    public function __construct(array $filters = [])
     {
-        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
+        $this->methodsBuilder = new MethodsBuilder($filters);
     }
 
     public function build(Interface_ $interface): RawDefinition

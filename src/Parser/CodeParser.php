@@ -9,19 +9,24 @@ namespace PhUml\Parser;
 
 use PhUml\Code\Structure;
 use PhUml\Parser\Raw\ExternalDefinitionsResolver;
-use PhUml\Parser\Raw\TokenParser;
+use PhUml\Parser\Raw\PhpParser;
+use PhUml\Parser\Raw\Php5Parser;
 
 /**
  * It takes the files found by the `CodeFinder` and turns the into a code `Structure`
  *
  * A code `Structure` is a collection of `Definition`s (classes and interfaces)
+ *
+ * It will call the `ExternalDefinitionsResolver` to add generic `RawDefinition`s for classes and
+ * interfaces that do not belong directly to the current codebase.
+ * These external definitions are either built-in or from third party libraries
  */
 class CodeParser
 {
     /** @var StructureBuilder */
     private $builder;
 
-    /** @var TokenParser */
+    /** @var PhpParser */
     private $parser;
 
     /** @var ExternalDefinitionsResolver */
@@ -29,11 +34,11 @@ class CodeParser
 
     public function __construct(
         StructureBuilder $builder = null,
-        TokenParser $parser = null,
+        PhpParser $parser = null,
         ExternalDefinitionsResolver $resolver = null
     ) {
         $this->builder = $builder ?? new StructureBuilder();
-        $this->parser = $parser ?? new TokenParser();
+        $this->parser = $parser ?? new Php5Parser();
         $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
     }
 
