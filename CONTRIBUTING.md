@@ -30,7 +30,7 @@ $ php-cs-fixer fix src --rules=@PSR2,no_unused_imports
 Run the following command if you either added or modified tests (`tests` directory).
 
 ```bash
-$ php-cs-fixer fix src --rules=no_unused_imports
+$ php-cs-fixer fix tests --rules=no_unused_imports
 ```
 
 ## Using phUML from a Git checkout
