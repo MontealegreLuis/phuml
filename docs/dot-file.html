@@ -82,6 +82,8 @@ rm -f output.gv</code></pre>
 It will extract them from the types of the attributes of the class/interface.
 It will also use the types from the arguments passed to the constructor</li>
 <li><code>recursive</code> (<code>-r</code>). If present it will scan the given <code>directory</code> recursively</li>
+<li><code>hide-private</code> (<code>-i</code>). If present it will exclude private methods and attributes</li>
+<li><code>hide-protected</code> (<code>-o</code>). If present it will exclude protected methods and attributes</li>
 </ul>
 <h2 id="examples">Examples</h2>
 <ul>
@@ -89,13 +91,15 @@ It will also use the types from the arguments passed to the constructor</li>
 <li>The DOT file will be saved to the file <code>example.gv</code> in the current directory.</li>
 <li>It will search for classes and interfaces recursively, because of the <code>-r</code> option.</li>
 <li>It will generate associations (<code>-a</code>), by inspecting attributes and constructor parameters in all the classes.</li>
+<li>It will only show public methods and attributes because both options <code>-i</code> and <code>-o</code> are present</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:dot -r -a tests/resources/.code example.gv</code></pre>
+<pre><code>$ vendor/bin/phuml phuml:dot -r -a -i -o tests/resources/.code example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>tests/resources/.code</code> directory.</li>
 <li>The DOT file will be saved to the file <code>example.gv</code> in the current directory.</li>
 <li>It <strong>WILL NOT</strong> search for classes and interfaces recursively, because of the lack of the <code>-r</code> option.</li>
 <li>It <strong>WILL NOT</strong> generate associations because of the lack of the <code>-a</code> option.</li>
+<li>It will show all methods and attributes because both options <code>-i</code> and <code>-o</code> are absent</li>
 </ul>
 <pre><code>$ vendor/bin/phuml phuml:dot tests/resources/.code example.gv</code></pre>
                 </section>

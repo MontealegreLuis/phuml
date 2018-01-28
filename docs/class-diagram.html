@@ -75,6 +75,8 @@
 It will extract them from the types of the attributes of the class.
 It will also use the types from the arguments passed to the constructor</li>
 <li><code>recursive</code> (<code>-r</code>). If present it will scan the given <code>directory</code> recursively</li>
+<li><code>hide-private</code> (<code>-i</code>). If present it will exclude private methods and attributes</li>
+<li><code>hide-protected</code> (<code>-o</code>). If present it will exclude protected methods and attributes</li>
 </ul>
 <h2 id="examples">Examples</h2>
 <ul>
@@ -83,14 +85,16 @@ It will also use the types from the arguments passed to the constructor</li>
 <li>It will search for classes and interfaces recursively, because of the <code>-r</code> option.</li>
 <li>It will generate associations (<code>-a</code>), by inspecting attributes and constructor parameters in all the classes.</li>
 <li>It will use the <code>dot</code> command to generate the diagram, because of the <code>-p dot</code> option.</li>
+<li>It will only show public methods and attributes because both options <code>-i</code> and <code>-o</code> are present</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:diagram -r -a -p dot tests/resources/.code example.png</code></pre>
+<pre><code>$ vendor/bin/phuml phuml:diagram -r -a -i -o -p dot tests/resources/.code example.png</code></pre>
 <ul>
 <li>The following command will produce a class diagram from the <code>tests/resources/.code</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
 <li>It <strong>WILL NOT</strong> search for classes and interfaces recursively, because of the lack of the <code>-r</code> option.</li>
 <li>It <strong>WILL NOT</strong> generate associations because of the lack of the <code>-a</code> option.</li>
 <li>It will use the <code>neato</code> command to generate the diagram, because of the <code>-p neato</code> option.</li>
+<li>It will show all methods and attributes because both options <code>-i</code> and <code>-o</code> are absent</li>
 </ul>
 <pre><code>$ vendor/bin/phuml phuml:diagram -p neato tests/resources/.code example.png</code></pre>
                 </section>
