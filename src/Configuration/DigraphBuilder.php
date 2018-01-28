@@ -62,7 +62,6 @@ class DigraphBuilder
         return new TokenParser(
             (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
             $this->nodeTraverser($definitions),
-            new ExternalDefinitionsResolver(),
             $definitions
         );
     }

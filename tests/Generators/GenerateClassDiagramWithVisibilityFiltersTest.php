@@ -55,7 +55,6 @@ class GenerateClassDiagramWithVisibilityFiltersTest extends TestCase
                 new TokenParser(
                     (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
                     $traverser,
-                    new ExternalDefinitionsResolver(),
                     $definitions
                 )
             ),
@@ -66,7 +65,7 @@ class GenerateClassDiagramWithVisibilityFiltersTest extends TestCase
 
     /**
      * @test
-     * @snapshot
+     * @group snapshot
      */
     function it_filters_private_and_protected_methods()
     {

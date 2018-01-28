@@ -35,22 +35,17 @@ class TokenParser
     /** @var NodeTraverser */
     private $traverser;
 
-    /** @var ExternalDefinitionsResolver */
-    private $resolver;
-
     /** @var RawDefinitions */
     private $definitions;
 
     public function __construct(
         Parser $parser = null,
         NodeTraverser $traverser = null,
-        ExternalDefinitionsResolver $resolver = null,
         RawDefinitions $definitions = null
     ) {
         $this->definitions = $definitions ?? new RawDefinitions();
         $this->parser = $parser ?? (new ParserFactory)->create(ParserFactory::PREFER_PHP5);
         $this->traverser = $traverser ?? $this->defaultTraverser();
-        $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
     }
 
     public function parse(CodeFinder $finder): RawDefinitions
@@ -58,7 +53,6 @@ class TokenParser
         foreach ($finder->files() as $code) {
             $this->traverser->traverse($this->parser->parse($code));
         }
-        $this->resolver->resolve($this->definitions);
         return $this->definitions;
     }
 

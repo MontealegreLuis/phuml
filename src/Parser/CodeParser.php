@@ -8,6 +8,7 @@
 namespace PhUml\Parser;
 
 use PhUml\Code\Structure;
+use PhUml\Parser\Raw\ExternalDefinitionsResolver;
 use PhUml\Parser\Raw\TokenParser;
 
 /**
@@ -23,16 +24,31 @@ class CodeParser
     /** @var TokenParser */
     private $parser;
 
+    /** @var ExternalDefinitionsResolver */
+    private $resolver;
+
     public function __construct(
         StructureBuilder $builder = null,
-        TokenParser $parser = null
+        TokenParser $parser = null,
+        ExternalDefinitionsResolver $resolver = null
     ) {
         $this->builder = $builder ?? new StructureBuilder();
         $this->parser = $parser ?? new TokenParser();
+        $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
     }
 
+    /**
+     * The parsing process is as follows
+     *
+     * 1. Parse the code and generate the raw definitions
+     * 2. Add external definitions (built-in classes/third party libraries), if needed
+     * 3. Build the code structure from the raw definitions
+     */
     public function parse(CodeFinder $finder): Structure
     {
-        return $this->builder->buildFrom($this->parser->parse($finder));
+        $definitions = $this->parser->parse($finder);
+        $this->resolver->resolve($definitions);
+
+        return $this->builder->buildFrom($definitions);
     }
 }
