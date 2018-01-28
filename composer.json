@@ -1,7 +1,7 @@
 {
     "name": "phuml/phuml",
-    "description": "phUML is fully automatic UML class diagram generator for PHP code",
     "type": "library",
+    "description": "phUML is fully automatic UML class diagram generator for PHP code",
     "keywords": [
         "uml"
     ],
@@ -14,32 +14,30 @@
             "role": "Developer"
         }
     ],
-    "support": {
-        "issues": "https://github.com/MontealegreLuis/phuml/issues"
-    },
-    "prefer-stable": true,
     "require": {
         "php": "^7.1",
         "ext-tokenizer": "*",
-        "twig/twig": "^2.4",
-        "symfony/filesystem": "^4.0",
-        "symfony/process": "^4.0",
-        "symfony/finder": "^4.0",
+        "nikic/php-parser": "^3.1",
         "symfony/console": "^4.0",
-        "nikic/php-parser": "^3.1"
+        "symfony/filesystem": "^4.0",
+        "symfony/finder": "^4.0",
+        "symfony/process": "^4.0",
+        "twig/twig": "^2.4"
     },
     "require-dev": {
         "ext-imagick": "*",
-        "phpunit/phpunit": "^6.5",
-        "lupka/phpunit-compare-images": "^1.0"
+        "lupka/phpunit-compare-images": "^1.0",
+        "phpunit/phpunit": "^6.5"
     },
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true
     },
-    "bin": [
-        "bin/phuml"
-    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    },
     "autoload": {
         "psr-4": {
             "PhUml\\": "src"
@@ -50,9 +48,11 @@
             "PhUml\\": "tests"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0-dev"
-        }
+    "prefer-stable": true,
+    "bin": [
+        "bin/phuml"
+    ],
+    "support": {
+        "issues": "https://github.com/MontealegreLuis/phuml/issues"
     }
 }
