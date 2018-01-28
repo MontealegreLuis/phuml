@@ -79,6 +79,23 @@ class GenerateDotFileCommandTest extends TestCase
         $this->assertFileExists($this->dotFile);
     }
 
+    /** @test */
+    function it_generates_a_dot_file_excluding_private_and_protected_members()
+    {
+        $status = $this->tester->execute([
+            'command' => $this->command->getName(),
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $this->dotFile,
+            '--recursive' => true,
+            '--associations' => true,
+            '--hide-protected' => true,
+            '--hide-private' => true,
+        ]);
+
+        $this->assertEquals(0, $status);
+        $this->assertFileExists($this->dotFile);
+    }
+
     /** @var string */
     private $dotFile;
 

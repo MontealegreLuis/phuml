@@ -106,6 +106,24 @@ class GenerateClassDiagramCommandTest extends TestCase
         $this->assertFileExists($this->diagram);
     }
 
+    /** @test */
+    function it_generates_a_class_diagram_excluding_private_and_protected_members()
+    {
+        $status = $this->tester->execute([
+            'command' => $this->command->getName(),
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $this->diagram,
+            '--recursive' => true,
+            '--associations' => true,
+            '--hide-private' => true,
+            '--hide-protected' => true,
+            '--processor' => 'neato',
+        ]);
+
+        $this->assertEquals(0, $status);
+        $this->assertFileExists($this->diagram);
+    }
+
     /** @var GenerateClassDiagramCommand */
     private $command;
 
