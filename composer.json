@@ -1,7 +1,7 @@
 {
     "name": "phuml/phuml",
     "type": "library",
-    "description": "phUML is fully automatic UML class diagram generator for PHP code",
+    "description": "phUML is a fully automatic UML class diagram generator for PHP code",
     "keywords": [
         "uml"
     ],
