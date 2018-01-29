@@ -19,6 +19,8 @@ use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
 use PhUml\Parser\Raw\Builders\MethodsBuilder;
+use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
+use PhUml\Parser\Raw\Builders\NoMethodsBuilder;
 use PhUml\Parser\Raw\Builders\RawClassBuilder;
 use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\PhpParser;
@@ -63,11 +65,17 @@ class DigraphBuilder
 
     private function attributesBuilder(): AttributesBuilder
     {
+        if ($this->configuration->hideAttributes()) {
+            return new NoAttributesBuilder();
+        }
         return new AttributesBuilder($this->filters());
     }
 
     private function methodsBuilder(): MethodsBuilder
     {
+        if ($this->configuration->hideMethods()) {
+            return new NoMethodsBuilder();
+        }
         return new MethodsBuilder($this->filters());
     }
 

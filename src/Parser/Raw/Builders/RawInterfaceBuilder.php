@@ -27,7 +27,7 @@ class RawInterfaceBuilder
     private $methodsBuilder;
 
     /**
-     * @param MethodsBuilder|null $methodsBuilder
+     * @param MethodsBuilder $methodsBuilder
      */
     public function __construct(MethodsBuilder $methodsBuilder = null)
     {

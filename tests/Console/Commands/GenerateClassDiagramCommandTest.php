@@ -124,6 +124,24 @@ class GenerateClassDiagramCommandTest extends TestCase
         $this->assertFileExists($this->diagram);
     }
 
+    /** @test */
+    function it_generates_a_class_diagram_excluding_attributes_and_methods()
+    {
+        $status = $this->tester->execute([
+            'command' => $this->command->getName(),
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $this->diagram,
+            '--recursive' => true,
+            '--associations' => true,
+            '--hide-attributes' => true,
+            '--hide-methods' => true,
+            '--processor' => 'neato',
+        ]);
+
+        $this->assertEquals(0, $status);
+        $this->assertFileExists($this->diagram);
+    }
+
     /** @var GenerateClassDiagramCommand */
     private $command;
 

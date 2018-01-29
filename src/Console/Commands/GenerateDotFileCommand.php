@@ -81,6 +81,18 @@ HELP
                 InputOption::VALUE_NONE,
                 'If present, no protected attributes or methods will be processed'
             )
+            ->addOption(
+                'hide-methods',
+                'm',
+                InputOption::VALUE_NONE,
+                'If present, no methods will be processed'
+            )
+            ->addOption(
+                'hide-attributes',
+                't',
+                InputOption::VALUE_NONE,
+                'If present, no attributes will be processed'
+            )
         ;
     }
 
