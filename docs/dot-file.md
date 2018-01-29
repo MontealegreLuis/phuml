@@ -29,6 +29,8 @@ It has the following options:
 * `recursive` (`-r`). If present it will scan the given `directory` recursively
 * `hide-private` (`-i`). If present it will exclude private methods and attributes
 * `hide-protected` (`-o`). If present it will exclude protected methods and attributes
+* `hide-attributes` (`-t`). If present it will exclude all the attributes
+* `hide-methods` (`-m`). If present it will exclude all the methods
 
 ## Examples
 
@@ -40,6 +42,16 @@ It has the following options:
 
 ```
 $ vendor/bin/phuml phuml:dot -r -a -i -o tests/resources/.code example.gv
+```
+
+* The following command will produce a DOT file from the `tests/resources/.code` directory.
+* The diagram will be saved to the file `example.gv` in the current directory.
+* It will search for classes and interfaces recursively, because of the `-r` option.
+* It will only show names because both options `-t` and `-m` are present.
+* Option `-a` is not present since there's not attributes or constructors to look for associations.
+
+```
+$ vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code example.png
 ```
 
 * The following command will produce a DOT file from the `tests/resources/.code` directory.
