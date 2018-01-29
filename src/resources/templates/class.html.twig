@@ -2,7 +2,7 @@
 {% block content %}
 <TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">
     {% include '_name.html.twig' with {'definition': class, 'style': classStyle} %}
-    {% include '_attributes.html.twig' with  {'definition': class, 'style' : classStyle} %}
-    {% include '_methods.html.twig' with {'definition': class, 'style' : classStyle} %}
+    {% include attributes with  {'definition': class, 'style' : classStyle} %}
+    {% include methods with {'definition': class, 'style' : classStyle} %}
 </TABLE>
 {% endblock %}

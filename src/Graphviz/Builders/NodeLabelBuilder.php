@@ -21,15 +21,21 @@ class NodeLabelBuilder
     /** @var TemplateEngine */
     private $engine;
 
-    public function __construct(TemplateEngine $engine)
+    /** @var NodeLabelStyle */
+    private $style;
+
+    public function __construct(TemplateEngine $engine, NodeLabelStyle $style = null)
     {
         $this->engine = $engine;
+        $this->style = $style ?? new NodeLabelStyle();
     }
 
     public function forClass(ClassDefinition $class): string
     {
         return $this->buildLabel('class.html.twig', [
             'class' => $class,
+            'attributes' => $this->style->attributes(),
+            'methods' => $this->style->methods(),
         ]);
     }
 
@@ -37,6 +43,8 @@ class NodeLabelBuilder
     {
         return $this->buildLabel('interface.html.twig', [
             'interface' => $interface,
+            'attributes' => $this->style->attributes(),
+            'methods' => $this->style->methods(),
         ]);
     }
 

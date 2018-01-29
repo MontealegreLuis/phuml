@@ -2,7 +2,7 @@
 {% block content %}
 <TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">
     {% include '_name.html.twig' with {'definition': interface, 'style': interfaceStyle} %}
-    {% include '_attributes.html.twig' with {'definition': interface, 'style' : interfaceStyle} %}
-    {% include '_methods.html.twig' with {'definition': interface, 'style' : interfaceStyle} %}
+    {% include attributes with {'definition': interface, 'style' : interfaceStyle} %}
+    {% include methods with {'definition': interface, 'style' : interfaceStyle} %}
 </TABLE>
 {% endblock %}
