@@ -14,7 +14,7 @@ use PhUml\Templates\TemplateEngine;
 /**
  * It creates an HTML table out of either a class or an interface.
  *
- * The table is used as a label for the nodes in the digraph use to create the class diagram
+ * The table is used as a label for the nodes in the digraph that is used to create the class diagram
  */
 class NodeLabelBuilder
 {
