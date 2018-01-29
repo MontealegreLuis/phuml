@@ -24,10 +24,10 @@ class ClassVisitor extends NodeVisitorAbstract
     /** @var RawClassBuilder */
     private $builder;
 
-    public function __construct(RawDefinitions $definitions, RawClassBuilder $builder = null)
+    public function __construct(RawDefinitions $definitions, RawClassBuilder $builder)
     {
         $this->definitions = $definitions;
-        $this->builder = $builder ?? new RawClassBuilder();
+        $this->builder = $builder;
     }
 
     public function leaveNode(Node $node)

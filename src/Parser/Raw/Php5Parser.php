@@ -26,21 +26,32 @@ use PhUml\Parser\Raw\Visitors\InterfaceVisitor;
  */
 class Php5Parser extends PhpParser
 {
-    /** @param MembersFilter[] $filters */
-    public function __construct(RawDefinitions $definitions = null, array $filters = [])
+    /** @var RawClassBuilder */
+    private $rawClassBuilder;
+
+    /** @var RawInterfaceBuilder */
+    private $rawInterfaceBuilder;
+
+    /**
+     * @param RawDefinitions|null $definitions
+     * @param RawClassBuilder|null $rawClassBuilder
+     * @param RawInterfaceBuilder|null $rawInterfaceBuilder
+     */
+    public function __construct(RawDefinitions $definitions = null, RawClassBuilder $rawClassBuilder = null, RawInterfaceBuilder $rawInterfaceBuilder = null)
     {
+        $this->rawClassBuilder = $rawClassBuilder ?? new RawClassBuilder();
+        $this->rawInterfaceBuilder = $rawInterfaceBuilder ?? new RawInterfaceBuilder();
         parent::__construct(
             (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
-            $definitions ?? new RawDefinitions(),
-            $filters
+            $definitions ?? new RawDefinitions()
         );
     }
 
     protected function buildTraverser(): NodeTraverser
     {
         $traverser = new NodeTraverser();
-        $traverser->addVisitor(new ClassVisitor($this->definitions, new RawClassBuilder($this->filters)));
-        $traverser->addVisitor(new InterfaceVisitor($this->definitions, new RawInterfaceBuilder($this->filters)));
+        $traverser->addVisitor(new ClassVisitor($this->definitions, $this->rawClassBuilder));
+        $traverser->addVisitor(new InterfaceVisitor($this->definitions, $this->rawInterfaceBuilder));
         return $traverser;
     }
 }

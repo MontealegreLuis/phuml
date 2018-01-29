@@ -14,9 +14,13 @@ use PhUml\Graphviz\Builders\NodeLabelBuilder;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\Raw\Builders\AttributesBuilder;
 use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
+use PhUml\Parser\Raw\Builders\MethodsBuilder;
+use PhUml\Parser\Raw\Builders\RawClassBuilder;
+use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\PhpParser;
 use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\Parser\Raw\Php5Parser;
@@ -50,7 +54,21 @@ class DigraphBuilder
 
     protected function tokenParser(): PhpParser
     {
-        return new Php5Parser(new RawDefinitions(), $this->filters());
+        return new Php5Parser(
+            new RawDefinitions(),
+            new RawClassBuilder($this->attributesBuilder(), $this->methodsBuilder()),
+            new RawInterfaceBuilder($this->methodsBuilder())
+        );
+    }
+
+    private function attributesBuilder(): AttributesBuilder
+    {
+        return new AttributesBuilder($this->filters());
+    }
+
+    private function methodsBuilder(): MethodsBuilder
+    {
+        return new MethodsBuilder($this->filters());
     }
 
     /** @return MembersFilter[] */

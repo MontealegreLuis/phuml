@@ -23,15 +23,10 @@ abstract class PhpParser
     /** @var RawDefinitions */
     protected $definitions;
 
-    /** @var MembersFilter[] */
-    protected $filters;
-
-    /** @param MembersFilter[] $filters */
-    public function __construct(Parser $parser, RawDefinitions $definitions, array $filters)
+    public function __construct(Parser $parser, RawDefinitions $definitions)
     {
         $this->definitions = $definitions;
         $this->parser = $parser;
-        $this->filters = $filters;
         $this->traverser = $this->buildTraverser();
     }
 

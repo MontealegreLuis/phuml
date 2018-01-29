@@ -9,8 +9,8 @@ namespace PhUml\Parser;
 
 use PhUml\Code\Structure;
 use PhUml\Parser\Raw\ExternalDefinitionsResolver;
-use PhUml\Parser\Raw\PhpParser;
 use PhUml\Parser\Raw\Php5Parser;
+use PhUml\Parser\Raw\PhpParser;
 
 /**
  * It takes the files found by the `CodeFinder` and turns the into a code `Structure`
