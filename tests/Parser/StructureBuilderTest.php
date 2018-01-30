@@ -54,13 +54,13 @@ class StructureBuilderTest extends TestCase
         $definitions->add(RawDefinition::class([
             'class' => 'ClassName',
             'attributes' => [
-                ['$name', 'protected', null],
+                ['$name', 'protected', null, false],
                 ['$age', 'private', '/**
                                       * @var int 
-                                      */'],
+                                      */', false],
                 ['$phoneNumbers', 'public', '/**
                                               * @var array(int => string) 
-                                              */'],
+                                              */', false],
             ],
             'methods' => [
                 ['doSomething', 'public', [], false, false],

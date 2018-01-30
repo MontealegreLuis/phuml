@@ -1,8 +1,7 @@
 <TR>
     <TD BORDER="{{ style.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.attributes.background }}">
         {% for attribute in definition.attributes %}
-            <FONT COLOR="{{ style.attributes.color }}" FACE="{{ style.attributes.font }}" POINT-SIZE="{{ style.attributes.fontSize }}">{{ attribute }}</FONT>
-            <BR ALIGN="LEFT"/>
+            {% include '_attribute.html.twig' %}
         {% else %}
             &nbsp;
         {% endfor %}

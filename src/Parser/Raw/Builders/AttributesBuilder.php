@@ -41,7 +41,8 @@ class AttributesBuilder extends MembersBuilder
             return [
                 "\${$attribute->props[0]->name}",
                 $this->resolveVisibility($attribute),
-                $attribute->getDocComment()
+                $attribute->getDocComment(),
+                $attribute->isStatic(),
             ];
         }, $this->runFilters($attributes));
     }

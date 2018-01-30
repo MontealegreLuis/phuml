@@ -10,6 +10,7 @@ namespace PhUml\Parser;
 use PhUml\Code\AbstractMethod;
 use PhUml\Code\Attribute;
 use PhUml\Code\Method;
+use PhUml\Code\StaticAttribute;
 use PhUml\Code\StaticMethod;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
@@ -44,7 +45,10 @@ class DefinitionMembersBuilder
     public function attributes(RawDefinition $class): array
     {
         return array_map(function (array $attribute) {
-            [$name, $modifier, $comment] = $attribute;
+            [$name, $modifier, $comment, $isStatic] = $attribute;
+            if ($isStatic) {
+                return StaticAttribute::$modifier($name, $this->extractTypeFrom($comment));
+            }
             return Attribute::$modifier($name, $this->extractTypeFrom($comment));
         }, $class->attributes());
     }

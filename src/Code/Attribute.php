@@ -12,29 +12,30 @@ namespace PhUml\Code;
  *
  * It does not distinguish yet static attributes
  */
-class Attribute extends Variable implements HasVisibility
+class Attribute extends Variable implements HasVisibility, CanBeStatic
 {
-    use WithVisibility;
+    use WithVisibility, WithStaticModifier;
 
     protected function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {
         parent::__construct($name, $type);
         $this->modifier = $modifier;
+        $this->isStatic = false;
     }
 
     public static function public(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, Visibility::public(), $type ?? TypeDeclaration::absent());
+        return new static($name, Visibility::public(), $type ?? TypeDeclaration::absent());
     }
 
     public static function protected(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, Visibility::protected(), $type ?? TypeDeclaration::absent());
+        return new static($name, Visibility::protected(), $type ?? TypeDeclaration::absent());
     }
 
     public static function private(string $name, TypeDeclaration $type = null): Attribute
     {
-        return new Attribute($name, Visibility::private(), $type ?? TypeDeclaration::absent());
+        return new static($name, Visibility::private(), $type ?? TypeDeclaration::absent());
     }
 
     public function isTyped(): bool
