@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NodeLabelBuilder;
-use PhUml\Graphviz\Builders\NodeLabelStyle;
+use PhUml\Graphviz\Builders\NonEmptyBlocksLabelStyle;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
@@ -35,17 +35,15 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     function createGenerator()
     {
         $methodsBuilder = new NoMethodsBuilder();
-        $nodeLabelBuilder = new NodeLabelBuilder(
-            new TemplateEngine(),
-            new NodeLabelStyle('_empty-attributes.html.twig', '_empty-methods.html.twig')
-        );
+        $nodeLabelBuilder = new NodeLabelBuilder(new TemplateEngine(), new NonEmptyBlocksLabelStyle());
         $this->generator = new ClassDiagramGenerator(
             new CodeParser(
                 new StructureBuilder(),
                 new Php5Parser(
                     new RawDefinitions(),
                     new RawClassBuilder(new NoAttributesBuilder(), $methodsBuilder),
-                    new RawInterfaceBuilder($methodsBuilder))
+                    new RawInterfaceBuilder($methodsBuilder)
+                )
             ),
             new GraphvizProcessor(
                 new ClassGraphBuilder($nodeLabelBuilder),

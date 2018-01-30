@@ -10,18 +10,17 @@ namespace PhUml\Graphviz\Builders;
 /**
  * It is a container for the partial files used to build the HTML label for the node
  */
-class NodeLabelStyle
+abstract class NodeLabelStyle
 {
     /** @var string */
-    private $attributes;
+    protected $attributes;
 
     /** @var string */
-    private $methods;
+    protected $methods;
 
-    public function __construct(string $attributes = null, string $methods = null)
+    public function __construct()
     {
-        $this->attributes = $attributes ?? '_attributes.html.twig';
-        $this->methods = $methods ?? '_methods.html.twig';
+        $this->setPartials();
     }
 
     public function attributes(): string
@@ -33,4 +32,6 @@ class NodeLabelStyle
     {
         return $this->methods;
     }
+
+    abstract protected function setPartials(): void;
 }

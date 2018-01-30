@@ -27,7 +27,7 @@ class NodeLabelBuilder
     public function __construct(TemplateEngine $engine, NodeLabelStyle $style = null)
     {
         $this->engine = $engine;
-        $this->style = $style ?? new NodeLabelStyle();
+        $this->style = $style ?? new DefaultLabelStyle();
     }
 
     public function forClass(ClassDefinition $class): string
