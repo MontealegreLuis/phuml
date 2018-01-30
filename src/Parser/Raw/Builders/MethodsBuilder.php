@@ -49,6 +49,7 @@ class MethodsBuilder extends MembersBuilder
             $this->resolveVisibility($method),
             $this->buildParameters($method->params),
             $method->isAbstract(),
+            $method->isStatic(),
             $method->getDocComment(),
         ];
     }

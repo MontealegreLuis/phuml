@@ -1,6 +1,8 @@
 {% if method.isAbstract %}<I>{% endif %}
     <FONT COLOR="{{ style.methods.color }}" FACE="{{ style.methods.font }}" POINT-SIZE="{{ style.methods.fontSize }}">
-        {{ method }}
+        {% if method.isStatic %}<U>{% endif %}
+            {{ method }}
+        {% if method.isStatic %}</U>{% endif %}
     </FONT>
 {% if method.isAbstract %}</I>{% endif %}
 <BR ALIGN="LEFT"/>

@@ -12,9 +12,9 @@ namespace PhUml\Code;
  *
  * It doesn't distinguish neither static methods nor return types yet
  */
-class Method implements HasVisibility, CanBeAbstract
+class Method implements HasVisibility, CanBeAbstract, CanBeStatic
 {
-    use WithVisibility, WithAbstractModifier;
+    use WithVisibility, WithAbstractModifier, WithStaticModifier;
 
     /** @var string */
     private $name;
@@ -28,6 +28,7 @@ class Method implements HasVisibility, CanBeAbstract
         $this->modifier = $modifier;
         $this->parameters = $parameters;
         $this->isAbstract = false;
+        $this->isStatic = false;
     }
 
     /** @param Variable[] $parameters */

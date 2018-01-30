@@ -10,6 +10,7 @@ namespace PhUml\Parser;
 use PhUml\Code\AbstractMethod;
 use PhUml\Code\Attribute;
 use PhUml\Code\Method;
+use PhUml\Code\StaticMethod;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Parser\Raw\RawDefinition;
@@ -23,12 +24,20 @@ class DefinitionMembersBuilder
     public function methods(RawDefinition $definition): array
     {
         return array_map(function (array $method) {
-            [$name, $modifier, $parameters, $isAbstract] = $method;
-            if ($isAbstract) {
-                return AbstractMethod::$modifier($name, $this->buildParameters($parameters));
-            }
-            return Method::$modifier($name, $this->buildParameters($parameters));
+            return $this->buildMethod($method);
         }, $definition->methods());
+    }
+
+    private function buildMethod(array $method): Method
+    {
+        [$name, $modifier, $parameters, $isAbstract, $isStatic] = $method;
+        if ($isAbstract) {
+            return AbstractMethod::$modifier($name, $this->buildParameters($parameters));
+        }
+        if ($isStatic) {
+            return StaticMethod::$modifier($name, $this->buildParameters($parameters));
+        }
+        return Method::$modifier($name, $this->buildParameters($parameters));
     }
 
     /** @return Attribute[] */
