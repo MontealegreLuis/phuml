@@ -31,6 +31,7 @@ It has the following options:
 * `hide-protected` (`-o`). If present it will exclude protected methods and attributes
 * `hide-attributes` (`-t`). If present it will exclude all the attributes
 * `hide-methods` (`-m`). If present it will exclude all the methods
+* `hide-empty-blocks` (`-b`). If present, no empty blocks will be generated
 
 ## Examples
 
@@ -51,7 +52,18 @@ $ vendor/bin/phuml phuml:dot -r -a -i -o tests/resources/.code example.gv
 * Option `-a` is not present since there's not attributes or constructors to look for associations.
 
 ```
-$ vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code example.png
+$ vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code example.gv
+```
+
+* The following command will produce a DOT file from the `tests/resources/.code` directory.
+* The diagram will be saved to the file `example.gv` in the current directory.
+* It will search for classes and interfaces recursively, because of the `-r` option.
+* It will only show names because both options `-t` and `-m` are present.
+* Option `-a` is not present since there's not attributes or constructors to look for associations.
+* It will not create rows for methods and attributes because of the `-b` option.
+
+```
+$ vendor/bin/phuml phuml:diagram -r -t -m -b tests/resources/.code example.gv
 ```
 
 * The following command will produce a DOT file from the `tests/resources/.code` directory.
