@@ -28,7 +28,6 @@ use PhUml\Parser\Raw\Builders\RawClassBuilder;
 use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\Php5Parser;
 use PhUml\Parser\Raw\PhpParser;
-use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\Parser\StructureBuilder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
@@ -70,7 +69,6 @@ class DigraphBuilder
     protected function tokenParser(): PhpParser
     {
         return new Php5Parser(
-            new RawDefinitions(),
             new RawClassBuilder($this->attributesBuilder(), $this->methodsBuilder()),
             new RawInterfaceBuilder($this->methodsBuilder())
         );

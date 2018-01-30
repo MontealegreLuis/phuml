@@ -20,7 +20,6 @@ use PhUml\Parser\Raw\Builders\MethodsBuilder;
 use PhUml\Parser\Raw\Builders\RawClassBuilder;
 use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\Php5Parser;
-use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\Parser\StructureBuilder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
@@ -37,7 +36,6 @@ class GenerateClassDiagramWithVisibilityFiltersTest extends TestCase
             new CodeParser(
                 new StructureBuilder(),
                 new Php5Parser(
-                    new RawDefinitions(),
                     new RawClassBuilder(new AttributesBuilder($filters), $methodsBuilder),
                     new RawInterfaceBuilder($methodsBuilder))
             ),

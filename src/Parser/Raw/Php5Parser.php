@@ -7,13 +7,9 @@
 
 namespace PhUml\Parser\Raw;
 
-use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
-use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
 use PhUml\Parser\Raw\Builders\RawClassBuilder;
 use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
-use PhUml\Parser\Raw\Visitors\ClassVisitor;
-use PhUml\Parser\Raw\Visitors\InterfaceVisitor;
 
 /**
  * It traverses the AST of all the files and interfaces found by the `CodeFinder` and builds a
@@ -26,30 +22,13 @@ use PhUml\Parser\Raw\Visitors\InterfaceVisitor;
  */
 class Php5Parser extends PhpParser
 {
-    /** @var RawClassBuilder */
-    private $rawClassBuilder;
-
-    /** @var RawInterfaceBuilder */
-    private $rawInterfaceBuilder;
-
     public function __construct(
-        RawDefinitions $definitions = null,
         RawClassBuilder $rawClassBuilder = null,
         RawInterfaceBuilder $rawInterfaceBuilder = null
     ) {
-        $this->rawClassBuilder = $rawClassBuilder ?? new RawClassBuilder();
-        $this->rawInterfaceBuilder = $rawInterfaceBuilder ?? new RawInterfaceBuilder();
         parent::__construct(
             (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
-            $definitions ?? new RawDefinitions()
+            new Php5Traverser($rawClassBuilder ?? new RawClassBuilder(), $rawInterfaceBuilder ?? new RawInterfaceBuilder())
         );
-    }
-
-    protected function buildTraverser(): NodeTraverser
-    {
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor(new ClassVisitor($this->definitions, $this->rawClassBuilder));
-        $traverser->addVisitor(new InterfaceVisitor($this->definitions, $this->rawInterfaceBuilder));
-        return $traverser;
     }
 }

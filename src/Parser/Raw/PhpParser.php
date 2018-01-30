@@ -7,27 +7,21 @@
 
 namespace PhUml\Parser\Raw;
 
-use PhpParser\NodeTraverser;
 use PhpParser\Parser;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
 
 abstract class PhpParser
 {
     /** @var Parser */
     private $parser;
 
-    /** @var NodeTraverser */
+    /** @var PhpTraverser */
     private $traverser;
 
-    /** @var RawDefinitions */
-    protected $definitions;
-
-    public function __construct(Parser $parser, RawDefinitions $definitions)
+    public function __construct(Parser $parser, PhpTraverser $traverser)
     {
-        $this->definitions = $definitions;
         $this->parser = $parser;
-        $this->traverser = $this->buildTraverser();
+        $this->traverser = $traverser;
     }
 
     public function parse(CodeFinder $finder): RawDefinitions
@@ -35,8 +29,6 @@ abstract class PhpParser
         foreach ($finder->files() as $code) {
             $this->traverser->traverse($this->parser->parse($code));
         }
-        return $this->definitions;
+        return $this->traverser->definitions();
     }
-
-    abstract protected function buildTraverser(): NodeTraverser;
 }
