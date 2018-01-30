@@ -34,6 +34,16 @@ class MethodTest extends TestCase
     }
 
     /** @test */
+    function it_knows_if_it_is_abstract()
+    {
+        $abstractMethod = AbstractMethod::public('abstractMethod');
+        $nonAbstractMethod = Method::public('nonAbstractMethod');
+
+        $this->assertTrue($abstractMethod->isAbstract());
+        $this->assertFalse($nonAbstractMethod->isAbstract());
+    }
+
+    /** @test */
     function it_has_no_parameters_by_default()
     {
         $noParametersMethod = Method::public('noParametersMethod');

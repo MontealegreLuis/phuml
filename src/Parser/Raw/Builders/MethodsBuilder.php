@@ -20,6 +20,7 @@ use PhpParser\Node\Stmt\ClassMethod;
  * - parameters
  *    - name
  *    - type
+ * - is it abstract?
  * - doc block
  *
  * You can run one or more filters, the current available filters will exclude
@@ -33,7 +34,7 @@ use PhpParser\Node\Stmt\ClassMethod;
  */
 class MethodsBuilder extends MembersBuilder
 {
-    /** @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_ $definition */
+    /** @param ClassMethod[] $classMethods */
     public function build(array $classMethods): array
     {
         return array_map(function (ClassMethod $method) {
@@ -47,6 +48,7 @@ class MethodsBuilder extends MembersBuilder
             $method->name,
             $this->resolveVisibility($method),
             $this->buildParameters($method->params),
+            $method->isAbstract(),
             $method->getDocComment(),
         ];
     }

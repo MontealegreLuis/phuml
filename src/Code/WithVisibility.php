@@ -7,7 +7,7 @@
 
 namespace PhUml\Code;
 
-trait ProvidesVisibility
+trait WithVisibility
 {
     /** @var Visibility */
     private $modifier;

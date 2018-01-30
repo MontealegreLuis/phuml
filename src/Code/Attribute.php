@@ -14,7 +14,7 @@ namespace PhUml\Code;
  */
 class Attribute extends Variable implements HasVisibility
 {
-    use ProvidesVisibility;
+    use WithVisibility;
 
     protected function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {

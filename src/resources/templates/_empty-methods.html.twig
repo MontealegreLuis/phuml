@@ -2,10 +2,7 @@
 <TR>
     <TD BORDER="{{ style.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.methods.background }}">
         {% for method in definition.methods %}
-            <FONT COLOR="{{ style.methods.color }}" FACE="{{ style.methods.font }}" POINT-SIZE="{{ style.methods.fontSize }}">
-                {{ method }}
-            </FONT>
-            <BR ALIGN="LEFT"/>
+            {% include '_method.html.twig' %}
         {% endfor %}
     </TD>
 </TR>

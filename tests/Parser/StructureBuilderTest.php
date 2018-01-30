@@ -25,8 +25,8 @@ class StructureBuilderTest extends TestCase
         $definitions->add(RawDefinition::interface([
             'interface' => 'InterfaceName',
             'methods' => [
-                ['doSomething', 'public', []],
-                ['changeThing', 'public', [['$name', 'string']]],
+                ['doSomething', 'public', [], false],
+                ['changeThing', 'public', [['$name', 'string']], false],
             ],
             'extends' => 'ParentInterface',
         ]));
@@ -63,8 +63,8 @@ class StructureBuilderTest extends TestCase
                                               */'],
             ],
             'methods' => [
-                ['doSomething', 'public', []],
-                ['changeThing', 'public', [['$name', 'string']]],
+                ['doSomething', 'public', [], false],
+                ['changeThing', 'public', [['$name', 'string']], false],
             ],
             'implements' => [
                 'FirstInterface',

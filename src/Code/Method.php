@@ -12,9 +12,9 @@ namespace PhUml\Code;
  *
  * It doesn't distinguish neither static methods nor return types yet
  */
-class Method implements HasVisibility
+class Method implements HasVisibility, CanBeAbstract
 {
-    use ProvidesVisibility;
+    use WithVisibility, WithAbstractModifier;
 
     /** @var string */
     private $name;
@@ -22,26 +22,30 @@ class Method implements HasVisibility
     /** @var Variable[] */
     private $parameters;
 
-    private function __construct(string $name, Visibility $modifier, array $params = [])
+    protected function __construct(string $name, Visibility $modifier, array $parameters = [])
     {
         $this->name = $name;
         $this->modifier = $modifier;
-        $this->parameters = $params;
+        $this->parameters = $parameters;
+        $this->isAbstract = false;
     }
 
-    public static function public(string $name, array $params = []): Method
+    /** @param Variable[] $parameters */
+    public static function public(string $name, array $parameters = []): Method
     {
-        return new Method($name, Visibility::public(), $params);
+        return new static($name, Visibility::public (), $parameters);
     }
 
-    public static function protected(string $name, array $params = []): Method
+    /** @param Variable[] $parameters */
+    public static function protected(string $name, array $parameters = []): Method
     {
-        return new Method($name, Visibility::protected(), $params);
+        return new static($name, Visibility::protected (), $parameters);
     }
 
-    public static function private(string $name, array $params = []): Method
+    /** @param Variable[] $parameters */
+    public static function private(string $name, array $parameters = []): Method
     {
-        return new Method($name, Visibility::private(), $params);
+        return new static($name, Visibility::private (), $parameters);
     }
 
     public function isConstructor(): bool
