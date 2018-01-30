@@ -11,6 +11,7 @@ use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Builders\NodeLabelBuilder;
+use PhUml\Graphviz\Builders\NodeLabelStyle;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
@@ -44,9 +45,22 @@ class DigraphBuilder
     {
         $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
         $digraphProcessor = new GraphvizProcessor(
-            new ClassGraphBuilder(new NodeLabelBuilder(new TemplateEngine()), $associationsBuilder)
+            new ClassGraphBuilder($this->nodeLabelBuilder(), $associationsBuilder)
         );
         return $digraphProcessor;
+    }
+
+    protected function nodeLabelBuilder(): NodeLabelBuilder
+    {
+        return new NodeLabelBuilder(new TemplateEngine(), $this->nodeLabelStyle());
+    }
+
+    protected function nodeLabelStyle(): NodeLabelStyle
+    {
+        $attributes = $this->configuration->hideEmptyBlocks() ? '_empty-attributes.html.twig' : '_attributes.html.twig';
+        $methods = $this->configuration->hideEmptyBlocks() ? '_empty-methods.html.twig' : '_methods.html.twig';
+
+        return new NodeLabelStyle($attributes, $methods);
     }
 
     protected function codeParser(): CodeParser

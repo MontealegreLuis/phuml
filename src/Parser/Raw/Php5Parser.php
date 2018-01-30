@@ -32,13 +32,11 @@ class Php5Parser extends PhpParser
     /** @var RawInterfaceBuilder */
     private $rawInterfaceBuilder;
 
-    /**
-     * @param RawDefinitions|null $definitions
-     * @param RawClassBuilder|null $rawClassBuilder
-     * @param RawInterfaceBuilder|null $rawInterfaceBuilder
-     */
-    public function __construct(RawDefinitions $definitions = null, RawClassBuilder $rawClassBuilder = null, RawInterfaceBuilder $rawInterfaceBuilder = null)
-    {
+    public function __construct(
+        RawDefinitions $definitions = null,
+        RawClassBuilder $rawClassBuilder = null,
+        RawInterfaceBuilder $rawInterfaceBuilder = null
+    ) {
         $this->rawClassBuilder = $rawClassBuilder ?? new RawClassBuilder();
         $this->rawInterfaceBuilder = $rawInterfaceBuilder ?? new RawInterfaceBuilder();
         parent::__construct(

@@ -1,0 +1,10 @@
+{% if definition.attributes is not empty %}
+<TR>
+    <TD BORDER="{{ style.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.attributes.background }}">
+        {% for attribute in definition.attributes %}
+            <FONT COLOR="{{ style.attributes.color }}" FACE="{{ style.attributes.font }}" POINT-SIZE="{{ style.attributes.fontSize }}">{{ attribute }}</FONT>
+            <BR ALIGN="LEFT"/>
+        {% endfor %}
+    </TD>
+</TR>
+{% endif %}

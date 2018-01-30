@@ -93,6 +93,12 @@ HELP
                 InputOption::VALUE_NONE,
                 'If present, no attributes will be processed'
             )
+            ->addOption(
+                'hide-empty-blocks',
+                'b',
+                InputOption::VALUE_NONE,
+                'If present, no empty blocks will be shown'
+            )
         ;
     }
 

@@ -27,6 +27,9 @@ class DigraphConfiguration
     /** @var bool */
     private $hideMethods;
 
+    /** @var bool */
+    protected $hideEmptyBlocks;
+
     public function __construct(array $input)
     {
         $this->searchRecursively = (bool)$input['recursive'];
@@ -35,6 +38,7 @@ class DigraphConfiguration
         $this->hideProtected = (bool)$input['hide-protected'];
         $this->hideAttributes = (bool)$input['hide-attributes'];
         $this->hideMethods = (bool)$input['hide-methods'];
+        $this->hideEmptyBlocks = (bool)$input['hide-empty-blocks'];
     }
 
     public function extractAssociations(): bool
@@ -65,5 +69,10 @@ class DigraphConfiguration
     public function hideMethods(): bool
     {
         return $this->hideMethods;
+    }
+
+    public function hideEmptyBlocks(): bool
+    {
+        return $this->hideEmptyBlocks;
     }
 }
