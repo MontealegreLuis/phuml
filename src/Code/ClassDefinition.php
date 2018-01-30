@@ -12,7 +12,7 @@ namespace PhUml\Code;
  *
  * It does not support class constants yet
  */
-class ClassDefinition extends Definition
+class ClassDefinition extends Definition implements CanBeAbstract
 {
     /** @var Attribute[] */
     private $attributes;
@@ -56,6 +56,13 @@ class ClassDefinition extends Definition
     public function hasParent(): bool
     {
         return $this->extends !== null;
+    }
+
+    public function isAbstract(): bool
+    {
+        return \count(array_filter($this->methods(), function (Method $method) {
+            return $method->isAbstract();
+        })) > 0;
     }
 
     public function countAttributesByVisibility(Visibility $modifier): int

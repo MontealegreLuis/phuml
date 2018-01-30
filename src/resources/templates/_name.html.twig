@@ -1,7 +1,9 @@
 <TR>
     <TD BORDER="{{ style.tableBorder }}" ALIGN="CENTER" BGCOLOR="{{ style.title.background }}">
         <FONT COLOR="{{ style.title.color }}" FACE="{{ style.title.font }}" POINT-SIZE="{{ style.title.fontSize }}">
+            {% if isAbstract %}<i>{% endif %}
             {{ definition.name }}
+            {% if isAbstract %}</i>{% endif %}
         </FONT>
     </TD>
 </TR>
