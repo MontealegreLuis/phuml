@@ -7,9 +7,9 @@
 
 namespace PhUml\Code;
 
-use PHPUnit\Framework\TestCase;
+use PhUml\ContractTests\MembersWithTypeDeclarationTest;
 
-class VariableTest extends TestCase
+class VariableTest extends MembersWithTypeDeclarationTest
 {
     /** @test */
     function it_knows_its_name()
@@ -22,36 +22,6 @@ class VariableTest extends TestCase
     }
 
     /** @test */
-    function it_has_no_type_by_default()
-    {
-        $noTypeParameter = Variable::declaredWith('$noTypeForParameter');
-
-        $type = $noTypeParameter->type();
-
-        $this->assertFalse($type->isPresent());
-    }
-
-    /** @test */
-    function it_knows_if_it_refers_to_another_class_or_interface()
-    {
-        $reference = Variable::declaredWith('$reference', TypeDeclaration::from('AClass'));
-
-        $isAReference = $reference->isAReference();
-
-        $this->assertTrue($isAReference);
-    }
-
-    /** @test */
-    function it_knows_it_does_not_refers_to_another_class_or_interface()
-    {
-        $noType = Variable::declaredWith('$noTypeAttribute');
-        $builtInType = Variable::declaredWith('$builtInAttribute', TypeDeclaration::from('float'));
-
-        $this->assertFalse($noType->isAReference());
-        $this->assertFalse($builtInType->isAReference());
-    }
-
-    /** @test */
     function it_can_be_represented_as_string()
     {
         $parameter = Variable::declaredWith('$parameterName', TypeDeclaration::from('string'));
@@ -59,5 +29,20 @@ class VariableTest extends TestCase
         $parameterAsString = $parameter->__toString();
 
         $this->assertEquals('string $parameterName', $parameterAsString);
+    }
+
+    protected function memberWithoutType(): HasType
+    {
+        return Variable::declaredWith('$noTypeForParameter');
+    }
+
+    protected function reference(): HasType
+    {
+        return Variable::declaredWith('$reference', TypeDeclaration::from('AClass'));
+    }
+
+    protected function memberWithBuiltInType(): HasType
+    {
+        return Variable::declaredWith('$builtInAttribute', TypeDeclaration::from('float'));
     }
 }

@@ -7,9 +7,9 @@
 
 namespace PhUml\Code;
 
-use PHPUnit\Framework\TestCase;
+use PhUml\ContractTests\MembersWithTypeDeclarationTest;
 
-class AttributeTest extends TestCase
+class AttributeTest extends MembersWithTypeDeclarationTest
 {
     /** @test */
     function it_knows_its_name()
@@ -52,36 +52,6 @@ class AttributeTest extends TestCase
     }
 
     /** @test */
-    function it_has_no_type_by_default()
-    {
-        $noTypeAttribute = Attribute::public('$attribute');
-
-        $type = $noTypeAttribute->type();
-
-        $this->assertFalse($type->isPresent());
-    }
-
-    /** @test */
-    function it_knows_it_refers_to_another_class_or_interface()
-    {
-        $reference = Attribute::public ('reference', TypeDeclaration::from('AClass'));
-
-        $isAReference = $reference->isAReference();
-
-        $this->assertTrue($isAReference);
-    }
-
-    /** @test */
-    function it_knows_it_does_not_refer_to_another_class_or_interface()
-    {
-        $noType = Attribute::public('noTypeAttribute');
-        $builtInType = Attribute::public('builtInAttribute', TypeDeclaration::from('float'));
-
-        $this->assertFalse($noType->isAReference());
-        $this->assertFalse($builtInType->isAReference());
-    }
-
-    /** @test */
     function it_can_be_represented_as_string()
     {
         $privateAttribute = Attribute::private('privateAttribute');
@@ -95,5 +65,20 @@ class AttributeTest extends TestCase
         $this->assertEquals('-privateAttribute', $private);
         $this->assertEquals('+publicAttribute', $public);
         $this->assertEquals('#protectedAttribute', $protected);
+    }
+
+    protected function memberWithoutType(): HasType
+    {
+        return Attribute::public('$attribute');
+    }
+
+    protected function reference(): HasType
+    {
+        return Attribute::public('reference', TypeDeclaration::from('AClass'));
+    }
+
+    protected function memberWithBuiltInType(): HasType
+    {
+        return Attribute::public('builtInAttribute', TypeDeclaration::from('float'));
     }
 }

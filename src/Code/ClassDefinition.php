@@ -75,7 +75,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
     public function countTypedAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
-            return $attribute->isTyped() && $attribute->hasVisibility($modifier);
+            return $attribute->hasTypeDeclaration() && $attribute->hasVisibility($modifier);
         }));
     }
 

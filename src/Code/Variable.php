@@ -10,13 +10,12 @@ namespace PhUml\Code;
 /**
  * It represents a variable declaration
  */
-class Variable
+class Variable implements HasType
 {
+    use WithTypeDeclaration;
+
     /** @var string */
     protected $name;
-
-    /** @var TypeDeclaration */
-    protected $type;
 
     protected function __construct(string $name, TypeDeclaration $type)
     {
@@ -29,34 +28,9 @@ class Variable
         return new Variable($name, $type ?? TypeDeclaration::absent());
     }
 
-    /**
-     * An attribute is a reference if it has a type and it's not a built-in type
-     *
-     * This is used when building the digraph and the option `createAssociations` is set
-     */
-    public function isAReference(): bool
-    {
-        return $this->hasType() && !$this->isBuiltIn();
-    }
-
-    private function hasType(): bool
-    {
-        return $this->type->isPresent();
-    }
-
-    private function isBuiltIn(): bool
-    {
-        return $this->type->isBuiltIn();
-    }
-
     public function name(): string
     {
         return $this->name;
-    }
-
-    public function type(): TypeDeclaration
-    {
-        return $this->type;
     }
 
     public function __toString()

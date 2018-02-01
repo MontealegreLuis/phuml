@@ -9,8 +9,6 @@ namespace PhUml\Code;
 
 /**
  * It represents a class attribute
- *
- * It does not distinguish yet static attributes
  */
 class Attribute extends Variable implements HasVisibility, CanBeStatic
 {
@@ -38,13 +36,8 @@ class Attribute extends Variable implements HasVisibility, CanBeStatic
         return new static($name, Visibility::private(), $type ?? TypeDeclaration::absent());
     }
 
-    public function isTyped(): bool
-    {
-        return $this->type->isPresent();
-    }
-
     /**
-     * It doesn't currently support information type
+     * It doesn't support type information currently
      *
      * @see GraphvizProcessor#getClassDefinition In its original version
      */
