@@ -17,6 +17,7 @@ use PhUml\Parser\Raw\RawDefinition;
  * The array has the following structure
  *
  * - `class` The class name
+ * - `constants` The meta-information of the class constants
  * - `attributes` The meta-information of the class attributes
  * - `methods` The meta-information of the methods of the class
  * - `implements` The names of the interfaces it implements, if any
@@ -33,12 +34,15 @@ class RawClassBuilder
     /** @var MethodsBuilder */
     private $methodsBuilder;
 
-    /**
-     * @param AttributesBuilder $attributesBuilder
-     * @param MethodsBuilder $methodsBuilder
-     */
-    public function __construct(AttributesBuilder $attributesBuilder = null, MethodsBuilder $methodsBuilder = null)
-    {
+    /** @var ConstantsBuilder */
+    private $constantsBuilder;
+
+    public function __construct(
+        ConstantsBuilder $constantsBuilder = null,
+        AttributesBuilder $attributesBuilder = null,
+        MethodsBuilder $methodsBuilder = null
+    ) {
+        $this->constantsBuilder = $constantsBuilder ?? new ConstantsBuilder();
         $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder([]);
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder([]);
     }
@@ -47,6 +51,7 @@ class RawClassBuilder
     {
         return RawDefinition::class([
             'class' => $class->name,
+            'constants' => $this->constantsBuilder->build($class->stmts),
             'attributes' => $this->attributesBuilder->build($class->stmts),
             'methods' => $this->methodsBuilder->build($class->getMethods()),
             'implements' => $this->buildInterfaces($class->implements),

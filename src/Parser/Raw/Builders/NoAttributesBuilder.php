@@ -17,7 +17,7 @@ class NoAttributesBuilder extends AttributesBuilder
         parent::__construct([]);
     }
 
-    public function build(array $classAttributes): array
+    public function build(array $definitionAttributes): array
     {
         return [];
     }

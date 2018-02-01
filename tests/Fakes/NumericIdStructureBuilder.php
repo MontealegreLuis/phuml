@@ -19,6 +19,7 @@ class NumericIdStructureBuilder extends StructureBuilder
     {
         return new NumericIdInterface(
             $interface->name(),
+            $interface->constants(),
             $this->builder->methods($interface),
             $this->resolveRelatedInterface($definitions, $interface->parent())
         );
@@ -28,6 +29,7 @@ class NumericIdStructureBuilder extends StructureBuilder
     {
         return new NumericIdClass(
             $class->name(),
+            $class->constants(),
             $this->builder->attributes($class),
             $this->builder->methods($class),
             $this->buildInterfaces($definitions, $class->interfaces()),

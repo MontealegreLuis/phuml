@@ -16,9 +16,13 @@ class NumericIdInterface extends InterfaceDefinition
     /** @var int */
     private $identifier;
 
-    public function __construct($name, array $functions = [], $extends = null)
-    {
-        parent::__construct($name, $functions, $extends);
+    public function __construct(
+        string $name,
+        array $constants = [],
+        array $methods = [],
+        $extends = null
+    ) {
+        parent::__construct($name, $constants, $methods, $extends);
         self::$id++;
         $this->identifier = self::$id;
     }

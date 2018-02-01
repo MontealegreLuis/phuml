@@ -22,6 +22,9 @@ class Definition implements HasNodeIdentifier
     /** @var string */
     protected $name;
 
+    /** @var Constant[] */
+    protected $constants;
+
     /** @var Method[] */
     protected $methods;
 
@@ -29,11 +32,17 @@ class Definition implements HasNodeIdentifier
     protected $extends;
 
     /**
+     * @param Constant[] $constants
      * @param Method[] $methods
      */
-    public function __construct(string $name, array $methods = [], Definition $extends = null)
-    {
+    public function __construct(
+        string $name,
+        array $constants = [],
+        array $methods = [],
+        Definition $extends = null
+    ) {
         $this->name = $name;
+        $this->constants = $constants;
         $this->methods = $methods;
         $this->extends = $extends;
     }
@@ -48,6 +57,12 @@ class Definition implements HasNodeIdentifier
     public function name(): string
     {
         return $this->name;
+    }
+
+    /** @return Constant[] */
+    public function constants(): array
+    {
+        return $this->constants;
     }
 
     /** @return Method[] */

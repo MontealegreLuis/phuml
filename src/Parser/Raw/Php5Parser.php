@@ -28,7 +28,10 @@ class Php5Parser extends PhpParser
     ) {
         parent::__construct(
             (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
-            new Php5Traverser($rawClassBuilder ?? new RawClassBuilder(), $rawInterfaceBuilder ?? new RawInterfaceBuilder())
+            new Php5Traverser(
+                $rawClassBuilder ?? new RawClassBuilder(),
+                $rawInterfaceBuilder ?? new RawInterfaceBuilder()
+            )
         );
     }
 }

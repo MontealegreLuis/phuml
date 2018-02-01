@@ -17,12 +17,14 @@ class RawDefinition
 {
     private static $classDefaults = [
         'attributes' => [],
+        'constants' => [],
         'methods' => [],
         'implements' => [],
         'extends' => null,
     ];
 
     private static $interfaceDefaults = [
+        'constants' => [],
         'methods' => [],
         'extends' => null,
     ];
@@ -39,6 +41,7 @@ class RawDefinition
     {
         return new RawDefinition([
             'class' => $definition['class'],
+            'constants' => $definition['constants'] ?? self::$classDefaults['constants'],
             'attributes' => $definition['attributes'] ?? self::$classDefaults['attributes'],
             'methods' => $definition['methods'] ?? self::$classDefaults['methods'],
             'implements' => $definition['implements'] ?? self::$classDefaults['implements'],
@@ -50,6 +53,7 @@ class RawDefinition
     {
         return new RawDefinition([
             'interface' => $definition['interface'],
+            'constants' => $definition['constants'] ?? self::$interfaceDefaults['constants'],
             'methods' => $definition['methods'] ?? self::$interfaceDefaults['methods'],
             'extends' => $definition['extends'] ?? self::$interfaceDefaults['extends'],
         ]);
@@ -104,5 +108,10 @@ class RawDefinition
     public function methods(): array
     {
         return $this->definition['methods'];
+    }
+
+    public function constants(): array
+    {
+        return $this->definition['constants'];
     }
 }

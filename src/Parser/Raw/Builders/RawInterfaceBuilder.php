@@ -16,6 +16,7 @@ use PhUml\Parser\Raw\RawDefinition;
  * The array has the following structure
  *
  * - `interface` The interface name
+ * - `constants` The meta-information of the class constants
  * - `methods` The meta-information of the methods of the interface
  * - `extends` The name of the interface it extends, if any
  *
@@ -26,11 +27,14 @@ class RawInterfaceBuilder
     /** @var MethodsBuilder */
     private $methodsBuilder;
 
-    /**
-     * @param MethodsBuilder $methodsBuilder
-     */
-    public function __construct(MethodsBuilder $methodsBuilder = null)
-    {
+    /** @var ConstantsBuilder */
+    private $constantsBuilder;
+
+    public function __construct(
+        ConstantsBuilder $constantsBuilder = null,
+        MethodsBuilder $methodsBuilder = null
+    ) {
+        $this->constantsBuilder = $constantsBuilder ?? new ConstantsBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
     }
 
@@ -38,6 +42,7 @@ class RawInterfaceBuilder
     {
         return RawDefinition::interface([
             'interface' => $interface->name,
+            'constants' => $this->constantsBuilder->build($interface->stmts),
             'methods' => $this->methodsBuilder->build($interface->getMethods()),
             'extends' => !empty($interface->extends) ? end($interface->extends)->getLast() : null,
         ]);

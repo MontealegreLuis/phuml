@@ -8,6 +8,7 @@
 namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\TestBuilders\A;
 
 class InterfaceDefinitionTest extends TestCase
 {
@@ -44,22 +45,26 @@ class InterfaceDefinitionTest extends TestCase
     /** @test */
     function it_knows_its_methods()
     {
-        $methods = [
-            Method::public('firstMethod'),
-            Method::public('secondMethod'),
-        ];
-        $interfaceWithMethods = new InterfaceDefinition('InterfaceWithMethods', $methods);
+        $interfaceWithMethods = A::interface('InterfaceWithMethods')
+            ->withAPublicMethod('firstMethod')
+            ->withAPublicMethod('secondMethod')
+            ->build()
+        ;
 
         $interfaceMethods = $interfaceWithMethods->methods();
 
-        $this->assertEquals($methods, $interfaceMethods);
+        $this->assertEquals('firstMethod', $interfaceMethods[0]->name());
+        $this->assertEquals('secondMethod', $interfaceMethods[1]->name());
     }
 
     /** @test */
     function it_knows_its_parent_interface()
     {
         $parent = new InterfaceDefinition('ParentInterface');
-        $interfaceWithParent = new InterfaceDefinition('InterfaceWithMethods', [], $parent);
+        $interfaceWithParent = A::interface('InterfaceWithParent')
+            ->withParent($parent)
+            ->build()
+        ;
 
         $parentClass = $interfaceWithParent->extends();
 

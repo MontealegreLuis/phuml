@@ -50,6 +50,7 @@ class StructureBuilder
     {
         return new InterfaceDefinition(
             $interface->name(),
+            $this->builder->constants($interface),
             $this->builder->methods($interface),
             $this->resolveRelatedInterface($definitions, $interface->parent())
         );
@@ -59,6 +60,7 @@ class StructureBuilder
     {
         return new ClassDefinition(
             $class->name(),
+            $this->builder->constants($class),
             $this->builder->attributes($class),
             $this->builder->methods($class),
             $this->buildInterfaces($definitions, $class->interfaces()),

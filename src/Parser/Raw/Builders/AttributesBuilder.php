@@ -31,9 +31,10 @@ use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
  */
 class AttributesBuilder extends MembersBuilder
 {
-    public function build(array $classAttributes): array
+    /** @param \PhpParser\Node[] $definitionAttributes */
+    public function build(array $definitionAttributes): array
     {
-        $attributes = array_filter($classAttributes, function ($attribute) {
+        $attributes = array_filter($definitionAttributes, function ($attribute) {
             return $attribute instanceof Property;
         });
 

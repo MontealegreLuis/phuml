@@ -22,12 +22,13 @@ class ClassDefinition extends Definition implements CanBeAbstract
 
     public function __construct(
         string $name,
+        array $constants = [],
         array $attributes = [],
         array $methods = [],
         array $implements = [],
         ClassDefinition $extends = null
     ) {
-        parent::__construct($name, $methods, $extends);
+        parent::__construct($name, $constants, $methods, $extends);
         $this->attributes = $attributes;
         $this->implements = $implements;
     }

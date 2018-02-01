@@ -79,6 +79,7 @@ class ClassBuilder extends DefinitionBuilder
     {
         return new ClassDefinition(
             $this->name,
+            [],
             $this->attributes,
             $this->methods,
             $this->interfaces,

@@ -8,6 +8,7 @@
 namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\TestBuilders\A;
 
 class ClassDefinitionTest extends TestCase
 {
@@ -64,15 +65,16 @@ class ClassDefinitionTest extends TestCase
     /** @test */
     function it_knows_its_attributes()
     {
-        $attributes = [
-            Attribute::public('firstAttribute'),
-            Attribute::public('secondAttribute'),
-        ];
-        $classWithAttributes = new ClassDefinition('ClassWithAttributes', $attributes);
+        $classWithAttributes = A::class('ClassWithAttributes')
+            ->withAPublicAttribute('firstAttribute')
+            ->withAPublicAttribute('secondAttribute')
+            ->build()
+        ;
 
         $classAttributes = $classWithAttributes->attributes();
 
-        $this->assertEquals($attributes, $classAttributes);
+        $this->assertEquals('firstAttribute', $classAttributes[0]->name());
+        $this->assertEquals('secondAttribute', $classAttributes[1]->name());
     }
 
     /** @test */
@@ -82,21 +84,27 @@ class ClassDefinitionTest extends TestCase
             Method::public('methodOne'),
             Method::public('methodTwo'),
         ];
-        $classWithMethods = new ClassDefinition('ClassWithMethods', [], $methods);
+        $classWithMethods = A::class('ClassWithMethods')
+            ->withAPublicMethod('methodOne')
+            ->withAPublicMethod('methodTwo')
+            ->build()
+        ;
 
         $classMethods = $classWithMethods->methods();
 
-        $this->assertEquals($methods, $classMethods);
+        $this->assertEquals('methodOne', $classMethods[0]->name());
+        $this->assertEquals('methodTwo', $classMethods[1]->name());
     }
 
     /** @test */
     function it_knows_it_has_a_constructor()
     {
-        $class = new ClassDefinition('ClassWithConstructor', [], [
-            Method::public('notAConstructor'),
-            Method::public('__construct'),
-            Method::public('notAConstructorEither'),
-        ]);
+        $class = A::class('ClassWithConstructor')
+            ->withAPublicMethod('notAConstructor')
+            ->withAPublicMethod('__construct')
+            ->withAPublicMethod('notAConstructorEither')
+            ->build()
+        ;
 
         $this->assertTrue($class->hasConstructor());
     }
@@ -104,10 +112,11 @@ class ClassDefinitionTest extends TestCase
     /** @test */
     function it_knows_it_does_not_have_a_constructor()
     {
-        $class = new ClassDefinition('ClassWithConstructor', [], [
-            Method::public('notAConstructor'),
-            Method::public('notAConstructorEither'),
-        ]);
+        $class = A::class('ClassWithoutConstructor')
+            ->withAPublicMethod('notAConstructor')
+            ->withAPublicMethod('notAConstructorEither')
+            ->build()
+        ;
 
         $this->assertFalse($class->hasConstructor());
     }
@@ -115,28 +124,29 @@ class ClassDefinitionTest extends TestCase
     /** @test */
     function it_has_access_to_its_constructor_parameters()
     {
-        $parameters = [
-            Variable::declaredWith('first'),
-            Variable::declaredWith('second', TypeDeclaration::from('float')),
-        ];
-        $class = new ClassDefinition('ClassWithConstructor', [], [
-            Method::public('notAConstructor'),
-            Method::public('__construct', $parameters),
-            Method::public('notAConstructorEither'),
-        ]);
+        $firstParameter = Variable::declaredWith('first');
+        $secondParameter = Variable::declaredWith('second', TypeDeclaration::from('float'));
+        $class = A::class('ClassWithConstructor')
+            ->withAPublicMethod('notAConstructor')
+            ->withAPublicMethod('__construct', $firstParameter, $secondParameter)
+            ->withAPublicMethod('NotAConstructorEither')
+            ->build()
+        ;
 
         $constructorParameters = $class->constructorParameters();
 
-        $this->assertEquals($parameters, $constructorParameters);
+        $this->assertEquals($firstParameter, $constructorParameters[0]);
+        $this->assertEquals($secondParameter, $constructorParameters[1]);
     }
 
     /** @test */
     function it_knows_its_constructor_has_no_parameters_if_no_constructor_is_specified()
     {
-        $class = new ClassDefinition('ClassWithConstructor', [], [
-            Method::public('notAConstructor'),
-            Method::public('notAConstructorEither'),
-        ]);
+        $class = A::class('ClassWithoutConstructor')
+            ->withAPublicMethod('notAConstructor')
+            ->withAPublicMethod('notAConstructorEither')
+            ->build()
+        ;
 
         $constructorParameters = $class->constructorParameters();
 
@@ -150,7 +160,10 @@ class ClassDefinitionTest extends TestCase
             new InterfaceDefinition('InterfaceOne'),
             new InterfaceDefinition('InterfaceTwo'),
         ];
-        $classWithInterfaces = new ClassDefinition('ClassWithInterfaces', [], [], $interfaces);
+        $classWithInterfaces = A::class('ClassWithInterfaces')
+            ->implementing(...$interfaces)
+            ->build()
+        ;
 
         $classInterfaces = $classWithInterfaces->implements();
 
@@ -161,7 +174,7 @@ class ClassDefinitionTest extends TestCase
     function it_knows_its_parent_class()
     {
         $parent = new ClassDefinition('ParentClass');
-        $classWithParent = new ClassDefinition('ClassWithParent', [], [], [], $parent);
+        $classWithParent = A::class('ClassWithParent')->extending($parent)->build();
 
         $parentClass = $classWithParent->extends();
 

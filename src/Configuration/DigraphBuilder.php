@@ -18,6 +18,7 @@ use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Parser\Raw\Builders\AttributesBuilder;
+use PhUml\Parser\Raw\Builders\ConstantsBuilder;
 use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
@@ -69,8 +70,8 @@ class DigraphBuilder
     protected function tokenParser(): PhpParser
     {
         return new Php5Parser(
-            new RawClassBuilder($this->attributesBuilder(), $this->methodsBuilder()),
-            new RawInterfaceBuilder($this->methodsBuilder())
+            new RawClassBuilder(new ConstantsBuilder(), $this->attributesBuilder(), $this->methodsBuilder()),
+            new RawInterfaceBuilder(new ConstantsBuilder(), $this->methodsBuilder())
         );
     }
 

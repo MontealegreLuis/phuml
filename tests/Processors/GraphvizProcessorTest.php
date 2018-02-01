@@ -45,13 +45,13 @@ class GraphvizProcessorTest extends TestCase
 
         $structure = new Structure();
         $parentInterface = new NumericIdInterface('ParentInterface');
-        $interface = new NumericIdInterface('ImplementedInterface', [], $parentInterface);
+        $interface = new NumericIdInterface('ImplementedInterface', [], [], $parentInterface);
         $parentClass = new NumericIdClass('ParentClass');
         $structure->addClass($parentClass);
         $structure->addClass(new NumericIdClass('ReferencedClass'));
         $structure->addInterface($parentInterface);
         $structure->addInterface($interface);
-        $structure->addClass(new NumericIdClass('MyClass', [], [
+        $structure->addClass(new NumericIdClass('MyClass', [], [], [
                 Method::public('__construct', [
                     Variable::declaredWith('$reference', TypeDeclaration::from('ReferencedClass')),
                 ])

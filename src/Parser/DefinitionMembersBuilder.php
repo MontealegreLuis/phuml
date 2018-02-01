@@ -9,6 +9,7 @@ namespace PhUml\Parser;
 
 use PhUml\Code\AbstractMethod;
 use PhUml\Code\Attribute;
+use PhUml\Code\Constant;
 use PhUml\Code\Method;
 use PhUml\Code\StaticAttribute;
 use PhUml\Code\StaticMethod;
@@ -29,18 +30,6 @@ class DefinitionMembersBuilder
         }, $definition->methods());
     }
 
-    private function buildMethod(array $method): Method
-    {
-        [$name, $modifier, $parameters, $isAbstract, $isStatic] = $method;
-        if ($isAbstract) {
-            return AbstractMethod::$modifier($name, $this->buildParameters($parameters));
-        }
-        if ($isStatic) {
-            return StaticMethod::$modifier($name, $this->buildParameters($parameters));
-        }
-        return Method::$modifier($name, $this->buildParameters($parameters));
-    }
-
     /** @return Attribute[] */
     public function attributes(RawDefinition $class): array
     {
@@ -51,6 +40,27 @@ class DefinitionMembersBuilder
             }
             return Attribute::$modifier($name, $this->extractTypeFrom($comment));
         }, $class->attributes());
+    }
+
+    /** @return Constant[] */
+    public function constants(RawDefinition $class): array
+    {
+        return array_map(function (array $constant) {
+            [$name] = $constant;
+            return new Constant($name);
+        }, $class->constants());
+    }
+
+    private function buildMethod(array $method): Method
+    {
+        [$name, $modifier, $parameters, $isAbstract, $isStatic] = $method;
+        if ($isAbstract) {
+            return AbstractMethod::$modifier($name, $this->buildParameters($parameters));
+        }
+        if ($isStatic) {
+            return StaticMethod::$modifier($name, $this->buildParameters($parameters));
+        }
+        return Method::$modifier($name, $this->buildParameters($parameters));
     }
 
     /** @return Variable[] */

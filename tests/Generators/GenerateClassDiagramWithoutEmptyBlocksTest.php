@@ -16,6 +16,7 @@ use PhUml\Graphviz\Builders\NonEmptyBlocksLabelStyle;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\Raw\Builders\ConstantsBuilder;
 use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
 use PhUml\Parser\Raw\Builders\NoMethodsBuilder;
 use PhUml\Parser\Raw\Builders\RawClassBuilder;
@@ -39,8 +40,8 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
             new CodeParser(
                 new StructureBuilder(),
                 new Php5Parser(
-                    new RawClassBuilder(new NoAttributesBuilder(), $methodsBuilder),
-                    new RawInterfaceBuilder($methodsBuilder)
+                    new RawClassBuilder(new ConstantsBuilder(), new NoAttributesBuilder(), $methodsBuilder),
+                    new RawInterfaceBuilder(new ConstantsBuilder(), $methodsBuilder)
                 )
             ),
             new GraphvizProcessor(

@@ -13,6 +13,7 @@ use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Parser\Raw\Builders\AttributesBuilder;
+use PhUml\Parser\Raw\Builders\ConstantsBuilder;
 use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
@@ -36,8 +37,8 @@ class GenerateClassDiagramWithVisibilityFiltersTest extends TestCase
             new CodeParser(
                 new StructureBuilder(),
                 new Php5Parser(
-                    new RawClassBuilder(new AttributesBuilder($filters), $methodsBuilder),
-                    new RawInterfaceBuilder($methodsBuilder))
+                    new RawClassBuilder(new ConstantsBuilder(), new AttributesBuilder($filters), $methodsBuilder),
+                    new RawInterfaceBuilder(new ConstantsBuilder(), $methodsBuilder))
             ),
             new GraphvizProcessor(),
             new DotProcessor()

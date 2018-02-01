@@ -18,12 +18,13 @@ class NumericIdClass extends ClassDefinition
 
     public function __construct(
         string $name,
+        array $constants = [],
         array $attributes = [],
         array $methods = [],
         array $implements = [],
         $extends = null
     ) {
-        parent::__construct($name, $attributes, $methods, $implements, $extends);
+        parent::__construct($name, $constants, $attributes, $methods, $implements, $extends);
         self::$id++;
         $this->identifier = self::$id;
     }

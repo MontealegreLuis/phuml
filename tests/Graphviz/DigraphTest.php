@@ -47,11 +47,11 @@ mindist = 0.6;
         $digraph = new Digraph();
 
         $parentInterface = new NumericIdInterface('ParentInterface');
-        $childInterface = new NumericIdInterface('ChildInterface', [], $parentInterface);
+        $childInterface = new NumericIdInterface('ChildInterface', [], [], $parentInterface);
         $anotherInterface = new NumericIdInterface('AnotherInterface');
         $parentClass = new NumericIdClass('ParentClass');
         $referenceClass = new NumericIdClass('AReference');
-        $testClass = new NumericIdClass('TestClass', [], [
+        $testClass = new NumericIdClass('TestClass', [], [], [
             Method::public('__construct', [
                 Variable::declaredWith('aReference', TypeDeclaration::from('AReference'))
             ])

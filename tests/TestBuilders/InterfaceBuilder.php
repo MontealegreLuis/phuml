@@ -23,9 +23,16 @@ class InterfaceBuilder extends DefinitionBuilder
         return $this;
     }
 
+    public function withParent(InterfaceDefinition $parent): InterfaceBuilder
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
     /** @return InterfaceDefinition */
     public function build()
     {
-        return new InterfaceDefinition($this->name, $this->methods, $this->parent);
+        return new InterfaceDefinition($this->name, [], $this->methods, $this->parent);
     }
 }
