@@ -7,10 +7,9 @@
 
 namespace PhUml\ContractTests;
 
-use PHPUnit\Framework\TestCase;
 use PhUml\Code\HasType;
 
-abstract class MembersWithTypeDeclarationTest extends TestCase
+trait WithTypeDeclarationTests
 {
     /** @test */
     function it_has_no_type_by_default()

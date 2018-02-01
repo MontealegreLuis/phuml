@@ -7,10 +7,13 @@
 
 namespace PhUml\Code;
 
-use PhUml\ContractTests\MembersWithTypeDeclarationTest;
+use PHPUnit\Framework\TestCase;
+use PhUml\ContractTests\WithTypeDeclarationTests;
 
-class VariableTest extends MembersWithTypeDeclarationTest
+class VariableTests extends TestCase
 {
+    use WithTypeDeclarationTests;
+
     /** @test */
     function it_knows_its_name()
     {

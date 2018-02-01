@@ -7,10 +7,14 @@
 
 namespace PhUml\Code;
 
-use PhUml\ContractTests\MembersWithTypeDeclarationTest;
+use PHPUnit\Framework\TestCase;
+use PhUml\ContractTests\WithVisibilityTests;
+use PhUml\ContractTests\WithTypeDeclarationTests;
 
-class AttributeTest extends MembersWithTypeDeclarationTest
+class AttributeTest extends TestCase
 {
+    use WithTypeDeclarationTests, WithVisibilityTests;
+
     /** @test */
     function it_knows_its_name()
     {
@@ -19,36 +23,6 @@ class AttributeTest extends MembersWithTypeDeclarationTest
         $name = $namedAttribute->name();
 
         $this->assertEquals('$namedAttribute', $name);
-    }
-
-    /** @test */
-    function it_can_be_public()
-    {
-        $publicAttribute = Attribute::public('$attribute');
-
-        $isPublic = $publicAttribute->isPublic();
-
-        $this->assertTrue($isPublic);
-    }
-
-    /** @test */
-    function it_can_be_protected()
-    {
-        $protectedAttribute = Attribute::protected('$attribute');
-
-        $isProtected = $protectedAttribute->isProtected();
-
-        $this->assertTrue($isProtected);
-    }
-
-    /** @test */
-    function it_can_be_private()
-    {
-        $privateAttribute = Attribute::private('$attribute');
-
-        $isPrivate = $privateAttribute->isPrivate();
-
-        $this->assertTrue($isPrivate);
     }
 
     /** @test */
@@ -80,5 +54,20 @@ class AttributeTest extends MembersWithTypeDeclarationTest
     protected function memberWithBuiltInType(): HasType
     {
         return Attribute::public('builtInAttribute', TypeDeclaration::from('float'));
+    }
+
+    protected function publicMember(): HasVisibility
+    {
+        return Attribute::public('$attribute');
+    }
+
+    protected function protectedMember(): HasVisibility
+    {
+        return Attribute::protected('$attribute');
+    }
+
+    protected function privateMember(): HasVisibility
+    {
+        return Attribute::private('$attribute');
     }
 }

@@ -8,9 +8,12 @@
 namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\ContractTests\WithVisibilityTests;
 
 class MethodTest extends TestCase
 {
+    use WithVisibilityTests;
+
     /** @test */
     function it_knows_its_name()
     {
@@ -19,18 +22,6 @@ class MethodTest extends TestCase
         $name = $namedMethod->name();
 
         $this->assertEquals('namedMethod', $name);
-    }
-
-    /** @test */
-    function it_knows_its_visibility()
-    {
-        $publicMethod = Method::public('publicMethod');
-        $protectedMethod = Method::protected('protectedMethod');
-        $privateMethod = Method::private('privateMethod');
-
-        $this->assertTrue($publicMethod->isPublic());
-        $this->assertTrue($protectedMethod->isProtected());
-        $this->assertTrue($privateMethod->isPrivate());
     }
 
     /** @test */
@@ -101,5 +92,20 @@ class MethodTest extends TestCase
         '#withParameters( $parameterOne, int $parameterTwoWithType )',
             $methodAsString
         );
+    }
+
+    protected function publicMember(): HasVisibility
+    {
+        return Method::public('publicMethod');
+    }
+
+    protected function protectedMember(): HasVisibility
+    {
+        return Method::protected('protectedMethod');
+    }
+
+    protected function privateMember(): HasVisibility
+    {
+        return Method::private('privateMethod');
     }
 }
