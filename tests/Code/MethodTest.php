@@ -15,16 +15,6 @@ class MethodTest extends TestCase
     use WithVisibilityTests;
 
     /** @test */
-    function it_knows_its_name()
-    {
-        $namedMethod = Method::public('namedMethod');
-
-        $name = $namedMethod->name();
-
-        $this->assertEquals('namedMethod', $name);
-    }
-
-    /** @test */
     function it_knows_if_it_is_abstract()
     {
         $abstractMethod = AbstractMethod::public('abstractMethod');

@@ -28,11 +28,6 @@ class Variable implements HasType
         return new Variable($name, $type ?? TypeDeclaration::absent());
     }
 
-    public function name(): string
-    {
-        return $this->name;
-    }
-
     public function __toString()
     {
         return sprintf(

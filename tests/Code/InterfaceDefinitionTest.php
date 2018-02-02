@@ -45,16 +45,20 @@ class InterfaceDefinitionTest extends TestCase
     /** @test */
     function it_knows_its_methods()
     {
+        $methods = [
+            Method::public('methodOne'),
+            Method::public('methodTwo'),
+        ];
+
         $interfaceWithMethods = A::interface('InterfaceWithMethods')
-            ->withAPublicMethod('firstMethod')
-            ->withAPublicMethod('secondMethod')
+            ->withAPublicMethod('methodOne')
+            ->withAPublicMethod('methodTwo')
             ->build()
         ;
 
         $interfaceMethods = $interfaceWithMethods->methods();
 
-        $this->assertEquals('firstMethod', $interfaceMethods[0]->name());
-        $this->assertEquals('secondMethod', $interfaceMethods[1]->name());
+        $this->assertEquals($methods, $interfaceMethods);
     }
 
     /** @test */

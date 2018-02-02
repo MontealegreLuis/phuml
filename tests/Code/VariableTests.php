@@ -15,16 +15,6 @@ class VariableTests extends TestCase
     use WithTypeDeclarationTests;
 
     /** @test */
-    function it_knows_its_name()
-    {
-        $namedParameter = Variable::declaredWith('$namedParameter');
-
-        $name = $namedParameter->name();
-
-        $this->assertEquals('$namedParameter', $name);
-    }
-
-    /** @test */
     function it_can_be_represented_as_string()
     {
         $parameter = Variable::declaredWith('$parameterName', TypeDeclaration::from('string'));

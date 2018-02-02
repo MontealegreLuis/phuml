@@ -54,11 +54,6 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return $this->name === '__construct';
     }
 
-    public function name(): string
-    {
-        return $this->name;
-    }
-
     public function parameters(): array
     {
         return $this->parameters;

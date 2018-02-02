@@ -65,16 +65,20 @@ class ClassDefinitionTest extends TestCase
     /** @test */
     function it_knows_its_attributes()
     {
+        $attributes = [
+            Attribute::public('$firstAttribute'),
+            Attribute::public('$secondAttribute'),
+        ];
+
         $classWithAttributes = A::class('ClassWithAttributes')
-            ->withAPublicAttribute('firstAttribute')
-            ->withAPublicAttribute('secondAttribute')
+            ->withAPublicAttribute('$firstAttribute')
+            ->withAPublicAttribute('$secondAttribute')
             ->build()
         ;
 
         $classAttributes = $classWithAttributes->attributes();
 
-        $this->assertEquals('firstAttribute', $classAttributes[0]->name());
-        $this->assertEquals('secondAttribute', $classAttributes[1]->name());
+        $this->assertEquals($attributes, $classAttributes);
     }
 
     /** @test */
@@ -92,8 +96,7 @@ class ClassDefinitionTest extends TestCase
 
         $classMethods = $classWithMethods->methods();
 
-        $this->assertEquals('methodOne', $classMethods[0]->name());
-        $this->assertEquals('methodTwo', $classMethods[1]->name());
+        $this->assertEquals($methods, $classMethods);
     }
 
     /** @test */

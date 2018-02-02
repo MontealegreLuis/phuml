@@ -16,16 +16,6 @@ class AttributeTest extends TestCase
     use WithTypeDeclarationTests, WithVisibilityTests;
 
     /** @test */
-    function it_knows_its_name()
-    {
-        $namedAttribute = Attribute::public('$namedAttribute');
-
-        $name = $namedAttribute->name();
-
-        $this->assertEquals('$namedAttribute', $name);
-    }
-
-    /** @test */
     function it_can_be_represented_as_string()
     {
         $privateAttribute = Attribute::private('privateAttribute');
