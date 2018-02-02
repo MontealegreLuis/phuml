@@ -32,8 +32,8 @@ class Variable implements HasType
     {
         return sprintf(
             '%s%s',
-            $this->type->isPresent() ? "{$this->type} " : '',
-            $this->name
+            $this->name,
+            $this->type->isPresent() ? ": {$this->type}" : ''
         );
     }
 }

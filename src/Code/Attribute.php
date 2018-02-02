@@ -36,13 +36,12 @@ class Attribute extends Variable implements HasVisibility, CanBeStatic
         return new static($name, Visibility::private(), $type ?? TypeDeclaration::absent());
     }
 
-    /**
-     * It doesn't support type information currently
-     *
-     * @see GraphvizProcessor#getClassDefinition In its original version
-     */
     public function __toString()
     {
-        return sprintf('%s%s', $this->modifier, $this->name);
+        return sprintf('%s%s%s',
+            $this->modifier,
+            $this->name,
+            $this->type->isPresent() ? ": {$this->type}" : ''
+        );
     }
 }
