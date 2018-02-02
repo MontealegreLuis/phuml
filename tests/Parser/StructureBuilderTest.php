@@ -59,7 +59,7 @@ class StructureBuilderTest extends TestCase
                                       * @var int 
                                       */', false],
                 ['$phoneNumbers', 'public', '/**
-                                              * @var array(int => string) 
+                                              * @var string[] 
                                               */', false],
             ],
             'methods' => [
@@ -80,7 +80,7 @@ class StructureBuilderTest extends TestCase
             A::class('ClassName')
                 ->withAProtectedAttribute('$name')
                 ->withAPrivateAttribute('$age', 'int')
-                ->withAPublicAttribute('$phoneNumbers', 'string')
+                ->withAPublicAttribute('$phoneNumbers', 'string[]')
                 ->withAPublicMethod('doSomething')
                 ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
                 ->implementing(new InterfaceDefinition('FirstInterface'), new InterfaceDefinition('SecondInterface'))

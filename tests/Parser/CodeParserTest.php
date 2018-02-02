@@ -72,7 +72,7 @@ CLASS
 class MyClass
 {
     /**
-     * @var array(string => string)
+     * @var string[]
      */
     private $names;
     
@@ -82,7 +82,7 @@ class MyClass
     protected $age;
     
     /**
-     * @var array(string)
+     * @var string[]
      */
     public $phones;
 }
@@ -92,9 +92,9 @@ CLASS;
         $structure = $this->parser->parse($this->finder);
 
         $class = A::class('MyClass')
-            ->withAPrivateAttribute('$names', 'string')
+            ->withAPrivateAttribute('$names', 'string[]')
             ->withAProtectedAttribute('$age', 'int')
-            ->withAPublicAttribute('$phones', 'string')
+            ->withAPublicAttribute('$phones', 'string[]')
             ->build();
         $this->assertTrue($structure->has('MyClass'));
         $this->assertEquals($class, $structure->get('MyClass'));
@@ -328,7 +328,7 @@ CLASS;
 class Student extends User
 {
     /**
-     * @var array(int => string)
+     * @var string[]
      */
     private $grades;
     
@@ -344,7 +344,7 @@ CLASS;
 class InMemoryStudents implements Students
 {
     /**
-     * @var array(int => Student)
+     * @var Student[]
      */
     private $students;
     
@@ -393,12 +393,12 @@ CLASS;
             ->extending($pageable)
             ->build();
         $student = A::class('Student')
-            ->withAPrivateAttribute('$grades', 'string')
+            ->withAPrivateAttribute('$grades', 'string[]')
             ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
             ->extending($user)
             ->build();
         $inMemoryStudents = A::class('InMemoryStudents')
-            ->withAPrivateAttribute('$students', $student->name())
+            ->withAPrivateAttribute('$students', "{$student->name()}[]")
             ->withAPrivateAttribute('$page')
             ->withAPublicMethod('__construct', A::parameter('$page')->withType('Page')->build())
             ->withAPublicMethod('current')

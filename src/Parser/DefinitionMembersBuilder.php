@@ -9,6 +9,7 @@ namespace PhUml\Parser;
 
 use PhUml\Code\AbstractMethod;
 use PhUml\Code\Attribute;
+use PhUml\Code\AttributeDocBlock;
 use PhUml\Code\Constant;
 use PhUml\Code\Method;
 use PhUml\Code\StaticAttribute;
@@ -78,17 +79,6 @@ class DefinitionMembersBuilder
             return TypeDeclaration::absent();
         }
 
-        $type = null;  // There might be no type information in the comment
-        $matches = [];
-        $arrayExpression = '/^[\s*]*@var\s+array\(\s*(\w+\s*=>\s*)?(\w+)\s*\).*$/m';
-        if (preg_match($arrayExpression, $comment, $matches)) {
-            $type = $matches[2];
-        } else {
-            $typeExpression = '/^[\s*]*@var\s+(\S+).*$/m';
-            if (preg_match($typeExpression, $comment, $matches)) {
-                $type = trim($matches[1]);
-            }
-        }
-        return TypeDeclaration::from($type);
+        return AttributeDocBlock::from($comment)->getType();
     }
 }
