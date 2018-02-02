@@ -9,11 +9,14 @@ namespace PhUml\Code;
 
 /**
  * It represents an interface definition
- *
- * It does not support interface constants yet
  */
 class InterfaceDefinition extends Definition
 {
+    public function hasAttributes(): bool
+    {
+        return \count($this->constants) > 0;
+    }
+
     public function hasParent(): bool
     {
         return $this->extends !== null;

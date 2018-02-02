@@ -43,12 +43,12 @@ class DefinitionMembersBuilder
     }
 
     /** @return Constant[] */
-    public function constants(RawDefinition $class): array
+    public function constants(RawDefinition $definition): array
     {
         return array_map(function (array $constant) {
             [$name] = $constant;
             return new Constant($name);
-        }, $class->constants());
+        }, $definition->constants());
     }
 
     private function buildMethod(array $method): Method

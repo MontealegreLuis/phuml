@@ -9,6 +9,7 @@ namespace PhUml\Code;
 
 class Constant
 {
+    /** @var string */
     private $name;
 
     public function __construct(string $name)
@@ -16,8 +17,8 @@ class Constant
         $this->name = $name;
     }
 
-    public function name(): string
+    public function __toString()
     {
-        return $this->name;
+        return "+{$this->name}";
     }
 }

@@ -66,6 +66,11 @@ class ClassDefinition extends Definition implements CanBeAbstract
         })) > 0;
     }
 
+    public function hasAttributes(): bool
+    {
+        return \count($this->constants) + \count($this->attributes) > 0;
+    }
+
     public function countAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {

@@ -1,7 +1,12 @@
-{% if definition.attributes is not empty %}
+{% if definition.hasAttributes %}
 <TR>
     <TD BORDER="{{ style.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.attributes.background }}">
-        {% include '_attribute.html.twig' %}
+        {% for constant in definition.constants %}
+            {% include '_constant.html.twig' %}
+        {% endfor %}
+        {% for attribute in definition.attributes %}
+            {% include '_attribute.html.twig' %}
+        {% endfor %}
     </TD>
 </TR>
 {% endif %}

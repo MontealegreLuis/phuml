@@ -15,7 +15,7 @@ use PhUml\Graphviz\ObjectHashIdentifier;
  *
  * It does not support traits yet
  */
-class Definition implements HasNodeIdentifier
+abstract class Definition implements HasNodeIdentifier
 {
     use ObjectHashIdentifier;
 
@@ -58,6 +58,8 @@ class Definition implements HasNodeIdentifier
     {
         return $this->name;
     }
+
+    abstract public function hasAttributes(): bool;
 
     /** @return Constant[] */
     public function constants(): array
