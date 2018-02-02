@@ -7,18 +7,25 @@
 
 namespace PhUml\Code;
 
-class Constant
+class Constant implements HasType
 {
+    use WithTypeDeclaration;
+
     /** @var string */
     private $name;
 
-    public function __construct(string $name)
+    public function __construct(string $name, TypeDeclaration $type = null)
     {
         $this->name = $name;
+        $this->type = $type ?? TypeDeclaration::absent();
     }
 
     public function __toString()
     {
-        return "+{$this->name}";
+        return sprintf(
+            "+%s%s",
+            $this->name,
+            $this->type->isPresent() ? ": {$this->type}" : ''
+        );
     }
 }

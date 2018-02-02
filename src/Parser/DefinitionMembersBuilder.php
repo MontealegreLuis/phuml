@@ -46,8 +46,8 @@ class DefinitionMembersBuilder
     public function constants(RawDefinition $definition): array
     {
         return array_map(function (array $constant) {
-            [$name] = $constant;
-            return new Constant($name);
+            [$name, $type] = $constant;
+            return new Constant($name, TypeDeclaration::from($type));
         }, $definition->constants());
     }
 
