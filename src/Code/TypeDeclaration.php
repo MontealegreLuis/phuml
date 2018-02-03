@@ -46,7 +46,21 @@ class TypeDeclaration
      */
     public function isBuiltIn(): bool
     {
-        return null !== $this->name && \in_array($this->name, self::$builtInTypes, true);
+        $type = $this->name;
+        if ($this->isArray()) {
+            $type = $this->removeArraySuffix();
+        }
+        return $this->isPresent() && \in_array($type, self::$builtInTypes, true);
+    }
+
+    private function isArray(): bool
+    {
+        return strpos($this->name, '[]') === \strlen($this->name) - 2;
+    }
+
+    private function removeArraySuffix(): string
+    {
+        return substr($this->name, 0, -2);
     }
 
     public function __toString()

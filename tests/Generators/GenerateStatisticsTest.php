@@ -39,7 +39,7 @@ General statistics
 Classes:    2
 Interfaces: 0
 
-Attributes: 5 (0 are typed)
+Attributes: 5 (2 are typed)
     * private:   5
     * protected: 0
     * public:    0
@@ -81,7 +81,7 @@ General statistics
 Classes:    19
 Interfaces: 0
 
-Attributes: 23 (0 are typed)
+Attributes: 23 (2 are typed)
     * private:   18
     * protected: 1
     * public:    4

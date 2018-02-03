@@ -9,6 +9,8 @@ namespace PhUml\Parser;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Method;
+use PhUml\Code\TypeDeclaration;
 use PhUml\Parser\Raw\ExternalDefinitionsResolver;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
@@ -25,8 +27,8 @@ class StructureBuilderTest extends TestCase
         $definitions->add(RawDefinition::interface([
             'interface' => 'InterfaceName',
             'methods' => [
-                ['doSomething', 'public', [], false, false],
-                ['changeThing', 'public', [['$name', 'string']], false, false],
+                ['doSomething', 'public', [], false, false, null],
+                ['changeThing', 'public', [['$name', 'string']], false, false, null],
             ],
             'extends' => 'ParentInterface',
         ]));
@@ -63,8 +65,8 @@ class StructureBuilderTest extends TestCase
                                               */', false],
             ],
             'methods' => [
-                ['doSomething', 'public', [], false, false],
-                ['changeThing', 'public', [['$name', 'string']], false, false],
+                ['getAge', 'public', [], false, false, '/** @return int */'],
+                ['changeThing', 'public', [['$name', 'string']], false, false, null],
             ],
             'implements' => [
                 'FirstInterface',
@@ -81,7 +83,7 @@ class StructureBuilderTest extends TestCase
                 ->withAProtectedAttribute('$name')
                 ->withAPrivateAttribute('$age', 'int')
                 ->withAPublicAttribute('$phoneNumbers', 'string[]')
-                ->withAPublicMethod('doSomething')
+                ->withAMethod(Method::public('getAge', [], TypeDeclaration::from('int')))
                 ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
                 ->implementing(new InterfaceDefinition('FirstInterface'), new InterfaceDefinition('SecondInterface'))
                 ->extending(new ClassDefinition('ParentClass'))

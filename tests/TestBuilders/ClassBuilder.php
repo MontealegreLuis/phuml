@@ -67,6 +67,13 @@ class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
+    public function withAMethod(Method $method): ClassBuilder
+    {
+        $this->methods[] = $method;
+
+        return $this;
+    }
+
     public function implementing(InterfaceDefinition ...$interfaces): ClassBuilder
     {
         $this->interfaces = array_merge($this->interfaces, $interfaces);

@@ -22,31 +22,51 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     /** @var Variable[] */
     private $parameters;
 
-    protected function __construct(string $name, Visibility $modifier, array $parameters = [])
-    {
+    /** @var TypeDeclaration */
+    private $returnType;
+
+    protected function __construct(
+        string $name,
+        Visibility $modifier,
+        array $parameters = [],
+        TypeDeclaration $returnType = null
+    ) {
         $this->name = $name;
         $this->modifier = $modifier;
         $this->parameters = $parameters;
         $this->isAbstract = false;
         $this->isStatic = false;
+        $this->returnType = $returnType;
     }
 
     /** @param Variable[] $parameters */
-    public static function public(string $name, array $parameters = []): Method
+    public static function public(
+        string $name,
+        array $parameters = [],
+        TypeDeclaration $returnType = null
+    ): Method
     {
-        return new static($name, Visibility::public (), $parameters);
+        return new static($name, Visibility::public(), $parameters, $returnType ?? TypeDeclaration::absent());
     }
 
     /** @param Variable[] $parameters */
-    public static function protected(string $name, array $parameters = []): Method
+    public static function protected(
+        string $name,
+        array $parameters = [],
+        TypeDeclaration $returnType = null
+    ): Method
     {
-        return new static($name, Visibility::protected (), $parameters);
+        return new static($name, Visibility::protected(), $parameters, $returnType ?? TypeDeclaration::absent());
     }
 
     /** @param Variable[] $parameters */
-    public static function private(string $name, array $parameters = []): Method
+    public static function private(
+        string $name,
+        array $parameters = [],
+        TypeDeclaration $returnType = null
+    ): Method
     {
-        return new static($name, Visibility::private (), $parameters);
+        return new static($name, Visibility::private(), $parameters, $returnType ?? TypeDeclaration::absent());
     }
 
     public function isConstructor(): bool
@@ -59,13 +79,19 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return $this->parameters;
     }
 
+    public function returnType(): TypeDeclaration
+    {
+        return $this->returnType;
+    }
+
     public function __toString()
     {
         return sprintf(
-            '%s%s%s',
+            '%s%s%s%s',
             $this->modifier,
             $this->name,
-            empty($this->parameters) ? '()' : '( ' . implode($this->parameters, ', ') . ' )'
+            empty($this->parameters) ? '()' : '( ' . implode($this->parameters, ', ') . ' )',
+            $this->returnType->isPresent() ? ": {$this->returnType()}" : ''
         );
     }
 }

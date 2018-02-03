@@ -11,6 +11,7 @@ class plPhuml
     {
     }
 
+    /** @return void */
     public function addFile( $file )
     {
     }

@@ -12,6 +12,7 @@ use PhUml\Code\Attribute;
 use PhUml\Code\AttributeDocBlock;
 use PhUml\Code\Constant;
 use PhUml\Code\Method;
+use PhUml\Code\MethodDocBlock;
 use PhUml\Code\StaticAttribute;
 use PhUml\Code\StaticMethod;
 use PhUml\Code\TypeDeclaration;
@@ -54,14 +55,15 @@ class DefinitionMembersBuilder
 
     private function buildMethod(array $method): Method
     {
-        [$name, $modifier, $parameters, $isAbstract, $isStatic] = $method;
+        [$name, $modifier, $parameters, $isAbstract, $isStatic, $comment] = $method;
+        $returnType = MethodDocBlock::from($comment)->returnType();
         if ($isAbstract) {
-            return AbstractMethod::$modifier($name, $this->buildParameters($parameters));
+            return AbstractMethod::$modifier($name, $this->buildParameters($parameters), $returnType);
         }
         if ($isStatic) {
-            return StaticMethod::$modifier($name, $this->buildParameters($parameters));
+            return StaticMethod::$modifier($name, $this->buildParameters($parameters), $returnType);
         }
-        return Method::$modifier($name, $this->buildParameters($parameters));
+        return Method::$modifier($name, $this->buildParameters($parameters), $returnType);
     }
 
     /** @return Variable[] */

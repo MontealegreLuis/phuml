@@ -9,9 +9,13 @@ namespace PhUml\Code;
 
 class StaticMethod extends Method
 {
-    public function __construct(string $name, Visibility $modifier, array $parameters = [])
-    {
-        parent::__construct($name, $modifier, $parameters);
+    public function __construct(
+        string $name,
+        Visibility $modifier,
+        array $parameters = [],
+        TypeDeclaration $returnType
+    ) {
+        parent::__construct($name, $modifier, $parameters, $returnType);
         $this->isStatic = true;
     }
 }

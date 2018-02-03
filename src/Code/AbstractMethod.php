@@ -9,9 +9,14 @@ namespace PhUml\Code;
 
 class AbstractMethod extends Method
 {
-    public function __construct(string $name, Visibility $modifier, array $parameters = [])
+    public function __construct(
+        string $name,
+        Visibility $modifier,
+        array $parameters = [],
+        TypeDeclaration $returnType
+    )
     {
-        parent::__construct($name, $modifier, $parameters);
+        parent::__construct($name, $modifier, $parameters, $returnType);
         $this->isAbstract = true;
     }
 }
