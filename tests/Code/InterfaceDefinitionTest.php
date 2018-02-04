@@ -8,6 +8,7 @@
 namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\Methods\Method;
 use PhUml\TestBuilders\A;
 
 class InterfaceDefinitionTest extends TestCase

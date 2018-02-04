@@ -7,14 +7,14 @@
 
 namespace PhUml\Parser;
 
-use PhUml\Code\AbstractMethod;
-use PhUml\Code\Attribute;
-use PhUml\Code\AttributeDocBlock;
+use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\AttributeDocBlock;
+use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Constant;
-use PhUml\Code\Method;
-use PhUml\Code\MethodDocBlock;
-use PhUml\Code\StaticAttribute;
-use PhUml\Code\StaticMethod;
+use PhUml\Code\Methods\AbstractMethod;
+use PhUml\Code\Methods\Method;
+use PhUml\Code\Methods\MethodDocBlock;
+use PhUml\Code\Methods\StaticMethod;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Parser\Raw\RawDefinition;

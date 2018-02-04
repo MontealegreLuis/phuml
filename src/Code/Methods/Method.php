@@ -5,7 +5,17 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Methods;
+
+use PhUml\Code\CanBeAbstract;
+use PhUml\Code\CanBeStatic;
+use PhUml\Code\HasVisibility;
+use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variable;
+use PhUml\Code\Visibility;
+use PhUml\Code\WithAbstractModifier;
+use PhUml\Code\WithStaticModifier;
+use PhUml\Code\WithVisibility;
 
 /**
  * It represents a class or interface method

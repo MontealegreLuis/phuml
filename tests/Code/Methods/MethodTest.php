@@ -5,9 +5,12 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Methods;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\HasVisibility;
+use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variable;
 use PhUml\ContractTests\WithVisibilityTests;
 
 class MethodTest extends TestCase

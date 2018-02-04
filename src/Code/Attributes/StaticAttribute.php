@@ -5,8 +5,14 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Attributes;
 
+use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Visibility;
+
+/**
+ * It represents a class variable
+ */
 class StaticAttribute extends Attribute
 {
     public function __construct(string $name, Visibility $modifier, TypeDeclaration $type)

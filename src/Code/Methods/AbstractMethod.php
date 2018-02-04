@@ -5,7 +5,10 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Methods;
+
+use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Visibility;
 
 class AbstractMethod extends Method
 {
@@ -14,8 +17,7 @@ class AbstractMethod extends Method
         Visibility $modifier,
         array $parameters = [],
         TypeDeclaration $returnType
-    )
-    {
+    ) {
         parent::__construct($name, $modifier, $parameters, $returnType);
         $this->isAbstract = true;
     }

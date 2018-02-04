@@ -5,10 +5,18 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Attributes;
+
+use PhUml\Code\CanBeStatic;
+use PhUml\Code\HasVisibility;
+use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variable;
+use PhUml\Code\Visibility;
+use PhUml\Code\WithStaticModifier;
+use PhUml\Code\WithVisibility;
 
 /**
- * It represents a class attribute
+ * It represents an instance variable
  */
 class Attribute extends Variable implements HasVisibility, CanBeStatic
 {

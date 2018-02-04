@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Method;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Parser\Raw\ExternalDefinitionsResolver;
 use PhUml\Parser\Raw\RawDefinition;

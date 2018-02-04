@@ -5,8 +5,14 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Methods;
 
+use PhUml\Code\DocBlock;
+use PhUml\Code\TypeDeclaration;
+
+/**
+ * It used to extract the return type of a method
+ */
 class MethodDocBlock extends DocBlock
 {
     private static $returnExpression = '/@return\s*([\w]+(\[\])?)/';

@@ -8,7 +8,7 @@
 namespace PhUml\TestBuilders;
 
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Method;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\Variable;
 
 class InterfaceBuilder extends DefinitionBuilder

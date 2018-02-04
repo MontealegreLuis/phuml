@@ -8,7 +8,7 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Method;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\Fakes\ClassNameLabelBuilder;

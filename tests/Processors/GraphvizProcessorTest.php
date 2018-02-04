@@ -8,7 +8,7 @@
 namespace PhUml\Processors;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Method;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\Structure;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;

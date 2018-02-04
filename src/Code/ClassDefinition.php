@@ -7,6 +7,9 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Methods\Method;
+
 /**
  * It represents a class definition
  *

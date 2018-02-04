@@ -5,8 +5,14 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Attributes;
 
+use PhUml\Code\DocBlock;
+use PhUml\Code\TypeDeclaration;
+
+/**
+ * It used to create a type declaration for the attribute
+ */
 class AttributeDocBlock extends DocBlock
 {
     private static $varExpression = '/@var\s*([\w]+(\[\])?)/';

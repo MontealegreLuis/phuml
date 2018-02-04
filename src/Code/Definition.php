@@ -7,6 +7,7 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Methods\Method;
 use PhUml\Graphviz\HasNodeIdentifier;
 use PhUml\Graphviz\ObjectHashIdentifier;
 

@@ -5,11 +5,14 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Attributes;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\ContractTests\WithVisibilityTests;
+use PhUml\Code\HasType;
+use PhUml\Code\HasVisibility;
+use PhUml\Code\TypeDeclaration;
 use PhUml\ContractTests\WithTypeDeclarationTests;
+use PhUml\ContractTests\WithVisibilityTests;
 
 class AttributeTest extends TestCase
 {
