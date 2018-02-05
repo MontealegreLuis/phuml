@@ -17,6 +17,9 @@ menu:
     installation:
       text: Installation
       relativeUrl: docs/installation.html
+    types:
+      text: Type information
+      relativeUrl: docs/types.html
     class_diagram:
       text: Generate a class diagram
       relativeUrl: docs/class-diagram.html
