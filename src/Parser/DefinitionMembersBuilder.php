@@ -70,8 +70,13 @@ class DefinitionMembersBuilder
     private function buildParameters(array $parameters): array
     {
         return array_map(function (array $parameter) {
-            [$name, $type] = $parameter;
-            return Variable::declaredWith($name, TypeDeclaration::from($type));
+            [$name, $type, $comment] = $parameter;
+            if ($type !== null) {
+                $typeDeclaration = TypeDeclaration::from($type);
+            } else {
+                $typeDeclaration = MethodDocBlock::from($comment)->typeOfParameter($name);
+            }
+            return Variable::declaredWith($name, $typeDeclaration);
         }, $parameters);
     }
 

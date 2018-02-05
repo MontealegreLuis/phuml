@@ -1,0 +1,72 @@
+<?php
+/**
+ * PHP version 7.1
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+
+namespace PhUml\Code\Methods;
+
+use PHPUnit\Framework\TestCase;
+use PhUml\Code\TypeDeclaration;
+
+class MethodDocBlockTest extends TestCase
+{
+    /** @test */
+    function it_extracts_type_declaration_from_param_annotations()
+    {
+        $comment = <<<'COMMENT'
+/**
+ * This is the short explanation of the method
+ *
+ * This is the long summary....
+ *
+ * @param string $name The name of the student
+ * @param Twig_Environment $engine This one is here because of the underscore
+ * @param int[] $grades
+ */
+COMMENT;
+
+        $docBlock = MethodDocBlock::from($comment);
+
+        $this->assertEquals(TypeDeclaration::from('string'), $docBlock->typeOfParameter('$name'));
+        $this->assertEquals(TypeDeclaration::from('Twig_Environment'), $docBlock->typeOfParameter('$engine'));
+        $this->assertEquals(TypeDeclaration::from('int[]'), $docBlock->typeOfParameter('$grades'));
+    }
+
+    /** @test */
+    function it_defaults_to_no_type_when_a_type_declaration_does_not_exist()
+    {
+        $comment = <<<'COMMENT'
+/**
+ * This is the short explanation of the method
+ *
+ * This is the long summary....
+ */
+COMMENT;
+
+        $docBlock = MethodDocBlock::from($comment);
+
+        $this->assertEquals(TypeDeclaration::absent(), $docBlock->typeOfParameter('$name'));
+    }
+
+    /** @test */
+    function it_extracts_both_parameter_type_and_return_type()
+    {
+        $comment = <<<'COMMENT'
+/**
+ * This is the short explanation of the method
+ *
+ * This is the long summary....
+ *
+ * @param string $name The name of the student
+ * @return void
+ */
+COMMENT;
+
+        $docBlock = MethodDocBlock::from($comment);
+
+        $this->assertEquals(TypeDeclaration::from('string'), $docBlock->typeOfParameter('$name'));
+        $this->assertEquals(TypeDeclaration::from('void'), $docBlock->returnType());
+    }
+}

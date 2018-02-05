@@ -107,14 +107,16 @@ CLASS;
 <?php
 class MyClass
 {
-    private function changeName(string $newName): void
+    /** @param string $newName */
+    private function changeName($newName): void
     {
     }
     protected function getAge(): int 
     {
         return 0;
     }
-    public function formatPhone(string $format): string
+    /** @param string $format */
+    public function formatPhone($format): string
     {
     }
 }
@@ -142,7 +144,12 @@ class MyClass
     public function __construct()
     {
     }
-    public function changeValues(string $name, int $age, string $phone): void
+    /**
+     * @param string $name
+     * @param int $age
+     * @param string $phone
+     */
+    public function changeValues($name, $age, $phone): void
     {
     }
 }
@@ -239,7 +246,12 @@ CLASS
 <?php
 interface MyInterface
 {
-    public function changeValues(string $name, int $age, string $phone): void;
+    /**
+     * @param string $name
+     * @param int $age
+     * @param string $phone
+     */
+    public function changeValues($name, $age, $phone): void;
     public function ageToMonths(): int;
 }
 INTERFACE
@@ -302,7 +314,8 @@ INTERFACE;
 <?php
 interface Students extends Pageable
 {
-    public function named(string $name): array;
+    /** @param string $name */
+    public function named($name): array;
 }
 INTERFACE;
         $parentClassCode = <<<'CLASS'
@@ -313,11 +326,14 @@ class User
      * @var string
      */
     protected $name;
-    public function __construct(string $name)
+    
+    /** @param string $name */
+    public function __construct($name)
     {
         $this->name = $name;
     }
-    public function isNamed(string $name): bool
+    /** @param string $name */
+    public function isNamed($name): bool
     {
         return $this->name === $name;
     }
@@ -332,7 +348,8 @@ class Student extends User
      */
     private $grades;
     
-    public function __construct(string $name)
+    /** @param string $name */
+    public function __construct($name)
     {
         parent::__construct($name);
         $this->grades = []; // no grades at the beginning...
@@ -361,7 +378,8 @@ class InMemoryStudents implements Students
             array_slice($this->students, $this->page->offset(), $this->page->size())
         ); 
     }
-    public function named(string $name): array
+    /** @param string $name */
+    public function named($name): array
     {
         $matching = [];
         foreach($this->students as $student) {

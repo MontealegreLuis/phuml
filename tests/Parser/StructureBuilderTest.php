@@ -28,7 +28,7 @@ class StructureBuilderTest extends TestCase
             'interface' => 'InterfaceName',
             'methods' => [
                 ['doSomething', 'public', [], false, false, null],
-                ['changeThing', 'public', [['$name', 'string']], false, false, null],
+                ['changeThing', 'public', [['$name', null, '/** @param string $name */']], false, false, null],
             ],
             'extends' => 'ParentInterface',
         ]));
@@ -66,7 +66,7 @@ class StructureBuilderTest extends TestCase
             ],
             'methods' => [
                 ['getAge', 'public', [], false, false, '/** @return int */'],
-                ['changeThing', 'public', [['$name', 'string']], false, false, null],
+                ['changeThing', 'public', [['$name', null, '/** @param string $name */']], false, false, null],
             ],
             'implements' => [
                 'FirstInterface',

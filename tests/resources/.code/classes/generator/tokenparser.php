@@ -23,6 +23,7 @@ class plStructureTokenparserGenerator extends plStructureGenerator
     public function createStructure( array $files )
     {
     }
+
     private function comma()
     {
     }

@@ -47,19 +47,20 @@ class MethodsBuilder extends MembersBuilder
         return [
             $method->name,
             $this->resolveVisibility($method),
-            $this->buildParameters($method->params),
+            $this->buildParameters($method->params, $method->getDocComment()),
             $method->isAbstract(),
             $method->isStatic(),
             $method->getDocComment(),
         ];
     }
 
-    private function buildParameters(array $parameters): array
+    private function buildParameters(array $parameters, ?string $docBlock): array
     {
-        return array_map(function (Param $parameter) {
+        return array_map(function (Param $parameter) use ($docBlock) {
             return [
                 "\${$parameter->name}",
                 $parameter->type,
+                $docBlock,
             ];
         }, $parameters);
     }

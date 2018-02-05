@@ -9,13 +9,17 @@ class plBase
     private static $autoloadDirectory = array();
 
     /**
+     * @param string $classname
      * @return void
      */
     public static function autoload( $classname )
     {
     }
 
-    /** @return void */
+    /**
+     * @param string $directory
+     * @return void
+     */
     public static function addAutoloadDirectory( $directory )
     {
     }
