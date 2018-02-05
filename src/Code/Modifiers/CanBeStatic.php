@@ -5,9 +5,9 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Modifiers;
 
-interface CanBeAbstract
+interface CanBeStatic
 {
-    public function isAbstract(): bool;
+    public function isStatic(): bool;
 }

@@ -7,8 +7,8 @@
 
 namespace PhUml\Code\Attributes;
 
+use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Visibility;
 
 /**
  * It represents a class variable

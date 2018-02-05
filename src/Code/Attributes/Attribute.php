@@ -7,13 +7,13 @@
 
 namespace PhUml\Code\Attributes;
 
-use PhUml\Code\CanBeStatic;
-use PhUml\Code\HasVisibility;
+use PhUml\Code\Modifiers\CanBeStatic;
+use PhUml\Code\Modifiers\HasVisibility;
+use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Modifiers\WithStaticModifier;
+use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
-use PhUml\Code\Visibility;
-use PhUml\Code\WithStaticModifier;
-use PhUml\Code\WithVisibility;
 
 /**
  * It represents an instance variable

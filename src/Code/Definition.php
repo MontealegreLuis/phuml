@@ -8,6 +8,7 @@
 namespace PhUml\Code;
 
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Modifiers\Visibility;
 use PhUml\Graphviz\HasNodeIdentifier;
 use PhUml\Graphviz\ObjectHashIdentifier;
 

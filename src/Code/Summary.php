@@ -7,6 +7,8 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Modifiers\Visibility;
+
 /**
  * It creates a summary of the classes, interfaces, methods, and attributes of a codebase
  */

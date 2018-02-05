@@ -15,7 +15,10 @@ use PhUml\Code\TypeDeclaration;
  */
 class MethodDocBlock extends DocBlock
 {
+    /** @var string */
     private static $returnExpression = '/@return\s*([\w]+(\[\])?)/';
+
+    /** @var string */
     private static $parameterExpression = '/@param\s*([\w]+(?:\[\])?)\s*(\$[\w]+)/';
 
     /** @var TypeDeclaration[] */
@@ -26,7 +29,6 @@ class MethodDocBlock extends DocBlock
         parent::__construct($comment);
         $this->setParameters();
     }
-
 
     public static function from(?string $text): MethodDocBlock
     {

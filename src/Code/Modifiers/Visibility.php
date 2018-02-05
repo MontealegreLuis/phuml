@@ -5,20 +5,21 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code;
+namespace PhUml\Code\Modifiers;
 
 /**
  * It represents the visibility of either an attribute or a method
  */
 class Visibility
 {
+    /** @var string[] */
     private static $symbols = [
         'private' => '-',
         'public' => '+',
         'protected' => '#',
     ];
 
-    /** @var string*/
+    /** @var string */
     private $modifier;
 
     private function __construct(string $modifier)

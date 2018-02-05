@@ -7,8 +7,8 @@
 
 namespace PhUml\Code\Methods;
 
+use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Visibility;
 
 class StaticMethod extends Method
 {

@@ -8,7 +8,7 @@
 namespace PhUml\Code\Methods;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\HasVisibility;
+use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\TypeDeclaration;
 use PhUml\Code\Variable;
 use PhUml\ContractTests\WithVisibilityTests;

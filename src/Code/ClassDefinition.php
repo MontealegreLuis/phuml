@@ -9,6 +9,8 @@ namespace PhUml\Code;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Modifiers\CanBeAbstract;
+use PhUml\Code\Modifiers\Visibility;
 
 /**
  * It represents a class definition
