@@ -54,8 +54,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         string $name,
         array $parameters = [],
         TypeDeclaration $returnType = null
-    ): Method
-    {
+    ): Method {
         return new static($name, Visibility::public(), $parameters, $returnType ?? TypeDeclaration::absent());
     }
 
@@ -64,8 +63,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         string $name,
         array $parameters = [],
         TypeDeclaration $returnType = null
-    ): Method
-    {
+    ): Method {
         return new static($name, Visibility::protected(), $parameters, $returnType ?? TypeDeclaration::absent());
     }
 
@@ -74,8 +72,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         string $name,
         array $parameters = [],
         TypeDeclaration $returnType = null
-    ): Method
-    {
+    ): Method {
         return new static($name, Visibility::private(), $parameters, $returnType ?? TypeDeclaration::absent());
     }
 

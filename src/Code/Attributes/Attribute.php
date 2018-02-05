@@ -46,7 +46,8 @@ class Attribute extends Variable implements HasVisibility, CanBeStatic
 
     public function __toString()
     {
-        return sprintf('%s%s%s',
+        return sprintf(
+            '%s%s%s',
             $this->modifier,
             $this->name,
             $this->type->isPresent() ? ": {$this->type}" : ''
