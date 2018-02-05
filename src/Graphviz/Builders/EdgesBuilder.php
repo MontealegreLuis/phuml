@@ -9,7 +9,7 @@ namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Structure;
-use PhUml\Code\Variable;
+use PhUml\Code\Variables\Variable;
 use PhUml\Graphviz\Edge;
 
 /**

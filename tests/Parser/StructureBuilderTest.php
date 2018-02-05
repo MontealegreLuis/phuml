@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
-use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Parser\Raw\ExternalDefinitionsResolver;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;

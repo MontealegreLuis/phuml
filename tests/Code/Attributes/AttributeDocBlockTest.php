@@ -8,7 +8,7 @@
 namespace PhUml\Code\Attributes;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variables\TypeDeclaration;
 
 class AttributeDocBlockTest extends TestCase
 {

@@ -14,8 +14,8 @@ use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithAbstractModifier;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 /**
  * It represents a class or interface method

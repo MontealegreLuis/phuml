@@ -7,6 +7,10 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Variables\HasType;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\WithTypeDeclaration;
+
 class Constant implements HasType
 {
     use WithTypeDeclaration;

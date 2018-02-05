@@ -9,8 +9,8 @@ namespace PhUml\Code\Methods;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 use PhUml\ContractTests\WithVisibilityTests;
 
 class MethodTest extends TestCase

@@ -8,7 +8,7 @@
 namespace PhUml\Code\Methods;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variables\TypeDeclaration;
 
 class MethodDocBlockTest extends TestCase
 {

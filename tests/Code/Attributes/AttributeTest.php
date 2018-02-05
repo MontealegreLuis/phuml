@@ -8,9 +8,9 @@
 namespace PhUml\Code\Attributes;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\HasType;
 use PhUml\Code\Modifiers\HasVisibility;
-use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variables\HasType;
+use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\ContractTests\WithTypeDeclarationTests;
 use PhUml\ContractTests\WithVisibilityTests;
 

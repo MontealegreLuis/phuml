@@ -8,7 +8,7 @@
 namespace PhUml\Code\Methods;
 
 use PhUml\Code\DocBlock;
-use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variables\TypeDeclaration;
 
 /**
  * It used to extract the return type of a method

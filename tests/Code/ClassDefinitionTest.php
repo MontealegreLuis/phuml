@@ -10,6 +10,8 @@ namespace PhUml\Code;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 use PhUml\TestBuilders\A;
 
 class ClassDefinitionTest extends TestCase

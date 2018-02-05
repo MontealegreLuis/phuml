@@ -7,8 +7,8 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 class ParameterBuilder
 {

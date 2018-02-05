@@ -8,13 +8,14 @@
 namespace PhUml\Code\Attributes;
 
 use PhUml\Code\DocBlock;
-use PhUml\Code\TypeDeclaration;
+use PhUml\Code\Variables\TypeDeclaration;
 
 /**
  * It used to create a type declaration for the attribute
  */
 class AttributeDocBlock extends DocBlock
 {
+    /** @var string */
     private static $varExpression = '/@var\s*([\w]+(\[\])?)/';
 
     public static function from(string $text): AttributeDocBlock

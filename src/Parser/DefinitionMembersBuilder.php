@@ -15,8 +15,8 @@ use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Methods\StaticMethod;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Raw\RawDefinition;
 
 /**

@@ -11,8 +11,8 @@ use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
-use PhUml\Code\TypeDeclaration;
-use PhUml\Code\Variable;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 class ClassBuilder extends DefinitionBuilder
 {

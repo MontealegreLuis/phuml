@@ -7,7 +7,7 @@
 
 namespace PhUml\ContractTests;
 
-use PhUml\Code\HasType;
+use PhUml\Code\Variables\HasType;
 
 trait WithTypeDeclarationTests
 {
