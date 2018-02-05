@@ -9,8 +9,8 @@ namespace PhUml\Parser;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\AttributeDocBlock;
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Attributes\StaticAttribute;
-use PhUml\Code\Constant;
 use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Methods\MethodDocBlock;
