@@ -82,7 +82,7 @@ class MethodTest extends TestCase
         $methodAsString = $methodWithParameters->__toString();
 
         $this->assertEquals(
-        '#withParameters( $parameterOne, $parameterTwoWithType: int )',
+        '#withParameters($parameterOne, $parameterTwoWithType: int)',
             $methodAsString
         );
     }

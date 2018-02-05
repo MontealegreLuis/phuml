@@ -97,7 +97,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
             '%s%s%s%s',
             $this->modifier,
             $this->name,
-            empty($this->parameters) ? '()' : '( ' . implode($this->parameters, ', ') . ' )',
+            empty($this->parameters) ? '()' : '(' . implode($this->parameters, ', ') . ')',
             $this->returnType->isPresent() ? ": {$this->returnType()}" : ''
         );
     }
