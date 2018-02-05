@@ -66,21 +66,39 @@
 
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
-                    <h1 id="todos">TODOs</h1>
-<p>Options for 1.next</p>
-<pre><code>--style
---prefer-dockblock (for arrays)?</code></pre>
-<p>For 1.4</p>
+                    <h1 id="type-hints">Type hints</h1>
+<p>phUML can extract type information from doc blocks</p>
 <ul>
-<li>Return types via doc block</li>
-<li>Better array support (Something[]) instead of what it reads now</li>
-<li>Extract parameters types from <code>@param</code> **</li>
-<li>
-<p>Add parameter type hint to diagrams, use plBase or the other one</p>
-</li>
-<li>values for constants and default parameters?</li>
+<li>It can extract return types via the <code>@return</code> tag</li>
+<li>It can extract scalar type hints via the <code>@param</code> tag</li>
+<li>It can extract types from attributes via the <code>@var</code> tag</li>
 </ul>
-<p>it is SIZE not POINT-SIZE</p>
+<p>The class below will show type information for all of its attributes and methods</p>
+<pre><code class="language-php">&lt;?php
+class WithTypes
+{
+    /** @var string $name */
+    private $name;
+
+    /** @var DateTime */
+    private $dob;
+
+    // This one does not need a doc block since the type is extracted
+    // directly from the method's signature
+    public function __construct(DateTime $dob)
+    {
+        $this-&gt;dob = $dob;
+    }
+
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function rename($name)
+    {
+        $this-&gt;name = $name
+    }
+}</code></pre>
                 </section>
 
             </div>
