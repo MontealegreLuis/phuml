@@ -48,9 +48,6 @@ class EdgesBuilder implements AssociationsBuilder
      */
     public function fromConstructor(ClassDefinition $class, Structure $structure): array
     {
-        if (!$class->hasConstructor()) {
-            return [];
-        }
         return array_map(function (Variable $attribute) use ($class, $structure) {
             return $this->addAssociation($class, $attribute, $structure);
         }, array_filter($class->constructorParameters(), [$this, 'needAssociation']));

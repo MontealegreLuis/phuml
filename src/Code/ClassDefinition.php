@@ -14,8 +14,6 @@ use PhUml\Code\Modifiers\Visibility;
 
 /**
  * It represents a class definition
- *
- * It does not support class constants yet
  */
 class ClassDefinition extends Definition implements CanBeAbstract
 {
@@ -38,14 +36,13 @@ class ClassDefinition extends Definition implements CanBeAbstract
         $this->implements = $implements;
     }
 
-    public function hasConstructor(): bool
-    {
-        return \count(array_filter($this->methods, function (Method $function) {
-            return $function->isConstructor();
-        })) === 1;
-    }
-
-    /** @return Variable[] */
+    /**
+     * This method is used by the `AssociationsBuilder` class to discover associations with other
+     * classes via the constructor
+     *
+     * @return \PhUml\Code\Variables\Variable[]
+     * @see \PhUml\Graphviz\Builders\AssociationsBuilder
+     */
     public function constructorParameters(): array
     {
         if (!$this->hasConstructor()) {
@@ -100,5 +97,12 @@ class ClassDefinition extends Definition implements CanBeAbstract
     public function implements(): array
     {
         return $this->implements;
+    }
+
+    private function hasConstructor(): bool
+    {
+        return \count(array_filter($this->methods, function (Method $function) {
+                return $function->isConstructor();
+            })) === 1;
     }
 }

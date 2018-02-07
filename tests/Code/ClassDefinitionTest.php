@@ -10,8 +10,6 @@ namespace PhUml\Code;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
-use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 use PhUml\TestBuilders\A;
 
 class ClassDefinitionTest extends TestCase
@@ -104,35 +102,10 @@ class ClassDefinitionTest extends TestCase
     }
 
     /** @test */
-    function it_knows_it_has_a_constructor()
-    {
-        $class = A::class('ClassWithConstructor')
-            ->withAPublicMethod('notAConstructor')
-            ->withAPublicMethod('__construct')
-            ->withAPublicMethod('notAConstructorEither')
-            ->build()
-        ;
-
-        $this->assertTrue($class->hasConstructor());
-    }
-
-    /** @test */
-    function it_knows_it_does_not_have_a_constructor()
-    {
-        $class = A::class('ClassWithoutConstructor')
-            ->withAPublicMethod('notAConstructor')
-            ->withAPublicMethod('notAConstructorEither')
-            ->build()
-        ;
-
-        $this->assertFalse($class->hasConstructor());
-    }
-
-    /** @test */
     function it_has_access_to_its_constructor_parameters()
     {
-        $firstParameter = Variable::declaredWith('first');
-        $secondParameter = Variable::declaredWith('second', TypeDeclaration::from('float'));
+        $firstParameter = A::parameter('$first')->build();
+        $secondParameter = A::parameter('$second')->withType('float')->build();
         $class = A::class('ClassWithConstructor')
             ->withAPublicMethod('notAConstructor')
             ->withAPublicMethod('__construct', $firstParameter, $secondParameter)
