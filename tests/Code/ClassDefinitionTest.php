@@ -7,23 +7,12 @@
 
 namespace PhUml\Code;
 
-use PHPUnit\Framework\TestCase;
 use PhUml\Code\Attributes\Attribute;
-use PhUml\Code\Methods\Method;
+use PhUml\ContractTests\DefinitionTest;
 use PhUml\TestBuilders\A;
 
-class ClassDefinitionTest extends TestCase
+class ClassDefinitionTest extends DefinitionTest
 {
-    /** @test */
-    function it_knows_its_name()
-    {
-        $namedClass = new ClassDefinition('NamedClass');
-
-        $name = $namedClass->name();
-
-        $this->assertEquals('NamedClass', $name);
-    }
-
     /** @test */
     function it_has_by_default_no_attributes()
     {
@@ -35,16 +24,6 @@ class ClassDefinitionTest extends TestCase
     }
 
     /** @test */
-    function it_has_by_default_no_methods()
-    {
-        $noMethodsClass = new ClassDefinition('NoMethodsClass');
-
-        $methods = $noMethodsClass->methods();
-
-        $this->assertCount(0, $methods);
-    }
-
-    /** @test */
     function it_does_not_implement_any_interface_by_default()
     {
         $noInterfacesClass = new ClassDefinition('NoInterfacesClass');
@@ -52,16 +31,6 @@ class ClassDefinitionTest extends TestCase
         $interfaces = $noInterfacesClass->implements();
 
         $this->assertCount(0, $interfaces);
-    }
-
-    /** @test */
-    function it_does_not_have_a_parent_class_by_default()
-    {
-        $noParentClass = new ClassDefinition('NoParentClass');
-
-        $hasParent = $noParentClass->hasParent();
-
-        $this->assertFalse($hasParent);
     }
 
     /** @test */
@@ -81,24 +50,6 @@ class ClassDefinitionTest extends TestCase
         $classAttributes = $classWithAttributes->attributes();
 
         $this->assertEquals($attributes, $classAttributes);
-    }
-
-    /** @test */
-    function it_knows_its_methods()
-    {
-        $methods = [
-            Method::public('methodOne'),
-            Method::public('methodTwo'),
-        ];
-        $classWithMethods = A::class('ClassWithMethods')
-            ->withAPublicMethod('methodOne')
-            ->withAPublicMethod('methodTwo')
-            ->build()
-        ;
-
-        $classMethods = $classWithMethods->methods();
-
-        $this->assertEquals($methods, $classMethods);
     }
 
     /** @test */
@@ -150,35 +101,17 @@ class ClassDefinitionTest extends TestCase
         $this->assertEquals($interfaces, $classInterfaces);
     }
 
-    /** @test */
-    function it_knows_its_parent_class()
+    protected function definition(
+        array $constants = [],
+        array $methods = [],
+        Definition $parent = null
+    ): Definition
     {
-        $parent = new ClassDefinition('ParentClass');
-        $classWithParent = A::class('ClassWithParent')->extending($parent)->build();
-
-        $parentClass = $classWithParent->extends();
-
-        $this->assertEquals($parent, $parentClass);
+        return new ClassDefinition('ADefinition', $constants, $methods, $parent);
     }
 
-    /** @test */
-    function it_has_an_identifier()
+    protected function parent(): Definition
     {
-        $class = new ClassDefinition('ClassWithIdentifier');
-
-        $classId = $class->identifier();
-
-        $this->assertRegExp('/^[0-9A-Fa-f]{32}$/', $classId);
-    }
-
-    /** @test */
-    function its_identifier_is_unique_per_object()
-    {
-        $classOne = new ClassDefinition('ClassOne');
-        $classTwo = new ClassDefinition('ClassOne');
-
-        $this->assertNotEquals($classOne->identifier(), $classTwo->identifier());
-        $this->assertEquals($classOne->identifier(), $classOne->identifier());
-        $this->assertEquals($classTwo->identifier(), $classTwo->identifier());
+        return new ClassDefinition('ParentClass');
     }
 }

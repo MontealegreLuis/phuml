@@ -24,7 +24,7 @@ abstract class Definition implements HasNodeIdentifier
     /** @var string */
     protected $name;
 
-    /** @var Constant[] */
+    /** @var \PhUml\Code\Attributes\Constant[] */
     protected $constants;
 
     /** @var Method[] */
@@ -34,7 +34,7 @@ abstract class Definition implements HasNodeIdentifier
     protected $extends;
 
     /**
-     * @param Constant[] $constants
+     * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Method[] $methods
      */
     public function __construct(
@@ -49,25 +49,18 @@ abstract class Definition implements HasNodeIdentifier
         $this->extends = $extends;
     }
 
-    public function countMethodsByVisibility(Visibility $modifier): int
-    {
-        return \count(array_filter($this->methods, function (Method $method) use ($modifier) {
-            return $method->hasVisibility($modifier);
-        }));
-    }
-
     public function name(): string
     {
         return $this->name;
     }
 
-    abstract public function hasAttributes(): bool;
-
-    /** @return Constant[] */
+    /** @return \PhUml\Code\Attributes\Constant[] */
     public function constants(): array
     {
         return $this->constants;
     }
+
+    abstract public function hasAttributes(): bool;
 
     /** @return Method[] */
     public function methods(): array
@@ -78,5 +71,23 @@ abstract class Definition implements HasNodeIdentifier
     public function extends(): Definition
     {
         return $this->extends;
+    }
+
+    public function hasParent(): bool
+    {
+        return $this->extends !== null;
+    }
+
+    /**
+     * This method is used by the Summary class to count how many methods by visibility in a
+     * Structure are
+     *
+     * @see Summary::methodsSummary() for more details
+     */
+    public function countMethodsByVisibility(Visibility $modifier): int
+    {
+        return \count(array_filter($this->methods, function (Method $method) use ($modifier) {
+            return $method->hasVisibility($modifier);
+        }));
     }
 }

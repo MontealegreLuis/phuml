@@ -26,10 +26,10 @@ class ClassDefinition extends Definition implements CanBeAbstract
     public function __construct(
         string $name,
         array $constants = [],
-        array $attributes = [],
         array $methods = [],
-        array $implements = [],
-        ClassDefinition $extends = null
+        ClassDefinition $extends = null,
+        array $attributes = [],
+        array $implements = []
     ) {
         parent::__construct($name, $constants, $methods, $extends);
         $this->attributes = $attributes;
@@ -41,7 +41,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
      * classes via the constructor
      *
      * @return \PhUml\Code\Variables\Variable[]
-     * @see \PhUml\Graphviz\Builders\AssociationsBuilder
+     * @see \PhUml\Graphviz\Builders\AssociationsBuilder::fromAttributes() for more details
      */
     public function constructorParameters(): array
     {
@@ -54,11 +54,6 @@ class ClassDefinition extends Definition implements CanBeAbstract
         });
 
         return reset($constructors)->parameters();
-    }
-
-    public function hasParent(): bool
-    {
-        return $this->extends !== null;
     }
 
     public function isAbstract(): bool

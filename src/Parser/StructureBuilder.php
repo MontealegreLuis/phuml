@@ -61,10 +61,10 @@ class StructureBuilder
         return new ClassDefinition(
             $class->name(),
             $this->builder->constants($class),
-            $this->builder->attributes($class),
             $this->builder->methods($class),
-            $this->buildInterfaces($definitions, $class->interfaces()),
-            $this->resolveParentClass($definitions, $class->parent())
+            $this->resolveParentClass($definitions, $class->parent()),
+            $this->builder->attributes($class),
+            $this->buildInterfaces($definitions, $class->interfaces())
         );
     }
 

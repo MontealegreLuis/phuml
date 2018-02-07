@@ -7,93 +7,21 @@
 
 namespace PhUml\Code;
 
-use PHPUnit\Framework\TestCase;
-use PhUml\Code\Methods\Method;
-use PhUml\TestBuilders\A;
+use PhUml\ContractTests\DefinitionTest;
 
-class InterfaceDefinitionTest extends TestCase
+class InterfaceDefinitionTest extends DefinitionTest
 {
-    /** @test */
-    function it_knows_its_name()
+    protected function definition(
+        array $constants = [],
+        array $methods = [],
+        Definition $parent = null
+    ): Definition
     {
-        $namedInterface = new InterfaceDefinition('NamedInterface');
-
-        $name = $namedInterface->name();
-
-        $this->assertEquals('NamedInterface', $name);
+        return new InterfaceDefinition('ADefinition', $constants, $methods, $parent);
     }
 
-    /** @test */
-    function it_has_no_methods_by_default()
+    protected function parent(): Definition
     {
-        $noMethodsInterface = new InterfaceDefinition('WithNoMethods');
-
-        $methods = $noMethodsInterface->methods();
-
-        $this->assertCount(0, $methods);
-    }
-
-    /** @test */
-    function it_does_not_extends_another_interface_by_default()
-    {
-        $interfaceWithoutParent = new InterfaceDefinition('InterfacesWithoutParent');
-
-        $hasParent = $interfaceWithoutParent->hasParent();
-
-        $this->assertFalse($hasParent);
-    }
-
-    /** @test */
-    function it_knows_its_methods()
-    {
-        $methods = [
-            Method::public('methodOne'),
-            Method::public('methodTwo'),
-        ];
-
-        $interfaceWithMethods = A::interface('InterfaceWithMethods')
-            ->withAPublicMethod('methodOne')
-            ->withAPublicMethod('methodTwo')
-            ->build()
-        ;
-
-        $interfaceMethods = $interfaceWithMethods->methods();
-
-        $this->assertEquals($methods, $interfaceMethods);
-    }
-
-    /** @test */
-    function it_knows_its_parent_interface()
-    {
-        $parent = new InterfaceDefinition('ParentInterface');
-        $interfaceWithParent = A::interface('InterfaceWithParent')
-            ->withParent($parent)
-            ->build()
-        ;
-
-        $parentClass = $interfaceWithParent->extends();
-
-        $this->assertEquals($parent, $parentClass);
-    }
-
-    /** @test */
-    function it_has_an_identifier()
-    {
-        $interface = new InterfaceDefinition('InterfaceWithIdentifier');
-
-        $interfaceId = $interface->identifier();
-
-        $this->assertRegExp('/^[0-9A-Fa-f]{32}$/', $interfaceId);
-    }
-
-    /** @test */
-    function its_identifier_is_unique_per_object()
-    {
-        $interfaceOne = new InterfaceDefinition('InterfaceOne');
-        $interfaceTwo = new InterfaceDefinition('InterfaceOne');
-
-        $this->assertNotEquals($interfaceOne->identifier(), $interfaceTwo->identifier());
-        $this->assertEquals($interfaceOne->identifier(), $interfaceOne->identifier());
-        $this->assertEquals($interfaceTwo->identifier(), $interfaceTwo->identifier());
+        return new InterfaceDefinition('ParentInterface');
     }
 }
