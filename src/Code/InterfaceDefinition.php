@@ -12,13 +12,15 @@ namespace PhUml\Code;
  */
 class InterfaceDefinition extends Definition
 {
+    /**
+     * It only counts the constants of an interface, since interfaces are not allowed to have
+     * attributes
+     *
+     * The method name is `hasAttributes` since in a class diagram, constants are shown in the same
+     * block as the instance variables (attributes)
+     */
     public function hasAttributes(): bool
     {
         return \count($this->constants) > 0;
-    }
-
-    public function hasParent(): bool
-    {
-        return $this->extends !== null;
     }
 }
