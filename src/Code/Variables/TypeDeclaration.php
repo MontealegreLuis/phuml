@@ -20,11 +20,6 @@ class TypeDeclaration
     /** @var string */
     private $name;
 
-    public function __construct(?string $name)
-    {
-        $this->name = $name;
-    }
-
     public static function absent(): TypeDeclaration
     {
         return new TypeDeclaration(null);
@@ -41,8 +36,10 @@ class TypeDeclaration
     }
 
     /**
-     * This will help when building the relationships between classes/interfaces since built-in
+     * It helps building the relationships between classes/interfaces since built-in
      * types are not part of a UML class diagram
+     *
+     * @see \PhUml\Code\Variables\WithTypeDeclaration::isAReference() for more details
      */
     public function isBuiltIn(): bool
     {
@@ -61,6 +58,11 @@ class TypeDeclaration
     private function removeArraySuffix(): string
     {
         return substr($this->name, 0, -2);
+    }
+
+    private function __construct(?string $name)
+    {
+        $this->name = $name;
     }
 
     public function __toString()
