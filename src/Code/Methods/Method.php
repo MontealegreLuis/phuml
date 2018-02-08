@@ -15,12 +15,9 @@ use PhUml\Code\Modifiers\WithAbstractModifier;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 
 /**
  * It represents a class or interface method
- *
- * It doesn't distinguish neither static methods nor return types yet
  */
 class Method implements HasVisibility, CanBeAbstract, CanBeStatic
 {
@@ -29,12 +26,68 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     /** @var string */
     private $name;
 
-    /** @var Variable[] */
+    /** @var \PhUml\Code\Variables\Variable[] */
     private $parameters;
 
     /** @var TypeDeclaration */
     private $returnType;
 
+    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    public static function public(
+        string $name,
+        array $parameters = [],
+        TypeDeclaration $returnType = null
+    ): Method {
+        return new static($name, Visibility::public(), $parameters, $returnType ?? TypeDeclaration::absent());
+    }
+
+    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    public static function protected(
+        string $name,
+        array $parameters = [],
+        TypeDeclaration $returnType = null
+    ): Method {
+        return new static($name, Visibility::protected(), $parameters, $returnType ?? TypeDeclaration::absent());
+    }
+
+    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    public static function private(
+        string $name,
+        array $parameters = [],
+        TypeDeclaration $returnType = null
+    ): Method {
+        return new static($name, Visibility::private(), $parameters, $returnType ?? TypeDeclaration::absent());
+    }
+
+    /**
+     * It is used by the `ClassDefinition` to extract the parameters of a constructor
+     *
+     * @see \PhUml\Code\ClassDefinition::hasConstructor()
+     * @see \PhUml\Code\ClassDefinition::constructorParameters()
+     */
+    public function isConstructor(): bool
+    {
+        return $this->name === '__construct';
+    }
+
+    /** @return \PhUml\Code\Variables\Variable[] */
+    public function parameters(): array
+    {
+        return $this->parameters;
+    }
+
+    public function __toString()
+    {
+        return sprintf(
+            '%s%s%s%s',
+            $this->modifier,
+            $this->name,
+            empty($this->parameters) ? '()' : '(' . implode($this->parameters, ', ') . ')',
+            $this->returnType->isPresent() ? ": {$this->returnType}" : ''
+        );
+    }
+
+    /** @param \PhUml\Code\Variables\Variable[] $parameters */
     protected function __construct(
         string $name,
         Visibility $modifier,
@@ -47,58 +100,5 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         $this->isAbstract = false;
         $this->isStatic = false;
         $this->returnType = $returnType;
-    }
-
-    /** @param Variable[] $parameters */
-    public static function public(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::public(), $parameters, $returnType ?? TypeDeclaration::absent());
-    }
-
-    /** @param Variable[] $parameters */
-    public static function protected(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::protected(), $parameters, $returnType ?? TypeDeclaration::absent());
-    }
-
-    /** @param Variable[] $parameters */
-    public static function private(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::private(), $parameters, $returnType ?? TypeDeclaration::absent());
-    }
-
-    public function isConstructor(): bool
-    {
-        return $this->name === '__construct';
-    }
-
-    public function parameters(): array
-    {
-        return $this->parameters;
-    }
-
-    public function returnType(): TypeDeclaration
-    {
-        return $this->returnType;
-    }
-
-    public function __toString()
-    {
-        return sprintf(
-            '%s%s%s%s',
-            $this->modifier,
-            $this->name,
-            empty($this->parameters) ? '()' : '(' . implode($this->parameters, ', ') . ')',
-            $this->returnType->isPresent() ? ": {$this->returnType()}" : ''
-        );
     }
 }
