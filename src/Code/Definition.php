@@ -49,6 +49,12 @@ abstract class Definition implements HasNodeIdentifier
         $this->extends = $extends;
     }
 
+    /**
+     * The name of a definition is used by the `Structure` class to avoid duplicated definitions
+     *
+     * @see Structure::has
+     * @see Structure::get
+     */
     public function name(): string
     {
         return $this->name;

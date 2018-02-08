@@ -7,7 +7,7 @@
 namespace PhUml\Code;
 
 /**
- * Collection of all the classes and interfaces definitions
+ * Collection of all the classes and interfaces definitions of a codebase
  */
 class Structure
 {

@@ -11,6 +11,8 @@ use PhUml\Code\Modifiers\Visibility;
 
 /**
  * It creates a summary of the classes, interfaces, methods, and attributes of a codebase
+ *
+ * The summary of a `Structure` does not include counts of constants
  */
 class Summary
 {

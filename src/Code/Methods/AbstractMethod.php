@@ -12,6 +12,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 
 class AbstractMethod extends Method
 {
+    /** @param \PhUml\Code\Variables\Variable[] $parameters */
     public function __construct(
         string $name,
         Visibility $modifier,

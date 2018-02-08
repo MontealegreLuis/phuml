@@ -7,13 +7,16 @@
 
 namespace PhUml\Code;
 
+/**
+ * It represents the doc block of either a method or an attribute
+ */
 abstract class DocBlock
 {
     /** @var string */
     protected $comment;
 
-    protected function __construct(?string $text)
+    protected function __construct(?string $comment)
     {
-        $this->comment = $text;
+        $this->comment = $comment;
     }
 }

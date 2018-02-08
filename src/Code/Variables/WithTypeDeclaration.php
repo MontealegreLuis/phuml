@@ -12,21 +12,19 @@ trait WithTypeDeclaration
     /** @var TypeDeclaration */
     protected $type;
 
-    /**
-     * An attribute is a reference if it has a type and it's not a built-in type
-     *
-     * This is used when building the digraph and the option `createAssociations` is set
-     */
+    /** @see HasType::isAReference() for more details */
     public function isAReference(): bool
     {
         return $this->hasTypeDeclaration() && !$this->type->isBuiltIn();
     }
 
+    /** @see HasType::hasTypeDeclaration() for more details */
     public function hasTypeDeclaration(): bool
     {
         return $this->type->isPresent();
     }
 
+    /** @see HasType::type() for more details */
     public function type(): TypeDeclaration
     {
         return $this->type;

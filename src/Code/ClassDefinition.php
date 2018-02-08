@@ -56,18 +56,11 @@ class ClassDefinition extends Definition implements CanBeAbstract
         return reset($constructors)->parameters();
     }
 
-    public function isAbstract(): bool
-    {
-        return \count(array_filter($this->methods(), function (Method $method) {
-            return $method->isAbstract();
-        })) > 0;
-    }
-
-    public function hasAttributes(): bool
-    {
-        return \count($this->constants) + \count($this->attributes) > 0;
-    }
-
+    /**
+     * This method is used to build the `Summary` of a `Structure`
+     *
+     * @see Summary::attributesSummary() for more details
+     */
     public function countAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
@@ -75,11 +68,31 @@ class ClassDefinition extends Definition implements CanBeAbstract
         }));
     }
 
+    /**
+     * This method is used to build the `Summary` of a `Structure`
+     *
+     * @see Summary::attributesSummary() for more details
+     */
     public function countTypedAttributesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
             return $attribute->hasTypeDeclaration() && $attribute->hasVisibility($modifier);
         }));
+    }
+
+    public function isAbstract(): bool
+    {
+        return \count(array_filter($this->methods(), function (Method $method) {
+            return $method->isAbstract();
+        })) > 0;
+    }
+
+    /**
+     * It counts both the attributes and the constants of a class
+     */
+    public function hasAttributes(): bool
+    {
+        return \count($this->constants) + \count($this->attributes) > 0;
     }
 
     /** @return Attribute[] */
