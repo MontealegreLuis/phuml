@@ -86,6 +86,6 @@ class DefinitionMembersBuilder
             return TypeDeclaration::absent();
         }
 
-        return AttributeDocBlock::from($comment)->getType();
+        return AttributeDocBlock::from($comment)->extractType();
     }
 }

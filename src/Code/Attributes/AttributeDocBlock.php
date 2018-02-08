@@ -11,7 +11,7 @@ use PhUml\Code\DocBlock;
 use PhUml\Code\Variables\TypeDeclaration;
 
 /**
- * It used to create a type declaration for the attribute
+ * It creates a type declaration for an attribute from its `@var` tag
  */
 class AttributeDocBlock extends DocBlock
 {
@@ -23,7 +23,7 @@ class AttributeDocBlock extends DocBlock
         return new AttributeDocBlock($text);
     }
 
-    public function getType(): TypeDeclaration
+    public function extractType(): TypeDeclaration
     {
         $type = null;
         if (preg_match(self::$varExpression, $this->comment, $matches)) {

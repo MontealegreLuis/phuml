@@ -13,7 +13,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 class AttributeDocBlockTest extends TestCase
 {
     /** @test */
-    function it_can_extract_a_type_declaration()
+    function it_extracts_a_type_declaration_from_a_var_tag()
     {
         $docBlock = AttributeDocBlock::from('/** @var TestClass $testClass */');
         $multiLineDocBlock = AttributeDocBlock::from('
@@ -23,12 +23,12 @@ class AttributeDocBlockTest extends TestCase
          * @var AnotherClass $testClass 
          */');
 
-        $this->assertEquals(TypeDeclaration::from('TestClass'), $docBlock->getType());
-        $this->assertEquals(TypeDeclaration::from('AnotherClass'), $multiLineDocBlock->getType());
+        $this->assertEquals(TypeDeclaration::from('TestClass'), $docBlock->extractType());
+        $this->assertEquals(TypeDeclaration::from('AnotherClass'), $multiLineDocBlock->extractType());
     }
 
     /** @test */
-    function it_can_extract_an_array_type_declaration()
+    function it_extracts_an_array_type_declaration()
     {
         $docBlock = AttributeDocBlock::from('/** @var TestClass[] $testClass */');
         $multiLineDocBlock = AttributeDocBlock::from('
@@ -38,8 +38,8 @@ class AttributeDocBlockTest extends TestCase
          * @var AnotherClass[] $testClass 
          */');
 
-        $this->assertEquals(TypeDeclaration::from('TestClass[]'), $docBlock->getType());
-        $this->assertEquals(TypeDeclaration::from('AnotherClass[]'), $multiLineDocBlock->getType());
+        $this->assertEquals(TypeDeclaration::from('TestClass[]'), $docBlock->extractType());
+        $this->assertEquals(TypeDeclaration::from('AnotherClass[]'), $multiLineDocBlock->extractType());
     }
 
     /** @test */
@@ -51,7 +51,7 @@ class AttributeDocBlockTest extends TestCase
          * A description of the attribute
          */');
 
-        $this->assertEquals(TypeDeclaration::absent(), $docBlock->getType());
-        $this->assertEquals(TypeDeclaration::absent(), $multiLineDocBlock->getType());
+        $this->assertEquals(TypeDeclaration::absent(), $docBlock->extractType());
+        $this->assertEquals(TypeDeclaration::absent(), $multiLineDocBlock->extractType());
     }
 }
