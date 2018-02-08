@@ -38,10 +38,10 @@ class TypeDeclarationTest extends TestCase
     function it_knows_if_no_type_declaration_was_provided()
     {
         $noType = TypeDeclaration::absent();
+        $nullType = TypeDeclaration::from(null);
 
-        $isPresent = $noType->isPresent();
-
-        $this->assertFalse($isPresent);
+        $this->assertFalse($noType->isPresent());
+        $this->assertFalse($nullType->isPresent());
     }
 
     function builtInTypes()

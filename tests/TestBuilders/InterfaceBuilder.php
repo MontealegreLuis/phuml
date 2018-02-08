@@ -33,6 +33,6 @@ class InterfaceBuilder extends DefinitionBuilder
     /** @return InterfaceDefinition */
     public function build()
     {
-        return new InterfaceDefinition($this->name, [], $this->methods, $this->parent);
+        return new InterfaceDefinition($this->name, $this->constants, $this->methods, $this->parent);
     }
 }

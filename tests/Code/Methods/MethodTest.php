@@ -72,17 +72,17 @@ class MethodTest extends TestCase
     }
 
     /** @test */
-    function its_string_representation_includes_its_parameters()
+    function its_string_representation_includes_its_visibility_its_parameters_and_its_return_type()
     {
-        $methodWithParameters = Method::protected('withParameters', [
+        $method = Method::protected('withParameters', [
             Variable::declaredWith('$parameterOne'),
             Variable::declaredWith('$parameterTwoWithType', TypeDeclaration::from('int')),
-        ]);
+        ], TypeDeclaration::from('SplStack'));
 
-        $methodAsString = $methodWithParameters->__toString();
+        $methodAsString = $method->__toString();
 
         $this->assertEquals(
-        '#withParameters($parameterOne, $parameterTwoWithType: int)',
+        '#withParameters($parameterOne, $parameterTwoWithType: int): SplStack',
             $methodAsString
         );
     }

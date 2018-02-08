@@ -13,7 +13,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 class MethodDocBlockTest extends TestCase
 {
     /** @test */
-    function it_extracts_type_declaration_from_param_annotations()
+    function it_extracts_type_declaration_from_param_tags()
     {
         $comment = <<<'COMMENT'
 /**
@@ -35,7 +35,7 @@ COMMENT;
     }
 
     /** @test */
-    function it_defaults_to_no_type_when_a_type_declaration_does_not_exist()
+    function it_defaults_to_no_type_when_no_param_tags_are_available()
     {
         $comment = <<<'COMMENT'
 /**

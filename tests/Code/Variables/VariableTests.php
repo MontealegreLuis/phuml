@@ -21,7 +21,7 @@ class VariableTests extends TestCase
 
         $parameterAsString = $parameter->__toString();
 
-        $this->assertEquals('string $parameterName', $parameterAsString);
+        $this->assertEquals('$parameterName: string', $parameterAsString);
     }
 
     protected function memberWithoutType(): HasType

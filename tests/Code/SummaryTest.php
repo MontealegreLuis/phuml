@@ -21,9 +21,11 @@ class SummaryTest extends TestCase
             ->withAPublicAttribute('isValid')
             ->withAProtectedMethod('getAttribute')
             ->withAPrivateMethod('privateAction')
+            ->withAConstant('TEST')
             ->build();
         $parentInterface = A::interface('ParentInterface')
             ->withAPublicMethod('dance')
+            ->withAConstant('TYPED_TEST', 'float')
             ->build();
         $interface = A::interface('SomeAbility')
             ->withAPublicMethod('fly')

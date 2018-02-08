@@ -34,6 +34,20 @@ class AttributeTest extends TestCase
         $this->assertEquals('#protectedAttribute', $protected);
     }
 
+    /** @test */
+    function its_string_representation_includes_its_type()
+    {
+        $string = Attribute::public ('$aString', TypeDeclaration::from('string'));
+        $object = Attribute::public ('$file', TypeDeclaration::from('SplFileInfo'));
+        $array = Attribute::public ('$array', TypeDeclaration::from('array'));
+        $typedArray = Attribute::public ('$directories', TypeDeclaration::from('Directory[]'));
+
+        $this->assertEquals('+$aString: string', $string->__toString());
+        $this->assertEquals('+$file: SplFileInfo', $object->__toString());
+        $this->assertEquals('+$array: array', $array->__toString());
+        $this->assertEquals('+$directories: Directory[]', $typedArray->__toString());
+    }
+
     protected function memberWithoutType(): HasType
     {
         return Attribute::public('$attribute');

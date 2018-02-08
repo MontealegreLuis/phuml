@@ -16,9 +16,9 @@ trait WithTypeDeclarationTests
     {
         $memberWithoutType = $this->memberWithoutType();
 
-        $type = $memberWithoutType->type();
+        $hasTypeDeclaration = $memberWithoutType->hasTypeDeclaration();
 
-        $this->assertFalse($type->isPresent());
+        $this->assertFalse($hasTypeDeclaration);
     }
 
     /** @test */
