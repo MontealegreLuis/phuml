@@ -11,7 +11,7 @@ use PhUml\Code\DocBlock;
 use PhUml\Code\Variables\TypeDeclaration;
 
 /**
- * It used to extract the return type of a method
+ * It extracts the return type and parameters type of a method
  */
 class MethodDocBlock extends DocBlock
 {
@@ -24,15 +24,9 @@ class MethodDocBlock extends DocBlock
     /** @var TypeDeclaration[] */
     private $parameters;
 
-    public function __construct(?string $comment)
+    public static function from(?string $comment): MethodDocBlock
     {
-        parent::__construct($comment);
-        $this->setParameters();
-    }
-
-    public static function from(?string $text): MethodDocBlock
-    {
-        return new MethodDocBlock($text);
+        return new MethodDocBlock($comment);
     }
 
     public function returnType(): TypeDeclaration
@@ -47,6 +41,12 @@ class MethodDocBlock extends DocBlock
     public function typeOfParameter(string $parameterName): TypeDeclaration
     {
         return $this->parameters[$parameterName] ?? TypeDeclaration::absent();
+    }
+
+    protected function __construct(?string $comment)
+    {
+        parent::__construct($comment);
+        $this->setParameters();
     }
 
     private function setParameters(): void
