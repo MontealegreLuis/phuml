@@ -13,6 +13,7 @@ class DotFileBuilder extends DigraphBuilder
 {
     public function __construct(DigraphConfiguration $configuration)
     {
+        parent::__construct();
         $this->configuration = $configuration;
     }
 

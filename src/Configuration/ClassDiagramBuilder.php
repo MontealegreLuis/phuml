@@ -16,6 +16,7 @@ class ClassDiagramBuilder extends DigraphBuilder
 {
     public function __construct(ClassDiagramConfiguration $configuration)
     {
+        parent::__construct();
         $this->configuration = $configuration;
     }
 

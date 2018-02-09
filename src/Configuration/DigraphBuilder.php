@@ -17,17 +17,7 @@ use PhUml\Graphviz\Builders\NonEmptyBlocksLabelStyle;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
-use PhUml\Parser\Raw\Builders\AttributesBuilder;
-use PhUml\Parser\Raw\Builders\ConstantsBuilder;
-use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
-use PhUml\Parser\Raw\Builders\MethodsBuilder;
-use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
-use PhUml\Parser\Raw\Builders\NoMethodsBuilder;
-use PhUml\Parser\Raw\Builders\RawClassBuilder;
-use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
-use PhUml\Parser\Raw\Php5Parser;
+use PhUml\Parser\Raw\ParserBuilder;
 use PhUml\Parser\Raw\PhpParser;
 use PhUml\Parser\StructureBuilder;
 use PhUml\Processors\GraphvizProcessor;
@@ -37,6 +27,14 @@ class DigraphBuilder
 {
     /** @var DigraphConfiguration */
     protected $configuration;
+
+    /** @var ParserBuilder */
+    protected $parserBuilder;
+
+    public function __construct()
+    {
+        $this->parserBuilder = new ParserBuilder();
+    }
 
     public function codeFinder(): CodeFinder
     {
@@ -69,38 +67,33 @@ class DigraphBuilder
 
     protected function tokenParser(): PhpParser
     {
-        return new Php5Parser(
-            new RawClassBuilder(new ConstantsBuilder(), $this->attributesBuilder(), $this->methodsBuilder()),
-            new RawInterfaceBuilder(new ConstantsBuilder(), $this->methodsBuilder())
-        );
+        $this->configureAttributes();
+        $this->configureMethods();
+        $this->configureFilters();
+        return $this->parserBuilder->build();
     }
 
-    private function attributesBuilder(): AttributesBuilder
+    private function configureAttributes(): void
     {
         if ($this->configuration->hideAttributes()) {
-            return new NoAttributesBuilder();
+            $this->parserBuilder->excludeAttributes();
         }
-        return new AttributesBuilder($this->filters());
     }
 
-    private function methodsBuilder(): MethodsBuilder
+    private function configureMethods(): void
     {
         if ($this->configuration->hideMethods()) {
-            return new NoMethodsBuilder();
+            $this->parserBuilder->excludeMethods();
         }
-        return new MethodsBuilder($this->filters());
     }
 
-    /** @return MembersFilter[] */
-    protected function filters(): array
+    private function configureFilters(): void
     {
-        $filters = [];
         if ($this->configuration->hidePrivate()) {
-            $filters[] = new PrivateMembersFilter();
+            $this->parserBuilder->excludePrivateMembers();
         }
         if ($this->configuration->hideProtected()) {
-            $filters[] = new ProtectedMembersFilter();
+            $this->parserBuilder->excludeProtectedMembers();
         }
-        return $filters;
     }
 }
