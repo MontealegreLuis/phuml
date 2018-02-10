@@ -40,8 +40,8 @@ Classes:    2
 Interfaces: 0
 
 Attributes: 5 (2 are typed)
-    * private:   5
-    * protected: 0
+    * private:   4
+    * protected: 1
     * public:    0
 
 Functions:  11
@@ -82,8 +82,8 @@ Classes:    19
 Interfaces: 0
 
 Attributes: 23 (2 are typed)
-    * private:   18
-    * protected: 1
+    * private:   17
+    * protected: 2
     * public:    4
 
 Functions:  86

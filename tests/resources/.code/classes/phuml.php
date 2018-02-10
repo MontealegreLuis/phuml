@@ -2,7 +2,7 @@
 
 class plPhuml
 {
-    private $properties;
+    protected $properties;
 
     private $files;
     private $processors;
