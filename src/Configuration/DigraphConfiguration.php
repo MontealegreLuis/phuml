@@ -7,6 +7,8 @@
 
 namespace PhUml\Configuration;
 
+use RuntimeException;
+
 class DigraphConfiguration
 {
     /** @var bool */
@@ -30,6 +32,9 @@ class DigraphConfiguration
     /** @var bool */
     protected $hideEmptyBlocks;
 
+    /** @var string */
+    protected $theme;
+
     public function __construct(array $input)
     {
         $this->searchRecursively = (bool)$input['recursive'];
@@ -39,6 +44,7 @@ class DigraphConfiguration
         $this->hideAttributes = (bool)$input['hide-attributes'];
         $this->hideMethods = (bool)$input['hide-methods'];
         $this->hideEmptyBlocks = (bool)$input['hide-empty-blocks'];
+        $this->setTheme($input['theme']);
     }
 
     public function extractAssociations(): bool
@@ -74,5 +80,18 @@ class DigraphConfiguration
     public function hideEmptyBlocks(): bool
     {
         return $this->hideEmptyBlocks;
+    }
+
+    public function theme(): string
+    {
+        return $this->theme;
+    }
+
+    protected function setTheme(string $theme): void
+    {
+        if (!\in_array($theme, ['phuml', 'php', 'classic'], true)) {
+            throw new RuntimeException("Invalid theme '$theme' found, valid themes are 'phuml', 'php' and 'classic");
+        }
+        $this->theme = $theme;
     }
 }

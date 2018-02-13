@@ -1,0 +1,3 @@
+{% spaceless %}
+"{{ element.node.identifier }}" [label=<{% include element.node.dotTemplate ~ '.html.twig' with { 'definition': element.node, 'style': style } %}> shape=plaintext color="{{ theme.lineColor }}"]
+{% endspaceless %}

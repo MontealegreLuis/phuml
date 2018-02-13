@@ -1,0 +1,9 @@
+{% if definition.methods is not empty %}
+<TR>
+    <TD BORDER="{{ theme.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ theme.methods.background }}">
+        {% for method in definition.methods %}
+            {% include 'partials/_method.html.twig' %}
+        {% endfor %}
+    </TD>
+</TR>
+{% endif %}

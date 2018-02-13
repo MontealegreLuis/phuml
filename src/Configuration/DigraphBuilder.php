@@ -10,10 +10,11 @@ namespace PhUml\Configuration;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\DefaultLabelStyle;
 use PhUml\Graphviz\Builders\EdgesBuilder;
+use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
-use PhUml\Graphviz\Builders\NodeLabelBuilder;
-use PhUml\Graphviz\Builders\NodeLabelStyle;
+use PhUml\Graphviz\Builders\DigraphStyle;
 use PhUml\Graphviz\Builders\NonEmptyBlocksLabelStyle;
+use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
@@ -44,20 +45,19 @@ class DigraphBuilder
     protected function digraphProcessor(): GraphvizProcessor
     {
         $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
-        $digraphProcessor = new GraphvizProcessor(
-            new ClassGraphBuilder($this->nodeLabelBuilder(), $associationsBuilder)
+        return new GraphvizProcessor(
+            new ClassGraphBuilder($associationsBuilder),
+            new InterfaceGraphBuilder(),
+            new DigraphPrinter(new TemplateEngine(), $this->digraphStyle())
         );
-        return $digraphProcessor;
     }
 
-    protected function nodeLabelBuilder(): NodeLabelBuilder
+    protected function digraphStyle(): DigraphStyle
     {
-        return new NodeLabelBuilder(new TemplateEngine(), $this->nodeLabelStyle());
-    }
-
-    protected function nodeLabelStyle(): NodeLabelStyle
-    {
-        return $this->configuration->hideEmptyBlocks() ? new NonEmptyBlocksLabelStyle() : new DefaultLabelStyle();
+        if ($this->configuration->hideEmptyBlocks()) {
+            return new NonEmptyBlocksLabelStyle($this->configuration->theme());
+        }
+        return new DefaultLabelStyle($this->configuration->theme());
     }
 
     protected function codeParser(): CodeParser

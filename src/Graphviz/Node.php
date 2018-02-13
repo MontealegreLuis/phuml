@@ -14,25 +14,21 @@ namespace PhUml\Graphviz;
  */
 class Node implements HasDotRepresentation
 {
-    /** @var HasNodeIdentifier */
+    /** @var HasDotRepresentation */
     private $node;
 
-    /** @var string */
-    private $options;
-
-    public function __construct(HasNodeIdentifier $node, string $htmlLabel)
+    public function __construct(HasDotRepresentation $node)
     {
         $this->node = $node;
-        $this->options = $this->buildOptionsUsing($htmlLabel);
     }
 
-    public function toDotLanguage(): string
+    public function node(): HasDotRepresentation
     {
-        return "\"{$this->node->identifier()}\" {$this->options}\n";
+        return $this->node;
     }
 
-    private function buildOptionsUsing(string $htmlLabel): string
+    public function dotTemplate(): string
     {
-        return "[label={$htmlLabel} shape=plaintext]";
+        return 'node';
     }
 }

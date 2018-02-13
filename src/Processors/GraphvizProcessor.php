@@ -8,13 +8,13 @@
 namespace PhUml\Processors;
 
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Structure;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
-use PhUml\Graphviz\Builders\NodeLabelBuilder;
 use PhUml\Graphviz\Digraph;
-use PhUml\Templates\TemplateEngine;
+use PhUml\Graphviz\DigraphPrinter;
 
 /**
  * It creates a digraph from a `Structure` and returns it as a string in DOT format
@@ -27,13 +27,17 @@ class GraphvizProcessor extends Processor
     /** @var InterfaceGraphBuilder */
     private $interfaceBuilder;
 
+    /** @var DigraphPrinter */
+    private $printer;
+
     public function __construct(
         ClassGraphBuilder $classBuilder = null,
-        InterfaceGraphBuilder $interfaceBuilder = null
+        InterfaceGraphBuilder $interfaceBuilder = null,
+        DigraphPrinter $printer = null
     ) {
-        $labelBuilder = new NodeLabelBuilder(new TemplateEngine());
-        $this->classBuilder = $classBuilder ?? new ClassGraphBuilder($labelBuilder);
-        $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder($labelBuilder);
+        $this->classBuilder = $classBuilder ?? new ClassGraphBuilder();
+        $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder();
+        $this->printer = $printer ?? new DigraphPrinter();
     }
 
     public function name(): string
@@ -45,12 +49,21 @@ class GraphvizProcessor extends Processor
     {
         $digraph = new Digraph();
         foreach ($structure->definitions() as $definition) {
-            if ($definition instanceof ClassDefinition) {
-                $digraph->add($this->classBuilder->extractFrom($definition, $structure));
-            } elseif ($definition instanceof InterfaceDefinition) {
-                $digraph->add($this->interfaceBuilder->extractFrom($definition));
-            }
+            $this->extractElements($definition, $structure, $digraph);
         }
-        return $digraph->toDotLanguage();
+        return $this->printer->toDot($digraph);
+    }
+
+    protected function extractElements(
+        Definition $definition,
+        Structure $structure,
+        Digraph $digraph
+    ): void
+    {
+        if ($definition instanceof ClassDefinition) {
+            $digraph->add($this->classBuilder->extractFrom($definition, $structure));
+        } elseif ($definition instanceof InterfaceDefinition) {
+            $digraph->add($this->interfaceBuilder->extractFrom($definition));
+        }
     }
 }

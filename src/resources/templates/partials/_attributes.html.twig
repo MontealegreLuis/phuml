@@ -1,11 +1,11 @@
 <TR>
-    <TD BORDER="{{ style.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ style.attributes.background }}">
+    <TD BORDER="{{ theme.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ theme.attributes.background }}">
         {% if definition.hasAttributes %}
             {% for constant in definition.constants %}
-                {% include '_constant.html.twig' %}
+                {% include 'partials/_constant.html.twig' %}
             {% endfor %}
             {% for attribute in definition.attributes %}
-                {% include '_attribute.html.twig' %}
+                {% include 'partials/_attribute.html.twig' %}
             {% endfor %}
         {% else %}
             &nbsp;

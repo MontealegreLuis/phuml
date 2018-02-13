@@ -9,8 +9,7 @@ namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Fakes\ClassNameLabelBuilder;
-use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\InheritanceEdge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
@@ -20,13 +19,11 @@ class InterfaceGraphBuilderTest extends TestCase
     function it_extracts_the_elements_from_a_single_interface()
     {
         $interface = new InterfaceDefinition('AnInterface');
-        $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$interface->name()}</td></tr></table>>";
-        $graphElements = new InterfaceGraphBuilder($nodeBuilder);
+        $graphElements = new InterfaceGraphBuilder();
 
         $dotElements = $graphElements->extractFrom($interface);
 
-        $this->assertEquals([new Node($interface, $label)], $dotElements);
+        $this->assertEquals([new Node($interface)], $dotElements);
     }
 
     /** @test */
@@ -34,15 +31,13 @@ class InterfaceGraphBuilderTest extends TestCase
     {
         $parent = new InterfaceDefinition('ParentInterface');
         $interface = A::interface('AnInterface')->extending($parent)->build();
-        $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$interface->name()}</td></tr></table>>";
-        $graphElements = new InterfaceGraphBuilder($nodeBuilder);
+        $graphElements = new InterfaceGraphBuilder();
 
         $dotElements = $graphElements->extractFrom($interface);
 
         $this->assertEquals([
-            new Node($interface, $label),
-            Edge::inheritance($parent, $interface)
+            new Node($interface),
+            new InheritanceEdge($parent, $interface)
         ], $dotElements);
     }
 }

@@ -11,8 +11,8 @@ use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
-use PhUml\Graphviz\Builders\NodeLabelBuilder;
 use PhUml\Graphviz\Builders\NonEmptyBlocksLabelStyle;
+use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
@@ -21,6 +21,7 @@ use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
 use PhUml\Parser\Raw\Builders\NoMethodsBuilder;
 use PhUml\Parser\Raw\Builders\RawClassBuilder;
 use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
+use PhUml\Parser\Raw\ParserBuilder;
 use PhUml\Parser\Raw\Php5Parser;
 use PhUml\Parser\StructureBuilder;
 use PhUml\Processors\DotProcessor;
@@ -34,22 +35,17 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     /** @before*/
     function createGenerator()
     {
-        $methodsBuilder = new NoMethodsBuilder();
-        $nodeLabelBuilder = new NodeLabelBuilder(new TemplateEngine(), new NonEmptyBlocksLabelStyle());
+        $parser = (new ParserBuilder())->excludeMethods()->excludeAttributes()->build();
         $this->generator = new ClassDiagramGenerator(
-            new CodeParser(
-                new StructureBuilder(),
-                new Php5Parser(
-                    new RawClassBuilder(new ConstantsBuilder(), new NoAttributesBuilder(), $methodsBuilder),
-                    new RawInterfaceBuilder(new ConstantsBuilder(), $methodsBuilder)
-                )
-            ),
+            new CodeParser(new StructureBuilder(), $parser),
             new GraphvizProcessor(
-                new ClassGraphBuilder($nodeLabelBuilder),
-                new InterfaceGraphBuilder($nodeLabelBuilder)
+                new ClassGraphBuilder(),
+                new InterfaceGraphBuilder(),
+                new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksLabelStyle())
             ),
             new DotProcessor()
         );
+        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
     }
 
     /**
@@ -58,7 +54,6 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
      */
     function it_removes_empty_blocks_if_only_definition_names_are_shown()
     {
-        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
         $diagram = __DIR__ . '/../resources/.output/graphviz-dot-without-empty-blocks.png';

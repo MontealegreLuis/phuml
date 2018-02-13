@@ -1,8 +1,8 @@
-{% extends 'style.html.twig' %}
-{% block content %}
+{% set tag %}
 <TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">
-    {% include '_name.html.twig' with {'definition': interface, 'style': interfaceStyle} %}
-    {% include attributes with {'definition': interface, 'style' : interfaceStyle} %}
-    {% include methods with {'definition': interface, 'style' : interfaceStyle} %}
+    {% include 'partials/_name.html.twig' with {'definition': definition, 'isAbstract': true, 'theme': theme} %}
+    {% include style.attributes with {'definition': definition, 'theme' : theme} %}
+    {% include style.methods with {'definition': definition, 'theme' : theme} %}
 </TABLE>
-{% endblock %}
+{% endset %}
+{{ tag|replace({ '\n': '', '\r': '' })|whitespace|raw }}

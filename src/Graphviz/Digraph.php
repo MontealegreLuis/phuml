@@ -12,41 +12,29 @@ namespace PhUml\Graphviz;
  *
  * @link https://en.wikipedia.org/wiki/DOT_(graph_description_language) See for more details about DOT language
  */
-class Digraph implements HasDotRepresentation
+class Digraph
 {
     /** @var HasDotRepresentation[] */
-    private $dotElements;
+    private $elements;
 
     public function __construct()
     {
-        $this->dotElements = [];
+        $this->elements = [];
     }
 
     /** @param HasDotRepresentation[] */
     public function add(array $definitions): void
     {
-        $this->dotElements = array_merge($this->dotElements, $definitions);
+        $this->elements = array_merge($this->elements, $definitions);
     }
 
-    public function toDotLanguage(): string
+    /** @return HasDotRepresentation[] */
+    public function elements(): array
     {
-        return "digraph \"{$this->graphId()}\" {
-splines = true;
-overlap = false;
-mindist = 0.6;
-{$this->elementsToDotLanguage()}}";
+        return $this->elements;
     }
 
-    private function elementsToDotLanguage(): string
-    {
-        $dotFormat = array_map(function (HasDotRepresentation $element) {
-            return $element->toDotLanguage();
-        }, $this->dotElements);
-
-        return implode('', $dotFormat);
-    }
-
-    private function graphId(): string
+    public function id(): string
     {
         return sha1(mt_rand());
     }

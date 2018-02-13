@@ -13,5 +13,5 @@ namespace PhUml\Graphviz;
  */
 interface HasDotRepresentation
 {
-    public function toDotLanguage(): string;
+    public function dotTemplate(): string;
 }

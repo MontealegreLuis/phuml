@@ -16,7 +16,7 @@ namespace PhUml\Graphviz;
  *      - Via constructor injection
  *      - Via class attributes
  */
-class Edge implements HasDotRepresentation
+abstract class Edge implements HasDotRepresentation
 {
     /** @var HasNodeIdentifier */
     private $fromNode;
@@ -24,33 +24,19 @@ class Edge implements HasDotRepresentation
     /** @var HasNodeIdentifier */
     private $toNode;
 
-    /** @var string */
-    private $options;
-
-    public static function inheritance(HasNodeIdentifier $parent, HasNodeIdentifier $child): Edge
-    {
-        return new Edge($parent, $child, 'dir=back arrowtail=empty style=solid');
-    }
-
-    public static function implementation(HasNodeIdentifier $interface, HasNodeIdentifier $class): Edge
-    {
-        return new Edge($interface, $class, 'dir=back arrowtail=normal style=dashed');
-    }
-
-    public static function association(HasNodeIdentifier $reference, HasNodeIdentifier $class): Edge
-    {
-        return new Edge($reference, $class, 'dir=back arrowtail=none style=dashed');
-    }
-
-    public function toDotLanguage(): string
-    {
-        return "\"{$this->fromNode->identifier()}\" -> \"{$this->toNode->identifier()}\" [{$this->options}]\n";
-    }
-
-    private function __construct(HasNodeIdentifier $nodeA, HasNodeIdentifier $nodeB, string $options)
+    public function __construct(HasNodeIdentifier $nodeA, HasNodeIdentifier $nodeB)
     {
         $this->fromNode = $nodeA;
         $this->toNode = $nodeB;
-        $this->options = $options;
+    }
+
+    public function fromNode(): HasNodeIdentifier
+    {
+        return $this->fromNode;
+    }
+
+    public function toNode(): HasNodeIdentifier
+    {
+        return $this->toNode;
     }
 }

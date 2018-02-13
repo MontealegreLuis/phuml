@@ -11,8 +11,9 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Structure;
-use PhUml\Fakes\ClassNameLabelBuilder;
-use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\AssociationEdge;
+use PhUml\Graphviz\ImplementationEdge;
+use PhUml\Graphviz\InheritanceEdge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
@@ -22,12 +23,11 @@ class ClassGraphBuilderTest extends TestCase
     function it_extracts_the_elements_for_a_simple_class()
     {
         $class = new ClassDefinition('ClassName');
-        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $graphElements = new ClassGraphBuilder(new ClassNameLabelBuilder());
+        $graphElements = new ClassGraphBuilder();
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 
-        $this->assertEquals([new Node($class, $label)], $dotElements);
+        $this->assertEquals([new Node($class)], $dotElements);
     }
 
     /** @test */
@@ -35,15 +35,13 @@ class ClassGraphBuilderTest extends TestCase
     {
         $parent = new ClassDefinition('ParentClass');
         $class = A::class('ChildClass')->extending($parent)->build();
-        $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $graphElements = new ClassGraphBuilder($nodeBuilder);
+        $graphElements = new ClassGraphBuilder();
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 
         $this->assertEquals([
-            new Node($class, $label),
-            Edge::inheritance($parent, $class),
+            new Node($class),
+            new InheritanceEdge($parent, $class),
         ], $dotElements);
     }
 
@@ -55,16 +53,14 @@ class ClassGraphBuilderTest extends TestCase
         $class = A::class('AClass')
             ->implementing($firstInterface, $secondInterface)
             ->build();
-        $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $graphElements = new ClassGraphBuilder($nodeBuilder);
+        $graphElements = new ClassGraphBuilder();
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 
         $this->assertEquals([
-            new Node($class, $label),
-            Edge::implementation($firstInterface, $class),
-            Edge::implementation($secondInterface, $class),
+            new Node($class),
+            new ImplementationEdge($firstInterface, $class),
+            new ImplementationEdge($secondInterface, $class),
         ], $dotElements);
     }
 
@@ -78,17 +74,15 @@ class ClassGraphBuilderTest extends TestCase
                 A::parameter('$reference')->withType($reference->name())->build()
             )
             ->build();
-        $labelBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $classGraphBuilder = new ClassGraphBuilder($labelBuilder, new EdgesBuilder());
+        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $structure = new Structure();
         $structure->addClass($reference);
 
         $dotElements = $classGraphBuilder->extractFrom($class, $structure);
 
         $this->assertEquals([
-            Edge::association($reference, $class),
-            new Node($class, $label),
+            new AssociationEdge($reference, $class),
+            new Node($class),
         ], $dotElements);
     }
 
@@ -101,9 +95,7 @@ class ClassGraphBuilderTest extends TestCase
             ->withAPrivateAttribute('$firstReference', $firstReference->name())
             ->withAPrivateAttribute('$secondReference', $secondReference->name())
             ->build();
-        $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $classGraphBuilder = new ClassGraphBuilder($nodeBuilder, new EdgesBuilder());
+        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $structure = new Structure();
         $structure->addClass($firstReference);
         $structure->addClass($secondReference);
@@ -111,9 +103,9 @@ class ClassGraphBuilderTest extends TestCase
         $dotElements = $classGraphBuilder->extractFrom($class, $structure);
 
         $this->assertEquals([
-            Edge::association($firstReference, $class),
-            Edge::association($secondReference, $class),
-            new Node($class, $label),
+            new AssociationEdge($firstReference, $class),
+            new AssociationEdge($secondReference, $class),
+            new Node($class),
         ], $dotElements);
     }
 
@@ -139,9 +131,7 @@ class ClassGraphBuilderTest extends TestCase
             ->implementing($firstInterface, $secondInterface)
             ->extending($parent)
             ->build();
-        $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $classGraphBuilder = new ClassGraphBuilder($nodeBuilder, new EdgesBuilder());
+        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $structure = new Structure();
         $structure->addClass($firstReference);
         $structure->addClass($secondReference);
@@ -151,14 +141,14 @@ class ClassGraphBuilderTest extends TestCase
         $dotElements = $classGraphBuilder->extractFrom($class, $structure);
 
         $this->assertEquals([
-            Edge::association($firstReference, $class),
-            Edge::association($secondReference, $class),
-            Edge::association($thirdReference, $class),
-            Edge::association($fourthReference, $class),
-            new Node($class, $label),
-            Edge::inheritance($parent, $class),
-            Edge::implementation($firstInterface, $class),
-            Edge::implementation($secondInterface, $class),
+            new AssociationEdge($firstReference, $class),
+            new AssociationEdge($secondReference, $class),
+            new AssociationEdge($thirdReference, $class),
+            new AssociationEdge($fourthReference, $class),
+            new Node($class),
+            new InheritanceEdge($parent, $class),
+            new ImplementationEdge($firstInterface, $class),
+            new ImplementationEdge($secondInterface, $class),
         ], $dotElements);
     }
 
@@ -174,12 +164,10 @@ class ClassGraphBuilderTest extends TestCase
                 A::parameter('$fourthReference')->withType('FourthClass')->build()
             )
             ->build();
-        $nodeBuilder = new ClassNameLabelBuilder();
-        $label = "<<table><tr><td>{$class->name()}</td></tr></table>>";
-        $graphElements = new ClassGraphBuilder($nodeBuilder);
+        $graphElements = new ClassGraphBuilder();
 
         $dotElements = $graphElements->extractFrom($class, new Structure());
 
-        $this->assertEquals([new Node($class, $label)], $dotElements);
+        $this->assertEquals([new Node($class)], $dotElements);
     }
 }

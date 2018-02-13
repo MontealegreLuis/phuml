@@ -107,6 +107,13 @@ HELP
                 InputOption::VALUE_NONE,
                 'If present, no empty blocks will be shown'
             )
+            ->addOption(
+                'theme',
+                'e',
+                InputOption::VALUE_OPTIONAL,
+                'Colors and fonts to be used for the diagram [phuml, php, classic]',
+                'phuml'
+            )
         ;
     }
 

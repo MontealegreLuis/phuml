@@ -8,7 +8,9 @@
 namespace PhUml\Templates;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Twig_Environment;
+use Twig_Filter;
 
 class TemplateEngineTest extends TestCase
 {
@@ -18,6 +20,7 @@ class TemplateEngineTest extends TestCase
         $twig = $this->prophesize(Twig_Environment::class);
         $template = 'a-template.html.twig';
         $values = ['value' => 'foo', 'number' => 2];
+        $twig->addFilter(Argument::type(Twig_Filter::class))->shouldBeCalled();
         $twig->render($template, $values)->willReturn('Yay!');
         $engine = new TemplateEngine($twig->reveal());
 
@@ -32,11 +35,11 @@ class TemplateEngineTest extends TestCase
         $twig = $this->prophesize(Twig_Environment::class);
         $template = 'a-template.html.twig';
         $values = ['value' => 'foo', 'number' => 2];
+        $twig->addFilter(Argument::type(Twig_Filter::class))->shouldBeCalled();
         $twig->render($template, $values)->willThrow(\Twig_Error_Syntax::class);
         $engine = new TemplateEngine($twig->reveal());
 
         $this->expectException(TemplateFailure::class);
         $engine->render($template, $values);
     }
-
 }

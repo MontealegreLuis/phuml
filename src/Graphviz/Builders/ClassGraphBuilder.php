@@ -10,6 +10,8 @@ namespace PhUml\Graphviz\Builders;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Structure;
 use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\ImplementationEdge;
+use PhUml\Graphviz\InheritanceEdge;
 use PhUml\Graphviz\Node;
 
 /**
@@ -30,13 +32,9 @@ class ClassGraphBuilder
     /** @var AssociationsBuilder */
     private $associationsBuilder;
 
-    /** @var NodeLabelBuilder */
-    private $labelBuilder;
-
-    public function __construct(NodeLabelBuilder $labelBuilder, AssociationsBuilder $associationsBuilder = null)
+    public function __construct(AssociationsBuilder $associationsBuilder = null)
     {
         $this->associationsBuilder = $associationsBuilder ?? new NoAssociationsBuilder();
-        $this->labelBuilder = $labelBuilder;
     }
 
     /**
@@ -57,14 +55,14 @@ class ClassGraphBuilder
         $this->addAssociations($this->associationsBuilder->fromAttributes($class, $structure));
         $this->addAssociations($this->associationsBuilder->fromConstructor($class, $structure));
 
-        $this->dotElements[] = new Node($class, $this->labelBuilder->forClass($class));
+        $this->dotElements[] = new Node($class);
 
         if ($class->hasParent()) {
-            $this->dotElements[] = Edge::inheritance($class->extends(), $class);
+            $this->dotElements[] = new InheritanceEdge($class->extends(), $class);
         }
 
         foreach ($class->implements() as $interface) {
-            $this->dotElements[] = Edge::implementation($interface, $class);
+            $this->dotElements[] = new ImplementationEdge($interface, $class);
         }
 
         return $this->dotElements;

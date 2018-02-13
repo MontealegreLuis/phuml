@@ -12,13 +12,9 @@ use PhUml\Code\Methods\Method;
 use PhUml\Code\Structure;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
-use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\ProvidesNumericIds;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\EdgesBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 
 class GraphvizProcessorTest extends TestCase
 {
@@ -37,11 +33,7 @@ class GraphvizProcessorTest extends TestCase
     /** @test */
     function it_turns_a_code_structure_into_dot_language()
     {
-        $labelBuilder = new ClassNameLabelBuilder();
-        $processor = new GraphvizProcessor(
-            new ClassGraphBuilder($labelBuilder, new EdgesBuilder()),
-            new InterfaceGraphBuilder($labelBuilder)
-        );
+        $processor = new GraphvizProcessor();
 
         $structure = new Structure();
         $parentInterface = new NumericIdInterface('ParentInterface');
@@ -65,15 +57,14 @@ class GraphvizProcessorTest extends TestCase
 splines = true;
 overlap = false;
 mindist = 0.6;
-"101" [label=<<table><tr><td>ParentClass</td></tr></table>> shape=plaintext]
-"102" [label=<<table><tr><td>ReferencedClass</td></tr></table>> shape=plaintext]
-"102" -> "103" [dir=back arrowtail=none style=dashed]
-"103" [label=<<table><tr><td>MyClass</td></tr></table>> shape=plaintext]
-"101" -> "103" [dir=back arrowtail=empty style=solid]
-"2" -> "103" [dir=back arrowtail=normal style=dashed]
-"1" [label=<<table><tr><td>ParentInterface</td></tr></table>> shape=plaintext]
-"2" [label=<<table><tr><td>ImplementedInterface</td></tr></table>> shape=plaintext]
-"1" -> "2" [dir=back arrowtail=empty style=solid]
+"101" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">ParentClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
+"102" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">ReferencedClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
+"103" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">MyClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__construct($reference: ReferencedClass)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>> shape=plaintext color="#2e3436"]
+"101" -> "103" [dir=back arrowtail=empty style=solid color="#2e3436"]
+"2" -> "103" [dir=back arrowtail=normal style=dashed color="#2e3436"]
+"1" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>ParentInterface</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
+"2" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>ImplementedInterface</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
+"1" -> "2" [dir=back arrowtail=empty style=solid color="#2e3436"]
 }', $dotLanguage);
     }
 }

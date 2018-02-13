@@ -11,11 +11,11 @@ namespace PhUml\Graphviz\Builders;
  * It will not create a row if the definition does not have methods or if it does not have
  * attributes
  */
-class NonEmptyBlocksLabelStyle extends NodeLabelStyle
+class NonEmptyBlocksLabelStyle extends DigraphStyle
 {
     protected function setPartials(): void
     {
-        $this->attributes = '_empty-attributes.html.twig';
-        $this->methods = '_empty-methods.html.twig';
+        $this->attributes = 'partials/_empty-attributes.html.twig';
+        $this->methods = 'partials/_empty-methods.html.twig';
     }
 }

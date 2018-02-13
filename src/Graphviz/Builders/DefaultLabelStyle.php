@@ -11,11 +11,11 @@ namespace PhUml\Graphviz\Builders;
  * It will show an empty row if the definition does not have methods or if it does not have
  * attributes
  */
-class DefaultLabelStyle extends NodeLabelStyle
+class DefaultLabelStyle extends DigraphStyle
 {
     protected function setPartials(): void
     {
-        $this->attributes = '_attributes.html.twig';
-        $this->methods = '_methods.html.twig';
+        $this->attributes = 'partials/_attributes.html.twig';
+        $this->methods = 'partials/_methods.html.twig';
     }
 }

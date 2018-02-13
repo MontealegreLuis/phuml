@@ -161,6 +161,39 @@ class GenerateClassDiagramCommandTest extends TestCase
         $this->assertFileExists($this->diagram);
     }
 
+    /** @test */
+    function it_generates_a_class_diagram_with_a_specific_theme()
+    {
+        $status = $this->tester->execute([
+            'command' => $this->command->getName(),
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $this->diagram,
+            '--recursive' => true,
+            '--associations' => true,
+            '--hide-attributes' => true,
+            '--hide-methods' => true,
+            '--hide-empty-blocks' => true,
+            '--processor' => 'neato',
+            '--theme' => 'php',
+        ]);
+
+        $this->assertEquals(0, $status);
+        $this->assertFileExists($this->diagram);
+    }
+
+    /** @test */
+    function it_fails_to_generate_a_diagram_if_an_invalid_theme_name_is_specified()
+    {
+        $this->expectException(RuntimeException::class);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+            'directory' => __DIR__ . '/../../resources/.code/classes',
+            'output' => $this->diagram,
+            '--theme' => 'invalid-theme-name'
+        ]);
+    }
+
     /** @var GenerateClassDiagramCommand */
     private $command;
 

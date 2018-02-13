@@ -8,54 +8,56 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
 
 class EdgeTest extends TestCase
 {
     /** @test */
-    function it_can_represent_inheritance_in_dot_language()
+    function it_can_represent_an_inheritance_relationship()
     {
-        $parent = $this->prophesize(HasNodeIdentifier::class);
-        $child = $this->prophesize(HasNodeIdentifier::class);
-        $parent->identifier()->willReturn('ParentClass');
-        $child->identifier()->willReturn('ChildClass');
+        $parent = new ClassDefinition('ParentClass');
+        $child = new ClassDefinition('ChildClass');
 
-        $edge = Edge::inheritance($parent->reveal(), $child->reveal());
+        $edge = new InheritanceEdge($parent, $child);
 
-        $this->assertEquals(
-            "\"ParentClass\" -> \"ChildClass\" [dir=back arrowtail=empty style=solid]\n",
-            $edge->toDotLanguage()
-        );
+        $this->assertEquals($parent, $edge->fromNode());
+        $this->assertEquals($child, $edge->toNode());
     }
 
     /** @test */
-    function it_can_represent_implementation_in_dot_language()
+    function it_can_represent_an_implementation_relationship()
     {
-        $interface = $this->prophesize(HasNodeIdentifier::class);
-        $class = $this->prophesize(HasNodeIdentifier::class);
-        $interface->identifier()->willReturn('AnInterface');
-        $class->identifier()->willReturn('AClass');
+        $interface = new InterfaceDefinition('AnInterface');
+        $class = new ClassDefinition('AClass');
 
-        $edge = Edge::implementation($interface->reveal(), $class->reveal());
+        $edge = new ImplementationEdge($interface, $class);
 
-        $this->assertEquals(
-            "\"AnInterface\" -> \"AClass\" [dir=back arrowtail=normal style=dashed]\n",
-            $edge->toDotLanguage()
-        );
+        $this->assertEquals($interface, $edge->fromNode());
+        $this->assertEquals($class, $edge->toNode());
     }
 
     /** @test */
-    function it_can_represent_association_in_dot_language()
+    function it_can_represent_an_association_relationship()
     {
-        $reference = $this->prophesize(HasNodeIdentifier::class);
-        $class = $this->prophesize(HasNodeIdentifier::class);
-        $reference->identifier()->willReturn('AReference');
-        $class->identifier()->willReturn('AClass');
+        $reference = new ClassDefinition('AReference');
+        $class = new ClassDefinition('AClass');
 
-        $edge = Edge::association($reference->reveal(), $class->reveal());
+        $edge = new AssociationEdge($reference, $class);
 
-        $this->assertEquals(
-            "\"AReference\" -> \"AClass\" [dir=back arrowtail=none style=dashed]\n",
-            $edge->toDotLanguage()
-        );
+        $this->assertEquals($reference, $edge->fromNode());
+        $this->assertEquals($class, $edge->toNode());
+    }
+
+    /** @test */
+    function it_knows_its_dot_template()
+    {
+        $inheritance = new InheritanceEdge(new ClassDefinition('A'), new ClassDefinition('B'));
+        $implementation = new ImplementationEdge(new ClassDefinition('A'), new InterfaceDefinition('B'));
+        $association = new AssociationEdge(new ClassDefinition('A'), new ClassDefinition('B'));
+
+        $this->assertEquals('inheritance', $inheritance->dotTemplate());
+        $this->assertEquals('implementation', $implementation->dotTemplate());
+        $this->assertEquals('association', $association->dotTemplate());
     }
 }

@@ -8,7 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\InheritanceEdge;
 use PhUml\Graphviz\Node;
 
 /**
@@ -19,14 +19,6 @@ use PhUml\Graphviz\Node;
  */
 class InterfaceGraphBuilder
 {
-    /** @var NodeLabelBuilder */
-    private $labelBuilder;
-
-    public function __construct(NodeLabelBuilder $labelBuilder)
-    {
-        $this->labelBuilder = $labelBuilder;
-    }
-
     /**
      * The order in which the nodes and edges are created is as follows
      *
@@ -39,10 +31,10 @@ class InterfaceGraphBuilder
     {
         $dotElements = [];
 
-        $dotElements[] = new Node($interface, $this->labelBuilder->forInterface($interface));
+        $dotElements[] = new Node($interface);
 
         if ($interface->hasParent()) {
-            $dotElements[] = Edge::inheritance($interface->extends(), $interface);
+            $dotElements[] = new InheritanceEdge($interface->extends(), $interface);
         }
 
         return $dotElements;

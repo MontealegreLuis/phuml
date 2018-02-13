@@ -8,22 +8,10 @@
 namespace PhUml\Generators;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Fakes\SimpleTableLabelBuilder;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
-use PhUml\Parser\Raw\Builders\AttributesBuilder;
-use PhUml\Parser\Raw\Builders\ConstantsBuilder;
-use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
-use PhUml\Parser\Raw\Builders\MethodsBuilder;
-use PhUml\Parser\Raw\Builders\RawClassBuilder;
-use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\ParserBuilder;
-use PhUml\Parser\Raw\Php5Parser;
 use PhUml\Parser\Raw\PhpParser;
 use PhUml\Parser\StructureBuilder;
 use PhUml\Processors\GraphvizProcessor;
@@ -42,8 +30,8 @@ class GenerateDotFileWithVisibilityFiltersTest extends TestCase
         $this->generator->generate($finder, $file);
 
         $digraphInDotFormat = file_get_contents($file);
-        $this->assertContains('<table><tr><td>plBase</td></tr><tr><td>+autoload($classname: string): void<br/>+addAutoloadDirectory($directory: string): void<br/>+getAutoloadClasses(): string[]</td></tr></table>', $digraphInDotFormat);
-        $this->assertContains('<table><tr><td>plPhuml</td></tr><tr><td>#$properties</td></tr><tr><td>+__construct()<br/>+addFile($file): void<br/>+addDirectory($directory, $extension, $recursive)<br/>+addProcessor($processor)<br/>+generate($outfile)<br/>+__get($key)<br/>+__set($key, $val)</td></tr></table>', $digraphInDotFormat);
+        $this->assertContains('<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plBase</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+autoload($classname: string): void</U></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+addAutoloadDirectory($directory: string): void</U></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+getAutoloadClasses(): string[]</U></FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>', $digraphInDotFormat);
+        $this->assertContains('<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plPhuml</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#$properties</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__construct()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addFile($file): void</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addDirectory($directory, $extension, $recursive)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addProcessor($processor)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+generate($outfile)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__get($key)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__set($key, $val)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>', $digraphInDotFormat);
     }
 
     /** @test */
@@ -58,8 +46,8 @@ class GenerateDotFileWithVisibilityFiltersTest extends TestCase
         $this->generator->generate($finder, $file);
 
         $digraphInDotFormat = file_get_contents($file);
-        $this->assertContains('<table><tr><td>plBase</td></tr><tr><td>-$autoload: array<br/>-$autoloadDirectory: string[]</td></tr><tr><td>+autoload($classname: string): void<br/>+addAutoloadDirectory($directory: string): void<br/>+getAutoloadClasses(): string[]</td></tr></table>', $digraphInDotFormat);
-        $this->assertContains('<table><tr><td>plPhuml</td></tr><tr><td>-$files<br/>-$processors</td></tr><tr><td>+__construct()<br/>+addFile($file): void<br/>+addDirectory($directory, $extension, $recursive)<br/>+addProcessor($processor)<br/>-checkProcessorCompatibility($first, $second)<br/>+generate($outfile)<br/>+__get($key)<br/>+__set($key, $val)</td></tr></table>', $digraphInDotFormat);
+        $this->assertContains('<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plBase</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>-$autoload: array</U></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>-$autoloadDirectory: string[]</U></FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+autoload($classname: string): void</U></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+addAutoloadDirectory($directory: string): void</U></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+getAutoloadClasses(): string[]</U></FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>', $digraphInDotFormat);
+        $this->assertContains('<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plPhuml</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$files</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-$processors</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__construct()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addFile($file): void</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addDirectory($directory, $extension, $recursive)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addProcessor($processor)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-checkProcessorCompatibility($first, $second)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+generate($outfile)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__get($key)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__set($key, $val)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>', $digraphInDotFormat);
     }
 
     /** @test */
@@ -74,18 +62,15 @@ class GenerateDotFileWithVisibilityFiltersTest extends TestCase
         $this->generator->generate($finder, $file);
 
         $digraphInDotFormat = file_get_contents($file);
-        $this->assertContains('<table><tr><td>plBase</td></tr><tr><td>+autoload($classname: string): void<br/>+addAutoloadDirectory($directory: string): void<br/>+getAutoloadClasses(): string[]</td></tr></table>', $digraphInDotFormat);
-        $this->assertContains('<table><tr><td>plPhuml</td></tr><tr><td>+__construct()<br/>+addFile($file): void<br/>+addDirectory($directory, $extension, $recursive)<br/>+addProcessor($processor)<br/>+generate($outfile)<br/>+__get($key)<br/>+__set($key, $val)</td></tr></table>', $digraphInDotFormat);
+        $this->assertContains('<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plBase</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+autoload($classname: string): void</U></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+addAutoloadDirectory($directory: string): void</U></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>+getAutoloadClasses(): string[]</U></FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>', $digraphInDotFormat);
+        $this->assertContains('<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">plPhuml</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__construct()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addFile($file): void</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addDirectory($directory, $extension, $recursive)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+addProcessor($processor)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+generate($outfile)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__get($key)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__set($key, $val)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>', $digraphInDotFormat);
     }
 
     function createGenerator(PhpParser $parser): void
     {
         $this->generator = new DotFileGenerator(
             new CodeParser(new StructureBuilder(), $parser),
-            new GraphvizProcessor(
-                new ClassGraphBuilder(new SimpleTableLabelBuilder()),
-                new InterfaceGraphBuilder(new SimpleTableLabelBuilder())
-            )
+            new GraphvizProcessor()
         );
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
     }
