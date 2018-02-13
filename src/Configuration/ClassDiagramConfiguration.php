@@ -7,7 +7,7 @@
 
 namespace PhUml\Configuration;
 
-use RuntimeException;
+use PhUml\Processors\ImageProcessorName;
 
 class ClassDiagramConfiguration extends DigraphConfiguration
 {
@@ -27,9 +27,6 @@ class ClassDiagramConfiguration extends DigraphConfiguration
 
     private function setImageProcessor(?string $imageProcessor): void
     {
-        if (!\in_array($imageProcessor, ['neato', 'dot'], true)) {
-            throw new RuntimeException("Invalid processor '$imageProcessor' found, expected processors are neato and dot");
-        }
-        $this->imageProcessor = $imageProcessor;
+        $this->imageProcessor = ImageProcessorName::from($imageProcessor);
     }
 }
