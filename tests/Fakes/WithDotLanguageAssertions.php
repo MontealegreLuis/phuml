@@ -16,7 +16,7 @@ trait WithDotLanguageAssertions
     public function assertNode(Definition $definition, string $dotLanguage): void
     {
         $this->assertRegExp(
-            "/\"{$definition->identifier()}\" \\[label=<(.)+{$definition->name()}(.)+> shape=plaintext color=\"#[0-9a-f]{6}\"\\]/",
+            "/\"{$definition->identifier()}\" \\[label=<(?:.)+{$definition->name()}(?:.)+> shape=plaintext color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "Definition {$definition->name()} with identifier {$definition->identifier()} cannot be found"
         );
