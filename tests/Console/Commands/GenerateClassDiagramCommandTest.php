@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
 use PhUml\Console\ProgressDisplay;
 use PhUml\Parser\InvalidDirectory;
-use PhUml\Processors\UnknownImageProcessor;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -155,19 +154,6 @@ class GenerateClassDiagramCommandTest extends TestCase
 
         $this->assertEquals(0, $status);
         $this->assertFileExists($this->diagram);
-    }
-
-    /** @test */
-    function it_fails_to_generate_a_diagram_if_an_invalid_theme_name_is_specified()
-    {
-        $this->expectException(RuntimeException::class);
-
-        $this->tester->execute([
-            'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code/classes',
-            'output' => $this->diagram,
-            '--theme' => 'invalid-theme-name'
-        ]);
     }
 
     /** @var GenerateClassDiagramCommand */

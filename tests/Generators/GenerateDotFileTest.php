@@ -9,11 +9,8 @@ namespace PhUml\Generators;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
-use PhUml\Fakes\ClassNameLabelBuilder;
 use PhUml\Fakes\NumericIdStructureBuilder;
 use PhUml\Fakes\ProvidesNumericIds;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
