@@ -16,6 +16,7 @@ use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\ProvidesNumericIds;
+use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Templates\TemplateEngine;
 use PhUml\Templates\TemplateFailure;
 use PhUml\TestBuilders\A;
@@ -23,7 +24,7 @@ use RuntimeException;
 
 class DigraphPrinterTest extends TestCase
 {
-    use ProvidesNumericIds;
+    use ProvidesNumericIds, WithDotLanguageAssertions;
 
     /** @test */
     function its_dot_language_representation_contains_an_id_and_basic_display_settings()
@@ -143,7 +144,7 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertRegExp('/"101" \[label=<(.)+TestClass(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
+        $this->assertNode($class, $dotLanguage);
     }
 
     /** @test */
@@ -160,9 +161,9 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertRegExp('/"101" \[label=<(.)+ParentClass(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"102" \[label=<(.)+TestClass(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"101" -> "102" \[dir=back arrowtail=empty style=solid color="#[0-9a-f]{6}"\]/', $dotLanguage);
+        $this->assertNode($parentClass, $dotLanguage);
+        $this->assertNode($class, $dotLanguage);
+        $this->assertInheritance($class, $parentClass, $dotLanguage);
     }
 
     /** @test */
@@ -182,55 +183,55 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertRegExp('/"101" \[label=<(.)+TestClass(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"1" \[label=<(.)+AnInterface(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"2" \[label=<(.)+AnotherInterface(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"1" -> "101" \[dir=back arrowtail=normal style=dashed color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"2" -> "101" \[dir=back arrowtail=normal style=dashed color="#[0-9a-f]{6}"\]/', $dotLanguage);
+        $this->assertNode($class, $dotLanguage);
+        $this->assertNode($anInterface, $dotLanguage);
+        $this->assertNode($anotherInterface, $dotLanguage);
+        $this->assertImplementation($class, $anInterface, $dotLanguage);
+        $this->assertImplementation($class, $anotherInterface, $dotLanguage);
     }
 
     /** @test */
     function it_represents_constructor_dependencies_as_associations_in_dot_language()
     {
-        $referenceClass = new NumericIdClass('AReference');
-        $testClass = new NumericIdClass('TestClass', [], [], [
+        $reference = new NumericIdClass('AReference');
+        $class = new NumericIdClass('TestClass', [], [], [
             Method::public('__construct', [
                 Variable::declaredWith('aReference', TypeDeclaration::from('AReference'))
             ])
         ]);
         $digraph = new Digraph();
         $digraph->add([
-            new Node($referenceClass),
-            new AssociationEdge($referenceClass, $testClass),
-            new Node($testClass),
+            new Node($reference),
+            new AssociationEdge($reference, $class),
+            new Node($class),
         ]);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertRegExp('/"101" \[label=<(.)+AReference(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"102" \[label=<(.)+TestClass(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"101" -> "102" \[dir=back arrowtail=none style=solid color="#[0-9a-f]{6}"\]/', $dotLanguage);
+        $this->assertNode($reference, $dotLanguage);
+        $this->assertNode($class, $dotLanguage);
+        $this->assertAssociation($reference, $class, $dotLanguage);
     }
 
     /** @test */
     function it_represents_class_attributes_as_associations_in_dot_language()
     {
-        $referenceClass = new NumericIdClass('AReference');
-        $testClass = new NumericIdClass('TestClass', [], [
+        $reference = new NumericIdClass('AReference');
+        $class = new NumericIdClass('TestClass', [], [
             Attribute::private('$aReference', TypeDeclaration::from('AReference'))
         ], []);
         $digraph = new Digraph();
         $digraph->add([
-            new Node($referenceClass),
-            new AssociationEdge($referenceClass, $testClass),
-            new Node($testClass),
+            new Node($reference),
+            new AssociationEdge($reference, $class),
+            new Node($class),
         ]);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertRegExp('/"101" \[label=<(.)+AReference(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"102" \[label=<(.)+TestClass(.)+> shape=plaintext color="#[0-9a-f]{6}"\]/', $dotLanguage);
-        $this->assertRegExp('/"101" -> "102" \[dir=back arrowtail=none style=solid color="#[0-9a-f]{6}"\]/', $dotLanguage);
+        $this->assertNode($reference, $dotLanguage);
+        $this->assertNode($class, $dotLanguage);
+        $this->assertAssociation($reference, $class, $dotLanguage);
     }
 
     /** @test */
@@ -249,12 +250,12 @@ mindist = 0.6;', $dotLanguage);
         $printer->toDot(new Digraph());
     }
 
-    /** @var DigraphPrinter */
-    private $printer;
-
     /** @before */
     function createPrinter()
     {
         $this->printer = new DigraphPrinter();
     }
+
+    /** @var DigraphPrinter */
+    private $printer;
 }

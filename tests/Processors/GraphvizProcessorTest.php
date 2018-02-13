@@ -15,10 +15,13 @@ use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\ProvidesNumericIds;
+use PhUml\Fakes\WithDotLanguageAssertions;
+use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\EdgesBuilder;
 
 class GraphvizProcessorTest extends TestCase
 {
-    use ProvidesNumericIds;
+    use ProvidesNumericIds, WithDotLanguageAssertions;
 
     /** @test */
     function it_has_a_name()
@@ -33,38 +36,35 @@ class GraphvizProcessorTest extends TestCase
     /** @test */
     function it_turns_a_code_structure_into_dot_language()
     {
-        $processor = new GraphvizProcessor();
+        $processor = new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder()));
 
-        $structure = new Structure();
         $parentInterface = new NumericIdInterface('ParentInterface');
         $interface = new NumericIdInterface('ImplementedInterface', [], [], $parentInterface);
         $parentClass = new NumericIdClass('ParentClass');
+        $reference = new NumericIdClass('ReferencedClass');
+        $class = new NumericIdClass('MyClass', [], [], [
+            Method::public ('__construct', [
+                Variable::declaredWith('$reference', TypeDeclaration::from('ReferencedClass')),
+            ])
+        ], [$interface], $parentClass);
+
+        $structure = new Structure();
         $structure->addClass($parentClass);
-        $structure->addClass(new NumericIdClass('ReferencedClass'));
+        $structure->addClass($reference);
         $structure->addInterface($parentInterface);
         $structure->addInterface($interface);
-        $structure->addClass(new NumericIdClass('MyClass', [], [], [
-                Method::public('__construct', [
-                    Variable::declaredWith('$reference', TypeDeclaration::from('ReferencedClass')),
-                ])
-            ], [$interface], $parentClass)
-        );
+        $structure->addClass($class);
 
         $dotLanguage = $processor->process($structure);
 
-        $this->assertRegExp('/^digraph "([0-9a-f]){40}"/', $dotLanguage);
-        $this->assertStringEndsWith('{
-splines = true;
-overlap = false;
-mindist = 0.6;
-"101" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">ParentClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
-"102" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">ReferencedClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
-"103" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">MyClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+__construct($reference: ReferencedClass)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>> shape=plaintext color="#2e3436"]
-"101" -> "103" [dir=back arrowtail=empty style=solid color="#2e3436"]
-"2" -> "103" [dir=back arrowtail=normal style=dashed color="#2e3436"]
-"1" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>ParentInterface</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
-"2" [label=<<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>ImplementedInterface</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>> shape=plaintext color="#2e3436"]
-"1" -> "2" [dir=back arrowtail=empty style=solid color="#2e3436"]
-}', $dotLanguage);
+        $this->assertNode($parentClass, $dotLanguage);
+        $this->assertNode($reference, $dotLanguage);
+        $this->assertNode($class, $dotLanguage);
+        $this->assertInheritance($class, $parentClass, $dotLanguage);
+        $this->assertAssociation($reference, $class, $dotLanguage);
+        $this->assertImplementation($class, $interface, $dotLanguage);
+        $this->assertNode($parentInterface, $dotLanguage);
+        $this->assertNode($interface, $dotLanguage);
+        $this->assertInheritance($interface, $parentInterface, $dotLanguage);
     }
 }
