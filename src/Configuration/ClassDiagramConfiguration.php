@@ -11,7 +11,7 @@ use PhUml\Processors\ImageProcessorName;
 
 class ClassDiagramConfiguration extends DigraphConfiguration
 {
-    /** @var string */
+    /** @var ImageProcessorName */
     private $imageProcessor;
 
     public function __construct(array $input)
@@ -22,7 +22,7 @@ class ClassDiagramConfiguration extends DigraphConfiguration
 
     public function isDotProcessor(): bool
     {
-        return $this->imageProcessor === 'dot';
+        return $this->imageProcessor->is('dot');
     }
 
     private function setImageProcessor(?string $imageProcessor): void

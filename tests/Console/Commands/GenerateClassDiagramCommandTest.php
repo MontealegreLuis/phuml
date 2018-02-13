@@ -53,19 +53,6 @@ class GenerateClassDiagramCommandTest extends TestCase
     }
 
     /** @test */
-    function it_fails_to_generate_a_diagram_if_an_invalid_image_processor_name_is_specified()
-    {
-        $this->expectException(UnknownImageProcessor::class);
-
-        $this->tester->execute([
-            'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code/classes',
-            'output' => $this->diagram,
-            '--processor' => 'invalid-image-processor-name'
-        ]);
-    }
-
-    /** @test */
     function it_generates_a_class_diagram_without_searching_recursively_for_classes()
     {
         $status = $this->tester->execute([
