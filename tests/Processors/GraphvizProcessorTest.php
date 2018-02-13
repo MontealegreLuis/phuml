@@ -14,14 +14,14 @@ use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
-use PhUml\Fakes\ProvidesNumericIds;
+use PhUml\Fakes\WithNumericIds;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 
 class GraphvizProcessorTest extends TestCase
 {
-    use ProvidesNumericIds, WithDotLanguageAssertions;
+    use WithNumericIds, WithDotLanguageAssertions;
 
     /** @test */
     function it_has_a_name()

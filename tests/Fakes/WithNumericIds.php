@@ -7,7 +7,7 @@
 
 namespace PhUml\Fakes;
 
-trait ProvidesNumericIds
+trait WithNumericIds
 {
     /** @before */
     function resetIds(): void

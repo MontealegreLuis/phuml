@@ -10,7 +10,7 @@ namespace PhUml\Generators;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\NumericIdStructureBuilder;
-use PhUml\Fakes\ProvidesNumericIds;
+use PhUml\Fakes\WithNumericIds;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -19,7 +19,7 @@ use PhUml\Processors\GraphvizProcessor;
 
 class GenerateDotFileTest extends TestCase
 {
-    use ProvidesNumericIds;
+    use WithNumericIds;
 
     /** @test */
     function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()

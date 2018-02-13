@@ -15,7 +15,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
-use PhUml\Fakes\ProvidesNumericIds;
+use PhUml\Fakes\WithNumericIds;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Templates\TemplateEngine;
 use PhUml\Templates\TemplateFailure;
@@ -24,7 +24,7 @@ use RuntimeException;
 
 class DigraphPrinterTest extends TestCase
 {
-    use ProvidesNumericIds, WithDotLanguageAssertions;
+    use WithNumericIds, WithDotLanguageAssertions;
 
     /** @test */
     function its_dot_language_representation_contains_an_id_and_basic_display_settings()
