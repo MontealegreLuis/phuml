@@ -8,13 +8,13 @@
 namespace PhUml\Configuration;
 
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\DefaultLabelStyle;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
-use PhUml\Graphviz\Builders\DigraphStyle;
-use PhUml\Graphviz\Builders\NonEmptyBlocksLabelStyle;
 use PhUml\Graphviz\DigraphPrinter;
+use PhUml\Graphviz\Styles\DefaultDigraphStyle;
+use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
@@ -55,9 +55,9 @@ class DigraphBuilder
     protected function digraphStyle(): DigraphStyle
     {
         if ($this->configuration->hideEmptyBlocks()) {
-            return new NonEmptyBlocksLabelStyle($this->configuration->theme());
+            return new NonEmptyBlocksStyle($this->configuration->theme());
         }
-        return new DefaultLabelStyle($this->configuration->theme());
+        return new DefaultDigraphStyle($this->configuration->theme());
     }
 
     protected function codeParser(): CodeParser

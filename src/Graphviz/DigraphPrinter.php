@@ -7,8 +7,8 @@
 
 namespace PhUml\Graphviz;
 
-use PhUml\Graphviz\Builders\DefaultLabelStyle;
-use PhUml\Graphviz\Builders\DigraphStyle;
+use PhUml\Graphviz\Styles\DefaultDigraphStyle;
+use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Templates\TemplateEngine;
 
 class DigraphPrinter
@@ -22,7 +22,7 @@ class DigraphPrinter
     public function __construct(TemplateEngine $engine = null, DigraphStyle $style = null)
     {
         $this->engine = $engine ?? new TemplateEngine();
-        $this->style = $style ?? new DefaultLabelStyle();
+        $this->style = $style ?? new DefaultDigraphStyle();
     }
 
     public function toDot(Digraph $digraph): string

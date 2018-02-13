@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Graphviz\Builders;
+namespace PhUml\Graphviz\Styles;
 
 /**
  * It is a container for the partial files used to build the HTML label for the node

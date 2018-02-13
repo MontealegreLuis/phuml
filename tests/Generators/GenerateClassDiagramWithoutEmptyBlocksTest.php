@@ -11,18 +11,12 @@ use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
-use PhUml\Graphviz\Builders\NonEmptyBlocksLabelStyle;
 use PhUml\Graphviz\DigraphPrinter;
+use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
-use PhUml\Parser\Raw\Builders\ConstantsBuilder;
-use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
-use PhUml\Parser\Raw\Builders\NoMethodsBuilder;
-use PhUml\Parser\Raw\Builders\RawClassBuilder;
-use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\ParserBuilder;
-use PhUml\Parser\Raw\Php5Parser;
 use PhUml\Parser\StructureBuilder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
@@ -41,7 +35,7 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
             new GraphvizProcessor(
                 new ClassGraphBuilder(),
                 new InterfaceGraphBuilder(),
-                new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksLabelStyle())
+                new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksStyle())
             ),
             new DotProcessor()
         );

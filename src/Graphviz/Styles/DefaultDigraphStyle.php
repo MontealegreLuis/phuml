@@ -5,13 +5,13 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Graphviz\Builders;
+namespace PhUml\Graphviz\Styles;
 
 /**
  * It will show an empty row if the definition does not have methods or if it does not have
  * attributes
  */
-class DefaultLabelStyle extends DigraphStyle
+class DefaultDigraphStyle extends DigraphStyle
 {
     protected function setPartials(): void
     {
