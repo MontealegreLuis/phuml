@@ -53,7 +53,7 @@ class ClassDiagramConfigurationTest extends TestCase
             'hide-attributes' => true,
             'hide-methods' => true,
             'hide-empty-blocks' => true,
-            'theme' => 'phuml'
+            'theme' => 'phuml',
         ], $override);
     }
 }

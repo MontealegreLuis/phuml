@@ -7,7 +7,7 @@
 
 namespace PhUml\Configuration;
 
-use RuntimeException;
+use PhUml\Graphviz\Styles\ThemeName;
 
 class DigraphConfiguration
 {
@@ -32,7 +32,7 @@ class DigraphConfiguration
     /** @var bool */
     protected $hideEmptyBlocks;
 
-    /** @var string */
+    /** @var ThemeName */
     protected $theme;
 
     public function __construct(array $input)
@@ -84,14 +84,11 @@ class DigraphConfiguration
 
     public function theme(): string
     {
-        return $this->theme;
+        return $this->theme->name();
     }
 
     protected function setTheme(string $theme): void
     {
-        if (!\in_array($theme, ['phuml', 'php', 'classic'], true)) {
-            throw new RuntimeException("Invalid theme '$theme' found, valid themes are 'phuml', 'php' and 'classic");
-        }
-        $this->theme = $theme;
+        $this->theme = ThemeName::from($theme);
     }
 }
