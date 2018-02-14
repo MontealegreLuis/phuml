@@ -50,14 +50,14 @@ class GraphvizProcessorTest extends TestCase
             ->buildWithNumericId()
         ;
 
-        $structure = new Codebase();
-        $structure->addClass($parentClass);
-        $structure->addClass($reference);
-        $structure->addInterface($parentInterface);
-        $structure->addInterface($interface);
-        $structure->addClass($class);
+        $codebase = new Codebase();
+        $codebase->addClass($parentClass);
+        $codebase->addClass($reference);
+        $codebase->addInterface($parentInterface);
+        $codebase->addInterface($interface);
+        $codebase->addClass($class);
 
-        $dotLanguage = $processor->process($structure);
+        $dotLanguage = $processor->process($codebase);
 
         $this->assertNode($parentClass, $dotLanguage);
         $this->assertNode($reference, $dotLanguage);

@@ -32,11 +32,11 @@ class MyClass
 CLASS
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $class = new ClassDefinition('MyClass');
-        $this->assertTrue($structure->has('MyClass'));
-        $this->assertEquals($class, $structure->get('MyClass'));
+        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
     /** @test */
@@ -53,15 +53,15 @@ class MyClass
 CLASS
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $class = A::class('MyClass')
             ->withAPrivateAttribute('$name')
             ->withAProtectedAttribute('$age')
             ->withAPublicAttribute('$phone')
             ->build();
-        $this->assertTrue($structure->has('MyClass'));
-        $this->assertEquals($class, $structure->get('MyClass'));
+        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
     /** @test */
@@ -89,15 +89,15 @@ class MyClass
 CLASS;
         $this->finder->add($class);
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $class = A::class('MyClass')
             ->withAPrivateAttribute('$names', 'string[]')
             ->withAProtectedAttribute('$age', 'int')
             ->withAPublicAttribute('$phones', 'string[]')
             ->build();
-        $this->assertTrue($structure->has('MyClass'));
-        $this->assertEquals($class, $structure->get('MyClass'));
+        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
     /** @test */
@@ -123,15 +123,15 @@ class MyClass
 CLASS
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $class = A::class('MyClass')
             ->withAPrivateMethod('changeName', A::parameter('$newName')->withType('string')->build())
             ->withAProtectedMethod('getAge')
             ->withAPublicMethod('formatPhone', A::parameter('$format')->withType('string')->build())
             ->build();
-        $this->assertTrue($structure->has('MyClass'));
-        $this->assertEquals($class, $structure->get('MyClass'));
+        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
     /** @test */
@@ -156,7 +156,7 @@ class MyClass
 CLASS
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $class = A::class('MyClass')
             ->withAPublicMethod('__construct')
@@ -167,8 +167,8 @@ CLASS
                 A::parameter('$phone')->withType('string')->build()
             )
             ->build();
-        $this->assertTrue($structure->has('MyClass'));
-        $this->assertEquals($class, $structure->get('MyClass'));
+        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
     /** @test */
@@ -189,15 +189,15 @@ class ChildClass extends ParentClass
 CLASS
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $parentClass = new ClassDefinition('ParentClass');
         $childClass = A::class('ChildClass')->extending($parentClass)->build();
 
-        $this->assertTrue($structure->has('ParentClass'));
-        $this->assertEquals($parentClass, $structure->get('ParentClass'));
-        $this->assertTrue($structure->has('ChildClass'));
-        $this->assertEquals($childClass, $structure->get('ChildClass'));
+        $this->assertTrue($codebase->has('ParentClass'));
+        $this->assertEquals($parentClass, $codebase->get('ParentClass'));
+        $this->assertTrue($codebase->has('ChildClass'));
+        $this->assertEquals($childClass, $codebase->get('ChildClass'));
     }
 
     /** @test */
@@ -225,18 +225,18 @@ class MyClass implements InterfaceOne, InterfaceTwo
 CLASS
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $interfaceOne = new InterfaceDefinition('InterfaceOne');
         $interfaceTwo = new InterfaceDefinition('InterfaceTwo');
         $class = A::class('MyClass')->implementing($interfaceOne, $interfaceTwo)->build();
 
-        $this->assertTrue($structure->has('InterfaceOne'));
-        $this->assertEquals($interfaceOne, $structure->get('InterfaceOne'));
-        $this->assertTrue($structure->has('InterfaceTwo'));
-        $this->assertEquals($interfaceTwo, $structure->get('InterfaceTwo'));
-        $this->assertTrue($structure->has('MyClass'));
-        $this->assertEquals($class, $structure->get('MyClass'));
+        $this->assertTrue($codebase->has('InterfaceOne'));
+        $this->assertEquals($interfaceOne, $codebase->get('InterfaceOne'));
+        $this->assertTrue($codebase->has('InterfaceTwo'));
+        $this->assertEquals($interfaceTwo, $codebase->get('InterfaceTwo'));
+        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
     /** @test */
@@ -257,7 +257,7 @@ interface MyInterface
 INTERFACE
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $interface = A::interface('MyInterface')
             ->withAPublicMethod(
@@ -268,8 +268,8 @@ INTERFACE
             )
             ->withAPublicMethod('ageToMonths')
             ->build();
-        $this->assertTrue($structure->has('MyInterface'));
-        $this->assertEquals($interface, $structure->get('MyInterface'));
+        $this->assertTrue($codebase->has('MyInterface'));
+        $this->assertEquals($interface, $codebase->get('MyInterface'));
     }
 
     /** @test */
@@ -290,14 +290,14 @@ interface ChildInterface extends ParentInterface
 INTERFACE
         );
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $parentInterface = new InterfaceDefinition('ParentInterface');
         $childInterface = A::interface('ChildInterface')->extending($parentInterface)->build();
-        $this->assertTrue($structure->has('ParentInterface'));
-        $this->assertEquals($parentInterface, $structure->get('ParentInterface'));
-        $this->assertTrue($structure->has('ChildInterface'));
-        $this->assertEquals($childInterface, $structure->get('ChildInterface'));
+        $this->assertTrue($codebase->has('ParentInterface'));
+        $this->assertEquals($parentInterface, $codebase->get('ParentInterface'));
+        $this->assertTrue($codebase->has('ChildInterface'));
+        $this->assertEquals($childInterface, $codebase->get('ChildInterface'));
     }
 
     /** @test */
@@ -398,7 +398,7 @@ CLASS;
         $this->finder->add($childClassCode);
         $this->finder->add($classCode);
 
-        $structure = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($this->finder);
 
         $user = A::class('User')
             ->withAProtectedAttribute('$name', 'string')
@@ -424,16 +424,16 @@ CLASS;
             ->implementing($students)
             ->build();
 
-        $this->assertTrue($structure->has('User'));
-        $this->assertEquals($user, $structure->get('User'));
-        $this->assertTrue($structure->has('Student'));
-        $this->assertEquals($student, $structure->get('Student'));
-        $this->assertTrue($structure->has('InMemoryStudents'));
-        $this->assertEquals($inMemoryStudents, $structure->get('InMemoryStudents'));
-        $this->assertTrue($structure->has('Pageable'));
-        $this->assertEquals($pageable, $structure->get('Pageable'));
-        $this->assertTrue($structure->has('Students'));
-        $this->assertEquals($students, $structure->get('Students'));
+        $this->assertTrue($codebase->has('User'));
+        $this->assertEquals($user, $codebase->get('User'));
+        $this->assertTrue($codebase->has('Student'));
+        $this->assertEquals($student, $codebase->get('Student'));
+        $this->assertTrue($codebase->has('InMemoryStudents'));
+        $this->assertEquals($inMemoryStudents, $codebase->get('InMemoryStudents'));
+        $this->assertTrue($codebase->has('Pageable'));
+        $this->assertEquals($pageable, $codebase->get('Pageable'));
+        $this->assertTrue($codebase->has('Students'));
+        $this->assertEquals($students, $codebase->get('Students'));
     }
 
     /** @var CodeParser */

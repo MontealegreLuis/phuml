@@ -33,15 +33,14 @@ class CodebaseBuilderTest extends TestCase
             'extends' => 'ParentInterface',
         ]));
 
-        $structure = $builder->buildFrom($definitions);
-        $interface = $structure->get('InterfaceName');
+        $codebase = $builder->buildFrom($definitions);
 
         $this->assertEquals(A::interface('InterfaceName')
             ->withAPublicMethod('doSomething')
             ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
             ->extending(new InterfaceDefinition('ParentInterface'))
             ->build(),
-            $interface
+            $codebase->get('InterfaceName')
         );
     }
 
@@ -75,8 +74,7 @@ class CodebaseBuilderTest extends TestCase
             'extends' => 'ParentClass',
         ]));
 
-        $structure = $builder->buildFrom($definitions);
-        $class = $structure->get('ClassName');
+        $codebase = $builder->buildFrom($definitions);
 
         $this->assertEquals(
             A::class('ClassName')
@@ -88,7 +86,7 @@ class CodebaseBuilderTest extends TestCase
                 ->implementing(new InterfaceDefinition('FirstInterface'), new InterfaceDefinition('SecondInterface'))
                 ->extending(new ClassDefinition('ParentClass'))
                 ->build(),
-            $class
+            $codebase->get('ClassName')
         );
     }
 
@@ -120,22 +118,22 @@ class CodebaseBuilderTest extends TestCase
         ]));
         $resolver->resolve($definitions);
 
-        $structure = $builder->buildFrom($definitions);
+        $codebase = $builder->buildFrom($definitions);
 
-        $this->assertCount(5, $structure->definitions());
-        $this->assertTrue($structure->has('AClass'));
-        $this->assertInstanceOf(ClassDefinition::class, $structure->get('AClass'));
-        $this->assertTrue($structure->has('AnotherClass'));
-        $this->assertInstanceOf(ClassDefinition::class, $structure->get('AnotherClass'));
-        $this->assertTrue($structure->has('ExternalClass'));
-        $this->assertInstanceOf(ClassDefinition::class, $structure->get('ExternalClass'));
-        $this->assertTrue($structure->has('AnInterface'));
-        $this->assertInstanceOf(InterfaceDefinition::class, $structure->get('AnInterface'));
-        $this->assertTrue($structure->has('ExternalInterface'));
-        $this->assertInstanceOf(InterfaceDefinition::class, $structure->get('ExternalInterface'));
+        $this->assertCount(5, $codebase->definitions());
+        $this->assertTrue($codebase->has('AClass'));
+        $this->assertInstanceOf(ClassDefinition::class, $codebase->get('AClass'));
+        $this->assertTrue($codebase->has('AnotherClass'));
+        $this->assertInstanceOf(ClassDefinition::class, $codebase->get('AnotherClass'));
+        $this->assertTrue($codebase->has('ExternalClass'));
+        $this->assertInstanceOf(ClassDefinition::class, $codebase->get('ExternalClass'));
+        $this->assertTrue($codebase->has('AnInterface'));
+        $this->assertInstanceOf(InterfaceDefinition::class, $codebase->get('AnInterface'));
+        $this->assertTrue($codebase->has('ExternalInterface'));
+        $this->assertInstanceOf(InterfaceDefinition::class, $codebase->get('ExternalInterface'));
         $this->assertEquals(
-            $structure->get('AClass')->extends()->identifier(),
-            $structure->get('ExternalClass')->identifier()
+            $codebase->get('AClass')->extends()->identifier(),
+            $codebase->get('ExternalClass')->identifier()
         );
     }
 }
