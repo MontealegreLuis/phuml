@@ -8,7 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Code\Variables\Variable;
 use PhUml\Graphviz\AssociationEdge;
 use PhUml\Graphviz\Edge;
@@ -32,10 +32,10 @@ class EdgesBuilder implements AssociationsBuilder
      *
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
-    public function fromAttributes(ClassDefinition $class, Structure $structure): array
+    public function fromAttributes(ClassDefinition $class, Codebase $codebase): array
     {
-        return array_map(function (Variable $attribute) use ($class, $structure) {
-            return $this->addAssociation($class, $attribute, $structure);
+        return array_map(function (Variable $attribute) use ($class, $codebase) {
+            return $this->addAssociation($class, $attribute, $codebase);
         }, array_filter($class->attributes(), [$this, 'needAssociation']));
     }
 
@@ -47,18 +47,18 @@ class EdgesBuilder implements AssociationsBuilder
      *
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
-    public function fromConstructor(ClassDefinition $class, Structure $structure): array
+    public function fromConstructor(ClassDefinition $class, Codebase $codebase): array
     {
-        return array_map(function (Variable $attribute) use ($class, $structure) {
-            return $this->addAssociation($class, $attribute, $structure);
+        return array_map(function (Variable $attribute) use ($class, $codebase) {
+            return $this->addAssociation($class, $attribute, $codebase);
         }, array_filter($class->constructorParameters(), [$this, 'needAssociation']));
     }
 
-    private function addAssociation(ClassDefinition $class, Variable $attribute, Structure $structure): Edge
+    private function addAssociation(ClassDefinition $class, Variable $attribute, Codebase $codebase): Edge
     {
         $this->markAssociationResolvedFor($attribute);
 
-        return new AssociationEdge($structure->get((string)$attribute->type()), $class);
+        return new AssociationEdge($codebase->get((string)$attribute->type()), $class);
     }
 
     private function needAssociation(Variable $attribute): bool

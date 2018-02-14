@@ -10,7 +10,7 @@ namespace PhUml\Graphviz\Builders;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Graphviz\AssociationEdge;
 use PhUml\Graphviz\ImplementationEdge;
 use PhUml\Graphviz\InheritanceEdge;
@@ -25,7 +25,7 @@ class ClassGraphBuilderTest extends TestCase
         $class = new ClassDefinition('ClassName');
         $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, new Structure());
+        $dotElements = $graphElements->extractFrom($class, new Codebase());
 
         $this->assertEquals([new Node($class)], $dotElements);
     }
@@ -37,7 +37,7 @@ class ClassGraphBuilderTest extends TestCase
         $class = A::class('ChildClass')->extending($parent)->build();
         $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, new Structure());
+        $dotElements = $graphElements->extractFrom($class, new Codebase());
 
         $this->assertEquals([
             new Node($class),
@@ -55,7 +55,7 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, new Structure());
+        $dotElements = $graphElements->extractFrom($class, new Codebase());
 
         $this->assertEquals([
             new Node($class),
@@ -75,10 +75,10 @@ class ClassGraphBuilderTest extends TestCase
             )
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
-        $structure = new Structure();
-        $structure->addClass($reference);
+        $codebase = new Codebase();
+        $codebase->addClass($reference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $structure);
+        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             new AssociationEdge($reference, $class),
@@ -96,11 +96,11 @@ class ClassGraphBuilderTest extends TestCase
             ->withAPrivateAttribute('$secondReference', $secondReference->name())
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
-        $structure = new Structure();
-        $structure->addClass($firstReference);
-        $structure->addClass($secondReference);
+        $codebase = new Codebase();
+        $codebase->addClass($firstReference);
+        $codebase->addClass($secondReference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $structure);
+        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             new AssociationEdge($firstReference, $class),
@@ -132,13 +132,13 @@ class ClassGraphBuilderTest extends TestCase
             ->extending($parent)
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
-        $structure = new Structure();
-        $structure->addClass($firstReference);
-        $structure->addClass($secondReference);
-        $structure->addClass($thirdReference);
-        $structure->addClass($fourthReference);
+        $codebase = new Codebase();
+        $codebase->addClass($firstReference);
+        $codebase->addClass($secondReference);
+        $codebase->addClass($thirdReference);
+        $codebase->addClass($fourthReference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $structure);
+        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             new AssociationEdge($firstReference, $class),
@@ -166,7 +166,7 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, new Structure());
+        $dotElements = $graphElements->extractFrom($class, new Codebase());
 
         $this->assertEquals([new Node($class)], $dotElements);
     }

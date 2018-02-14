@@ -11,9 +11,9 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\Parser\Raw\RawDefinition;
-use PhUml\Parser\StructureBuilder;
+use PhUml\Parser\CodebaseBuilder;
 
-class NumericIdStructureBuilder extends StructureBuilder
+class NumericIdCodebaseBuilder extends CodebaseBuilder
 {
     protected function buildInterface(RawDefinitions $definitions, RawDefinition $interface): InterfaceDefinition
     {

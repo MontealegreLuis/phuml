@@ -10,40 +10,40 @@ namespace PhUml\Parser;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 
 /**
- * It builds a `Structure` from a `RawDefinitions`
+ * It builds a `Codebase` from a `RawDefinitions`
  */
-class StructureBuilder
+class CodebaseBuilder
 {
-    /** @var Structure */
-    private $structure;
+    /** @var Codebase */
+    private $codebase;
 
     /** @var DefinitionMembersBuilder */
     protected $builder;
 
-    public function __construct(Structure $structure = null, DefinitionMembersBuilder $builder = null)
+    public function __construct(Codebase $codebase = null, DefinitionMembersBuilder $builder = null)
     {
-        $this->structure = $structure ?? new Structure();
+        $this->codebase = $codebase ?? new Codebase();
         $this->builder = $builder ?? new DefinitionMembersBuilder();
     }
 
-    public function buildFrom(RawDefinitions $definitions): Structure
+    public function buildFrom(RawDefinitions $definitions): Codebase
     {
         foreach ($definitions->all() as $definition) {
-            if ($this->structure->has($definition->name())) {
+            if ($this->codebase->has($definition->name())) {
                 continue;
             }
             if ($definition->isClass()) {
-                $this->structure->addClass($this->buildClass($definitions, $definition));
+                $this->codebase->addClass($this->buildClass($definitions, $definition));
             } elseif ($definition->isInterface()) {
-                $this->structure->addInterface($this->buildInterface($definitions, $definition));
+                $this->codebase->addInterface($this->buildInterface($definitions, $definition));
             }
         }
-        return $this->structure;
+        return $this->codebase;
     }
 
     protected function buildInterface(RawDefinitions $definitions, RawDefinition $interface): InterfaceDefinition
@@ -84,13 +84,13 @@ class StructureBuilder
         if ($interface === null) {
             return null;
         }
-        if (!$this->structure->has($interface)) {
-            $this->structure->addInterface($this->buildInterface(
+        if (!$this->codebase->has($interface)) {
+            $this->codebase->addInterface($this->buildInterface(
                 $definitions,
                 $definitions->get($interface)
             ));
         }
-        return $this->structure->get($interface);
+        return $this->codebase->get($interface);
     }
 
     protected function resolveParentClass(RawDefinitions $definitions, ?string $parent): ?Definition
@@ -98,9 +98,9 @@ class StructureBuilder
         if ($parent === null) {
             return null;
         }
-        if (!$this->structure->has($parent)) {
-            $this->structure->addClass($this->buildClass($definitions, $definitions->get($parent)));
+        if (!$this->codebase->has($parent)) {
+            $this->codebase->addClass($this->buildClass($definitions, $definitions->get($parent)));
         }
-        return $this->structure->get($parent);
+        return $this->codebase->get($parent);
     }
 }

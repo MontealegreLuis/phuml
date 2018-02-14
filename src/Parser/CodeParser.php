@@ -7,15 +7,15 @@
 
 namespace PhUml\Parser;
 
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Parser\Raw\ExternalDefinitionsResolver;
 use PhUml\Parser\Raw\Php5Parser;
 use PhUml\Parser\Raw\PhpParser;
 
 /**
- * It takes the files found by the `CodeFinder` and turns the into a code `Structure`
+ * It takes the files found by the `CodeFinder` and turns the into a `Codebase`
  *
- * A code `Structure` is a collection of `Definition`s (classes and interfaces)
+ * A `Codebase` is a collection of `Definition`s (classes and interfaces)
  *
  * It will call the `ExternalDefinitionsResolver` to add generic `RawDefinition`s for classes and
  * interfaces that do not belong directly to the current codebase.
@@ -23,7 +23,7 @@ use PhUml\Parser\Raw\PhpParser;
  */
 class CodeParser
 {
-    /** @var StructureBuilder */
+    /** @var CodebaseBuilder */
     private $builder;
 
     /** @var PhpParser */
@@ -33,11 +33,11 @@ class CodeParser
     private $resolver;
 
     public function __construct(
-        StructureBuilder $builder = null,
+        CodebaseBuilder $builder = null,
         PhpParser $parser = null,
         ExternalDefinitionsResolver $resolver = null
     ) {
-        $this->builder = $builder ?? new StructureBuilder();
+        $this->builder = $builder ?? new CodebaseBuilder();
         $this->parser = $parser ?? new Php5Parser();
         $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
     }
@@ -49,7 +49,7 @@ class CodeParser
      * 2. Add external definitions (built-in classes/third party libraries), if needed
      * 3. Build the code structure from the raw definitions
      */
-    public function parse(CodeFinder $finder): Structure
+    public function parse(CodeFinder $finder): Codebase
     {
         $definitions = $this->parser->parse($finder);
         $this->resolver->resolve($definitions);

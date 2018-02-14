@@ -8,7 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 
 /**
  * It discovers associations between classes/interfaces by inspecting
@@ -21,8 +21,8 @@ use PhUml\Code\Structure;
 interface AssociationsBuilder
 {
     /** @return \PhUml\Graphviz\HasDotRepresentation[]*/
-    public function fromAttributes(ClassDefinition $class, Structure $structure): array;
+    public function fromAttributes(ClassDefinition $class, Codebase $codebase): array;
 
     /** @return \PhUml\Graphviz\HasDotRepresentation[] */
-    public function fromConstructor(ClassDefinition $class, Structure $structure): array;
+    public function fromConstructor(ClassDefinition $class, Codebase $codebase): array;
 }

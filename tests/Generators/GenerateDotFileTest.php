@@ -10,7 +10,7 @@ namespace PhUml\Generators;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdStructureBuilder;
+use PhUml\Fakes\NumericIdCodebaseBuilder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Parser\CodebaseDirectory;
@@ -110,7 +110,7 @@ class GenerateDotFileTest extends TestCase
     function createGenerator()
     {
         $this->generator = new DotFileGenerator(
-            new CodeParser(new NumericIdStructureBuilder()),
+            new CodeParser(new NumericIdCodebaseBuilder()),
             new GraphvizProcessor()
         );
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());

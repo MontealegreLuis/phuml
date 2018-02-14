@@ -7,9 +7,9 @@
 namespace PhUml\Code;
 
 /**
- * Collection of all the classes and interfaces definitions of a codebase
+ * Collection of all the classes and interfaces definitions found in a given directory
  */
-class Structure
+class Codebase
 {
     /** @var ClassDefinition[] */
     private $classes;

@@ -17,7 +17,7 @@ use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Parser\Raw\ParserBuilder;
-use PhUml\Parser\StructureBuilder;
+use PhUml\Parser\CodebaseBuilder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
@@ -31,7 +31,7 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludeMethods()->excludeAttributes()->build();
         $this->generator = new ClassDiagramGenerator(
-            new CodeParser(new StructureBuilder(), $parser),
+            new CodeParser(new CodebaseBuilder(), $parser),
             new GraphvizProcessor(
                 new ClassGraphBuilder(),
                 new InterfaceGraphBuilder(),

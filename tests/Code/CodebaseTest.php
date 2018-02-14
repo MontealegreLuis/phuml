@@ -9,49 +9,49 @@ namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
 
-class StructureTest extends TestCase
+class CodebaseTest extends TestCase
 {
     /** @test */
     function it_adds_a_new_class_definition()
     {
-        $structure = new Structure();
+        $codebase = new Codebase();
         $class = new ClassDefinition('MyClass');
 
-        $structure->addClass($class);
+        $codebase->addClass($class);
 
-        $this->assertTrue($structure->has('MyClass'));
-        $this->assertEquals($class, $structure->get('MyClass'));
+        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
     /** @test */
     function it_adds_a_new_interface_definition()
     {
-        $structure = new Structure();
+        $codebase = new Codebase();
         $interface = new InterfaceDefinition('MyInterface');
 
-        $structure->addInterface($interface);
+        $codebase->addInterface($interface);
 
-        $this->assertTrue($structure->has('MyInterface'));
-        $this->assertEquals($interface, $structure->get('MyInterface'));
+        $this->assertTrue($codebase->has('MyInterface'));
+        $this->assertEquals($interface, $codebase->get('MyInterface'));
     }
 
     /** @test */
     function it_gets_all_the_definitions()
     {
-        $structure = new Structure();
+        $codebase = new Codebase();
         $classA = new ClassDefinition('ClassA');
         $classB = new ClassDefinition('ClassB');
         $classC = new ClassDefinition('ClassC');
         $interfaceA = new InterfaceDefinition('InterfaceA');
         $interfaceB = new InterfaceDefinition('InterfaceB');
 
-        $structure->addClass($classC);
-        $structure->addInterface($interfaceB);
-        $structure->addClass($classA);
-        $structure->addInterface($interfaceA);
-        $structure->addClass($classB);
+        $codebase->addClass($classC);
+        $codebase->addInterface($interfaceB);
+        $codebase->addClass($classA);
+        $codebase->addInterface($interfaceA);
+        $codebase->addClass($classB);
 
-        $definitions = $structure->definitions();
+        $definitions = $codebase->definitions();
 
         $this->assertCount(5, $definitions);
 

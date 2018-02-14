@@ -16,12 +16,12 @@ use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\TestBuilders\A;
 
-class StructureBuilderTest extends TestCase
+class CodebaseBuilderTest extends TestCase
 {
     /** @test */
     function it_builds_an_interface_definition()
     {
-        $builder = new StructureBuilder();
+        $builder = new CodebaseBuilder();
         $definitions = new RawDefinitions();
         $definitions->add(RawDefinition::interface(['interface' => 'ParentInterface']));
         $definitions->add(RawDefinition::interface([
@@ -48,7 +48,7 @@ class StructureBuilderTest extends TestCase
     /** @test */
     function it_builds_a_class_definition()
     {
-        $builder = new StructureBuilder();
+        $builder = new CodebaseBuilder();
         $definitions = new RawDefinitions();
         $definitions->add(RawDefinition::interface(['interface' => 'FirstInterface']));
         $definitions->add(RawDefinition::interface(['interface' => 'SecondInterface']));
@@ -95,7 +95,7 @@ class StructureBuilderTest extends TestCase
     /** @test */
     function it_builds_a_structure()
     {
-        $builder = new StructureBuilder();
+        $builder = new CodebaseBuilder();
         $definitions = new RawDefinitions();
         $resolver = new ExternalDefinitionsResolver();
 

@@ -10,7 +10,7 @@ namespace PhUml\Processors;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Digraph;
@@ -45,23 +45,23 @@ class GraphvizProcessor extends Processor
         return 'Graphviz';
     }
 
-    public function process(Structure $structure): string
+    public function process(Codebase $codebase): string
     {
         $digraph = new Digraph();
-        foreach ($structure->definitions() as $definition) {
-            $this->extractElements($definition, $structure, $digraph);
+        foreach ($codebase->definitions() as $definition) {
+            $this->extractElements($definition, $codebase, $digraph);
         }
         return $this->printer->toDot($digraph);
     }
 
     protected function extractElements(
         Definition $definition,
-        Structure $structure,
+        Codebase $codebase,
         Digraph $digraph
     ): void
     {
         if ($definition instanceof ClassDefinition) {
-            $digraph->add($this->classBuilder->extractFrom($definition, $structure));
+            $digraph->add($this->classBuilder->extractFrom($definition, $codebase));
         } elseif ($definition instanceof InterfaceDefinition) {
             $digraph->add($this->interfaceBuilder->extractFrom($definition));
         }

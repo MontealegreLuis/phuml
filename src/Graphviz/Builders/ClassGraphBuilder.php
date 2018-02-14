@@ -8,7 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\ImplementationEdge;
 use PhUml\Graphviz\InheritanceEdge;
@@ -48,12 +48,12 @@ class ClassGraphBuilder
      *
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
-    public function extractFrom(ClassDefinition $class, Structure $structure): array
+    public function extractFrom(ClassDefinition $class, Codebase $codebase): array
     {
         $this->dotElements = [];
 
-        $this->addAssociations($this->associationsBuilder->fromAttributes($class, $structure));
-        $this->addAssociations($this->associationsBuilder->fromConstructor($class, $structure));
+        $this->addAssociations($this->associationsBuilder->fromAttributes($class, $codebase));
+        $this->addAssociations($this->associationsBuilder->fromConstructor($class, $codebase));
 
         $this->dotElements[] = new Node($class);
 

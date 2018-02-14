@@ -20,7 +20,7 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Parser\Raw\ParserBuilder;
 use PhUml\Parser\Raw\PhpParser;
-use PhUml\Parser\StructureBuilder;
+use PhUml\Parser\CodebaseBuilder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
@@ -62,7 +62,7 @@ class DigraphBuilder
 
     protected function codeParser(): CodeParser
     {
-        return new CodeParser(new StructureBuilder(), $this->tokenParser());
+        return new CodeParser(new CodebaseBuilder(), $this->tokenParser());
     }
 
     protected function tokenParser(): PhpParser

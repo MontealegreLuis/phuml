@@ -43,9 +43,9 @@ class Summary
         $this->privateTypedAttributes = 0;
     }
 
-    public function from(Structure $structure): void
+    public function from(Codebase $codebase): void
     {
-        foreach ($structure->definitions() as $definition) {
+        foreach ($codebase->definitions() as $definition) {
             if ($definition instanceof InterfaceDefinition) {
                 $this->interfaceCount++;
             }

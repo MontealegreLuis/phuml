@@ -52,8 +52,8 @@ abstract class Definition implements HasNodeIdentifier
     /**
      * The name of a definition is used by the `Structure` class to avoid duplicated definitions
      *
-     * @see Structure::has
-     * @see Structure::get
+     * @see Codebase::has
+     * @see Codebase::get
      */
     public function name(): string
     {

@@ -10,9 +10,9 @@ namespace PhUml\Parser\Raw;
 /**
  * It represents the collection of the classes and interfaces of the codebase being analyzed
  *
- * This collection of raw definitions is used to build a code `Structure`
+ * This collection of raw definitions is used to build a code `Codebase`
  *
- * @see \PhUml\Parser\StructureBuilder For the details on how a `Structure` is built from a `RawDefinitions` object
+ * @see \PhUml\Parser\CodebaseBuilder For the details on how a `Codebase` is built from a `RawDefinitions` object
  */
 class RawDefinitions
 {

@@ -8,7 +8,7 @@
 namespace PhUml\Generators;
 
 use LogicException;
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\Processor;
@@ -49,7 +49,7 @@ abstract class Generator
     /**
      * @throws \LogicException If the command is missing
      */
-    protected function parseCode(CodeFinder $finder): Structure
+    protected function parseCode(CodeFinder $finder): Codebase
     {
         $this->display()->runningParser();
         return $this->parser->parse($finder);

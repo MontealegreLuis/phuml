@@ -6,7 +6,7 @@
  */
 namespace PhUml\Processors;
 
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Code\Summary;
 use PhUml\Templates\TemplateEngine;
 use PhUml\Templates\TemplateFailure;
@@ -32,10 +32,10 @@ class StatisticsProcessor extends Processor
     /**
      * @throws TemplateFailure
      */
-    public function process(Structure $structure): string
+    public function process(Codebase $codebase): string
     {
         $summary = new Summary();
-        $summary->from($structure);
+        $summary->from($codebase);
 
         return $this->engine->render('statistics.txt.twig', ['summary' => $summary]);
     }

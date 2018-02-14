@@ -32,11 +32,11 @@ class SummaryTest extends TestCase
             ->extending($parentInterface)
             ->build();
 
-        $structure = new Structure();
-        $structure->addClass($parentClass);
-        $structure->addInterface($parentInterface);
-        $structure->addInterface($interface);
-        $structure->addClass(A::class('ChildClass')
+        $codebase = new Codebase();
+        $codebase->addClass($parentClass);
+        $codebase->addInterface($parentInterface);
+        $codebase->addInterface($interface);
+        $codebase->addClass(A::class('ChildClass')
             ->withAPrivateAttribute('$name', 'string')
             ->withAPrivateAttribute('$salary')
             ->withAProtectedAttribute('$age', 'int')
@@ -47,7 +47,7 @@ class SummaryTest extends TestCase
             ->build());
         $summary = new Summary();
 
-        $summary->from($structure);
+        $summary->from($codebase);
 
         $this->assertEquals(2, $summary->interfaceCount());
         $this->assertEquals(2, $summary->classCount());

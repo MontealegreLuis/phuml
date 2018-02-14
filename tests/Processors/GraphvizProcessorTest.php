@@ -8,14 +8,11 @@
 namespace PhUml\Processors;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Methods\Method;
-use PhUml\Code\Structure;
-use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Codebase;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
-use PhUml\Fakes\WithNumericIds;
 use PhUml\Fakes\WithDotLanguageAssertions;
+use PhUml\Fakes\WithNumericIds;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\TestBuilders\A;
@@ -53,7 +50,7 @@ class GraphvizProcessorTest extends TestCase
             ->buildWithNumericId()
         ;
 
-        $structure = new Structure();
+        $structure = new Codebase();
         $structure->addClass($parentClass);
         $structure->addClass($reference);
         $structure->addInterface($parentInterface);

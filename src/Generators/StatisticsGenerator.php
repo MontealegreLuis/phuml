@@ -7,7 +7,7 @@
 
 namespace PhUml\Generators;
 
-use PhUml\Code\Structure;
+use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
@@ -46,9 +46,9 @@ class StatisticsGenerator extends Generator
         $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath);
     }
 
-    private function generateStatistics(Structure $structure): string
+    private function generateStatistics(Codebase $codebase): string
     {
         $this->display()->runningProcessor($this->statisticsProcessor);
-        return $this->statisticsProcessor->process($structure);
+        return $this->statisticsProcessor->process($codebase);
     }
 }
