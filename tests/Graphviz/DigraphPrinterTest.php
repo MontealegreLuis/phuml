@@ -151,7 +151,7 @@ mindist = 0.6;', $dotLanguage);
     function it_represents_inheritance_as_dot_language()
     {
         $parentClass = new NumericIdClass('ParentClass');
-        $class = new NumericIdClass('TestClass', [], [], [], [], $parentClass);
+        $class = A::class('TestClass')->extending($parentClass)->buildWithNumericId();
         $digraph = new Digraph();
         $digraph->add([
             new Node($parentClass),
@@ -171,7 +171,7 @@ mindist = 0.6;', $dotLanguage);
     {
         $anInterface = new NumericIdInterface('AnInterface');
         $anotherInterface = new NumericIdInterface('AnotherInterface');
-        $class = new NumericIdClass('TestClass', [], [], [], [$anInterface, $anotherInterface]);
+        $class = A::class('TestClass')->implementing($anInterface, $anotherInterface)->buildWithNumericId();
         $digraph = new Digraph();
         $digraph->add([
             new Node($class),
@@ -194,11 +194,13 @@ mindist = 0.6;', $dotLanguage);
     function it_represents_constructor_dependencies_as_associations_in_dot_language()
     {
         $reference = new NumericIdClass('AReference');
-        $class = new NumericIdClass('TestClass', [], [], [
-            Method::public('__construct', [
-                Variable::declaredWith('aReference', TypeDeclaration::from('AReference'))
-            ])
-        ]);
+        $class = A::class('TestClass')
+            ->withAPublicMethod(
+                '__construct',
+                A::parameter('$aReference')->withType('AReference')->build()
+            )
+            ->buildWithNumericId()
+        ;
         $digraph = new Digraph();
         $digraph->add([
             new Node($reference),
@@ -217,9 +219,10 @@ mindist = 0.6;', $dotLanguage);
     function it_represents_class_attributes_as_associations_in_dot_language()
     {
         $reference = new NumericIdClass('AReference');
-        $class = new NumericIdClass('TestClass', [], [
-            Attribute::private('$aReference', TypeDeclaration::from('AReference'))
-        ], []);
+        $class = A::class('TestClass')
+            ->withAPrivateAttribute('$aReference', 'AReference')
+            ->buildWithNumericId()
+        ;
         $digraph = new Digraph();
         $digraph->add([
             new Node($reference),

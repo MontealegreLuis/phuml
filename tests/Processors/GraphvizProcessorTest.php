@@ -18,6 +18,7 @@ use PhUml\Fakes\WithNumericIds;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
+use PhUml\TestBuilders\A;
 
 class GraphvizProcessorTest extends TestCase
 {
@@ -39,14 +40,18 @@ class GraphvizProcessorTest extends TestCase
         $processor = new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder()));
 
         $parentInterface = new NumericIdInterface('ParentInterface');
-        $interface = new NumericIdInterface('ImplementedInterface', [], [], $parentInterface);
+        $interface = A::interface('ImplementedInterface')->extending($parentInterface)->buildWithNumericId();
         $parentClass = new NumericIdClass('ParentClass');
         $reference = new NumericIdClass('ReferencedClass');
-        $class = new NumericIdClass('MyClass', [], [], [
-            Method::public ('__construct', [
-                Variable::declaredWith('$reference', TypeDeclaration::from('ReferencedClass')),
-            ])
-        ], [$interface], $parentClass);
+        $class = A::class('MyClass')
+            ->withAPublicMethod(
+                '__construct',
+                A::parameter('$reference')->withType('ReferencedClass')->build()
+            )
+            ->implementing($interface)
+            ->extending($parentClass)
+            ->buildWithNumericId()
+        ;
 
         $structure = new Structure();
         $structure->addClass($parentClass);

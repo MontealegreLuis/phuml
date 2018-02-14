@@ -13,6 +13,7 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
+use PhUml\Fakes\NumericIdClass;
 
 class ClassBuilder extends DefinitionBuilder
 {
@@ -85,6 +86,19 @@ class ClassBuilder extends DefinitionBuilder
     public function build()
     {
         return new ClassDefinition(
+            $this->name,
+            $this->constants,
+            $this->methods,
+            $this->parent,
+            $this->attributes,
+            $this->interfaces
+        );
+    }
+
+    /** @return NumericIdClass */
+    public function buildWithNumericId()
+    {
+        return new NumericIdClass(
             $this->name,
             $this->constants,
             $this->methods,

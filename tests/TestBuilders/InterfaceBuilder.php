@@ -10,6 +10,7 @@ namespace PhUml\TestBuilders;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Variables\Variable;
+use PhUml\Fakes\NumericIdInterface;
 
 class InterfaceBuilder extends DefinitionBuilder
 {
@@ -34,5 +35,11 @@ class InterfaceBuilder extends DefinitionBuilder
     public function build()
     {
         return new InterfaceDefinition($this->name, $this->constants, $this->methods, $this->parent);
+    }
+
+    /** @return NumericIdInterface */
+    public function buildWithNumericId()
+    {
+        return new NumericIdInterface($this->name, $this->constants, $this->methods, $this->parent);
     }
 }

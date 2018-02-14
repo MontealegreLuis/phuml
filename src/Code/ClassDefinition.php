@@ -28,11 +28,11 @@ class ClassDefinition extends Definition implements CanBeAbstract, HasDotReprese
         string $name,
         array $constants = [],
         array $methods = [],
-        ClassDefinition $extends = null,
+        ClassDefinition $parent = null,
         array $attributes = [],
         array $implements = []
     ) {
-        parent::__construct($name, $constants, $methods, $extends);
+        parent::__construct($name, $constants, $methods, $parent);
         $this->attributes = $attributes;
         $this->implements = $implements;
     }

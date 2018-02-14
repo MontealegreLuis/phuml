@@ -8,9 +8,7 @@
 namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attributes\Constant;
-use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
-use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Variables\TypeDeclaration;
 
 abstract class DefinitionBuilder
@@ -44,6 +42,9 @@ abstract class DefinitionBuilder
         return $this;
     }
 
-    /** @return ClassDefinition|InterfaceDefinition */
+    /** @return \PhUml\Code\ClassDefinition|\PhUml\Code\InterfaceDefinition */
     abstract public function build();
+
+    /** @return \PhUml\Fakes\NumericIdClass|\PhUml\Fakes\NumericIdInterface */
+    abstract public function buildWithNumericId();
 }

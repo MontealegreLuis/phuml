@@ -7,6 +7,7 @@
 
 namespace PhUml\Fakes;
 
+use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 
 class NumericIdInterface extends InterfaceDefinition
@@ -20,9 +21,9 @@ class NumericIdInterface extends InterfaceDefinition
         string $name,
         array $constants = [],
         array $methods = [],
-        $extends = null
+        Definition $parent = null
     ) {
-        parent::__construct($name, $constants, $methods, $extends);
+        parent::__construct($name, $constants, $methods, $parent);
         self::$id++;
         $this->identifier = self::$id;
     }

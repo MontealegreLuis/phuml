@@ -41,12 +41,12 @@ abstract class Definition implements HasNodeIdentifier
         string $name,
         array $constants = [],
         array $methods = [],
-        Definition $extends = null
+        Definition $parent = null
     ) {
         $this->name = $name;
         $this->constants = $constants;
         $this->methods = $methods;
-        $this->extends = $extends;
+        $this->extends = $parent;
     }
 
     /**

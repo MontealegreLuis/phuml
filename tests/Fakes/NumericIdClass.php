@@ -8,6 +8,7 @@
 namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\Definition;
 
 class NumericIdClass extends ClassDefinition
 {
@@ -19,12 +20,12 @@ class NumericIdClass extends ClassDefinition
     public function __construct(
         string $name,
         array $constants = [],
-        array $attributes = [],
         array $methods = [],
-        array $implements = [],
-        $extends = null
+        Definition $parent = null,
+        array $attributes = [],
+        array $implements = []
     ) {
-        parent::__construct($name, $constants, $methods, $extends, $attributes, $implements);
+        parent::__construct($name, $constants, $methods, $parent, $attributes, $implements);
         self::$id++;
         $this->identifier = self::$id;
     }
