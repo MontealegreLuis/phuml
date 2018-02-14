@@ -7,7 +7,6 @@
 
 namespace PhUml\Parser\Raw\Builders;
 
-
 class NoConstantsBuilder extends ConstantsBuilder
 {
     public function build(array $classAttributes): array

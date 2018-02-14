@@ -6,6 +6,7 @@
  */
 
 namespace PhUml\Code;
+
 use PhUml\Graphviz\HasDotRepresentation;
 
 /**

@@ -58,8 +58,7 @@ class GraphvizProcessor extends Processor
         Definition $definition,
         Codebase $codebase,
         Digraph $digraph
-    ): void
-    {
+    ): void {
         if ($definition instanceof ClassDefinition) {
             $digraph->add($this->classBuilder->extractFrom($definition, $codebase));
         } elseif ($definition instanceof InterfaceDefinition) {

@@ -111,8 +111,8 @@ class ClassDefinition extends Definition implements CanBeAbstract, HasDotReprese
     private function hasConstructor(): bool
     {
         return \count(array_filter($this->methods, function (Method $function) {
-                return $function->isConstructor();
-            })) === 1;
+            return $function->isConstructor();
+        })) === 1;
     }
 
     public function dotTemplate(): string

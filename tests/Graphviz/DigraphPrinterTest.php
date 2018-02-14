@@ -8,11 +8,7 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Methods\Method;
-use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\WithNumericIds;
