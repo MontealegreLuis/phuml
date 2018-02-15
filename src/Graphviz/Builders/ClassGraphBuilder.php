@@ -10,8 +10,6 @@ namespace PhUml\Graphviz\Builders;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Graphviz\Edge;
-use PhUml\Graphviz\ImplementationEdge;
-use PhUml\Graphviz\InheritanceEdge;
 use PhUml\Graphviz\Node;
 
 /**
@@ -58,11 +56,11 @@ class ClassGraphBuilder
         $this->dotElements[] = new Node($class);
 
         if ($class->hasParent()) {
-            $this->dotElements[] = new InheritanceEdge($class->extends(), $class);
+            $this->dotElements[] = Edge::inheritance($class->extends(), $class);
         }
 
         foreach ($class->implements() as $interface) {
-            $this->dotElements[] = new ImplementationEdge($interface, $class);
+            $this->dotElements[] = Edge::implementation($interface, $class);
         }
 
         return $this->dotElements;

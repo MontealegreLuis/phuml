@@ -16,7 +16,7 @@ namespace PhUml\Graphviz;
  *      - Via constructor injection
  *      - Via class attributes
  */
-abstract class Edge implements HasDotRepresentation
+class Edge implements HasDotRepresentation
 {
     /** @var HasNodeIdentifier */
     private $fromNode;
@@ -24,10 +24,33 @@ abstract class Edge implements HasDotRepresentation
     /** @var HasNodeIdentifier */
     private $toNode;
 
-    public function __construct(HasNodeIdentifier $nodeA, HasNodeIdentifier $nodeB)
+    /** @var string */
+    private $options;
+
+    public function __construct(
+        HasNodeIdentifier $nodeA,
+        HasNodeIdentifier $nodeB,
+        string $options
+    )
     {
         $this->fromNode = $nodeA;
         $this->toNode = $nodeB;
+        $this->options = $options;
+    }
+
+    public static function inheritance(HasNodeIdentifier $parent, HasNodeIdentifier $child): Edge
+    {
+        return new Edge($parent, $child, 'dir=back arrowtail=empty style=solid');
+    }
+
+    public static function implementation(HasNodeIdentifier $interface, HasNodeIdentifier $class): Edge
+    {
+        return new Edge($interface, $class, 'dir=back arrowtail=normal style=dashed');
+    }
+
+    public static function association(HasNodeIdentifier $reference, HasNodeIdentifier $class): Edge
+    {
+        return new Edge($reference, $class, 'dir=back arrowtail=none style=solid');
     }
 
     public function fromNode(): HasNodeIdentifier
@@ -38,5 +61,15 @@ abstract class Edge implements HasDotRepresentation
     public function toNode(): HasNodeIdentifier
     {
         return $this->toNode;
+    }
+
+    public function options(): string
+    {
+        return $this->options;
+    }
+
+    public function dotTemplate(): string
+    {
+        return 'edge';
     }
 }

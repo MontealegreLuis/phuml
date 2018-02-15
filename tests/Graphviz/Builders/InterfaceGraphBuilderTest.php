@@ -9,7 +9,7 @@ namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Graphviz\InheritanceEdge;
+use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
@@ -37,7 +37,7 @@ class InterfaceGraphBuilderTest extends TestCase
 
         $this->assertEquals([
             new Node($interface),
-            new InheritanceEdge($parent, $interface)
+            Edge::inheritance($parent, $interface)
         ], $dotElements);
     }
 }

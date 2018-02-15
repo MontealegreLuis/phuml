@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
-use PhUml\Fakes\WithNumericIds;
 use PhUml\Fakes\WithDotLanguageAssertions;
+use PhUml\Fakes\WithNumericIds;
 use PhUml\Templates\TemplateEngine;
 use PhUml\Templates\TemplateFailure;
 use PhUml\TestBuilders\A;
@@ -152,7 +152,7 @@ mindist = 0.6;', $dotLanguage);
         $digraph->add([
             new Node($parentClass),
             new Node($class),
-            new InheritanceEdge($parentClass, $class),
+            Edge::inheritance($parentClass, $class),
         ]);
 
         $dotLanguage = $this->printer->toDot($digraph);
@@ -171,8 +171,8 @@ mindist = 0.6;', $dotLanguage);
         $digraph = new Digraph();
         $digraph->add([
             new Node($class),
-            new ImplementationEdge($anInterface, $class),
-            new ImplementationEdge($anotherInterface, $class),
+            Edge::implementation($anInterface, $class),
+            Edge::implementation($anotherInterface, $class),
             new Node($anInterface),
             new Node($anotherInterface),
         ]);
@@ -200,7 +200,7 @@ mindist = 0.6;', $dotLanguage);
         $digraph = new Digraph();
         $digraph->add([
             new Node($reference),
-            new AssociationEdge($reference, $class),
+            Edge::association($reference, $class),
             new Node($class),
         ]);
 
@@ -222,7 +222,7 @@ mindist = 0.6;', $dotLanguage);
         $digraph = new Digraph();
         $digraph->add([
             new Node($reference),
-            new AssociationEdge($reference, $class),
+            Edge::association($reference, $class),
             new Node($class),
         ]);
 

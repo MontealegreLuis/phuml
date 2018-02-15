@@ -8,7 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Graphviz\InheritanceEdge;
+use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 
 /**
@@ -34,7 +34,7 @@ class InterfaceGraphBuilder
         $dotElements[] = new Node($interface);
 
         if ($interface->hasParent()) {
-            $dotElements[] = new InheritanceEdge($interface->extends(), $interface);
+            $dotElements[] = Edge::inheritance($interface->extends(), $interface);
         }
 
         return $dotElements;

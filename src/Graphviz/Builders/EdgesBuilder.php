@@ -10,7 +10,6 @@ namespace PhUml\Graphviz\Builders;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Code\Variables\Variable;
-use PhUml\Graphviz\AssociationEdge;
 use PhUml\Graphviz\Edge;
 
 /**
@@ -58,7 +57,7 @@ class EdgesBuilder implements AssociationsBuilder
     {
         $this->markAssociationResolvedFor($attribute);
 
-        return new AssociationEdge($codebase->get((string)$attribute->type()), $class);
+        return Edge::association($codebase->get((string)$attribute->type()), $class);
     }
 
     private function needAssociation(Variable $attribute): bool

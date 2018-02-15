@@ -19,7 +19,7 @@ class EdgeTest extends TestCase
         $parent = new ClassDefinition('ParentClass');
         $child = new ClassDefinition('ChildClass');
 
-        $edge = new InheritanceEdge($parent, $child);
+        $edge = Edge::inheritance($parent, $child);
 
         $this->assertEquals($parent, $edge->fromNode());
         $this->assertEquals($child, $edge->toNode());
@@ -31,7 +31,7 @@ class EdgeTest extends TestCase
         $interface = new InterfaceDefinition('AnInterface');
         $class = new ClassDefinition('AClass');
 
-        $edge = new ImplementationEdge($interface, $class);
+        $edge = Edge::implementation($interface, $class);
 
         $this->assertEquals($interface, $edge->fromNode());
         $this->assertEquals($class, $edge->toNode());
@@ -43,7 +43,7 @@ class EdgeTest extends TestCase
         $reference = new ClassDefinition('AReference');
         $class = new ClassDefinition('AClass');
 
-        $edge = new AssociationEdge($reference, $class);
+        $edge = Edge::association($reference, $class);
 
         $this->assertEquals($reference, $edge->fromNode());
         $this->assertEquals($class, $edge->toNode());
@@ -52,12 +52,12 @@ class EdgeTest extends TestCase
     /** @test */
     function it_knows_its_dot_template()
     {
-        $inheritance = new InheritanceEdge(new ClassDefinition('A'), new ClassDefinition('B'));
-        $implementation = new ImplementationEdge(new ClassDefinition('A'), new InterfaceDefinition('B'));
-        $association = new AssociationEdge(new ClassDefinition('A'), new ClassDefinition('B'));
+        $inheritance = Edge::inheritance(new ClassDefinition('A'), new ClassDefinition('B'));
+        $implementation = Edge::implementation(new ClassDefinition('A'), new InterfaceDefinition('B'));
+        $association = Edge::association(new ClassDefinition('A'), new ClassDefinition('B'));
 
-        $this->assertEquals('inheritance', $inheritance->dotTemplate());
-        $this->assertEquals('implementation', $implementation->dotTemplate());
-        $this->assertEquals('association', $association->dotTemplate());
+        $this->assertEquals('edge', $inheritance->dotTemplate());
+        $this->assertEquals('edge', $implementation->dotTemplate());
+        $this->assertEquals('edge', $association->dotTemplate());
     }
 }

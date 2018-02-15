@@ -9,11 +9,9 @@ namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
-use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Graphviz\AssociationEdge;
-use PhUml\Graphviz\ImplementationEdge;
-use PhUml\Graphviz\InheritanceEdge;
+use PhUml\Code\InterfaceDefinition;
+use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
@@ -41,7 +39,7 @@ class ClassGraphBuilderTest extends TestCase
 
         $this->assertEquals([
             new Node($class),
-            new InheritanceEdge($parent, $class),
+            Edge::inheritance($parent, $class),
         ], $dotElements);
     }
 
@@ -59,8 +57,8 @@ class ClassGraphBuilderTest extends TestCase
 
         $this->assertEquals([
             new Node($class),
-            new ImplementationEdge($firstInterface, $class),
-            new ImplementationEdge($secondInterface, $class),
+            Edge::implementation($firstInterface, $class),
+            Edge::implementation($secondInterface, $class),
         ], $dotElements);
     }
 
@@ -81,7 +79,7 @@ class ClassGraphBuilderTest extends TestCase
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
-            new AssociationEdge($reference, $class),
+            Edge::association($reference, $class),
             new Node($class),
         ], $dotElements);
     }
@@ -103,8 +101,8 @@ class ClassGraphBuilderTest extends TestCase
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
-            new AssociationEdge($firstReference, $class),
-            new AssociationEdge($secondReference, $class),
+            Edge::association($firstReference, $class),
+            Edge::association($secondReference, $class),
             new Node($class),
         ], $dotElements);
     }
@@ -141,14 +139,14 @@ class ClassGraphBuilderTest extends TestCase
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
-            new AssociationEdge($firstReference, $class),
-            new AssociationEdge($secondReference, $class),
-            new AssociationEdge($thirdReference, $class),
-            new AssociationEdge($fourthReference, $class),
+            Edge::association($firstReference, $class),
+            Edge::association($secondReference, $class),
+            Edge::association($thirdReference, $class),
+            Edge::association($fourthReference, $class),
             new Node($class),
-            new InheritanceEdge($parent, $class),
-            new ImplementationEdge($firstInterface, $class),
-            new ImplementationEdge($secondInterface, $class),
+            Edge::inheritance($parent, $class),
+            Edge::implementation($firstInterface, $class),
+            Edge::implementation($secondInterface, $class),
         ], $dotElements);
     }
 
