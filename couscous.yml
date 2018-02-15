@@ -20,6 +20,9 @@ menu:
     types:
       text: Type information
       relativeUrl: docs/types.html
+    format:
+      text: Diagram format
+      relativeUrl: docs/format.html
     class_diagram:
       text: Generate a class diagram
       relativeUrl: docs/class-diagram.html
