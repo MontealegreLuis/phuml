@@ -55,7 +55,7 @@ class EdgesBuilder implements AssociationsBuilder
 
     private function addAssociation(ClassDefinition $class, Variable $attribute, Codebase $codebase): Edge
     {
-        $this->markAssociationResolvedFor($attribute);
+        $this->markAssociationResolvedFor($class, $attribute);
 
         return Edge::association($codebase->get((string)$attribute->type()), $class);
     }
@@ -70,8 +70,8 @@ class EdgesBuilder implements AssociationsBuilder
         return array_key_exists(strtolower($type), $this->associations);
     }
 
-    private function markAssociationResolvedFor(Variable $attribute): void
+    private function markAssociationResolvedFor(ClassDefinition $class, Variable $attribute): void
     {
-        $this->associations[strtolower($attribute->type())] = true;
+        $this->associations[strtolower($class->name() . '.' .$attribute->type())] = true;
     }
 }

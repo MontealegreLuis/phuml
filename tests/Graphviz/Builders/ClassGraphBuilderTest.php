@@ -151,6 +151,34 @@ class ClassGraphBuilderTest extends TestCase
     }
 
     /** @test */
+    function it_extracts_association_to_same_class_from_different_classes()
+    {
+        $reference = new ClassDefinition('AReference');
+        $class = A::class('AClass')
+            ->withAPrivateAttribute('$firstReference', $reference->name())
+            ->build()
+        ;
+        $anotherClass = A::class('AnotherClass')
+            ->withAPrivateAttribute('$firstReference', $reference->name())
+            ->build()
+        ;
+        $codebase = new Codebase();
+        $codebase->addClass($reference);
+        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
+
+        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = array_merge($dotElements, $classGraphBuilder->extractFrom($anotherClass, $codebase));
+
+        $this->assertEquals([
+            Edge::association($reference, $class),
+            new Node($class),
+            Edge::association($reference, $anotherClass),
+            new Node($anotherClass),
+        ], $dotElements);
+    }
+
+
+    /** @test */
     function it_ignores_associations_if_specified()
     {
         $class = A::class('AClass')
