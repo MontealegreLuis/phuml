@@ -7,12 +7,10 @@
 
 namespace PhUml\Code;
 
-use PhUml\Graphviz\HasDotRepresentation;
-
 /**
  * It represents an interface definition
  */
-class InterfaceDefinition extends Definition implements HasDotRepresentation
+class InterfaceDefinition extends Definition
 {
     /**
      * It only counts the constants of an interface, since interfaces are not allowed to have
@@ -24,10 +22,5 @@ class InterfaceDefinition extends Definition implements HasDotRepresentation
     public function hasAttributes(): bool
     {
         return \count($this->constants) > 0;
-    }
-
-    public function dotTemplate(): string
-    {
-        return 'interface';
     }
 }

@@ -7,6 +7,9 @@
 
 namespace PhUml\Graphviz;
 
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\Definition;
+
 /**
  * Both `ClassDefinition` and `InterfaceDefinition` objects can be nodes
  *
@@ -14,21 +17,26 @@ namespace PhUml\Graphviz;
  */
 class Node implements HasDotRepresentation
 {
-    /** @var HasDotRepresentation */
-    private $node;
+    /** @var Definition */
+    private $definition;
 
-    public function __construct(HasDotRepresentation $node)
+    public function __construct(Definition $node)
     {
-        $this->node = $node;
+        $this->definition = $node;
     }
 
-    public function node(): HasDotRepresentation
+    public function definition(): Definition
     {
-        return $this->node;
+        return $this->definition;
     }
 
     public function dotTemplate(): string
     {
         return 'node';
+    }
+
+    public function labelTemplate(): string
+    {
+        return $this->definition instanceof ClassDefinition ? 'class' : 'interface';
     }
 }

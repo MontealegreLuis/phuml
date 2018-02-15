@@ -11,12 +11,11 @@ use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\CanBeAbstract;
 use PhUml\Code\Modifiers\Visibility;
-use PhUml\Graphviz\HasDotRepresentation;
 
 /**
  * It represents a class definition
  */
-class ClassDefinition extends Definition implements CanBeAbstract, HasDotRepresentation
+class ClassDefinition extends Definition implements CanBeAbstract
 {
     /** @var Attribute[] */
     private $attributes;
@@ -113,10 +112,5 @@ class ClassDefinition extends Definition implements CanBeAbstract, HasDotReprese
         return \count(array_filter($this->methods, function (Method $function) {
             return $function->isConstructor();
         })) === 1;
-    }
-
-    public function dotTemplate(): string
-    {
-        return 'class';
     }
 }

@@ -22,8 +22,8 @@ class NodeTest extends TestCase
         $classNode = new Node($class);
         $interfaceNode = new Node($interface);
 
-        $this->assertEquals($class, $classNode->node());
-        $this->assertEquals($interface, $interfaceNode->node());
+        $this->assertEquals($class, $classNode->definition());
+        $this->assertEquals($interface, $interfaceNode->definition());
     }
 
     /** @test */
