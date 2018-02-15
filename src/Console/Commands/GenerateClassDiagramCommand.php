@@ -23,16 +23,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  * 1. `directory`. The path where your codebase lives
  * 2. `output`. The path to where the generated `png` image will be saved
  *
- * There are 3 options
+ * There is 1 option specific to this command
  *
  * 1. `processor`. The command to be used to create the `png` image, it can be either `neato` or `dot`
  *    This is the only required option
- * 2. `recursive`. If present it will look recursively within the `directory` provided
- * 3. `associations`. If present the command will generate associations to the classes/interfaces
- *    injected through the constructor and the attributes of the class
+ *
+ * @see WithDigraphConfiguration::addDigraphOptions() for more details about the rest of the options
  */
 class GenerateClassDiagramCommand extends GeneratorCommand
 {
+    use WithDigraphConfiguration;
+
     /** @throws \InvalidArgumentException */
     protected function configure()
     {
@@ -44,9 +45,10 @@ class GenerateClassDiagramCommand extends GeneratorCommand
 Example:
     php bin/phuml phuml:diagram -r -a -p neato ./src out.png
 
-    This example will scan the `./src` directory recursively for php files.
-    It will process them with the option `associations` set to true. After that it 
-    will be send to the `neato` processor and saved to the file `out.png`.
+    This command will look for PHP files within the `./src` directory and its sub-directories.
+    It will extract associations from constructor parameters and attributes. 
+    It will generate the class diagram using the `neato` processor 
+    It will save the diagram to the file `out.png`.
 HELP
             )
             ->addArgument(
@@ -60,61 +62,13 @@ HELP
                 'The file name for your class diagram'
             )
             ->addOption(
-                'recursive',
-                'r',
-                InputOption::VALUE_NONE,
-                'Look for classes in the given directory recursively'
-            )
-            ->addOption(
                 'processor',
                 'p',
                 InputOption::VALUE_REQUIRED,
                 'Choose between the neato and dot processors'
             )
-            ->addOption(
-                'associations',
-                'a',
-                InputOption::VALUE_NONE,
-                'If present, the Graphviz processor will generate association among classes'
-            )
-            ->addOption(
-                'hide-private',
-                'i',
-                InputOption::VALUE_NONE,
-                'If present, no private attributes or methods will be processed'
-            )
-            ->addOption(
-                'hide-protected',
-                'o',
-                InputOption::VALUE_NONE,
-                'If present, no protected attributes or methods will be processed'
-            )
-            ->addOption(
-                'hide-methods',
-                'm',
-                InputOption::VALUE_NONE,
-                'If present, no methods will be processed'
-            )
-            ->addOption(
-                'hide-attributes',
-                't',
-                InputOption::VALUE_NONE,
-                'If present, no attributes will be processed'
-            )
-            ->addOption(
-                'hide-empty-blocks',
-                'b',
-                InputOption::VALUE_NONE,
-                'If present, no empty blocks will be shown'
-            )
-            ->addOption(
-                'theme',
-                'e',
-                InputOption::VALUE_OPTIONAL,
-                'Colors and fonts to be used for the diagram [phuml, php, classic]',
-                'phuml'
-            )
         ;
+        $this->addDigraphOptions($this);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

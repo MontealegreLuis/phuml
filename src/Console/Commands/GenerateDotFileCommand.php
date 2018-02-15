@@ -12,7 +12,6 @@ use PhUml\Configuration\DotFileBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -24,14 +23,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  * 1. `directory`. The path where your codebase lives
  * 2. `output`. The path to where the generated `gv` file will be saved
  *
- * There are 2 options
- *
- * 1. `recursive`. If present it will look recursively within the `directory` provided
- * 2. `associations`. If present the command will generate associations to the classes/interfaces
- *    injected through the constructor and the attributes of the class
+ * @see WithDigraphConfiguration::addDigraphOptions() for more details about all the available options
  */
 class GenerateDotFileCommand extends GeneratorCommand
 {
+    use WithDigraphConfiguration;
+
     protected function configure()
     {
         $this
@@ -42,71 +39,23 @@ class GenerateDotFileCommand extends GeneratorCommand
 Example:
     php bin/phuml phuml:dot -r -a ./src dot.gv
 
-    This example will scan the `./src` directory recursively for php files.
-    It will process them with the option `associations` set to true.
-    It will generate a digraph in dot format and save it to the file `dot.gv`.
+    This command will look for PHP files within the `./src` directory and its sub-directories.
+    It will extract associations from constructor parameters and attributes.
+    It will generate a digraph in DOT format and save it to the file `dot.gv`.
 HELP
             )
             ->addArgument(
                 'directory',
                 InputArgument::REQUIRED,
-                'The directory to be scanned to generate the dot file'
+                'The directory to be scanned to generate the DOT file'
             )
             ->addArgument(
                 'output',
                 InputArgument::REQUIRED,
-                'The file name for your dot file'
-            )
-            ->addOption(
-                'recursive',
-                'r',
-                InputOption::VALUE_NONE,
-                'Look for classes in the given directory recursively'
-            )
-            ->addOption(
-                'associations',
-                'a',
-                InputOption::VALUE_NONE,
-                'If present, the Graphviz processor will generate association among classes'
-            )
-            ->addOption(
-                'hide-private',
-                'i',
-                InputOption::VALUE_NONE,
-                'If present, no private attributes or methods will be processed'
-            )
-            ->addOption(
-                'hide-protected',
-                'o',
-                InputOption::VALUE_NONE,
-                'If present, no protected attributes or methods will be processed'
-            )
-            ->addOption(
-                'hide-methods',
-                'm',
-                InputOption::VALUE_NONE,
-                'If present, no methods will be processed'
-            )
-            ->addOption(
-                'hide-attributes',
-                't',
-                InputOption::VALUE_NONE,
-                'If present, no attributes will be processed'
-            )
-            ->addOption(
-                'hide-empty-blocks',
-                'b',
-                InputOption::VALUE_NONE,
-                'If present, no empty blocks will be shown'
-            )
-            ->addOption(
-                'theme',
-                'e',
-                InputOption::VALUE_OPTIONAL,
-                'Colors and fonts to be used for the diagram [phuml, php, classic]',
-                'phuml'
+                'The file name for your DOT file'
             )
         ;
+        $this->addDigraphOptions($this);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
