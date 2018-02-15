@@ -30,4 +30,23 @@ It will save the diagram in the file `class-diagram.png` in your current directo
 
 For more information about the support for different HTML tags in Graphviz, read [here][1].
 
+## Themes
+
+This package offers 3 different color schemes (themes)
+
+### phUML (default)
+
+![phUML theme][2]
+
+### PHP
+
+![PHP theme][3]
+
+### Classic
+
+![Classic theme][4]
+
 [1]: https://www.graphviz.org/doc/info/shapes.html#html
+[2]: phuml-theme.png
+[3]: php-theme.png
+[4]: classic-theme.png

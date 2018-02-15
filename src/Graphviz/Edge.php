@@ -31,8 +31,7 @@ class Edge implements HasDotRepresentation
         HasNodeIdentifier $nodeA,
         HasNodeIdentifier $nodeB,
         string $options
-    )
-    {
+    ) {
         $this->fromNode = $nodeA;
         $this->toNode = $nodeB;
         $this->options = $options;
