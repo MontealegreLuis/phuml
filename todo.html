@@ -46,6 +46,11 @@
                                     </a>
                                 </li>
                                                             <li class="">
+                                    <a href="http://montealegreluis.com/phuml/docs/format.html">
+                                        Diagram format
+                                    </a>
+                                </li>
+                                                            <li class="">
                                     <a href="http://montealegreluis.com/phuml/docs/class-diagram.html">
                                         Generate a class diagram
                                     </a>
@@ -67,20 +72,25 @@
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
                     <h1 id="todos">TODOs</h1>
-<p>Options for 1.next</p>
-<pre><code>--style
---prefer-dockblock (for arrays)?</code></pre>
-<p>For 1.4</p>
+<p>Options for 1.5</p>
+<p>fix - hide attributes should hide constants too
+fix - associations to the same definition were not created</p>
+<pre><code>--style</code></pre>
+<p><strong>Add docs to explain format and themes, suggest using the container if
+output is different due to an old Graphviz version, see links below</strong></p>
+<p>Next major version is PHP 7</p>
+<p>For next minor versions</p>
 <ul>
-<li>Return types via doc block</li>
-<li>Better array support (Something[]) instead of what it reads now</li>
-<li>Extract parameters types from <code>@param</code> **</li>
-<li>
-<p>Add parameter type hint to diagrams, use plBase or the other one</p>
-</li>
-<li>values for constants and default parameters?</li>
+<li>Configuration file</li>
+<li>Custom themes</li>
 </ul>
-<p>it is SIZE not POINT-SIZE</p>
+<p><a href="https://www.graphviz.org/doc/info/shapes.html">https://www.graphviz.org/doc/info/shapes.html</a>
+<a href="https://www.graphviz.org/doc/info/attrs.html">https://www.graphviz.org/doc/info/attrs.html</a></p>
+<ul>
+<li>constants type hints for expressions and others ?</li>
+<li>values for constants and default parameters?</li>
+<li>--prefer-dockblock (for arrays)?</li>
+</ul>
                 </section>
 
             </div>

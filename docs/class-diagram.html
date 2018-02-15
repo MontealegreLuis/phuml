@@ -46,6 +46,11 @@
                                     </a>
                                 </li>
                                                             <li class="">
+                                    <a href="http://montealegreluis.com/phuml/docs/format.html">
+                                        Diagram format
+                                    </a>
+                                </li>
+                                                            <li class="">
                                     <a href="http://montealegreluis.com/phuml/docs/class-diagram.html">
                                         Generate a class diagram
                                     </a>
@@ -85,28 +90,30 @@ It will also use the types from the arguments passed to the constructor</li>
 <li><code>hide-attributes</code> (<code>-t</code>). If present it will exclude all the attributes</li>
 <li><code>hide-methods</code> (<code>-m</code>). If present it will exclude all the methods</li>
 <li><code>hide-empty-blocks</code> (<code>-b</code>). If present, no empty blocks will be shown</li>
+<li><code>theme</code> (<code>-e</code>). Colors and fonts to be used for the diagram.
+There are 3 themes to choose from: <code>phuml</code>, which is the default theme, <code>php</code>, and <code>classic</code></li>
 </ul>
 <h2 id="examples">Examples</h2>
 <ul>
-<li>The following command will produce a class diagram from the <code>tests/resources/.code</code> directory.</li>
+<li>The following command will produce a class diagram from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
 <li>It will search for classes and interfaces recursively, because of the <code>-r</code> option.</li>
 <li>It will generate associations (<code>-a</code>), by inspecting attributes and constructor parameters in all the classes.</li>
 <li>It will use the <code>dot</code> command to generate the diagram, because of the <code>-p dot</code> option.</li>
 <li>It will only show public methods and attributes because both options <code>-i</code> and <code>-o</code> are present</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:diagram -r -a -i -o -p dot tests/resources/.code example.png</code></pre>
+<pre><code>$ vendor/bin/phuml phuml:diagram -r -a -i -o -p dot tests/resources/.code/classes example.png</code></pre>
 <ul>
-<li>The following command will produce a class diagram from the <code>tests/resources/.code</code> directory.</li>
+<li>The following command will produce a class diagram from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
 <li>It will search for classes and interfaces recursively, because of the <code>-r</code> option.</li>
 <li>It will use the <code>dot</code> command to generate the diagram, because of the <code>-p dot</code> option.</li>
 <li>It will only show names because both options <code>-t</code> and <code>-m</code> are present.</li>
 <li>Option <code>-a</code> is not present since there's not attributes or constructors to look for associations.</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:diagram -r -t -m -p dot tests/resources/.code example.png</code></pre>
+<pre><code>$ vendor/bin/phuml phuml:diagram -r -t -m -p dot tests/resources/.code/classes example.png</code></pre>
 <ul>
-<li>The following command will produce a class diagram from the <code>tests/resources/.code</code> directory.</li>
+<li>The following command will produce a class diagram from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
 <li>It will search for classes and interfaces recursively, because of the <code>-r</code> option.</li>
 <li>It will use the <code>dot</code> command to generate the diagram, because of the <code>-p dot</code> option.</li>
@@ -114,16 +121,26 @@ It will also use the types from the arguments passed to the constructor</li>
 <li>Option <code>-a</code> is not present since there's not attributes or constructors to look for associations.</li>
 <li>It will not create rows for methods and attributes because of the <code>-b</code> option.</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:diagram -r -t -m -b -p dot tests/resources/.code example.png</code></pre>
+<pre><code>$ vendor/bin/phuml phuml:diagram -r -t -m -b -p dot tests/resources/.code/classes example.png</code></pre>
 <ul>
-<li>The following command will produce a class diagram from the <code>tests/resources/.code</code> directory.</li>
+<li>The following command will produce a class diagram from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
 <li>It <strong>WILL NOT</strong> search for classes and interfaces recursively, because of the lack of the <code>-r</code> option.</li>
 <li>It <strong>WILL NOT</strong> generate associations because of the lack of the <code>-a</code> option.</li>
 <li>It will use the <code>neato</code> command to generate the diagram, because of the <code>-p neato</code> option.</li>
 <li>It will show all methods and attributes because both options <code>-i</code> and <code>-o</code> are absent</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:diagram -p neato tests/resources/.code example.png</code></pre>
+<pre><code>$ vendor/bin/phuml phuml:diagram -p neato tests/resources/.code/classes example.png</code></pre>
+<ul>
+<li>The following command will produce a class diagram from the <code>tests/resources/.code/classes</code> directory.</li>
+<li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
+<li>It <strong>WILL NOT</strong> search for classes and interfaces recursively, because of the lack of the <code>-r</code> option.</li>
+<li>It <strong>WILL NOT</strong> generate associations because of the lack of the <code>-a</code> option.</li>
+<li>It will use the <code>dot</code> command to generate the diagram, because of the <code>-p dot</code> option.</li>
+<li>It will show all methods and attributes because both options <code>-i</code> and <code>-o</code> are absent</li>
+<li>It will use colors purple and white because the option <code>e</code> is the <code>php</code> theme</li>
+</ul>
+<pre><code>$ vendor/bin/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png</code></pre>
                 </section>
 
             </div>
