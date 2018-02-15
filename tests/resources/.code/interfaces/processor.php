@@ -1,6 +1,6 @@
 <?php
 
-abstract class plProcessor
+abstract class plProcessor implements plCompatible
 {
     public static function factory( $processor )
     {
@@ -14,8 +14,5 @@ abstract class plProcessor
     {
     }
 
-    abstract public function getInputTypes();
-    abstract public function getOutputType();
     abstract public function process( $input, $type );
-
 }

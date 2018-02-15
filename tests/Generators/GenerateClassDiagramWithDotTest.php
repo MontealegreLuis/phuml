@@ -10,6 +10,8 @@ namespace PhUml\Generators;
 use LogicException;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
+use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -26,7 +28,7 @@ class GenerateClassDiagramWithDotTest extends TestCase
     {
         $this->generator = new ClassDiagramGenerator(
             new CodeParser(),
-            new GraphvizProcessor(),
+            new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder())),
             new DotProcessor()
         );
     }

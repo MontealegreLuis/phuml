@@ -10,6 +10,7 @@ namespace PhUml\Generators;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
@@ -63,7 +64,7 @@ class GenerateClassDiagramWithThemeTest extends TestCase
         $generator = new ClassDiagramGenerator(
             new CodeParser(),
             new GraphvizProcessor(
-                new ClassGraphBuilder(),
+                new ClassGraphBuilder(new EdgesBuilder()),
                 new InterfaceGraphBuilder(),
                 new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksStyle($theme))
             ),

@@ -81,7 +81,7 @@ General statistics
 Classes:    19
 Interfaces: 0
 
-Attributes: 23 (2 are typed)
+Attributes: 23 (4 are typed)
     * private:   17
     * protected: 2
     * public:    4

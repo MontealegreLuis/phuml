@@ -8,6 +8,7 @@ class plGraphvizProcessor extends plProcessor
 
     private $structure;
 
+    /** @var plProcessorOptions */
     public $options;
 
     public function __construct()

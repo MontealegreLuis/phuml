@@ -2,6 +2,7 @@
 
 class plDotProcessor extends plExternalCommandProcessor
 {
+    /** @var plProcessorOptions */
     public $options;
 
     public function __construct()
