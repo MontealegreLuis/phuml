@@ -45,23 +45,13 @@ abstract class DefinitionTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_extends_another_definition_by_default()
-    {
-        $definitionWithoutParent = $this->definition();
-
-        $hasParent = $definitionWithoutParent->hasParent();
-
-        $this->assertFalse($hasParent);
-    }
-
-    /** @test */
     function it_knows_its_methods()
     {
         $methods = [
             Method::public('methodOne'),
             Method::public('methodTwo'),
         ];
-        $definitionWithMethods = $this->definition([] , $methods);
+        $definitionWithMethods = $this->definition([], $methods);
 
         $definitionMethods = $definitionWithMethods->methods();
 
@@ -80,17 +70,6 @@ abstract class DefinitionTest extends TestCase
         $definitionConstants = $definitionWithConstants->constants();
 
         $this->assertEquals($constants, $definitionConstants);
-    }
-
-    /** @test */
-    function it_knows_its_parent()
-    {
-        $parent = $this->parent();
-        $interfaceWithParent = $this->definition([], [], $parent);
-
-        $parentClass = $interfaceWithParent->extends();
-
-        $this->assertEquals($parent, $parentClass);
     }
 
     /** @test */
@@ -114,11 +93,5 @@ abstract class DefinitionTest extends TestCase
         $this->assertEquals($definitionTwo->identifier(), $definitionTwo->identifier());
     }
 
-    abstract protected function definition(
-        array $constants = [],
-        array $methods = [],
-        Definition $parent = null
-    ): Definition;
-
-    abstract protected function parent(): Definition;
+    abstract protected function definition(array $constants = [], array $methods = []): Definition;
 }

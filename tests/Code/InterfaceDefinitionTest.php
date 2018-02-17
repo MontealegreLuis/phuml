@@ -8,20 +8,33 @@
 namespace PhUml\Code;
 
 use PhUml\ContractTests\DefinitionTest;
+use PhUml\TestBuilders\A;
 
 class InterfaceDefinitionTest extends DefinitionTest
 {
-    protected function definition(
-        array $constants = [],
-        array $methods = [],
-        Definition $parent = null
-    ): Definition
+    /** @test */
+    function it_does_not_extends_another_definition_by_default()
     {
-        return new InterfaceDefinition('ADefinition', $constants, $methods, $parent);
+        $definitionWithoutParent = new InterfaceDefinition('WithoutParent');
+
+        $hasParent = $definitionWithoutParent->hasParent();
+
+        $this->assertFalse($hasParent);
     }
 
-    protected function parent(): Definition
+    /** @test */
+    function it_knows_its_parent()
     {
-        return new InterfaceDefinition('ParentInterface');
+        $parent = new InterfaceDefinition('ParentInterface');
+        $interfaceWithParent = A::interface('WithParent')->extending($parent)->build();
+
+        $parentClass = $interfaceWithParent->extends();
+
+        $this->assertEquals($parent, $parentClass);
+    }
+
+    protected function definition(array $constants = [], array $methods = []): Definition
+    {
+        return new InterfaceDefinition('ADefinition', $constants, $methods);
     }
 }
