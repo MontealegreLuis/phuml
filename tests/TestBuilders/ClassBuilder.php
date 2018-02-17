@@ -17,6 +17,9 @@ use PhUml\Fakes\NumericIdClass;
 
 class ClassBuilder extends DefinitionBuilder
 {
+    /** @var ClassDefinition */
+    protected $parent;
+
     /** @var Attribute[] */
     private $attributes = [];
 
@@ -71,6 +74,13 @@ class ClassBuilder extends DefinitionBuilder
     public function withAMethod(Method $method): ClassBuilder
     {
         $this->methods[] = $method;
+
+        return $this;
+    }
+
+    public function extending(ClassDefinition $parent): ClassBuilder
+    {
+        $this->parent = $parent;
 
         return $this;
     }

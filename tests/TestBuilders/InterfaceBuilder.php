@@ -14,6 +14,9 @@ use PhUml\Fakes\NumericIdInterface;
 
 class InterfaceBuilder extends DefinitionBuilder
 {
+    /** @var InterfaceDefinition */
+    protected $parent;
+
     /** @var Method[] */
     private $methods = [];
 
@@ -25,6 +28,13 @@ class InterfaceBuilder extends DefinitionBuilder
     }
 
     public function withParent(InterfaceDefinition $parent): InterfaceBuilder
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    public function extending(InterfaceDefinition $parent): InterfaceBuilder
     {
         $this->parent = $parent;
 

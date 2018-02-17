@@ -8,14 +8,10 @@
 namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attributes\Constant;
-use PhUml\Code\Definition;
 use PhUml\Code\Variables\TypeDeclaration;
 
 abstract class DefinitionBuilder
 {
-    /** @var Definition */
-    protected $parent;
-
     /** @var string */
     protected $name;
 
@@ -26,13 +22,6 @@ abstract class DefinitionBuilder
     {
         $this->name = $name;
         $this->constants = [];
-    }
-
-    public function extending(Definition $parent): DefinitionBuilder
-    {
-        $this->parent = $parent;
-
-        return $this;
     }
 
     public function withAConstant(string $name, string $type = null): DefinitionBuilder
