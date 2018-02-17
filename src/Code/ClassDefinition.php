@@ -17,11 +17,11 @@ use PhUml\Code\Modifiers\Visibility;
  */
 class ClassDefinition extends Definition implements CanBeAbstract
 {
-    /** @var Definition */
-    protected $extends;
-
     /** @var Attribute[] */
     private $attributes;
+
+    /** @var ClassDefinition */
+    protected $extends;
 
     /** @var InterfaceDefinition[] */
     private $implements;
@@ -61,7 +61,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
     }
 
     /**
-     * This method is used to build the `Summary` of a `Structure`
+     * This method is used to build the `Summary` of a `Codebase`
      *
      * @see Summary::attributesSummary() for more details
      */
@@ -73,7 +73,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
     }
 
     /**
-     * This method is used to build the `Summary` of a `Structure`
+     * This method is used to build the `Summary` of a `Codebase`
      *
      * @see Summary::attributesSummary() for more details
      */
@@ -84,19 +84,61 @@ class ClassDefinition extends Definition implements CanBeAbstract
         }));
     }
 
+    /**
+     * It is used by the `ClassGraphBuilder` to create the edges to represent implementation
+     * associations
+     *
+     * @return InterfaceDefinition[]
+     * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
+     */
+    public function implements(): array
+    {
+        return $this->implements;
+    }
+
+    /**
+     * It is used by the `ClassGraphBuilder` to create the edge to represent inheritance
+     *
+     * @return InterfaceDefinition[]
+     * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
+     */
+    public function extends(): Definition
+    {
+        return $this->extends;
+    }
+
+    /**
+     * It is used by the `ClassGraphBuilder` to determine if an inheritance association should be
+     * created
+     *
+     * @return InterfaceDefinition[]
+     * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
+     */
+    public function hasParent(): bool
+    {
+        return $this->extends !== null;
+    }
+
+    /**
+     * This method is used when the commands are called with the option `hide-empty-blocks`
+     *
+     * It counts both the attributes and the constants of a class
+     *
+     * @see Definition::hasAttributes() for more details
+     */
+    public function hasAttributes(): bool
+    {
+        return \count($this->constants) + \count($this->attributes) > 0;
+    }
+
+    /**
+     * This method is used to determine if the class name should be shown in italics
+     */
     public function isAbstract(): bool
     {
         return \count(array_filter($this->methods(), function (Method $method) {
             return $method->isAbstract();
         })) > 0;
-    }
-
-    /**
-     * It counts both the attributes and the constants of a class
-     */
-    public function hasAttributes(): bool
-    {
-        return \count($this->constants) + \count($this->attributes) > 0;
     }
 
     /** @return Attribute[] */
@@ -105,26 +147,10 @@ class ClassDefinition extends Definition implements CanBeAbstract
         return $this->attributes;
     }
 
-    /** @return InterfaceDefinition[] */
-    public function implements(): array
-    {
-        return $this->implements;
-    }
-
     private function hasConstructor(): bool
     {
         return \count(array_filter($this->methods, function (Method $function) {
-            return $function->isConstructor();
-        })) === 1;
-    }
-
-    public function extends(): Definition
-    {
-        return $this->extends;
-    }
-
-    public function hasParent(): bool
-    {
-        return $this->extends !== null;
+                return $function->isConstructor();
+            })) === 1;
     }
 }

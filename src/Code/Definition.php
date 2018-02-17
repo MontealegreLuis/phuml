@@ -42,7 +42,7 @@ abstract class Definition implements HasNodeIdentifier
     }
 
     /**
-     * The name of a definition is used by the `Structure` class to avoid duplicated definitions
+     * The name of a definition is used by the `Codebase` class to avoid duplicated definitions
      *
      * @see Codebase::has
      * @see Codebase::get
@@ -50,20 +50,6 @@ abstract class Definition implements HasNodeIdentifier
     public function name(): string
     {
         return $this->name;
-    }
-
-    /** @return \PhUml\Code\Attributes\Constant[] */
-    public function constants(): array
-    {
-        return $this->constants;
-    }
-
-    abstract public function hasAttributes(): bool;
-
-    /** @return Method[] */
-    public function methods(): array
-    {
-        return $this->methods;
     }
 
     /**
@@ -77,5 +63,28 @@ abstract class Definition implements HasNodeIdentifier
         return \count(array_filter($this->methods, function (Method $method) use ($modifier) {
             return $method->hasVisibility($modifier);
         }));
+    }
+
+    /**
+     * This method is used when the commands are called with the option `hide-empty-blocks`
+     *
+     * For interfaces it counts the number of constants.
+     * For classes it counts both constants and attributes.
+     *
+     * @see ClassDefinition::hasAttributes() for more details
+     * @see InterfaceDefinition::hasAttributes() for more details
+     */
+    abstract public function hasAttributes(): bool;
+
+    /** @return \PhUml\Code\Attributes\Constant[] */
+    public function constants(): array
+    {
+        return $this->constants;
+    }
+
+    /** @return Method[] */
+    public function methods(): array
+    {
+        return $this->methods;
     }
 }

@@ -17,7 +17,7 @@ class InterfaceDefinition extends Definition
 
     /**
      * @param \PhUml\Code\Attributes\Constant[] $constants
-     * @param Method[] $methods
+     * @param \PhUml\Code\Methods\Method[] $methods
      */
     public function __construct(
         string $name,
@@ -30,24 +30,38 @@ class InterfaceDefinition extends Definition
     }
 
     /**
-     * It only counts the constants of an interface, since interfaces are not allowed to have
-     * attributes
+     * It is used by the `InterfaceGraphBuilder` to create the edge to represent inheritance
      *
-     * The method name is `hasAttributes` since in a class diagram, constants are shown in the same
-     * block as the instance variables (attributes)
+     * @return InterfaceDefinition[]
+     * @see \PhUml\Graphviz\Builders\InterfaceGraphBuilder::extractFrom() for more details
      */
-    public function hasAttributes(): bool
-    {
-        return \count($this->constants) > 0;
-    }
-
     public function extends(): Definition
     {
         return $this->extends;
     }
 
+    /**
+     * It is used by the `InterfaceGraphBuilder` to determine if an inheritance association should be
+     * created
+     *
+     * @return InterfaceDefinition[]
+     * @see \PhUml\Graphviz\Builders\InterfaceGraphBuilder::extractFrom() for more details
+     */
     public function hasParent(): bool
     {
         return $this->extends !== null;
+    }
+
+    /**
+     * This method is used when the commands are called with the option `hide-empty-blocks`
+     *
+     * It only counts the constants of an interface, since interfaces are not allowed to have
+     * attributes
+     *
+     * @see Definition::hasAttributes() for more details
+     */
+    public function hasAttributes(): bool
+    {
+        return \count($this->constants) > 0;
     }
 }
