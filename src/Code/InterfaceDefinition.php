@@ -12,6 +12,23 @@ namespace PhUml\Code;
  */
 class InterfaceDefinition extends Definition
 {
+    /** @var Definition */
+    protected $extends;
+
+    /**
+     * @param \PhUml\Code\Attributes\Constant[] $constants
+     * @param Method[] $methods
+     */
+    public function __construct(
+        string $name,
+        array $constants = [],
+        array $methods = [],
+        Definition $parent = null
+    ) {
+        parent::__construct($name, $constants, $methods);
+        $this->extends = $parent;
+    }
+
     /**
      * It only counts the constants of an interface, since interfaces are not allowed to have
      * attributes
@@ -22,5 +39,15 @@ class InterfaceDefinition extends Definition
     public function hasAttributes(): bool
     {
         return \count($this->constants) > 0;
+    }
+
+    public function extends(): Definition
+    {
+        return $this->extends;
+    }
+
+    public function hasParent(): bool
+    {
+        return $this->extends !== null;
     }
 }

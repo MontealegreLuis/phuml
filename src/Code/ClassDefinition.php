@@ -17,6 +17,9 @@ use PhUml\Code\Modifiers\Visibility;
  */
 class ClassDefinition extends Definition implements CanBeAbstract
 {
+    /** @var Definition */
+    protected $extends;
+
     /** @var Attribute[] */
     private $attributes;
 
@@ -31,7 +34,8 @@ class ClassDefinition extends Definition implements CanBeAbstract
         array $attributes = [],
         array $implements = []
     ) {
-        parent::__construct($name, $constants, $methods, $parent);
+        parent::__construct($name, $constants, $methods);
+        $this->extends = $parent;
         $this->attributes = $attributes;
         $this->implements = $implements;
     }
@@ -112,5 +116,15 @@ class ClassDefinition extends Definition implements CanBeAbstract
         return \count(array_filter($this->methods, function (Method $function) {
             return $function->isConstructor();
         })) === 1;
+    }
+
+    public function extends(): Definition
+    {
+        return $this->extends;
+    }
+
+    public function hasParent(): bool
+    {
+        return $this->extends !== null;
     }
 }

@@ -30,23 +30,15 @@ abstract class Definition implements HasNodeIdentifier
     /** @var Method[] */
     protected $methods;
 
-    /** @var Definition */
-    protected $extends;
-
     /**
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Method[] $methods
      */
-    public function __construct(
-        string $name,
-        array $constants = [],
-        array $methods = [],
-        Definition $parent = null
-    ) {
+    public function __construct(string $name, array $constants = [], array $methods = [])
+    {
         $this->name = $name;
         $this->constants = $constants;
         $this->methods = $methods;
-        $this->extends = $parent;
     }
 
     /**
@@ -72,16 +64,6 @@ abstract class Definition implements HasNodeIdentifier
     public function methods(): array
     {
         return $this->methods;
-    }
-
-    public function extends(): Definition
-    {
-        return $this->extends;
-    }
-
-    public function hasParent(): bool
-    {
-        return $this->extends !== null;
     }
 
     /**
