@@ -1,6 +1,3 @@
-> **NOTE**: This is a fork of [jakobwesthoff/phuml][1] which isn't maintained anymore.
-This is the **new official repository**.
-
 # phUML
 
 [![Build Status][2]][3]
@@ -10,8 +7,11 @@ This is the **new official repository**.
 [![Packagist Pre Release][18]][15]
 [![Minimum PHP Version][16]][17]
 
-phUML is a fully automatic [UML][6] class diagram generator written [PHP][7].
+phUML is a fully automatic [UML][6] class diagram generator written in [PHP][7].
 It creates a class diagram from an OO codebase based on the UML specification.
+
+> **NOTE**: This is a fork of [jakobwesthoff/phuml][1] which isn't maintained anymore.
+This is the **new official repository**.
 
 ## Installation
 
