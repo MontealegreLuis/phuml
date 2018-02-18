@@ -30,17 +30,13 @@ class ConstantsBuilderTest extends TestCase
         ];
         $builder = new ConstantsBuilder();
 
-        $rawConstants = $builder->build($constants);
+        $constants = $builder->build($constants);
 
-        $this->assertCount(4, $rawConstants);
-        $this->assertEquals('INTEGER', $rawConstants[0][0]);
-        $this->assertEquals('int', $rawConstants[0][1]);
-        $this->assertEquals('FLOAT', $rawConstants[1][0]);
-        $this->assertEquals('float', $rawConstants[1][1]);
-        $this->assertEquals('STRING', $rawConstants[2][0]);
-        $this->assertEquals('string', $rawConstants[2][1]);
-        $this->assertEquals('BOOLEAN', $rawConstants[3][0]);
-        $this->assertEquals('bool', $rawConstants[3][1]);
+        $this->assertCount(4, $constants);
+        $this->assertEquals('+INTEGER: int', (string)$constants[0]);
+        $this->assertEquals('+FLOAT: float', (string)$constants[1]);
+        $this->assertEquals('+STRING: string', (string)$constants[2]);
+        $this->assertEquals('+BOOLEAN: bool', (string)$constants[3]);
     }
 
     /** @test */
@@ -61,7 +57,6 @@ class ConstantsBuilderTest extends TestCase
         $rawConstants = $builder->build($constants);
 
         $this->assertCount(1, $rawConstants);
-        $this->assertEquals('GREETING', $rawConstants[0][0]);
-        $this->assertNull($rawConstants[0][1]);
+        $this->assertEquals('+GREETING', (string)$rawConstants[0]);
     }
 }

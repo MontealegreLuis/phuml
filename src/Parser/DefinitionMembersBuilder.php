@@ -9,7 +9,6 @@ namespace PhUml\Parser;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\AttributeDocBlock;
-use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\Method;
@@ -44,13 +43,10 @@ class DefinitionMembersBuilder
         }, $class->attributes());
     }
 
-    /** @return Constant[] */
+    /** @return \PhUml\Code\Attributes\Constant[] */
     public function constants(RawDefinition $definition): array
     {
-        return array_map(function (array $constant) {
-            [$name, $type] = $constant;
-            return new Constant($name, TypeDeclaration::from($type));
-        }, $definition->constants());
+        return $definition->constants();
     }
 
     private function buildMethod(array $method): Method

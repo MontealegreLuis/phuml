@@ -11,6 +11,8 @@ use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt\ClassConst;
+use PhUml\Code\Attributes\Constant;
+use PhUml\Code\Variables\TypeDeclaration;
 
 class ConstantsBuilder
 {
@@ -20,17 +22,20 @@ class ConstantsBuilder
         'string' => 'string',
     ];
 
-    /** @param \PhpParser\Node[] $classAttributes */
+    /**
+     * @param \PhpParser\Node[] $classAttributes
+     * @return Constant[]
+     */
     public function build(array $classAttributes): array
     {
         $constants = array_filter($classAttributes, function ($attribute) {
             return $attribute instanceof ClassConst;
         });
         return array_map(function (ClassConst $constant) {
-            return [
-                "{$constant->consts[0]->name}",
-                $this->determineType($constant->consts[0]),
-            ];
+            return new Constant(
+                $constant->consts[0]->name,
+                TypeDeclaration::from($this->determineType($constant->consts[0]))
+            );
         }, $constants);
     }
 
@@ -39,10 +44,9 @@ class ConstantsBuilder
         if ($constant->value instanceof Scalar) {
             return self::$types[\gettype($constant->value->value)];
         }
-        if ($constant->value instanceof ConstFetch) {
-            if (\in_array($constant->value->name->parts[0], ['true', 'false'], true)) {
-                return 'bool';
-            }
+        if ($constant->value instanceof ConstFetch
+            && \in_array($constant->value->name->parts[0], ['true', 'false'], true)) {
+            return 'bool';
         }
         return null; // It's an expression
     }

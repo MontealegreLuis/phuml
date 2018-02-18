@@ -136,6 +136,7 @@ class RawDefinition
         return $this->definition['methods'];
     }
 
+    /** @return \PhUml\Code\Attributes\Constant[] */
     public function constants(): array
     {
         return $this->definition['constants'];
