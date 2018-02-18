@@ -8,6 +8,7 @@ namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
@@ -28,6 +29,10 @@ class CodebaseBuilderTest extends TestCase
         $definitions->add(RawDefinition::interface(['interface' => 'AnotherParentInterface']));
         $definitions->add(RawDefinition::interface([
             'interface' => 'InterfaceName',
+            'constants' => [
+                new Constant('A_CONSTANT'),
+                new Constant('TYPED_CONSTANT', TypeDeclaration::from('float'))
+            ],
             'methods' => [
                 ['doSomething', 'public', [], false, false, null],
                 ['changeThing', 'public', [['$name', null, '/** @param string $name */']], false, false, null],
@@ -38,6 +43,8 @@ class CodebaseBuilderTest extends TestCase
         $codebase = $builder->buildFrom($definitions);
 
         $this->assertEquals(A::interface('InterfaceName')
+            ->withAConstant('A_CONSTANT')
+            ->withAConstant('TYPED_CONSTANT', 'float')
             ->withAPublicMethod('doSomething')
             ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
             ->extending(
@@ -59,6 +66,10 @@ class CodebaseBuilderTest extends TestCase
         $definitions->add(RawDefinition::class(['class' => 'ParentClass']));
         $definitions->add(RawDefinition::class([
             'class' => 'ClassName',
+            'constants' => [
+                new Constant('A_CONSTANT'),
+                new Constant('TYPED_CONSTANT', TypeDeclaration::from('float'))
+            ],
             'attributes' => [
                 Attribute::protected('$name'),
                 Attribute::private('$age', TypeDeclaration::from('int')),
@@ -79,6 +90,8 @@ class CodebaseBuilderTest extends TestCase
 
         $this->assertEquals(
             A::class('ClassName')
+                ->withAConstant('A_CONSTANT')
+                ->withAConstant('TYPED_CONSTANT', 'float')
                 ->withAProtectedAttribute('$name')
                 ->withAPrivateAttribute('$age', 'int')
                 ->withAPublicAttribute('$phoneNumbers', 'string[]')
