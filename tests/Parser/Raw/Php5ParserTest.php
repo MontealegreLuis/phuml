@@ -70,7 +70,7 @@ class Php5ParserTest extends TestCase
         $this->assertContains($definitions['plBase']->methods()[1][1], $modifiers);
         $this->assertContains($definitions['plBase']->methods()[2][1], $modifiers);
         $this->assertCount(1, $definitions['plPhuml']->attributes());
-        $this->assertContains($definitions['plPhuml']->attributes()[0][1], $modifiers);
+        $this->assertTrue($definitions['plPhuml']->attributes()[0]->isProtected());
         $this->assertCount(7, $definitions['plPhuml']->methods());
         $this->assertContains($definitions['plPhuml']->methods()[0][1], $modifiers);
         $this->assertContains($definitions['plPhuml']->methods()[1][1], $modifiers);
@@ -91,15 +91,15 @@ class Php5ParserTest extends TestCase
 
         $this->assertCount(2, $definitions);
         $this->assertCount(2, $definitions['plBase']->attributes());
-        $this->assertContains($definitions['plBase']->attributes()[0][1], $modifiers);
-        $this->assertContains($definitions['plBase']->attributes()[1][1], $modifiers);
+        $this->assertTrue($definitions['plBase']->attributes()[0]->isPrivate());
+        $this->assertTrue($definitions['plBase']->attributes()[1]->isPrivate());
         $this->assertCount(3, $definitions['plBase']->methods());
         $this->assertContains($definitions['plBase']->methods()[0][1], $modifiers);
         $this->assertContains($definitions['plBase']->methods()[1][1], $modifiers);
         $this->assertContains($definitions['plBase']->methods()[2][1], $modifiers);
         $this->assertCount(2, $definitions['plPhuml']->attributes());
-        $this->assertContains($definitions['plPhuml']->attributes()[1][1], $modifiers);
-        $this->assertContains($definitions['plPhuml']->attributes()[2][1], $modifiers);
+        $this->assertTrue($definitions['plPhuml']->attributes()[1]->isPrivate());
+        $this->assertTrue($definitions['plPhuml']->attributes()[2]->isPrivate());
         $this->assertCount(8, $definitions['plPhuml']->methods());
         $this->assertContains($definitions['plPhuml']->methods()[0][1], $modifiers);
         $this->assertContains($definitions['plPhuml']->methods()[1][1], $modifiers);

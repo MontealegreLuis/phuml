@@ -7,9 +7,6 @@
 
 namespace PhUml\Parser;
 
-use PhUml\Code\Attributes\Attribute;
-use PhUml\Code\Attributes\AttributeDocBlock;
-use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Methods\MethodDocBlock;
@@ -31,16 +28,10 @@ class DefinitionMembersBuilder
         }, $definition->methods());
     }
 
-    /** @return Attribute[] */
+    /** @return \PhUml\Code\Attributes\Attribute[] */
     public function attributes(RawDefinition $class): array
     {
-        return array_map(function (array $attribute) {
-            [$name, $modifier, $comment, $isStatic] = $attribute;
-            if ($isStatic) {
-                return StaticAttribute::$modifier($name, $this->extractTypeFrom($comment));
-            }
-            return Attribute::$modifier($name, $this->extractTypeFrom($comment));
-        }, $class->attributes());
+        return $class->attributes();
     }
 
     /** @return \PhUml\Code\Attributes\Constant[] */
@@ -74,14 +65,5 @@ class DefinitionMembersBuilder
             }
             return Variable::declaredWith($name, $typeDeclaration);
         }, $parameters);
-    }
-
-    private function extractTypeFrom(?string $comment): TypeDeclaration
-    {
-        if ($comment === null) {
-            return TypeDeclaration::absent();
-        }
-
-        return AttributeDocBlock::from($comment)->extractType();
     }
 }

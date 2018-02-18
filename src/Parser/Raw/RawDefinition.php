@@ -126,6 +126,7 @@ class RawDefinition
         return isset($this->definition['interface']);
     }
 
+    /** @return \PhUml\Code\Attributes\Attribute[] */
     public function attributes(): array
     {
         return $this->definition['attributes'];

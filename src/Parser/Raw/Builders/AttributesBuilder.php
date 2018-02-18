@@ -8,6 +8,10 @@
 namespace PhUml\Parser\Raw\Builders;
 
 use PhpParser\Node\Stmt\Property;
+use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\AttributeDocBlock;
+use PhUml\Code\Attributes\StaticAttribute;
+use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
 use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
 
@@ -31,7 +35,10 @@ use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
  */
 class AttributesBuilder extends MembersBuilder
 {
-    /** @param \PhpParser\Node[] $definitionAttributes */
+    /**
+     * @param \PhpParser\Node[] $definitionAttributes
+     * @return Attribute[]
+     */
     public function build(array $definitionAttributes): array
     {
         $attributes = array_filter($definitionAttributes, function ($attribute) {
@@ -39,12 +46,22 @@ class AttributesBuilder extends MembersBuilder
         });
 
         return array_map(function (Property $attribute) {
-            return [
-                "\${$attribute->props[0]->name}",
-                $this->resolveVisibility($attribute),
-                $attribute->getDocComment(),
-                $attribute->isStatic(),
-            ];
+            $name = "\${$attribute->props[0]->name}";
+            $modifier = $this->resolveVisibility($attribute);
+            $comment = $attribute->getDocComment();
+            if ($attribute->isStatic()) {
+                return StaticAttribute::$modifier($name, $this->extractTypeFrom($comment));
+            }
+            return Attribute::$modifier($name, $this->extractTypeFrom($comment));
         }, $this->runFilters($attributes));
+    }
+
+    private function extractTypeFrom(?string $comment): TypeDeclaration
+    {
+        if ($comment === null) {
+            return TypeDeclaration::absent();
+        }
+
+        return AttributeDocBlock::from($comment)->extractType();
     }
 }

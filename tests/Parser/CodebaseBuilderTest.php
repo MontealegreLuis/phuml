@@ -7,6 +7,7 @@
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
@@ -59,13 +60,9 @@ class CodebaseBuilderTest extends TestCase
         $definitions->add(RawDefinition::class([
             'class' => 'ClassName',
             'attributes' => [
-                ['$name', 'protected', null, false],
-                ['$age', 'private', '/**
-                                      * @var int 
-                                      */', false],
-                ['$phoneNumbers', 'public', '/**
-                                              * @var string[] 
-                                              */', false],
+                Attribute::protected('$name'),
+                Attribute::private('$age', TypeDeclaration::from('int')),
+                Attribute::public('$phoneNumbers', TypeDeclaration::from('string[]')),
             ],
             'methods' => [
                 ['getAge', 'public', [], false, false, '/** @return int */'],
