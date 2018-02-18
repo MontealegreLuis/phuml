@@ -18,7 +18,7 @@ class RawDefinitionTest extends TestCase
         $noParent = RawDefinition::interface(['interface' => 'AnInterface']);
 
         $this->assertTrue($withParent->hasParent());
-        $this->assertFalse($noParent->hasParent());
+        $this->assertFalse($noParent->hasParents());
     }
 
     /** @test */
@@ -28,7 +28,7 @@ class RawDefinitionTest extends TestCase
         $noParent = RawDefinition::interface(['interface' => 'AnInterface']);
 
         $this->assertEquals('Parent', $withParent->parent());
-        $this->assertNull($noParent->parent());
+        $this->assertEmpty($noParent->parents());
     }
 
     /** @test */

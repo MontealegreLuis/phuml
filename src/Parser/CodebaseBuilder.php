@@ -52,7 +52,7 @@ class CodebaseBuilder
             $interface->name(),
             $this->builder->constants($interface),
             $this->builder->methods($interface),
-            $this->resolveRelatedInterface($definitions, $interface->parent())
+            $this->buildInterfaces($definitions, $interface->parents())
         );
     }
 
@@ -79,11 +79,8 @@ class CodebaseBuilder
         }, $implements);
     }
 
-    protected function resolveRelatedInterface(RawDefinitions $definitions, ?string $interface): ?Definition
+    protected function resolveRelatedInterface(RawDefinitions $definitions, string $interface): Definition
     {
-        if ($interface === null) {
-            return null;
-        }
         if (!$this->codebase->has($interface)) {
             $this->codebase->addInterface($this->buildInterface(
                 $definitions,

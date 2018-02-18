@@ -26,11 +26,15 @@ class InterfaceDefinitionTest extends DefinitionTest
     function it_knows_its_parent()
     {
         $parent = new InterfaceDefinition('ParentInterface');
-        $interfaceWithParent = A::interface('WithParent')->extending($parent)->build();
+        $anotherParent = new InterfaceDefinition('AnotherParentInterface');
+        $interfaceWithParent = A::interface('WithParent')
+            ->extending($parent, $anotherParent)
+            ->build();
 
-        $parentClass = $interfaceWithParent->extends();
+        $parents = $interfaceWithParent->parents();
 
-        $this->assertEquals($parent, $parentClass);
+        $this->assertCount(2, $parents);
+        $this->assertEquals([$parent, $anotherParent], $parents);
     }
 
     protected function definition(array $constants = [], array $methods = []): Definition

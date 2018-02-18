@@ -24,13 +24,14 @@ class CodebaseBuilderTest extends TestCase
         $builder = new CodebaseBuilder();
         $definitions = new RawDefinitions();
         $definitions->add(RawDefinition::interface(['interface' => 'ParentInterface']));
+        $definitions->add(RawDefinition::interface(['interface' => 'AnotherParentInterface']));
         $definitions->add(RawDefinition::interface([
             'interface' => 'InterfaceName',
             'methods' => [
                 ['doSomething', 'public', [], false, false, null],
                 ['changeThing', 'public', [['$name', null, '/** @param string $name */']], false, false, null],
             ],
-            'extends' => 'ParentInterface',
+            'extends' => ['ParentInterface', 'AnotherParentInterface'],
         ]));
 
         $codebase = $builder->buildFrom($definitions);
@@ -38,7 +39,10 @@ class CodebaseBuilderTest extends TestCase
         $this->assertEquals(A::interface('InterfaceName')
             ->withAPublicMethod('doSomething')
             ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
-            ->extending(new InterfaceDefinition('ParentInterface'))
+            ->extending(
+                new InterfaceDefinition('ParentInterface'),
+                new InterfaceDefinition('AnotherParentInterface')
+            )
             ->build(),
             $codebase->get('InterfaceName')
         );
@@ -114,7 +118,7 @@ class CodebaseBuilderTest extends TestCase
         ]));
         $definitions->add(RawDefinition::interface([
             'interface' => 'AnInterface',
-            'extends' => 'ExternalInterface',
+            'extends' => ['ExternalInterface'],
         ]));
         $resolver->resolve($definitions);
 

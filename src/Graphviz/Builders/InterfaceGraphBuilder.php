@@ -15,7 +15,7 @@ use PhUml\Graphviz\Node;
  * It produces the collection of nodes and edges related to an interface
  *
  * It creates a node with the interface itself
- * It creates an edge using the interface it extends, if any
+ * It creates one or more edges for every interface it extends, if any
  */
 class InterfaceGraphBuilder
 {
@@ -33,8 +33,8 @@ class InterfaceGraphBuilder
 
         $dotElements[] = new Node($interface);
 
-        if ($interface->hasParent()) {
-            $dotElements[] = Edge::inheritance($interface->extends(), $interface);
+        foreach ($interface->parents() as $parent) {
+            $dotElements[] = Edge::inheritance($parent, $interface);
         }
 
         return $dotElements;

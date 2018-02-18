@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Raw\Builders;
 
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Interface_;
 use PhUml\Parser\Raw\RawDefinition;
 
@@ -44,7 +45,15 @@ class RawInterfaceBuilder
             'interface' => $interface->name,
             'constants' => $this->constantsBuilder->build($interface->stmts),
             'methods' => $this->methodsBuilder->build($interface->getMethods()),
-            'extends' => !empty($interface->extends) ? end($interface->extends)->getLast() : null,
+            'extends' => $this->buildParents($interface),
         ]);
+    }
+
+    /** @return string[] */
+    protected function buildParents(Interface_ $interface): array
+    {
+        return array_map(function (Name $name) {
+            return $name->getLast();
+        }, $interface->extends);
     }
 }

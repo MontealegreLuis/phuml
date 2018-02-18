@@ -36,7 +36,7 @@ class ExternalDefinitionResolverTest extends TestCase
         $definitions->add(RawDefinition::class(['class' => 'AClass', 'implements' => [
             'AnExternalInterface', 'AnExistingInterface',
         ]]));
-        $definitions->add(RawDefinition::interface(['interface' => 'AnInterface', 'extends' => 'AnotherExternalInterface']));
+        $definitions->add(RawDefinition::interface(['interface' => 'AnInterface', 'extends' => ['AnotherExternalInterface']]));
         $definitions->add(RawDefinition::interface(['interface' => 'AnExistingInterface']));
 
         $resolver->resolve($definitions);

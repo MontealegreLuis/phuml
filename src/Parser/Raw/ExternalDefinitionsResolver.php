@@ -11,8 +11,8 @@ namespace PhUml\Parser\Raw;
  * It checks the parent of a definition and the interfaces it implements looking for external
  * definitions
  *
- * An external definition is a class or interface that belongs to a third party library or
- * a PHP's built-in class
+ * An external definition is either a class or interface from a third party library, or a built-in
+ * class
  */
 class ExternalDefinitionsResolver
 {
@@ -29,36 +29,33 @@ class ExternalDefinitionsResolver
 
     private function resolveForClass(RawDefinitions $definitions, RawDefinition $definition): void
     {
-        foreach ($definition->interfaces() as $interface) {
-            if (!$definitions->has($interface)) {
-                $definitions->addExternalInterface($interface);
-            }
-        }
+        $this->resolveExternalInterfaces($definition->interfaces(), $definitions);
         $this->resolveParentClass($definitions, $definition);
     }
 
     private function resolveForInterface(RawDefinitions $definitions, RawDefinition $definition): void
     {
-        $this->resolveParentInterface($definitions, $definition);
+        $this->resolveExternalInterfaces($definition->parents(), $definitions);
     }
 
-    private function resolveParentClass(RawDefinitions $definitions, RawDefinition $definition): void
+    /** @param string[] $interfaces */
+    private function resolveExternalInterfaces(array $interfaces, RawDefinitions $definitions): void
     {
-        if ($definition->hasParent()) {
-            $parent = $definition->parent();
-            if (!$definitions->has($parent)) {
-                $definitions->addExternalClass($parent);
+        foreach ($interfaces as $interface) {
+            if (!$definitions->has($interface)) {
+                $definitions->addExternalInterface($interface);
             }
         }
     }
 
-    private function resolveParentInterface(RawDefinitions $definitions, RawDefinition $definition): void
+    private function resolveParentClass(RawDefinitions $definitions, RawDefinition $definition): void
     {
-        if ($definition->hasParent()) {
-            $parent = $definition->parent();
-            if (!$definitions->has($parent)) {
-                $definitions->addExternalInterface($parent);
-            }
+        if (!$definition->hasParent()) {
+            return;
+        }
+        $parent = $definition->parent();
+        if (!$definitions->has($parent)) {
+            $definitions->addExternalClass($parent);
         }
     }
 }

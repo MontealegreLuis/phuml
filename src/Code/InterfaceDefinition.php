@@ -12,21 +12,23 @@ namespace PhUml\Code;
  */
 class InterfaceDefinition extends Definition
 {
-    /** @var Definition */
-    protected $extends;
+    /** @var InterfaceDefinition[] */
+    protected $parents;
 
     /**
+     * @param string $name
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param \PhUml\Code\Methods\Method[] $methods
+     * @param InterfaceDefinition[] $parents
      */
     public function __construct(
         string $name,
         array $constants = [],
         array $methods = [],
-        Definition $parent = null
+        array $parents = []
     ) {
         parent::__construct($name, $constants, $methods);
-        $this->extends = $parent;
+        $this->parents = $parents;
     }
 
     /**
@@ -35,9 +37,9 @@ class InterfaceDefinition extends Definition
      * @return InterfaceDefinition[]
      * @see \PhUml\Graphviz\Builders\InterfaceGraphBuilder::extractFrom() for more details
      */
-    public function extends(): Definition
+    public function parents(): array
     {
-        return $this->extends;
+        return $this->parents;
     }
 
     /**
@@ -49,7 +51,7 @@ class InterfaceDefinition extends Definition
      */
     public function hasParent(): bool
     {
-        return $this->extends !== null;
+        return !empty($this->parents);
     }
 
     /**

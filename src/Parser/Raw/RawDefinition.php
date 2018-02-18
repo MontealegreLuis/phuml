@@ -26,7 +26,7 @@ class RawDefinition
     private static $interfaceDefaults = [
         'constants' => [],
         'methods' => [],
-        'extends' => null,
+        'extends' => [],
     ];
 
     /** @var array */
@@ -85,9 +85,35 @@ class RawDefinition
         return isset($this->definition['extends']);
     }
 
+    /**
+     * It is used by the `CodebaseBuilder` to create the definition for the parent of a class.
+     * It is also used by the `ExternalDefinitionsResolver` to create an external definition for the
+     * parent class, if needed
+     *
+     * @see \PhUml\Parser\CodebaseBuilder::resolveParentClass() for more details
+     * @see ExternalDefinitionsResolver::resolveParentClass() for more details
+     */
     public function parent(): ?string
     {
         return $this->definition['extends'] ?? null;
+    }
+
+    /**
+     * It is used by the `CodebaseBuilder` to create the definitions for the parents of an interface.
+     * It is also used by the `ExternalDefinitionsResolver` to create external definitions for the
+     * parent interfaces, if needed
+     *
+     * @see \PhUml\Parser\CodebaseBuilder::buildInterface() for more details
+     * @see ExternalDefinitionsResolver::resolveForInterface() for more details
+     */
+    public function parents(): array
+    {
+        return $this->definition['extends'] ?? [];
+    }
+
+    public function hasParents(): bool
+    {
+        return !empty($this->definition['extends']);
     }
 
     public function isClass(): bool

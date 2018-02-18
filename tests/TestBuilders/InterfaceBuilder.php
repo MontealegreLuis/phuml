@@ -15,7 +15,7 @@ use PhUml\Fakes\NumericIdInterface;
 class InterfaceBuilder extends DefinitionBuilder
 {
     /** @var InterfaceDefinition */
-    protected $parent;
+    protected $parents = [];
 
     /** @var Method[] */
     private $methods = [];
@@ -27,9 +27,9 @@ class InterfaceBuilder extends DefinitionBuilder
         return $this;
     }
 
-    public function extending(InterfaceDefinition $parent): InterfaceBuilder
+    public function extending(InterfaceDefinition ...$parents): InterfaceBuilder
     {
-        $this->parent = $parent;
+        $this->parents = $parents;
 
         return $this;
     }
@@ -37,12 +37,12 @@ class InterfaceBuilder extends DefinitionBuilder
     /** @return InterfaceDefinition */
     public function build()
     {
-        return new InterfaceDefinition($this->name, $this->constants, $this->methods, $this->parent);
+        return new InterfaceDefinition($this->name, $this->constants, $this->methods, $this->parents);
     }
 
     /** @return NumericIdInterface */
     public function buildWithNumericId()
     {
-        return new NumericIdInterface($this->name, $this->constants, $this->methods, $this->parent);
+        return new NumericIdInterface($this->name, $this->constants, $this->methods, $this->parents);
     }
 }
