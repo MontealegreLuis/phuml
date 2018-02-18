@@ -11,15 +11,15 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPUnit\Framework\TestCase;
-use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
+use PhUml\Parser\Raw\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Raw\Builders\Filters\ProtectedVisibilityFilter;
 
 class AttributesBuilderTest extends TestCase
 {
     /** @test */
     function it_excludes_private_attributes()
     {
-        $builder = new AttributesBuilder([new PrivateMembersFilter()]);
+        $builder = new AttributesBuilder([new PrivateVisibilityFilter()]);
 
         $attributes = $builder->build($this->attributes);
 
@@ -33,7 +33,7 @@ class AttributesBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_attributes()
     {
-        $builder = new AttributesBuilder([new ProtectedMembersFilter()]);
+        $builder = new AttributesBuilder([new ProtectedVisibilityFilter()]);
 
         $attributes = $builder->build($this->attributes);
 
@@ -48,7 +48,7 @@ class AttributesBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_attributes()
     {
-        $builder = new AttributesBuilder([new PrivateMembersFilter(), new ProtectedMembersFilter()]);
+        $builder = new AttributesBuilder([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
 
         $attributes = $builder->build($this->attributes);
 

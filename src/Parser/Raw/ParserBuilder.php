@@ -9,9 +9,9 @@ namespace PhUml\Parser\Raw;
 
 use PhUml\Parser\Raw\Builders\AttributesBuilder;
 use PhUml\Parser\Raw\Builders\ConstantsBuilder;
-use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
+use PhUml\Parser\Raw\Builders\Filters\VisibilityFilter;
+use PhUml\Parser\Raw\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Raw\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Raw\Builders\MethodsBuilder;
 use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
 use PhUml\Parser\Raw\Builders\NoConstantsBuilder;
@@ -21,7 +21,7 @@ use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 
 class ParserBuilder
 {
-    /** @var MembersFilter[] */
+    /** @var VisibilityFilter[] */
     private $filters;
 
     /** @var MethodsBuilder */
@@ -40,14 +40,14 @@ class ParserBuilder
 
     public function excludePrivateMembers(): ParserBuilder
     {
-        $this->filters[] = new PrivateMembersFilter();
+        $this->filters[] = new PrivateVisibilityFilter();
 
         return $this;
     }
 
     public function excludeProtectedMembers(): ParserBuilder
     {
-        $this->filters[] = new ProtectedMembersFilter();
+        $this->filters[] = new ProtectedVisibilityFilter();
 
         return $this;
     }

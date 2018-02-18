@@ -7,11 +7,11 @@
 
 namespace PhUml\Parser\Raw\Builders\Filters;
 
-class PrivateMembersFilter implements MembersFilter
+class ProtectedVisibilityFilter implements VisibilityFilter
 {
     /** @param \PhpParser\Node\Stmt\ClassMethod|\PhpParser\Node\Stmt\Property $member */
     public function accept($member): bool
     {
-        return !$member->isPrivate();
+        return !$member->isProtected();
     }
 }

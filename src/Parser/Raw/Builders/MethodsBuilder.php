@@ -17,26 +17,12 @@ use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
 /**
- * It builds an array with the meta-information of a method
+ * It builds an array with `Method`s for either a `ClassDefinition` or an `InterfaceDefinition`
  *
- * The generated array has the following structure
+ * It can run one or more `VisibilityFilter`s
  *
- * - name
- * - visibility
- * - parameters
- *    - name
- *    - type
- * - is it abstract?
- * - doc block
- *
- * You can run one or more filters, the current available filters will exclude
- *
- * - protected methods
- * - private methods
- * - both protected and private if both filters are provided
- *
- * @see PrivateMembersFilter
- * @see ProtectedMembersFilter
+ * @see PrivateVisibilityFilter
+ * @see ProtectedVisibilityFilter
  */
 class MethodsBuilder extends MembersBuilder
 {

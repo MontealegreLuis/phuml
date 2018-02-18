@@ -7,14 +7,25 @@
 
 namespace PhUml\Parser\Raw\Builders;
 
-use PhUml\Parser\Raw\Builders\Filters\MembersFilter;
+use PhUml\Parser\Raw\Builders\Filters\VisibilityFilter;
 
+/**
+ * It can run one or more `VisibilityFilter`s.
+ * Filters will exclude:
+ *
+ * - protected members
+ * - private members
+ * - both protected and private members if both filters are provided
+ *
+ * @see PrivateVisibilityFilter
+ * @see ProtectedVisibilityFilter
+ */
 class MembersBuilder
 {
-    /** @var MembersFilter[] */
+    /** @var VisibilityFilter[] */
     protected $filters;
 
-    /** @param MembersFilter */
+    /** @param VisibilityFilter */
     public function __construct(array $filters = [])
     {
         $this->filters = $filters;

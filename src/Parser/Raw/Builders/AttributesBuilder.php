@@ -12,26 +12,16 @@ use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\AttributeDocBlock;
 use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
+use PhUml\Parser\Raw\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Raw\Builders\Filters\ProtectedVisibilityFilter;
 
 /**
- * It builds an array with the meta-information of a class attribute
+ * It builds an array of `Attributes` for a `ClassDefinition`
  *
- * The generated array has the following structure
+ * It can run one or more `VisibilityFilter`s
  *
- * - name
- * - visibility
- * - doc block
- *
- * You can run one or more filters, the current available filters will exclude
- *
- * - protected attributes
- * - private attributes
- * - both protected and private if both filters are provided
- *
- * @see PrivateMembersFilter
- * @see ProtectedMembersFilter
+ * @see PrivateVisibilityFilter
+ * @see ProtectedVisibilityFilter
  */
 class AttributesBuilder extends MembersBuilder
 {

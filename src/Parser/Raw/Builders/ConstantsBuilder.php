@@ -14,6 +14,9 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Variables\TypeDeclaration;
 
+/**
+ * It builds an array of `Constants` for either a `ClassDefinition` or an `InterfaceDefinition`
+ */
 class ConstantsBuilder
 {
     private static $types = [

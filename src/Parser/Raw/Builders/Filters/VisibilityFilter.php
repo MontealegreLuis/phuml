@@ -7,7 +7,7 @@
 
 namespace PhUml\Parser\Raw\Builders\Filters;
 
-interface MembersFilter
+interface VisibilityFilter
 {
     public function accept($member): bool;
 }

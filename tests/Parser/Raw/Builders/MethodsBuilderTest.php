@@ -10,15 +10,15 @@ namespace PhUml\Parser\Raw\Builders;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPUnit\Framework\TestCase;
-use PhUml\Parser\Raw\Builders\Filters\PrivateMembersFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
+use PhUml\Parser\Raw\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Raw\Builders\Filters\ProtectedVisibilityFilter;
 
 class MethodsBuilderTest extends TestCase
 {
     /** @test */
     function it_filters_private_methods()
     {
-        $methodsBuilder = new MethodsBuilder([new PrivateMembersFilter()]);
+        $methodsBuilder = new MethodsBuilder([new PrivateVisibilityFilter()]);
 
         $methods = $methodsBuilder->build($this->methods);
 
@@ -32,7 +32,7 @@ class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_methods()
     {
-        $builder = new MethodsBuilder([new ProtectedMembersFilter()]);
+        $builder = new MethodsBuilder([new ProtectedVisibilityFilter()]);
 
         $methods = $builder->build($this->methods);
 
@@ -47,7 +47,7 @@ class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_methods()
     {
-        $builder = new MethodsBuilder([new PrivateMembersFilter(), new ProtectedMembersFilter()]);
+        $builder = new MethodsBuilder([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
 
         $methods = $builder->build($this->methods);
 
