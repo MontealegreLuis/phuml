@@ -8,27 +8,23 @@
 namespace PhUml\Parser;
 
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\Codebase;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Codebase;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 
 /**
- * It builds a `Codebase` from a `RawDefinitions`
+ * It builds a `Codebase` from `RawDefinitions`
  */
 class CodebaseBuilder
 {
     /** @var Codebase */
     private $codebase;
 
-    /** @var DefinitionMembersBuilder */
-    protected $builder;
-
-    public function __construct(Codebase $codebase = null, DefinitionMembersBuilder $builder = null)
+    public function __construct(Codebase $codebase = null)
     {
         $this->codebase = $codebase ?? new Codebase();
-        $this->builder = $builder ?? new DefinitionMembersBuilder();
     }
 
     public function buildFrom(RawDefinitions $definitions): Codebase
@@ -50,8 +46,8 @@ class CodebaseBuilder
     {
         return new InterfaceDefinition(
             $interface->name(),
-            $this->builder->constants($interface),
-            $this->builder->methods($interface),
+            $interface->constants(),
+            $interface->methods(),
             $this->buildInterfaces($definitions, $interface->parents())
         );
     }
@@ -60,10 +56,10 @@ class CodebaseBuilder
     {
         return new ClassDefinition(
             $class->name(),
-            $this->builder->constants($class),
-            $this->builder->methods($class),
+            $class->constants(),
+            $class->methods(),
             $this->resolveParentClass($definitions, $class->parent()),
-            $this->builder->attributes($class),
+            $class->attributes(),
             $this->buildInterfaces($definitions, $class->interfaces())
         );
     }

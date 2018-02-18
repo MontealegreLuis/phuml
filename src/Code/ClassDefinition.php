@@ -26,6 +26,12 @@ class ClassDefinition extends Definition implements CanBeAbstract
     /** @var InterfaceDefinition[] */
     private $implements;
 
+    /**
+     * @param \PhUml\Code\Attributes\Constant[] $constants
+     * @param Method[] $methods
+     * @param Attribute[] $attributes
+     * @param InterfaceDefinition[] $implements
+     */
     public function __construct(
         string $name,
         array $constants = [],

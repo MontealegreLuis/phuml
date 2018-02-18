@@ -19,8 +19,8 @@ class NumericIdCodebaseBuilder extends CodebaseBuilder
     {
         return new NumericIdInterface(
             $interface->name(),
-            $this->builder->constants($interface),
-            $this->builder->methods($interface),
+            $interface->constants(),
+            $interface->methods(),
             $this->resolveRelatedInterface($definitions, $interface->parent())
         );
     }
@@ -29,10 +29,10 @@ class NumericIdCodebaseBuilder extends CodebaseBuilder
     {
         return new NumericIdClass(
             $class->name(),
-            $this->builder->constants($class),
-            $this->builder->methods($class),
+            $class->constants(),
+            $class->methods(),
             $this->resolveParentClass($definitions, $class->parent()),
-            $this->builder->attributes($class),
+            $class->attributes(),
             $this->buildInterfaces($definitions, $class->interfaces())
         );
     }
