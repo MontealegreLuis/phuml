@@ -34,8 +34,10 @@ class CodebaseBuilderTest extends TestCase
                 new Constant('TYPED_CONSTANT', TypeDeclaration::from('float'))
             ],
             'methods' => [
-                ['doSomething', 'public', [], false, false, null],
-                ['changeThing', 'public', [['$name', null, '/** @param string $name */']], false, false, null],
+                Method::public('doSomething'),
+                Method::public('changeThing', [
+                    A::parameter('$name')->withType('string')->build(),
+                ]),
             ],
             'extends' => ['ParentInterface', 'AnotherParentInterface'],
         ]));
@@ -76,8 +78,10 @@ class CodebaseBuilderTest extends TestCase
                 Attribute::public('$phoneNumbers', TypeDeclaration::from('string[]')),
             ],
             'methods' => [
-                ['getAge', 'public', [], false, false, '/** @return int */'],
-                ['changeThing', 'public', [['$name', null, '/** @param string $name */']], false, false, null],
+                Method::public('getAge', [], TypeDeclaration::from('int')),
+                Method::public('changeThing', [
+                    A::parameter('$name')->withType('string')->build(),
+                ]),
             ],
             'implements' => [
                 'FirstInterface',

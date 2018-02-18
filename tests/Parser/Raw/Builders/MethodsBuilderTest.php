@@ -15,6 +15,47 @@ use PhUml\Parser\Raw\Builders\Filters\ProtectedMembersFilter;
 
 class MethodsBuilderTest extends TestCase
 {
+    /** @test */
+    function it_filters_private_methods()
+    {
+        $methodsBuilder = new MethodsBuilder([new PrivateMembersFilter()]);
+
+        $methods = $methodsBuilder->build($this->methods);
+
+        $this->assertCount(4, $methods);
+        $this->assertTrue($methods[1]->isPublic());
+        $this->assertTrue($methods[2]->isPublic());
+        $this->assertTrue($methods[4]->isProtected());
+        $this->assertTrue($methods[5]->isProtected());
+    }
+
+    /** @test */
+    function it_excludes_protected_methods()
+    {
+        $builder = new MethodsBuilder([new ProtectedMembersFilter()]);
+
+        $methods = $builder->build($this->methods);
+
+        $this->assertCount(5, $methods);
+        $this->assertTrue($methods[0]->isPrivate());
+        $this->assertTrue($methods[1]->isPublic());
+        $this->assertTrue($methods[2]->isPublic());
+        $this->assertTrue($methods[3]->isPrivate());
+        $this->assertTrue($methods[6]->isPrivate());
+    }
+
+    /** @test */
+    function it_excludes_both_protected_and_private_methods()
+    {
+        $builder = new MethodsBuilder([new PrivateMembersFilter(), new ProtectedMembersFilter()]);
+
+        $methods = $builder->build($this->methods);
+
+        $this->assertCount(2, $methods);
+        $this->assertTrue($methods[1]->isPublic());
+        $this->assertTrue($methods[2]->isPublic());
+    }
+
     /** @before */
     function createMethods()
     {
@@ -27,47 +68,6 @@ class MethodsBuilderTest extends TestCase
             new ClassMethod('protectedMethodB', ['type' => Class_::MODIFIER_PROTECTED]),
             new ClassMethod('privateMethodC', ['type' => Class_::MODIFIER_PRIVATE]),
         ];
-    }
-
-    /** @test */
-    function it_filters_private_methods()
-    {
-        $methodsBuilder = new MethodsBuilder([new PrivateMembersFilter()]);
-
-        $rawMethods = $methodsBuilder->build($this->methods);
-
-        $this->assertCount(4, $rawMethods);
-        $this->assertEquals('public', $rawMethods[1][1]);
-        $this->assertEquals('public', $rawMethods[2][1]);
-        $this->assertEquals('protected', $rawMethods[4][1]);
-        $this->assertEquals('protected', $rawMethods[5][1]);
-    }
-
-    /** @test */
-    function it_excludes_protected_methods()
-    {
-        $builder = new MethodsBuilder([new ProtectedMembersFilter()]);
-
-        $rawMethods = $builder->build($this->methods);
-
-        $this->assertCount(5, $rawMethods);
-        $this->assertEquals('private', $rawMethods[0][1]);
-        $this->assertEquals('public', $rawMethods[1][1]);
-        $this->assertEquals('public', $rawMethods[2][1]);
-        $this->assertEquals('private', $rawMethods[3][1]);
-        $this->assertEquals('private', $rawMethods[6][1]);
-    }
-
-    /** @test */
-    function it_excludes_both_protected_and_public_methods()
-    {
-        $builder = new MethodsBuilder([new PrivateMembersFilter(), new ProtectedMembersFilter()]);
-
-        $rawMethods = $builder->build($this->methods);
-
-        $this->assertCount(2, $rawMethods);
-        $this->assertEquals('public', $rawMethods[1][1]);
-        $this->assertEquals('public', $rawMethods[2][1]);
     }
 
     /** @var ClassMethod[] */

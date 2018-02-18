@@ -132,6 +132,7 @@ class RawDefinition
         return $this->definition['attributes'];
     }
 
+    /** @return \PhUml\Code\Methods\Method[] */
     public function methods(): array
     {
         return $this->definition['methods'];

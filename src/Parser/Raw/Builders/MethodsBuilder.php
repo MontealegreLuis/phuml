@@ -9,6 +9,12 @@ namespace PhUml\Parser\Raw\Builders;
 
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhUml\Code\Methods\AbstractMethod;
+use PhUml\Code\Methods\Method;
+use PhUml\Code\Methods\MethodDocBlock;
+use PhUml\Code\Methods\StaticMethod;
+use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 /**
  * It builds an array with the meta-information of a method
@@ -34,7 +40,10 @@ use PhpParser\Node\Stmt\ClassMethod;
  */
 class MethodsBuilder extends MembersBuilder
 {
-    /** @param ClassMethod[] $classMethods */
+    /**
+     * @param ClassMethod[] $classMethods
+     * @return Method[]
+     */
     public function build(array $classMethods): array
     {
         return array_map(function (ClassMethod $method) {
@@ -42,26 +51,33 @@ class MethodsBuilder extends MembersBuilder
         }, $this->runFilters($classMethods));
     }
 
-    private function buildMethod(ClassMethod $method): array
+    private function buildMethod(ClassMethod $method): Method
     {
-        return [
-            $method->name,
-            $this->resolveVisibility($method),
-            $this->buildParameters($method->params, $method->getDocComment()),
-            $method->isAbstract(),
-            $method->isStatic(),
-            $method->getDocComment(),
-        ];
+        $name = $method->name;
+        $modifier = $this->resolveVisibility($method);
+        $comment = $method->getDocComment();
+        $returnType = MethodDocBlock::from($comment)->returnType();
+        $parameters = $method->params;
+        if ($method->isAbstract()) {
+            return AbstractMethod::$modifier($name, $this->buildParameters($parameters, $comment), $returnType);
+        }
+        if ($method->isStatic()) {
+            return StaticMethod::$modifier($name, $this->buildParameters($parameters, $comment), $returnType);
+        }
+        return Method::$modifier($name, $this->buildParameters($parameters, $comment), $returnType);
     }
 
     private function buildParameters(array $parameters, ?string $docBlock): array
     {
         return array_map(function (Param $parameter) use ($docBlock) {
-            return [
-                "\${$parameter->name}",
-                $parameter->type,
-                $docBlock,
-            ];
+            $name = "\${$parameter->name}";
+            $type = $parameter->type;
+            if ($type !== null) {
+                $typeDeclaration = TypeDeclaration::from($type);
+            } else {
+                $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
+            }
+            return Variable::declaredWith($name, $typeDeclaration);
         }, $parameters);
     }
 }
