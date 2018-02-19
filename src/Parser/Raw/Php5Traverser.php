@@ -18,7 +18,6 @@ class Php5Traverser extends PhpTraverser
 {
     public function __construct(RawClassBuilder $rawClassBuilder, RawInterfaceBuilder $rawInterfaceBuilder)
     {
-        $this->definitions = new RawDefinitions();
         $this->codebase = new Codebase();
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor(new ClassVisitor($rawClassBuilder, $this->codebase));

@@ -14,9 +14,6 @@ abstract class PhpTraverser
     /** @var \PhUml\Code\Codebase */
     protected $codebase;
 
-    /** @var RawDefinitions */
-    protected $definitions;
-
     /** @var \PhpParser\NodeTraverser */
     protected $traverser;
 
@@ -24,11 +21,6 @@ abstract class PhpTraverser
     public function traverse(array $nodes): void
     {
         $this->traverser->traverse($nodes);
-    }
-
-    public function definitions(): RawDefinitions
-    {
-        return $this->definitions;
     }
 
     public function codebase(): Codebase
