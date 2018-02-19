@@ -9,12 +9,13 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdInterface;
 
 class InterfaceBuilder extends DefinitionBuilder
 {
-    /** @var InterfaceDefinition */
+    /** @var Name[] */
     protected $parents = [];
 
     /** @var Method[] */
@@ -27,7 +28,7 @@ class InterfaceBuilder extends DefinitionBuilder
         return $this;
     }
 
-    public function extending(InterfaceDefinition ...$parents): InterfaceBuilder
+    public function extending(Name ...$parents): InterfaceBuilder
     {
         $this->parents = $parents;
 

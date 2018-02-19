@@ -8,6 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\Codebase;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
@@ -21,7 +22,7 @@ class InterfaceGraphBuilderTest extends TestCase
         $interface = new InterfaceDefinition('AnInterface');
         $graphElements = new InterfaceGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($interface);
+        $dotElements = $graphElements->extractFrom($interface, new Codebase());
 
         $this->assertEquals([new Node($interface)], $dotElements);
     }
@@ -30,10 +31,12 @@ class InterfaceGraphBuilderTest extends TestCase
     function it_extracts_the_elements_from_an_interface_with_a_parent()
     {
         $parent = new InterfaceDefinition('ParentInterface');
-        $interface = A::interface('AnInterface')->extending($parent)->build();
+        $interface = A::interface('AnInterface')->extending($parent->name())->build();
+        $codebase = new Codebase();
+        $codebase->add($parent);
         $graphElements = new InterfaceGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($interface);
+        $dotElements = $graphElements->extractFrom($interface, $codebase);
 
         $this->assertEquals([
             new Node($interface),

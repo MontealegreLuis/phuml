@@ -29,7 +29,7 @@ class SummaryTest extends TestCase
             ->build();
         $interface = A::interface('SomeAbility')
             ->withAPublicMethod('fly')
-            ->extending($parentInterface)
+            ->extending($parentInterface->name())
             ->build();
 
         $codebase = new Codebase();

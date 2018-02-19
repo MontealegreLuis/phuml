@@ -28,13 +28,13 @@ class InterfaceDefinitionTest extends DefinitionTest
         $parent = new InterfaceDefinition('ParentInterface');
         $anotherParent = new InterfaceDefinition('AnotherParentInterface');
         $interfaceWithParent = A::interface('WithParent')
-            ->extending($parent, $anotherParent)
+            ->extending($parent->name(), $anotherParent->name())
             ->build();
 
         $parents = $interfaceWithParent->parents();
 
         $this->assertCount(2, $parents);
-        $this->assertEquals([$parent, $anotherParent], $parents);
+        $this->assertEquals([$parent->name(), $anotherParent->name()], $parents);
     }
 
     protected function definition(array $constants = [], array $methods = []): Definition

@@ -50,8 +50,8 @@ class CodebaseBuilderTest extends TestCase
             ->withAPublicMethod('doSomething')
             ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
             ->extending(
-                new InterfaceDefinition('ParentInterface'),
-                new InterfaceDefinition('AnotherParentInterface')
+                (new InterfaceDefinition('ParentInterface'))->name(),
+                (new InterfaceDefinition('AnotherParentInterface'))->name()
             )
             ->build(),
             $codebase->get('InterfaceName')

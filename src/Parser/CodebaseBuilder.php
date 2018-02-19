@@ -45,11 +45,12 @@ class CodebaseBuilder
 
     protected function buildInterface(RawDefinitions $definitions, RawDefinition $interface): InterfaceDefinition
     {
+        $this->buildInterfaces($definitions, $interface->parents());
         return new InterfaceDefinition(
             $interface->name(),
             $interface->constants(),
             $interface->methods(),
-            $this->buildInterfaces($definitions, $interface->parents())
+            array_map(function (string $interface) { return Name::from($interface); }, $interface->parents())
         );
     }
 

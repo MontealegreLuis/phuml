@@ -293,7 +293,7 @@ INTERFACE
         $codebase = $this->parser->parse($this->finder);
 
         $parentInterface = new InterfaceDefinition('ParentInterface');
-        $childInterface = A::interface('ChildInterface')->extending($parentInterface)->build();
+        $childInterface = A::interface('ChildInterface')->extending($parentInterface->name())->build();
         $this->assertTrue($codebase->has('ParentInterface'));
         $this->assertEquals($parentInterface, $codebase->get('ParentInterface'));
         $this->assertTrue($codebase->has('ChildInterface'));
@@ -408,7 +408,7 @@ CLASS;
         $pageable = A::interface('Pageable')->withAPublicMethod('current')->build();
         $students = A::interface('Students')
             ->withAPublicMethod('named', A::parameter('$name')->withType('string')->build())
-            ->extending($pageable)
+            ->extending($pageable->name())
             ->build();
         $student = A::class('Student')
             ->withAPrivateAttribute('$grades', 'string[]')

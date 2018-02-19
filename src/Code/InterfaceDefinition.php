@@ -12,14 +12,13 @@ namespace PhUml\Code;
  */
 class InterfaceDefinition extends Definition
 {
-    /** @var InterfaceDefinition[] */
+    /** @var Name[] */
     protected $parents;
 
     /**
-     * @param string $name
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param \PhUml\Code\Methods\Method[] $methods
-     * @param InterfaceDefinition[] $parents
+     * @param Name[] $parents
      */
     public function __construct(
         string $name,
@@ -34,7 +33,7 @@ class InterfaceDefinition extends Definition
     /**
      * It is used by the `InterfaceGraphBuilder` to create the edge to represent inheritance
      *
-     * @return InterfaceDefinition[]
+     * @return Name[]
      * @see \PhUml\Graphviz\Builders\InterfaceGraphBuilder::extractFrom() for more details
      */
     public function parents(): array

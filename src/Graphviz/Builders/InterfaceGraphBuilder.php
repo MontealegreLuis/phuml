@@ -7,6 +7,7 @@
 
 namespace PhUml\Graphviz\Builders;
 
+use PhUml\Code\Codebase;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
@@ -25,16 +26,18 @@ class InterfaceGraphBuilder
      * 1. The node representing the interface itself
      * 2. The parent interface, if any
      *
+     * @param InterfaceDefinition $interface
+     * @param Codebase $codebase
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
-    public function extractFrom(InterfaceDefinition $interface): array
+    public function extractFrom(InterfaceDefinition $interface, Codebase $codebase): array
     {
         $dotElements = [];
 
         $dotElements[] = new Node($interface);
 
         foreach ($interface->parents() as $parent) {
-            $dotElements[] = Edge::inheritance($parent, $interface);
+            $dotElements[] = Edge::inheritance($codebase->get((string)$parent), $interface);
         }
 
         return $dotElements;

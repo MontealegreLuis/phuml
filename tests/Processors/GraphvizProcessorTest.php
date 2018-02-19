@@ -37,7 +37,9 @@ class GraphvizProcessorTest extends TestCase
         $processor = new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder()));
 
         $parentInterface = new NumericIdInterface('ParentInterface');
-        $interface = A::interface('ImplementedInterface')->extending($parentInterface)->buildWithNumericId();
+        $interface = A::interface('ImplementedInterface')
+            ->extending($parentInterface->name())
+            ->buildWithNumericId();
         $parentClass = new NumericIdClass('ParentClass');
         $reference = new NumericIdClass('ReferencedClass');
         $class = A::class('MyClass')
