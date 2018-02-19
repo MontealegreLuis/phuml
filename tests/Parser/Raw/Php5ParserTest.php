@@ -8,11 +8,14 @@
 namespace PhUml\Parser\Raw;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\NonRecursiveCodeFinder;
 
 class Php5ParserTest extends TestCase
 {
+    use WithVisibilityAssertions;
+
     /** @test */
     function it_excludes_methods()
     {
@@ -65,19 +68,19 @@ class Php5ParserTest extends TestCase
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
         $this->assertCount(3, $definitions['plBase']->methods());
-        $this->assertTrue($definitions['plBase']->methods()[0]->isPublic());
-        $this->assertTrue($definitions['plBase']->methods()[1]->isPublic());
-        $this->assertTrue($definitions['plBase']->methods()[2]->isPublic());
+        $this->assertPublic($definitions['plBase']->methods()[0]);
+        $this->assertPublic($definitions['plBase']->methods()[1]);
+        $this->assertPublic($definitions['plBase']->methods()[2]);
         $this->assertCount(1, $definitions['plPhuml']->attributes());
-        $this->assertTrue($definitions['plPhuml']->attributes()[0]->isProtected());
+        $this->assertProtected($definitions['plPhuml']->attributes()[0]);
         $this->assertCount(7, $definitions['plPhuml']->methods());
-        $this->assertTrue($definitions['plPhuml']->methods()[0]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[1]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[2]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[3]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[5]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[6]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[7]->isPublic());
+        $this->assertPublic($definitions['plPhuml']->methods()[0]);
+        $this->assertPublic($definitions['plPhuml']->methods()[1]);
+        $this->assertPublic($definitions['plPhuml']->methods()[2]);
+        $this->assertPublic($definitions['plPhuml']->methods()[3]);
+        $this->assertPublic($definitions['plPhuml']->methods()[5]);
+        $this->assertPublic($definitions['plPhuml']->methods()[6]);
+        $this->assertPublic($definitions['plPhuml']->methods()[7]);
     }
 
     /** @test */
@@ -89,24 +92,24 @@ class Php5ParserTest extends TestCase
 
         $this->assertCount(2, $definitions);
         $this->assertCount(2, $definitions['plBase']->attributes());
-        $this->assertTrue($definitions['plBase']->attributes()[0]->isPrivate());
-        $this->assertTrue($definitions['plBase']->attributes()[1]->isPrivate());
+        $this->assertPrivate($definitions['plBase']->attributes()[0]);
+        $this->assertPrivate($definitions['plBase']->attributes()[1]);
         $this->assertCount(3, $definitions['plBase']->methods());
-        $this->assertTrue($definitions['plBase']->methods()[0]->isPublic());
-        $this->assertTrue($definitions['plBase']->methods()[1]->isPublic());
-        $this->assertTrue($definitions['plBase']->methods()[2]->isPublic());
+        $this->assertPublic($definitions['plBase']->methods()[0]);
+        $this->assertPublic($definitions['plBase']->methods()[1]);
+        $this->assertPublic($definitions['plBase']->methods()[2]);
         $this->assertCount(2, $definitions['plPhuml']->attributes());
-        $this->assertTrue($definitions['plPhuml']->attributes()[1]->isPrivate());
-        $this->assertTrue($definitions['plPhuml']->attributes()[2]->isPrivate());
+        $this->assertPrivate($definitions['plPhuml']->attributes()[1]);
+        $this->assertPrivate($definitions['plPhuml']->attributes()[2]);
         $this->assertCount(8, $definitions['plPhuml']->methods());
-        $this->assertTrue($definitions['plPhuml']->methods()[0]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[1]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[2]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[3]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[4]->isPrivate());
-        $this->assertTrue($definitions['plPhuml']->methods()[5]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[6]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[7]->isPublic());
+        $this->assertPublic($definitions['plPhuml']->methods()[0]);
+        $this->assertPublic($definitions['plPhuml']->methods()[1]);
+        $this->assertPublic($definitions['plPhuml']->methods()[2]);
+        $this->assertPublic($definitions['plPhuml']->methods()[3]);
+        $this->assertPrivate($definitions['plPhuml']->methods()[4]);
+        $this->assertPublic($definitions['plPhuml']->methods()[5]);
+        $this->assertPublic($definitions['plPhuml']->methods()[6]);
+        $this->assertPublic($definitions['plPhuml']->methods()[7]);
     }
 
     /** @test */
@@ -119,18 +122,18 @@ class Php5ParserTest extends TestCase
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
         $this->assertCount(3, $definitions['plBase']->methods());
-        $this->assertTrue($definitions['plBase']->methods()[0]->isPublic());
-        $this->assertTrue($definitions['plBase']->methods()[1]->isPublic());
-        $this->assertTrue($definitions['plBase']->methods()[2]->isPublic());
+        $this->assertPublic($definitions['plBase']->methods()[0]);
+        $this->assertPublic($definitions['plBase']->methods()[1]);
+        $this->assertPublic($definitions['plBase']->methods()[2]);
         $this->assertEmpty($definitions['plPhuml']->attributes());
         $this->assertCount(7, $definitions['plPhuml']->methods());
-        $this->assertTrue($definitions['plPhuml']->methods()[0]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[1]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[2]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[3]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[5]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[6]->isPublic());
-        $this->assertTrue($definitions['plPhuml']->methods()[7]->isPublic());
+        $this->assertPublic($definitions['plPhuml']->methods()[0]);
+        $this->assertPublic($definitions['plPhuml']->methods()[1]);
+        $this->assertPublic($definitions['plPhuml']->methods()[2]);
+        $this->assertPublic($definitions['plPhuml']->methods()[3]);
+        $this->assertPublic($definitions['plPhuml']->methods()[5]);
+        $this->assertPublic($definitions['plPhuml']->methods()[6]);
+        $this->assertPublic($definitions['plPhuml']->methods()[7]);
     }
 
     /** @before */

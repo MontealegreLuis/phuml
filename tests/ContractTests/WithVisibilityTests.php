@@ -7,18 +7,19 @@
 
 namespace PhUml\ContractTests;
 
-use PhUml\Code\HasVisibility;
+use PhUml\Code\Modifiers\HasVisibility;
+use PhUml\Fakes\WithVisibilityAssertions;
 
 trait WithVisibilityTests
 {
+    use WithVisibilityAssertions;
+
     /** @test */
     function it_can_be_public()
     {
         $publicAttribute = $this->publicMember();
 
-        $isPublic = $publicAttribute->isPublic();
-
-        $this->assertTrue($isPublic);
+        $this->assertPublic($publicAttribute);
     }
 
     /** @test */
@@ -26,9 +27,7 @@ trait WithVisibilityTests
     {
         $protectedAttribute = $this->protectedMember();
 
-        $isProtected = $protectedAttribute->isProtected();
-
-        $this->assertTrue($isProtected);
+        $this->assertProtected($protectedAttribute);
     }
 
     /** @test */
@@ -36,9 +35,7 @@ trait WithVisibilityTests
     {
         $privateAttribute = $this->privateMember();
 
-        $isPrivate = $privateAttribute->isPrivate();
-
-        $this->assertTrue($isPrivate);
+        $this->assertPrivate($privateAttribute);
     }
 
     abstract protected function publicMember(): HasVisibility;
