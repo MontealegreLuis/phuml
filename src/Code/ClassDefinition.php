@@ -21,16 +21,16 @@ class ClassDefinition extends Definition implements CanBeAbstract
     private $attributes;
 
     /** @var ClassDefinition */
-    protected $extends;
+    protected $parent;
 
     /** @var InterfaceDefinition[] */
-    private $implements;
+    private $interfaces;
 
     /**
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Method[] $methods
      * @param Attribute[] $attributes
-     * @param InterfaceDefinition[] $implements
+     * @param InterfaceDefinition[] $interfaces
      */
     public function __construct(
         string $name,
@@ -38,12 +38,12 @@ class ClassDefinition extends Definition implements CanBeAbstract
         array $methods = [],
         ClassDefinition $parent = null,
         array $attributes = [],
-        array $implements = []
+        array $interfaces = []
     ) {
         parent::__construct($name, $constants, $methods);
-        $this->extends = $parent;
+        $this->parent = $parent;
         $this->attributes = $attributes;
-        $this->implements = $implements;
+        $this->interfaces = $interfaces;
     }
 
     /**
@@ -97,9 +97,9 @@ class ClassDefinition extends Definition implements CanBeAbstract
      * @return InterfaceDefinition[]
      * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
      */
-    public function implements(): array
+    public function interfaces(): array
     {
-        return $this->implements;
+        return $this->interfaces;
     }
 
     /**
@@ -108,9 +108,9 @@ class ClassDefinition extends Definition implements CanBeAbstract
      * @return InterfaceDefinition[]
      * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
      */
-    public function extends(): Definition
+    public function parent(): Definition
     {
-        return $this->extends;
+        return $this->parent;
     }
 
     /**
@@ -122,7 +122,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
      */
     public function hasParent(): bool
     {
-        return $this->extends !== null;
+        return $this->parent !== null;
     }
 
     /**

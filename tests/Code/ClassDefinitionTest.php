@@ -28,7 +28,7 @@ class ClassDefinitionTest extends DefinitionTest
     {
         $noInterfacesClass = new ClassDefinition('NoInterfacesClass');
 
-        $interfaces = $noInterfacesClass->implements();
+        $interfaces = $noInterfacesClass->interfaces();
 
         $this->assertCount(0, $interfaces);
     }
@@ -96,7 +96,7 @@ class ClassDefinitionTest extends DefinitionTest
             ->build()
         ;
 
-        $classInterfaces = $classWithInterfaces->implements();
+        $classInterfaces = $classWithInterfaces->interfaces();
 
         $this->assertEquals($interfaces, $classInterfaces);
     }
@@ -117,7 +117,7 @@ class ClassDefinitionTest extends DefinitionTest
         $parent = new ClassDefinition('ParentClass');
         $interfaceWithParent = A::class('WithParent')->extending($parent)->build();
 
-        $parentClass = $interfaceWithParent->extends();
+        $parentClass = $interfaceWithParent->parent();
 
         $this->assertEquals($parent, $parentClass);
     }

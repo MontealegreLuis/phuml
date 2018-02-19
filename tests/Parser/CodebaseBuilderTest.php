@@ -150,7 +150,7 @@ class CodebaseBuilderTest extends TestCase
         $this->assertTrue($codebase->has('ExternalInterface'));
         $this->assertInstanceOf(InterfaceDefinition::class, $codebase->get('ExternalInterface'));
         $this->assertEquals(
-            $codebase->get('AClass')->extends()->identifier(),
+            $codebase->get('AClass')->parent()->identifier(),
             $codebase->get('ExternalClass')->identifier()
         );
     }
