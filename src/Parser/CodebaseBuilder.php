@@ -34,9 +34,9 @@ class CodebaseBuilder
                 continue;
             }
             if ($definition->isClass()) {
-                $this->codebase->addClass($this->buildClass($definitions, $definition));
+                $this->codebase->add($this->buildClass($definitions, $definition));
             } elseif ($definition->isInterface()) {
-                $this->codebase->addInterface($this->buildInterface($definitions, $definition));
+                $this->codebase->add($this->buildInterface($definitions, $definition));
             }
         }
         return $this->codebase;
@@ -78,7 +78,7 @@ class CodebaseBuilder
     protected function resolveRelatedInterface(RawDefinitions $definitions, string $interface): Definition
     {
         if (!$this->codebase->has($interface)) {
-            $this->codebase->addInterface($this->buildInterface(
+            $this->codebase->add($this->buildInterface(
                 $definitions,
                 $definitions->get($interface)
             ));
@@ -92,7 +92,7 @@ class CodebaseBuilder
             return null;
         }
         if (!$this->codebase->has($parent)) {
-            $this->codebase->addClass($this->buildClass($definitions, $definitions->get($parent)));
+            $this->codebase->add($this->buildClass($definitions, $definitions->get($parent)));
         }
         return $this->codebase->get($parent);
     }

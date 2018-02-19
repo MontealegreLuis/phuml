@@ -17,7 +17,7 @@ class CodebaseTest extends TestCase
         $codebase = new Codebase();
         $class = new ClassDefinition('MyClass');
 
-        $codebase->addClass($class);
+        $codebase->add($class);
 
         $this->assertTrue($codebase->has('MyClass'));
         $this->assertEquals($class, $codebase->get('MyClass'));
@@ -29,7 +29,7 @@ class CodebaseTest extends TestCase
         $codebase = new Codebase();
         $interface = new InterfaceDefinition('MyInterface');
 
-        $codebase->addInterface($interface);
+        $codebase->add($interface);
 
         $this->assertTrue($codebase->has('MyInterface'));
         $this->assertEquals($interface, $codebase->get('MyInterface'));
@@ -45,11 +45,11 @@ class CodebaseTest extends TestCase
         $interfaceA = new InterfaceDefinition('InterfaceA');
         $interfaceB = new InterfaceDefinition('InterfaceB');
 
-        $codebase->addClass($classC);
-        $codebase->addInterface($interfaceB);
-        $codebase->addClass($classA);
-        $codebase->addInterface($interfaceA);
-        $codebase->addClass($classB);
+        $codebase->add($classC);
+        $codebase->add($interfaceB);
+        $codebase->add($classA);
+        $codebase->add($interfaceA);
+        $codebase->add($classB);
 
         $definitions = $codebase->definitions();
 

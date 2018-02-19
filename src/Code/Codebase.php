@@ -23,14 +23,13 @@ class Codebase
         $this->interfaces = [];
     }
 
-    public function addClass(ClassDefinition $class): void
+    public function add(Definition $definition): void
     {
-        $this->classes[$class->name()] = $class;
-    }
-
-    public function addInterface(InterfaceDefinition $interface): void
-    {
-        $this->interfaces[$interface->name()] = $interface;
+        if ($definition instanceof ClassDefinition) {
+            $this->classes[$definition->name()] = $definition;
+        } else {
+            $this->interfaces[$definition->name()] = $definition;
+        }
     }
 
     public function has(string $name): bool

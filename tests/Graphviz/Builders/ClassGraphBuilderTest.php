@@ -74,7 +74,7 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
-        $codebase->addClass($reference);
+        $codebase->add($reference);
 
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
@@ -95,8 +95,8 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
-        $codebase->addClass($firstReference);
-        $codebase->addClass($secondReference);
+        $codebase->add($firstReference);
+        $codebase->add($secondReference);
 
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
@@ -131,10 +131,10 @@ class ClassGraphBuilderTest extends TestCase
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
-        $codebase->addClass($firstReference);
-        $codebase->addClass($secondReference);
-        $codebase->addClass($thirdReference);
-        $codebase->addClass($fourthReference);
+        $codebase->add($firstReference);
+        $codebase->add($secondReference);
+        $codebase->add($thirdReference);
+        $codebase->add($fourthReference);
 
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 
@@ -163,7 +163,7 @@ class ClassGraphBuilderTest extends TestCase
             ->build()
         ;
         $codebase = new Codebase();
-        $codebase->addClass($reference);
+        $codebase->add($reference);
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
 
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);

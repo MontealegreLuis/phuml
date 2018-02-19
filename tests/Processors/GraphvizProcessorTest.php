@@ -51,11 +51,11 @@ class GraphvizProcessorTest extends TestCase
         ;
 
         $codebase = new Codebase();
-        $codebase->addClass($parentClass);
-        $codebase->addClass($reference);
-        $codebase->addInterface($parentInterface);
-        $codebase->addInterface($interface);
-        $codebase->addClass($class);
+        $codebase->add($parentClass);
+        $codebase->add($reference);
+        $codebase->add($parentInterface);
+        $codebase->add($interface);
+        $codebase->add($class);
 
         $dotLanguage = $processor->process($codebase);
 

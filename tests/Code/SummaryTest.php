@@ -33,10 +33,10 @@ class SummaryTest extends TestCase
             ->build();
 
         $codebase = new Codebase();
-        $codebase->addClass($parentClass);
-        $codebase->addInterface($parentInterface);
-        $codebase->addInterface($interface);
-        $codebase->addClass(A::class('ChildClass')
+        $codebase->add($parentClass);
+        $codebase->add($parentInterface);
+        $codebase->add($interface);
+        $codebase->add(A::class('ChildClass')
             ->withAPrivateAttribute('$name', 'string')
             ->withAPrivateAttribute('$salary')
             ->withAProtectedAttribute('$age', 'int')
