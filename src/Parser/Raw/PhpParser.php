@@ -8,6 +8,7 @@
 namespace PhUml\Parser\Raw;
 
 use PhpParser\Parser;
+use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
 
 abstract class PhpParser
@@ -24,11 +25,11 @@ abstract class PhpParser
         $this->traverser = $traverser;
     }
 
-    public function parse(CodeFinder $finder): RawDefinitions
+    public function parse(CodeFinder $finder): Codebase
     {
         foreach ($finder->files() as $code) {
             $this->traverser->traverse($this->parser->parse($code));
         }
-        return $this->traverser->definitions();
+        return $this->traverser->codebase();
     }
 }

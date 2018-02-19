@@ -8,57 +8,63 @@
 namespace PhUml\Parser\Raw;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\Codebase;
+use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name;
+use PhUml\TestBuilders\A;
 
 class ExternalDefinitionsResolverTest extends TestCase
 {
     /** @test */
     function it_does_not_change_the_definitions_if_no_relations_are_declared()
     {
-        $definitions = new RawDefinitions();
+        $codebase = new Codebase();
         $resolver = new ExternalDefinitionsResolver();
 
-        $definitions->addExternalClass('AClass');
-        $definitions->addExternalClass('AnotherClass');
-        $definitions->addExternalInterface('AnInterface');
-        $definitions->addExternalInterface('AnotherInterface');
+        $codebase->add(new ClassDefinition('AClass'));
+        $codebase->add(new ClassDefinition('AnotherClass'));
+        $codebase->add(new InterfaceDefinition('AnInterface'));
+        $codebase->add(new InterfaceDefinition('AnotherInterface'));
 
-        $resolver->resolve($definitions);
+        $resolver->resolve($codebase);
 
-        $this->assertCount(4, $definitions->all());
+        $this->assertCount(4, $codebase->definitions());
     }
 
     /** @test */
     function it_adds_external_interfaces()
     {
-        $definitions = new RawDefinitions();
+        $codebase = new Codebase();
         $resolver = new ExternalDefinitionsResolver();
 
-        $definitions->add(RawDefinition::class(['class' => 'AClass', 'implements' => [
-            'AnExternalInterface', 'AnExistingInterface',
-        ]]));
-        $definitions->add(RawDefinition::interface(['interface' => 'AnInterface', 'extends' => ['AnotherExternalInterface']]));
-        $definitions->add(RawDefinition::interface(['interface' => 'AnExistingInterface']));
+        $codebase->add(A::class('AClass')
+            ->implementing(Name::from('AnExternalInterface'), Name::from('AnExistingInterface'))
+            ->build());
+        $codebase->add(A::interface('AnInterface')
+            ->extending(Name::from('AnotherExternalInterface'))->build());
+        $codebase->add(A::interface('AnExistingInterface')->build());
 
-        $resolver->resolve($definitions);
+        $resolver->resolve($codebase);
 
-        $this->assertCount(5, $definitions->all());
-        $this->assertArrayHasKey('AnExternalInterface', $definitions->all());
-        $this->assertArrayHasKey('AnotherExternalInterface', $definitions->all());
+        $this->assertCount(5, $codebase->definitions());
+        $this->assertArrayHasKey('AnExternalInterface', $codebase->definitions());
+        $this->assertArrayHasKey('AnotherExternalInterface', $codebase->definitions());
     }
 
     /** @test */
     function it_adds_external_classes()
     {
-        $definitions = new RawDefinitions();
+        $codebase = new Codebase();
         $resolver = new ExternalDefinitionsResolver();
 
-        $definitions->add(RawDefinition::class(['class' => 'AClass', 'extends' => 'AnExternalClass', 'implements' => []]));
-        $definitions->add(RawDefinition::class(['class' => 'AnotherClass', 'extends' => 'AnotherExternalClass', 'implements' => []]));
+        $codebase->add(A::class('AClass')->extending(Name::from('AnExternalClass'))->build());
+        $codebase->add(A::class('AnotherClass')->extending(Name::from('AnotherExternalClass'))->build());
 
-        $resolver->resolve($definitions);
+        $resolver->resolve($codebase);
 
-        $this->assertCount(4, $definitions->all());
-        $this->assertArrayHasKey('AnExternalClass', $definitions->all());
-        $this->assertArrayHasKey('AnotherExternalClass', $definitions->all());
+        $this->assertCount(4, $codebase->definitions());
+        $this->assertArrayHasKey('AnExternalClass', $codebase->definitions());
+        $this->assertArrayHasKey('AnotherExternalClass', $codebase->definitions());
     }
 }

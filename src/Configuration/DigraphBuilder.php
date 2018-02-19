@@ -62,7 +62,7 @@ class DigraphBuilder
 
     protected function codeParser(): CodeParser
     {
-        return new CodeParser(new CodebaseBuilder(), $this->tokenParser());
+        return new CodeParser($this->tokenParser());
     }
 
     protected function tokenParser(): PhpParser

@@ -31,7 +31,7 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludeMethods()->excludeAttributes()->build();
         $this->generator = new ClassDiagramGenerator(
-            new CodeParser(new CodebaseBuilder(), $parser),
+            new CodeParser($parser),
             new GraphvizProcessor(
                 new ClassGraphBuilder(),
                 new InterfaceGraphBuilder(),

@@ -9,14 +9,16 @@ namespace PhUml\Generators;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
+use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
 use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdCodebaseBuilder;
+use PhUml\Fakes\NumericIdClassBuilder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\Raw\Php5Parser;
 use PhUml\Processors\GraphvizProcessor;
 
 class GenerateDotFileTest extends TestCase
@@ -59,7 +61,6 @@ class GenerateDotFileTest extends TestCase
 
         $this->resetIds();
         $base = new NumericIdClass('plBase');
-        $structureGenerator = new NumericIdClass('plStructureGenerator');
         $tokenParser = new NumericIdClass('plStructureTokenparserGenerator');
         $attribute = new NumericIdClass('plPhpAttribute');
         $class = new NumericIdClass('plPhpClass');
@@ -67,16 +68,17 @@ class GenerateDotFileTest extends TestCase
         $parameter = new NumericIdClass('plPhpFunctionParameter');
         $interface = new NumericIdClass('plPhpInterface');
         $uml = new NumericIdClass('plPhuml');
-        $externalCommand = new NumericIdClass('plExternalCommandProcessor');
         $dotProcessor = new NumericIdClass('plDotProcessor');
-        $processor = new NumericIdClass('plProcessor');
         $graphvizProcessor = new NumericIdClass('plGraphvizProcessor');
-        $options = new NumericIdClass('plProcessorOptions');
         $graphvizOptions = new NumericIdClass('plGraphvizProcessorOptions');
-        $style = new NumericIdClass('plGraphvizProcessorStyle');
         $defaultStyle = new NumericIdClass('plGraphvizProcessorDefaultStyle');
         $neatoProcessor = new NumericIdClass('plNeatoProcessor');
+        $options = new NumericIdClass('plProcessorOptions');
         $statisticsProcessor = new NumericIdClass('plStatisticsProcessor');
+        $structureGenerator = new NumericIdClass('plStructureGenerator');
+        $externalCommand = new NumericIdClass('plExternalCommandProcessor');
+        $processor = new NumericIdClass('plProcessor');
+        $style = new NumericIdClass('plGraphvizProcessorStyle');
         $digraphInDotFormat = file_get_contents($file);
         $this->assertNode($base, $digraphInDotFormat);
         $this->assertNode($structureGenerator, $digraphInDotFormat);
@@ -110,7 +112,10 @@ class GenerateDotFileTest extends TestCase
     function createGenerator()
     {
         $this->generator = new DotFileGenerator(
-            new CodeParser(new NumericIdCodebaseBuilder()),
+            new CodeParser(
+                new Php5Parser(new NumericIdClassBuilder()),
+                new ExternalNumericIdDefinitionsResolver()
+            ),
             new GraphvizProcessor()
         );
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());

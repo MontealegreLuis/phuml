@@ -10,30 +10,31 @@ namespace PhUml\Parser\Raw\Visitors;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\NodeVisitorAbstract;
+use PhUml\Code\Codebase;
 use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\RawDefinitions;
 
 /**
- * It extracts the `RawDefinition` of a interface and adds it to the collection of `RawDefinitions`
+ * It extracts an `InterfaceDefinition` and adds it to the `Codebase`
  */
 class InterfaceVisitor extends NodeVisitorAbstract
 {
-    /** @var RawDefinitions */
-    private $definitions;
+    /** @var Codebase */
+    private $codebase;
 
     /** @var RawInterfaceBuilder */
     private $builder;
 
-    public function __construct(RawDefinitions $definitions, RawInterfaceBuilder $builder = null)
+    public function __construct(RawInterfaceBuilder $builder, Codebase $codebase)
     {
-        $this->definitions = $definitions;
-        $this->builder = $builder ?? new RawInterfaceBuilder();
+        $this->builder = $builder;
+        $this->codebase = $codebase;
     }
 
     public function leaveNode(Node $node)
     {
         if ($node instanceof Interface_) {
-            $this->definitions->add($this->builder->build($node));
+            $this->codebase->add($this->builder->build($node));
         }
     }
 }

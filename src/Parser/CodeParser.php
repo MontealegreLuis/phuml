@@ -17,27 +17,20 @@ use PhUml\Parser\Raw\PhpParser;
  *
  * A `Codebase` is a collection of `Definition`s (classes and interfaces)
  *
- * It will call the `ExternalDefinitionsResolver` to add generic `RawDefinition`s for classes and
+ * It will call the `ExternalDefinitionsResolver` to add generic `Definition`s for classes and
  * interfaces that do not belong directly to the current codebase.
  * These external definitions are either built-in or from third party libraries
  */
 class CodeParser
 {
-    /** @var CodebaseBuilder */
-    private $builder;
-
     /** @var PhpParser */
     private $parser;
 
     /** @var ExternalDefinitionsResolver */
     private $resolver;
 
-    public function __construct(
-        CodebaseBuilder $builder = null,
-        PhpParser $parser = null,
-        ExternalDefinitionsResolver $resolver = null
-    ) {
-        $this->builder = $builder ?? new CodebaseBuilder();
+    public function __construct(PhpParser $parser = null, ExternalDefinitionsResolver $resolver = null)
+    {
         $this->parser = $parser ?? new Php5Parser();
         $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
     }
@@ -51,9 +44,9 @@ class CodeParser
      */
     public function parse(CodeFinder $finder): Codebase
     {
-        $definitions = $this->parser->parse($finder);
-        $this->resolver->resolve($definitions);
+        $codebase = $this->parser->parse($finder);
+        $this->resolver->resolve($codebase);
 
-        return $this->builder->buildFrom($definitions);
+        return $codebase;
     }
 }

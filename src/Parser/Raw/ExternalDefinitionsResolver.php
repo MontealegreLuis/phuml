@@ -7,6 +7,10 @@
 
 namespace PhUml\Parser\Raw;
 
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\Codebase;
+use PhUml\Code\InterfaceDefinition;
+
 /**
  * It checks the parent of a definition and the interfaces it implements looking for external
  * definitions
@@ -16,46 +20,59 @@ namespace PhUml\Parser\Raw;
  */
 class ExternalDefinitionsResolver
 {
-    public function resolve(RawDefinitions $definitions): void
+    public function resolve(Codebase $codebase): void
     {
-        foreach ($definitions->all() as $definition) {
-            if ($definition->isClass()) {
-                $this->resolveForClass($definitions, $definition);
-            } else {
-                $this->resolveForInterface($definitions, $definition);
+        foreach ($codebase->definitions() as $definition) {
+            if ($definition instanceof ClassDefinition) {
+                $this->resolveForClass($definition, $codebase);
+            } elseif ($definition instanceof InterfaceDefinition) {
+                $this->resolveForInterface($definition, $codebase);
             }
         }
     }
 
-    private function resolveForClass(RawDefinitions $definitions, RawDefinition $definition): void
+    private function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
-        $this->resolveExternalInterfaces($definition->interfaces(), $definitions);
-        $this->resolveParentClass($definitions, $definition);
+        $this->resolveExternalInterfaces($definition->interfaces(), $codebase);
+        $this->resolveExternalParentClass($definition, $codebase);
     }
 
-    private function resolveForInterface(RawDefinitions $definitions, RawDefinition $definition): void
+    private function resolveForInterface(InterfaceDefinition $definition, Codebase $codebase): void
     {
-        $this->resolveExternalInterfaces($definition->parents(), $definitions);
+        $this->resolveExternalInterfaces($definition->parents(), $codebase);
     }
 
-    /** @param string[] $interfaces */
-    private function resolveExternalInterfaces(array $interfaces, RawDefinitions $definitions): void
+    /**
+     * @param string[] $interfaces
+     * @param Codebase $codebase
+     */
+    private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void
     {
         foreach ($interfaces as $interface) {
-            if (!$definitions->has($interface)) {
-                $definitions->addExternalInterface($interface);
+            if (!$codebase->has($interface)) {
+                $codebase->add($this->externalInterface($interface));
             }
         }
     }
 
-    private function resolveParentClass(RawDefinitions $definitions, RawDefinition $definition): void
+    private function resolveExternalParentClass(ClassDefinition $definition, Codebase $codebase): void
     {
         if (!$definition->hasParent()) {
             return;
         }
         $parent = $definition->parent();
-        if (!$definitions->has($parent)) {
-            $definitions->addExternalClass($parent);
+        if (!$codebase->has($parent)) {
+            $codebase->add($this->externalClass($parent));
         }
+    }
+
+    protected function externalInterface(string $name): InterfaceDefinition
+    {
+        return new InterfaceDefinition($name);
+    }
+
+    protected function externalClass(string $name): ClassDefinition
+    {
+        return new ClassDefinition($name);
     }
 }

@@ -10,30 +10,30 @@ namespace PhUml\Parser\Raw\Visitors;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeVisitorAbstract;
+use PhUml\Code\Codebase;
 use PhUml\Parser\Raw\Builders\RawClassBuilder;
-use PhUml\Parser\Raw\RawDefinitions;
 
 /**
- * It extracts the `RawDefinition` of a class and adds it to the collection of `RawDefinitions`
+ * It extracts a `ClassDefinition` and adds it to the `Codebase`
  */
 class ClassVisitor extends NodeVisitorAbstract
 {
-    /** @var RawDefinitions */
-    private $definitions;
-
     /** @var RawClassBuilder */
     private $builder;
 
-    public function __construct(RawDefinitions $definitions, RawClassBuilder $builder)
+    /** @var Codebase */
+    private $codebase;
+
+    public function __construct(RawClassBuilder $builder, Codebase $codebase)
     {
-        $this->definitions = $definitions;
         $this->builder = $builder;
+        $this->codebase = $codebase;
     }
 
     public function leaveNode(Node $node)
     {
         if ($node instanceof Class_) {
-            $this->definitions->add($this->builder->build($node));
+            $this->codebase->add($this->builder->build($node));
         }
     }
 }

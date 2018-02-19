@@ -31,7 +31,7 @@ trait WithDotLanguageAssertions
         $this->assertRegExp(
             "/\"{$parent->identifier()}\" -> \"{$definition->identifier()}\" \\[dir=back arrowtail=empty style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
-            "{$definition->name()} does not inherits {$parent->name()}"
+            "{$definition->name()} identified by {$definition->identifier()} does not inherits {$parent->name()} identified by {$parent->identifier()}"
         );
     }
 

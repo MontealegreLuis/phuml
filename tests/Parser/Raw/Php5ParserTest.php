@@ -21,7 +21,7 @@ class Php5ParserTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludeMethods()->build();
 
-        $definitions = $parser->parse($this->finder)->all();
+        $definitions = $parser->parse($this->finder)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->methods());
@@ -35,7 +35,7 @@ class Php5ParserTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludeAttributes()->build();
 
-        $definitions = $parser->parse($this->finder)->all();
+        $definitions = $parser->parse($this->finder)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
@@ -49,7 +49,7 @@ class Php5ParserTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludeAttributes()->excludeMethods()->build();
 
-        $definitions = $parser->parse($this->finder)->all();
+        $definitions = $parser->parse($this->finder)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
@@ -63,7 +63,7 @@ class Php5ParserTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludePrivateMembers()->build();
 
-        $definitions = $parser->parse($this->finder)->all();
+        $definitions = $parser->parse($this->finder)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
@@ -88,7 +88,7 @@ class Php5ParserTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludeProtectedMembers()->build();
 
-        $definitions = $parser->parse($this->finder)->all();
+        $definitions = $parser->parse($this->finder)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertCount(2, $definitions['plBase']->attributes());
@@ -117,7 +117,7 @@ class Php5ParserTest extends TestCase
     {
         $parser = (new ParserBuilder())->excludeProtectedMembers()->excludePrivateMembers()->build();
 
-        $definitions = $parser->parse($this->finder)->all();
+        $definitions = $parser->parse($this->finder)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());

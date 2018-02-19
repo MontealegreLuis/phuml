@@ -111,7 +111,6 @@ class CodebaseBuilderTest extends TestCase
         );
     }
 
-    /** @test */
     function it_builds_a_structure()
     {
         $builder = new CodebaseBuilder();

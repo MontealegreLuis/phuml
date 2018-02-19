@@ -91,7 +91,7 @@ class RawDefinition
      * parent class, if needed
      *
      * @see \PhUml\Parser\CodebaseBuilder::resolveParentClass() for more details
-     * @see ExternalDefinitionsResolver::resolveParentClass() for more details
+     * @see ExternalDefinitionsResolver::resolveExternalParentClass() for more details
      */
     public function parent(): ?string
     {

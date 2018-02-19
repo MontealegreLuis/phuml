@@ -9,33 +9,26 @@ namespace PhUml\Parser\Raw\Builders;
 
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
-use PhUml\Parser\Raw\RawDefinition;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\Name as ClassDefinitionName;
 
 /**
- * It builds an associative array with meta-information of a class
+ * It builds a `ClassDefinition`
  *
- * The array has the following structure
- *
- * - `class` The class name
- * - `constants` The meta-information of the class constants
- * - `attributes` The meta-information of the class attributes
- * - `methods` The meta-information of the methods of the class
- * - `implements` The names of the interfaces it implements, if any
- * - `extends` The name of the class it extends, if any
- *
- * @see AttributesBuilder for more details about the attributes information
- * @see MethodsBuilder for more details about the methods information
+ * @see ConstantsBuilder for more details about the constants creation
+ * @see AttributesBuilder for more details about the attributes creation
+ * @see MethodsBuilder for more details about the methods creation
  */
 class RawClassBuilder
 {
     /** @var AttributesBuilder */
-    private $attributesBuilder;
+    protected $attributesBuilder;
 
     /** @var MethodsBuilder */
-    private $methodsBuilder;
+    protected $methodsBuilder;
 
     /** @var ConstantsBuilder */
-    private $constantsBuilder;
+    protected $constantsBuilder;
 
     public function __construct(
         ConstantsBuilder $constantsBuilder = null,
@@ -47,23 +40,23 @@ class RawClassBuilder
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder([]);
     }
 
-    public function build(Class_ $class): RawDefinition
+    public function build(Class_ $class): ClassDefinition
     {
-        return RawDefinition::class([
-            'class' => $class->name,
-            'constants' => $this->constantsBuilder->build($class->stmts),
-            'attributes' => $this->attributesBuilder->build($class->stmts),
-            'methods' => $this->methodsBuilder->build($class->getMethods()),
-            'implements' => $this->buildInterfaces($class->implements),
-            'extends' => !empty($class->extends) ? end($class->extends->parts) : null,
-        ]);
+        return new ClassDefinition(
+            $class->name,
+            $this->constantsBuilder->build($class->stmts),
+            $this->methodsBuilder->build($class->getMethods()),
+            !empty($class->extends) ? ClassDefinitionName::from(end($class->extends->parts)) : null,
+            $this->attributesBuilder->build($class->stmts),
+            $this->buildInterfaces($class->implements)
+        );
     }
 
-    /** @return string[] */
-    private function buildInterfaces(array $implements): array
+    /** @return ClassDefinitionName[] */
+    protected function buildInterfaces(array $implements): array
     {
         return array_map(function (Name $name) {
-            return $name->getLast();
+            return ClassDefinitionName::from($name->getLast());
         }, $implements);
     }
 }

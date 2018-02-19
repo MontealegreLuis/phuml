@@ -8,6 +8,7 @@
 namespace PhUml\Parser\Raw;
 
 use PhpParser\NodeTraverser;
+use PhUml\Code\Codebase;
 use PhUml\Parser\Raw\Builders\RawClassBuilder;
 use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 use PhUml\Parser\Raw\Visitors\ClassVisitor;
@@ -18,8 +19,9 @@ class Php5Traverser extends PhpTraverser
     public function __construct(RawClassBuilder $rawClassBuilder, RawInterfaceBuilder $rawInterfaceBuilder)
     {
         $this->definitions = new RawDefinitions();
+        $this->codebase = new Codebase();
         $this->traverser = new NodeTraverser();
-        $this->traverser->addVisitor(new ClassVisitor($this->definitions, $rawClassBuilder));
-        $this->traverser->addVisitor(new InterfaceVisitor($this->definitions, $rawInterfaceBuilder));
+        $this->traverser->addVisitor(new ClassVisitor($rawClassBuilder, $this->codebase));
+        $this->traverser->addVisitor(new InterfaceVisitor($rawInterfaceBuilder, $this->codebase));
     }
 }

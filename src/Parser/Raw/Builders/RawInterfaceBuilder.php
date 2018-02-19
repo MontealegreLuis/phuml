@@ -9,19 +9,13 @@ namespace PhUml\Parser\Raw\Builders;
 
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Interface_;
-use PhUml\Parser\Raw\RawDefinition;
+use PhUml\Code\InterfaceDefinition;
 
 /**
- * It builds an associative array with meta-information of an interface
+ * It builds an `InterfaceDefinition`
  *
- * The array has the following structure
- *
- * - `interface` The interface name
- * - `constants` The meta-information of the class constants
- * - `methods` The meta-information of the methods of the interface
- * - `extends` The name of the interface it extends, if any
- *
- * @see MethodsBuilder for more details about the methods information
+ * @see ConstantsBuilder for more details about the constants creation
+ * @see MethodsBuilder for more details about the methods creation
  */
 class RawInterfaceBuilder
 {
@@ -39,14 +33,14 @@ class RawInterfaceBuilder
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
     }
 
-    public function build(Interface_ $interface): RawDefinition
+    public function build(Interface_ $interface): InterfaceDefinition
     {
-        return RawDefinition::interface([
-            'interface' => $interface->name,
-            'constants' => $this->constantsBuilder->build($interface->stmts),
-            'methods' => $this->methodsBuilder->build($interface->getMethods()),
-            'extends' => $this->buildParents($interface),
-        ]);
+        return new InterfaceDefinition(
+            $interface->name,
+            $this->constantsBuilder->build($interface->stmts),
+            $this->methodsBuilder->build($interface->getMethods()),
+            $this->buildParents($interface)
+        );
     }
 
     /** @return string[] */
