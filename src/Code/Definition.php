@@ -17,12 +17,9 @@ use PhUml\Graphviz\ObjectHashIdentifier;
  *
  * It does not support traits yet
  */
-abstract class Definition implements HasNodeIdentifier
+abstract class Definition implements Named, HasNodeIdentifier
 {
-    use ObjectHashIdentifier;
-
-    /** @var string */
-    protected $name;
+    use WithName, ObjectHashIdentifier;
 
     /** @var \PhUml\Code\Attributes\Constant[] */
     protected $constants;
@@ -36,20 +33,9 @@ abstract class Definition implements HasNodeIdentifier
      */
     public function __construct(string $name, array $constants = [], array $methods = [])
     {
-        $this->name = $name;
+        $this->name = Name::from($name);
         $this->constants = $constants;
         $this->methods = $methods;
-    }
-
-    /**
-     * The name of a definition is used by the `Codebase` class to avoid duplicated definitions
-     *
-     * @see Codebase::has
-     * @see Codebase::get
-     */
-    public function name(): string
-    {
-        return $this->name;
     }
 
     /**

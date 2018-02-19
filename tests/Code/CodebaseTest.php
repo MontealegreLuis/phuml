@@ -55,19 +55,19 @@ class CodebaseTest extends TestCase
 
         $this->assertCount(5, $definitions);
 
-        $this->assertArrayHasKey($interfaceA->name(), $definitions);
-        $this->assertEquals($interfaceA, $definitions[$interfaceA->name()]);
+        $this->assertArrayHasKey((string)$interfaceA->name(), $definitions);
+        $this->assertEquals($interfaceA, $definitions[(string)$interfaceA->name()]);
 
-        $this->assertArrayHasKey($interfaceB->name(), $definitions);
-        $this->assertEquals($interfaceB, $definitions[$interfaceB->name()]);
+        $this->assertArrayHasKey((string)$interfaceB->name(), $definitions);
+        $this->assertEquals($interfaceB, $definitions[(string)$interfaceB->name()]);
 
-        $this->assertArrayHasKey($classA->name(), $definitions);
-        $this->assertEquals($classA, $definitions[$classA->name()]);
+        $this->assertArrayHasKey((string)$classA->name(), $definitions);
+        $this->assertEquals($classA, $definitions[(string)$classA->name()]);
 
-        $this->assertArrayHasKey($classB->name(), $definitions);
-        $this->assertEquals($classB, $definitions[$classB->name()]);
+        $this->assertArrayHasKey((string)$classB->name(), $definitions);
+        $this->assertEquals($classB, $definitions[(string)$classB->name()]);
 
-        $this->assertArrayHasKey($classC->name(), $definitions);
-        $this->assertEquals($classC, $definitions[$classC->name()]);
+        $this->assertArrayHasKey((string)$classC->name(), $definitions);
+        $this->assertEquals($classC, $definitions[(string)$classC->name()]);
     }
 }

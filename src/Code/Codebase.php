@@ -26,9 +26,9 @@ class Codebase
     public function add(Definition $definition): void
     {
         if ($definition instanceof ClassDefinition) {
-            $this->classes[$definition->name()] = $definition;
+            $this->classes[(string)$definition->name()] = $definition;
         } else {
-            $this->interfaces[$definition->name()] = $definition;
+            $this->interfaces[(string)$definition->name()] = $definition;
         }
     }
 
