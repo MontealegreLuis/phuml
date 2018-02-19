@@ -9,7 +9,7 @@ namespace PhUml\Parser\Raw;
 
 use PHPUnit\Framework\TestCase;
 
-class ExternalDefinitionResolverTest extends TestCase
+class ExternalDefinitionsResolverTest extends TestCase
 {
     /** @test */
     function it_does_not_change_the_definitions_if_no_relations_are_declared()
