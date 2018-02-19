@@ -42,7 +42,7 @@ class SummaryTest extends TestCase
             ->withAProtectedAttribute('$age', 'int')
             ->withAPublicMethod('getName')
             ->withAPublicMethod('getAge')
-            ->implementing($interface)
+            ->implementing($interface->name())
             ->extending($parentClass->name())
             ->build());
         $summary = new Summary();

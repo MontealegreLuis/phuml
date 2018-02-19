@@ -9,7 +9,6 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
-use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
 use PhUml\Code\Variables\TypeDeclaration;
@@ -27,7 +26,7 @@ class ClassBuilder extends DefinitionBuilder
     /** @var Method[] */
     private $methods = [];
 
-    /** @var InterfaceDefinition[] */
+    /** @var Name[] */
     private $interfaces = [];
 
     public function withAPublicAttribute(string $name, string $type = null): ClassBuilder
@@ -86,7 +85,7 @@ class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
-    public function implementing(InterfaceDefinition ...$interfaces): ClassBuilder
+    public function implementing(Name ...$interfaces): ClassBuilder
     {
         $this->interfaces = array_merge($this->interfaces, $interfaces);
 

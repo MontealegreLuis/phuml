@@ -229,7 +229,7 @@ CLASS
 
         $interfaceOne = new InterfaceDefinition('InterfaceOne');
         $interfaceTwo = new InterfaceDefinition('InterfaceTwo');
-        $class = A::class('MyClass')->implementing($interfaceOne, $interfaceTwo)->build();
+        $class = A::class('MyClass')->implementing($interfaceOne->name(), $interfaceTwo->name())->build();
 
         $this->assertTrue($codebase->has('InterfaceOne'));
         $this->assertEquals($interfaceOne, $codebase->get('InterfaceOne'));
@@ -421,7 +421,7 @@ CLASS;
             ->withAPublicMethod('__construct', A::parameter('$page')->withType('Page')->build())
             ->withAPublicMethod('current')
             ->withAPublicMethod('named', A::parameter('$name')->withType('string')->build())
-            ->implementing($students)
+            ->implementing($students->name())
             ->build();
 
         $this->assertTrue($codebase->has('User'));

@@ -51,11 +51,14 @@ class ClassGraphBuilderTest extends TestCase
         $firstInterface = new InterfaceDefinition('FirstInterface');
         $secondInterface = new InterfaceDefinition('FirstInterface');
         $class = A::class('AClass')
-            ->implementing($firstInterface, $secondInterface)
+            ->implementing($firstInterface->name(), $secondInterface->name())
             ->build();
+        $codebase = new Codebase();
+        $codebase->add($firstInterface);
+        $codebase->add($secondInterface);
         $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, new Codebase());
+        $dotElements = $graphElements->extractFrom($class, $codebase);
 
         $this->assertEquals([
             new Node($class),
@@ -128,7 +131,7 @@ class ClassGraphBuilderTest extends TestCase
                 A::parameter('$thirdReference')->withType($thirdReference->name())->build(),
                 A::parameter('$fourthReference')->withType($fourthReference->name())->build()
             )
-            ->implementing($firstInterface, $secondInterface)
+            ->implementing($firstInterface->name(), $secondInterface->name())
             ->extending($parent->name())
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
@@ -138,6 +141,8 @@ class ClassGraphBuilderTest extends TestCase
         $codebase->add($thirdReference);
         $codebase->add($fourthReference);
         $codebase->add($parent);
+        $codebase->add($firstInterface);
+        $codebase->add($secondInterface);
 
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 

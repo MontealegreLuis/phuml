@@ -60,7 +60,7 @@ class ClassGraphBuilder
         }
 
         foreach ($class->interfaces() as $interface) {
-            $this->dotElements[] = Edge::implementation($interface, $class);
+            $this->dotElements[] = Edge::implementation($codebase->get((string)$interface), $class);
         }
 
         return $this->dotElements;

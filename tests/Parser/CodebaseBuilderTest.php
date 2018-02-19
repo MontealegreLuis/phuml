@@ -101,7 +101,10 @@ class CodebaseBuilderTest extends TestCase
                 ->withAPublicAttribute('$phoneNumbers', 'string[]')
                 ->withAMethod(Method::public('getAge', [], TypeDeclaration::from('int')))
                 ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
-                ->implementing(new InterfaceDefinition('FirstInterface'), new InterfaceDefinition('SecondInterface'))
+                ->implementing(
+                    (new InterfaceDefinition('FirstInterface'))->name(),
+                    (new InterfaceDefinition('SecondInterface'))->name()
+                )
                 ->extending((new ClassDefinition('ParentClass'))->name())
                 ->build(),
             $codebase->get('ClassName')

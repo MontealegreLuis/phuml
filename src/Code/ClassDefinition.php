@@ -23,7 +23,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
     /** @var Name */
     protected $parent;
 
-    /** @var InterfaceDefinition[] */
+    /** @var Name[] */
     private $interfaces;
 
     /**
@@ -31,7 +31,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
      * @param Method[] $methods
      * @param Name $parent
      * @param Attribute[] $attributes
-     * @param InterfaceDefinition[] $interfaces
+     * @param Name[] $interfaces
      */
     public function __construct(
         string $name,
@@ -95,7 +95,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
      * It is used by the `ClassGraphBuilder` to create the edges to represent implementation
      * associations
      *
-     * @return InterfaceDefinition[]
+     * @return Name[]
      * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
      */
     public function interfaces(): array

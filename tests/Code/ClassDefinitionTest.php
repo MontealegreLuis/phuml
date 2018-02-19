@@ -88,8 +88,8 @@ class ClassDefinitionTest extends DefinitionTest
     function it_knows_the_interfaces_it_implements()
     {
         $interfaces = [
-            new InterfaceDefinition('InterfaceOne'),
-            new InterfaceDefinition('InterfaceTwo'),
+            Name::from('InterfaceOne'),
+            Name::from('InterfaceTwo'),
         ];
         $classWithInterfaces = A::class('ClassWithInterfaces')
             ->implementing(...$interfaces)

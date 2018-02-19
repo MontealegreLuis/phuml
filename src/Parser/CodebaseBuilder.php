@@ -56,13 +56,14 @@ class CodebaseBuilder
     protected function buildClass(RawDefinitions $definitions, RawDefinition $class): ClassDefinition
     {
         $this->resolveParentClass($definitions, $class->parent());
+        $this->buildInterfaces($definitions, $class->interfaces());
         return new ClassDefinition(
             $class->name(),
             $class->constants(),
             $class->methods(),
             $class->hasParent() ? Name::from($class->parent()) : null,
             $class->attributes(),
-            $this->buildInterfaces($definitions, $class->interfaces())
+            array_map(function (string $interface) { return Name::from($interface); }, $class->interfaces())
         );
     }
 

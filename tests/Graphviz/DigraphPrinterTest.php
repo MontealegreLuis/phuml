@@ -167,7 +167,9 @@ mindist = 0.6;', $dotLanguage);
     {
         $anInterface = new NumericIdInterface('AnInterface');
         $anotherInterface = new NumericIdInterface('AnotherInterface');
-        $class = A::class('TestClass')->implementing($anInterface, $anotherInterface)->buildWithNumericId();
+        $class = A::class('TestClass')
+            ->implementing($anInterface->name(), $anotherInterface->name())
+            ->buildWithNumericId();
         $digraph = new Digraph();
         $digraph->add([
             new Node($class),
