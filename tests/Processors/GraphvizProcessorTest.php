@@ -46,7 +46,7 @@ class GraphvizProcessorTest extends TestCase
                 A::parameter('$reference')->withType('ReferencedClass')->build()
             )
             ->implementing($interface)
-            ->extending($parentClass)
+            ->extending($parentClass->name())
             ->buildWithNumericId()
         ;
 

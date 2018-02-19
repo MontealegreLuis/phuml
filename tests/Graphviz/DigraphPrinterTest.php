@@ -147,7 +147,7 @@ mindist = 0.6;', $dotLanguage);
     function it_represents_inheritance_as_dot_language()
     {
         $parentClass = new NumericIdClass('ParentClass');
-        $class = A::class('TestClass')->extending($parentClass)->buildWithNumericId();
+        $class = A::class('TestClass')->extending($parentClass->name())->buildWithNumericId();
         $digraph = new Digraph();
         $digraph->add([
             new Node($parentClass),

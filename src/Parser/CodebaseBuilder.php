@@ -11,6 +11,7 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\Raw\RawDefinitions;
 
@@ -54,11 +55,12 @@ class CodebaseBuilder
 
     protected function buildClass(RawDefinitions $definitions, RawDefinition $class): ClassDefinition
     {
+        $this->resolveParentClass($definitions, $class->parent());
         return new ClassDefinition(
             $class->name(),
             $class->constants(),
             $class->methods(),
-            $this->resolveParentClass($definitions, $class->parent()),
+            $class->hasParent() ? Name::from($class->parent()) : null,
             $class->attributes(),
             $this->buildInterfaces($definitions, $class->interfaces())
         );
@@ -86,14 +88,16 @@ class CodebaseBuilder
         return $this->codebase->get($interface);
     }
 
-    protected function resolveParentClass(RawDefinitions $definitions, ?string $parent): ?Definition
+    /**
+     * It adds the parent definition to the codebase if has not been added yet
+     */
+    protected function resolveParentClass(RawDefinitions $definitions, ?string $parent): void
     {
         if ($parent === null) {
-            return null;
+            return;
         }
         if (!$this->codebase->has($parent)) {
             $this->codebase->add($this->buildClass($definitions, $definitions->get($parent)));
         }
-        return $this->codebase->get($parent);
     }
 }

@@ -192,7 +192,7 @@ CLASS
         $codebase = $this->parser->parse($this->finder);
 
         $parentClass = new ClassDefinition('ParentClass');
-        $childClass = A::class('ChildClass')->extending($parentClass)->build();
+        $childClass = A::class('ChildClass')->extending($parentClass->name())->build();
 
         $this->assertTrue($codebase->has('ParentClass'));
         $this->assertEquals($parentClass, $codebase->get('ParentClass'));
@@ -413,7 +413,7 @@ CLASS;
         $student = A::class('Student')
             ->withAPrivateAttribute('$grades', 'string[]')
             ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
-            ->extending($user)
+            ->extending($user->name())
             ->build();
         $inMemoryStudents = A::class('InMemoryStudents')
             ->withAPrivateAttribute('$students', "{$student->name()}[]")

@@ -114,7 +114,7 @@ class ClassDefinitionTest extends DefinitionTest
     /** @test */
     function it_knows_its_parent()
     {
-        $parent = new ClassDefinition('ParentClass');
+        $parent = Name::from('ParentClass');
         $interfaceWithParent = A::class('WithParent')->extending($parent)->build();
 
         $parentClass = $interfaceWithParent->parent();

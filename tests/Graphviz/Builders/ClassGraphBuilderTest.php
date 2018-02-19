@@ -32,10 +32,12 @@ class ClassGraphBuilderTest extends TestCase
     function it_extracts_the_elements_for_a_class_with_a_parent()
     {
         $parent = new ClassDefinition('ParentClass');
-        $class = A::class('ChildClass')->extending($parent)->build();
+        $class = A::class('ChildClass')->extending($parent->name())->build();
+        $codebase = new Codebase();
+        $codebase->add($parent);
         $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, new Codebase());
+        $dotElements = $graphElements->extractFrom($class, $codebase);
 
         $this->assertEquals([
             new Node($class),
@@ -127,7 +129,7 @@ class ClassGraphBuilderTest extends TestCase
                 A::parameter('$fourthReference')->withType($fourthReference->name())->build()
             )
             ->implementing($firstInterface, $secondInterface)
-            ->extending($parent)
+            ->extending($parent->name())
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
@@ -135,6 +137,7 @@ class ClassGraphBuilderTest extends TestCase
         $codebase->add($secondReference);
         $codebase->add($thirdReference);
         $codebase->add($fourthReference);
+        $codebase->add($parent);
 
         $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
 

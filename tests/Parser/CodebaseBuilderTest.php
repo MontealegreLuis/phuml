@@ -102,7 +102,7 @@ class CodebaseBuilderTest extends TestCase
                 ->withAMethod(Method::public('getAge', [], TypeDeclaration::from('int')))
                 ->withAPublicMethod('changeThing', A::parameter('$name')->withType('string')->build())
                 ->implementing(new InterfaceDefinition('FirstInterface'), new InterfaceDefinition('SecondInterface'))
-                ->extending(new ClassDefinition('ParentClass'))
+                ->extending((new ClassDefinition('ParentClass'))->name())
                 ->build(),
             $codebase->get('ClassName')
         );
@@ -149,9 +149,6 @@ class CodebaseBuilderTest extends TestCase
         $this->assertInstanceOf(InterfaceDefinition::class, $codebase->get('AnInterface'));
         $this->assertTrue($codebase->has('ExternalInterface'));
         $this->assertInstanceOf(InterfaceDefinition::class, $codebase->get('ExternalInterface'));
-        $this->assertEquals(
-            $codebase->get('AClass')->parent()->identifier(),
-            $codebase->get('ExternalClass')->identifier()
-        );
+        $this->assertEquals($codebase->get('AClass')->parent(), $codebase->get('ExternalClass')->name());
     }
 }

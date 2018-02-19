@@ -20,7 +20,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
     /** @var Attribute[] */
     private $attributes;
 
-    /** @var ClassDefinition */
+    /** @var Name */
     protected $parent;
 
     /** @var InterfaceDefinition[] */
@@ -29,6 +29,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
     /**
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Method[] $methods
+     * @param Name $parent
      * @param Attribute[] $attributes
      * @param InterfaceDefinition[] $interfaces
      */
@@ -36,7 +37,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
         string $name,
         array $constants = [],
         array $methods = [],
-        ClassDefinition $parent = null,
+        Name $parent = null,
         array $attributes = [],
         array $interfaces = []
     ) {
@@ -108,7 +109,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
      * @return InterfaceDefinition[]
      * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
      */
-    public function parent(): Definition
+    public function parent(): Name
     {
         return $this->parent;
     }

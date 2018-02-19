@@ -9,6 +9,7 @@ namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name;
 use PhUml\Parser\Raw\RawDefinitions;
 use PhUml\Parser\Raw\RawDefinition;
 use PhUml\Parser\CodebaseBuilder;
@@ -27,11 +28,12 @@ class NumericIdCodebaseBuilder extends CodebaseBuilder
 
     protected function buildClass(RawDefinitions $definitions, RawDefinition $class): ClassDefinition
     {
+        $this->resolveParentClass($definitions, $class->parent());
         return new NumericIdClass(
             $class->name(),
             $class->constants(),
             $class->methods(),
-            $this->resolveParentClass($definitions, $class->parent()),
+            $class->hasParent() ? Name::from($class->parent()) : null,
             $class->attributes(),
             $this->buildInterfaces($definitions, $class->interfaces())
         );

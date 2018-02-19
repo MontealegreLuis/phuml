@@ -11,13 +11,14 @@ use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdClass;
 
 class ClassBuilder extends DefinitionBuilder
 {
-    /** @var ClassDefinition */
+    /** @var Name */
     protected $parent;
 
     /** @var Attribute[] */
@@ -78,7 +79,7 @@ class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
-    public function extending(ClassDefinition $parent): ClassBuilder
+    public function extending(Name $parent): ClassBuilder
     {
         $this->parent = $parent;
 

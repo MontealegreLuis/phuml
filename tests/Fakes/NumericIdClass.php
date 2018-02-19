@@ -8,7 +8,7 @@
 namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
-use PhUml\Code\Definition;
+use PhUml\Code\Name;
 
 class NumericIdClass extends ClassDefinition
 {
@@ -21,7 +21,7 @@ class NumericIdClass extends ClassDefinition
         string $name,
         array $constants = [],
         array $methods = [],
-        Definition $parent = null,
+        Name $parent = null,
         array $attributes = [],
         array $interfaces = []
     ) {
