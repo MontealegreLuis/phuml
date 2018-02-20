@@ -11,7 +11,6 @@ phUML is a fully automatic [UML][6] class diagram generator written in [PHP][7].
 It creates a class diagram from an OO codebase based on the UML specification.
 
 > **NOTE**: This is a fork of [jakobwesthoff/phuml][1] which isn't maintained anymore.
-This is the **new official repository**.
 
 ## Installation
 
