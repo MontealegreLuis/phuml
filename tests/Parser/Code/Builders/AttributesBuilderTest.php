@@ -5,14 +5,14 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw\Builders;
+namespace PhUml\Parser\Code\Builders;
 
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPUnit\Framework\TestCase;
-use PhUml\Parser\Raw\Builders\Filters\PrivateVisibilityFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
 class AttributesBuilderTest extends TestCase
 {

@@ -5,14 +5,14 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw;
+namespace PhUml\Parser\Code;
 
 use PhpParser\NodeTraverser;
 use PhUml\Code\Codebase;
-use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
-use PhUml\Parser\Raw\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Raw\Visitors\ClassVisitor;
-use PhUml\Parser\Raw\Visitors\InterfaceVisitor;
+use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Visitors\ClassVisitor;
+use PhUml\Parser\Code\Visitors\InterfaceVisitor;
 
 class Php5Traverser extends PhpTraverser
 {

@@ -10,7 +10,7 @@ namespace PhUml\Fakes;
 use PhpParser\Node\Stmt\Class_;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
-use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 
 class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
 {

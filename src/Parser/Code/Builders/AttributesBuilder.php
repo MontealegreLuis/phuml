@@ -5,15 +5,15 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw\Builders;
+namespace PhUml\Parser\Code\Builders;
 
 use PhpParser\Node\Stmt\Property;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\AttributeDocBlock;
 use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Parser\Raw\Builders\Filters\PrivateVisibilityFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
 /**
  * It builds an array of `Attributes` for a `ClassDefinition`

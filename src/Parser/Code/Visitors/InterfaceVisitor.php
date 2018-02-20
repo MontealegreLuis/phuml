@@ -5,13 +5,13 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw\Visitors;
+namespace PhUml\Parser\Code\Visitors;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\NodeVisitorAbstract;
 use PhUml\Code\Codebase;
-use PhUml\Parser\Raw\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
 
 /**
  * It extracts an `InterfaceDefinition` and adds it to the `Codebase`

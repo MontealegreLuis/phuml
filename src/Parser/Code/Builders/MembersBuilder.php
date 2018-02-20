@@ -5,9 +5,9 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw\Builders;
+namespace PhUml\Parser\Code\Builders;
 
-use PhUml\Parser\Raw\Builders\Filters\VisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 
 /**
  * It can run one or more `VisibilityFilter`s.

@@ -8,9 +8,9 @@
 namespace PhUml\Parser;
 
 use PhUml\Code\Codebase;
-use PhUml\Parser\Raw\ExternalDefinitionsResolver;
-use PhUml\Parser\Raw\Php5Parser;
-use PhUml\Parser\Raw\PhpParser;
+use PhUml\Parser\Code\ExternalDefinitionsResolver;
+use PhUml\Parser\Code\Php5Parser;
+use PhUml\Parser\Code\PhpParser;
 
 /**
  * It takes the files found by the `CodeFinder` and turns the into a `Codebase`
@@ -38,9 +38,8 @@ class CodeParser
     /**
      * The parsing process is as follows
      *
-     * 1. Parse the code and generate the raw definitions
-     * 2. Add external definitions (built-in classes/third party libraries), if needed
-     * 3. Build the code structure from the raw definitions
+     * 1. Parse the code and populate the `Codebase` with definitions
+     * 2. Add external definitions (built-in/third party), if needed
      */
     public function parse(CodeFinder $finder): Codebase
     {

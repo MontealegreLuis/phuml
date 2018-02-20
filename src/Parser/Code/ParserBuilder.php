@@ -5,19 +5,19 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw;
+namespace PhUml\Parser\Code;
 
-use PhUml\Parser\Raw\Builders\AttributesBuilder;
-use PhUml\Parser\Raw\Builders\ConstantsBuilder;
-use PhUml\Parser\Raw\Builders\Filters\VisibilityFilter;
-use PhUml\Parser\Raw\Builders\Filters\PrivateVisibilityFilter;
-use PhUml\Parser\Raw\Builders\Filters\ProtectedVisibilityFilter;
-use PhUml\Parser\Raw\Builders\MethodsBuilder;
-use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
-use PhUml\Parser\Raw\Builders\NoConstantsBuilder;
-use PhUml\Parser\Raw\Builders\NoMethodsBuilder;
-use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
-use PhUml\Parser\Raw\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\AttributesBuilder;
+use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Code\Builders\ConstantsBuilder;
+use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
+use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\MethodsBuilder;
+use PhUml\Parser\Code\Builders\NoAttributesBuilder;
+use PhUml\Parser\Code\Builders\NoConstantsBuilder;
+use PhUml\Parser\Code\Builders\NoMethodsBuilder;
 
 class ParserBuilder
 {

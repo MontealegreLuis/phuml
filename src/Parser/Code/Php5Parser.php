@@ -5,11 +5,11 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw;
+namespace PhUml\Parser\Code;
 
 use PhpParser\ParserFactory;
-use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
-use PhUml\Parser\Raw\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
 
 /**
  * It traverses the AST of all the files and interfaces found by the `CodeFinder` and builds a

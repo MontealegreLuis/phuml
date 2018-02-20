@@ -14,11 +14,11 @@ use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdClassDefinitionBuilder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
+use PhUml\Parser\Code\Php5Parser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
-use PhUml\Parser\Raw\Php5Parser;
 use PhUml\Processors\GraphvizProcessor;
 
 class GenerateDotFileTest extends TestCase

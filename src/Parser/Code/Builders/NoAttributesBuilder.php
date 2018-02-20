@@ -5,19 +5,19 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Raw\Builders;
+namespace PhUml\Parser\Code\Builders;
 
 /**
- * It will ignore the methods of a definition, and therefore its filters
+ * It will ignore the attributes of a definition, and therefore its filters
  */
-class NoMethodsBuilder extends MethodsBuilder
+class NoAttributesBuilder extends AttributesBuilder
 {
     public function __construct(array $filters = [])
     {
         parent::__construct([]);
     }
 
-    public function build(array $classMethods): array
+    public function build(array $definitionAttributes): array
     {
         return [];
     }

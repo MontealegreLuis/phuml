@@ -9,7 +9,7 @@ namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Parser\Raw\ExternalDefinitionsResolver;
+use PhUml\Parser\Code\ExternalDefinitionsResolver;
 
 class ExternalNumericIdDefinitionsResolver extends ExternalDefinitionsResolver
 {

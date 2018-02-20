@@ -15,12 +15,11 @@ use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\DefaultDigraphStyle;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
+use PhUml\Parser\Code\ParserBuilder;
+use PhUml\Parser\Code\PhpParser;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
-use PhUml\Parser\Raw\ParserBuilder;
-use PhUml\Parser\Raw\PhpParser;
-use PhUml\Parser\CodebaseBuilder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
