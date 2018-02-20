@@ -11,40 +11,32 @@ namespace PhUml\Code;
  */
 class Codebase
 {
-    /** @var ClassDefinition[] */
-    private $classes;
-
-    /** @var InterfaceDefinition[] */
-    private $interfaces;
+    /** @var array Definition */
+    private $definitions;
 
     public function __construct()
     {
-        $this->classes = [];
-        $this->interfaces = [];
+        $this->definitions = [];
     }
 
     public function add(Definition $definition): void
     {
-        if ($definition instanceof ClassDefinition) {
-            $this->classes[(string)$definition->name()] = $definition;
-        } else {
-            $this->interfaces[(string)$definition->name()] = $definition;
-        }
+        $this->definitions[(string)$definition->name()] = $definition;
     }
 
     public function has(string $name): bool
     {
-        return isset($this->interfaces[$name]) || isset($this->classes[$name]);
+        return isset($this->definitions[$name]);
     }
 
     public function get(string $name): Definition
     {
-        return $this->interfaces[$name] ?? $this->classes[$name];
+        return $this->definitions[$name];
     }
 
     /** @return Definition[] */
     public function definitions(): array
     {
-        return array_merge($this->classes, $this->interfaces);
+        return $this->definitions;
     }
 }
