@@ -7,6 +7,8 @@
 
 namespace PhUml\Code\Variables;
 
+use PhUml\Code\Name;
+
 /**
  * It represents a variable declaration
  */
@@ -35,5 +37,10 @@ class Variable implements HasType
             $this->name,
             $this->type->isPresent() ? ": {$this->type}" : ''
         );
+    }
+
+    public function typeName(): Name
+    {
+        return $this->type->name();
     }
 }

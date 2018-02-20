@@ -7,18 +7,21 @@
 
 namespace PhUml\Code\Variables;
 
+use PhUml\Code\Name;
+use PhUml\Code\Named;
+use PhUml\Code\WithName;
+
 /**
  * It represents a variable's type declaration
  */
-class TypeDeclaration
+class TypeDeclaration implements Named
 {
+    use WithName;
+
     /** @var string[] All valid types for PHP 7.1 */
     private static $builtInTypes = [
         'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable'
     ];
-
-    /** @var string */
-    private $name;
 
     public static function absent(): TypeDeclaration
     {
@@ -43,7 +46,7 @@ class TypeDeclaration
      */
     public function isBuiltIn(): bool
     {
-        $type = $this->name;
+        $type = (string)$this->name;
         if ($this->isArray()) {
             $type = $this->removeArraySuffix();
         }
@@ -62,7 +65,7 @@ class TypeDeclaration
 
     private function __construct(?string $name)
     {
-        $this->name = $name;
+        $this->name = $name !== null ? Name::from($name) : null;
     }
 
     public function __toString()

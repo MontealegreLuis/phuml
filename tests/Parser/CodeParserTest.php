@@ -36,7 +36,7 @@ CLASS
 
         $class = new ClassDefinition('MyClass');
         $this->assertTrue($codebase->has($class->name()));
-        $this->assertEquals($class, $codebase->get('MyClass'));
+        $this->assertEquals($class, $codebase->get($class->name()));
     }
 
     /** @test */
@@ -61,7 +61,7 @@ CLASS
             ->withAPublicAttribute('$phone')
             ->build();
         $this->assertTrue($codebase->has($class->name()));
-        $this->assertEquals($class, $codebase->get('MyClass'));
+        $this->assertEquals($class, $codebase->get($class->name()));
     }
 
     /** @test */
@@ -97,7 +97,7 @@ CLASS;
             ->withAPublicAttribute('$phones', 'string[]')
             ->build();
         $this->assertTrue($codebase->has($class->name()));
-        $this->assertEquals($class, $codebase->get('MyClass'));
+        $this->assertEquals($class, $codebase->get($class->name()));
     }
 
     /** @test */
@@ -131,7 +131,7 @@ CLASS
             ->withAPublicMethod('formatPhone', A::parameter('$format')->withType('string')->build())
             ->build();
         $this->assertTrue($codebase->has($class->name()));
-        $this->assertEquals($class, $codebase->get('MyClass'));
+        $this->assertEquals($class, $codebase->get($class->name()));
     }
 
     /** @test */
@@ -168,7 +168,7 @@ CLASS
             )
             ->build();
         $this->assertTrue($codebase->has($class->name()));
-        $this->assertEquals($class, $codebase->get('MyClass'));
+        $this->assertEquals($class, $codebase->get($class->name()));
     }
 
     /** @test */
@@ -195,9 +195,9 @@ CLASS
         $childClass = A::class('ChildClass')->extending($parentClass->name())->build();
 
         $this->assertTrue($codebase->has($parentClass->name()));
-        $this->assertEquals($parentClass, $codebase->get('ParentClass'));
+        $this->assertEquals($parentClass, $codebase->get($parentClass->name()));
         $this->assertTrue($codebase->has($childClass->name()));
-        $this->assertEquals($childClass, $codebase->get('ChildClass'));
+        $this->assertEquals($childClass, $codebase->get($childClass->name()));
     }
 
     /** @test */
@@ -232,11 +232,11 @@ CLASS
         $class = A::class('MyClass')->implementing($interfaceOne->name(), $interfaceTwo->name())->build();
 
         $this->assertTrue($codebase->has($interfaceOne->name()));
-        $this->assertEquals($interfaceOne, $codebase->get('InterfaceOne'));
+        $this->assertEquals($interfaceOne, $codebase->get($interfaceOne->name()));
         $this->assertTrue($codebase->has($interfaceTwo->name()));
-        $this->assertEquals($interfaceTwo, $codebase->get('InterfaceTwo'));
+        $this->assertEquals($interfaceTwo, $codebase->get($interfaceTwo->name()));
         $this->assertTrue($codebase->has($class->name()));
-        $this->assertEquals($class, $codebase->get('MyClass'));
+        $this->assertEquals($class, $codebase->get($class->name()));
     }
 
     /** @test */
@@ -269,7 +269,7 @@ INTERFACE
             ->withAPublicMethod('ageToMonths')
             ->build();
         $this->assertTrue($codebase->has($interface->name()));
-        $this->assertEquals($interface, $codebase->get('MyInterface'));
+        $this->assertEquals($interface, $codebase->get($interface->name()));
     }
 
     /** @test */
@@ -295,9 +295,9 @@ INTERFACE
         $parentInterface = new InterfaceDefinition('ParentInterface');
         $childInterface = A::interface('ChildInterface')->extending($parentInterface->name())->build();
         $this->assertTrue($codebase->has($parentInterface->name()));
-        $this->assertEquals($parentInterface, $codebase->get('ParentInterface'));
+        $this->assertEquals($parentInterface, $codebase->get($parentInterface->name()));
         $this->assertTrue($codebase->has($childInterface->name()));
-        $this->assertEquals($childInterface, $codebase->get('ChildInterface'));
+        $this->assertEquals($childInterface, $codebase->get($childInterface->name()));
     }
 
     /** @test */
@@ -425,15 +425,15 @@ CLASS;
             ->build();
 
         $this->assertTrue($codebase->has($user->name()));
-        $this->assertEquals($user, $codebase->get('User'));
+        $this->assertEquals($user, $codebase->get($user->name()));
         $this->assertTrue($codebase->has($student->name()));
-        $this->assertEquals($student, $codebase->get('Student'));
+        $this->assertEquals($student, $codebase->get($student->name()));
         $this->assertTrue($codebase->has($inMemoryStudents->name()));
-        $this->assertEquals($inMemoryStudents, $codebase->get('InMemoryStudents'));
+        $this->assertEquals($inMemoryStudents, $codebase->get($inMemoryStudents->name()));
         $this->assertTrue($codebase->has($pageable->name()));
-        $this->assertEquals($pageable, $codebase->get('Pageable'));
+        $this->assertEquals($pageable, $codebase->get($pageable->name()));
         $this->assertTrue($codebase->has($students->name()));
-        $this->assertEquals($students, $codebase->get('Students'));
+        $this->assertEquals($students, $codebase->get($students->name()));
     }
 
     /** @var CodeParser */

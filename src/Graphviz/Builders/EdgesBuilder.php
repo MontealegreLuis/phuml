@@ -57,7 +57,7 @@ class EdgesBuilder implements AssociationsBuilder
     {
         $this->markAssociationResolvedFor($class, $attribute);
 
-        return Edge::association($codebase->get((string)$attribute->type()), $class);
+        return Edge::association($codebase->get($attribute->typeName()), $class);
     }
 
     private function needAssociation(Variable $attribute): bool

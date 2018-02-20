@@ -29,9 +29,9 @@ class Codebase
         return isset($this->definitions[(string)$name]);
     }
 
-    public function get(string $name): Definition
+    public function get(Name $name): Definition
     {
-        return $this->definitions[$name];
+        return $this->definitions[(string)$name];
     }
 
     /** @return Definition[] */

@@ -56,11 +56,11 @@ class ClassGraphBuilder
         $this->dotElements[] = new Node($class);
 
         if ($class->hasParent()) {
-            $this->dotElements[] = Edge::inheritance($codebase->get((string)$class->parent()), $class);
+            $this->dotElements[] = Edge::inheritance($codebase->get($class->parent()), $class);
         }
 
         foreach ($class->interfaces() as $interface) {
-            $this->dotElements[] = Edge::implementation($codebase->get((string)$interface), $class);
+            $this->dotElements[] = Edge::implementation($codebase->get($interface), $class);
         }
 
         return $this->dotElements;

@@ -37,7 +37,7 @@ class InterfaceGraphBuilder
         $dotElements[] = new Node($interface);
 
         foreach ($interface->parents() as $parent) {
-            $dotElements[] = Edge::inheritance($codebase->get((string)$parent), $interface);
+            $dotElements[] = Edge::inheritance($codebase->get($parent), $interface);
         }
 
         return $dotElements;
