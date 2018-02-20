@@ -11,11 +11,14 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPUnit\Framework\TestCase;
+use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
 class AttributesBuilderTest extends TestCase
 {
+    use WithVisibilityAssertions;
+
     /** @test */
     function it_excludes_private_attributes()
     {
@@ -24,10 +27,10 @@ class AttributesBuilderTest extends TestCase
         $attributes = $builder->build($this->attributes);
 
         $this->assertCount(4, $attributes);
-        $this->assertTrue($attributes[1]->isPublic());
-        $this->assertTrue($attributes[2]->isPublic());
-        $this->assertTrue($attributes[4]->isProtected());
-        $this->assertTrue($attributes[5]->isProtected());
+        $this->assertPublic($attributes[1]);
+        $this->assertPublic($attributes[2]);
+        $this->assertProtected($attributes[4]);
+        $this->assertProtected($attributes[5]);
     }
 
     /** @test */
@@ -38,11 +41,11 @@ class AttributesBuilderTest extends TestCase
         $attributes = $builder->build($this->attributes);
 
         $this->assertCount(5, $attributes);
-        $this->assertTrue($attributes[0]->isPrivate());
-        $this->assertTrue($attributes[1]->isPublic());
-        $this->assertTrue($attributes[2]->isPublic());
-        $this->assertTrue($attributes[3]->isPrivate());
-        $this->assertTrue($attributes[6]->isPrivate());
+        $this->assertPrivate($attributes[0]);
+        $this->assertPublic($attributes[1]);
+        $this->assertPublic($attributes[2]);
+        $this->assertPrivate($attributes[3]);
+        $this->assertPrivate($attributes[6]);
     }
 
     /** @test */
@@ -53,8 +56,8 @@ class AttributesBuilderTest extends TestCase
         $attributes = $builder->build($this->attributes);
 
         $this->assertCount(2, $attributes);
-        $this->assertTrue($attributes[1]->isPublic());
-        $this->assertTrue($attributes[2]->isPublic());
+        $this->assertPublic($attributes[1]);
+        $this->assertPublic($attributes[2]);
     }
 
     /** @before */

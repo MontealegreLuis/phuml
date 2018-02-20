@@ -10,11 +10,14 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPUnit\Framework\TestCase;
+use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
 class MethodsBuilderTest extends TestCase
 {
+    use WithVisibilityAssertions;
+
     /** @test */
     function it_filters_private_methods()
     {
@@ -23,10 +26,10 @@ class MethodsBuilderTest extends TestCase
         $methods = $methodsBuilder->build($this->methods);
 
         $this->assertCount(4, $methods);
-        $this->assertTrue($methods[1]->isPublic());
-        $this->assertTrue($methods[2]->isPublic());
-        $this->assertTrue($methods[4]->isProtected());
-        $this->assertTrue($methods[5]->isProtected());
+        $this->assertPublic($methods[1]);
+        $this->assertPublic($methods[2]);
+        $this->assertProtected($methods[4]);
+        $this->assertProtected($methods[5]);
     }
 
     /** @test */
@@ -37,11 +40,11 @@ class MethodsBuilderTest extends TestCase
         $methods = $builder->build($this->methods);
 
         $this->assertCount(5, $methods);
-        $this->assertTrue($methods[0]->isPrivate());
-        $this->assertTrue($methods[1]->isPublic());
-        $this->assertTrue($methods[2]->isPublic());
-        $this->assertTrue($methods[3]->isPrivate());
-        $this->assertTrue($methods[6]->isPrivate());
+        $this->assertPrivate($methods[0]);
+        $this->assertPublic($methods[1]);
+        $this->assertPublic($methods[2]);
+        $this->assertPrivate($methods[3]);
+        $this->assertPrivate($methods[6]);
     }
 
     /** @test */
@@ -52,8 +55,8 @@ class MethodsBuilderTest extends TestCase
         $methods = $builder->build($this->methods);
 
         $this->assertCount(2, $methods);
-        $this->assertTrue($methods[1]->isPublic());
-        $this->assertTrue($methods[2]->isPublic());
+        $this->assertPublic($methods[1]);
+        $this->assertPublic($methods[2]);
     }
 
     /** @before */
