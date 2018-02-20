@@ -7,17 +7,17 @@
 
 namespace PhUml\Parser\Code;
 
-use PhUml\Parser\Code\Builders\AttributesBuilder;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
-use PhUml\Parser\Code\Builders\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Code\Builders\MethodsBuilder;
-use PhUml\Parser\Code\Builders\NoAttributesBuilder;
-use PhUml\Parser\Code\Builders\NoConstantsBuilder;
-use PhUml\Parser\Code\Builders\NoMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
 
 class ParserBuilder
 {

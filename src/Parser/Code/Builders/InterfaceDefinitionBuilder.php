@@ -10,6 +10,8 @@ namespace PhUml\Parser\Code\Builders;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Interface_;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 
 /**
  * It builds an `InterfaceDefinition`

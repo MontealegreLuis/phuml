@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Code\Builders;
+namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ConstFetch;

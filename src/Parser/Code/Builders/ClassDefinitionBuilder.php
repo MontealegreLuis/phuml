@@ -11,6 +11,9 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name as ClassDefinitionName;
+use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 
 /**
  * It builds a `ClassDefinition`
