@@ -17,7 +17,7 @@ class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
     public function build(Class_ $class): ClassDefinition
     {
         return new NumericIdClass(
-            $class->name,
+            Name::from($class->name),
             $this->constantsBuilder->build($class->stmts),
             $this->methodsBuilder->build($class->getMethods()),
             !empty($class->extends) ? Name::from(end($class->extends->parts)) : null,

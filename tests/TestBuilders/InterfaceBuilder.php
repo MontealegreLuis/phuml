@@ -38,12 +38,22 @@ class InterfaceBuilder extends DefinitionBuilder
     /** @return InterfaceDefinition */
     public function build()
     {
-        return new InterfaceDefinition($this->name, $this->constants, $this->methods, $this->parents);
+        return new InterfaceDefinition(
+            Name::from($this->name),
+            $this->constants,
+            $this->methods,
+            $this->parents
+        );
     }
 
     /** @return NumericIdInterface */
     public function buildWithNumericId()
     {
-        return new NumericIdInterface($this->name, $this->constants, $this->methods, $this->parents);
+        return new NumericIdInterface(
+            Name::from($this->name),
+            $this->constants,
+            $this->methods,
+            $this->parents
+        );
     }
 }

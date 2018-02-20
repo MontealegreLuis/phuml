@@ -29,12 +29,11 @@ class ClassDefinition extends Definition implements CanBeAbstract
     /**
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Method[] $methods
-     * @param Name $parent
      * @param Attribute[] $attributes
      * @param Name[] $interfaces
      */
     public function __construct(
-        string $name,
+        Name $name,
         array $constants = [],
         array $methods = [],
         Name $parent = null,

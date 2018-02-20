@@ -16,7 +16,7 @@ class ClassDefinitionTest extends DefinitionTest
     /** @test */
     function it_has_by_default_no_attributes()
     {
-        $noAttributesClass = new ClassDefinition('NoAttributesClass');
+        $noAttributesClass = new ClassDefinition(Name::from('NoAttributesClass'));
 
         $attributes = $noAttributesClass->attributes();
 
@@ -26,7 +26,7 @@ class ClassDefinitionTest extends DefinitionTest
     /** @test */
     function it_does_not_implement_any_interface_by_default()
     {
-        $noInterfacesClass = new ClassDefinition('NoInterfacesClass');
+        $noInterfacesClass = new ClassDefinition(Name::from('NoInterfacesClass'));
 
         $interfaces = $noInterfacesClass->interfaces();
 
@@ -104,7 +104,7 @@ class ClassDefinitionTest extends DefinitionTest
     /** @test */
     function it_does_not_extends_another_definition_by_default()
     {
-        $definitionWithoutParent = new ClassDefinition('NoParentClass');
+        $definitionWithoutParent = new ClassDefinition(Name::from('NoParentClass'));
 
         $hasParent = $definitionWithoutParent->hasParent();
 
@@ -124,6 +124,6 @@ class ClassDefinitionTest extends DefinitionTest
 
     protected function definition(array $constants = [], array $methods = []): Definition
     {
-        return new ClassDefinition('ADefinition', $constants, $methods);
+        return new ClassDefinition(Name::from('ADefinition'), $constants, $methods);
     }
 }

@@ -96,7 +96,7 @@ class ClassBuilder extends DefinitionBuilder
     public function build()
     {
         return new ClassDefinition(
-            $this->name,
+            Name::from($this->name),
             $this->constants,
             $this->methods,
             $this->parent,
@@ -109,7 +109,7 @@ class ClassBuilder extends DefinitionBuilder
     public function buildWithNumericId()
     {
         return new NumericIdClass(
-            $this->name,
+            Name::from($this->name),
             $this->constants,
             $this->methods,
             $this->parent,

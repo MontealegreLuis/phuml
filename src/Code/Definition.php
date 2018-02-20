@@ -31,9 +31,9 @@ abstract class Definition implements Named, HasNodeIdentifier
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Method[] $methods
      */
-    public function __construct(string $name, array $constants = [], array $methods = [])
+    public function __construct(Name $name, array $constants = [], array $methods = [])
     {
-        $this->name = Name::from($name);
+        $this->name = $name;
         $this->constants = $constants;
         $this->methods = $methods;
     }

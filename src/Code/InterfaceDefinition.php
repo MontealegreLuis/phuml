@@ -21,7 +21,7 @@ class InterfaceDefinition extends Definition
      * @param Name[] $parents
      */
     public function __construct(
-        string $name,
+        Name $name,
         array $constants = [],
         array $methods = [],
         array $parents = []

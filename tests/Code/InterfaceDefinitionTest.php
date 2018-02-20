@@ -15,7 +15,7 @@ class InterfaceDefinitionTest extends DefinitionTest
     /** @test */
     function it_does_not_extends_another_definition_by_default()
     {
-        $definitionWithoutParent = new InterfaceDefinition('WithoutParent');
+        $definitionWithoutParent = new InterfaceDefinition(Name::from('WithoutParent'));
 
         $hasParent = $definitionWithoutParent->hasParent();
 
@@ -25,8 +25,8 @@ class InterfaceDefinitionTest extends DefinitionTest
     /** @test */
     function it_knows_its_parent()
     {
-        $parent = new InterfaceDefinition('ParentInterface');
-        $anotherParent = new InterfaceDefinition('AnotherParentInterface');
+        $parent = new InterfaceDefinition(Name::from('ParentInterface'));
+        $anotherParent = new InterfaceDefinition(Name::from('AnotherParentInterface'));
         $interfaceWithParent = A::interface('WithParent')
             ->extending($parent->name(), $anotherParent->name())
             ->build();
@@ -39,6 +39,6 @@ class InterfaceDefinitionTest extends DefinitionTest
 
     protected function definition(array $constants = [], array $methods = []): Definition
     {
-        return new InterfaceDefinition('ADefinition', $constants, $methods);
+        return new InterfaceDefinition(Name::from('ADefinition'), $constants, $methods);
     }
 }

@@ -9,6 +9,7 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 
@@ -16,22 +17,22 @@ class A
 {
     public static function classNamed(string $name): ClassDefinition
     {
-        return new ClassDefinition($name);
+        return new ClassDefinition(Name::from($name));
     }
 
     public static function interfaceNamed(string $name): InterfaceDefinition
     {
-        return new InterfaceDefinition($name);
+        return new InterfaceDefinition(Name::from($name));
     }
 
     public static function numericIdClassNamed(string $name): NumericIdClass
     {
-        return new NumericIdClass($name);
+        return new NumericIdClass(Name::from($name));
     }
 
     public static function numericIdInterfaceNamed(string $name): NumericIdInterface
     {
-        return new NumericIdInterface($name);
+        return new NumericIdInterface(Name::from($name));
     }
 
     public static function class(string $name): ClassBuilder

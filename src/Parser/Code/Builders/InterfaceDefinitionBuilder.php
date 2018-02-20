@@ -39,7 +39,7 @@ class InterfaceDefinitionBuilder
     public function build(Interface_ $interface): InterfaceDefinition
     {
         return new InterfaceDefinition(
-            $interface->name,
+            InterfaceDefinitionName::from($interface->name),
             $this->constantsBuilder->build($interface->stmts),
             $this->methodsBuilder->build($interface->getMethods()),
             $this->buildParents($interface)

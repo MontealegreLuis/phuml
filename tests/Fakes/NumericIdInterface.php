@@ -8,6 +8,7 @@
 namespace PhUml\Fakes;
 
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name;
 
 class NumericIdInterface extends InterfaceDefinition
 {
@@ -22,7 +23,7 @@ class NumericIdInterface extends InterfaceDefinition
      * @param \PhUml\Code\InterfaceDefinition[] $parents
      */
     public function __construct(
-        string $name,
+        Name $name,
         array $constants = [],
         array $methods = [],
         array $parents = []

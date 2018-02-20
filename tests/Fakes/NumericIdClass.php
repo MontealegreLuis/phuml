@@ -18,7 +18,7 @@ class NumericIdClass extends ClassDefinition
     private $identifier;
 
     public function __construct(
-        string $name,
+        Name $name,
         array $constants = [],
         array $methods = [],
         Name $parent = null,

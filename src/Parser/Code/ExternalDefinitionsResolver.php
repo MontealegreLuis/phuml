@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name;
 
 /**
  * It checks the parent of a definition and the interfaces it implements looking for external
@@ -68,11 +69,11 @@ class ExternalDefinitionsResolver
 
     protected function externalInterface(string $name): InterfaceDefinition
     {
-        return new InterfaceDefinition($name);
+        return new InterfaceDefinition(Name::from($name));
     }
 
     protected function externalClass(string $name): ClassDefinition
     {
-        return new ClassDefinition($name);
+        return new ClassDefinition(Name::from($name));
     }
 }

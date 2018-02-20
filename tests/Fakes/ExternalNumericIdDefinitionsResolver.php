@@ -9,18 +9,19 @@ namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 
 class ExternalNumericIdDefinitionsResolver extends ExternalDefinitionsResolver
 {
     protected function externalInterface(string $name): InterfaceDefinition
     {
-        return new NumericIdInterface($name);
+        return new NumericIdInterface(Name::from($name));
     }
 
     protected function externalClass(string $name): ClassDefinition
     {
-        return new NumericIdClass($name);
+        return new NumericIdClass(Name::from($name));
     }
 
 }
