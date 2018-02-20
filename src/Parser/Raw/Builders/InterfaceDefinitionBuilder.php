@@ -17,7 +17,7 @@ use PhUml\Code\InterfaceDefinition;
  * @see ConstantsBuilder for more details about the constants creation
  * @see MethodsBuilder for more details about the methods creation
  */
-class RawInterfaceBuilder
+class InterfaceDefinitionBuilder
 {
     /** @var MethodsBuilder */
     private $methodsBuilder;

@@ -8,8 +8,8 @@
 namespace PhUml\Parser\Raw;
 
 use PhpParser\ParserFactory;
-use PhUml\Parser\Raw\Builders\RawClassBuilder;
-use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
+use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Raw\Builders\InterfaceDefinitionBuilder;
 
 /**
  * It traverses the AST of all the files and interfaces found by the `CodeFinder` and builds a
@@ -23,14 +23,14 @@ use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
 class Php5Parser extends PhpParser
 {
     public function __construct(
-        RawClassBuilder $rawClassBuilder = null,
-        RawInterfaceBuilder $rawInterfaceBuilder = null
+        ClassDefinitionBuilder $classBuilder = null,
+        InterfaceDefinitionBuilder $interfaceBuilder = null
     ) {
         parent::__construct(
             (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
             new Php5Traverser(
-                $rawClassBuilder ?? new RawClassBuilder(),
-                $rawInterfaceBuilder ?? new RawInterfaceBuilder()
+                $classBuilder ?? new ClassDefinitionBuilder(),
+                $interfaceBuilder ?? new InterfaceDefinitionBuilder()
             )
         );
     }

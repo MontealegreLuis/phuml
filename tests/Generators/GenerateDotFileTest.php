@@ -11,7 +11,7 @@ use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
 use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdClassBuilder;
+use PhUml\Fakes\NumericIdClassDefinitionBuilder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Parser\CodebaseDirectory;
@@ -113,7 +113,7 @@ class GenerateDotFileTest extends TestCase
     {
         $this->generator = new DotFileGenerator(
             new CodeParser(
-                new Php5Parser(new NumericIdClassBuilder()),
+                new Php5Parser(new NumericIdClassDefinitionBuilder()),
                 new ExternalNumericIdDefinitionsResolver()
             ),
             new GraphvizProcessor()

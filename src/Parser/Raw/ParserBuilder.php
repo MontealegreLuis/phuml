@@ -16,8 +16,8 @@ use PhUml\Parser\Raw\Builders\MethodsBuilder;
 use PhUml\Parser\Raw\Builders\NoAttributesBuilder;
 use PhUml\Parser\Raw\Builders\NoConstantsBuilder;
 use PhUml\Parser\Raw\Builders\NoMethodsBuilder;
-use PhUml\Parser\Raw\Builders\RawClassBuilder;
-use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
+use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Raw\Builders\InterfaceDefinitionBuilder;
 
 class ParserBuilder
 {
@@ -74,8 +74,8 @@ class ParserBuilder
         $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder($this->filters);
 
         return new Php5Parser(
-            new RawClassBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder),
-            new RawInterfaceBuilder($constantsBuilder, $methodsBuilder)
+            new ClassDefinitionBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder),
+            new InterfaceDefinitionBuilder($constantsBuilder, $methodsBuilder)
         );
     }
 }

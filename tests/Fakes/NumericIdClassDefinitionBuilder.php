@@ -10,9 +10,9 @@ namespace PhUml\Fakes;
 use PhpParser\Node\Stmt\Class_;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
-use PhUml\Parser\Raw\Builders\RawClassBuilder;
+use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
 
-class NumericIdClassBuilder extends RawClassBuilder
+class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
 {
     public function build(Class_ $class): ClassDefinition
     {

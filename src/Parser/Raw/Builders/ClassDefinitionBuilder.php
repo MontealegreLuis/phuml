@@ -19,7 +19,7 @@ use PhUml\Code\Name as ClassDefinitionName;
  * @see AttributesBuilder for more details about the attributes creation
  * @see MethodsBuilder for more details about the methods creation
  */
-class RawClassBuilder
+class ClassDefinitionBuilder
 {
     /** @var AttributesBuilder */
     protected $attributesBuilder;

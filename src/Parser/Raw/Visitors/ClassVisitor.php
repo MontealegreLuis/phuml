@@ -11,20 +11,20 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeVisitorAbstract;
 use PhUml\Code\Codebase;
-use PhUml\Parser\Raw\Builders\RawClassBuilder;
+use PhUml\Parser\Raw\Builders\ClassDefinitionBuilder;
 
 /**
  * It extracts a `ClassDefinition` and adds it to the `Codebase`
  */
 class ClassVisitor extends NodeVisitorAbstract
 {
-    /** @var RawClassBuilder */
+    /** @var ClassDefinitionBuilder */
     private $builder;
 
     /** @var Codebase */
     private $codebase;
 
-    public function __construct(RawClassBuilder $builder, Codebase $codebase)
+    public function __construct(ClassDefinitionBuilder $builder, Codebase $codebase)
     {
         $this->builder = $builder;
         $this->codebase = $codebase;

@@ -11,8 +11,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\NodeVisitorAbstract;
 use PhUml\Code\Codebase;
-use PhUml\Parser\Raw\Builders\RawInterfaceBuilder;
-use PhUml\Parser\Raw\RawDefinitions;
+use PhUml\Parser\Raw\Builders\InterfaceDefinitionBuilder;
 
 /**
  * It extracts an `InterfaceDefinition` and adds it to the `Codebase`
@@ -22,10 +21,10 @@ class InterfaceVisitor extends NodeVisitorAbstract
     /** @var Codebase */
     private $codebase;
 
-    /** @var RawInterfaceBuilder */
+    /** @var InterfaceDefinitionBuilder */
     private $builder;
 
-    public function __construct(RawInterfaceBuilder $builder, Codebase $codebase)
+    public function __construct(InterfaceDefinitionBuilder $builder, Codebase $codebase)
     {
         $this->builder = $builder;
         $this->codebase = $codebase;
