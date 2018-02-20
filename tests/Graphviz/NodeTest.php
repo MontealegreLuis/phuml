@@ -8,16 +8,15 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\ClassDefinition;
-use PhUml\Code\InterfaceDefinition;
+use PhUml\TestBuilders\A;
 
 class NodeTest extends TestCase
 {
     /** @test */
     function it_can_be_a_class_or_an_interface()
     {
-        $class = new ClassDefinition('AClass');
-        $interface = new InterfaceDefinition('AnInterface');
+        $class = A::classNamed('AClass');
+        $interface = A::interfaceNamed('AnInterface');
 
         $classNode = new Node($class);
         $interfaceNode = new Node($interface);
@@ -29,8 +28,8 @@ class NodeTest extends TestCase
     /** @test */
     function it_knows_its_dot_template()
     {
-        $class = new ClassDefinition('AClass');
-        $interface = new InterfaceDefinition('AnInterface');
+        $class = A::classNamed('AClass');
+        $interface = A::interfaceNamed('AnInterface');
 
         $classNode = new Node($class);
         $interfaceNode = new Node($interface);

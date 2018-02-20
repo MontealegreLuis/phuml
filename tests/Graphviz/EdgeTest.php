@@ -8,16 +8,15 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\ClassDefinition;
-use PhUml\Code\InterfaceDefinition;
+use PhUml\TestBuilders\A;
 
 class EdgeTest extends TestCase
 {
     /** @test */
     function it_can_represent_an_inheritance_relationship()
     {
-        $parent = new ClassDefinition('ParentClass');
-        $child = new ClassDefinition('ChildClass');
+        $parent = A::classNamed('ParentClass');
+        $child = A::classNamed('ChildClass');
 
         $edge = Edge::inheritance($parent, $child);
 
@@ -28,8 +27,8 @@ class EdgeTest extends TestCase
     /** @test */
     function it_can_represent_an_implementation_relationship()
     {
-        $interface = new InterfaceDefinition('AnInterface');
-        $class = new ClassDefinition('AClass');
+        $interface = A::interfaceNamed('AnInterface');
+        $class = A::classNamed('AClass');
 
         $edge = Edge::implementation($interface, $class);
 
@@ -40,8 +39,8 @@ class EdgeTest extends TestCase
     /** @test */
     function it_can_represent_an_association_relationship()
     {
-        $reference = new ClassDefinition('AReference');
-        $class = new ClassDefinition('AClass');
+        $reference = A::classNamed('AReference');
+        $class = A::classNamed('AClass');
 
         $edge = Edge::association($reference, $class);
 
@@ -52,9 +51,9 @@ class EdgeTest extends TestCase
     /** @test */
     function it_knows_its_dot_template()
     {
-        $inheritance = Edge::inheritance(new ClassDefinition('A'), new ClassDefinition('B'));
-        $implementation = Edge::implementation(new ClassDefinition('A'), new InterfaceDefinition('B'));
-        $association = Edge::association(new ClassDefinition('A'), new ClassDefinition('B'));
+        $inheritance = Edge::inheritance(A::classNamed('A'), A::classNamed('B'));
+        $implementation = Edge::implementation(A::classNamed('A'), A::interfaceNamed('B'));
+        $association = Edge::association(A::classNamed('A'), A::classNamed('B'));
 
         $this->assertEquals('edge', $inheritance->dotTemplate());
         $this->assertEquals('edge', $implementation->dotTemplate());

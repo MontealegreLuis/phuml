@@ -8,6 +8,7 @@
 namespace PhUml\Code;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\TestBuilders\A;
 
 class CodebaseTest extends TestCase
 {
@@ -15,7 +16,7 @@ class CodebaseTest extends TestCase
     function it_adds_a_new_class_definition()
     {
         $codebase = new Codebase();
-        $class = new ClassDefinition('MyClass');
+        $class = A::classNamed('MyClass');
 
         $codebase->add($class);
 
@@ -27,7 +28,7 @@ class CodebaseTest extends TestCase
     function it_adds_a_new_interface_definition()
     {
         $codebase = new Codebase();
-        $interface = new InterfaceDefinition('MyInterface');
+        $interface = A::interfaceNamed('MyInterface');
 
         $codebase->add($interface);
 
@@ -39,11 +40,11 @@ class CodebaseTest extends TestCase
     function it_gets_all_the_definitions()
     {
         $codebase = new Codebase();
-        $classA = new ClassDefinition('ClassA');
-        $classB = new ClassDefinition('ClassB');
-        $classC = new ClassDefinition('ClassC');
-        $interfaceA = new InterfaceDefinition('InterfaceA');
-        $interfaceB = new InterfaceDefinition('InterfaceB');
+        $classA = A::classNamed('ClassA');
+        $classB = A::classNamed('ClassB');
+        $classC = A::classNamed('ClassC');
+        $interfaceA = A::interfaceNamed('InterfaceA');
+        $interfaceB = A::interfaceNamed('InterfaceB');
 
         $codebase->add($classC);
         $codebase->add($interfaceB);

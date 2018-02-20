@@ -7,20 +7,11 @@
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\ClassDefinition;
-use PhUml\Code\InterfaceDefinition;
 use PhUml\Fakes\StringCodeFinder;
 use PhUml\TestBuilders\A;
 
 class CodeParserTest extends TestCase
 {
-    /** @before */
-    function buildParser()
-    {
-        $this->parser = new CodeParser();
-        $this->finder = new StringCodeFinder();
-    }
-
     /** @test */
     function it_parses_a_class_with_no_attributes_and_no_methods()
     {
@@ -34,7 +25,7 @@ CLASS
 
         $codebase = $this->parser->parse($this->finder);
 
-        $class = new ClassDefinition('MyClass');
+        $class = A::classNamed('MyClass');
         $this->assertTrue($codebase->has($class->name()));
         $this->assertEquals($class, $codebase->get($class->name()));
     }
@@ -191,7 +182,7 @@ CLASS
 
         $codebase = $this->parser->parse($this->finder);
 
-        $parentClass = new ClassDefinition('ParentClass');
+        $parentClass = A::classNamed('ParentClass');
         $childClass = A::class('ChildClass')->extending($parentClass->name())->build();
 
         $this->assertTrue($codebase->has($parentClass->name()));
@@ -227,8 +218,8 @@ CLASS
 
         $codebase = $this->parser->parse($this->finder);
 
-        $interfaceOne = new InterfaceDefinition('InterfaceOne');
-        $interfaceTwo = new InterfaceDefinition('InterfaceTwo');
+        $interfaceOne = A::interfaceNamed('InterfaceOne');
+        $interfaceTwo = A::interfaceNamed('InterfaceTwo');
         $class = A::class('MyClass')->implementing($interfaceOne->name(), $interfaceTwo->name())->build();
 
         $this->assertTrue($codebase->has($interfaceOne->name()));
@@ -292,7 +283,7 @@ INTERFACE
 
         $codebase = $this->parser->parse($this->finder);
 
-        $parentInterface = new InterfaceDefinition('ParentInterface');
+        $parentInterface = A::interfaceNamed('ParentInterface');
         $childInterface = A::interface('ChildInterface')->extending($parentInterface->name())->build();
         $this->assertTrue($codebase->has($parentInterface->name()));
         $this->assertEquals($parentInterface, $codebase->get($parentInterface->name()));
@@ -434,6 +425,13 @@ CLASS;
         $this->assertEquals($pageable, $codebase->get($pageable->name()));
         $this->assertTrue($codebase->has($students->name()));
         $this->assertEquals($students, $codebase->get($students->name()));
+    }
+
+    /** @before */
+    function buildParser()
+    {
+        $this->parser = new CodeParser();
+        $this->finder = new StringCodeFinder();
     }
 
     /** @var CodeParser */

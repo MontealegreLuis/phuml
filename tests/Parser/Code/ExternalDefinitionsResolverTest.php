@@ -8,9 +8,7 @@
 namespace PhUml\Parser\Code;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name;
 use PhUml\TestBuilders\A;
 
@@ -22,10 +20,10 @@ class ExternalDefinitionsResolverTest extends TestCase
         $codebase = new Codebase();
         $resolver = new ExternalDefinitionsResolver();
 
-        $codebase->add(new ClassDefinition('AClass'));
-        $codebase->add(new ClassDefinition('AnotherClass'));
-        $codebase->add(new InterfaceDefinition('AnInterface'));
-        $codebase->add(new InterfaceDefinition('AnotherInterface'));
+        $codebase->add(A::classNamed('AClass'));
+        $codebase->add(A::classNamed('AnotherClass'));
+        $codebase->add(A::interfaceNamed('AnInterface'));
+        $codebase->add(A::interfaceNamed('AnotherInterface'));
 
         $resolver->resolve($codebase);
 

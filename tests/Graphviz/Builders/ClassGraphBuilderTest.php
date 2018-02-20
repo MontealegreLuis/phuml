@@ -8,9 +8,7 @@
 namespace PhUml\Graphviz\Builders;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Code\InterfaceDefinition;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
@@ -20,7 +18,7 @@ class ClassGraphBuilderTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_simple_class()
     {
-        $class = new ClassDefinition('ClassName');
+        $class = A::classNamed('ClassName');
         $graphElements = new ClassGraphBuilder();
 
         $dotElements = $graphElements->extractFrom($class, new Codebase());
@@ -31,7 +29,7 @@ class ClassGraphBuilderTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_with_a_parent()
     {
-        $parent = new ClassDefinition('ParentClass');
+        $parent = A::classNamed('ParentClass');
         $class = A::class('ChildClass')->extending($parent->name())->build();
         $codebase = new Codebase();
         $codebase->add($parent);
@@ -48,8 +46,8 @@ class ClassGraphBuilderTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_implementing_interfaces()
     {
-        $firstInterface = new InterfaceDefinition('FirstInterface');
-        $secondInterface = new InterfaceDefinition('FirstInterface');
+        $firstInterface = A::interfaceNamed('FirstInterface');
+        $secondInterface = A::interfaceNamed('FirstInterface');
         $class = A::class('AClass')
             ->implementing($firstInterface->name(), $secondInterface->name())
             ->build();
@@ -70,7 +68,7 @@ class ClassGraphBuilderTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_with_associations_in_the_constructor()
     {
-        $reference = new ClassDefinition('AnotherClass');
+        $reference = A::classNamed('AnotherClass');
         $class = A::class('AClass')
             ->withAPublicMethod(
                 '__construct',
@@ -92,8 +90,8 @@ class ClassGraphBuilderTest extends TestCase
     /** @test */
     function it_extracts_the_elements_for_a_class_with_associations_in_the_attributes()
     {
-        $firstReference = new ClassDefinition('FirstClass');
-        $secondReference = new ClassDefinition('SecondClass');
+        $firstReference = A::classNamed('FirstClass');
+        $secondReference = A::classNamed('SecondClass');
         $class = A::class('AClass')
             ->withAPrivateAttribute('$firstReference', $firstReference->name())
             ->withAPrivateAttribute('$secondReference', $secondReference->name())
@@ -115,13 +113,13 @@ class ClassGraphBuilderTest extends TestCase
     /** @test */
     function it_extracts_the_elements_of_a_class_with_all_types_of_associations()
     {
-        $firstReference = new ClassDefinition('FirstClass');
-        $secondReference = new ClassDefinition('SecondClass');
-        $thirdReference = new ClassDefinition('ThirdClass');
-        $fourthReference = new ClassDefinition('FourthClass');
-        $firstInterface = new InterfaceDefinition('FirstInterface');
-        $secondInterface = new InterfaceDefinition('FirstInterface');
-        $parent = new ClassDefinition('ParentClass');
+        $firstReference = A::classNamed('FirstClass');
+        $secondReference = A::classNamed('SecondClass');
+        $thirdReference = A::classNamed('ThirdClass');
+        $fourthReference = A::classNamed('FourthClass');
+        $firstInterface = A::interfaceNamed('FirstInterface');
+        $secondInterface = A::interfaceNamed('FirstInterface');
+        $parent = A::classNamed('ParentClass');
 
         $class = A::class('AClass')
             ->withAPrivateAttribute('$firstReference', $firstReference->name())
@@ -161,7 +159,7 @@ class ClassGraphBuilderTest extends TestCase
     /** @test */
     function it_extracts_association_to_same_class_from_different_classes()
     {
-        $reference = new ClassDefinition('AReference');
+        $reference = A::classNamed('AReference');
         $class = A::class('AClass')
             ->withAPrivateAttribute('$firstReference', $reference->name())
             ->build()
@@ -184,7 +182,6 @@ class ClassGraphBuilderTest extends TestCase
             new Node($anotherClass),
         ], $dotElements);
     }
-
 
     /** @test */
     function it_ignores_associations_if_specified()

@@ -8,9 +8,6 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\InterfaceDefinition;
-use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Templates\TemplateEngine;
@@ -99,7 +96,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_builds_an_html_label_for_an_interface()
     {
-        $interface = new InterfaceDefinition('AnInterface');
+        $interface = A::interfaceNamed('AnInterface');
         $digraph = new Digraph();
         $digraph->add([new Node($interface)]);
 
@@ -134,7 +131,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_a_single_definition_as_dot_language()
     {
-        $class = new NumericIdClass('TestClass');
+        $class = A::numericIdClassNamed('TestClass');
         $digraph = new Digraph();
         $digraph->add([new Node($class)]);
 
@@ -146,7 +143,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_inheritance_as_dot_language()
     {
-        $parentClass = new NumericIdClass('ParentClass');
+        $parentClass = A::numericIdClassNamed('ParentClass');
         $class = A::class('TestClass')->extending($parentClass->name())->buildWithNumericId();
         $digraph = new Digraph();
         $digraph->add([
@@ -165,8 +162,8 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_interfaces_implementations_as_dot_language()
     {
-        $anInterface = new NumericIdInterface('AnInterface');
-        $anotherInterface = new NumericIdInterface('AnotherInterface');
+        $anInterface = A::numericIdInterfaceNamed('AnInterface');
+        $anotherInterface = A::numericIdInterfaceNamed('AnotherInterface');
         $class = A::class('TestClass')
             ->implementing($anInterface->name(), $anotherInterface->name())
             ->buildWithNumericId();
@@ -191,7 +188,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_constructor_dependencies_as_associations_in_dot_language()
     {
-        $reference = new NumericIdClass('AReference');
+        $reference = A::numericIdClassNamed('AReference');
         $class = A::class('TestClass')
             ->withAPublicMethod(
                 '__construct',
@@ -216,7 +213,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_class_attributes_as_associations_in_dot_language()
     {
-        $reference = new NumericIdClass('AReference');
+        $reference = A::numericIdClassNamed('AReference');
         $class = A::class('TestClass')
             ->withAPrivateAttribute('$aReference', 'AReference')
             ->buildWithNumericId()

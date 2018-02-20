@@ -9,8 +9,6 @@ namespace PhUml\Processors;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Codebase;
-use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
@@ -36,12 +34,12 @@ class GraphvizProcessorTest extends TestCase
     {
         $processor = new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder()));
 
-        $parentInterface = new NumericIdInterface('ParentInterface');
+        $parentInterface = A::numericIdInterfaceNamed('ParentInterface');
         $interface = A::interface('ImplementedInterface')
             ->extending($parentInterface->name())
             ->buildWithNumericId();
-        $parentClass = new NumericIdClass('ParentClass');
-        $reference = new NumericIdClass('ReferencedClass');
+        $parentClass = A::numericIdClassNamed('ParentClass');
+        $reference = A::numericIdClassNamed('ReferencedClass');
         $class = A::class('MyClass')
             ->withAPublicMethod(
                 '__construct',

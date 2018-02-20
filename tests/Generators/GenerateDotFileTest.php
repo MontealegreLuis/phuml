@@ -10,7 +10,6 @@ namespace PhUml\Generators;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
-use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdClassDefinitionBuilder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
@@ -20,6 +19,7 @@ use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
+use PhUml\TestBuilders\A;
 
 class GenerateDotFileTest extends TestCase
 {
@@ -46,8 +46,8 @@ class GenerateDotFileTest extends TestCase
 
         $this->resetIds();
         $digraphInDotFormat = file_get_contents($file);
-        $this->assertNode(new NumericIdClass('plBase'), $digraphInDotFormat);
-        $this->assertNode(new NumericIdClass('plPhuml'), $digraphInDotFormat);
+        $this->assertNode(A::numericIdClassNamed('plBase'), $digraphInDotFormat);
+        $this->assertNode(A::numericIdClassNamed('plPhuml'), $digraphInDotFormat);
     }
 
     /** @test */
@@ -60,25 +60,25 @@ class GenerateDotFileTest extends TestCase
         $this->generator->generate($finder, $file);
 
         $this->resetIds();
-        $base = new NumericIdClass('plBase');
-        $tokenParser = new NumericIdClass('plStructureTokenparserGenerator');
-        $attribute = new NumericIdClass('plPhpAttribute');
-        $class = new NumericIdClass('plPhpClass');
-        $function = new NumericIdClass('plPhpFunction');
-        $parameter = new NumericIdClass('plPhpFunctionParameter');
-        $interface = new NumericIdClass('plPhpInterface');
-        $uml = new NumericIdClass('plPhuml');
-        $dotProcessor = new NumericIdClass('plDotProcessor');
-        $graphvizProcessor = new NumericIdClass('plGraphvizProcessor');
-        $graphvizOptions = new NumericIdClass('plGraphvizProcessorOptions');
-        $defaultStyle = new NumericIdClass('plGraphvizProcessorDefaultStyle');
-        $neatoProcessor = new NumericIdClass('plNeatoProcessor');
-        $options = new NumericIdClass('plProcessorOptions');
-        $statisticsProcessor = new NumericIdClass('plStatisticsProcessor');
-        $structureGenerator = new NumericIdClass('plStructureGenerator');
-        $externalCommand = new NumericIdClass('plExternalCommandProcessor');
-        $processor = new NumericIdClass('plProcessor');
-        $style = new NumericIdClass('plGraphvizProcessorStyle');
+        $base = A::numericIdClassNamed('plBase');
+        $tokenParser = A::numericIdClassNamed('plStructureTokenparserGenerator');
+        $attribute = A::numericIdClassNamed('plPhpAttribute');
+        $class = A::numericIdClassNamed('plPhpClass');
+        $function = A::numericIdClassNamed('plPhpFunction');
+        $parameter = A::numericIdClassNamed('plPhpFunctionParameter');
+        $interface = A::numericIdClassNamed('plPhpInterface');
+        $uml = A::numericIdClassNamed('plPhuml');
+        $dotProcessor = A::numericIdClassNamed('plDotProcessor');
+        $graphvizProcessor = A::numericIdClassNamed('plGraphvizProcessor');
+        $graphvizOptions = A::numericIdClassNamed('plGraphvizProcessorOptions');
+        $defaultStyle = A::numericIdClassNamed('plGraphvizProcessorDefaultStyle');
+        $neatoProcessor = A::numericIdClassNamed('plNeatoProcessor');
+        $options = A::numericIdClassNamed('plProcessorOptions');
+        $statisticsProcessor = A::numericIdClassNamed('plStatisticsProcessor');
+        $structureGenerator = A::numericIdClassNamed('plStructureGenerator');
+        $externalCommand = A::numericIdClassNamed('plExternalCommandProcessor');
+        $processor = A::numericIdClassNamed('plProcessor');
+        $style = A::numericIdClassNamed('plGraphvizProcessorStyle');
         $digraphInDotFormat = file_get_contents($file);
         $this->assertNode($base, $digraphInDotFormat);
         $this->assertNode($structureGenerator, $digraphInDotFormat);
