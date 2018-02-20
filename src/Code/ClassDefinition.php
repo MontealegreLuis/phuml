@@ -106,7 +106,6 @@ class ClassDefinition extends Definition implements CanBeAbstract
     /**
      * It is used by the `ClassGraphBuilder` to create the edge to represent inheritance
      *
-     * @return InterfaceDefinition[]
      * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
      */
     public function parent(): Name

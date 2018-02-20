@@ -43,7 +43,7 @@ class ExternalDefinitionsResolver
     }
 
     /**
-     * @param string[] $interfaces
+     * @param \PhUml\Code\Name[] $interfaces
      * @param Codebase $codebase
      */
     private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void

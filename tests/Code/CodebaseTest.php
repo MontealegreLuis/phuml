@@ -19,7 +19,7 @@ class CodebaseTest extends TestCase
 
         $codebase->add($class);
 
-        $this->assertTrue($codebase->has('MyClass'));
+        $this->assertTrue($codebase->has($class->name()));
         $this->assertEquals($class, $codebase->get('MyClass'));
     }
 
@@ -31,7 +31,7 @@ class CodebaseTest extends TestCase
 
         $codebase->add($interface);
 
-        $this->assertTrue($codebase->has('MyInterface'));
+        $this->assertTrue($codebase->has($interface->name()));
         $this->assertEquals($interface, $codebase->get('MyInterface'));
     }
 

@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code\Builders;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Interface_;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Name as InterfaceDefinitionName;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 
@@ -45,11 +46,11 @@ class InterfaceDefinitionBuilder
         );
     }
 
-    /** @return string[] */
+    /** @return InterfaceDefinitionName[] */
     protected function buildParents(Interface_ $interface): array
     {
         return array_map(function (Name $name) {
-            return $name->getLast();
+            return InterfaceDefinitionName::from($name->getLast());
         }, $interface->extends);
     }
 }

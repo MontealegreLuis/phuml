@@ -24,9 +24,9 @@ class Codebase
         $this->definitions[(string)$definition->name()] = $definition;
     }
 
-    public function has(string $name): bool
+    public function has(Name $name): bool
     {
-        return isset($this->definitions[$name]);
+        return isset($this->definitions[(string)$name]);
     }
 
     public function get(string $name): Definition
