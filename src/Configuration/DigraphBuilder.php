@@ -15,6 +15,8 @@ use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\DefaultDigraphStyle;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
+use PhUml\Parser\Code\ExternalAssociationsResolver;
+use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\ParserBuilder;
 use PhUml\Parser\Code\PhpParser;
 use PhUml\Parser\CodeFinder;
@@ -61,7 +63,7 @@ class DigraphBuilder
 
     protected function codeParser(): CodeParser
     {
-        return new CodeParser($this->tokenParser());
+        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolver());
     }
 
     protected function tokenParser(): PhpParser
@@ -94,5 +96,13 @@ class DigraphBuilder
         if ($this->configuration->hideProtected()) {
             $this->parserBuilder->excludeProtectedMembers();
         }
+    }
+
+    private function externalDefinitionsResolver(): ExternalDefinitionsResolver
+    {
+        if ($this->configuration->extractAssociations()) {
+            return new ExternalAssociationsResolver();
+        }
+        return new ExternalDefinitionsResolver();
     }
 }

@@ -14,14 +14,13 @@ use PhUml\Parser\Code\ExternalDefinitionsResolver;
 
 class ExternalNumericIdDefinitionsResolver extends ExternalDefinitionsResolver
 {
-    protected function externalInterface(string $name): InterfaceDefinition
+    protected function externalInterface(Name $name): InterfaceDefinition
     {
-        return new NumericIdInterface(Name::from($name));
+        return new NumericIdInterface($name);
     }
 
-    protected function externalClass(string $name): ClassDefinition
+    protected function externalClass(Name $name): ClassDefinition
     {
-        return new NumericIdClass(Name::from($name));
+        return new NumericIdClass($name);
     }
-
 }

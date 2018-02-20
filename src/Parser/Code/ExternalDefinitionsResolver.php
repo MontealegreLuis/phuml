@@ -32,13 +32,13 @@ class ExternalDefinitionsResolver
         }
     }
 
-    private function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
+    protected function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
         $this->resolveExternalInterfaces($definition->interfaces(), $codebase);
         $this->resolveExternalParentClass($definition, $codebase);
     }
 
-    private function resolveForInterface(InterfaceDefinition $definition, Codebase $codebase): void
+    protected function resolveForInterface(InterfaceDefinition $definition, Codebase $codebase): void
     {
         $this->resolveExternalInterfaces($definition->parents(), $codebase);
     }
@@ -67,13 +67,13 @@ class ExternalDefinitionsResolver
         }
     }
 
-    protected function externalInterface(string $name): InterfaceDefinition
+    protected function externalInterface(Name $name): InterfaceDefinition
     {
-        return new InterfaceDefinition(Name::from($name));
+        return new InterfaceDefinition($name);
     }
 
-    protected function externalClass(string $name): ClassDefinition
+    protected function externalClass(Name $name): ClassDefinition
     {
-        return new ClassDefinition(Name::from($name));
+        return new ClassDefinition($name);
     }
 }
