@@ -1,5 +1,10 @@
 # Contributing to phUML
 
+## Code of Conduct
+
+This project is released with a [Contributor Code of Conduct][10].
+By participating in this project you agree to abide by its terms.
+
 ## Workflow
 
 * Fork the project.
@@ -43,7 +48,7 @@ $ git clone git://github.com/MontealegreLuis/phuml.git
 $ cd phuml
 ```
 
-Retrieve phUML's dependencies using [Composer](https://getcomposer.org/):
+Retrieve phUML's dependencies using [Composer][11]:
 
 ```bash
 $ composer install
@@ -66,7 +71,7 @@ $ make test
 
 [Make][6] will run PHPUnit with the same options it runs in Travis inside the Docker container.
 
-You can alternatively run the test suite without this group of tests without the container
+You can alternatively run the test suite without this group of tests in your local environment.
 
 ```
 $ vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group=snapshot
@@ -104,3 +109,5 @@ Before opening a new ticket, please search through the [existing issues][3].
 [7]: https://xdebug.org/
 [8]: https://docs.docker.com/compose/overview/
 [9]: http://couscous.io/
+[10]: CODE-OF-CONDUCT.md
+[11]: https://getcomposer.org/
