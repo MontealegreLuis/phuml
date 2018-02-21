@@ -14,5 +14,6 @@ trait WithNumericIds
     {
         NumericIdClass::reset();
         NumericIdInterface::reset();
+        NumericIdTrait::reset();
     }
 }

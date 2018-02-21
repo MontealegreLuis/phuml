@@ -11,8 +11,10 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Codebase;
+use PhUml\Code\TraitDefinition;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
+use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\Digraph;
 use PhUml\Graphviz\DigraphPrinter;
 
@@ -30,13 +32,18 @@ class GraphvizProcessor extends Processor
     /** @var DigraphPrinter */
     private $printer;
 
+    /** @var TraitGraphBuilder */
+    private $traitBuilder;
+
     public function __construct(
         ClassGraphBuilder $classBuilder = null,
         InterfaceGraphBuilder $interfaceBuilder = null,
+        TraitGraphBuilder $traitBuilder = null,
         DigraphPrinter $printer = null
     ) {
         $this->classBuilder = $classBuilder ?? new ClassGraphBuilder();
         $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder();
+        $this->traitBuilder = $traitBuilder ?? new TraitGraphBuilder();
         $this->printer = $printer ?? new DigraphPrinter();
     }
 
@@ -63,6 +70,8 @@ class GraphvizProcessor extends Processor
             $digraph->add($this->classBuilder->extractFrom($definition, $codebase));
         } elseif ($definition instanceof InterfaceDefinition) {
             $digraph->add($this->interfaceBuilder->extractFrom($definition, $codebase));
+        } elseif ($definition instanceof TraitDefinition) {
+            $digraph->add($this->traitBuilder->extractFrom($definition));
         }
     }
 }

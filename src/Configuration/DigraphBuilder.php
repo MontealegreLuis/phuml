@@ -11,6 +11,7 @@ use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
+use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\DefaultDigraphStyle;
 use PhUml\Graphviz\Styles\DigraphStyle;
@@ -49,6 +50,7 @@ class DigraphBuilder
         return new GraphvizProcessor(
             new ClassGraphBuilder($associationsBuilder),
             new InterfaceGraphBuilder(),
+            new TraitGraphBuilder(),
             new DigraphPrinter(new TemplateEngine(), $this->digraphStyle())
         );
     }

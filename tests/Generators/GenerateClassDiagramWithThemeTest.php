@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
+use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
 use PhUml\Parser\CodebaseDirectory;
@@ -66,6 +67,7 @@ class GenerateClassDiagramWithThemeTest extends TestCase
             new GraphvizProcessor(
                 new ClassGraphBuilder(new EdgesBuilder()),
                 new InterfaceGraphBuilder(),
+                new TraitGraphBuilder(),
                 new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksStyle($theme))
             ),
             new DotProcessor()

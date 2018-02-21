@@ -9,6 +9,7 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
+use PhUml\Fakes\NumericIdTrait;
 
 class TraitBuilder
 {
@@ -25,6 +26,15 @@ class TraitBuilder
     public function build(): TraitDefinition
     {
         return new TraitDefinition(
+            Name::from($this->name),
+            $this->methods,
+            $this->attributes
+        );
+    }
+
+    public function buildWithNumericId(): NumericIdTrait
+    {
+        return new NumericIdTrait(
             Name::from($this->name),
             $this->methods,
             $this->attributes
