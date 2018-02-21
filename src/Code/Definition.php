@@ -26,10 +26,7 @@ abstract class Definition implements Named, HasNodeIdentifier
     /** @var Method[] */
     protected $methods;
 
-    /**
-     * @param Name $name
-     * @param Method[] $methods
-     */
+    /** @param Method[] $methods */
     public function __construct(Name $name, array $methods = [])
     {
         $this->name = $name;

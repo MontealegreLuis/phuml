@@ -8,24 +8,16 @@
 namespace PhUml\Code;
 
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\HasConstants;
 use PhUml\ContractTests\DefinitionTest;
+use PhUml\ContractTests\WithAttributesTests;
 use PhUml\ContractTests\WithConstantsTests;
 use PhUml\TestBuilders\A;
 
 class ClassDefinitionTest extends DefinitionTest
 {
-    use WithConstantsTests;
-
-    /** @test */
-    function it_has_by_default_no_attributes()
-    {
-        $noAttributesClass = new ClassDefinition(Name::from('NoAttributesClass'));
-
-        $attributes = $noAttributesClass->attributes();
-
-        $this->assertCount(0, $attributes);
-    }
+    use WithConstantsTests, WithAttributesTests;
 
     /** @test */
     function it_does_not_implement_any_interface_by_default()
@@ -35,25 +27,6 @@ class ClassDefinitionTest extends DefinitionTest
         $interfaces = $noInterfacesClass->interfaces();
 
         $this->assertCount(0, $interfaces);
-    }
-
-    /** @test */
-    function it_knows_its_attributes()
-    {
-        $attributes = [
-            Attribute::public('$firstAttribute'),
-            Attribute::public('$secondAttribute'),
-        ];
-
-        $classWithAttributes = A::class('ClassWithAttributes')
-            ->withAPublicAttribute('$firstAttribute')
-            ->withAPublicAttribute('$secondAttribute')
-            ->build()
-        ;
-
-        $classAttributes = $classWithAttributes->attributes();
-
-        $this->assertEquals($attributes, $classAttributes);
     }
 
     /** @test */
@@ -134,5 +107,11 @@ class ClassDefinitionTest extends DefinitionTest
     protected function definitionWithConstants(array $constants = []): HasConstants
     {
         return new ClassDefinition(Name::from('AnyClassDefinition'), [], $constants);
+    }
+
+    /** @param Attribute[] $attributes */
+    protected function definitionWithAttributes(array $attributes = []): HasAttributes
+    {
+        return new ClassDefinition(Name::from('AClassWithAttributes'), [], [], null, $attributes);
     }
 }

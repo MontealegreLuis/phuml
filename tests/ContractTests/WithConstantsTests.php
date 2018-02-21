@@ -38,6 +38,6 @@ trait WithConstantsTests
         $this->assertEquals($constants, $definitionConstants);
     }
 
-    /** @param HasConstants[] $constants */
+    /** @param Constant[] $constants */
     abstract protected function definitionWithConstants(array $constants = []): HasConstants;
 }

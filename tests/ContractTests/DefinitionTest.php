@@ -68,5 +68,6 @@ abstract class DefinitionTest extends TestCase
         $this->assertEquals($definitionTwo->identifier(), $definitionTwo->identifier());
     }
 
+    /** @param \PhUml\Code\Methods\Method[] */
     abstract protected function definition(array $methods = []): Definition;
 }
