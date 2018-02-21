@@ -48,7 +48,7 @@ Released under the [BSD-3-Clause](LICENSE).
 [8]: https://raw.githubusercontent.com/MontealegreLuis/phuml/master/docs/phuml-example-thumbnail.png
 [9]: http://montealegreluis.com/phuml
 [10]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/badges/coverage.png?b=master
-[11]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/?branch=master
+[11]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/code-structure/master/code-coverage
 [12]: https://getcomposer.org/
 [13]: https://github.com/jakobwesthoff/phuml/tree/master/src
 [14]: https://img.shields.io/packagist/v/phuml/phuml.svg?style=flat-square
