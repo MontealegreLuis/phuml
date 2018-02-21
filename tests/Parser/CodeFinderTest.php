@@ -30,11 +30,12 @@ class CodeFinderTest extends TestCase
 
         $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/interfaces'));
 
-        $this->assertCount(5, $finder->files());
+        $this->assertCount(6, $finder->files());
         $this->assertRegExp('/interface plCompatible/', $finder->files()[0]);
-        $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[1]);
-        $this->assertRegExp('/abstract class plProcessor/', $finder->files()[2]);
-        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $finder->files()[3]);
-        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $finder->files()[4]);
+        $this->assertRegExp('/trait plDiskWriter/', $finder->files()[1]);
+        $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[2]);
+        $this->assertRegExp('/abstract class plProcessor/', $finder->files()[3]);
+        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $finder->files()[4]);
+        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $finder->files()[5]);
     }
 }

@@ -2,15 +2,13 @@
 
 abstract class plProcessor implements plCompatible
 {
+    use plDiskWriter;
+
     public static function factory( $processor )
     {
     }
 
     public static function getProcessors()
-    {
-    }
-
-    public function writeToDisk( $input, $output )
     {
     }
 
