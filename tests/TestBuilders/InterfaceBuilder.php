@@ -40,8 +40,8 @@ class InterfaceBuilder extends DefinitionBuilder
     {
         return new InterfaceDefinition(
             Name::from($this->name),
-            $this->constants,
             $this->methods,
+            $this->constants,
             $this->parents
         );
     }

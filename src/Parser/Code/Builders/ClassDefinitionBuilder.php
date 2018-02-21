@@ -47,8 +47,8 @@ class ClassDefinitionBuilder
     {
         return new ClassDefinition(
             ClassDefinitionName::from($class->name),
-            $this->constantsBuilder->build($class->stmts),
             $this->methodsBuilder->build($class->getMethods()),
+            $this->constantsBuilder->build($class->stmts),
             !empty($class->extends) ? ClassDefinitionName::from(end($class->extends->parts)) : null,
             $this->attributesBuilder->build($class->stmts),
             $this->buildInterfaces($class->implements)

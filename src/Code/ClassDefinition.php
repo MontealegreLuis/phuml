@@ -30,15 +30,15 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
     private $interfaces;
 
     /**
-     * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Method[] $methods
+     * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Attribute[] $attributes
      * @param Name[] $interfaces
      */
     public function __construct(
         Name $name,
-        array $constants = [],
         array $methods = [],
+        array $constants = [],
         Name $parent = null,
         array $attributes = [],
         array $interfaces = []

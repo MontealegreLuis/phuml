@@ -28,7 +28,7 @@ class NumericIdInterface extends InterfaceDefinition
         array $methods = [],
         array $parents = []
     ) {
-        parent::__construct($name, $constants, $methods, $parents);
+        parent::__construct($name, $methods, $constants, $parents);
         self::$id++;
         $this->identifier = self::$id;
     }

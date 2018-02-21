@@ -41,13 +41,13 @@ class InterfaceDefinitionTest extends DefinitionTest
         $this->assertEquals([$parent->name(), $anotherParent->name()], $parents);
     }
 
-    protected function definition(array $constants = [], array $methods = []): Definition
+    protected function definition(array $methods = []): Definition
     {
-        return new InterfaceDefinition(Name::from('ADefinition'), $constants, $methods);
+        return new InterfaceDefinition(Name::from('ADefinition'), $methods);
     }
 
     protected function definitionWithConstants(array $constants = []): HasConstants
     {
-        return new InterfaceDefinition(Name::from('AnyClassDefinition'), $constants);
+        return new InterfaceDefinition(Name::from('AnyClassDefinition'), [], $constants);
     }
 }

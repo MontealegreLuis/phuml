@@ -40,7 +40,7 @@ abstract class DefinitionTest extends TestCase
             Method::public('methodOne'),
             Method::public('methodTwo'),
         ];
-        $definitionWithMethods = $this->definition([], $methods);
+        $definitionWithMethods = $this->definition($methods);
 
         $definitionMethods = $definitionWithMethods->methods();
 
@@ -68,5 +68,5 @@ abstract class DefinitionTest extends TestCase
         $this->assertEquals($definitionTwo->identifier(), $definitionTwo->identifier());
     }
 
-    abstract protected function definition(array $constants = [], array $methods = []): Definition;
+    abstract protected function definition(array $methods = []): Definition;
 }

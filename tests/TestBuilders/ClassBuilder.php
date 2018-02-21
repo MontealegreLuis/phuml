@@ -97,8 +97,8 @@ class ClassBuilder extends DefinitionBuilder
     {
         return new ClassDefinition(
             Name::from($this->name),
-            $this->constants,
             $this->methods,
+            $this->constants,
             $this->parent,
             $this->attributes,
             $this->interfaces

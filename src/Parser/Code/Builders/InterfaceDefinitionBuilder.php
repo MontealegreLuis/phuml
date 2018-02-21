@@ -40,8 +40,8 @@ class InterfaceDefinitionBuilder
     {
         return new InterfaceDefinition(
             InterfaceDefinitionName::from($interface->name),
-            $this->constantsBuilder->build($interface->stmts),
             $this->methodsBuilder->build($interface->getMethods()),
+            $this->constantsBuilder->build($interface->stmts),
             $this->buildParents($interface)
         );
     }

@@ -21,14 +21,14 @@ class InterfaceDefinition extends Definition implements HasConstants
     protected $parents;
 
     /**
-     * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param \PhUml\Code\Methods\Method[] $methods
+     * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Name[] $parents
      */
     public function __construct(
         Name $name,
-        array $constants = [],
         array $methods = [],
+        array $constants = [],
         array $parents = []
     ) {
         parent::__construct($name, $methods);

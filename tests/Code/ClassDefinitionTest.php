@@ -126,13 +126,13 @@ class ClassDefinitionTest extends DefinitionTest
         $this->assertEquals($parent, $parentClass);
     }
 
-    protected function definition(array $constants = [], array $methods = []): Definition
+    protected function definition(array $methods = []): Definition
     {
-        return new ClassDefinition(Name::from('ADefinition'), $constants, $methods);
+        return new ClassDefinition(Name::from('ADefinition'), $methods);
     }
 
     protected function definitionWithConstants(array $constants = []): HasConstants
     {
-        return new ClassDefinition(Name::from('AnyClassDefinition'), $constants);
+        return new ClassDefinition(Name::from('AnyClassDefinition'), [], $constants);
     }
 }
