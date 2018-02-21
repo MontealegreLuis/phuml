@@ -8,6 +8,8 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\Methods\AbstractMethod;
+use PhUml\Code\Methods\StaticMethod;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Templates\TemplateEngine;
@@ -124,6 +126,31 @@ mindist = 0.6;', $dotLanguage);
 
         $this->assertContains(
             '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>AnInterface</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><I>+NUMERIC: int</I></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><I>+NO_TYPE</I></FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+doSomething()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+changeValue($value: int)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>',
+            $dotLanguage
+        );
+    }
+
+    /** @test */
+    function it_builds_an_html_label_for_a_trait_with_attributes_and_methods()
+    {
+        $trait = A::trait('ATrait')
+            ->withAPrivateAttribute('age')
+            ->withAProtectedAttribute('category', 'string')
+            ->withAPublicMethod('getAge')
+            ->withAProtectedMethod(
+                'setCategory',
+                A::parameter('category')->withType('string')->build()
+            )
+            ->withAMethod(StaticMethod::protected('count'))
+            ->withAMethod(AbstractMethod::private('display'))
+            ->build();
+        $digraph = new Digraph();
+        $digraph->add([new Node($trait)]);
+
+        $dotLanguage = $this->printer->toDot($digraph);
+
+        $this->assertContains(
+            '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><< trait >><BR/><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>ATrait</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-age</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#category: string</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getAge()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#setCategory(category: string)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>#count()</U></FONT><BR ALIGN="LEFT"/><I><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-display()</FONT></I><BR ALIGN="LEFT"/></TD></TR></TABLE>',
             $dotLanguage
         );
     }

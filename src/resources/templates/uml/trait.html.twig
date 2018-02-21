@@ -1,0 +1,8 @@
+{% set tag %}
+<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT">
+    {% include 'partials/_trait-name.html.twig' with {'definition': definition, 'isAbstract': true, 'theme': theme} %}
+    {% include style.attributes with {'definition': definition, 'theme' : theme} %}
+    {% include style.methods with {'definition': definition, 'theme' : theme} %}
+</TABLE>
+{% endset %}
+{{ tag|replace({ '\n': '', '\r': '' })|whitespace|raw }}

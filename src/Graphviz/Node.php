@@ -9,9 +9,10 @@ namespace PhUml\Graphviz;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
+use PhUml\Code\InterfaceDefinition;
 
 /**
- * Both `ClassDefinition` and `InterfaceDefinition` objects can be nodes
+ * `ClassDefinition`, `InterfaceDefinition` and `TraitDefinition` objects can be nodes
  *
  * All nodes labels are HTML tables
  */
@@ -37,6 +38,12 @@ class Node implements HasDotRepresentation
 
     public function labelTemplate(): string
     {
-        return $this->definition instanceof ClassDefinition ? 'class' : 'interface';
+        if ($this->definition instanceof ClassDefinition) {
+            return 'class';
+        }
+        if ($this->definition instanceof InterfaceDefinition) {
+            return 'interface';
+        }
+        return 'trait';
     }
 }
