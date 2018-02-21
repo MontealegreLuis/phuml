@@ -155,7 +155,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
     private function hasConstructor(): bool
     {
         return \count(array_filter($this->methods, function (Method $function) {
-                return $function->isConstructor();
-            })) === 1;
+            return $function->isConstructor();
+        })) === 1;
     }
 }
