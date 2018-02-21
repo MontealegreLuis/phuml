@@ -19,21 +19,20 @@ use PhUml\Graphviz\ObjectHashIdentifier;
  *
  * It does not support traits yet
  */
-abstract class Definition implements Named, HasConstants, HasNodeIdentifier
+abstract class Definition implements Named, HasNodeIdentifier
 {
-    use WithName, WithConstants, ObjectHashIdentifier;
+    use WithName, ObjectHashIdentifier;
 
     /** @var Method[] */
     protected $methods;
 
     /**
-     * @param \PhUml\Code\Attributes\Constant[] $constants
+     * @param Name $name
      * @param Method[] $methods
      */
-    public function __construct(Name $name, array $constants = [], array $methods = [])
+    public function __construct(Name $name, array $methods = [])
     {
         $this->name = $name;
-        $this->constants = $constants;
         $this->methods = $methods;
     }
 

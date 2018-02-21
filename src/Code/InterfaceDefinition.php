@@ -7,11 +7,16 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\HasConstants;
+use PhUml\Code\Attributes\WithConstants;
+
 /**
  * It represents an interface definition
  */
-class InterfaceDefinition extends Definition
+class InterfaceDefinition extends Definition implements HasConstants
 {
+    use WithConstants;
+
     /** @var Name[] */
     protected $parents;
 
@@ -26,7 +31,8 @@ class InterfaceDefinition extends Definition
         array $methods = [],
         array $parents = []
     ) {
-        parent::__construct($name, $constants, $methods);
+        parent::__construct($name, $methods);
+        $this->constants = $constants;
         $this->parents = $parents;
     }
 
@@ -63,6 +69,6 @@ class InterfaceDefinition extends Definition
      */
     public function hasAttributes(): bool
     {
-        return \count($this->constants()) > 0;
+        return \count($this->constants) > 0;
     }
 }

@@ -8,7 +8,6 @@
 namespace PhUml\ContractTests;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Definition;
 use PhUml\Code\Methods\Method;
 
@@ -35,16 +34,6 @@ abstract class DefinitionTest extends TestCase
     }
 
     /** @test */
-    function it_has_no_constants_by_default()
-    {
-        $noConstantsDefinition = $this->definition();
-
-        $constants = $noConstantsDefinition->constants();
-
-        $this->assertCount(0, $constants);
-    }
-
-    /** @test */
     function it_knows_its_methods()
     {
         $methods = [
@@ -56,20 +45,6 @@ abstract class DefinitionTest extends TestCase
         $definitionMethods = $definitionWithMethods->methods();
 
         $this->assertEquals($methods, $definitionMethods);
-    }
-
-    /** @test */
-    function it_knows_its_constants()
-    {
-        $constants = [
-            new Constant('FIRST_CONSTANT'),
-            new Constant('SECOND_CONSTANT'),
-        ];
-        $definitionWithConstants = $this->definition($constants);
-
-        $definitionConstants = $definitionWithConstants->constants();
-
-        $this->assertEquals($constants, $definitionConstants);
     }
 
     /** @test */

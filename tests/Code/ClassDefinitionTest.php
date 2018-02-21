@@ -8,11 +8,15 @@
 namespace PhUml\Code;
 
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\HasConstants;
 use PhUml\ContractTests\DefinitionTest;
+use PhUml\ContractTests\WithConstantsTests;
 use PhUml\TestBuilders\A;
 
 class ClassDefinitionTest extends DefinitionTest
 {
+    use WithConstantsTests;
+
     /** @test */
     function it_has_by_default_no_attributes()
     {
@@ -125,5 +129,10 @@ class ClassDefinitionTest extends DefinitionTest
     protected function definition(array $constants = [], array $methods = []): Definition
     {
         return new ClassDefinition(Name::from('ADefinition'), $constants, $methods);
+    }
+
+    protected function definitionWithConstants(array $constants = []): HasConstants
+    {
+        return new ClassDefinition(Name::from('AnyClassDefinition'), $constants);
     }
 }

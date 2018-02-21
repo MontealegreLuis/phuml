@@ -10,7 +10,7 @@ namespace PhUml\Code\Attributes;
 trait WithConstants
 {
     /** @var Constant[] */
-    private $constants;
+    protected $constants;
 
     /** @return Constant[] */
     public function constants(): array

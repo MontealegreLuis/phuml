@@ -7,11 +7,15 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\HasConstants;
 use PhUml\ContractTests\DefinitionTest;
+use PhUml\ContractTests\WithConstantsTests;
 use PhUml\TestBuilders\A;
 
 class InterfaceDefinitionTest extends DefinitionTest
 {
+    use WithConstantsTests;
+
     /** @test */
     function it_does_not_extends_another_definition_by_default()
     {
@@ -40,5 +44,10 @@ class InterfaceDefinitionTest extends DefinitionTest
     protected function definition(array $constants = [], array $methods = []): Definition
     {
         return new InterfaceDefinition(Name::from('ADefinition'), $constants, $methods);
+    }
+
+    protected function definitionWithConstants(array $constants = []): HasConstants
+    {
+        return new InterfaceDefinition(Name::from('AnyClassDefinition'), $constants);
     }
 }

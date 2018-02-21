@@ -8,6 +8,8 @@
 namespace PhUml\Code;
 
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\HasConstants;
+use PhUml\Code\Attributes\WithConstants;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\CanBeAbstract;
 use PhUml\Code\Modifiers\Visibility;
@@ -15,8 +17,10 @@ use PhUml\Code\Modifiers\Visibility;
 /**
  * It represents a class definition
  */
-class ClassDefinition extends Definition implements CanBeAbstract
+class ClassDefinition extends Definition implements HasConstants, CanBeAbstract
 {
+    use WithConstants;
+
     /** @var Attribute[] */
     private $attributes;
 
@@ -40,7 +44,8 @@ class ClassDefinition extends Definition implements CanBeAbstract
         array $attributes = [],
         array $interfaces = []
     ) {
-        parent::__construct($name, $constants, $methods);
+        parent::__construct($name, $methods);
+        $this->constants = $constants;
         $this->parent = $parent;
         $this->attributes = $attributes;
         $this->interfaces = $interfaces;
@@ -133,7 +138,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
      */
     public function hasAttributes(): bool
     {
-        return \count($this->constants()) + \count($this->attributes) > 0;
+        return \count($this->constants) + \count($this->attributes) > 0;
     }
 
     /**
