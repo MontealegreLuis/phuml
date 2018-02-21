@@ -7,6 +7,8 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\HasConstants;
+use PhUml\Code\Attributes\WithConstants;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Graphviz\HasNodeIdentifier;
@@ -17,12 +19,9 @@ use PhUml\Graphviz\ObjectHashIdentifier;
  *
  * It does not support traits yet
  */
-abstract class Definition implements Named, HasNodeIdentifier
+abstract class Definition implements Named, HasConstants, HasNodeIdentifier
 {
-    use WithName, ObjectHashIdentifier;
-
-    /** @var \PhUml\Code\Attributes\Constant[] */
-    protected $constants;
+    use WithName, WithConstants, ObjectHashIdentifier;
 
     /** @var Method[] */
     protected $methods;
@@ -61,12 +60,6 @@ abstract class Definition implements Named, HasNodeIdentifier
      * @see InterfaceDefinition::hasAttributes() for more details
      */
     abstract public function hasAttributes(): bool;
-
-    /** @return \PhUml\Code\Attributes\Constant[] */
-    public function constants(): array
-    {
-        return $this->constants;
-    }
 
     /** @return Method[] */
     public function methods(): array

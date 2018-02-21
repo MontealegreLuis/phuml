@@ -63,6 +63,6 @@ class InterfaceDefinition extends Definition
      */
     public function hasAttributes(): bool
     {
-        return \count($this->constants) > 0;
+        return \count($this->constants()) > 0;
     }
 }

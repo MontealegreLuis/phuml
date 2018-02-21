@@ -133,7 +133,7 @@ class ClassDefinition extends Definition implements CanBeAbstract
      */
     public function hasAttributes(): bool
     {
-        return \count($this->constants) + \count($this->attributes) > 0;
+        return \count($this->constants()) + \count($this->attributes) > 0;
     }
 
     /**
