@@ -10,6 +10,7 @@ namespace PhUml\Fakes;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\TraitDefinition;
 
 trait WithDotLanguageAssertions
 {
@@ -58,6 +59,19 @@ trait WithDotLanguageAssertions
             "/\"{$from->identifier()}\" -> \"{$to->identifier()}\" \\[dir=back arrowtail=none style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "There is no association between {$from->name()} and {$to->name()}"
+        );
+    }
+
+    public function assertUseTrait(
+        ClassDefinition $class,
+        TraitDefinition $trait,
+        string $dotLanguage
+    ): void
+    {
+        $this->assertRegExp(
+            "/\"{$trait->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=normal style=solid color=\"#[0-9a-f]{6}\"\\]/",
+            $dotLanguage,
+            "Class {$class->name()} does not use trait {$trait->name()}"
         );
     }
 }

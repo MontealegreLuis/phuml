@@ -187,6 +187,25 @@ mindist = 0.6;', $dotLanguage);
     }
 
     /** @test */
+    function it_represents_a_class_using_a_trait_as_dot_language()
+    {
+        $trait = A::numericIdTraitNamed('ATrait');
+        $class = A::class('TestClass')->extending($trait->name())->buildWithNumericId();
+        $digraph = new Digraph();
+        $digraph->add([
+            new Node($trait),
+            new Node($class),
+            Edge::use($trait, $class),
+        ]);
+
+        $dotLanguage = $this->printer->toDot($digraph);
+
+        $this->assertNode($trait, $dotLanguage);
+        $this->assertNode($class, $dotLanguage);
+        $this->assertUseTrait($class, $trait, $dotLanguage);
+    }
+
+    /** @test */
     function it_represents_interfaces_implementations_as_dot_language()
     {
         $anInterface = A::numericIdInterfaceNamed('AnInterface');

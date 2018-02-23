@@ -52,6 +52,11 @@ class Edge implements HasDotRepresentation
         return new Edge($reference, $class, 'dir=back arrowtail=none style=solid');
     }
 
+    public static function use(HasNodeIdentifier $trait, HasNodeIdentifier $class)
+    {
+        return new Edge($trait, $class, 'dir=back arrowtail=normal style=solid');
+    }
+
     public function fromNode(): HasNodeIdentifier
     {
         return $this->fromNode;

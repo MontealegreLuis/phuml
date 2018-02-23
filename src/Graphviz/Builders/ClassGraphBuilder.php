@@ -63,6 +63,10 @@ class ClassGraphBuilder
             $this->dotElements[] = Edge::implementation($codebase->get($interface), $class);
         }
 
+        foreach ($class->traits() as $trait) {
+            $this->dotElements[] = Edge::use($codebase->get($trait), $class);
+        }
+
         return $this->dotElements;
     }
 

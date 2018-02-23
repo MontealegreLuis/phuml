@@ -40,6 +40,11 @@ class GraphvizProcessorTest extends TestCase
             ->buildWithNumericId();
         $parentClass = A::numericIdClassNamed('ParentClass');
         $reference = A::numericIdClassNamed('ReferencedClass');
+        $trait = A::trait('ATrait')
+            ->withAProtectedAttribute('$variable')
+            ->withAPublicMethod('doSomething')
+            ->buildWithNumericId()
+        ;
         $class = A::class('MyClass')
             ->withAPublicMethod(
                 '__construct',
@@ -47,11 +52,7 @@ class GraphvizProcessorTest extends TestCase
             )
             ->implementing($interface->name())
             ->extending($parentClass->name())
-            ->buildWithNumericId()
-        ;
-        $trait = A::trait('ATrait')
-            ->withAProtectedAttribute('$variable')
-            ->withAPublicMethod('doSomething')
+            ->using($trait->name())
             ->buildWithNumericId()
         ;
 
@@ -75,5 +76,6 @@ class GraphvizProcessorTest extends TestCase
         $this->assertNode($interface, $dotLanguage);
         $this->assertInheritance($interface, $parentInterface, $dotLanguage);
         $this->assertNode($trait, $dotLanguage);
+        $this->assertUseTrait($class, $trait, $dotLanguage);
     }
 }

@@ -13,6 +13,7 @@ use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
 use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
+use PhUml\Fakes\NumericIdTrait;
 
 class A
 {
@@ -39,6 +40,11 @@ class A
     public static function numericIdInterfaceNamed(string $name): NumericIdInterface
     {
         return new NumericIdInterface(Name::from($name));
+    }
+
+    public static function numericIdTraitNamed(string $name): NumericIdTrait
+    {
+        return new NumericIdTrait(Name::from($name));
     }
 
     public static function class(string $name): ClassBuilder
