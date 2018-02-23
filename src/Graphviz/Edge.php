@@ -44,7 +44,7 @@ class Edge implements HasDotRepresentation
 
     public static function implementation(HasNodeIdentifier $interface, HasNodeIdentifier $class): Edge
     {
-        return new Edge($interface, $class, 'dir=back arrowtail=normal style=dashed');
+        return new Edge($interface, $class, 'dir=back arrowtail=empty style=dashed');
     }
 
     public static function association(HasNodeIdentifier $reference, HasNodeIdentifier $class): Edge

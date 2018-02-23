@@ -42,7 +42,7 @@ trait WithDotLanguageAssertions
     ): void
     {
         $this->assertRegExp(
-            "/\"{$interface->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=normal style=dashed color=\"#[0-9a-f]{6}\"\\]/",
+            "/\"{$interface->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=empty style=dashed color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "{$class->name()} does not implements {$interface->name()}"
         );
