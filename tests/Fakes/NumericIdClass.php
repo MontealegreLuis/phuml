@@ -23,9 +23,10 @@ class NumericIdClass extends ClassDefinition
         array $constants = [],
         Name $parent = null,
         array $attributes = [],
-        array $interfaces = []
+        array $interfaces = [],
+        array $traits = []
     ) {
-        parent::__construct($name, $methods, $constants, $parent, $attributes, $interfaces);
+        parent::__construct($name, $methods, $constants, $parent, $attributes, $interfaces, $traits);
         self::$id++;
         $this->identifier = self::$id;
     }

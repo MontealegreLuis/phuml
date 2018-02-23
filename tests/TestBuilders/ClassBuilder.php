@@ -21,6 +21,9 @@ class ClassBuilder extends DefinitionBuilder
     /** @var Name[] */
     private $interfaces = [];
 
+    /** @var Name[] */
+    private $traits = [];
+
     public function extending(Name $parent): ClassBuilder
     {
         $this->parent = $parent;
@@ -35,6 +38,13 @@ class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
+    public function using(Name ...$traits): ClassBuilder
+    {
+        $this->traits = $traits;
+
+        return $this;
+    }
+
     /** @return ClassDefinition */
     public function build()
     {
@@ -44,7 +54,8 @@ class ClassBuilder extends DefinitionBuilder
             $this->constants,
             $this->parent,
             $this->attributes,
-            $this->interfaces
+            $this->interfaces,
+            $this->traits
         );
     }
 
@@ -57,7 +68,8 @@ class ClassBuilder extends DefinitionBuilder
             $this->constants,
             $this->parent,
             $this->attributes,
-            $this->interfaces
+            $this->interfaces,
+            $this->traits
         );
     }
 }

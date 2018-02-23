@@ -7,10 +7,13 @@
 
 namespace PhUml\Parser\Code\Builders;
 
+use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\TraitUse;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name as ClassDefinitionName;
+use PhUml\Code\Name as TraitName;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
@@ -51,7 +54,8 @@ class ClassDefinitionBuilder
             $this->constantsBuilder->build($class->stmts),
             !empty($class->extends) ? ClassDefinitionName::from(end($class->extends->parts)) : null,
             $this->attributesBuilder->build($class->stmts),
-            $this->buildInterfaces($class->implements)
+            $this->buildInterfaces($class->implements),
+            $this->buildTraits($class->stmts)
         );
     }
 
@@ -61,5 +65,37 @@ class ClassDefinitionBuilder
         return array_map(function (Name $name) {
             return ClassDefinitionName::from($name->getLast());
         }, $implements);
+    }
+
+    /** @param Node[] $nodes */
+    protected function buildTraits(array $nodes): array
+    {
+        $useStatements = array_filter($nodes, function (Node $node) {
+            return $node instanceof TraitUse;
+        });
+
+        if (empty($useStatements)) {
+            return [];
+        }
+
+        $traits = [];
+        /** @var TraitUse  $use */
+        foreach ($useStatements as $use) {
+            $traits = $this->traitNames($use, $traits);
+        }
+
+        return $traits;
+    }
+
+    /**
+     * @param Name[] $traits
+     * @return TraitName[]
+     */
+    protected function traitNames(TraitUse $use, array $traits): array
+    {
+        foreach ($use->traits as $name) {
+            $traits[] = TraitName::from($name->getLast());
+        }
+        return $traits;
     }
 }

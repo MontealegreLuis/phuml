@@ -29,11 +29,15 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
     /** @var Name[] */
     private $interfaces;
 
+    /** @var Name[] */
+    private $traits;
+
     /**
      * @param Method[] $methods
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param Attribute[] $attributes
      * @param Name[] $interfaces
+     * @param Name[] $traits
      */
     public function __construct(
         Name $name,
@@ -41,13 +45,15 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
         array $constants = [],
         Name $parent = null,
         array $attributes = [],
-        array $interfaces = []
+        array $interfaces = [],
+        array $traits = []
     ) {
         parent::__construct($name, $methods);
         $this->constants = $constants;
         $this->parent = $parent;
         $this->attributes = $attributes;
         $this->interfaces = $interfaces;
+        $this->traits = $traits;
     }
 
     /**
@@ -104,6 +110,12 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
     public function interfaces(): array
     {
         return $this->interfaces;
+    }
+
+    /** @return Name[] */
+    public function traits(): array
+    {
+        return $this->traits;
     }
 
     /**
