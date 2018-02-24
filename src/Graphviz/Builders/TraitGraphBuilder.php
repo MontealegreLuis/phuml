@@ -7,7 +7,9 @@
 
 namespace PhUml\Graphviz\Builders;
 
+use PhUml\Code\Codebase;
 use PhUml\Code\TraitDefinition;
+use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 
 class TraitGraphBuilder
@@ -17,8 +19,14 @@ class TraitGraphBuilder
      *
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
-    public function extractFrom(TraitDefinition $trait): array
+    public function extractFrom(TraitDefinition $trait, Codebase $codebase): array
     {
-        return [new Node($trait)];
+        $dotElements = [new Node($trait)];
+
+        foreach ($trait->traits() as $usedTrait) {
+            $dotElements[] = Edge::use($codebase->get($usedTrait), $trait);
+        }
+
+        return $dotElements;
     }
 }

@@ -5,11 +5,13 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-trait plDiskWriter
+trait plFileWriter
 {
-    use plFileWriter;
-
-    public function writeToDisk( $input, $output )
+    /**
+     * @param string $filePath
+     * @param string $contents
+     */
+    public function save($filePath, $contents)
     {
     }
 }
