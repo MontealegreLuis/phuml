@@ -11,6 +11,7 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name;
+use PhUml\Code\TraitDefinition;
 
 /**
  * It checks the parent of a definition and the interfaces it implements looking for external
@@ -28,6 +29,8 @@ class ExternalDefinitionsResolver
                 $this->resolveForClass($definition, $codebase);
             } elseif ($definition instanceof InterfaceDefinition) {
                 $this->resolveForInterface($definition, $codebase);
+            } elseif($definition instanceof TraitDefinition) {
+                $this->resolveForTrait($definition, $codebase);
             }
         }
     }
@@ -35,6 +38,7 @@ class ExternalDefinitionsResolver
     protected function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
         $this->resolveExternalInterfaces($definition->interfaces(), $codebase);
+        $this->resolveExternalTraits($definition->traits(), $codebase);
         $this->resolveExternalParentClass($definition, $codebase);
     }
 
@@ -43,17 +47,29 @@ class ExternalDefinitionsResolver
         $this->resolveExternalInterfaces($definition->parents(), $codebase);
     }
 
-    /**
-     * @param \PhUml\Code\Name[] $interfaces
-     * @param Codebase $codebase
-     */
+    private function resolveForTrait(TraitDefinition $trait, Codebase $codebase): void
+    {
+        $this->resolveExternalTraits($trait->traits(), $codebase);
+    }
+
+    /** @param \PhUml\Code\Name[] $interfaces */
     private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void
     {
-        foreach ($interfaces as $interface) {
+        array_map(function (Name $interface) use ($codebase) {
             if (!$codebase->has($interface)) {
                 $codebase->add($this->externalInterface($interface));
             }
-        }
+        }, $interfaces);
+    }
+
+    /** @param \PhUml\Code\Name[] $interfaces */
+    private function resolveExternalTraits(array $traits, Codebase $codebase): void
+    {
+        array_map(function (Name $trait) use ($codebase) {
+            if (!$codebase->has($trait)) {
+                $codebase->add($this->externalTrait($trait));
+            }
+        }, $traits);
     }
 
     private function resolveExternalParentClass(ClassDefinition $definition, Codebase $codebase): void
@@ -75,5 +91,10 @@ class ExternalDefinitionsResolver
     protected function externalClass(Name $name): ClassDefinition
     {
         return new ClassDefinition($name);
+    }
+
+    protected function externalTrait(Name $name): TraitDefinition
+    {
+        return new TraitDefinition($name);
     }
 }

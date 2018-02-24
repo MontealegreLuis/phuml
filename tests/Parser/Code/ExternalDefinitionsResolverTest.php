@@ -65,4 +65,24 @@ class ExternalDefinitionsResolverTest extends TestCase
         $this->assertArrayHasKey('AnExternalClass', $codebase->definitions());
         $this->assertArrayHasKey('AnotherExternalClass', $codebase->definitions());
     }
+
+    /** @test */
+    function it_adds_external_traits()
+    {
+        $codebase = new Codebase();
+        $resolver = new ExternalDefinitionsResolver();
+
+        $codebase->add(A::class('AClass')
+            ->using(Name::from('AnExternalTrait'), Name::from('AnExistingTrait'))
+            ->build());
+        $codebase->add(A::trait('ATrait')
+            ->using(Name::from('AnotherExternalTrait'))->build());
+        $codebase->add(A::trait('AnExistingTrait')->build());
+
+        $resolver->resolve($codebase);
+
+        $this->assertCount(5, $codebase->definitions());
+        $this->assertArrayHasKey('AnExternalTrait', $codebase->definitions());
+        $this->assertArrayHasKey('AnotherExternalTrait', $codebase->definitions());
+    }
 }
