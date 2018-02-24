@@ -29,7 +29,7 @@ class ExternalDefinitionsResolver
                 $this->resolveForClass($definition, $codebase);
             } elseif ($definition instanceof InterfaceDefinition) {
                 $this->resolveForInterface($definition, $codebase);
-            } elseif($definition instanceof TraitDefinition) {
+            } elseif ($definition instanceof TraitDefinition) {
                 $this->resolveForTrait($definition, $codebase);
             }
         }
