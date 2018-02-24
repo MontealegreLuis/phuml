@@ -19,18 +19,15 @@ use PhUml\Code\Modifiers\Visibility;
 /**
  * It represents a class definition
  */
-class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract
+class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
 {
-    use WithAttributes, WithConstants;
+    use WithAttributes, WithConstants, WithTraits;
 
     /** @var Name */
     protected $parent;
 
     /** @var Name[] */
     private $interfaces;
-
-    /** @var Name[] */
-    private $traits;
 
     /**
      * @param Method[] $methods
@@ -110,12 +107,6 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
     public function interfaces(): array
     {
         return $this->interfaces;
-    }
-
-    /** @return Name[] */
-    public function traits(): array
-    {
-        return $this->traits;
     }
 
     /**
