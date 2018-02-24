@@ -18,18 +18,21 @@
 You might get an output different from the screenshots in this documentation.
 Some Graphviz versions do not support some HTML tags like `<i>`, `<b>`, etc.
 
-If you want to get the same output you can use the Docker container in this package.
-
-This is how you can run the  `phuml:diagram` command from the container
-
-```
-$ docker-compose run --rm tests php bin/phuml phuml:diagram src class-diagram.png
-```
-
-The command above will produce a class diagram out of your `src` directory.
-It will save the diagram in the file `class-diagram.png` in your current directory.
-
 For more information about the support for different HTML tags in Graphviz, read [here][1].
+
+## Running the commands from the container
+
+If you want to get the same output as in the screenshots, use the Docker container in this package.
+
+Use the following `make` commands to create the files using the Docker container
+
+```
+$ make diagram ARGS="src example.png -p neato"
+$ make stats ARGS="src example.gv"
+$ make stats ARGS="src statistics.txt"
+```
+
+With these commands you can pass the options and arguments via the `ARGS` variable
 
 ## Themes
 
