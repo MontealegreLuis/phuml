@@ -10,18 +10,24 @@ namespace PhUml\Code;
 use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\WithAttributes;
 
-class TraitDefinition extends Definition implements HasAttributes
+class TraitDefinition extends Definition implements HasAttributes, UseTraits
 {
-    use WithAttributes;
+    use WithAttributes, WithTraits;
 
     /**
      * @param \PhUml\Code\Methods\Method[] $methods
      * @param \PhUml\Code\Attributes\Attribute[] $attributes
+     * @param Name[] $traits
      */
-    public function __construct(Name $name, array $methods = [], array $attributes = [])
-    {
+    public function __construct(
+        Name $name,
+        array $methods = [],
+        array $attributes = [],
+        array $traits = []
+    ) {
         parent::__construct($name, $methods);
         $this->attributes = $attributes;
+        $this->traits = $traits;
     }
 
     public function hasAttributes(): bool

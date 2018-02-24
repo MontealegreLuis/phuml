@@ -17,20 +17,25 @@ class NumericIdTrait extends TraitDefinition
     /** @var int */
     private $identifier;
 
-    public function identifier(): string
-    {
-        return (string)$this->identifier;
-    }
-
     /**
      * @param \PhUml\Code\Methods\Method[] $methods
      * @param \PhUml\Code\Attributes\Attribute[] $attributes
+     * @param Name[] $traits
      */
-    public function __construct(Name $name, array $methods = [], array $attributes = [])
-    {
-        parent::__construct($name, $methods, $attributes);
+    public function __construct(
+        Name $name,
+        array $methods = [],
+        array $attributes = [],
+        array $traits = []
+    ) {
+        parent::__construct($name, $methods, $attributes, $traits);
         self::$id++;
         $this->identifier = self::$id;
+    }
+
+    public function identifier(): string
+    {
+        return (string)$this->identifier;
     }
 
     public static function reset(): void

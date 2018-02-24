@@ -18,9 +18,19 @@ class TraitBuilder
     /** @var string */
     private $name;
 
+    /** @var Name[] */
+    private $traits = [];
+
     public function __construct(string $name)
     {
         $this->name = $name;
+    }
+
+    public function using(Name ...$traits): TraitBuilder
+    {
+        $this->traits = $traits;
+
+        return $this;
     }
 
     public function build(): TraitDefinition
@@ -28,7 +38,8 @@ class TraitBuilder
         return new TraitDefinition(
             Name::from($this->name),
             $this->methods,
-            $this->attributes
+            $this->attributes,
+            $this->traits
         );
     }
 
@@ -37,7 +48,8 @@ class TraitBuilder
         return new NumericIdTrait(
             Name::from($this->name),
             $this->methods,
-            $this->attributes
+            $this->attributes,
+            $this->traits
         );
     }
 }

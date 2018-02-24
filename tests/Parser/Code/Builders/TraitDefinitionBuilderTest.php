@@ -7,15 +7,18 @@
 
 namespace PhUml\Parser\Code\Builders;
 
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
+use PhpParser\Node\Stmt\TraitUse;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\StaticMethod;
+use PhUml\Code\Name as TraitName;
 use PhUml\TestBuilders\A;
 
 class TraitDefinitionBuilderTest extends TestCase
@@ -71,6 +74,34 @@ class TraitDefinitionBuilderTest extends TestCase
             ->withAPrivateAttribute('$privateAttribute')
             ->withAProtectedAttribute('$protectedAttribute')
             ->withAnAttribute(StaticAttribute::public('$staticAttribute'))
+            ->build(),
+            $trait
+        );
+    }
+
+    /** @test */
+    function it_builds_a_traits_using_multiple_traits()
+    {
+        $parsedTrait = new Trait_('ATraitWithTraits', [
+            'stmts' => [
+                new TraitUse([
+                    new Name('ATrait'),
+                    new Name('AnotherTrait'),
+                ]),
+                new TraitUse([
+                    new Name('ThirdTrait'),
+                ])
+            ]
+        ]);
+
+        $trait = $this->builder->build($parsedTrait);
+
+        $this->assertEquals(A::trait('ATraitWithTraits')
+            ->using(
+                TraitName::from('ATrait'),
+                TraitName::from('AnotherTrait'),
+                TraitName::from('ThirdTrait')
+            )
             ->build(),
             $trait
         );
