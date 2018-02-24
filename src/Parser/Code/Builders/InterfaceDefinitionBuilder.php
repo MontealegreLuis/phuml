@@ -7,18 +7,21 @@
 
 namespace PhUml\Parser\Code\Builders;
 
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Interface_;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name as InterfaceDefinitionName;
+use PhUml\Parser\Code\Builders\Names\InterfaceNamesBuilder;
 
 /**
  * It builds an `InterfaceDefinition`
  *
- * @see MembersBuilder for more details
+ * @see MembersBuilder
+ * @see InterfaceNamesBuilder
  */
 class InterfaceDefinitionBuilder
 {
+    use InterfaceNamesBuilder;
+
     /** @var MembersBuilder */
     private $membersBuilder;
 
@@ -33,15 +36,7 @@ class InterfaceDefinitionBuilder
             InterfaceDefinitionName::from($interface->name),
             $this->membersBuilder->methods($interface->getMethods()),
             $this->membersBuilder->constants($interface->stmts),
-            $this->buildParents($interface)
+            $this->buildInterfaces($interface->extends)
         );
-    }
-
-    /** @return InterfaceDefinitionName[] */
-    protected function buildParents(Interface_ $interface): array
-    {
-        return array_map(function (Name $name) {
-            return InterfaceDefinitionName::from($name->getLast());
-        }, $interface->extends);
     }
 }
