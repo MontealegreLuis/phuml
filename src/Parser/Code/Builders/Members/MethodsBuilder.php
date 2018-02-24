@@ -24,7 +24,7 @@ use PhUml\Code\Variables\Variable;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-class MethodsBuilder extends MembersBuilder
+class MethodsBuilder extends FiltersRunner
 {
     /**
      * @param ClassMethod[] $classMethods

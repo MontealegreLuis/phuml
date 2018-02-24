@@ -23,7 +23,7 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-class AttributesBuilder extends MembersBuilder
+class AttributesBuilder extends FiltersRunner
 {
     /**
      * @param \PhpParser\Node[] $definitionAttributes

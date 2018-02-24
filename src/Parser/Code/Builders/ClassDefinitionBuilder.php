@@ -14,46 +14,30 @@ use PhpParser\Node\Stmt\TraitUse;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name as ClassDefinitionName;
 use PhUml\Code\Name as TraitName;
-use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
-use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 
 /**
  * It builds a `ClassDefinition`
  *
- * @see ConstantsBuilder for more details about the constants creation
- * @see AttributesBuilder for more details about the attributes creation
- * @see MethodsBuilder for more details about the methods creation
+ * @see MembersBuilder for more details
  */
 class ClassDefinitionBuilder
 {
-    /** @var AttributesBuilder */
-    protected $attributesBuilder;
+    /** @var MembersBuilder */
+    protected $membersBuilder;
 
-    /** @var MethodsBuilder */
-    protected $methodsBuilder;
-
-    /** @var ConstantsBuilder */
-    protected $constantsBuilder;
-
-    public function __construct(
-        ConstantsBuilder $constantsBuilder = null,
-        AttributesBuilder $attributesBuilder = null,
-        MethodsBuilder $methodsBuilder = null
-    ) {
-        $this->constantsBuilder = $constantsBuilder ?? new ConstantsBuilder();
-        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder([]);
-        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder([]);
+    public function __construct(MembersBuilder $membersBuilder = null)
+    {
+        $this->membersBuilder = $membersBuilder ?? new MembersBuilder();
     }
 
     public function build(Class_ $class): ClassDefinition
     {
         return new ClassDefinition(
             ClassDefinitionName::from($class->name),
-            $this->methodsBuilder->build($class->getMethods()),
-            $this->constantsBuilder->build($class->stmts),
+            $this->membersBuilder->methods($class->getMethods()),
+            $this->membersBuilder->constants($class->stmts),
             !empty($class->extends) ? ClassDefinitionName::from(end($class->extends->parts)) : null,
-            $this->attributesBuilder->build($class->stmts),
+            $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)
         );

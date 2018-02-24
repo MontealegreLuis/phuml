@@ -13,31 +13,28 @@ use PhpParser\Node\Stmt\TraitUse;
 use PhUml\Code\Name;
 use PhUml\Code\Name as TraitName;
 use PhUml\Code\TraitDefinition;
-use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
-use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 
+/**
+ * It builds a `TraitDefinition`
+ *
+ * @see MembersBuilder for more details
+ */
 class TraitDefinitionBuilder
 {
-    /** @var AttributesBuilder */
-    protected $attributesBuilder;
+    /** @var MembersBuilder */
+    protected $membersBuilder;
 
-    /** @var MethodsBuilder */
-    protected $methodsBuilder;
-
-    public function __construct(
-        AttributesBuilder $attributesBuilder = null,
-        MethodsBuilder $methodsBuilder = null
-    ) {
-        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder();
-        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
+    public function __construct(MembersBuilder $membersBuilder = null)
+    {
+        $this->membersBuilder = $membersBuilder ?? new MembersBuilder();
     }
 
     public function build(Trait_ $trait): TraitDefinition
     {
         return new TraitDefinition(
             Name::from($trait->name),
-            $this->methodsBuilder->build($trait->getMethods()),
-            $this->attributesBuilder->build($trait->stmts),
+            $this->membersBuilder->methods($trait->getMethods()),
+            $this->membersBuilder->attributes($trait->stmts),
             $this->buildTraits($trait->stmts)
         );
     }

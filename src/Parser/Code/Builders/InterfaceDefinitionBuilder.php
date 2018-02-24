@@ -11,37 +11,28 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Interface_;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name as InterfaceDefinitionName;
-use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 
 /**
  * It builds an `InterfaceDefinition`
  *
- * @see ConstantsBuilder for more details about the constants creation
- * @see MethodsBuilder for more details about the methods creation
+ * @see MembersBuilder for more details
  */
 class InterfaceDefinitionBuilder
 {
-    /** @var MethodsBuilder */
-    private $methodsBuilder;
+    /** @var MembersBuilder */
+    private $membersBuilder;
 
-    /** @var ConstantsBuilder */
-    private $constantsBuilder;
-
-    public function __construct(
-        ConstantsBuilder $constantsBuilder = null,
-        MethodsBuilder $methodsBuilder = null
-    ) {
-        $this->constantsBuilder = $constantsBuilder ?? new ConstantsBuilder();
-        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder();
+    public function __construct(MembersBuilder $membersBuilder = null)
+    {
+        $this->membersBuilder = $membersBuilder ?? new MembersBuilder();
     }
 
     public function build(Interface_ $interface): InterfaceDefinition
     {
         return new InterfaceDefinition(
             InterfaceDefinitionName::from($interface->name),
-            $this->methodsBuilder->build($interface->getMethods()),
-            $this->constantsBuilder->build($interface->stmts),
+            $this->membersBuilder->methods($interface->getMethods()),
+            $this->membersBuilder->constants($interface->stmts),
             $this->buildParents($interface)
         );
     }

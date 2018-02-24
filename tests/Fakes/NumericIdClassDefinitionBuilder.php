@@ -18,10 +18,10 @@ class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
     {
         return new NumericIdClass(
             Name::from($class->name),
-            $this->methodsBuilder->build($class->getMethods()),
-            $this->constantsBuilder->build($class->stmts),
+            $this->membersBuilder->methods($class->getMethods()),
+            $this->membersBuilder->constants($class->stmts),
             !empty($class->extends) ? Name::from(end($class->extends->parts)) : null,
-            $this->attributesBuilder->build($class->stmts),
+            $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)
         );
