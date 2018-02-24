@@ -8,9 +8,10 @@
 
 ## Relationships
 
-* Associations are solid lines without arrows
-* Inheritance is a solid line with an arrow pointing to the parent
-* Interface implementations are dashed lines with an arrow pointing to the interface
+* **Associations** are solid lines without arrows
+* **Inheritance** is a solid line with an empty arrow pointing to the parent
+* Interface **implementations** are dashed lines with an empty arrow pointing to the interface
+* **Trait composition** is a solid line with an arrow pointing to the trait being used
 
 ## Possible output differences
 

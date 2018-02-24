@@ -13,9 +13,7 @@ use PhUml\Graphviz\HasNodeIdentifier;
 use PhUml\Graphviz\ObjectHashIdentifier;
 
 /**
- * Base class for interfaces and classes
- *
- * It does not support traits yet
+ * Base class for interfaces, classes and traits
  */
 abstract class Definition implements Named, HasNodeIdentifier
 {
