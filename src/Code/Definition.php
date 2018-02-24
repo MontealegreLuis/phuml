@@ -7,8 +7,6 @@
 
 namespace PhUml\Code;
 
-use PhUml\Code\Attributes\HasConstants;
-use PhUml\Code\Attributes\WithConstants;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Graphviz\HasNodeIdentifier;

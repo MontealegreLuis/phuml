@@ -28,8 +28,7 @@ class Php5Parser extends PhpParser
         ClassDefinitionBuilder $classBuilder = null,
         InterfaceDefinitionBuilder $interfaceBuilder = null,
         TraitDefinitionBuilder $traitBuilder = null
-    )
-    {
+    ) {
         parent::__construct(
             (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
             new Php5Traverser(

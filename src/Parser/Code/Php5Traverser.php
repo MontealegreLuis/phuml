@@ -22,8 +22,7 @@ class Php5Traverser extends PhpTraverser
         ClassDefinitionBuilder $classBuilder,
         InterfaceDefinitionBuilder $interfaceBuilder,
         TraitDefinitionBuilder $traitBuilder
-    )
-    {
+    ) {
         $this->codebase = new Codebase();
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor(new ClassVisitor($classBuilder, $this->codebase));
