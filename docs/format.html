@@ -80,19 +80,22 @@
 </ul>
 <h2 id="relationships">Relationships</h2>
 <ul>
-<li>Associations are solid lines without arrows</li>
-<li>Inheritance is a solid line with an arrow pointing to the parent</li>
-<li>Interface implementations are dashed lines with an arrow pointing to the interface</li>
+<li><strong>Associations</strong> are solid lines without arrows</li>
+<li><strong>Inheritance</strong> is a solid line with an empty arrow pointing to the parent</li>
+<li>Interface <strong>implementations</strong> are dashed lines with an empty arrow pointing to the interface</li>
+<li><strong>Trait composition</strong> is a solid line with an arrow pointing to the trait being used</li>
 </ul>
 <h2 id="possible-output-differences">Possible output differences</h2>
 <p>You might get an output different from the screenshots in this documentation.
 Some Graphviz versions do not support some HTML tags like <code>&lt;i&gt;</code>, <code>&lt;b&gt;</code>, etc.</p>
-<p>If you want to get the same output you can use the Docker container in this package.</p>
-<p>This is how you can run the  <code>phuml:diagram</code> command from the container</p>
-<pre><code>$ docker-compose run --rm tests php bin/phuml phuml:diagram src class-diagram.png</code></pre>
-<p>The command above will produce a class diagram out of your <code>src</code> directory.
-It will save the diagram in the file <code>class-diagram.png</code> in your current directory.</p>
 <p>For more information about the support for different HTML tags in Graphviz, read <a href="https://www.graphviz.org/doc/info/shapes.html#html">here</a>.</p>
+<h2 id="running-the-commands-from-the-container">Running the commands from the container</h2>
+<p>If you want to get the same output as in the screenshots, use the Docker container in this package.</p>
+<p>Use the following <code>make</code> commands to create the files using the Docker container</p>
+<pre><code>$ make diagram ARGS="src example.png -p neato"
+$ make stats ARGS="src example.gv"
+$ make stats ARGS="src statistics.txt"</code></pre>
+<p>With these commands you can pass the options and arguments via the <code>ARGS</code> variable</p>
 <h2 id="themes">Themes</h2>
 <p>This package offers 3 different color schemes (themes)</p>
 <h3 id="phuml-default">phUML (default)</h3>

@@ -72,6 +72,9 @@
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
                     <h1 id="contributing-to-phuml">Contributing to phUML</h1>
+<h2 id="code-of-conduct">Code of Conduct</h2>
+<p>This project is released with a <a href="CODE-OF-CONDUCT.md">Contributor Code of Conduct</a>.
+By participating in this project you agree to abide by its terms.</p>
 <h2 id="workflow">Workflow</h2>
 <ul>
 <li>Fork the project.</li>
@@ -106,7 +109,7 @@ Please make sure the tests pass in the container so you can be sure they will pa
 <p>You can run the tests as follows:</p>
 <pre><code>$ make test</code></pre>
 <p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run PHPUnit with the same options it runs in Travis inside the Docker container.</p>
-<p>You can alternatively run the test suite without this group of tests without the container</p>
+<p>You can alternatively run the test suite without this group of tests in your local environment.</p>
 <pre><code>$ vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group=snapshot</code></pre>
 <p>You will need <a href="https://xdebug.org/">XDebug</a> installed to be able to generate the code coverage report.</p>
 <h2 id="contributing-to-the-documentation">Contributing to the documentation</h2>
