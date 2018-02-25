@@ -29,14 +29,10 @@ $ composer global require friendsofphp/php-cs-fixer
 Run the following command if you modified production code (`src` directory).
 
 ```bash
-$ php-cs-fixer fix src --rules=@PSR2,no_unused_imports
+$ make fix
 ```
 
-Run the following command if you either added or modified tests (`tests` directory).
-
-```bash
-$ php-cs-fixer fix tests --rules=no_unused_imports
-```
+[Make][6] will run the fixer in both folders `src` and `tests`.
 
 ## Using phUML from a Git checkout
 
@@ -69,7 +65,7 @@ You can run the tests as follows:
 $ make test
 ```
 
-[Make][6] will run PHPUnit with the same options it runs in Travis inside the Docker container.
+`make` will run PHPUnit with the same options it runs in Travis inside the Docker container.
 
 You can alternatively run the test suite without this group of tests in your local environment.
 

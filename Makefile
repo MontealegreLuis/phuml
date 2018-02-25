@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-.PHONY: test diagram dot stats
+.PHONY: test fix diagram dot stats
 
 ARGS=""
 
@@ -15,3 +15,7 @@ dot:
 
 stats:
 	@docker-compose run --rm tests php bin/phuml phuml:statistics $(ARGS)
+
+fix:
+	@php-cs-fixer fix src --rules=@PSR2,no_unused_imports
+	@php-cs-fixer fix tests --rules=no_unused_imports
