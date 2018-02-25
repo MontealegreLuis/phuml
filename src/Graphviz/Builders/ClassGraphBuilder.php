@@ -70,7 +70,7 @@ class ClassGraphBuilder
         return $this->dotElements;
     }
 
-    /** @param Edge[] */
+    /** @param Edge[] $edges */
     private function addAssociations(array $edges): void
     {
         $this->dotElements = array_merge($this->dotElements, $edges);

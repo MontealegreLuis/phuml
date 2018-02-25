@@ -12,7 +12,7 @@ namespace PhUml\Parser\Code\Builders\Members;
  */
 class NoMethodsBuilder extends MethodsBuilder
 {
-    public function __construct(array $filters = [])
+    public function __construct()
     {
         parent::__construct([]);
     }

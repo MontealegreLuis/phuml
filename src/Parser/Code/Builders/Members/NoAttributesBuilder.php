@@ -12,7 +12,7 @@ namespace PhUml\Parser\Code\Builders\Members;
  */
 class NoAttributesBuilder extends AttributesBuilder
 {
-    public function __construct(array $filters = [])
+    public function __construct()
     {
         parent::__construct([]);
     }

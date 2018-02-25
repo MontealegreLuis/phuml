@@ -17,7 +17,7 @@ abstract class PhpTraverser
     /** @var \PhpParser\NodeTraverser */
     protected $traverser;
 
-    /** @param \PhpParser\Node[] */
+    /** @param \PhpParser\Node[] $nodes */
     public function traverse(array $nodes): void
     {
         $this->traverser->traverse($nodes);

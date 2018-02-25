@@ -123,7 +123,6 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      * It is used by the `ClassGraphBuilder` to determine if an inheritance association should be
      * created
      *
-     * @return InterfaceDefinition[]
      * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
      */
     public function hasParent(): bool

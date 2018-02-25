@@ -22,7 +22,7 @@ class Digraph
         $this->elements = [];
     }
 
-    /** @param HasDotRepresentation[] */
+    /** @param HasDotRepresentation[] $definitions */
     public function add(array $definitions): void
     {
         $this->elements = array_merge($this->elements, $definitions);

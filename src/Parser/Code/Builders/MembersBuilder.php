@@ -58,8 +58,8 @@ class MembersBuilder
     }
 
     /**
-     * @param ClassMethod[] $classMethods
-     * @return Method[]
+     * @param \PhpParser\Node\Stmt\ClassMethod[] $methods
+     * @return \PhUml\Code\Methods\Method[]
      */
     public function methods(array $methods): array
     {

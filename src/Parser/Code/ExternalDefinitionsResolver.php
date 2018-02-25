@@ -62,7 +62,7 @@ class ExternalDefinitionsResolver
         }, $interfaces);
     }
 
-    /** @param \PhUml\Code\Name[] $interfaces */
+    /** @param \PhUml\Code\Name[] $traits */
     private function resolveExternalTraits(array $traits, Codebase $codebase): void
     {
         array_map(function (Name $trait) use ($codebase) {

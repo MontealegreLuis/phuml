@@ -25,15 +25,15 @@ class FiltersRunner
     /** @var VisibilityFilter[] */
     protected $filters;
 
-    /** @param VisibilityFilter */
+    /** @param VisibilityFilter[] $filters */
     public function __construct(array $filters = [])
     {
         $this->filters = $filters;
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\Property[]|\PhpParser\Node\Stmt\ClassMethod $classMembers
-     * @return \PhpParser\Node\Stmt\Property[]|\PhpParser\Node\Stmt\ClassMethod
+     * @param \PhpParser\Node\Stmt\Property[]|\PhpParser\Node\Stmt\ClassMethod[] $classMembers
+     * @return \PhpParser\Node\Stmt\Property[]|\PhpParser\Node\Stmt\ClassMethod[]
      */
     protected function runFilters(array $classMembers): array
     {

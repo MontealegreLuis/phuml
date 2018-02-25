@@ -20,9 +20,9 @@ use PhUml\Code\Codebase;
  */
 interface AssociationsBuilder
 {
-    /** @return \PhUml\Graphviz\HasDotRepresentation[]*/
+    /** @return \PhUml\Graphviz\Edge[]*/
     public function fromAttributes(ClassDefinition $class, Codebase $codebase): array;
 
-    /** @return \PhUml\Graphviz\HasDotRepresentation[] */
+    /** @return \PhUml\Graphviz\Edge[] */
     public function fromConstructor(ClassDefinition $class, Codebase $codebase): array;
 }
