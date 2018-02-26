@@ -10,8 +10,6 @@
 phUML is a fully automatic [UML][6] class diagram generator written in [PHP][7].
 It creates a class diagram from an OO codebase based on the UML specification.
 
-> **NOTE**: This is a fork of [jakobwesthoff/phuml][1] which isn't maintained anymore.
-
 ## Installation
 
 Use [Composer][12] to download and install phUML as well as its dependencies.
@@ -38,6 +36,14 @@ Please refer to [CONTRIBUTING](CONTRIBUTING.md) for information on how to contri
 
 Released under the [BSD-3-Clause](LICENSE).
 
+## Credits
+
+This code is principally developed and maintained by [Luis Montealegre][19].
+
+This library was created by [Jakob Westhoff][20].
+
+Special thanks to all of these [awesome contributors][21].
+
 [1]: https://github.com/jakobwesthoff/phuml
 [2]: https://travis-ci.org/MontealegreLuis/phuml.svg?branch=master
 [3]: https://travis-ci.org/MontealegreLuis/phuml
@@ -56,3 +62,6 @@ Released under the [BSD-3-Clause](LICENSE).
 [16]: https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square
 [17]: https://php.net/
 [18]: https://img.shields.io/packagist/vpre/phuml/phuml.svg
+[19]: https://github.com/MontealegreLuis
+[20]: https://github.com/jakobwesthoff
+[21]: https://github.com/MontealegreLuis/phuml/contributors
