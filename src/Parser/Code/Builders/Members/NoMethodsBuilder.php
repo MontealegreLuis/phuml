@@ -17,7 +17,7 @@ class NoMethodsBuilder extends MethodsBuilder
         parent::__construct([]);
     }
 
-    public function build(array $classMethods): array
+    public function build(array $methods): array
     {
         return [];
     }

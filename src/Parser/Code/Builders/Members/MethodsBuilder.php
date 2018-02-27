@@ -17,7 +17,8 @@ use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
 /**
- * It builds an array with `Method`s for either a `ClassDefinition` or an `InterfaceDefinition`
+ * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
+ * `TraitDefinition`
  *
  * It can run one or more `VisibilityFilter`s
  *
@@ -27,14 +28,14 @@ use PhUml\Code\Variables\Variable;
 class MethodsBuilder extends FiltersRunner
 {
     /**
-     * @param ClassMethod[] $classMethods
+     * @param ClassMethod[] $methods
      * @return Method[]
      */
-    public function build(array $classMethods): array
+    public function build(array $methods): array
     {
         return array_map(function (ClassMethod $method) {
             return $this->buildMethod($method);
-        }, $this->runFilters($classMethods));
+        }, $this->runFilters($methods));
     }
 
     private function buildMethod(ClassMethod $method): Method
@@ -43,16 +44,21 @@ class MethodsBuilder extends FiltersRunner
         $modifier = $this->resolveVisibility($method);
         $comment = $method->getDocComment();
         $returnType = MethodDocBlock::from($comment)->returnType();
-        $parameters = $method->params;
-        if ($method->isAbstract()) {
-            return AbstractMethod::$modifier($name, $this->buildParameters($parameters, $comment), $returnType);
+        $parameters = $this->buildParameters($method->params, $comment);
+        switch (true) {
+            case $method->isAbstract():
+                return AbstractMethod::$modifier($name, $parameters, $returnType);
+            case $method->isStatic():
+                return StaticMethod::$modifier($name, $parameters, $returnType);
+            default:
+                return Method::$modifier($name, $parameters, $returnType);
         }
-        if ($method->isStatic()) {
-            return StaticMethod::$modifier($name, $this->buildParameters($parameters, $comment), $returnType);
-        }
-        return Method::$modifier($name, $this->buildParameters($parameters, $comment), $returnType);
     }
 
+    /**
+     * @param Param[] $parameters
+     * @return Variable[]
+     */
     private function buildParameters(array $parameters, ?string $docBlock): array
     {
         return array_map(function (Param $parameter) use ($docBlock) {
