@@ -9,6 +9,6 @@ namespace PhUml\Code\Attributes;
 
 interface HasConstants
 {
-    /** @return \PhUml\Code\Attributes\Constant[] */
+    /** @return Constant[] */
     public function constants(): array;
 }

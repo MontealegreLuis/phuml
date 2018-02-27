@@ -18,10 +18,10 @@ class Constant implements HasType
     /** @var string */
     private $name;
 
-    public function __construct(string $name, TypeDeclaration $type = null)
+    public function __construct(string $name, TypeDeclaration $type)
     {
         $this->name = $name;
-        $this->type = $type ?? TypeDeclaration::absent();
+        $this->type = $type;
     }
 
     public function __toString()
