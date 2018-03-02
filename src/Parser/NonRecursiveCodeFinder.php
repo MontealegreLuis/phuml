@@ -11,7 +11,9 @@ namespace PhUml\Parser;
  * It inspects a directory finding all the files with PHP code and saves their contents
  *
  * This finder does not inspect inner directories only the one provided.
- * The contents of the files are used by the `TokenParser` to build the `RawDefinitions`
+ * The contents of the files are used by the `PhpParser` to build a `Codebase`
+ *
+ * @see PhpParser::parse()
  */
 class NonRecursiveCodeFinder extends CodeFinder
 {

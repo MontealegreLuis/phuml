@@ -16,7 +16,7 @@ use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
 /**
- * It builds an array of `Attributes` for a `ClassDefinition`
+ * It builds an array of `Attributes` for a `ClassDefinition` or a `TraitDefinition`
  *
  * It can run one or more `VisibilityFilter`s
  *

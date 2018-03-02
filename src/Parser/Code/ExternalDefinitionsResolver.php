@@ -14,10 +14,10 @@ use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
 
 /**
- * It checks the parent of a definition and the interfaces it implements looking for external
- * definitions
+ * It checks the parent of a definition, the interfaces it implements, and the traits it uses
+ * looking for external definitions
  *
- * An external definition is either a class or interface from a third party library, or a built-in
+ * An external definition is a class, trait or interface from a third party library, or a built-in
  * class
  */
 class ExternalDefinitionsResolver
@@ -35,6 +35,9 @@ class ExternalDefinitionsResolver
         }
     }
 
+    /**
+     * It resolves for its parent class, its interfaces and traits
+     */
     protected function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
         $this->resolveExternalInterfaces($definition->interfaces(), $codebase);
@@ -42,11 +45,17 @@ class ExternalDefinitionsResolver
         $this->resolveExternalParentClass($definition, $codebase);
     }
 
+    /**
+     * It resolves for its parent interfaces
+     */
     protected function resolveForInterface(InterfaceDefinition $definition, Codebase $codebase): void
     {
         $this->resolveExternalInterfaces($definition->parents(), $codebase);
     }
 
+    /**
+     * It resolves for the traits it uses
+     */
     private function resolveForTrait(TraitDefinition $trait, Codebase $codebase): void
     {
         $this->resolveExternalTraits($trait->traits(), $codebase);

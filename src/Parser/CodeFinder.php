@@ -13,7 +13,9 @@ use Symfony\Component\Finder\Finder;
  * It inspects a directory finding all the files with PHP code and saves their contents
  *
  * This finder inspect inner directories recursively.
- * The contents of the files are used by the `TokenParser` to build the `RawDefinitions`
+ * The contents of the files are used by the `PhpParser` to build a `Codebase`
+ *
+ * @see PhpParser::parse()
  */
 class CodeFinder
 {
@@ -21,7 +23,7 @@ class CodeFinder
     protected $finder;
 
     /** @var string[] */
-    private $files;
+    protected $files;
 
     public function __construct()
     {

@@ -7,6 +7,9 @@
 
 namespace PhUml\Parser\Code\Builders\Filters;
 
+/**
+ * It will exclude private methods or attributes
+ */
 class ProtectedVisibilityFilter implements VisibilityFilter
 {
     /** @param \PhpParser\Node\Stmt\ClassMethod|\PhpParser\Node\Stmt\Property $member */

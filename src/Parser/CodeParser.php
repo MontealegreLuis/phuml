@@ -13,12 +13,13 @@ use PhUml\Parser\Code\Php5Parser;
 use PhUml\Parser\Code\PhpParser;
 
 /**
- * It takes the files found by the `CodeFinder` and turns the into a `Codebase`
+ * It takes the files found by the `CodeFinder` and turns them into a `Codebase`
  *
- * A `Codebase` is a collection of `Definition`s (classes and interfaces)
+ * A `Codebase` is a collection of `Definition`s (classes, interfaces and traits)
  *
- * It will call the `ExternalDefinitionsResolver` to add generic `Definition`s for classes and
- * interfaces that do not belong directly to the current codebase.
+ * It will call the `ExternalDefinitionsResolver` to add generic `Definition`s for classes,
+ * interfaces and traits that do not belong directly to the current codebase
+ *
  * These external definitions are either built-in or from third party libraries
  */
 class CodeParser

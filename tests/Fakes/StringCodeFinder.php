@@ -10,9 +10,6 @@ use PhUml\Parser\NonRecursiveCodeFinder;
 
 class StringCodeFinder extends NonRecursiveCodeFinder
 {
-    /** @var string[] */
-    protected $files;
-
     public function __construct()
     {
         $this->files = [];
@@ -21,10 +18,5 @@ class StringCodeFinder extends NonRecursiveCodeFinder
     public function add(string $definition)
     {
         $this->files[] = $definition;
-    }
-
-    public function files(): array
-    {
-        return $this->files;
     }
 }

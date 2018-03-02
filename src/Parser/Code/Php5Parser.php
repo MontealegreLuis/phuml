@@ -16,7 +16,7 @@ use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
  * It traverses the AST of all the files and interfaces found by the `CodeFinder` and builds a
  * `Codebase` object
  *
- * In order to create the collection of raw definitions it uses two visitors
+ * In order to create the collection of definitions it uses the following visitors
  *
  * - The `ClassVisitor` which builds `ClassDefinition`s
  * - The `InterfaceVisitor` which builds `InterfaceDefinition`s

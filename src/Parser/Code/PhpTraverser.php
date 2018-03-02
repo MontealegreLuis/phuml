@@ -9,6 +9,15 @@ namespace PhUml\Parser\Code;
 
 use PhUml\Code\Codebase;
 
+/**
+ * The traverser will create a `Definition` from the nodes of an AST
+ *
+ * It will use its visitors to build either a class, an interface or a trait
+ *
+ * @see \PhUml\Parser\Code\Visitors\ClassVisitor
+ * @see \PhUml\Parser\Code\Visitors\InterfaceVisitor
+ * @see \PhUml\Parser\Code\Visitors\TraitVisitor
+ */
 abstract class PhpTraverser
 {
     /** @var \PhUml\Code\Codebase */
@@ -17,7 +26,13 @@ abstract class PhpTraverser
     /** @var \PhpParser\NodeTraverser */
     protected $traverser;
 
-    /** @param \PhpParser\Node[] $nodes */
+    /**
+     * It will create a `Definition` from the given nodes.
+     * It will add the `Definition` to the `Codebase`
+     *
+     * @param \PhpParser\Node[] $nodes
+     * @see PhpParser::parse()
+     */
     public function traverse(array $nodes): void
     {
         $this->traverser->traverse($nodes);
