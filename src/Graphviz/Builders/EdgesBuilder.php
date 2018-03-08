@@ -7,7 +7,6 @@
 
 namespace PhUml\Graphviz\Builders;
 
-use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Code\Variables\Variable;
@@ -34,11 +33,7 @@ class EdgesBuilder implements AssociationsBuilder
      */
     public function fromAttributes(ClassDefinition $class, Codebase $codebase): array
     {
-        return array_map(function (Variable $attribute) use ($class, $codebase) {
-            return $this->addAssociation($class, $attribute, $codebase);
-        }, array_filter($class->attributes(), function(Attribute $attribute) use ($class) {
-            return $this->needAssociation($class, $attribute);
-        }));
+        return $this->buildEdgesFor($class, $class->attributes(), $codebase);
     }
 
     /**
@@ -51,11 +46,23 @@ class EdgesBuilder implements AssociationsBuilder
      */
     public function fromConstructor(ClassDefinition $class, Codebase $codebase): array
     {
-        return array_map(function (Variable $attribute) use ($class, $codebase) {
-            return $this->addAssociation($class, $attribute, $codebase);
-        }, array_filter($class->constructorParameters(), function(Variable $parameter) use ($class) {
-            return $this->needAssociation($class, $parameter);
-        }));
+        return $this->buildEdgesFor($class, $class->constructorParameters(), $codebase);
+    }
+
+    /**
+     * @param Variable[] $variables
+     * @return Edge[]
+     */
+    private function buildEdgesFor(ClassDefinition $class, array $variables, Codebase $codebase): array
+    {
+        $edges = [];
+        foreach ($variables as $parameter) {
+            if (!$this->needAssociation($class, $parameter)) {
+                continue;
+            }
+            $edges[] = $this->addAssociation($class, $parameter, $codebase);
+        }
+        return $edges;
     }
 
     private function addAssociation(ClassDefinition $class, Variable $attribute, Codebase $codebase): Edge

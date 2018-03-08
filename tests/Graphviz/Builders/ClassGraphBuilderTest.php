@@ -111,7 +111,52 @@ class ClassGraphBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_duplicate_associations_in_both_attributes_and_constructor()
+    function it_does_not_duplicate_associations_for_2_attributes_with_the_same_type()
+    {
+        $reference = A::classNamed('FirstClass');
+
+        $class = A::class('AClass')
+            ->withAPrivateAttribute('$firstReference', $reference->name())
+            ->withAPrivateAttribute('$secondReference', $reference->name())
+            ->build();
+        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
+        $codebase = new Codebase();
+        $codebase->add($reference);
+
+        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+
+        $this->assertEquals([
+            Edge::association($reference, $class),
+            new Node($class),
+        ], $dotElements);
+    }
+
+    /** @test */
+    function it_does_not_duplicate_associations_for_2_constructor_parameters_with_the_same_type()
+    {
+        $reference = A::classNamed('FirstClass');
+
+        $class = A::class('AClass')
+            ->withAPublicMethod(
+                '__construct',
+                A::parameter('$referenceA')->withType($reference->name())->build(),
+                A::parameter('$referenceB')->withType($reference->name())->build()
+            )
+            ->build();
+        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
+        $codebase = new Codebase();
+        $codebase->add($reference);
+
+        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+
+        $this->assertEquals([
+            Edge::association($reference, $class),
+            new Node($class),
+        ], $dotElements);
+    }
+
+    /** @test */
+    function it_does_not_duplicate_associations_present_in_both_attributes_and_constructor()
     {
         $firstReference = A::classNamed('FirstClass');
         $secondReference = A::classNamed('SecondClass');
