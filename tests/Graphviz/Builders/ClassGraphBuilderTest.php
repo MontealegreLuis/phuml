@@ -111,6 +111,38 @@ class ClassGraphBuilderTest extends TestCase
     }
 
     /** @test */
+    function it_does_not_duplicate_associations_in_both_attributes_and_constructor()
+    {
+        $firstReference = A::classNamed('FirstClass');
+        $secondReference = A::classNamed('SecondClass');
+        $thirdReference = A::classNamed('ThirdClass');
+
+        $class = A::class('AClass')
+            ->withAPrivateAttribute('$firstReference', $firstReference->name())
+            ->withAPrivateAttribute('$secondReference', $secondReference->name())
+            ->withAPublicMethod(
+                '__construct',
+                A::parameter('$secondReference')->withType($secondReference->name())->build(),
+                A::parameter('$thirdReference')->withType($thirdReference->name())->build()
+            )
+            ->build();
+        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
+        $codebase = new Codebase();
+        $codebase->add($firstReference);
+        $codebase->add($secondReference);
+        $codebase->add($thirdReference);
+
+        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+
+        $this->assertEquals([
+            Edge::association($firstReference, $class),
+            Edge::association($secondReference, $class),
+            Edge::association($thirdReference, $class),
+            new Node($class),
+        ], $dotElements);
+    }
+
+    /** @test */
     function it_extracts_the_elements_of_a_class_with_all_types_of_associations()
     {
         $firstReference = A::classNamed('FirstClass');

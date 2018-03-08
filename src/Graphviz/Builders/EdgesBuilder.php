@@ -7,6 +7,7 @@
 
 namespace PhUml\Graphviz\Builders;
 
+use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Code\Variables\Variable;
@@ -35,7 +36,9 @@ class EdgesBuilder implements AssociationsBuilder
     {
         return array_map(function (Variable $attribute) use ($class, $codebase) {
             return $this->addAssociation($class, $attribute, $codebase);
-        }, array_filter($class->attributes(), [$this, 'needAssociation']));
+        }, array_filter($class->attributes(), function(Attribute $attribute) use ($class) {
+            return $this->needAssociation($class, $attribute);
+        }));
     }
 
     /**
@@ -50,7 +53,9 @@ class EdgesBuilder implements AssociationsBuilder
     {
         return array_map(function (Variable $attribute) use ($class, $codebase) {
             return $this->addAssociation($class, $attribute, $codebase);
-        }, array_filter($class->constructorParameters(), [$this, 'needAssociation']));
+        }, array_filter($class->constructorParameters(), function(Variable $parameter) use ($class) {
+            return $this->needAssociation($class, $parameter);
+        }));
     }
 
     private function addAssociation(ClassDefinition $class, Variable $attribute, Codebase $codebase): Edge
@@ -60,18 +65,23 @@ class EdgesBuilder implements AssociationsBuilder
         return Edge::association($codebase->get($attribute->typeName()), $class);
     }
 
-    private function needAssociation(Variable $attribute): bool
+    private function needAssociation(ClassDefinition $class, Variable $attribute): bool
     {
-        return $attribute->isAReference() && !$this->isAssociationResolved($attribute->type());
+        return $attribute->isAReference() && !$this->isAssociationResolved($class, $attribute);
     }
 
-    private function isAssociationResolved(string $type): bool
+    private function isAssociationResolved(ClassDefinition $class, Variable $attribute): bool
     {
-        return array_key_exists(strtolower($type), $this->associations);
+        return array_key_exists($this->associationKey($class, $attribute), $this->associations);
     }
 
     private function markAssociationResolvedFor(ClassDefinition $class, Variable $attribute): void
     {
-        $this->associations[strtolower($class->name() . '.' .$attribute->type())] = true;
+        $this->associations[$this->associationKey($class, $attribute)] = true;
+    }
+
+    private function associationKey(ClassDefinition $class, Variable $attribute): string
+    {
+        return strtolower($class->name() . '.' . $attribute->type());
     }
 }
