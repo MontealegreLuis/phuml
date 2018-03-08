@@ -39,17 +39,32 @@ class Variable implements HasType
         );
     }
 
-    public function typeName(): Name
+    /**
+     * References to arrays need to have the `[]` removed from their names in order to create
+     * external definitions with a proper name
+     *
+     * The edges created from these references need to map to the names without the suffix
+     *
+     * @see \PhUml\Parser\Code\ExternalAssociationsResolver::resolveExternalAttributes()
+     * @see \PhUml\Parser\Code\ExternalAssociationsResolver::resolveExternalConstructorParameters()
+     * @see \PhUml\Graphviz\Builders\EdgesBuilder::addAssociation()
+     */
+    public function referenceName(): Name
+    {
+        return $this->isArray() ? $this->arrayTypeName() : $this->typeName();
+    }
+
+    private function typeName(): Name
     {
         return $this->type->name();
     }
 
-    public function isArray(): bool
+    private function isArray(): bool
     {
         return $this->type->isArray();
     }
 
-    public function arrayTypeName(): Name
+    private function arrayTypeName(): Name
     {
         return Name::from($this->type->removeArraySuffix());
     }
