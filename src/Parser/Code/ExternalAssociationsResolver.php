@@ -10,7 +10,6 @@ namespace PhUml\Parser\Code;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Code\Name;
 use PhUml\Code\Variables\Variable;
 
 /**
