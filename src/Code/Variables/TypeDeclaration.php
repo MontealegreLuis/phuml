@@ -53,12 +53,12 @@ class TypeDeclaration implements Named
         return $this->isPresent() && \in_array($type, self::$builtInTypes, true);
     }
 
-    private function isArray(): bool
+    public function isArray(): bool
     {
         return strpos($this->name, '[]') === \strlen($this->name) - 2;
     }
 
-    private function removeArraySuffix(): string
+    public function removeArraySuffix(): string
     {
         return substr($this->name, 0, -2);
     }

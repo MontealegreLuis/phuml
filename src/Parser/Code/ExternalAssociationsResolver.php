@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\Variable;
 
 /**
@@ -34,7 +35,7 @@ class ExternalAssociationsResolver extends ExternalDefinitionsResolver
     {
         array_map(function (Attribute $attribute) use ($codebase) {
             if ($attribute->isAReference() && !$codebase->has($attribute->typeName())) {
-                $codebase->add($this->externalClass($attribute->typeName()));
+                $codebase->add($this->externalClass($this->referenceName($attribute)));
             }
         }, $definition->attributes());
     }
@@ -43,8 +44,13 @@ class ExternalAssociationsResolver extends ExternalDefinitionsResolver
     {
         array_map(function (Variable $parameter) use ($codebase) {
             if ($parameter->isAReference() && !$codebase->has($parameter->typeName())) {
-                $codebase->add($this->externalClass($parameter->typeName()));
+                $codebase->add($this->externalClass($this->referenceName($parameter)));
             }
         }, $definition->constructorParameters());
+    }
+
+    private function referenceName(Variable $variable): Name
+    {
+        return $variable->isArray() ? $variable->arrayTypeName() : $variable->typeName();
     }
 }

@@ -59,4 +59,23 @@ class ExternalAssociationsResolverTest extends ExternalDefinitionsResolverTest
         $this->assertTrue($codebase->has(Name::from('ReferenceC')));
     }
 
+    /** @test */
+    function it_removes_the_suffix_from_array_references()
+    {
+        $class = A::class('TestClass')
+            ->withAPublicMethod(
+                '__construct',
+                A::parameter('$references')->withType('Reference[]')->build()
+            )
+            ->build()
+        ;
+        $codebase = new Codebase();
+        $codebase->add($class);
+        $resolver = new ExternalAssociationsResolver();
+
+        $resolver->resolve($codebase);
+        $this->assertCount(2, $codebase->definitions());
+        $this->assertTrue($codebase->has($class->name()));
+        $this->assertTrue($codebase->has(Name::from('Reference')));
+    }
 }

@@ -43,4 +43,14 @@ class Variable implements HasType
     {
         return $this->type->name();
     }
+
+    public function isArray(): bool
+    {
+        return $this->type->isArray();
+    }
+
+    public function arrayTypeName(): Name
+    {
+        return Name::from($this->type->removeArraySuffix());
+    }
 }
