@@ -24,6 +24,32 @@ class TypeDeclarationTest extends TestCase
         $this->assertTrue($isBuiltIn);
     }
 
+    /**
+     * @test
+     * @dataProvider pseudoTypes
+     */
+    function it_knows_it_is_a_pseudo_type(string $type)
+    {
+        $builtInType = TypeDeclaration::from($type);
+
+        $isBuiltIn = $builtInType->isBuiltIn();
+
+        $this->assertTrue($isBuiltIn);
+    }
+
+    /**
+     * @test
+     * @dataProvider aliasedTypes
+     */
+    function it_knows_it_is_an_alias_for_a_primitive_type(string $type)
+    {
+        $builtInType = TypeDeclaration::from($type);
+
+        $isBuiltIn = $builtInType->isBuiltIn();
+
+        $this->assertTrue($isBuiltIn);
+    }
+
     /** @test */
     function it_knows_it_is_not_a_built_in_type()
     {
@@ -54,6 +80,26 @@ class TypeDeclarationTest extends TestCase
             'array' => ['array'],
             'callable' => ['callable'],
             'iterable' => ['iterable'],
+        ];
+    }
+
+    function pseudoTypes()
+    {
+        return [
+            'mixed' => ['mixed'],
+            'number' => ['number'],
+            'object' => ['object'],
+            'resource' => ['resource'],
+            'self' => ['self'],
+        ];
+    }
+
+    public function aliasedTypes()
+    {
+        return [
+            'boolean' => ['boolean'],
+            'integer' => ['integer'],
+            'double' => ['double'],
         ];
     }
 }

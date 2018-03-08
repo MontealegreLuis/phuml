@@ -18,9 +18,13 @@ class TypeDeclaration implements Named
 {
     use WithName;
 
-    /** @var string[] All valid types for PHP 7.1 */
+    /** @var string[] All valid types for PHP 7.1, pseudo-types, and aliases */
     private static $builtInTypes = [
-        'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable'
+        'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable',
+        // pseudo-types
+        'mixed', 'number', 'object', 'resource', 'self',
+        // aliases
+        'boolean', 'integer', 'double'
     ];
 
     public static function absent(): TypeDeclaration
