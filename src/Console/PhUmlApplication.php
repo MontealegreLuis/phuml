@@ -28,7 +28,7 @@ class PhUmlApplication extends Application
      */
     public function __construct(ProgressDisplay $display)
     {
-        parent::__construct('phUML', '1.0.0');
+        parent::__construct('phUML', '@package_version@');
         $this->add(new GenerateClassDiagramCommand($display));
         $this->add(new GenerateStatisticsCommand($display));
         $this->add(new GenerateDotFileCommand($display));
