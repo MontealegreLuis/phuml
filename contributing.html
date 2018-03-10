@@ -6,16 +6,16 @@
 
         <title>phUML</title>
 
-        <link rel="stylesheet" href="http://montealegreluis.com/phuml/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://montealegreluis.com/phuml/css/font-awesome.min.css">
-        <link rel="stylesheet" href="http://montealegreluis.com/phuml/css/highlight.dark.css">
-        <link rel="stylesheet" href="http://montealegreluis.com/phuml/css/main.css">
+        <link rel="stylesheet" href="https://montealegreluis.com/phuml/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://montealegreluis.com/phuml/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://montealegreluis.com/phuml/css/highlight.dark.css">
+        <link rel="stylesheet" href="https://montealegreluis.com/phuml/css/main.css">
     </head>
     <body>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
-            <a class="navbar-brand" href="http://montealegreluis.com/phuml/">
+            <a class="navbar-brand" href="https://montealegreluis.com/phuml/">
                 phUML
                 <small class="hidden-xs hidden-sm">
                     phUML is a fully automatic UML diagram generator
@@ -36,32 +36,32 @@
 
                         <ul class="nav nav-pills nav-stacked">
                                                             <li class="">
-                                    <a href="http://montealegreluis.com/phuml/docs/installation.html">
+                                    <a href="https://montealegreluis.com/phuml/docs/installation.html">
                                         Installation
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="http://montealegreluis.com/phuml/docs/types.html">
+                                    <a href="https://montealegreluis.com/phuml/docs/types.html">
                                         Type information
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="http://montealegreluis.com/phuml/docs/format.html">
+                                    <a href="https://montealegreluis.com/phuml/docs/format.html">
                                         Diagram format
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="http://montealegreluis.com/phuml/docs/class-diagram.html">
+                                    <a href="https://montealegreluis.com/phuml/docs/class-diagram.html">
                                         Generate a class diagram
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="http://montealegreluis.com/phuml/docs/statistics.html">
+                                    <a href="https://montealegreluis.com/phuml/docs/statistics.html">
                                         Generate statistics
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="http://montealegreluis.com/phuml/docs/dot-file.html">
+                                    <a href="https://montealegreluis.com/phuml/docs/dot-file.html">
                                         Generate a DOT file
                                     </a>
                                 </li>
@@ -89,9 +89,8 @@ By participating in this project you agree to abide by its terms.</p>
 <p>Run the following command to install the fixer.</p>
 <pre><code class="language-bash">$ composer global require friendsofphp/php-cs-fixer</code></pre>
 <p>Run the following command if you modified production code (<code>src</code> directory).</p>
-<pre><code class="language-bash">$ php-cs-fixer fix src --rules=@PSR2,no_unused_imports</code></pre>
-<p>Run the following command if you either added or modified tests (<code>tests</code> directory).</p>
-<pre><code class="language-bash">$ php-cs-fixer fix tests --rules=no_unused_imports</code></pre>
+<pre><code class="language-bash">$ make fix</code></pre>
+<p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run the fixer in both folders <code>src</code> and <code>tests</code>.</p>
 <h2 id="using-phuml-from-a-git-checkout">Using phUML from a Git checkout</h2>
 <p>The following commands can be used to perform the initial checkout of phUML:</p>
 <pre><code class="language-bash">$ git clone git://github.com/MontealegreLuis/phuml.git
@@ -108,7 +107,7 @@ The container mimics the environment in <a href="https://travis-ci.org/">Travis<
 Please make sure the tests pass in the container so you can be sure they will pass in Travis too.</p>
 <p>You can run the tests as follows:</p>
 <pre><code>$ make test</code></pre>
-<p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run PHPUnit with the same options it runs in Travis inside the Docker container.</p>
+<p><code>make</code> will run PHPUnit with the same options it runs in Travis inside the Docker container.</p>
 <p>You can alternatively run the test suite without this group of tests in your local environment.</p>
 <pre><code>$ vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group=snapshot</code></pre>
 <p>You will need <a href="https://xdebug.org/">XDebug</a> installed to be able to generate the code coverage report.</p>
