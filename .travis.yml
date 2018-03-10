@@ -2,6 +2,8 @@ language: php
 
 php:
   - 7.1
+    env:
+      - EXECUTE_DEPLOYMENT=true
   - 7.2
 
 env:
@@ -46,4 +48,4 @@ after_script:
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 after_success:
-  - vendor/bin/couscous travis-auto-deploy
+  - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then vendor/bin/couscous travis-auto-deploy ; fi
