@@ -48,5 +48,4 @@ after_script:
 
 after_success:
   - curl -OS http://couscous.io/couscous.phar
-  - chmod +x couscous.phar
-  - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then couscous.phar travis-auto-deploy ; fi
+  - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then php couscous.phar travis-auto-deploy ; fi
