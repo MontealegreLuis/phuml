@@ -4,6 +4,16 @@ php:
   - 7.1
   - 7.2
 
+env:
+  matrix:
+    - COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+  global:
+    # Couscous deploy configuration
+    - GIT_NAME: "'phUML documentation'"
+    - GIT_EMAIL: montealegreluis@gmail.com
+    - GH_REF: github.com/MontealegreLuis/phuml
+    - secure: PTctakC76z6fqgkUQrRsVZta2NOnJFdZ79ieKeX/srCeqn6z5bxV4iMzPpvJO4Hx9Ku0ms0A3XBZaGoouHcI9jtZ4n6GJ1e5j0nGF5GzBf9y0f2sBj8GXj58v2xKBqw1cKODr3a0RSGVAy9zuoRNGJBI7cZbP2jAC8wcLAVmAgKW9kPKZKFDy9wH+OQJMgZV4/8MrMWGp1NPZRnBRnAZRExYoH9vCaWtB48eGsOQYtdF1rwxtg2U4uZwkcoNv9e9/8ABhkXn9sPfG1flYFqYYGI3eO7ZYUAdwWYNXnjgJhetXCHzfTJgMKyh9oLOeZ8S8NpaML67Br6DGrjfuCYpDe/Rl0b7hivs7d0yPXBy0qbRmvDX1JodZmFLV2G7mqGqWdWfDxvUjGepNHHOponqXcLTI8OycVsmycWJOH1SFikY5Nqoa06XjcvsNTfZ/2NqmqHfcaofqIlwxa7za9fdLjcBuU3OzKy9qnCNtD5yaBO+wDDTF43xEnEvo8/3N/zXiYixTMTUq1+MvldlIF9OwXXxEz58QUTNhuLOFQDp76vHHsXmYLo+OzCYsJmGaPTLfOCwJzYqskxasOPu96LjMD/jVyqtBHa3ABvFiAjzMuK+frvQJF4EU1J5yn/h+1CgBKsA82L5UhZc8lCylfP59ppvjrZcNc2P4lykuHiHEMM=
+
 matrix:
   allow_failures:
     - php: 7.2
@@ -12,12 +22,10 @@ matrix:
 # See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
 
-## Cache composer
+# Cache composer
 cache:
   directories:
     - $HOME/.composer/cache
-
-env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
 
 before_install:
   # We need GraphViz to create the UML diagrams
@@ -36,3 +44,6 @@ script:
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+after_success:
+  - vendor/bin/couscous travis-auto-deploy
