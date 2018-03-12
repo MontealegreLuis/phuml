@@ -46,6 +46,51 @@ class SelfUpdateCommandTest extends TestCase
         $this->display->rollbackMessage(false)->shouldHaveBeenCalled();
     }
 
+    /** @test */
+    function it_notifies_when_there_is_a_new_version_to_install()
+    {
+        $newVersion = '2.0.0';
+        $this->updater->hasUpdate()->willReturn(true);
+        $this->updater->getNewVersion()->willReturn($newVersion);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+            '--check' => true,
+        ]);
+
+        $this->display->newVersion($newVersion)->shouldHaveBeenCalled();
+    }
+
+    /** @test */
+    function it_notifies_when_there_are_no_remote_versions()
+    {
+        $newVersion = '2.0.0';
+        $this->updater->hasUpdate()->willReturn(false);
+        $this->updater->getNewVersion()->willReturn(false);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+            '--check' => true,
+        ]);
+
+        $this->display->noUpdatesAvailable()->shouldHaveBeenCalled();
+    }
+
+    /** @test */
+    function it_notifies_when_the_phar_is_up_to_date()
+    {
+        $currentVersion = '1.6.1';
+        $this->updater->hasUpdate()->willReturn(false);
+        $this->updater->getNewVersion()->willReturn($currentVersion);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+            '--check' => true,
+        ]);
+
+        $this->display->alreadyUpToDate()->shouldHaveBeenCalled();
+    }
+
     /** @before */
     function configureCommandTester()
     {
