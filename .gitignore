@@ -1,5 +1,10 @@
 vendor
+tests
+.travis
+.couscous
 composer.lock
 build
 coverage.clover
 .php_cs.cache
+.scrutinizer.yml
+.travis.yml
