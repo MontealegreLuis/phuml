@@ -10,7 +10,6 @@ namespace PhUml\Console\Commands;
 use Exception;
 use Humbug\SelfUpdate\Strategy\GithubStrategy;
 use Humbug\SelfUpdate\Updater;
-use PhUml\Console\NoUpdater;
 use PhUml\Console\UpdaterDisplay;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +31,7 @@ class SelfUpdateCommand extends Command
     public function __construct(Updater $updater = null, UpdaterDisplay $display = null)
     {
         parent::__construct();
-        $this->updater = $updater ?? new NoUpdater();
+        $this->updater = $updater ?? new Updater();
         $this->display = $display ?? new UpdaterDisplay();
     }
 

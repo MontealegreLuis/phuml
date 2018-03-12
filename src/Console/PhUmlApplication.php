@@ -7,11 +7,9 @@
 
 namespace PhUml\Console;
 
-use Humbug\SelfUpdate\Updater;
 use PhUml\Console\Commands\GenerateClassDiagramCommand;
 use PhUml\Console\Commands\GenerateDotFileCommand;
 use PhUml\Console\Commands\GenerateStatisticsCommand;
-use PhUml\Console\Commands\SelfUpdateCommand;
 use Symfony\Component\Console\Application;
 
 /**
@@ -25,16 +23,16 @@ use Symfony\Component\Console\Application;
  */
 class PhUmlApplication extends Application
 {
-    /**
-     * @throws \Symfony\Component\Console\Exception\LogicException
-     */
-    public function __construct(
-        ProgressDisplay $display,
-        Updater $updater = null,
-        UpdaterDisplay $updaterDisplay = null
-    ) {
-        parent::__construct('phUML', '@package_version@');
-        $this->add(new SelfUpdateCommand($updater, $updaterDisplay));
+    public function __construct(ProgressDisplay $display)
+    {
+        // This will be replaced by Box with a version number if it's a PHAR
+        // 1.6.1 for instance
+        $pharVersion = '@package_version@';
+        $version = $pharVersion;
+        if ($pharVersion === '@' . 'package_version' . '@') { // It's concatenated to prevent Box to replace it
+            $version = '1.6-dev';
+        }
+        parent::__construct('phUML', $version);
         $this->add(new GenerateClassDiagramCommand($display));
         $this->add(new GenerateStatisticsCommand($display));
         $this->add(new GenerateDotFileCommand($display));

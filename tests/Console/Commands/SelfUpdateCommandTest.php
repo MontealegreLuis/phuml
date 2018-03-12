@@ -46,18 +46,14 @@ class SelfUpdateCommandTest extends TestCase
         $this->display->rollbackMessage(false)->shouldHaveBeenCalled();
     }
 
-
     /** @before */
     function configureCommandTester()
     {
         $this->updater = $this->prophesize(Updater::class);
         $this->updater->setStrategyObject(Argument::type(GithubStrategy::class))->shouldBeCalled();
         $this->display = $this->prophesize(UpdaterDisplay::class);
-        $application = new PhUmlApplication(
-            new ProgressDisplay(),
-            $this->updater->reveal(),
-            $this->display->reveal()
-        );
+        $application = new PhUmlApplication(new ProgressDisplay());
+        $application->add(new SelfUpdateCommand($this->updater->reveal(), $this->display->reveal()));
         $this->command = $application->find('self-update');
         $this->tester = new CommandTester($this->command);
     }
