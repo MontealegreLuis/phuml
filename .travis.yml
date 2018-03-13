@@ -35,6 +35,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y --reinstall install imagemagick
   - yes | pecl install imagick
+  - openssl aes-256-cbc -K $encrypted_2ff9b681a952_key -iv $encrypted_2ff9b681a952_iv -in .travis/secrets.tar.enc -out .travis/secrets.tar -d
 
 before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
@@ -49,3 +50,5 @@ after_script:
 after_success:
   - curl -OS http://couscous.io/couscous.phar
   - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then php couscous.phar travis-auto-deploy ; fi
+  - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then composer install --no-dev ; fi
+  - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then ./phar.sh ; fi

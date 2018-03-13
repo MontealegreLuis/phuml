@@ -4,7 +4,6 @@ build
 coverage.clover
 .php_cs.cache
 .couscous
-.travis/phar-private.pem
 phuml.phar
 phuml.phar.pubkey
 phuml.phar.version
