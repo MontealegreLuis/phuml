@@ -91,6 +91,36 @@ class SelfUpdateCommandTest extends TestCase
         $this->display->alreadyUpToDate()->shouldHaveBeenCalled();
     }
 
+    /** @test */
+    function it_updates_to_the_next_stable_version()
+    {
+        $oldVersion = '1.6.1';
+        $newVersion = '1.6.2';
+        $this->updater->update()->willReturn(true);
+        $this->updater->getOldVersion()->willReturn($oldVersion);
+        $this->updater->getNewVersion()->willReturn($newVersion);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+        ]);
+
+        $this->display->updateApplied($oldVersion, $newVersion)->shouldHaveBeenCalled();
+    }
+
+    /** @test */
+    function it_notifies_when_the_current_local_version_is_the_latest_version()
+    {
+        $currentVersion = '1.6.1';
+        $this->updater->update()->willReturn(false);
+        $this->updater->getOldVersion()->willReturn($currentVersion);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+        ]);
+
+        $this->display->noUpdateApplied($currentVersion)->shouldHaveBeenCalled();
+    }
+
     /** @before */
     function configureCommandTester()
     {
