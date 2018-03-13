@@ -7,6 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
+use Exception;
 use Humbug\SelfUpdate\Strategy\GithubStrategy;
 use Humbug\SelfUpdate\Updater;
 use PHPUnit\Framework\TestCase;
@@ -18,6 +19,21 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class SelfUpdateCommandTest extends TestCase
 {
+    /** @test */
+    function it_notifies_error_when_trying_to_rollback()
+    {
+        $exception = new Exception('Cannot rollback');
+        $this->updater->rollback()->willThrow($exception);
+
+        $this->tester->execute([
+            'command' => $this->command->getName(),
+            '--rollback' => true,
+        ]);
+
+        $this->display->error($exception)->shouldHaveBeenCalled();
+    }
+
+
     /** @test */
     function it_rolls_back_to_a_previous_version()
     {
