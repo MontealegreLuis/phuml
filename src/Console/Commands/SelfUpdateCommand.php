@@ -8,7 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use Exception;
-use Humbug\SelfUpdate\Strategy\GithubStrategy;
+use Humbug\SelfUpdate\Strategy\ShaStrategy;
 use Humbug\SelfUpdate\Updater;
 use PhUml\Console\UpdaterDisplay;
 use Symfony\Component\Console\Command\Command;
@@ -18,8 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SelfUpdateCommand extends Command
 {
-    private const PACKAGE_NAME = 'phuml/phuml';
-    private const FILE_NAME = 'phuml.phar';
+    const VERSION_URL = 'https://montealegreluis.com/phuml/phuml.phar.version';
+    const PHAR_URL = 'https://montealegreluis.com/phuml/phuml.phar';
 
     /** @var Updater */
     private $updater;
@@ -118,10 +118,9 @@ class SelfUpdateCommand extends Command
 
     private function configureUpdaterStrategy(): void
     {
-        $strategy = new GithubStrategy();
-        $strategy->setPackageName(self::PACKAGE_NAME);
-        $strategy->setPharName(self::FILE_NAME);
-        $strategy->setCurrentLocalVersion($this->getApplication()->getVersion());
+        $strategy = new ShaStrategy();
+        $strategy->setPharUrl(self::PHAR_URL);
+        $strategy->setVersionUrl(self::VERSION_URL);
         $this->updater->setStrategyObject($strategy);
     }
 
