@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Unpack secrets; -C ensures they unpack *in* the .travis directory
-tar xvf .travis/secrets.tar -C .travis
+tar xvf .travis/secrets.tar -C .
 
 # Setup SSH agent:
 eval "$(ssh-agent -s)" #start the ssh agent
