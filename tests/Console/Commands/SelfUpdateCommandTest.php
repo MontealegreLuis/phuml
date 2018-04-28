@@ -8,7 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use Exception;
-use Humbug\SelfUpdate\Strategy\GithubStrategy;
+use Humbug\SelfUpdate\Strategy\StrategyInterface;
 use Humbug\SelfUpdate\Updater;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
@@ -32,7 +32,6 @@ class SelfUpdateCommandTest extends TestCase
 
         $this->display->error($exception)->shouldHaveBeenCalled();
     }
-
 
     /** @test */
     function it_rolls_back_to_a_previous_version()
@@ -141,7 +140,7 @@ class SelfUpdateCommandTest extends TestCase
     function configureCommandTester()
     {
         $this->updater = $this->prophesize(Updater::class);
-        $this->updater->setStrategyObject(Argument::type(GithubStrategy::class))->shouldBeCalled();
+        $this->updater->setStrategyObject(Argument::type(StrategyInterface::class))->shouldBeCalled();
         $this->display = $this->prophesize(UpdaterDisplay::class);
         $application = new PhUmlApplication(new ProgressDisplay());
         $application->add(new SelfUpdateCommand($this->updater->reveal(), $this->display->reveal()));
