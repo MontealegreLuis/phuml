@@ -12,7 +12,28 @@ It creates a class diagram from an OO codebase based on the UML specification.
 
 ## Installation
 
-Use [Composer][12] to download and install phUML as well as its dependencies.
+### PHAR
+
+We distribute a PHP Archive [(PHAR)][phar] that has all required dependencies of phUML bundled in a single file.
+The PHAR file is signed with an openssl private key.
+You will need the pubkey file to be stored beside the PHAR file at all times in order to use it.
+
+To install `phuml` run the following commands in your terminal.
+
+```bash
+$ wget https://montealegreluis.com/phuml/phuml.phar
+$ wget https://montealegreluis.com/phuml/phuml.phar.pubkey
+```
+
+Run the PHAR to see all the available commands and options
+
+```bash
+$ php phuml.phar
+```
+
+### Composer
+
+Alternatively, you may use [Composer][12] to download and install phUML as well as its dependencies.
 
 ```
 $ composer require phuml/phuml
@@ -65,3 +86,4 @@ Special thanks to all of these [awesome contributors][21].
 [19]: https://github.com/MontealegreLuis
 [20]: https://github.com/jakobwesthoff
 [21]: https://github.com/MontealegreLuis/phuml/contributors
+[phar]: https://php.net/phar
