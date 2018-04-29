@@ -26,7 +26,7 @@ Run the following command to install the fixer.
 $ composer global require friendsofphp/php-cs-fixer
 ```
 
-Run the following command if you modified production code (`src` directory).
+Run the following command if you modified either production or tests.
 
 ```bash
 $ make fix
