@@ -18,7 +18,7 @@
 You might get an output different from the screenshots in this documentation.
 Some Graphviz versions do not support some HTML tags like `<i>`, `<b>`, etc.
 
-For more information about the support for different HTML tags in Graphviz, read [here][1].
+For more information about the support for different HTML tags in Graphviz, read [here][shapes].
 
 ## Running the commands from the container
 
@@ -40,17 +40,17 @@ This package offers 3 different color schemes (themes)
 
 ### phUML (default)
 
-![phUML theme][2]
+![phUML theme][phuml-theme]
 
 ### PHP
 
-![PHP theme][3]
+![PHP theme][php-theme]
 
 ### Classic
 
-![Classic theme][4]
+![Classic theme][classic-theme]
 
-[1]: https://www.graphviz.org/doc/info/shapes.html#html
-[2]: phuml-theme.png
-[3]: php-theme.png
-[4]: classic-theme.png
+[shapes]: https://www.graphviz.org/doc/info/shapes.html#html
+[phuml-theme]: phuml-theme.png
+[php-theme]: php-theme.png
+[classic-theme]: classic-theme.png

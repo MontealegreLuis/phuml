@@ -1,6 +1,6 @@
 # Generate a DOT file
 
-The `phuml:dot` command will generate a [DOT][1] file by scanning the code from a given directory.
+The `phuml:dot` command will generate a [DOT][dot] file by scanning the code from a given directory.
 
 ## Why would you want a DOT file?
 
@@ -90,4 +90,4 @@ $ vendor/bin/phuml phuml:dot tests/resources/.code/classes example.gv
 $ vendor/bin/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png
 ```
 
-[1]: https://en.wikipedia.org/wiki/DOT_(graph_description_language)
+[dot]: https://en.wikipedia.org/wiki/DOT_(graph_description_language)
