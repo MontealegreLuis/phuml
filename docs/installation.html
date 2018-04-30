@@ -72,7 +72,28 @@
                 
                 <section id="content" class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
                     <h1 id="installation">Installation</h1>
-<p>Use <a href="https://getcomposer.org/">Composer</a> to download and install phUML as well as its dependencies.</p>
+<h2 id="phar">PHAR</h2>
+<p>We distribute a PHP Archive <a href="https://php.net/phar">(PHAR)</a> that has all required dependencies of phUML bundled in a single file.
+The PHAR file is signed with an openssl private key.
+You will need the pubkey file to be stored beside the PHAR file at all times in order to use it.
+If you rename <code>phuml.phar</code> to <code>phuml</code>, for example, then also rename the key from <code>phuml.phar.pubkey</code> to <code>phuml.pubkey</code>.</p>
+<p>To install <code>phuml</code> globally run the following commands in your terminal.</p>
+<pre><code class="language-bash">$ wget https://montealegreluis.com/phuml/phuml.phar
+$ wget https://montealegreluis.com/phuml/phuml.phar.pubkey
+$ chmod +x phuml.phar
+$ mv phuml.phar /usr/local/bin/phuml
+$ mv phuml.phar.pubkey /usr/local/bin/phuml.pubkey</code></pre>
+<p>Run the PHAR to see all the available commands and options</p>
+<pre><code class="language-bash">$ phuml</code></pre>
+<p>You can also immediately use the PHAR after you have downloaded it, of course:</p>
+<pre><code class="language-bash">$ wget https://montealegreluis.com/phuml/phuml.phar
+$ wget https://montealegreluis.com/phuml/phuml.phar.pubkey
+$ php phuml.phar</code></pre>
+<h3 id="phar-updates">PHAR Updates</h3>
+<p>To update your current PHAR run:</p>
+<pre><code class="language-bash">$ phuml self-update</code></pre>
+<h2 id="composer">Composer</h2>
+<p>Alternatively, you may use  <a href="https://getcomposer.org/">Composer</a> to download and install phUML as well as its dependencies.</p>
 <pre><code class="language-bash">$ composer require phuml/phuml</code></pre>
                 </section>
 

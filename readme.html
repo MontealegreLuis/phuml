@@ -78,10 +78,20 @@
 <a href="https://packagist.org/packages/phuml/phuml"><img src="https://img.shields.io/packagist/v/phuml/phuml.svg?style=flat-square" alt="Latest Stable Version" /></a>
 <a href="https://packagist.org/packages/phuml/phuml"><img src="https://img.shields.io/packagist/vpre/phuml/phuml.svg" alt="Packagist Pre Release" /></a>
 <a href="https://php.net/"><img src="https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square" alt="Minimum PHP Version" /></a></p>
-<p>phUML is a fully automatic <a href="http://en.wikipedia.org/wiki/Unified_Modeling_Language">UML</a> class diagram generator written in <a href="http://php.net">PHP</a>.
+<p>phUML is a fully automatic <a href="http://en.wikipedia.org/wiki/Unified_Modeling_Language">UML</a> class diagram generator written in <a href="https://php.net/">PHP</a>.
 It creates a class diagram from an OO codebase based on the UML specification.</p>
 <h2 id="installation">Installation</h2>
-<p>Use <a href="https://getcomposer.org/">Composer</a> to download and install phUML as well as its dependencies.</p>
+<h3 id="phar">PHAR</h3>
+<p>We distribute a PHP Archive <a href="https://php.net/phar">(PHAR)</a> that has all required dependencies of phUML bundled in a single file.
+The PHAR file is signed with an openssl private key.
+You will need the pubkey file to be stored beside the PHAR file at all times in order to use it.</p>
+<p>To install <code>phuml</code> run the following commands in your terminal.</p>
+<pre><code class="language-bash">$ wget https://montealegreluis.com/phuml/phuml.phar
+$ wget https://montealegreluis.com/phuml/phuml.phar.pubkey</code></pre>
+<p>Run the PHAR to see all the available commands and options</p>
+<pre><code class="language-bash">$ php phuml.phar</code></pre>
+<h3 id="composer">Composer</h3>
+<p>Alternatively, you may use <a href="https://getcomposer.org/">Composer</a> to download and install phUML as well as its dependencies.</p>
 <pre><code>$ composer require phuml/phuml</code></pre>
 <h2 id="how-does-it-look-like">How does it look like?</h2>
 <p><img src="https://raw.githubusercontent.com/MontealegreLuis/phuml/master/docs/phuml-example-thumbnail.png" alt="UML Diagram" /></p>
@@ -89,9 +99,9 @@ It creates a class diagram from an OO codebase based on the UML specification.</
 <h2 id="documentation">Documentation</h2>
 <p>For more details visit the <a href="http://montealegreluis.com/phuml">documentation page</a></p>
 <h2 id="contribute">Contribute</h2>
-<p>Please refer to <a href="contributing.html">CONTRIBUTING</a> for information on how to contribute to phUML.</p>
+<p>Please refer to <a href="https://github.com/MontealegreLuis/phuml/blob/master/CONTRIBUTING.md">CONTRIBUTING</a> for information on how to contribute to phUML.</p>
 <h2 id="license">License</h2>
-<p>Released under the <a href="LICENSE">BSD-3-Clause</a>.</p>
+<p>Released under the <a href="https://github.com/MontealegreLuis/phuml/blob/master/LICENSE">BSD-3-Clause</a>.</p>
 <h2 id="credits">Credits</h2>
 <p>This code is principally developed and maintained by <a href="https://github.com/MontealegreLuis">Luis Montealegre</a>.</p>
 <p>This library was created by <a href="https://github.com/jakobwesthoff">Jakob Westhoff</a>.</p>
