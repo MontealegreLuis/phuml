@@ -27,6 +27,8 @@ class ClassDefinitionBuilderTest extends TestCase
                 ])
             ]
         ]);
+        $parsedClass->namespacedName = new Name('AClassWithTraits');
+
         $builder = new ClassDefinitionBuilder();
 
         $class = $builder->build($parsedClass);
@@ -52,6 +54,8 @@ class ClassDefinitionBuilderTest extends TestCase
                 ])
             ]
         ]);
+        $parsedClass->namespacedName = new Name('AClassWithTraits');
+
         $builder = new ClassDefinitionBuilder();
 
         $class = $builder->build($parsedClass);

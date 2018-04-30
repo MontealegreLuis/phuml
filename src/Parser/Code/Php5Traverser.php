@@ -8,6 +8,7 @@
 namespace PhUml\Parser\Code;
 
 use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
@@ -25,6 +26,7 @@ class Php5Traverser extends PhpTraverser
     ) {
         $this->codebase = new Codebase();
         $this->traverser = new NodeTraverser();
+        $this->traverser->addVisitor(new NameResolver());
         $this->traverser->addVisitor(new ClassVisitor($classBuilder, $this->codebase));
         $this->traverser->addVisitor(new InterfaceVisitor($interfaceBuilder, $this->codebase));
         $this->traverser->addVisitor(new TraitVisitor($traitBuilder, $this->codebase));

@@ -27,6 +27,7 @@ class TraitDefinitionBuilderTest extends TestCase
     function it_builds_a_trait_definition()
     {
         $parsedTrait = new Trait_('ATrait');
+        $parsedTrait->namespacedName = new Name('ATrait');
 
         $trait = $this->builder->build($parsedTrait);
 
@@ -44,6 +45,7 @@ class TraitDefinitionBuilderTest extends TestCase
                 new ClassMethod('abstractMethod', ['type' => Class_::MODIFIER_ABSTRACT]),
             ],
         ]);
+        $parsedTrait->namespacedName = new Name('ATrait');
 
         $trait = $this->builder->build($parsedTrait);
 
@@ -67,6 +69,7 @@ class TraitDefinitionBuilderTest extends TestCase
                 new Property(Class_::MODIFIER_STATIC, [new PropertyProperty('staticAttribute')]),
             ]
         ]);
+        $parsedTrait->namespacedName = new Name('ATrait');
 
         $trait = $this->builder->build($parsedTrait);
 
@@ -93,6 +96,7 @@ class TraitDefinitionBuilderTest extends TestCase
                 ])
             ]
         ]);
+        $parsedTrait->namespacedName = new Name('ATraitWithTraits');
 
         $trait = $this->builder->build($parsedTrait);
 

@@ -33,7 +33,7 @@ class TraitDefinitionBuilder
     public function build(Trait_ $trait): TraitDefinition
     {
         return new TraitDefinition(
-            Name::from($trait->name),
+            Name::from($trait->namespacedName->toString()),
             $this->membersBuilder->methods($trait->getMethods()),
             $this->membersBuilder->attributes($trait->stmts),
             $this->buildTraits($trait->stmts)

@@ -35,7 +35,7 @@ class ClassDefinitionBuilder
     public function build(Class_ $class): ClassDefinition
     {
         return new ClassDefinition(
-            ClassDefinitionName::from($class->name),
+            ClassDefinitionName::from($class->namespacedName->toString()),
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
             !empty($class->extends) ? ClassDefinitionName::from(end($class->extends->parts)) : null,
