@@ -12,9 +12,17 @@ class Name
     /** @var string */
     private $name;
 
+    /** @var string[] Packages, sub-packages and class/interface/trait name */
+    private $parts;
+
     public static function from(string $text): Name
     {
         return new Name($text);
+    }
+
+    public function namespace(): string
+    {
+        return implode('\\', \array_slice($this->parts, 0, -1));
     }
 
     public function __toString()
@@ -24,6 +32,7 @@ class Name
 
     private function __construct(string $name)
     {
-        $this->name = $name;
+        $this->parts = explode('\\', $name);
+        $this->name = $this->parts[substr_count($name, '\\')];
     }
 }
