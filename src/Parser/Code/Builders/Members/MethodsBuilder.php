@@ -65,6 +65,9 @@ class MethodsBuilder extends FiltersRunner
             $name = "\${$parameter->name}";
             $type = $parameter->type;
             if ($type !== null) {
+                if($type instanceof \PhpParser\Node\NullableType) {
+                    $type = $type->type;
+                }
                 $typeDeclaration = TypeDeclaration::from($type);
             } else {
                 $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
