@@ -17,18 +17,18 @@
     "require": {
         "php": "^7.1",
         "ext-tokenizer": "*",
-        "nikic/php-parser": "^3.1",
-        "padraic/phar-updater": "^1.0",
-        "symfony/console": "^4.0",
-        "symfony/filesystem": "^4.0",
-        "symfony/finder": "^4.0",
-        "symfony/process": "^4.0",
-        "twig/twig": "^2.4"
+        "nikic/php-parser": "^3.1.5",
+        "padraic/phar-updater": "^1.0.6",
+        "symfony/console": "^4.0.9",
+        "symfony/filesystem": "^4.0.9",
+        "symfony/finder": "^4.0.9",
+        "symfony/process": "^4.0.9",
+        "twig/twig": "^2.4.8"
     },
     "require-dev": {
         "ext-imagick": "*",
-        "lupka/phpunit-compare-images": "^1.0",
-        "phpunit/phpunit": "^6.5"
+        "lupka/phpunit-compare-images": "^1.0.0",
+        "phpunit/phpunit": "^6.5.14"
     },
     "config": {
         "optimize-autoloader": true,
