@@ -24,7 +24,7 @@ class TypeDeclaration implements Named
         // pseudo-types
         'mixed', 'number', 'object', 'resource', 'self',
         // aliases
-        'boolean', 'integer', 'double'
+        'boolean', 'integer', 'double',
     ];
 
     public static function absent(): TypeDeclaration

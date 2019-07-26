@@ -26,8 +26,6 @@ class InterfaceGraphBuilder
      * 1. The node representing the interface itself
      * 2. The parent interface, if any
      *
-     * @param InterfaceDefinition $interface
-     * @param Codebase $codebase
      * @return \PhUml\Graphviz\HasDotRepresentation[]
      */
     public function extractFrom(InterfaceDefinition $interface, Codebase $codebase): array

@@ -27,6 +27,7 @@
     },
     "require-dev": {
         "ext-imagick": "*",
+        "friendsofphp/php-cs-fixer": "^2.15.1",
         "lupka/phpunit-compare-images": "^1.0.0",
         "phpunit/phpunit": "^6.5.14"
     },

@@ -8,9 +8,9 @@
 namespace PhUml\Processors;
 
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\Codebase;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Codebase;
 use PhUml\Code\TraitDefinition;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
