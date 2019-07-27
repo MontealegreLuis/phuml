@@ -82,7 +82,7 @@ class MethodTest extends TestCase
         $methodAsString = $method->__toString();
 
         $this->assertEquals(
-        '#withParameters($parameterOne, $parameterTwoWithType: int): SplStack',
+            '#withParameters($parameterOne, $parameterTwoWithType: int): SplStack',
             $methodAsString
         );
     }

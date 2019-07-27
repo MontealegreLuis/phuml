@@ -37,10 +37,10 @@ class AttributeTest extends TestCase
     /** @test */
     function its_string_representation_includes_its_type()
     {
-        $string = Attribute::public ('$aString', TypeDeclaration::from('string'));
-        $object = Attribute::public ('$file', TypeDeclaration::from('SplFileInfo'));
-        $array = Attribute::public ('$array', TypeDeclaration::from('array'));
-        $typedArray = Attribute::public ('$directories', TypeDeclaration::from('Directory[]'));
+        $string = Attribute::public('$aString', TypeDeclaration::from('string'));
+        $object = Attribute::public('$file', TypeDeclaration::from('SplFileInfo'));
+        $array = Attribute::public('$array', TypeDeclaration::from('array'));
+        $typedArray = Attribute::public('$directories', TypeDeclaration::from('Directory[]'));
 
         $this->assertEquals('+$aString: string', $string->__toString());
         $this->assertEquals('+$file: SplFileInfo', $object->__toString());

@@ -34,7 +34,10 @@ abstract class ImageProcessorTest extends TestCase
     function it_provides_feedback_when_the_call_to_the_command_fails()
     {
         $process = new class('unknown') extends Process {
-            public function getErrorOutput() { return 'Error calling the external command'; }
+            public function getErrorOutput()
+            {
+                return 'Error calling the external command';
+            }
         };
 
         $this->expectException(ImageGenerationFailure::class);

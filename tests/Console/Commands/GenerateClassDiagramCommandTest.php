@@ -34,7 +34,7 @@ class GenerateClassDiagramCommandTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         $this->tester->execute([
-            'command' => $this->command->getName()
+            'command' => $this->command->getName(),
         ]);
     }
 

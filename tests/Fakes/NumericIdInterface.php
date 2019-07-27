@@ -18,7 +18,6 @@ class NumericIdInterface extends InterfaceDefinition
     private $identifier;
 
     /**
-     * @param Name $name
      * @param \PhUml\Code\Methods\Method[] $methods
      * @param \PhUml\Code\Attributes\Constant[] $constants
      * @param \PhUml\Code\InterfaceDefinition[] $parents

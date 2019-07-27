@@ -47,14 +47,13 @@ class TraitDefinitionBuilderTest extends TestCase
 
         $trait = $this->builder->build($parsedTrait);
 
-        $this->assertEquals(A::trait('ATrait')
+        $traitWithMultipleTypesOfMethods = A::trait('ATrait')
             ->withAPrivateMethod('privateMethod')
             ->withAProtectedMethod('protectedMethod')
-            ->withAMethod(StaticMethod::public ('staticMethod'))
-            ->withAMethod(AbstractMethod::public ('abstractMethod'))
-            ->build(),
-            $trait
-        );
+            ->withAMethod(StaticMethod::public('staticMethod'))
+            ->withAMethod(AbstractMethod::public('abstractMethod'))
+            ->build();
+        $this->assertEquals($traitWithMultipleTypesOfMethods, $trait);
     }
 
     /** @test */
@@ -65,18 +64,17 @@ class TraitDefinitionBuilderTest extends TestCase
                 new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('privateAttribute')]),
                 new Property(Class_::MODIFIER_PROTECTED, [new PropertyProperty('protectedAttribute')]),
                 new Property(Class_::MODIFIER_STATIC, [new PropertyProperty('staticAttribute')]),
-            ]
+            ],
         ]);
 
         $trait = $this->builder->build($parsedTrait);
 
-        $this->assertEquals(A::trait('ATrait')
+        $traitWithMultipleTypesOfAttributes = A::trait('ATrait')
             ->withAPrivateAttribute('$privateAttribute')
             ->withAProtectedAttribute('$protectedAttribute')
             ->withAnAttribute(StaticAttribute::public('$staticAttribute'))
-            ->build(),
-            $trait
-        );
+            ->build();
+        $this->assertEquals($traitWithMultipleTypesOfAttributes, $trait);
     }
 
     /** @test */
@@ -90,21 +88,20 @@ class TraitDefinitionBuilderTest extends TestCase
                 ]),
                 new TraitUse([
                     new Name('ThirdTrait'),
-                ])
-            ]
+                ]),
+            ],
         ]);
 
         $trait = $this->builder->build($parsedTrait);
 
-        $this->assertEquals(A::trait('ATraitWithTraits')
+        $traitUsingOtherTraits = A::trait('ATraitWithTraits')
             ->using(
                 TraitName::from('ATrait'),
                 TraitName::from('AnotherTrait'),
                 TraitName::from('ThirdTrait')
             )
-            ->build(),
-            $trait
-        );
+            ->build();
+        $this->assertEquals($traitUsingOtherTraits, $trait);
     }
 
     /** @before */

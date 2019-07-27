@@ -24,18 +24,17 @@ class ClassDefinitionBuilderTest extends TestCase
                 new TraitUse([
                     new Name('ATrait'),
                     new Name('AnotherTrait'),
-                ])
-            ]
+                ]),
+            ],
         ]);
         $builder = new ClassDefinitionBuilder();
 
         $class = $builder->build($parsedClass);
 
-        $this->assertEquals(A::class('AClassWithTraits')
+        $expectedClassWithTraits = A::class('AClassWithTraits')
             ->using(TraitName::from('ATrait'), TraitName::from('AnotherTrait'))
-            ->build(),
-            $class
-        );
+            ->build();
+        $this->assertEquals($expectedClassWithTraits, $class);
     }
 
     /** @test */
@@ -49,21 +48,20 @@ class ClassDefinitionBuilderTest extends TestCase
                 ]),
                 new TraitUse([
                     new Name('ThirdTrait'),
-                ])
-            ]
+                ]),
+            ],
         ]);
         $builder = new ClassDefinitionBuilder();
 
         $class = $builder->build($parsedClass);
 
-        $this->assertEquals(A::class('AClassWithTraits')
+        $classWithTwoUseTraitStatements = A::class('AClassWithTraits')
             ->using(
                 TraitName::from('ATrait'),
                 TraitName::from('AnotherTrait'),
                 TraitName::from('ThirdTrait')
             )
-            ->build(),
-            $class
-        );
+            ->build();
+        $this->assertEquals($classWithTwoUseTraitStatements, $class);
     }
 }

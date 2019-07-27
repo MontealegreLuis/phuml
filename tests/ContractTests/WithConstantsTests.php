@@ -7,7 +7,6 @@
 
 namespace PhUml\ContractTests;
 
-
 use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Attributes\HasConstants;
 use PhUml\Code\Variables\TypeDeclaration;

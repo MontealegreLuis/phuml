@@ -23,7 +23,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPublicAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::public ($name, TypeDeclaration::from($type));
+        $this->attributes[] = Attribute::public($name, TypeDeclaration::from($type));
 
         return $this;
     }
@@ -31,7 +31,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAProtectedAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::protected ($name, TypeDeclaration::from($type));
+        $this->attributes[] = Attribute::protected($name, TypeDeclaration::from($type));
 
         return $this;
     }
@@ -39,7 +39,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPrivateAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::private ($name, TypeDeclaration::from($type));
+        $this->attributes[] = Attribute::private($name, TypeDeclaration::from($type));
 
         return $this;
     }
@@ -54,7 +54,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAProtectedMethod(string $name, Variable ...$parameters)
     {
-        $this->methods[] = Method::protected ($name, $parameters);
+        $this->methods[] = Method::protected($name, $parameters);
 
         return $this;
     }
@@ -62,7 +62,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPrivateMethod(string $name, Variable ...$parameters)
     {
-        $this->methods[] = Method::private ($name, $parameters);
+        $this->methods[] = Method::private($name, $parameters);
 
         return $this;
     }
@@ -70,7 +70,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPublicMethod(string $name, Variable ...$parameters)
     {
-        $this->methods[] = Method::public ($name, $parameters);
+        $this->methods[] = Method::public($name, $parameters);
 
         return $this;
     }

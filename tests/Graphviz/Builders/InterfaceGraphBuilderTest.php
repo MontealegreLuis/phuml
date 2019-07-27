@@ -39,7 +39,7 @@ class InterfaceGraphBuilderTest extends TestCase
 
         $this->assertEquals([
             new Node($interface),
-            Edge::inheritance($parent, $interface)
+            Edge::inheritance($parent, $interface),
         ], $dotElements);
     }
 }

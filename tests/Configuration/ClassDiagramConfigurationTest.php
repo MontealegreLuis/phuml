@@ -18,7 +18,7 @@ class ClassDiagramConfigurationTest extends TestCase
         $this->expectException(UnknownImageProcessor::class);
 
         new ClassDiagramConfiguration($this->options([
-            'processor' => 'not-a-valid-image-processor-name'
+            'processor' => 'not-a-valid-image-processor-name',
         ]));
     }
 
@@ -26,7 +26,7 @@ class ClassDiagramConfigurationTest extends TestCase
     function it_knows_it_is_the_dot_processor()
     {
         $configuration = new ClassDiagramConfiguration($this->options([
-            'processor' => 'dot'
+            'processor' => 'dot',
         ]));
 
         $this->assertTrue($configuration->isDotProcessor());
@@ -36,7 +36,7 @@ class ClassDiagramConfigurationTest extends TestCase
     function it_knows_it_is_the_neato_processor()
     {
         $configuration = new ClassDiagramConfiguration($this->options([
-            'processor' => 'neato'
+            'processor' => 'neato',
         ]));
 
         $this->assertFalse($configuration->isDotProcessor());

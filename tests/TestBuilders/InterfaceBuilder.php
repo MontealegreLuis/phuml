@@ -50,7 +50,10 @@ class InterfaceBuilder extends DefinitionBuilder
     public function buildWithNumericId()
     {
         return new NumericIdInterface(
-            Name::from($this->name), $this->methods, $this->constants, $this->parents
+            Name::from($this->name),
+            $this->methods,
+            $this->constants,
+            $this->parents
         );
     }
 }

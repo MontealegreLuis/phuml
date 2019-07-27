@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
@@ -15,7 +16,8 @@ class CodeParserTest extends TestCase
     /** @test */
     function it_parses_a_class_with_no_attributes_and_no_methods()
     {
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 class MyClass
 {
@@ -33,7 +35,8 @@ CLASS
     /** @test */
     function it_parses_access_modifiers_for_attributes()
     {
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 class MyClass
 {
@@ -94,7 +97,8 @@ CLASS;
     /** @test */
     function it_parses_access_modifiers_for_methods()
     {
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 class MyClass
 {
@@ -128,7 +132,8 @@ CLASS
     /** @test */
     function it_parses_methods_and_its_arguments()
     {
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 class MyClass
 {
@@ -165,14 +170,16 @@ CLASS
     /** @test */
     function it_parses_parent_child_class_relationships()
     {
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 class ParentClass
 {
 }
 CLASS
         );
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 class ChildClass extends ParentClass
 {
@@ -194,21 +201,24 @@ CLASS
     /** @test */
     function it_parses_a_class_implementing_interfaces()
     {
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 interface InterfaceOne
 {
 }
 CLASS
         );
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 interface InterfaceTwo
 {
 }
 CLASS
         );
-        $this->finder->add(<<<'CLASS'
+        $this->finder->add(
+            <<<'CLASS'
 <?php
 class MyClass implements InterfaceOne, InterfaceTwo
 {
@@ -233,7 +243,8 @@ CLASS
     /** @test */
     function it_parses_an_interface_with_methods()
     {
-        $this->finder->add(<<<'INTERFACE'
+        $this->finder->add(
+            <<<'INTERFACE'
 <?php
 interface MyInterface
 {
@@ -266,14 +277,16 @@ INTERFACE
     /** @test */
     function it_parses_parent_child_interface_relationships()
     {
-        $this->finder->add(<<<'INTERFACE'
+        $this->finder->add(
+            <<<'INTERFACE'
 <?php
 interface ParentInterface
 {
 }
 INTERFACE
         );
-        $this->finder->add(<<<'INTERFACE'
+        $this->finder->add(
+            <<<'INTERFACE'
 <?php
 interface ChildInterface extends ParentInterface
 {

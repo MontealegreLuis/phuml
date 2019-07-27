@@ -27,8 +27,7 @@ trait WithDotLanguageAssertions
         Definition $definition,
         Definition $parent,
         string $dotLanguage
-    ): void
-    {
+    ): void {
         $this->assertRegExp(
             "/\"{$parent->identifier()}\" -> \"{$definition->identifier()}\" \\[dir=back arrowtail=empty style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
@@ -40,8 +39,7 @@ trait WithDotLanguageAssertions
         ClassDefinition $class,
         InterfaceDefinition $interface,
         string $dotLanguage
-    ): void
-    {
+    ): void {
         $this->assertRegExp(
             "/\"{$interface->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=empty style=dashed color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
@@ -53,8 +51,7 @@ trait WithDotLanguageAssertions
         Definition $from,
         Definition $to,
         string $dotLanguage
-    ): void
-    {
+    ): void {
         $this->assertRegExp(
             "/\"{$from->identifier()}\" -> \"{$to->identifier()}\" \\[dir=back arrowtail=none style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
@@ -66,8 +63,7 @@ trait WithDotLanguageAssertions
         ClassDefinition $class,
         TraitDefinition $trait,
         string $dotLanguage
-    ): void
-    {
+    ): void {
         $this->assertRegExp(
             "/\"{$trait->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=normal style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,

@@ -282,10 +282,14 @@ mindist = 0.6;', $dotLanguage);
     function it_fails_to_build_a_label_if_twig_fails()
     {
         $templateEngine = new class() extends TemplateEngine {
-            public function render($name, array $context = []): string {
+            public function render($name, array $context = []): string
+            {
                 throw new TemplateFailure(new RuntimeException('Twig runtime error'));
             }
-            public function __construct() {} // Constructor does not needs to be run
+
+            public function __construct()
+            {
+            }
         };
         $printer = new DigraphPrinter($templateEngine);
 
