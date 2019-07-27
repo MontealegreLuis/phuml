@@ -30,7 +30,7 @@
         "friendsofphp/php-cs-fixer": "^2.15.1",
         "lupka/phpunit-compare-images": "^1.0.0",
         "phpstan/phpstan": "^0.11.12",
-        "phpunit/phpunit": "^6.5.14"
+        "phpunit/phpunit": "^7.5.14"
     },
     "config": {
         "optimize-autoloader": true,
