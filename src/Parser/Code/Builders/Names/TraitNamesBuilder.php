@@ -8,7 +8,6 @@
 namespace PhUml\Parser\Code\Builders\Names;
 
 use PhpParser\Node;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\TraitUse;
 use PhUml\Code\Name as TraitName;
 
@@ -35,7 +34,7 @@ trait TraitNamesBuilder
     }
 
     /**
-     * @param Name[] $traits
+     * @param \PhUml\Code\Name[] $traits
      * @return TraitName[]
      */
     private function traitNames(TraitUse $use, array $traits): array

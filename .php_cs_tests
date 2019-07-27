@@ -27,6 +27,6 @@ return PhpCsFixer\Config::create()
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,
         'no_whitespace_in_blank_line' => true,
-        'class_attributes_separation' => ['elements' => ['method']],
+        'class_attributes_separation' => ['elements' => ['const', 'method', 'property']],
     ])
     ->setFinder($finder);

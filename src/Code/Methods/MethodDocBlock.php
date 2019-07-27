@@ -32,7 +32,7 @@ class MethodDocBlock extends DocBlock
     public function returnType(): TypeDeclaration
     {
         $type = null;
-        if (preg_match(self::$returnExpression, $this->comment, $matches)) {
+        if (preg_match(self::$returnExpression, (string)$this->comment, $matches)) {
             $type = trim($matches[1]);
         }
         return TypeDeclaration::from($type);
@@ -51,7 +51,7 @@ class MethodDocBlock extends DocBlock
 
     private function setParameters(): void
     {
-        if (!preg_match_all(self::$parameterExpression, $this->comment, $matches)) {
+        if (!preg_match_all(self::$parameterExpression, (string)$this->comment, $matches)) {
             return;
         }
         foreach ($matches[0] as $typeHint) {

@@ -7,6 +7,7 @@
 
 namespace PhUml\Code;
 
+use BadMethodCallException;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\HasConstants;
@@ -23,7 +24,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
 {
     use WithAttributes, WithConstants, WithTraits;
 
-    /** @var Name */
+    /** @var Name|null */
     protected $parent;
 
     /** @var Name[] */
@@ -62,15 +63,12 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function constructorParameters(): array
     {
-        if (!$this->hasConstructor()) {
-            return [];
-        }
-
         $constructors = array_filter($this->methods, function (Method $method) {
             return $method->isConstructor();
         });
+        $constructor = reset($constructors);
 
-        return reset($constructors)->parameters();
+        return $constructor === false ? [] : $constructor->parameters();
     }
 
     /**
@@ -116,6 +114,9 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function parent(): Name
     {
+        if ($this->parent === null) {
+            throw new BadMethodCallException('This class does not have a parent class');
+        }
         return $this->parent;
     }
 
@@ -150,12 +151,5 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
         return \count(array_filter($this->methods(), function (Method $method) {
             return $method->isAbstract();
         })) > 0;
-    }
-
-    private function hasConstructor(): bool
-    {
-        return \count(array_filter($this->methods, function (Method $function) {
-            return $function->isConstructor();
-        })) === 1;
     }
 }

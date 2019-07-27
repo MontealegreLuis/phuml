@@ -21,7 +21,7 @@ class CodebaseDirectory
 
     public function absolutePath(): string
     {
-        return $this->directory->getRealPath();
+        return (string)$this->directory->getRealPath();
     }
 
     private function __construct(string $path)

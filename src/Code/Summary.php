@@ -16,16 +16,37 @@ use PhUml\Code\Modifiers\Visibility;
  */
 class Summary
 {
+    /** @var int */
     private $interfaceCount;
+
+    /** @var int */
     private $classCount;
+
+    /** @var int */
     private $publicFunctionCount;
+
+    /** @var int */
     private $publicAttributeCount;
+
+    /** @var int */
     private $publicTypedAttributes;
+
+    /** @var int */
     private $protectedFunctionCount;
+
+    /** @var int */
     private $protectedAttributeCount;
+
+    /** @var int */
     private $protectedTypedAttributes;
+
+    /** @var int */
     private $privateFunctionCount;
+
+    /** @var int */
     private $privateAttributeCount;
+
+    /** @var int */
     private $privateTypedAttributes;
 
     public function __construct()

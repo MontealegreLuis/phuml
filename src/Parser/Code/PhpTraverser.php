@@ -30,7 +30,7 @@ abstract class PhpTraverser
      * It will create a `Definition` from the given nodes.
      * It will add the `Definition` to the `Codebase`
      *
-     * @param \PhpParser\Node[] $nodes
+     * @param \PhpParser\Node\Stmt[] $nodes
      * @see PhpParser::parse()
      */
     public function traverse(array $nodes): void

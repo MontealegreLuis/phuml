@@ -35,10 +35,10 @@ class ClassDefinitionBuilder
     public function build(Class_ $class): ClassDefinition
     {
         return new ClassDefinition(
-            ClassDefinitionName::from($class->name),
+            ClassDefinitionName::from((string)$class->name),
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
-            !empty($class->extends) ? ClassDefinitionName::from(end($class->extends->parts)) : null,
+            !empty($class->extends) ? ClassDefinitionName::from((string)end($class->extends->parts)) : null,
             $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)

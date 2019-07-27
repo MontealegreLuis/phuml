@@ -29,7 +29,7 @@ class GenerateDotFileCommand extends GeneratorCommand
 {
     use WithDigraphConfiguration;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('phuml:dot')
@@ -58,12 +58,13 @@ HELP
         $this->addDigraphOptions($this);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
-        $codebasePath = $input->getArgument('directory');
-        $dotFilePath = $input->getArgument('output');
+        $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
+        $codebasePath = $generatorInput->directory();
+        $dotFilePath = $generatorInput->outputFile();
 
-        $builder = new DotFileBuilder(new DigraphConfiguration($input->getOptions()));
+        $builder = new DotFileBuilder(new DigraphConfiguration($generatorInput->options()));
 
         $dotFileGenerator = $builder->dotFileGenerator();
         $dotFileGenerator->attach($this->display);
@@ -73,6 +74,6 @@ HELP
 
         $dotFileGenerator->generate($codeFinder, $dotFilePath);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

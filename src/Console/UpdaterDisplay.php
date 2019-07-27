@@ -8,17 +8,20 @@
 namespace PhUml\Console;
 
 use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 
 class UpdaterDisplay
 {
+    private const WRITE_MODE = 'wb';
+
     /** @var OutputInterface */
     private $output;
 
     public function __construct(OutputInterface $output = null)
     {
-        $this->output = $output ?? new StreamOutput(fopen('php://memory', 'w', false));
+        $this->output = $output ?? $this->defaultOutput();
     }
 
     public function rollbackMessage(bool $result): void
@@ -81,5 +84,14 @@ class UpdaterDisplay
     public function error(Exception $exception): void
     {
         $this->output->writeln(sprintf('Error: <comment>%s</comment>', $exception->getMessage()));
+    }
+
+    private function defaultOutput(): StreamOutput
+    {
+        $memory = fopen('php://memory', self::WRITE_MODE, false);
+        if ($memory === false) {
+            throw new RuntimeException('Cannot create default StreamOutput object for the ProgressDisplay');
+        }
+        return new StreamOutput($memory);
     }
 }

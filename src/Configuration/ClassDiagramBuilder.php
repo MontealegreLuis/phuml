@@ -14,6 +14,9 @@ use PhUml\Processors\NeatoProcessor;
 
 class ClassDiagramBuilder extends DigraphBuilder
 {
+    /** @var ClassDiagramConfiguration */
+    protected $configuration;
+
     public function __construct(ClassDiagramConfiguration $configuration)
     {
         parent::__construct();

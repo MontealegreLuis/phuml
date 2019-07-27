@@ -9,6 +9,7 @@ namespace PhUml\Console;
 
 use PhUml\Generators\ProcessorProgressDisplay;
 use PhUml\Processors\Processor;
+use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 
@@ -19,12 +20,14 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class ProgressDisplay implements ProcessorProgressDisplay
 {
+    private const WRITE_MODE = 'wb';
+
     /** @var OutputInterface */
     private $output;
 
     public function __construct(OutputInterface $output = null)
     {
-        $this->output = $output ?? new StreamOutput(fopen('php://memory', 'w', false));
+        $this->output = $output ?? $this->defaultOutput();
     }
 
     public function start(): void
@@ -47,8 +50,17 @@ class ProgressDisplay implements ProcessorProgressDisplay
         $this->display('Writing generated data to disk');
     }
 
-    private function display(string $message)
+    private function display(string $message): void
     {
         $this->output->writeln("<info>[|]</info> $message");
+    }
+
+    private function defaultOutput(): StreamOutput
+    {
+        $memory = fopen('php://memory', self::WRITE_MODE, false);
+        if ($memory === false) {
+            throw new RuntimeException('Cannot create default StreamOutput object for the ProgressDisplay');
+        }
+        return new StreamOutput($memory);
     }
 }

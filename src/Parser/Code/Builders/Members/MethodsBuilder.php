@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\AbstractMethod;
@@ -62,13 +63,21 @@ class MethodsBuilder extends FiltersRunner
     private function buildParameters(array $parameters, ?string $docBlock): array
     {
         return array_map(function (Param $parameter) use ($docBlock) {
-            $name = "\${$parameter->name}";
+            /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */
+            $parsedParameter = $parameter->var;
+            /** @var string $parameterName Since it's a parameter not a variable */
+            $parameterName = $parsedParameter->name;
+            $name = "\${$parameterName}";
+
             $type = $parameter->type;
-            if ($type !== null) {
-                $typeDeclaration = TypeDeclaration::from($type);
-            } else {
+            if ($type === null) {
                 $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
+            } elseif ($type instanceof NullableType) {
+                $typeDeclaration = TypeDeclaration::from($type->type);
+            } else {
+                $typeDeclaration = TypeDeclaration::from($type);
             }
+
             return Variable::declaredWith($name, $typeDeclaration);
         }, $parameters);
     }

@@ -7,6 +7,7 @@
 
 namespace PhUml\Code\Variables;
 
+use BadMethodCallException;
 use PhUml\Code\Name;
 
 /**
@@ -51,10 +52,14 @@ class Variable implements HasType
      */
     public function referenceName(): Name
     {
-        return $this->isArray() ? $this->arrayTypeName() : $this->typeName();
+        $name = $this->isArray() ? $this->arrayTypeName() : $this->typeName();
+        if ($name === null) {
+            throw new BadMethodCallException('This attribute is not a reference to a code definition');
+        }
+        return $name;
     }
 
-    private function typeName(): Name
+    private function typeName(): ?Name
     {
         return $this->type->name();
     }

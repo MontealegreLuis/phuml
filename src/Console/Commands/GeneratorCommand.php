@@ -17,6 +17,8 @@ use Symfony\Component\Console\Command\Command;
  */
 class GeneratorCommand extends Command
 {
+    protected const SUCCESS = 0;
+
     /** @var ProgressDisplay */
     protected $display;
 

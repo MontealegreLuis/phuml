@@ -9,7 +9,6 @@ namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt\ClassConst;
 use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Variables\TypeDeclaration;
@@ -44,7 +43,7 @@ class ConstantsBuilder
 
     private function determineType(Const_ $constant): ?string
     {
-        if ($constant->value instanceof Scalar) {
+        if (property_exists($constant->value, 'value')) {
             return self::$types[\gettype($constant->value->value)];
         }
         if ($constant->value instanceof ConstFetch

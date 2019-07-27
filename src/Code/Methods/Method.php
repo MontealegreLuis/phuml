@@ -38,7 +38,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         array $parameters = [],
         TypeDeclaration $returnType = null
     ): Method {
-        return new static($name, Visibility::public(), $parameters, $returnType ?? TypeDeclaration::absent());
+        return new static($name, Visibility::public(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
     /** @param \PhUml\Code\Variables\Variable[] $parameters */
@@ -47,7 +47,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         array $parameters = [],
         TypeDeclaration $returnType = null
     ): Method {
-        return new static($name, Visibility::protected(), $parameters, $returnType ?? TypeDeclaration::absent());
+        return new static($name, Visibility::protected(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
     /** @param \PhUml\Code\Variables\Variable[] $parameters */
@@ -56,7 +56,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         array $parameters = [],
         TypeDeclaration $returnType = null
     ): Method {
-        return new static($name, Visibility::private(), $parameters, $returnType ?? TypeDeclaration::absent());
+        return new static($name, Visibility::private(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
     /**
@@ -82,7 +82,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
             '%s%s%s%s',
             $this->modifier,
             $this->name,
-            empty($this->parameters) ? '()' : '(' . implode($this->parameters, ', ') . ')',
+            empty($this->parameters) ? '()' : '(' . implode(', ', $this->parameters) . ')',
             $this->returnType->isPresent() ? ": {$this->returnType}" : ''
         );
     }
@@ -91,8 +91,8 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     protected function __construct(
         string $name,
         Visibility $modifier,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
+        TypeDeclaration $returnType,
+        array $parameters = []
     ) {
         $this->name = $name;
         $this->modifier = $modifier;
