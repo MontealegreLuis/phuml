@@ -7,6 +7,9 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\NullableType;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +22,7 @@ class MethodsBuilderTest extends TestCase
     use WithVisibilityAssertions;
 
     /** @test */
-    function it_filters_private_methods()
+    function it_excludes_private_methods()
     {
         $methodsBuilder = new MethodsBuilder([new PrivateVisibilityFilter()]);
 
@@ -69,7 +72,10 @@ class MethodsBuilderTest extends TestCase
             new ClassMethod('privateMethodB', ['type' => Class_::MODIFIER_PRIVATE]),
             new ClassMethod('protectedMethodA', ['type' => Class_::MODIFIER_PROTECTED]),
             new ClassMethod('protectedMethodB', ['type' => Class_::MODIFIER_PROTECTED]),
-            new ClassMethod('privateMethodC', ['type' => Class_::MODIFIER_PRIVATE]),
+            new ClassMethod('privateMethodC', [
+                'type' => Class_::MODIFIER_PRIVATE,
+                'params'  => [new Param(new Variable('nullableParameter'), null, new NullableType('int'))],
+            ]),
         ];
     }
 

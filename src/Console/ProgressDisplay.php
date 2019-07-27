@@ -9,9 +9,7 @@ namespace PhUml\Console;
 
 use PhUml\Generators\ProcessorProgressDisplay;
 use PhUml\Processors\Processor;
-use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\StreamOutput;
 
 /**
  * It provides visual feedback to the use about the progress of the current command
@@ -20,14 +18,12 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class ProgressDisplay implements ProcessorProgressDisplay
 {
-    private const WRITE_MODE = 'wb';
-
     /** @var OutputInterface */
     private $output;
 
-    public function __construct(OutputInterface $output = null)
+    public function __construct(OutputInterface $output)
     {
-        $this->output = $output ?? $this->defaultOutput();
+        $this->output = $output;
     }
 
     public function start(): void
@@ -53,14 +49,5 @@ class ProgressDisplay implements ProcessorProgressDisplay
     private function display(string $message): void
     {
         $this->output->writeln("<info>[|]</info> $message");
-    }
-
-    private function defaultOutput(): StreamOutput
-    {
-        $memory = fopen('php://memory', self::WRITE_MODE, false);
-        if ($memory === false) {
-            throw new RuntimeException('Cannot create default StreamOutput object for the ProgressDisplay');
-        }
-        return new StreamOutput($memory);
     }
 }

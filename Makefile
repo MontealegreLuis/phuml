@@ -1,11 +1,15 @@
 SHELL = /bin/bash
 
-.PHONY: test fix diagram dot stats
+.PHONY: test coverage fix diagram dot stats
 
 ARGS=""
 
 test:
-	@docker-compose run --rm tests php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+	@docker-compose run --rm tests php vendor/bin/phpunit --testdox
+
+coverage:
+	@docker-compose run --rm tests php vendor/bin/phpunit --coverage-html build/coverage
+
 
 diagram:
 	@docker-compose run --rm tests php bin/phuml phuml:diagram $(ARGS)
@@ -17,5 +21,5 @@ stats:
 	@docker-compose run --rm tests php bin/phuml phuml:statistics $(ARGS)
 
 fix:
-	@php-cs-fixer fix src --rules=@PSR2,no_unused_imports
-	@php-cs-fixer fix tests --rules=no_unused_imports
+	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --using-cache false
+	@vendor/bin/php-cs-fixer fix --config=.php_cs_tests -v --using-cache false

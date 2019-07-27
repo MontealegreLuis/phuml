@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
 use PhUml\Console\ProgressDisplay;
 use PhUml\Console\UpdaterDisplay;
+use PhUml\Fakes\TextInMemoryOutput;
 use Prophecy\Argument;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -142,7 +143,7 @@ class SelfUpdateCommandTest extends TestCase
         $this->updater = $this->prophesize(Updater::class);
         $this->updater->setStrategyObject(Argument::type(StrategyInterface::class))->shouldBeCalled();
         $this->display = $this->prophesize(UpdaterDisplay::class);
-        $application = new PhUmlApplication(new ProgressDisplay());
+        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
         $application->add(new SelfUpdateCommand($this->updater->reveal(), $this->display->reveal()));
         $this->command = $application->find('self-update');
         $this->tester = new CommandTester($this->command);

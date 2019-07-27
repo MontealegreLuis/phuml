@@ -9,7 +9,7 @@ namespace PhUml\Console;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Output\StreamOutput;
+use PhUml\Fakes\TextInMemoryOutput;
 
 class UpdaterDisplayTest extends TestCase
 {
@@ -18,7 +18,7 @@ class UpdaterDisplayTest extends TestCase
     {
         $this->display->rollbackMessage(true);
 
-        $message = $this->outputMessage();
+        $message = $this->displayOutput->output();
 
         $this->assertRegExp('/phUML has been rolled back to prior version./', $message);
     }
@@ -28,7 +28,7 @@ class UpdaterDisplayTest extends TestCase
     {
         $this->display->rollbackMessage(false);
 
-        $this->assertRegExp('/Rollback failed for unknown reasons/', $this->outputMessage());
+        $this->assertRegExp('/Rollback failed for unknown reasons/', $this->displayOutput->output());
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class UpdaterDisplayTest extends TestCase
 
         $this->display->currentLocalVersion($version);
 
-        $this->assertRegExp("/current local (.)+ $version/", $this->outputMessage());
+        $this->assertRegExp("/current local (.)+$version/", $this->displayOutput->output());
     }
 
     /** @test */
@@ -48,7 +48,7 @@ class UpdaterDisplayTest extends TestCase
 
         $this->display->newVersion($version);
 
-        $this->assertRegExp("/available remotely is(.)+ $version/", $this->outputMessage());
+        $this->assertRegExp("/available remotely is(.)+$version/", $this->displayOutput->output());
     }
 
     /** @test */
@@ -56,7 +56,7 @@ class UpdaterDisplayTest extends TestCase
     {
         $this->display->noUpdatesAvailable();
 
-        $this->assertRegExp('/no stable builds available/', $this->outputMessage());
+        $this->assertRegExp('/no stable builds available/', $this->displayOutput->output());
     }
 
     /** @test */
@@ -64,7 +64,7 @@ class UpdaterDisplayTest extends TestCase
     {
         $this->display->alreadyUpToDate();
 
-        $this->assertRegExp('/current stable build installed/', $this->outputMessage());
+        $this->assertRegExp('/current stable build installed/', $this->displayOutput->output());
     }
 
     /** @test */
@@ -75,7 +75,7 @@ class UpdaterDisplayTest extends TestCase
 
         $this->display->updateApplied($oldVersion, $newVersion);
 
-        $message = $this->outputMessage();
+        $message = $this->displayOutput->output();
         $this->assertRegExp("/current version is(.)+$newVersion/i", $message);
         $this->assertRegExp("/previous version was(.)+$oldVersion/i", $message);
     }
@@ -86,7 +86,7 @@ class UpdaterDisplayTest extends TestCase
         $version = '1.6.1';
         $this->display->noUpdateApplied($version);
 
-        $message = $this->outputMessage();
+        $message = $this->displayOutput->output();
         $this->assertRegExp('/currently up to date/', $message);
         $this->assertRegExp("/current version is(.)+$version/i", $message);
     }
@@ -96,26 +96,19 @@ class UpdaterDisplayTest extends TestCase
     {
         $this->display->error(new Exception('Something went wrong'));
 
-        $this->assertRegExp('/something went wrong/i', $this->outputMessage());
-    }
-
-    function outputMessage(): string
-    {
-        rewind($this->displayOutput->getStream());
-
-        return stream_get_contents($this->displayOutput->getStream());
+        $this->assertRegExp('/something went wrong/i', $this->displayOutput->output());
     }
 
     /** @before */
     function configureDisplay()
     {
-        $this->displayOutput = new StreamOutput(fopen('php://memory', 'wb', false));
+        $this->displayOutput = new TextInMemoryOutput();
         $this->display = new UpdaterDisplay($this->displayOutput);
     }
 
     /** @var UpdaterDisplay */
     private $display;
 
-    /** @var StreamOutput */
+    /** @var TextInMemoryOutput */
     private $displayOutput;
 }

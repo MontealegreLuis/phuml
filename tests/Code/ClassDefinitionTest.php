@@ -7,6 +7,7 @@
 
 namespace PhUml\Code;
 
+use BadMethodCallException;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\HasConstants;
@@ -97,6 +98,15 @@ class ClassDefinitionTest extends DefinitionTest
         $parentClass = $interfaceWithParent->parent();
 
         $this->assertEquals($parent, $parentClass);
+    }
+
+    /** @test */
+    function it_fails_to_get_its_parent_class_if_none_exist()
+    {
+        $interfaceWithParent = A::class('WithoutParent')->build();
+
+        $this->expectException(BadMethodCallException::class);
+        $interfaceWithParent->parent();
     }
 
     protected function definition(array $methods = []): Definition

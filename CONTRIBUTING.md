@@ -20,16 +20,10 @@ This project follows the coding standards proposed in [PSR-2][psr2]
 
 You can use [PHP CS fixer][cs-fixer] to (re)format your sourcecode for compliance with this project's coding guidelines:
 
-Run the following command to install the fixer.
-
-```bash
-$ composer global require friendsofphp/php-cs-fixer
-```
-
 Run the following command if you modified either production or tests.
 
 ```bash
-$ make fix
+make fix
 ```
 
 [Make][make] will run the fixer in both folders `src` and `tests`.
@@ -39,15 +33,14 @@ $ make fix
 The following commands can be used to perform the initial checkout of phUML:
 
 ```bash
-$ git clone git://github.com/MontealegreLuis/phuml.git
-
-$ cd phuml
+git clone git://github.com/MontealegreLuis/phuml.git
+cd phuml
 ```
 
 Retrieve phUML's dependencies using [Composer][composer]:
 
 ```bash
-$ composer install
+composer install
 ```
 
 ## Running phUML's test suite
@@ -61,19 +54,23 @@ Please make sure the tests pass in the container so you can be sure they will pa
 
 You can run the tests as follows:
 
-```
-$ make test
+```bash
+make test
 ```
 
 `make` will run PHPUnit with the same options it runs in Travis inside the Docker container.
 
 You can alternatively run the test suite without this group of tests in your local environment.
 
-```
-$ vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group=snapshot
+```bash
+vendor/bin/phpunit --exclude-group=snapshot
 ```
 
 You will need [XDebug][xdebug] installed to be able to generate the code coverage report.
+
+```bash
+make coverage
+```
 
 ## Contributing to the documentation
 

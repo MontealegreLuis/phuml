@@ -7,10 +7,11 @@
 
 namespace PhUml\Code\Variables;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use PhUml\ContractTests\WithTypeDeclarationTests;
 
-class VariableTests extends TestCase
+class VariableTest extends TestCase
 {
     use WithTypeDeclarationTests;
 
@@ -22,6 +23,15 @@ class VariableTests extends TestCase
         $parameterAsString = $parameter->__toString();
 
         $this->assertEquals('$parameterName: string', $parameterAsString);
+    }
+
+    /** @test */
+    function it_fails_getting_its_reference_name_if_it_does_not_refers_to_another_class_or_interface()
+    {
+        $noType = Variable::declaredWith('$noTypeForParameter');
+
+        $this->expectException(BadMethodCallException::class);
+        $noType->referenceName();
     }
 
     protected function memberWithoutType(): HasType
