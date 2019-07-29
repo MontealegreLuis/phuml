@@ -82,13 +82,13 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
             '%s%s%s%s',
             $this->modifier,
             $this->name,
-            empty($this->parameters) ? '()' : '(' . implode(', ', $this->parameters) . ')',
+            count($this->parameters) === 0 ? '()' : '(' . implode(', ', $this->parameters) . ')',
             $this->returnType->isPresent() ? ": {$this->returnType}" : ''
         );
     }
 
     /** @param \PhUml\Code\Variables\Variable[] $parameters */
-    protected function __construct(
+    public function __construct(
         string $name,
         Visibility $modifier,
         TypeDeclaration $returnType,

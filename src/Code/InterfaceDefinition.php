@@ -55,7 +55,7 @@ class InterfaceDefinition extends Definition implements HasConstants
      */
     public function hasParent(): bool
     {
-        return !empty($this->parents);
+        return count($this->parents) > 0;
     }
 
     /**

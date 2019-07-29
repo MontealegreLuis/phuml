@@ -26,7 +26,7 @@ class AttributeDocBlock extends DocBlock
     public function extractType(): TypeDeclaration
     {
         $type = null;
-        if (preg_match(self::$varExpression, (string)$this->comment, $matches)) {
+        if (preg_match(self::$varExpression, (string)$this->comment, $matches) === 1) {
             $type = trim($matches[1]);
         }
         return TypeDeclaration::from($type);

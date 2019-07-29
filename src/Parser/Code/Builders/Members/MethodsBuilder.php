@@ -42,17 +42,17 @@ class MethodsBuilder extends FiltersRunner
     private function buildMethod(ClassMethod $method): Method
     {
         $name = $method->name;
-        $modifier = $this->resolveVisibility($method);
+        $visibility = $this->resolveVisibility($method);
         $comment = $method->getDocComment();
         $returnType = MethodDocBlock::from($comment)->returnType();
         $parameters = $this->buildParameters($method->params, $comment);
         switch (true) {
             case $method->isAbstract():
-                return AbstractMethod::$modifier($name, $parameters, $returnType);
+                return new AbstractMethod($name, $visibility, $returnType, $parameters);
             case $method->isStatic():
-                return StaticMethod::$modifier($name, $parameters, $returnType);
+                return new StaticMethod($name, $visibility, $returnType, $parameters);
             default:
-                return Method::$modifier($name, $parameters, $returnType);
+                return new Method($name, $visibility, $returnType, $parameters);
         }
     }
 

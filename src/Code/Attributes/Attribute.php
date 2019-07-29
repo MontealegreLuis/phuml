@@ -22,7 +22,7 @@ class Attribute extends Variable implements HasVisibility, CanBeStatic
 {
     use WithVisibility, WithStaticModifier;
 
-    protected function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
+    public function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {
         parent::__construct($name, $type);
         $this->modifier = $modifier;

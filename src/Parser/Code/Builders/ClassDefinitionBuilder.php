@@ -38,7 +38,7 @@ class ClassDefinitionBuilder
             ClassDefinitionName::from((string)$class->name),
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
-            !empty($class->extends) ? ClassDefinitionName::from((string)end($class->extends->parts)) : null,
+            $class->extends !== null ? ClassDefinitionName::from((string)end($class->extends->parts)) : null,
             $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)

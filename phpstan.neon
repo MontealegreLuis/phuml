@@ -1,2 +1,6 @@
 parameters:
 	inferPrivatePropertyTypeFromConstructor: true
+	ignoreErrors:
+		- "#Strict comparison using === between '@package_version@' and '@package_version@' will always evaluate to true#"
+		- "#Property PhUml\\\\Code\\\\Definition::\\$name has no typehint specified#"
+		- "#Property PhUml\\\\Code\\\\Variables\\\\TypeDeclaration::\\$name has no typehint specified#"

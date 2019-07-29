@@ -20,7 +20,7 @@ trait TraitNamesBuilder
             return $node instanceof TraitUse;
         });
 
-        if (empty($useStatements)) {
+        if (count($useStatements) === 0) {
             return [];
         }
 

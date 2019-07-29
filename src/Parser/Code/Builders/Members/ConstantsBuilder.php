@@ -18,6 +18,7 @@ use PhUml\Code\Variables\TypeDeclaration;
  */
 class ConstantsBuilder
 {
+    /** @var string[] */
     private static $types = [
         'integer' => 'int',
         'double' => 'float',

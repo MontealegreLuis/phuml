@@ -31,14 +31,14 @@ class SelfUpdateCommand extends Command
     private $display;
 
     /** @throws \Symfony\Component\Console\Exception\LogicException */
-    public function __construct(Updater $updater = null, UpdaterDisplay $display = null)
+    public function __construct(Updater $updater, UpdaterDisplay $display)
     {
         parent::__construct();
-        $this->updater = $updater ?? new Updater();
-        $this->display = $display ?? new UpdaterDisplay();
+        $this->updater = $updater;
+        $this->display = $display;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('self-update')
@@ -61,11 +61,11 @@ class SelfUpdateCommand extends Command
     {
         $this->configureUpdaterStrategy();
 
-        if ($input->getOption('rollback')) {
+        if (true === (bool)$input->getOption('rollback')) {
             return $this->tryToRollback();
         }
 
-        if ($input->getOption('check')) {
+        if (true === (bool)$input->getOption('check')) {
             return $this->tryToCheckForUpdates();
         }
 

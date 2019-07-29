@@ -15,7 +15,7 @@ use PhUml\Code\Variables\TypeDeclaration;
  */
 class StaticAttribute extends Attribute
 {
-    protected function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
+    public function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {
         parent::__construct($name, $modifier, $type);
         $this->isStatic = true;
