@@ -1,0 +1,18 @@
+parameters:
+    hide_circumvention_tip: true
+    stop_on_failure: true
+    git_dir: .
+    bin_dir: vendor/bin
+    tasks:
+        composer:
+        phpstan:
+            configuration: phpstan.neon
+            level: 7
+            ignore_patterns: ['tests']
+            triggered_by: ['php']
+            memory_limit: '-1'
+        phpunit:
+            config_file: phpunit.xml
+        phpcsfixer2:
+            config_contains_finder: true
+            triggered_by: ['php']

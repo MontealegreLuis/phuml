@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-.PHONY: test coverage fix diagram dot stats
+.PHONY: test coverage format check diagram dot stats
 
 ARGS=""
 
@@ -20,6 +20,10 @@ dot:
 stats:
 	@docker-compose run --rm tests php bin/phuml phuml:statistics $(ARGS)
 
-fix:
+format:
 	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --using-cache false
 	@vendor/bin/php-cs-fixer fix --config=.php_cs_tests -v --using-cache false
+
+check:
+	@docker-compose run --rm tests vendor/bin/grumphp run
+	@vendor/bin/php-cs-fixer fix --config=.php_cs_tests -v --dry-run --using-cache false

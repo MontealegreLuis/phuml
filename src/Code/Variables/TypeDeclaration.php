@@ -59,12 +59,12 @@ class TypeDeclaration implements Named
 
     public function isArray(): bool
     {
-        return strpos($this->name, '[]') === \strlen($this->name) - 2;
+        return strpos((string)$this->name, '[]') === \strlen((string)$this->name) - 2;
     }
 
     public function removeArraySuffix(): string
     {
-        return substr($this->name, 0, -2);
+        return substr((string)$this->name, 0, -2);
     }
 
     private function __construct(?string $name)

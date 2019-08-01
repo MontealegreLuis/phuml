@@ -23,7 +23,7 @@ You can use [PHP CS fixer][cs-fixer] to (re)format your sourcecode for complianc
 Run the following command if you modified either production or tests.
 
 ```bash
-make fix
+make format
 ```
 
 [Make][make] will run the fixer in both folders `src` and `tests`.
@@ -70,7 +70,7 @@ You will need [XDebug][xdebug] installed to be able to generate the code coverag
 
 ```bash
 make coverage
-```
+``` 
 
 ## Contributing to the documentation
 
