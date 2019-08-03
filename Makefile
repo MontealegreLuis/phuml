@@ -25,5 +25,6 @@ format:
 	@vendor/bin/php-cs-fixer fix --config=.php_cs_tests -v --using-cache false
 
 check:
-	@docker-compose run --rm tests vendor/bin/grumphp run
+	@vendor/bin/grumphp run
+	@docker-compose run --rm tests vendor/bin/phpunit --testsuite 'Integration tests'
 	@vendor/bin/php-cs-fixer fix --config=.php_cs_tests -v --dry-run --using-cache false

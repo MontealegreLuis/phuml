@@ -140,7 +140,7 @@ class Php5ParserTest extends TestCase
     function createFinder()
     {
         $this->finder = new NonRecursiveCodeFinder();
-        $this->finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code/classes'));
+        $this->finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../../resources/.code/classes'));
     }
 
     /** @var NonRecursiveCodeFinder */

@@ -51,7 +51,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "PhUml\\": "tests"
+            "PhUml\\": [
+                "tests/src",
+                "tests/integration",
+                "tests/unit"
+            ]
         }
     },
     "prefer-stable": true,

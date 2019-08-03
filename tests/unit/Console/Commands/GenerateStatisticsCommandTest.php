@@ -17,18 +17,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class GenerateStatisticsCommandTest extends TestCase
 {
-    /** @before */
-    function configureCommandTester()
-    {
-        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
-        $this->command = $application->find('phuml:statistics');
-        $this->tester = new CommandTester($this->command);
-        $this->statistics = __DIR__ . '/../../resources/.output/statistics.txt';
-        if (file_exists($this->statistics)) {
-            unlink($this->statistics);
-        }
-    }
-
     /** @test */
     function it_fails_to_execute_if_the_arguments_are_missing()
     {
@@ -56,13 +44,25 @@ class GenerateStatisticsCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => __DIR__ . '/../../../resources/.code',
             'output' => $this->statistics,
             '--recursive' => true,
         ]);
 
         $this->assertEquals(0, $status);
         $this->assertFileExists($this->statistics);
+    }
+
+    /** @before */
+    function configureCommandTester()
+    {
+        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
+        $this->command = $application->find('phuml:statistics');
+        $this->tester = new CommandTester($this->command);
+        $this->statistics = __DIR__ . '/../../../resources/.output/statistics.txt';
+        if (file_exists($this->statistics)) {
+            unlink($this->statistics);
+        }
     }
 
     /** @var GenerateStatisticsCommand */

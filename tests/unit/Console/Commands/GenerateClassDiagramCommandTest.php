@@ -17,18 +17,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class GenerateClassDiagramCommandTest extends TestCase
 {
-    /** @before */
-    function configureCommandTester()
-    {
-        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
-        $this->command = $application->find('phuml:diagram');
-        $this->tester = new CommandTester($this->command);
-        $this->diagram = __DIR__ . '/../../resources/.output/out.png';
-        if (file_exists($this->diagram)) {
-            unlink($this->diagram);
-        }
-    }
-
     /** @test */
     function it_fails_to_execute_if_the_arguments_are_missing()
     {
@@ -57,7 +45,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code/classes',
+            'directory' => "{$this->pathToCode}/classes",
             'output' => $this->diagram,
             '--processor' => 'dot',
         ]);
@@ -71,7 +59,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->diagram,
             '--recursive' => true,
             '--associations' => true,
@@ -87,7 +75,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->diagram,
             '--recursive' => true,
             '--associations' => true,
@@ -105,7 +93,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->diagram,
             '--recursive' => true,
             '--associations' => true,
@@ -123,7 +111,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->diagram,
             '--recursive' => true,
             '--associations' => true,
@@ -142,7 +130,7 @@ class GenerateClassDiagramCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->diagram,
             '--recursive' => true,
             '--associations' => true,
@@ -157,6 +145,19 @@ class GenerateClassDiagramCommandTest extends TestCase
         $this->assertFileExists($this->diagram);
     }
 
+    /** @before */
+    function configureCommandTester()
+    {
+        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
+        $this->command = $application->find('phuml:diagram');
+        $this->tester = new CommandTester($this->command);
+        $this->pathToCode = __DIR__ . '/../../../resources/.code';
+        $this->diagram = __DIR__ . '/../../../resources/.output/out.png';
+        if (file_exists($this->diagram)) {
+            unlink($this->diagram);
+        }
+    }
+
     /** @var GenerateClassDiagramCommand */
     private $command;
 
@@ -165,4 +166,7 @@ class GenerateClassDiagramCommandTest extends TestCase
 
     /** @var string */
     private $diagram;
+
+    /** @var string */
+    private $pathToCode;
 }

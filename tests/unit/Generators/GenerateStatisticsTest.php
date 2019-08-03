@@ -56,16 +56,15 @@ Attributes per class: 2.5
 Functions per class:  5.5
 
 STATS;
-        $file = __DIR__ . '/../resources/.output/statistics.txt';
 
         $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
+        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
 
-        $generator->generate($finder, $file);
+        $generator->generate($finder, $this->statisticsFile);
 
-        $this->assertStringEqualsFile($file, $statistics);
+        $this->assertStringEqualsFile($this->statisticsFile, $statistics);
     }
 
     /** @test */
@@ -98,15 +97,27 @@ Attributes per class: 1.21
 Functions per class:  4.53
 
 STATS;
-        $file = __DIR__ . '/../resources/.output/statistics.txt';
 
         $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
+        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
 
-        $generator->generate($finder, $file);
+        $generator->generate($finder, $this->statisticsFile);
 
-        $this->assertStringEqualsFile($file, $statistics);
+        $this->assertStringEqualsFile($this->statisticsFile, $statistics);
     }
+
+    /** @before */
+    function configure()
+    {
+        $this->statisticsFile = __DIR__ . '/../../resources/.output/statistics.txt';
+        $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
+    }
+
+    /** @var string */
+    private $statisticsFile;
+
+    /** @var string */
+    private $pathToCode;
 }

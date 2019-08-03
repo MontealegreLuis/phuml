@@ -26,6 +26,22 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
     use CompareImagesTrait;
 
+    /**
+     * @test
+     * @group snapshot
+     */
+    function it_removes_empty_blocks_if_only_definition_names_are_shown()
+    {
+        $finder = new NonRecursiveCodeFinder();
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code/classes'));
+        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png';
+        $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
+
+        $this->generator->generate($finder, $diagram);
+
+        $this->assertImagesSame($expectedDiagram, $diagram);
+    }
+
     /** @before*/
     function createGenerator()
     {
@@ -41,22 +57,6 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
             new DotProcessor()
         );
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-    }
-
-    /**
-     * @test
-     * @group snapshot
-     */
-    function it_removes_empty_blocks_if_only_definition_names_are_shown()
-    {
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
-        $diagram = __DIR__ . '/../resources/.output/graphviz-dot-without-empty-blocks.png';
-        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-dot-without-empty-blocks.png';
-
-        $this->generator->generate($finder, $diagram);
-
-        $this->assertImagesSame($expectedDiagram, $diagram);
     }
 
     /** @var ClassDiagramGenerator */

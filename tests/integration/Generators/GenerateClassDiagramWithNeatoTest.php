@@ -48,9 +48,9 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
     {
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
-        $diagram = __DIR__ . '/../resources/.output/graphviz-neato.png';
-        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-neato.png';
+        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code/classes'));
+        $diagram = __DIR__ . '/../../resources/.output/graphviz-neato.png';
+        $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
 
         $this->generator->generate($finder, $diagram);
 
@@ -65,9 +65,9 @@ class GenerateClassDiagramWithNeatoTest extends TestCase
     {
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $codeFinder = new CodeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code'));
-        $diagram = __DIR__ . '/../resources/.output/graphviz-neato-recursive.png';
-        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-neato-recursive.png';
+        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code'));
+        $diagram = __DIR__ . '/../../resources/.output/graphviz-neato-recursive.png';
+        $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
 
         $this->generator->generate($codeFinder, $diagram);
 

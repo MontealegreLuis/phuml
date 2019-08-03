@@ -38,14 +38,13 @@ class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
-        $file = __DIR__ . '/../resources/.output/dot.gv';
         $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
+        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
 
-        $this->generator->generate($finder, $file);
+        $this->generator->generate($finder, $this->pathToDotFile);
 
         $this->resetIds();
-        $digraphInDotFormat = file_get_contents($file);
+        $digraphInDotFormat = file_get_contents($this->pathToDotFile);
         $this->assertNode(A::numericIdClassNamed('plBase'), $digraphInDotFormat);
         $this->assertNode(A::numericIdClassNamed('plPhuml'), $digraphInDotFormat);
     }
@@ -53,11 +52,10 @@ class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
-        $file = __DIR__ . '/../resources/.output/dot.gv';
         $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code/classes'));
+        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
 
-        $this->generator->generate($finder, $file);
+        $this->generator->generate($finder, $this->pathToDotFile);
 
         $this->resetIds();
         $base = A::numericIdClassNamed('plBase');
@@ -79,7 +77,7 @@ class GenerateDotFileTest extends TestCase
         $externalCommand = A::numericIdClassNamed('plExternalCommandProcessor');
         $processor = A::numericIdClassNamed('plProcessor');
         $style = A::numericIdClassNamed('plGraphvizProcessorStyle');
-        $digraphInDotFormat = file_get_contents($file);
+        $digraphInDotFormat = file_get_contents($this->pathToDotFile);
         $this->assertNode($base, $digraphInDotFormat);
         $this->assertNode($structureGenerator, $digraphInDotFormat);
         $this->assertNode($tokenParser, $digraphInDotFormat);
@@ -111,6 +109,8 @@ class GenerateDotFileTest extends TestCase
     /** @before */
     function createGenerator()
     {
+        $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
+        $this->pathToDotFile = __DIR__ . '/../../resources/.output/dot.gv';
         $this->generator = new DotFileGenerator(
             new CodeParser(
                 new Php5Parser(new NumericIdClassDefinitionBuilder()),
@@ -123,4 +123,10 @@ class GenerateDotFileTest extends TestCase
 
     /** @var DotFileGenerator */
     private $generator;
+
+    /** @var string */
+    private $pathToDotFile;
+
+    /** @var string */
+    private $pathToCode;
 }

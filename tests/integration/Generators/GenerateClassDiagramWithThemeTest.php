@@ -33,9 +33,9 @@ class GenerateClassDiagramWithThemeTest extends TestCase
     function it_generates_a_class_diagram_using_the_php_theme()
     {
         $codeFinder = new CodeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code'));
-        $diagram = __DIR__ . '/../resources/.output/graphviz-dot-php-theme.png';
-        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-dot-php-theme.png';
+        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code'));
+        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png';
+        $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
         $generator = $this->createGenerator('php');
 
         $generator->generate($codeFinder, $diagram);
@@ -50,9 +50,9 @@ class GenerateClassDiagramWithThemeTest extends TestCase
     function it_generates_a_class_diagram_using_the_classic_theme()
     {
         $codeFinder = new CodeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../resources/.code'));
-        $diagram = __DIR__ . '/../resources/.output/graphviz-dot-classic-theme.png';
-        $expectedDiagram = __DIR__ . '/../resources/images/graphviz-dot-classic-theme.png';
+        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code'));
+        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png';
+        $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
         $generator = $this->createGenerator('classic');
 
         $generator->generate($codeFinder, $diagram);

@@ -17,18 +17,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class GenerateDotFileCommandTest extends TestCase
 {
-    /** @before */
-    function configureCommandTester()
-    {
-        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
-        $this->command = $application->find('phuml:dot');
-        $this->tester = new CommandTester($this->command);
-        $this->dotFile = __DIR__ . '/../../resources/.output/dot.gv';
-        if (file_exists($this->dotFile)) {
-            unlink($this->dotFile);
-        }
-    }
-
     /** @test */
     function it_fails_to_execute_if_the_arguments_are_missing()
     {
@@ -56,7 +44,7 @@ class GenerateDotFileCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->dotFile,
             '--associations' => true,
         ]);
@@ -70,7 +58,7 @@ class GenerateDotFileCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->dotFile,
             '--recursive' => true,
             '--associations' => true,
@@ -85,7 +73,7 @@ class GenerateDotFileCommandTest extends TestCase
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),
-            'directory' => __DIR__ . '/../../resources/.code',
+            'directory' => $this->pathToCode,
             'output' => $this->dotFile,
             '--recursive' => true,
             '--associations' => true,
@@ -97,6 +85,19 @@ class GenerateDotFileCommandTest extends TestCase
         $this->assertFileExists($this->dotFile);
     }
 
+    /** @before */
+    function configureCommandTester()
+    {
+        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
+        $this->command = $application->find('phuml:dot');
+        $this->tester = new CommandTester($this->command);
+        $this->pathToCode = __DIR__ . '/../../../resources/.code';
+        $this->dotFile = __DIR__ . '/../../../resources/.output/dot.gv';
+        if (file_exists($this->dotFile)) {
+            unlink($this->dotFile);
+        }
+    }
+
     /** @var string */
     private $dotFile;
 
@@ -105,4 +106,7 @@ class GenerateDotFileCommandTest extends TestCase
 
     /** @var CommandTester */
     private $tester;
+
+    /** @var string */
+    private $pathToCode;
 }

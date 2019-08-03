@@ -13,6 +13,7 @@ parameters:
             memory_limit: '-1'
         phpunit:
             config_file: phpunit.xml
+            testsuite: Unit tests
         phpcsfixer2:
             config_contains_finder: true
             triggered_by: ['php']
