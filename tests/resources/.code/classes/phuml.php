@@ -28,10 +28,9 @@ class plPhuml
     {
     }
 
-    public function generate( $outfile )
+    public function generate( $outfile, ?string $format ): ?string
     {
     }
-
 
     public function __get( $key )
     {
@@ -40,5 +39,4 @@ class plPhuml
     public function __set( $key, $val )
     {
     }
-
 }

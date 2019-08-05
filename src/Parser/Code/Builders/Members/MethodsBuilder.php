@@ -43,9 +43,9 @@ class MethodsBuilder extends FiltersRunner
     {
         $name = $method->name;
         $visibility = $this->resolveVisibility($method);
-        $comment = $method->getDocComment();
-        $returnType = MethodDocBlock::from($comment)->returnType();
-        $parameters = $this->buildParameters($method->params, $comment);
+        $docBlock = $method->getDocComment();
+        $returnType = $this->extractReturnType($method, $docBlock);
+        $parameters = $this->buildParameters($method->params, $docBlock);
         switch (true) {
             case $method->isAbstract():
                 return new AbstractMethod($name, $visibility, $returnType, $parameters);
@@ -73,12 +73,23 @@ class MethodsBuilder extends FiltersRunner
             if ($type === null) {
                 $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
             } elseif ($type instanceof NullableType) {
-                $typeDeclaration = TypeDeclaration::from($type->type);
+                $typeDeclaration = TypeDeclaration::fromNullable($type->type);
             } else {
                 $typeDeclaration = TypeDeclaration::from($type);
             }
 
             return Variable::declaredWith($name, $typeDeclaration);
         }, $parameters);
+    }
+
+    private function extractReturnType(ClassMethod $method, ?string $docBlock): TypeDeclaration
+    {
+        if ($method->returnType instanceof NullableType) {
+            return TypeDeclaration::fromNullable((string)$method->returnType->type);
+        }
+        if ($method->returnType === null) {
+            return MethodDocBlock::from($docBlock)->returnType();
+        }
+        return TypeDeclaration::from((string)$method->returnType);
     }
 }

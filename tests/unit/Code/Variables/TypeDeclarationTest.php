@@ -70,6 +70,15 @@ class TypeDeclarationTest extends TestCase
         $this->assertFalse($nullType->isPresent());
     }
 
+    /** @test */
+    function it_knows_it_is_a_nullable_type()
+    {
+        $nullableType = TypeDeclaration::fromNullable('string');
+
+        $this->assertTrue($nullableType->isNullable());
+        $this->assertEquals('?string', (string)$nullableType);
+    }
+
     function builtInTypes()
     {
         return [

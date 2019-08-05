@@ -22,7 +22,7 @@ use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
  * - The `InterfaceVisitor` which builds `InterfaceDefinition`s
  * - The `TraitVisitor` which builds `TraitDefinition`s
  */
-class Php5Parser extends PhpParser
+class PhpCodeParser extends PhpParser
 {
     public function __construct(
         ClassDefinitionBuilder $classBuilder = null,
@@ -30,7 +30,7 @@ class Php5Parser extends PhpParser
         TraitDefinitionBuilder $traitBuilder = null
     ) {
         parent::__construct(
-            (new ParserFactory)->create(ParserFactory::PREFER_PHP5),
+            (new ParserFactory)->create(ParserFactory::PREFER_PHP7),
             new Php5Traverser(
                 $classBuilder ?? new ClassDefinitionBuilder(),
                 $interfaceBuilder ?? new InterfaceDefinitionBuilder(),

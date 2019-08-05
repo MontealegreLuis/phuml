@@ -66,4 +66,9 @@ class A
     {
         return new ParameterBuilder($name);
     }
+
+    public static function method(): MethodBuilder
+    {
+        return new MethodBuilder();
+    }
 }

@@ -27,14 +27,22 @@ class TypeDeclaration implements Named
         'boolean', 'integer', 'double',
     ];
 
+    /** @var bool */
+    private $isNullable;
+
     public static function absent(): TypeDeclaration
     {
         return new TypeDeclaration(null);
     }
 
-    public static function from(?string $text): TypeDeclaration
+    public static function from(?string $type): TypeDeclaration
     {
-        return new TypeDeclaration($text);
+        return new TypeDeclaration($type);
+    }
+
+    public static function fromNullable(string $type): TypeDeclaration
+    {
+        return new TypeDeclaration($type, true);
     }
 
     public function isPresent(): bool
@@ -62,18 +70,24 @@ class TypeDeclaration implements Named
         return strpos((string)$this->name, '[]') === \strlen((string)$this->name) - 2;
     }
 
+    public function isNullable(): bool
+    {
+        return $this->isNullable;
+    }
+
     public function removeArraySuffix(): string
     {
         return substr((string)$this->name, 0, -2);
     }
 
-    private function __construct(?string $name)
-    {
-        $this->name = $name !== null ? Name::from($name) : null;
-    }
-
     public function __toString()
     {
-        return (string)$this->name;
+        return ($this->isNullable ? '?' : '') . $this->name;
+    }
+
+    private function __construct(?string $name, bool $isNullable = false)
+    {
+        $this->name = $name !== null ? Name::from($name) : null;
+        $this->isNullable = $name !== null && $isNullable;
     }
 }

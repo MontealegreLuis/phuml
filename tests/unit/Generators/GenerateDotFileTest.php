@@ -13,7 +13,7 @@ use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
 use PhUml\Fakes\NumericIdClassDefinitionBuilder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
-use PhUml\Parser\Code\Php5Parser;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -113,7 +113,7 @@ class GenerateDotFileTest extends TestCase
         $this->pathToDotFile = __DIR__ . '/../../resources/.output/dot.gv';
         $this->generator = new DotFileGenerator(
             new CodeParser(
-                new Php5Parser(new NumericIdClassDefinitionBuilder()),
+                new PhpCodeParser(new NumericIdClassDefinitionBuilder()),
                 new ExternalNumericIdDefinitionsResolver()
             ),
             new GraphvizProcessor()

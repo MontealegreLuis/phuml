@@ -121,10 +121,28 @@ CLASS
         $codebase = $this->parser->parse($this->finder);
 
         $class = A::class('MyClass')
-            ->withAPrivateMethod('changeName', A::parameter('$newName')->withType('string')->build())
-            ->withAProtectedMethod('getAge')
-            ->withAPublicMethod('formatPhone', A::parameter('$format')->withType('string')->build())
-            ->build();
+            ->withAMethod(
+                A::method()
+                    ->private()
+                    ->named('changeName')
+                    ->withParameters(A::parameter('$newName')->withType('string')->build())
+                    ->withReturnType('void')
+                    ->build()
+            )
+            ->withAMethod(
+                A::method()
+                    ->protected()
+                    ->named('getAge')
+                    ->withReturnType('int')
+                    ->build()
+            )->withAMethod(
+                A::method()
+                ->public()
+                ->named('formatPhone')
+                ->withParameters(A::parameter('$format')->withType('string')->build())
+                ->withReturnType('string')
+                ->build()
+            )->build();
         $this->assertTrue($codebase->has($class->name()));
         $this->assertEquals($class, $codebase->get($class->name()));
     }
@@ -156,11 +174,17 @@ CLASS
 
         $class = A::class('MyClass')
             ->withAPublicMethod('__construct')
-            ->withAPublicMethod(
-                'changeValues',
-                A::parameter('$name')->withType('string')->build(),
-                A::parameter('$age')->withType('int')->build(),
-                A::parameter('$phone')->withType('string')->build()
+            ->withAMethod(
+                A::method()
+                    ->public()
+                    ->named('changeValues')
+                    ->withParameters(
+                        A::parameter('$name')->withType('string')->build(),
+                        A::parameter('$age')->withType('int')->build(),
+                        A::parameter('$phone')->withType('string')->build()
+                    )
+                    ->withReturnType('void')
+                    ->build()
             )
             ->build();
         $this->assertTrue($codebase->has($class->name()));
@@ -262,14 +286,24 @@ INTERFACE
         $codebase = $this->parser->parse($this->finder);
 
         $interface = A::interface('MyInterface')
-            ->withAPublicMethod(
-                'changeValues',
-                A::parameter('$name')->withType('string')->build(),
-                A::parameter('$age')->withType('int')->build(),
-                A::parameter('$phone')->withType('string')->build()
+            ->withAMethod(
+                A::method()
+                    ->public()
+                    ->named('changeValues')
+                    ->withParameters(
+                        A::parameter('$name')->withType('string')->build(),
+                        A::parameter('$age')->withType('int')->build(),
+                        A::parameter('$phone')->withType('string')->build()
+                    )->withReturnType('void')
+                    ->build()
             )
-            ->withAPublicMethod('ageToMonths')
-            ->build();
+            ->withAMethod(
+                A::method()
+                    ->public()
+                    ->named('ageToMonths')
+                    ->withReturnType('int')
+                    ->build()
+            )->build();
         $this->assertTrue($codebase->has($interface->name()));
         $this->assertEquals($interface, $codebase->get($interface->name()));
     }
@@ -407,11 +441,28 @@ CLASS;
         $user = A::class('User')
             ->withAProtectedAttribute('$name', 'string')
             ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
-            ->withAPublicMethod('isNamed', A::parameter('$name')->withType('string')->build())
+            ->withAMethod(
+                A::method()
+                ->public()
+                ->named('isNamed')
+                ->withParameters(A::parameter('$name')->withType('string')->build())
+                ->withReturnType('bool')
+                ->build()
+            )->build();
+        $currentMethod = A::method()
+            ->public()
+            ->named('current')
+            ->withReturnType('Page')
             ->build();
-        $pageable = A::interface('Pageable')->withAPublicMethod('current')->build();
+        $pageable = A::interface('Pageable')->withAMethod($currentMethod)->build();
+        $namedMethod = A::method()
+            ->public()
+            ->named('named')
+            ->withParameters(A::parameter('$name')->withType('string')->build())
+            ->withReturnType('array')
+            ->build();
         $students = A::interface('Students')
-            ->withAPublicMethod('named', A::parameter('$name')->withType('string')->build())
+            ->withAMethod($namedMethod)
             ->extending($pageable->name())
             ->build();
         $student = A::class('Student')
@@ -423,8 +474,8 @@ CLASS;
             ->withAPrivateAttribute('$students', "{$student->name()}[]")
             ->withAPrivateAttribute('$page')
             ->withAPublicMethod('__construct', A::parameter('$page')->withType('Page')->build())
-            ->withAPublicMethod('current')
-            ->withAPublicMethod('named', A::parameter('$name')->withType('string')->build())
+            ->withAMethod($currentMethod)
+            ->withAMethod($namedMethod)
             ->implementing($students->name())
             ->build();
 

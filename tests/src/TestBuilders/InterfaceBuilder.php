@@ -35,6 +35,12 @@ class InterfaceBuilder extends DefinitionBuilder
         return $this;
     }
 
+    public function withAMethod(Method $build): InterfaceBuilder
+    {
+        $this->methods[] = $build;
+        return $this;
+    }
+
     /** @return InterfaceDefinition */
     public function build()
     {
