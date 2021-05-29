@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\ClassConst;
@@ -26,15 +27,15 @@ class ConstantsBuilder
     ];
 
     /**
-     * @param \PhpParser\Node[] $classAttributes
+     * @param Node[] $classAttributes
      * @return Constant[]
      */
     public function build(array $classAttributes): array
     {
-        $constants = array_filter($classAttributes, function ($attribute) {
+        $constants = array_filter($classAttributes, static function ($attribute): bool {
             return $attribute instanceof ClassConst;
         });
-        return array_map(function (ClassConst $constant) {
+        return array_map(function (ClassConst $constant): Constant {
             return new Constant(
                 $constant->consts[0]->name,
                 TypeDeclaration::from($this->determineType($constant->consts[0]))

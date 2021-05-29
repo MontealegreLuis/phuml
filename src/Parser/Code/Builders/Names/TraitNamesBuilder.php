@@ -13,10 +13,13 @@ use PhUml\Code\Name as TraitName;
 
 trait TraitNamesBuilder
 {
-    /** @param Node[] $nodes */
+    /**
+     * @param Node[] $nodes
+     * @return TraitName[]
+     */
     protected function buildTraits(array $nodes): array
     {
-        $useStatements = array_filter($nodes, function (Node $node) {
+        $useStatements = array_filter($nodes, static function (Node $node): bool {
             return $node instanceof TraitUse;
         });
 
@@ -25,7 +28,7 @@ trait TraitNamesBuilder
         }
 
         $traits = [];
-        /** @var TraitUse  $use */
+        /** @var TraitUse $use */
         foreach ($useStatements as $use) {
             $traits = $this->traitNames($use, $traits);
         }
@@ -34,7 +37,7 @@ trait TraitNamesBuilder
     }
 
     /**
-     * @param \PhUml\Code\Name[] $traits
+     * @param TraitName[] $traits
      * @return TraitName[]
      */
     private function traitNames(TraitUse $use, array $traits): array

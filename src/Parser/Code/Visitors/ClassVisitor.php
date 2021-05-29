@@ -35,5 +35,6 @@ class ClassVisitor extends NodeVisitorAbstract
         if ($node instanceof Class_ && !$node->isAnonymous()) {
             $this->codebase->add($this->builder->build($node));
         }
+        return null;
     }
 }

@@ -64,7 +64,7 @@ class ExternalDefinitionsResolver
     /** @param \PhUml\Code\Name[] $interfaces */
     private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void
     {
-        array_map(function (Name $interface) use ($codebase) {
+        array_map(function (Name $interface) use ($codebase): void {
             if (!$codebase->has($interface)) {
                 $codebase->add($this->externalInterface($interface));
             }
@@ -74,7 +74,7 @@ class ExternalDefinitionsResolver
     /** @param \PhUml\Code\Name[] $traits */
     private function resolveExternalTraits(array $traits, Codebase $codebase): void
     {
-        array_map(function (Name $trait) use ($codebase) {
+        array_map(function (Name $trait) use ($codebase): void {
             if (!$codebase->has($trait)) {
                 $codebase->add($this->externalTrait($trait));
             }

@@ -22,11 +22,12 @@ class TemplateEngine
     public function __construct(Twig $twig = null)
     {
         $this->twig = $twig ?? new Twig(new FilesystemLoader(__DIR__ . '/../resources/templates'));
-        $this->twig->addFilter(new Filter('whitespace', function (string $html) {
+        $this->twig->addFilter(new Filter('whitespace', static function (string $html): ?string {
             return preg_replace('/\s\s+/', '', $html);
         }));
     }
 
+    /** @param mixed[] $values */
     public function render(string $template, array $values): string
     {
         try {

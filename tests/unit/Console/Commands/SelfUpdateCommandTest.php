@@ -138,7 +138,7 @@ class SelfUpdateCommandTest extends TestCase
     }
 
     /** @before */
-    function configureCommandTester()
+    function let()
     {
         $this->updater = $this->prophesize(Updater::class);
         $this->updater->setStrategyObject(Argument::type(StrategyInterface::class))->shouldBeCalled();

@@ -11,6 +11,7 @@ use RuntimeException;
 
 class UnknownTheme extends RuntimeException
 {
+    /** @param string[] $validNames */
     public static function named(string $name, array $validNames): UnknownTheme
     {
         return new UnknownTheme(sprintf(

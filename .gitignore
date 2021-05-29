@@ -2,7 +2,8 @@ vendor
 composer.lock
 build
 coverage.clover
-.php_cs.cache
+.php-cs-fixer.cache
+.phpunit.result.cache
 .couscous
 phuml.phar
 phuml.phar.pubkey

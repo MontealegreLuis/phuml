@@ -35,5 +35,6 @@ class TraitVisitor extends NodeVisitorAbstract
         if ($node instanceof Trait_) {
             $this->codebase->add($this->builder->build($node));
         }
+        return null;
     }
 }

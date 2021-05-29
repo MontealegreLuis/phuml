@@ -31,11 +31,11 @@ class AttributesBuilder extends FiltersRunner
      */
     public function build(array $definitionAttributes): array
     {
-        $attributes = array_filter($definitionAttributes, function ($attribute) {
+        $attributes = array_filter($definitionAttributes, static function ($attribute): bool {
             return $attribute instanceof Property;
         });
 
-        return array_map(function (Property $attribute) {
+        return array_map(function (Property $attribute): Attribute {
             $name = "\${$attribute->props[0]->name}";
             $visibility = $this->resolveVisibility($attribute);
             $comment = $attribute->getDocComment();

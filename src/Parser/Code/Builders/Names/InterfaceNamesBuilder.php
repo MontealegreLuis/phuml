@@ -18,7 +18,7 @@ trait InterfaceNamesBuilder
      */
     protected function buildInterfaces(array $implements): array
     {
-        return array_map(function (Name $name) {
+        return array_map(static function (Name $name): DefinitionName {
             return DefinitionName::from($name->getLast());
         }, $implements);
     }

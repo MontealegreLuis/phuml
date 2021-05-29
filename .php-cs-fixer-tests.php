@@ -9,8 +9,9 @@ $finder = PhpCsFixer\Finder::create()
     ->in([__DIR__ . '/tests'])
     ->exclude('resources');
 
-return PhpCsFixer\Config::create()
-    ->setRules([
+$config = new PhpCsFixer\Config();
+
+return $config->setRules([
         '@PSR2' => true,
         'visibility_required' => false,
         'no_unused_imports' => true,
@@ -18,7 +19,7 @@ return PhpCsFixer\Config::create()
         'single_blank_line_before_namespace' => true,
         'ordered_imports' => true,
         'single_quote' => true,
-        'trailing_comma_in_multiline_array' => true,
+        'trailing_comma_in_multiline' => true,
         'concat_space' => ['spacing' => 'one'],
         'no_superfluous_phpdoc_tags' => true,
         'no_empty_phpdoc' => true,
@@ -27,6 +28,6 @@ return PhpCsFixer\Config::create()
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,
         'no_whitespace_in_blank_line' => true,
-        'class_attributes_separation' => ['elements' => ['const', 'method', 'property']],
+        'class_attributes_separation' => ['elements' => ['const' => 'one', 'method' => 'one', 'property' => 'one']],
     ])
     ->setFinder($finder);

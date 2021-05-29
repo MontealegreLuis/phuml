@@ -9,10 +9,11 @@ namespace PhUml\Code\Methods;
 
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 class StaticMethod extends Method
 {
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public function __construct(
         string $name,
         Visibility $modifier,

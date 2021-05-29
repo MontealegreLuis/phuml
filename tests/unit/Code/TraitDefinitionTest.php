@@ -9,6 +9,7 @@ namespace PhUml\Code;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\HasAttributes;
+use PhUml\Code\Methods\Method;
 use PhUml\ContractTests\DefinitionTest;
 use PhUml\ContractTests\WithAttributesTests;
 
@@ -16,7 +17,7 @@ class TraitDefinitionTest extends DefinitionTest
 {
     use WithAttributesTests;
 
-    /** @param \PhUml\Code\Methods\Method[] */
+    /** @param Method[] */
     protected function definition(array $methods = []): Definition
     {
         return new TraitDefinition(Name::from('ADefinition'), $methods);

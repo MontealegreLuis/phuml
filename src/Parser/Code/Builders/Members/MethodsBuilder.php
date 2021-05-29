@@ -7,6 +7,8 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -34,7 +36,7 @@ class MethodsBuilder extends FiltersRunner
      */
     public function build(array $methods): array
     {
-        return array_map(function (ClassMethod $method) {
+        return array_map(function (ClassMethod $method): Method {
             return $this->buildMethod($method);
         }, $this->runFilters($methods));
     }
@@ -62,7 +64,7 @@ class MethodsBuilder extends FiltersRunner
      */
     private function buildParameters(array $parameters, ?string $docBlock): array
     {
-        return array_map(function (Param $parameter) use ($docBlock) {
+        return array_map(static function (Param $parameter) use ($docBlock): Variable {
             /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */
             $parsedParameter = $parameter->var;
             /** @var string $parameterName Since it's a parameter not a variable */
@@ -74,8 +76,12 @@ class MethodsBuilder extends FiltersRunner
                 $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
             } elseif ($type instanceof NullableType) {
                 $typeDeclaration = TypeDeclaration::fromNullable($type->type);
+            } elseif ($type instanceof Name) {
+                $typeDeclaration = TypeDeclaration::from($type->getLast());
+            } elseif ($type instanceof Identifier) {
+                $typeDeclaration = TypeDeclaration::from((string)$type);
             } else {
-                $typeDeclaration = TypeDeclaration::from($type);
+                throw UnsupportedType::declaredAs($type);
             }
 
             return Variable::declaredWith($name, $typeDeclaration);
@@ -90,6 +96,13 @@ class MethodsBuilder extends FiltersRunner
         if ($method->returnType === null) {
             return MethodDocBlock::from($docBlock)->returnType();
         }
-        return TypeDeclaration::from((string)$method->returnType);
+        if ($method->returnType instanceof Identifier) {
+            return TypeDeclaration::from((string)$method->returnType);
+        }
+        if ($method->returnType instanceof Name) {
+            return TypeDeclaration::from($method->returnType->getLast());
+        }
+
+        throw UnsupportedType::declaredAs($method->returnType);
     }
 }

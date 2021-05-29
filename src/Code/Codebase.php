@@ -12,7 +12,7 @@ namespace PhUml\Code;
  */
 class Codebase
 {
-    /** @var array Definition */
+    /** @var Definition[] $definitions */
     private $definitions;
 
     public function __construct()

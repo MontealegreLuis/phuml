@@ -35,6 +35,7 @@ class DigraphConfiguration
     /** @var ThemeName */
     protected $theme;
 
+    /** @param mixed[] $input */
     public function __construct(array $input)
     {
         $this->searchRecursively = (bool)$input['recursive'];

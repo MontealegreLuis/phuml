@@ -43,7 +43,7 @@ class CodeFinderTest extends TestCase
     }
 
     /** @before */
-    function configure()
+    function let()
     {
         $this->pathToCode = __DIR__ . '/../../resources/.code';
     }

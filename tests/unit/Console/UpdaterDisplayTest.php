@@ -100,7 +100,7 @@ class UpdaterDisplayTest extends TestCase
     }
 
     /** @before */
-    function configureDisplay()
+    function let()
     {
         $this->displayOutput = new TextInMemoryOutput();
         $this->display = new UpdaterDisplay($this->displayOutput);

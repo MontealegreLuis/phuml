@@ -68,7 +68,7 @@ HELP
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $statisticsInput = new StatisticsInput($input->getArguments(), $input->getOptions());
         $codebasePath = $statisticsInput->directory();

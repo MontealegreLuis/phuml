@@ -9,18 +9,19 @@ namespace PhUml\Templates;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Twig_Environment;
-use Twig_Filter;
+use Twig\Environment;
+use Twig\Error\SyntaxError;
+use Twig\TwigFilter;
 
 class TemplateEngineTest extends TestCase
 {
     /** @test */
     function it_uses_twig_to_render_a_template()
     {
-        $twig = $this->prophesize(Twig_Environment::class);
+        $twig = $this->prophesize(Environment::class);
         $template = 'a-template.html.twig';
         $values = ['value' => 'foo', 'number' => 2];
-        $twig->addFilter(Argument::type(Twig_Filter::class))->shouldBeCalled();
+        $twig->addFilter(Argument::type(TwigFilter::class))->shouldBeCalled();
         $twig->render($template, $values)->willReturn('Yay!');
         $engine = new TemplateEngine($twig->reveal());
 
@@ -32,11 +33,11 @@ class TemplateEngineTest extends TestCase
     /** @test */
     function it_fails_if_twig_fails()
     {
-        $twig = $this->prophesize(Twig_Environment::class);
+        $twig = $this->prophesize(Environment::class);
         $template = 'a-template.html.twig';
         $values = ['value' => 'foo', 'number' => 2];
-        $twig->addFilter(Argument::type(Twig_Filter::class))->shouldBeCalled();
-        $twig->render($template, $values)->willThrow(\Twig_Error_Syntax::class);
+        $twig->addFilter(Argument::type(TwigFilter::class))->shouldBeCalled();
+        $twig->render($template, $values)->willThrow(SyntaxError::class);
         $engine = new TemplateEngine($twig->reveal());
 
         $this->expectException(TemplateFailure::class);

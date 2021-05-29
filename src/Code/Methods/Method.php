@@ -15,6 +15,7 @@ use PhUml\Code\Modifiers\WithAbstractModifier;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 /**
  * It represents a class or interface method
@@ -26,13 +27,13 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     /** @var string */
     private $name;
 
-    /** @var \PhUml\Code\Variables\Variable[] */
+    /** @var Variable[] */
     private $parameters;
 
     /** @var TypeDeclaration */
     private $returnType;
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public static function public(
         string $name,
         array $parameters = [],
@@ -41,7 +42,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return new static($name, Visibility::public(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public static function protected(
         string $name,
         array $parameters = [],
@@ -50,7 +51,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return new static($name, Visibility::protected(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public static function private(
         string $name,
         array $parameters = [],
@@ -70,7 +71,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return $this->name === '__construct';
     }
 
-    /** @return \PhUml\Code\Variables\Variable[] */
+    /** @return Variable[] */
     public function parameters(): array
     {
         return $this->parameters;
@@ -87,7 +88,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         );
     }
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public function __construct(
         string $name,
         Visibility $modifier,

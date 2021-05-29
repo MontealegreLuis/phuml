@@ -21,10 +21,10 @@ stats:
 	@docker-compose run --rm tests php bin/phuml phuml:statistics $(ARGS)
 
 format:
-	@vendor/bin/php-cs-fixer fix --config=.php_cs -v --using-cache false
-	@vendor/bin/php-cs-fixer fix --config=.php_cs_tests -v --using-cache false
+	@vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --using-cache no
+	@vendor/bin/php-cs-fixer fix --config=.php-cs-fixer-tests.php -v --using-cache no
 
 check:
 	@vendor/bin/grumphp run
 	@docker-compose run --rm tests vendor/bin/phpunit --testsuite 'Integration tests'
-	@vendor/bin/php-cs-fixer fix --config=.php_cs_tests -v --dry-run --using-cache false
+	@vendor/bin/php-cs-fixer fix --config=.php-cs-fixer-tests.php -v --dry-run --using-cache no

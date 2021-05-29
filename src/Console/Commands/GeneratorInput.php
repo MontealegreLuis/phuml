@@ -17,9 +17,13 @@ class GeneratorInput
     /** @var string */
     private $outputFile;
 
-    /** @var array $options */
+    /** @var mixed[] $options */
     private $options;
 
+    /**
+     * @param string[] $arguments
+     * @param mixed[] $options
+     */
     public function __construct(array $arguments, array $options)
     {
         $this->setDirectory($arguments);
@@ -37,11 +41,13 @@ class GeneratorInput
         return $this->outputFile;
     }
 
+    /** @return mixed[] $options */
     public function options(): array
     {
         return $this->options;
     }
 
+    /** @param string[] $arguments */
     private function setDirectory(array $arguments): void
     {
         Assert::stringNotEmpty(
@@ -51,6 +57,7 @@ class GeneratorInput
         $this->directory = $arguments['directory'];
     }
 
+    /** @param string[] $arguments */
     private function setOutputFile(array $arguments): void
     {
         Assert::stringNotEmpty(

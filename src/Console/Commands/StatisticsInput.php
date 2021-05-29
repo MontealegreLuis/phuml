@@ -20,6 +20,10 @@ class StatisticsInput
     /** @var bool */
     private $recursive;
 
+    /**
+     * @param string[] $arguments
+     * @param string[] $options
+     */
     public function __construct(array $arguments, array $options)
     {
         $this->setDirectory($arguments);
@@ -42,6 +46,7 @@ class StatisticsInput
         return $this->recursive;
     }
 
+    /** @param string[] $arguments */
     private function setDirectory(array $arguments): void
     {
         Assert::stringNotEmpty(
@@ -51,6 +56,7 @@ class StatisticsInput
         $this->directory = $arguments['directory'];
     }
 
+    /** @param string[] $arguments */
     private function setOutputFile(array $arguments): void
     {
         Assert::stringNotEmpty(
@@ -60,8 +66,9 @@ class StatisticsInput
         $this->outputFile = $arguments['output'];
     }
 
+    /** @param string[] $options */
     private function setRecursive(array $options): void
     {
-        $this->recursive = isset($options['recursive']) ? (bool)$options['recursive']  : false;
+        $this->recursive = isset($options['recursive']) && (bool)$options['recursive'];
     }
 }

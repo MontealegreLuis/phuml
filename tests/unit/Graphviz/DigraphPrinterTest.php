@@ -29,7 +29,7 @@ class DigraphPrinterTest extends TestCase
         $dotLanguage = $this->printer->toDot($digraph);
 
         $this->assertRegExp('/^digraph "([0-9a-f]){40}"/', $dotLanguage);
-        $this->assertContains('splines = true;
+        $this->assertStringContainsString('splines = true;
 overlap = false;
 mindist = 0.6;', $dotLanguage);
     }
@@ -47,7 +47,7 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+name</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-age</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#category: string</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>',
             $dotLanguage
         );
@@ -65,7 +65,7 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><I>+NUMERIC: int</I></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><I>+NO_TYPE</I></FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>',
             $dotLanguage
         );
@@ -89,7 +89,7 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12">AClass</FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><I>+NUMERIC: int</I></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-age</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#category: string</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getAge()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#setCategory(category: string)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>',
             $dotLanguage
         );
@@ -104,7 +104,7 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>AnInterface</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec">&nbsp;</TD></TR></TABLE>',
             $dotLanguage
         );
@@ -124,7 +124,7 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>AnInterface</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><I>+NUMERIC: int</I></FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><I>+NO_TYPE</I></FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+doSomething()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+changeValue($value: int)</FONT><BR ALIGN="LEFT"/></TD></TR></TABLE>',
             $dotLanguage
         );
@@ -149,7 +149,7 @@ mindist = 0.6;', $dotLanguage);
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<TABLE CELLSPACING="0" BORDER="0" ALIGN="LEFT"><TR><TD BORDER="1" ALIGN="CENTER" BGCOLOR="#fcaf3e"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">&lt;&lt;trait&gt;&gt;</FONT><BR/><B><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="12"><I>ATrait</I></FONT></B></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-age</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#category: string</FONT><BR ALIGN="LEFT"/></TD></TR><TR><TD BORDER="1" ALIGN="LEFT" BGCOLOR="#eeeeec"><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">+getAge()</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">#setCategory(category: string)</FONT><BR ALIGN="LEFT"/><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10"><U>#count()</U></FONT><BR ALIGN="LEFT"/><I><FONT COLOR="#2e3436" FACE="Helvetica" POINT-SIZE="10">-display()</FONT></I><BR ALIGN="LEFT"/></TD></TR></TABLE>',
             $dotLanguage
         );
@@ -299,7 +299,7 @@ mindist = 0.6;', $dotLanguage);
     }
 
     /** @before */
-    function createPrinter()
+    function let()
     {
         $this->printer = new DigraphPrinter();
     }

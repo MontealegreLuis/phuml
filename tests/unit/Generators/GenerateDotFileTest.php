@@ -107,7 +107,7 @@ class GenerateDotFileTest extends TestCase
     }
 
     /** @before */
-    function createGenerator()
+    function let()
     {
         $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
         $this->pathToDotFile = __DIR__ . '/../../resources/.output/dot.gv';

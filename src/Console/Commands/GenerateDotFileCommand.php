@@ -58,7 +58,7 @@ HELP
         $this->addDigraphOptions($this);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
         $codebasePath = $generatorInput->directory();

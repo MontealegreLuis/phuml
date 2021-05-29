@@ -63,7 +63,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function constructorParameters(): array
     {
-        $constructors = array_filter($this->methods, function (Method $method) {
+        $constructors = array_filter($this->methods, static function (Method $method): bool {
             return $method->isConstructor();
         });
         $constructor = reset($constructors);
@@ -78,7 +78,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function countAttributesByVisibility(Visibility $modifier): int
     {
-        return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
+        return \count(array_filter($this->attributes, static function (Attribute $attribute) use ($modifier): bool {
             return $attribute->hasVisibility($modifier);
         }));
     }
@@ -90,7 +90,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function countTypedAttributesByVisibility(Visibility $modifier): int
     {
-        return \count(array_filter($this->attributes, function (Attribute $attribute) use ($modifier) {
+        return \count(array_filter($this->attributes, static function (Attribute $attribute) use ($modifier): bool {
             return $attribute->hasTypeDeclaration() && $attribute->hasVisibility($modifier);
         }));
     }
@@ -148,7 +148,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function isAbstract(): bool
     {
-        return \count(array_filter($this->methods(), function (Method $method) {
+        return \count(array_filter($this->methods(), static function (Method $method): bool {
             return $method->isAbstract();
         })) > 0;
     }

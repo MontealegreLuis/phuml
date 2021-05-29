@@ -8,6 +8,7 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
@@ -63,18 +64,31 @@ class MethodsBuilderTest extends TestCase
     }
 
     /** @before */
-    function createMethods()
+    function let()
     {
         $this->methods = [
             new ClassMethod('privateMethodA', ['type' => Class_::MODIFIER_PRIVATE]),
             new ClassMethod('publicMethodA', ['type' => Class_::MODIFIER_PUBLIC]),
             new ClassMethod('publicMethodA', ['type' => Class_::MODIFIER_PUBLIC]),
             new ClassMethod('privateMethodB', ['type' => Class_::MODIFIER_PRIVATE]),
-            new ClassMethod('protectedMethodA', ['type' => Class_::MODIFIER_PROTECTED]),
-            new ClassMethod('protectedMethodB', ['type' => Class_::MODIFIER_PROTECTED]),
+            new ClassMethod('protectedMethodA', [
+                'type' => Class_::MODIFIER_PROTECTED,
+                'returnType' => new NullableType('int'),
+            ]),
+            new ClassMethod('protectedMethodB', [
+                'type' => Class_::MODIFIER_PROTECTED,
+                'returnType' => new Identifier('Method'),
+            ]),
             new ClassMethod('privateMethodC', [
                 'type' => Class_::MODIFIER_PRIVATE,
-                'params'  => [new Param(new Variable('nullableParameter'), null, new NullableType('int'))],
+                'params'  => [
+                    new Param(
+                        new Variable('nullableParameter'),
+                        null,
+                        new NullableType('int')
+                    ),
+                ],
+                'returnType' => 'string',
             ]),
         ];
     }

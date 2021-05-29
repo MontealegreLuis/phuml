@@ -7,6 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
+use InvalidArgumentException;
 use PhUml\Configuration\ClassDiagramBuilder;
 use PhUml\Configuration\ClassDiagramConfiguration;
 use PhUml\Parser\CodebaseDirectory;
@@ -34,7 +35,7 @@ class GenerateClassDiagramCommand extends GeneratorCommand
 {
     use WithDigraphConfiguration;
 
-    /** @throws \InvalidArgumentException */
+    /** @throws InvalidArgumentException */
     protected function configure(): void
     {
         $this
@@ -71,7 +72,7 @@ HELP
         $this->addDigraphOptions($this);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
         $codebasePath = $generatorInput->directory();

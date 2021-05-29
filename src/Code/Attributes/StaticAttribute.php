@@ -13,7 +13,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 /**
  * It represents a class variable
  */
-class StaticAttribute extends Attribute
+final class StaticAttribute extends Attribute
 {
     public function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {

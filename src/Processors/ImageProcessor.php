@@ -19,12 +19,13 @@ use Symfony\Component\Process\Process;
  */
 abstract class ImageProcessor extends Processor
 {
-    /** @var Process|null */
+    /** @var Process<string>|null */
     protected $process;
 
     /** @var Filesystem */
     private $fileSystem;
 
+    /** @param Process<string> $process */
     public function __construct(Process $process = null, Filesystem $fileSystem = null)
     {
         $this->process = $process;

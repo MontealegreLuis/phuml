@@ -17,6 +17,7 @@ class UnknownImageProcessor extends RuntimeException
         return new UnknownImageProcessor($name, $validNames);
     }
 
+    /** @param string[] $validNames */
     public function __construct(?string $name, array $validNames)
     {
         parent::__construct(sprintf(
