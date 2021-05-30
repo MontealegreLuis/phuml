@@ -9,16 +9,18 @@ namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\UnionType;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
-class MethodsBuilderTest extends TestCase
+final class MethodsBuilderTest extends TestCase
 {
     use WithVisibilityAssertions;
 
@@ -63,14 +65,52 @@ class MethodsBuilderTest extends TestCase
         $this->assertPublic($methods[2]);
     }
 
+    /** @test */
+    function it_does_not_support_union_types_as_return_type()
+    {
+        $builder = new MethodsBuilder();
+        $parsedMethods = [
+            new ClassMethod('privateMethodA', [
+                'type' => Class_::MODIFIER_PRIVATE,
+                'returnType' => new UnionType(['int', 'float']),
+                'params' => [new Param(new Variable('example'), null, new UnionType(['int', 'float']))],
+            ]),
+        ];
+
+        $this->expectException(UnsupportedType::class);
+        $builder->build($parsedMethods);
+    }
+
+    /** @test */
+    function it_does_not_support_union_type_parameters()
+    {
+        $builder = new MethodsBuilder();
+        $parsedMethods = [
+            new ClassMethod('privateMethodA', [
+                'type' => Class_::MODIFIER_PRIVATE,
+                'params' => [new Param(new Variable('example'), null, new UnionType(['int', 'float']))],
+            ]),
+        ];
+
+        $this->expectException(UnsupportedType::class);
+        $builder->build($parsedMethods);
+    }
+
     /** @before */
     function let()
     {
         $this->methods = [
             new ClassMethod('privateMethodA', ['type' => Class_::MODIFIER_PRIVATE]),
-            new ClassMethod('publicMethodA', ['type' => Class_::MODIFIER_PUBLIC]),
-            new ClassMethod('publicMethodA', ['type' => Class_::MODIFIER_PUBLIC]),
-            new ClassMethod('privateMethodB', ['type' => Class_::MODIFIER_PRIVATE]),
+            new ClassMethod('publicMethodA', [
+                'type' => Class_::MODIFIER_PUBLIC,
+                'returnType' => new Name('AClassName'),
+            ]),
+            new ClassMethod('publicMethodA', [
+                'type' => Class_::MODIFIER_PUBLIC | Class_::MODIFIER_STATIC,
+            ]),
+            new ClassMethod('privateMethodB', [
+                'flags' => Class_::MODIFIER_PRIVATE | Class_::MODIFIER_ABSTRACT,
+            ]),
             new ClassMethod('protectedMethodA', [
                 'type' => Class_::MODIFIER_PROTECTED,
                 'returnType' => new NullableType('int'),
