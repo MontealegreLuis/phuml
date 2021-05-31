@@ -28,6 +28,7 @@
     },
     "require-dev": {
         "ext-imagick": "*",
+        "ergebnis/composer-normalize": "^2.8.0",
         "friendsofphp/php-cs-fixer": "^3.0.0",
         "lupka/phpunit-compare-images": "^1.0.0",
         "maglnet/composer-require-checker": "^2.0.0",
@@ -38,10 +39,10 @@
         "phpunit/phpunit": "^7.5.20"
     },
     "config": {
+        "optimize-autoloader": true,
         "platform": {
             "php": "7.1.30"
         },
-        "optimize-autoloader": true,
         "sort-packages": true
     },
     "extra": {

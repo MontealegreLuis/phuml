@@ -5,6 +5,7 @@ parameters:
     bin_dir: vendor/bin
     tasks:
         composer:
+        composer_normalize:
         phpstan:
             configuration: phpstan.neon
             level: 7
