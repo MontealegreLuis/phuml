@@ -1,8 +1,27 @@
-FROM ubuntu:xenial
+FROM composer:1.10 AS composer
 
-RUN apt-get update -y && apt-get install -y software-properties-common python-software-properties
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
-RUN apt-get update -y && apt-get install -y git graphviz pkg-config libmagickwand-dev imagemagick php7.1 php7.1-cli php7.1-common php7.1-dev php7.1-xml php7.1-xdebug php7.1-imagick
-RUN mkdir -p /usr/src/phuml
+ADD composer.* ./
+ADD src/ src
 
-WORKDIR /usr/src/phuml
+RUN composer global require hirak/prestissimo --no-plugins --no-scripts
+RUN composer install --optimize-autoloader --prefer-dist --no-progress --no-interaction --ignore-platform-reqs
+
+FROM php:7.1.30-cli-alpine AS phuml
+MAINTAINER Luis Montealegre <montealegreluis@gmail.com>
+
+RUN apk add --update --no-cache autoconf g++ pkgconfig imagemagick imagemagick-dev make ttf-freefont graphviz \
+    && printf "\n" | pecl install imagick \
+    && echo "extension=imagick.so" >> /usr/local/etc/php/php.ini
+
+WORKDIR /app
+
+ADD bin/phuml* bin/
+ADD src/ src
+
+ENV PATH="/app/bin:${PATH}"
+
+COPY --from=composer /app/vendor/ ./vendor
+
+WORKDIR /code
+
+ENTRYPOINT ["phuml"]
