@@ -27,12 +27,13 @@ jobs:
       - name: "Code quality checks"
         run: |
           vendor/bin/grumphp run
+          vendor/bin/composer-require-checker check
           vendor/bin/php-cs-fixer fix --config=.php-cs-fixer-tests.php -v --dry-run --using-cache no
 
       - name: "Run tests with coverage"
         run: "vendor/bin/phpunit --exclude-group=snapshot --coverage-text --coverage-clover=coverage.clover"
 
-      - name: "Send code coverage to Scrutinizer"
+      - name: "Send code coverage to Scrutinizr"
         run: |
           wget https://scrutinizer-ci.com/ocular.phar
           php ocular.phar code-coverage:upload --format=php-clover coverage.clover
