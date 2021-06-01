@@ -44,17 +44,23 @@ It has the following options:
 * It will only show public methods and attributes because both options `-i` and `-o` are present
 
 ```
-$ vendor/bin/phuml phuml:dot -r -a -i -o tests/resources/.code/classes example.gv
+# Composer installation
+vendor/bin/phuml phuml:dot -r -a -i -o tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -a -i -o tests/resources/.code/classes example.gv
 ```
 
 * The following command will produce a DOT file from the `tests/resources/.code/classes` directory.
 * The diagram will be saved to the file `example.gv` in the current directory.
 * It will search for classes and interfaces recursively, because of the `-r` option.
 * It will only show names because both options `-t` and `-m` are present.
-* Option `-a` is not present since there's not attributes or constructors to look for associations.
+* Option `-a` is not present since there are no attributes or constructors to look for associations.
 
 ```
-$ vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code/classes example.gv
+# Composer installation
+vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -t -m tests/resources/.code/classes example.gv
 ```
 
 * The following command will produce a DOT file from the `tests/resources/.code/classes` directory.
@@ -65,7 +71,10 @@ $ vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code/classes example.gv
 * It will not create rows for methods and attributes because of the `-b` option.
 
 ```
-$ vendor/bin/phuml phuml:diagram -r -t -m -b tests/resources/.code/classes example.gv
+# Composer installation
+vendor/bin/phuml phuml:diagram -r -t -m -b tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b tests/resources/.code/classes example.gv
 ```
 
 * The following command will produce a DOT file from the `tests/resources/.code/classes` directory.
@@ -75,7 +84,10 @@ $ vendor/bin/phuml phuml:diagram -r -t -m -b tests/resources/.code/classes examp
 * It will show all methods and attributes because both options `-i` and `-o` are absent
 
 ```
-$ vendor/bin/phuml phuml:dot tests/resources/.code/classes example.gv
+# Composer installation
+vendor/bin/phuml phuml:dot tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot tests/resources/.code/classes example.gv
 ```
 
 * The following command will produce a class diagram from the `tests/resources/.code/classes` directory.
@@ -87,7 +99,10 @@ $ vendor/bin/phuml phuml:dot tests/resources/.code/classes example.gv
 * It will use colors purple and white because the option `e` is the `php` theme
 
 ```
-$ vendor/bin/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png
+# Composer installation
+vendor/bin/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png
 ```
 
 [dot]: https://en.wikipedia.org/wiki/DOT_(graph_description_language)

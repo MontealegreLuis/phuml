@@ -20,20 +20,6 @@ Some Graphviz versions do not support some HTML tags like `<i>`, `<b>`, etc.
 
 For more information about the support for different HTML tags in Graphviz, read [here][shapes].
 
-## Running the commands from the container
-
-If you want to get the same output as in the screenshots, use the Docker container in this package.
-
-Use the following `make` commands to create the files using the Docker container
-
-```
-$ make diagram ARGS="src example.png -p neato"
-$ make stats ARGS="src example.gv"
-$ make stats ARGS="src statistics.txt"
-```
-
-With these commands you can pass the options and arguments via the `ARGS` variable
-
 ## Themes
 
 This package offers 3 different color schemes (themes)

@@ -1,18 +1,31 @@
-name: Couscous GithubPage
+name: Documentation
 
 on:
   push:
     branches:
       - master
+      - next
 
 jobs:
   deploy:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
+      - name: "Checkout documentation"
+        uses: actions/checkout@v1
 
-      - uses: CouscousPHP/GitHub-Action@v1
-      - name: Deploy
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "7.1"
+          ini-values: memory_limit=-1
+          tools: composer:v1
+
+      - name: "Generate documentation"
+        run: |
+          composer global require couscous/couscous:1.7.3
+          couscous generate
+
+      - name: "Deploy documentation to Github Pages"
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
