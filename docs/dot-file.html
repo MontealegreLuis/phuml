@@ -108,15 +108,21 @@ There are 3 themes to choose from: <code>phuml</code>, which is the default them
 <li>It will generate associations (<code>-a</code>), by inspecting attributes and constructor parameters in all the classes.</li>
 <li>It will only show public methods and attributes because both options <code>-i</code> and <code>-o</code> are present</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:dot -r -a -i -o tests/resources/.code/classes example.gv</code></pre>
+<pre><code># Composer installation
+vendor/bin/phuml phuml:dot -r -a -i -o tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -a -i -o tests/resources/.code/classes example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.gv</code> in the current directory.</li>
 <li>It will search for classes and interfaces recursively, because of the <code>-r</code> option.</li>
 <li>It will only show names because both options <code>-t</code> and <code>-m</code> are present.</li>
-<li>Option <code>-a</code> is not present since there's not attributes or constructors to look for associations.</li>
+<li>Option <code>-a</code> is not present since there are no attributes or constructors to look for associations.</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code/classes example.gv</code></pre>
+<pre><code># Composer installation
+vendor/bin/phuml phuml:dot -r -t -m tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -t -m tests/resources/.code/classes example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.gv</code> in the current directory.</li>
@@ -125,7 +131,10 @@ There are 3 themes to choose from: <code>phuml</code>, which is the default them
 <li>Option <code>-a</code> is not present since there's not attributes or constructors to look for associations.</li>
 <li>It will not create rows for methods and attributes because of the <code>-b</code> option.</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:diagram -r -t -m -b tests/resources/.code/classes example.gv</code></pre>
+<pre><code># Composer installation
+vendor/bin/phuml phuml:diagram -r -t -m -b tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b tests/resources/.code/classes example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The DOT file will be saved to the file <code>example.gv</code> in the current directory.</li>
@@ -133,7 +142,10 @@ There are 3 themes to choose from: <code>phuml</code>, which is the default them
 <li>It <strong>WILL NOT</strong> generate associations because of the lack of the <code>-a</code> option.</li>
 <li>It will show all methods and attributes because both options <code>-i</code> and <code>-o</code> are absent</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:dot tests/resources/.code/classes example.gv</code></pre>
+<pre><code># Composer installation
+vendor/bin/phuml phuml:dot tests/resources/.code/classes example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot tests/resources/.code/classes example.gv</code></pre>
 <ul>
 <li>The following command will produce a class diagram from the <code>tests/resources/.code/classes</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
@@ -143,7 +155,10 @@ There are 3 themes to choose from: <code>phuml</code>, which is the default them
 <li>It will show all methods and attributes because both options <code>-i</code> and <code>-o</code> are absent</li>
 <li>It will use colors purple and white because the option <code>e</code> is the <code>php</code> theme</li>
 </ul>
-<pre><code>$ vendor/bin/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png</code></pre>
+<pre><code># Composer installation
+vendor/bin/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p dot -e php tests/resources/.code/classes example.png</code></pre>
                 </section>
 
             </div>

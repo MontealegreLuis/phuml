@@ -89,13 +89,6 @@
 <p>You might get an output different from the screenshots in this documentation.
 Some Graphviz versions do not support some HTML tags like <code>&lt;i&gt;</code>, <code>&lt;b&gt;</code>, etc.</p>
 <p>For more information about the support for different HTML tags in Graphviz, read <a href="https://www.graphviz.org/doc/info/shapes.html#html">here</a>.</p>
-<h2 id="running-the-commands-from-the-container">Running the commands from the container</h2>
-<p>If you want to get the same output as in the screenshots, use the Docker container in this package.</p>
-<p>Use the following <code>make</code> commands to create the files using the Docker container</p>
-<pre><code>$ make diagram ARGS="src example.png -p neato"
-$ make stats ARGS="src example.gv"
-$ make stats ARGS="src statistics.txt"</code></pre>
-<p>With these commands you can pass the options and arguments via the <code>ARGS</code> variable</p>
 <h2 id="themes">Themes</h2>
 <p>This package offers 3 different color schemes (themes)</p>
 <h3 id="phuml-default">phUML (default)</h3>
