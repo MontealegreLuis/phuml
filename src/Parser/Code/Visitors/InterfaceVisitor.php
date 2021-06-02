@@ -35,5 +35,6 @@ class InterfaceVisitor extends NodeVisitorAbstract
         if ($node instanceof Interface_) {
             $this->codebase->add($this->builder->build($node));
         }
+        return null;
     }
 }

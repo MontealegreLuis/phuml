@@ -4,6 +4,7 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
 namespace PhUml\Code;
 
 /**
@@ -11,7 +12,7 @@ namespace PhUml\Code;
  */
 class Codebase
 {
-    /** @var array Definition */
+    /** @var Definition[] $definitions */
     private $definitions;
 
     public function __construct()

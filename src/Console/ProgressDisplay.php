@@ -10,7 +10,6 @@ namespace PhUml\Console;
 use PhUml\Generators\ProcessorProgressDisplay;
 use PhUml\Processors\Processor;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\StreamOutput;
 
 /**
  * It provides visual feedback to the use about the progress of the current command
@@ -22,9 +21,9 @@ class ProgressDisplay implements ProcessorProgressDisplay
     /** @var OutputInterface */
     private $output;
 
-    public function __construct(OutputInterface $output = null)
+    public function __construct(OutputInterface $output)
     {
-        $this->output = $output ?? new StreamOutput(fopen('php://memory', 'w', false));
+        $this->output = $output;
     }
 
     public function start(): void
@@ -47,7 +46,7 @@ class ProgressDisplay implements ProcessorProgressDisplay
         $this->display('Writing generated data to disk');
     }
 
-    private function display(string $message)
+    private function display(string $message): void
     {
         $this->output->writeln("<info>[|]</info> $message");
     }

@@ -18,8 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SelfUpdateCommand extends Command
 {
-    const VERSION_URL = 'https://montealegreluis.com/phuml/phuml.phar.version';
-    const PHAR_URL = 'https://montealegreluis.com/phuml/phuml.phar';
+    private const VERSION_URL = 'https://montealegreluis.com/phuml/phuml.phar.version';
+
+    private const PHAR_URL = 'https://montealegreluis.com/phuml/phuml.phar';
+
+    private const SUCCESS = 0;
 
     /** @var Updater */
     private $updater;
@@ -28,14 +31,14 @@ class SelfUpdateCommand extends Command
     private $display;
 
     /** @throws \Symfony\Component\Console\Exception\LogicException */
-    public function __construct(Updater $updater = null, UpdaterDisplay $display = null)
+    public function __construct(Updater $updater, UpdaterDisplay $display)
     {
         parent::__construct();
-        $this->updater = $updater ?? new Updater();
-        $this->display = $display ?? new UpdaterDisplay();
+        $this->updater = $updater;
+        $this->display = $display;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('self-update')
@@ -54,26 +57,26 @@ class SelfUpdateCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureUpdaterStrategy();
 
-        if ($input->getOption('rollback')) {
-            $this->tryToRollback();
-            return;
+        if (true === (bool)$input->getOption('rollback')) {
+            return $this->tryToRollback();
         }
 
-        if ($input->getOption('check')) {
-            $this->tryToCheckForUpdates();
-            return;
+        if (true === (bool)$input->getOption('check')) {
+            return $this->tryToCheckForUpdates();
         }
 
-        $this->tryToUpdate($output);
+        return $this->tryToUpdate($output);
     }
 
-    private function tryToRollback(): void
+    private function tryToRollback(): int
     {
         $this->tryAction([$this, 'rollback']);
+
+        return self::SUCCESS;
     }
 
     private function rollback(): void
@@ -82,10 +85,12 @@ class SelfUpdateCommand extends Command
         $this->display->rollbackMessage($result);
     }
 
-    private function tryToCheckForUpdates(): void
+    private function tryToCheckForUpdates(): int
     {
         $this->display->currentLocalVersion($this->getApplication()->getVersion());
         $this->tryAction([$this, 'showAvailableUpdates']);
+
+        return self::SUCCESS;
     }
 
     private function showAvailableUpdates(): void
@@ -99,11 +104,13 @@ class SelfUpdateCommand extends Command
         }
     }
 
-    private function tryToUpdate(OutputInterface $output): void
+    private function tryToUpdate(OutputInterface $output): int
     {
         $output->writeln('Updating...' . PHP_EOL);
         $this->tryAction([$this, 'update']);
         $output->write(PHP_EOL);
+
+        return self::SUCCESS;
     }
 
     private function update(): void

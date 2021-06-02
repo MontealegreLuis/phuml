@@ -12,7 +12,7 @@ namespace PhUml\Code;
  */
 abstract class DocBlock
 {
-    /** @var string */
+    /** @var string|null */
     protected $comment;
 
     protected function __construct(?string $comment)

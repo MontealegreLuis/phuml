@@ -19,15 +19,16 @@ use Symfony\Component\Process\Process;
  */
 abstract class ImageProcessor extends Processor
 {
-    /** @var Process */
+    /** @var Process<string>|null */
     protected $process;
 
     /** @var Filesystem */
     private $fileSystem;
 
+    /** @param Process<string> $process */
     public function __construct(Process $process = null, Filesystem $fileSystem = null)
     {
-        $this->process = $process ?? new Process($this->command());
+        $this->process = $process;
         $this->fileSystem = $fileSystem ?? new Filesystem();
     }
 
@@ -44,7 +45,7 @@ abstract class ImageProcessor extends Processor
 
         $this->execute($dotFile, $imageFile);
 
-        $image = file_get_contents($imageFile);
+        $image = (string)file_get_contents($imageFile);
 
         $this->fileSystem->remove($dotFile);
         $this->fileSystem->remove($imageFile);
@@ -57,10 +58,10 @@ abstract class ImageProcessor extends Processor
      */
     public function execute(string $inputFile, string $outputFile): void
     {
-        $this->process->setCommandLine([$this->command(), '-Tpng', '-o', $outputFile, $inputFile]);
-        $this->process->run();
-        if (!$this->process->isSuccessful()) {
-            throw ImageGenerationFailure::withOutput($this->process->getErrorOutput());
+        $process = $this->process ?? new Process([$this->command(), '-Tpng', '-o', $outputFile, $inputFile]);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw ImageGenerationFailure::withOutput($process->getErrorOutput());
         }
     }
 

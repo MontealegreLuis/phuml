@@ -7,6 +7,7 @@
 
 namespace PhUml\Console\Commands;
 
+use InvalidArgumentException;
 use PhUml\Configuration\ClassDiagramBuilder;
 use PhUml\Configuration\ClassDiagramConfiguration;
 use PhUml\Parser\CodebaseDirectory;
@@ -34,8 +35,8 @@ class GenerateClassDiagramCommand extends GeneratorCommand
 {
     use WithDigraphConfiguration;
 
-    /** @throws \InvalidArgumentException */
-    protected function configure()
+    /** @throws InvalidArgumentException */
+    protected function configure(): void
     {
         $this
             ->setName('phuml:diagram')
@@ -71,12 +72,13 @@ HELP
         $this->addDigraphOptions($this);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $codebasePath = $input->getArgument('directory');
-        $classDiagramPath = $input->getArgument('output');
+        $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
+        $codebasePath = $generatorInput->directory();
+        $classDiagramPath = $generatorInput->outputFile();
 
-        $builder = new ClassDiagramBuilder(new ClassDiagramConfiguration($input->getOptions()));
+        $builder = new ClassDiagramBuilder(new ClassDiagramConfiguration($generatorInput->options()));
 
         $codeFinder = $builder->codeFinder();
         $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
@@ -86,6 +88,6 @@ HELP
 
         $classDiagramGenerator->generate($codeFinder, $classDiagramPath);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

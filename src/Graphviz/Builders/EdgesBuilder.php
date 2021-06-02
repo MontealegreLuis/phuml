@@ -29,7 +29,7 @@ class EdgesBuilder implements AssociationsBuilder
      * - Has type information and it's not a PHP's built-in type
      * - The association hasn't already been resolved
      *
-     * @return \PhUml\Graphviz\HasDotRepresentation[]
+     * @return \PhUml\Graphviz\Edge[]
      */
     public function fromAttributes(ClassDefinition $class, Codebase $codebase): array
     {
@@ -42,7 +42,7 @@ class EdgesBuilder implements AssociationsBuilder
      * - Has type information and it's not a PHP's built-in type
      * - The association hasn't already been resolved
      *
-     * @return \PhUml\Graphviz\HasDotRepresentation[]
+     * @return \PhUml\Graphviz\Edge[]
      */
     public function fromConstructor(ClassDefinition $class, Codebase $codebase): array
     {

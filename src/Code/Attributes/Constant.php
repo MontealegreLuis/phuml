@@ -27,7 +27,7 @@ class Constant implements HasType
     public function __toString()
     {
         return sprintf(
-            "+%s%s",
+            '+%s%s',
             $this->name,
             $this->type->isPresent() ? ": {$this->type}" : ''
         );

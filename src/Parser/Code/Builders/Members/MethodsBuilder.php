@@ -7,6 +7,9 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\AbstractMethod;
@@ -33,7 +36,7 @@ class MethodsBuilder extends FiltersRunner
      */
     public function build(array $methods): array
     {
-        return array_map(function (ClassMethod $method) {
+        return array_map(function (ClassMethod $method): Method {
             return $this->buildMethod($method);
         }, $this->runFilters($methods));
     }
@@ -41,17 +44,17 @@ class MethodsBuilder extends FiltersRunner
     private function buildMethod(ClassMethod $method): Method
     {
         $name = $method->name;
-        $modifier = $this->resolveVisibility($method);
-        $comment = $method->getDocComment();
-        $returnType = MethodDocBlock::from($comment)->returnType();
-        $parameters = $this->buildParameters($method->params, $comment);
+        $visibility = $this->resolveVisibility($method);
+        $docBlock = $method->getDocComment();
+        $returnType = $this->extractReturnType($method, $docBlock);
+        $parameters = $this->buildParameters($method->params, $docBlock);
         switch (true) {
             case $method->isAbstract():
-                return AbstractMethod::$modifier($name, $parameters, $returnType);
+                return new AbstractMethod($name, $visibility, $returnType, $parameters);
             case $method->isStatic():
-                return StaticMethod::$modifier($name, $parameters, $returnType);
+                return new StaticMethod($name, $visibility, $returnType, $parameters);
             default:
-                return Method::$modifier($name, $parameters, $returnType);
+                return new Method($name, $visibility, $returnType, $parameters);
         }
     }
 
@@ -61,15 +64,45 @@ class MethodsBuilder extends FiltersRunner
      */
     private function buildParameters(array $parameters, ?string $docBlock): array
     {
-        return array_map(function (Param $parameter) use ($docBlock) {
-            $name = "\${$parameter->name}";
+        return array_map(static function (Param $parameter) use ($docBlock): Variable {
+            /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */
+            $parsedParameter = $parameter->var;
+            /** @var string $parameterName Since it's a parameter not a variable */
+            $parameterName = $parsedParameter->name;
+            $name = "\${$parameterName}";
+
             $type = $parameter->type;
-            if ($type !== null) {
-                $typeDeclaration = TypeDeclaration::from($type);
-            } else {
+            if ($type === null) {
                 $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
+            } elseif ($type instanceof NullableType) {
+                $typeDeclaration = TypeDeclaration::fromNullable($type->type);
+            } elseif ($type instanceof Name) {
+                $typeDeclaration = TypeDeclaration::from($type->getLast());
+            } elseif ($type instanceof Identifier) {
+                $typeDeclaration = TypeDeclaration::from((string)$type);
+            } else {
+                throw UnsupportedType::declaredAs($type);
             }
+
             return Variable::declaredWith($name, $typeDeclaration);
         }, $parameters);
+    }
+
+    private function extractReturnType(ClassMethod $method, ?string $docBlock): TypeDeclaration
+    {
+        if ($method->returnType instanceof NullableType) {
+            return TypeDeclaration::fromNullable((string)$method->returnType->type);
+        }
+        if ($method->returnType === null) {
+            return MethodDocBlock::from($docBlock)->returnType();
+        }
+        if ($method->returnType instanceof Identifier) {
+            return TypeDeclaration::from((string)$method->returnType);
+        }
+        if ($method->returnType instanceof Name) {
+            return TypeDeclaration::from($method->returnType->getLast());
+        }
+
+        throw UnsupportedType::declaredAs($method->returnType);
     }
 }

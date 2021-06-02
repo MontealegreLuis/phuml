@@ -18,7 +18,10 @@ It has the following options:
 * It will search for classes and interfaces recursively, because of the `-r` option.
 
 ```
-$ vendor/bin/phuml phuml:statistics -r tests/resources/.code example.gv
+# Composer installation
+vendor/bin/phuml phuml:statistics -r tests/resources/.code example.gv
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r tests/resources/.code example.gv
 ```
 
 * The following command will produce a statistics file from the `tests/resources/.code` directory.
@@ -26,5 +29,8 @@ $ vendor/bin/phuml phuml:statistics -r tests/resources/.code example.gv
 * It **WILL NOT** search for classes and interfaces recursively, because of the lack of the `-r` option.
 
 ```
-$ vendor/bin/phuml phuml:statistics tests/resources/.code example.png
+# Composer installation
+vendor/bin/phuml phuml:statistics tests/resources/.code example.txt
+# Docker installation
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics tests/resources/.code example.txt
 ```

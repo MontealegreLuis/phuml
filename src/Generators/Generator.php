@@ -21,7 +21,7 @@ use PhUml\Processors\Processor;
  */
 abstract class Generator
 {
-    /** @var ProcessorProgressDisplay */
+    /** @var ProcessorProgressDisplay|null */
     private $display;
 
     /** @var CodeParser */
@@ -40,7 +40,7 @@ abstract class Generator
     /** @throws LogicException */
     protected function display(): ProcessorProgressDisplay
     {
-        if (!$this->display) {
+        if ($this->display === null) {
             throw new LogicException('No display was attached');
         }
         return $this->display;

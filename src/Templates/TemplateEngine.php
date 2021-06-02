@@ -7,12 +7,12 @@
 
 namespace PhUml\Templates;
 
-use Twig_Environment as Twig;
-use Twig_Error_Loader as LoaderError;
-use Twig_Error_Runtime as RuntimeError;
-use Twig_Error_Syntax as SyntaxError;
-use Twig_Filter as Filter;
-use Twig_Loader_Filesystem as FileSystemLoader;
+use Twig\Environment as Twig;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter as Filter;
 
 class TemplateEngine
 {
@@ -21,13 +21,14 @@ class TemplateEngine
 
     public function __construct(Twig $twig = null)
     {
-        $this->twig = $twig ?? new Twig(new FileSystemLoader(__DIR__ . '/../resources/templates'));
-        $this->twig->addFilter(new Filter('whitespace', function (string $html) {
+        $this->twig = $twig ?? new Twig(new FilesystemLoader(__DIR__ . '/../resources/templates'));
+        $this->twig->addFilter(new Filter('whitespace', static function (string $html): ?string {
             return preg_replace('/\s\s+/', '', $html);
         }));
     }
 
-    public function render($template, array $values): string
+    /** @param mixed[] $values */
+    public function render(string $template, array $values): string
     {
         try {
             return $this->twig->render($template, $values);

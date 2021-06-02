@@ -35,7 +35,7 @@ class GenerateStatisticsCommand extends GeneratorCommand
     /**
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('phuml:statistics')
@@ -68,11 +68,12 @@ HELP
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $codebasePath = $input->getArgument('directory');
-        $statisticsFilePath = $input->getArgument('output');
-        $recursive = (bool)$input->getOption('recursive');
+        $statisticsInput = new StatisticsInput($input->getArguments(), $input->getOptions());
+        $codebasePath = $statisticsInput->directory();
+        $statisticsFilePath = $statisticsInput->outputFile();
+        $recursive = $statisticsInput->recursive();
 
         $statisticsGenerator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
         $statisticsGenerator->attach($this->display);
@@ -82,6 +83,6 @@ HELP
 
         $statisticsGenerator->generate($codeFinder, $statisticsFilePath);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

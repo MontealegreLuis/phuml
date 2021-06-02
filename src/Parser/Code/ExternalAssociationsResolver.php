@@ -32,7 +32,7 @@ class ExternalAssociationsResolver extends ExternalDefinitionsResolver
 
     private function resolveExternalAttributes(ClassDefinition $definition, Codebase $codebase): void
     {
-        array_map(function (Attribute $attribute) use ($codebase) {
+        array_map(function (Attribute $attribute) use ($codebase): void {
             if ($attribute->isAReference() && !$codebase->has($attribute->referenceName())) {
                 $codebase->add($this->externalClass($attribute->referenceName()));
             }
@@ -41,7 +41,7 @@ class ExternalAssociationsResolver extends ExternalDefinitionsResolver
 
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void
     {
-        array_map(function (Variable $parameter) use ($codebase) {
+        array_map(function (Variable $parameter) use ($codebase): void {
             if ($parameter->isAReference() && !$codebase->has($parameter->referenceName())) {
                 $codebase->add($this->externalClass($parameter->referenceName()));
             }

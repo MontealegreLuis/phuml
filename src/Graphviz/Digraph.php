@@ -36,6 +36,6 @@ class Digraph
 
     public function id(): string
     {
-        return sha1(mt_rand());
+        return sha1((string)mt_rand());
     }
 }

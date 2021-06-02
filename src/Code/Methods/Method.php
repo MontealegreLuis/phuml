@@ -15,6 +15,7 @@ use PhUml\Code\Modifiers\WithAbstractModifier;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 /**
  * It represents a class or interface method
@@ -26,37 +27,37 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     /** @var string */
     private $name;
 
-    /** @var \PhUml\Code\Variables\Variable[] */
+    /** @var Variable[] */
     private $parameters;
 
     /** @var TypeDeclaration */
     private $returnType;
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public static function public(
         string $name,
         array $parameters = [],
         TypeDeclaration $returnType = null
     ): Method {
-        return new static($name, Visibility::public(), $parameters, $returnType ?? TypeDeclaration::absent());
+        return new static($name, Visibility::public(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public static function protected(
         string $name,
         array $parameters = [],
         TypeDeclaration $returnType = null
     ): Method {
-        return new static($name, Visibility::protected(), $parameters, $returnType ?? TypeDeclaration::absent());
+        return new static($name, Visibility::protected(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public static function private(
         string $name,
         array $parameters = [],
         TypeDeclaration $returnType = null
     ): Method {
-        return new static($name, Visibility::private(), $parameters, $returnType ?? TypeDeclaration::absent());
+        return new static($name, Visibility::private(), $returnType ?? TypeDeclaration::absent(), $parameters);
     }
 
     /**
@@ -70,7 +71,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return $this->name === '__construct';
     }
 
-    /** @return \PhUml\Code\Variables\Variable[] */
+    /** @return Variable[] */
     public function parameters(): array
     {
         return $this->parameters;
@@ -82,17 +83,17 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
             '%s%s%s%s',
             $this->modifier,
             $this->name,
-            empty($this->parameters) ? '()' : '(' . implode($this->parameters, ', ') . ')',
+            count($this->parameters) === 0 ? '()' : '(' . implode(', ', $this->parameters) . ')',
             $this->returnType->isPresent() ? ": {$this->returnType}" : ''
         );
     }
 
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
-    protected function __construct(
+    /** @param Variable[] $parameters */
+    public function __construct(
         string $name,
         Visibility $modifier,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
+        TypeDeclaration $returnType,
+        array $parameters = []
     ) {
         $this->name = $name;
         $this->modifier = $modifier;

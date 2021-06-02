@@ -14,18 +14,39 @@ use PhUml\Code\Modifiers\Visibility;
  *
  * The summary of a `Structure` does not include counts of constants
  */
-class Summary
+final class Summary
 {
+    /** @var int */
     private $interfaceCount;
+
+    /** @var int */
     private $classCount;
+
+    /** @var int */
     private $publicFunctionCount;
+
+    /** @var int */
     private $publicAttributeCount;
+
+    /** @var int */
     private $publicTypedAttributes;
+
+    /** @var int */
     private $protectedFunctionCount;
+
+    /** @var int */
     private $protectedAttributeCount;
+
+    /** @var int */
     private $protectedTypedAttributes;
+
+    /** @var int */
     private $privateFunctionCount;
+
+    /** @var int */
     private $privateAttributeCount;
+
+    /** @var int */
     private $privateTypedAttributes;
 
     public function __construct()
@@ -149,11 +170,19 @@ class Summary
 
     public function attributesPerClass(): float
     {
+        if ($this->classCount === 0) {
+            return 0;
+        }
+
         return round($this->attributeCount() / $this->classCount, 2);
     }
 
     public function functionsPerClass(): float
     {
+        if ($this->classCount === 0) {
+            return 0;
+        }
+
         return round($this->functionCount() / $this->classCount, 2);
     }
 }

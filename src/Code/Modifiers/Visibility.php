@@ -7,6 +7,8 @@
 
 namespace PhUml\Code\Modifiers;
 
+use Webmozart\Assert\Assert;
+
 /**
  * It represents the visibility of either an attribute or a method
  */
@@ -22,8 +24,9 @@ class Visibility
     /** @var string */
     private $modifier;
 
-    private function __construct(string $modifier)
+    public function __construct(string $modifier)
     {
+        Assert::oneOf($modifier, array_keys(self::$symbols));
         $this->modifier = $modifier;
     }
 

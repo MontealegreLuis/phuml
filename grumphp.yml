@@ -1,0 +1,21 @@
+parameters:
+    hide_circumvention_tip: true
+    stop_on_failure: true
+    git_dir: .
+    bin_dir: vendor/bin
+    tasks:
+        composer:
+        composer_normalize:
+        phpstan:
+            configuration: phpstan.neon
+            level: 7
+            ignore_patterns: ['tests']
+            triggered_by: ['php']
+            memory_limit: '-1'
+        phpunit:
+            config_file: phpunit.xml
+            testsuite: Unit tests
+        phpcsfixer2:
+            config_contains_finder: true
+            config: .php-cs-fixer.php
+            triggered_by: ['php']

@@ -76,7 +76,7 @@ class ParserBuilder
         $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder($this->filters);
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
 
-        return new Php5Parser(
+        return new PhpCodeParser(
             new ClassDefinitionBuilder($membersBuilder),
             new InterfaceDefinitionBuilder($membersBuilder),
             new TraitDefinitionBuilder($membersBuilder)

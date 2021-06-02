@@ -33,7 +33,7 @@ class InterfaceDefinitionBuilder
     public function build(Interface_ $interface): InterfaceDefinition
     {
         return new InterfaceDefinition(
-            InterfaceDefinitionName::from($interface->name),
+            InterfaceDefinitionName::from((string)$interface->name),
             $this->membersBuilder->methods($interface->getMethods()),
             $this->membersBuilder->constants($interface->stmts),
             $this->buildInterfaces($interface->extends)

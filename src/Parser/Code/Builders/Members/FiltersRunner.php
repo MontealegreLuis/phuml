@@ -7,6 +7,9 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Property;
+use PhUml\Code\Modifiers\Visibility;
 use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 
 /**
@@ -32,8 +35,8 @@ class FiltersRunner
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\Property[]|\PhpParser\Node\Stmt\ClassMethod[] $classMembers
-     * @return \PhpParser\Node\Stmt\Property[]|\PhpParser\Node\Stmt\ClassMethod[]
+     * @param Property[]|ClassMethod[] $classMembers
+     * @return Property[]|ClassMethod[]
      */
     protected function runFilters(array $classMembers): array
     {
@@ -44,16 +47,16 @@ class FiltersRunner
         return $attributes;
     }
 
-    /** @param \PhpParser\Node\Stmt\Property|\PhpParser\Node\Stmt\ClassMethod $member */
-    protected function resolveVisibility($member): string
+    /** @param Property|ClassMethod $member */
+    protected function resolveVisibility($member): Visibility
     {
         switch (true) {
             case $member->isPublic():
-                return 'public';
+                return Visibility::public();
             case $member->isPrivate():
-                return 'private';
+                return Visibility::private();
             default:
-                return 'protected';
+                return Visibility::protected();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
-use PhUml\Parser\Code\Php5Parser;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\Code\PhpParser;
 
 /**
@@ -32,7 +32,7 @@ class CodeParser
 
     public function __construct(PhpParser $parser = null, ExternalDefinitionsResolver $resolver = null)
     {
-        $this->parser = $parser ?? new Php5Parser();
+        $this->parser = $parser ?? new PhpCodeParser();
         $this->resolver = $resolver ?? new ExternalDefinitionsResolver();
     }
 

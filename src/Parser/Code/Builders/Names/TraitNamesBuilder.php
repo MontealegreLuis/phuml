@@ -8,25 +8,27 @@
 namespace PhUml\Parser\Code\Builders\Names;
 
 use PhpParser\Node;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\TraitUse;
 use PhUml\Code\Name as TraitName;
 
 trait TraitNamesBuilder
 {
-    /** @param Node[] $nodes */
+    /**
+     * @param Node[] $nodes
+     * @return TraitName[]
+     */
     protected function buildTraits(array $nodes): array
     {
-        $useStatements = array_filter($nodes, function (Node $node) {
+        $useStatements = array_filter($nodes, static function (Node $node): bool {
             return $node instanceof TraitUse;
         });
 
-        if (empty($useStatements)) {
+        if (count($useStatements) === 0) {
             return [];
         }
 
         $traits = [];
-        /** @var TraitUse  $use */
+        /** @var TraitUse $use */
         foreach ($useStatements as $use) {
             $traits = $this->traitNames($use, $traits);
         }
@@ -35,7 +37,7 @@ trait TraitNamesBuilder
     }
 
     /**
-     * @param Name[] $traits
+     * @param TraitName[] $traits
      * @return TraitName[]
      */
     private function traitNames(TraitUse $use, array $traits): array

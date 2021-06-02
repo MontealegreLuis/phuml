@@ -31,18 +31,18 @@ class AttributesBuilder extends FiltersRunner
      */
     public function build(array $definitionAttributes): array
     {
-        $attributes = array_filter($definitionAttributes, function ($attribute) {
+        $attributes = array_filter($definitionAttributes, static function ($attribute): bool {
             return $attribute instanceof Property;
         });
 
-        return array_map(function (Property $attribute) {
+        return array_map(function (Property $attribute): Attribute {
             $name = "\${$attribute->props[0]->name}";
-            $modifier = $this->resolveVisibility($attribute);
+            $visibility = $this->resolveVisibility($attribute);
             $comment = $attribute->getDocComment();
             if ($attribute->isStatic()) {
-                return StaticAttribute::$modifier($name, $this->extractTypeFrom($comment));
+                return new StaticAttribute($name, $visibility, $this->extractTypeFrom($comment));
             }
-            return Attribute::$modifier($name, $this->extractTypeFrom($comment));
+            return new Attribute($name, $visibility, $this->extractTypeFrom($comment));
         }, $this->runFilters($attributes));
     }
 

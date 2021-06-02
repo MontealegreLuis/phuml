@@ -15,5 +15,5 @@ interface Named
      * @see Codebase::has
      * @see Codebase::get
      */
-    public function name(): Name;
+    public function name(): ?Name;
 }

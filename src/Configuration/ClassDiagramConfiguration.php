@@ -14,6 +14,7 @@ class ClassDiagramConfiguration extends DigraphConfiguration
     /** @var ImageProcessorName */
     private $imageProcessor;
 
+    /** @param mixed[] $input */
     public function __construct(array $input)
     {
         parent::__construct($input);

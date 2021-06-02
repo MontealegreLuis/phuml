@@ -9,16 +9,15 @@ namespace PhUml\Console;
 
 use Exception;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\StreamOutput;
 
 class UpdaterDisplay
 {
     /** @var OutputInterface */
     private $output;
 
-    public function __construct(OutputInterface $output = null)
+    public function __construct(OutputInterface $output)
     {
-        $this->output = $output ?? new StreamOutput(fopen('php://memory', 'w', false));
+        $this->output = $output;
     }
 
     public function rollbackMessage(bool $result): void

@@ -1,3 +1,23 @@
+build:
+    nodes:
+        php-scrutinizer-run:
+            project_setup:
+                override: true
+            tests:
+                override:
+                    - echo 'No need to run tests'
+    dependencies:
+        override:
+            -
+                command: 'echo "No need to install dependencies"'
+    environment:
+        php:
+            version: 7.1.30
+    tests:
+        override: true
+    project_setup:
+        override: true
+
 tools:
     external_code_coverage:
         timeout: 600

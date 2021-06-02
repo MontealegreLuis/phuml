@@ -9,5 +9,6 @@ namespace PhUml\Parser\Code\Builders\Filters;
 
 interface VisibilityFilter
 {
+    /** @param \PhpParser\Node\Stmt\ClassMethod|\PhpParser\Node\Stmt\Property $member */
     public function accept($member): bool;
 }

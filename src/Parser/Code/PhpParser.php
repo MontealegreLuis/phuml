@@ -28,7 +28,9 @@ abstract class PhpParser
     public function parse(CodeFinder $finder): Codebase
     {
         foreach ($finder->files() as $code) {
-            $this->traverser->traverse($this->parser->parse($code));
+            /** @var \PhpParser\Node\Stmt[] $nodes Since the parser is run in throw errors mode */
+            $nodes = $this->parser->parse($code);
+            $this->traverser->traverse($nodes);
         }
         return $this->traverser->codebase();
     }

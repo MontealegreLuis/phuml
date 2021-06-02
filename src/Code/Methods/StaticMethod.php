@@ -9,17 +9,18 @@ namespace PhUml\Code\Methods;
 
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 class StaticMethod extends Method
 {
-    /** @param \PhUml\Code\Variables\Variable[] $parameters */
+    /** @param Variable[] $parameters */
     public function __construct(
         string $name,
         Visibility $modifier,
-        array $parameters = [],
-        TypeDeclaration $returnType
+        TypeDeclaration $returnType,
+        array $parameters = []
     ) {
-        parent::__construct($name, $modifier, $parameters, $returnType);
+        parent::__construct($name, $modifier, $returnType, $parameters);
         $this->isStatic = true;
     }
 }
