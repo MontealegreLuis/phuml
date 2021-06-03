@@ -1,8 +1,6 @@
-parameters:
+grumphp:
     hide_circumvention_tip: true
     stop_on_failure: true
-    git_dir: .
-    bin_dir: vendor/bin
     tasks:
         composer:
         composer_normalize:

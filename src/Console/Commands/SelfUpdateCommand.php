@@ -22,8 +22,6 @@ class SelfUpdateCommand extends Command
 
     private const PHAR_URL = 'https://montealegreluis.com/phuml/phuml.phar';
 
-    private const SUCCESS = 0;
-
     /** @var Updater */
     private $updater;
 
