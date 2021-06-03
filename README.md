@@ -20,14 +20,16 @@ The official phUML Docker image can be found on [Docker Hub](https://hub.docker.
 docker pull montealegreluis/phuml:2.0.0
 ```
 
-You can replace `2.0.0` with any of th available [tags](https://hub.docker.com/r/montealegreluis/phuml/tags?page=1&ordering=last_updated)
+You can replace `2.0.0` with any of the available [tags](https://hub.docker.com/r/montealegreluis/phuml/tags?page=1&ordering=last_updated)
 
 ### Composer
 
 Alternatively, you may use [Composer][composer] to download and install phUML as well as its dependencies.
 
 ```
-$ composer require phuml/phuml
+composer require phuml/phuml
+# or globally
+composer global require phuml/phuml
 ```
 
 ## How does it look like?
