@@ -13,7 +13,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 use PhUml\ContractTests\WithVisibilityTests;
 
-class MethodTest extends TestCase
+final class MethodTest extends TestCase
 {
     use WithVisibilityTests;
 

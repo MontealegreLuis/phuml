@@ -9,7 +9,7 @@ namespace PhUml\Console\Commands;
 
 use Webmozart\Assert\Assert;
 
-class StatisticsInput
+final class StatisticsInput
 {
     /** @var string */
     private $directory;

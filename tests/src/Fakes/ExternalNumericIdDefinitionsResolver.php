@@ -12,7 +12,7 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 
-class ExternalNumericIdDefinitionsResolver extends ExternalDefinitionsResolver
+final class ExternalNumericIdDefinitionsResolver extends ExternalDefinitionsResolver
 {
     protected function externalInterface(Name $name): InterfaceDefinition
     {

@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @see ProcessorProgressDisplay for more details about the things that are reported by this display
  */
-class ProgressDisplay implements ProcessorProgressDisplay
+final class ProgressDisplay implements ProcessorProgressDisplay
 {
     /** @var OutputInterface */
     private $output;

@@ -11,7 +11,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\TextInMemoryOutput;
 
-class UpdaterDisplayTest extends TestCase
+final class UpdaterDisplayTest extends TestCase
 {
     /** @test */
     function it_displays_the_result_of_a_rollback()

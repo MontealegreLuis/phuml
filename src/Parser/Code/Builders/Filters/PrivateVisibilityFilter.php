@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\Property;
 /**
  * It will exclude private methods or attributes
  */
-class PrivateVisibilityFilter implements VisibilityFilter
+final class PrivateVisibilityFilter implements VisibilityFilter
 {
     /** @param ClassMethod|Property $member */
     public function accept($member): bool

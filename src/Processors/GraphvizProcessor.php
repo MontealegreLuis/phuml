@@ -21,7 +21,7 @@ use PhUml\Graphviz\DigraphPrinter;
 /**
  * It creates a digraph from a `Structure` and returns it as a string in DOT format
  */
-class GraphvizProcessor extends Processor
+final class GraphvizProcessor extends Processor
 {
     /** @var ClassGraphBuilder */
     private $classBuilder;

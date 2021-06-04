@@ -13,7 +13,7 @@ use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
-class TraitGraphBuilderTest extends TestCase
+final class TraitGraphBuilderTest extends TestCase
 {
     /** @test */
     function it_extracts_the_node_for_a_trait()

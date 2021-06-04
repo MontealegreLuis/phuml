@@ -9,7 +9,7 @@ namespace PhUml\Fakes;
 
 use PhUml\Parser\NonRecursiveCodeFinder;
 
-class StringCodeFinder extends NonRecursiveCodeFinder
+final class StringCodeFinder extends NonRecursiveCodeFinder
 {
     public function __construct()
     {

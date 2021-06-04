@@ -9,7 +9,7 @@ namespace PhUml\Processors;
 
 use RuntimeException;
 
-class UnknownImageProcessor extends RuntimeException
+final class UnknownImageProcessor extends RuntimeException
 {
     /** @param string[] $validNames */
     public static function named(?string $name, array $validNames): UnknownImageProcessor

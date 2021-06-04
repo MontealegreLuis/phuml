@@ -9,7 +9,7 @@ namespace PhUml\Graphviz\Styles;
 
 use RuntimeException;
 
-class UnknownTheme extends RuntimeException
+final class UnknownTheme extends RuntimeException
 {
     /** @param string[] $validNames */
     public static function named(string $name, array $validNames): UnknownTheme

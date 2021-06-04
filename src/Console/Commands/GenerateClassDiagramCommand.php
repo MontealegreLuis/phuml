@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @see WithDigraphConfiguration::addDigraphOptions() for more details about the rest of the options
  */
-class GenerateClassDiagramCommand extends GeneratorCommand
+final class GenerateClassDiagramCommand extends GeneratorCommand
 {
     use WithDigraphConfiguration;
 

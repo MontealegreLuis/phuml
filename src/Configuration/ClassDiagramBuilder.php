@@ -12,7 +12,7 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\NeatoProcessor;
 
-class ClassDiagramBuilder extends DigraphBuilder
+final class ClassDiagramBuilder extends DigraphBuilder
 {
     /** @var ClassDiagramConfiguration */
     protected $configuration;

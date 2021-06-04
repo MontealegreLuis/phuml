@@ -16,7 +16,7 @@ use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 /**
  * It extracts an `TraitDefinition` and adds it to the `Codebase`
  */
-class TraitVisitor extends NodeVisitorAbstract
+final class TraitVisitor extends NodeVisitorAbstract
 {
     /** @var TraitDefinitionBuilder */
     private $builder;

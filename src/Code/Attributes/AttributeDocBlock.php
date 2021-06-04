@@ -13,7 +13,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 /**
  * It creates a type declaration for an attribute from its `@var` tag
  */
-class AttributeDocBlock extends DocBlock
+final class AttributeDocBlock extends DocBlock
 {
     /** @var string */
     private static $varExpression = '/@var\s*([\w]+(\[\])?)/';

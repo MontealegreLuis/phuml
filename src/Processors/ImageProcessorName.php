@@ -7,7 +7,7 @@
 
 namespace PhUml\Processors;
 
-class ImageProcessorName
+final class ImageProcessorName
 {
     /** @var string[] */
     private static $names = ['neato', 'dot'];

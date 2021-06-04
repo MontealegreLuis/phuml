@@ -12,7 +12,7 @@ use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
-class MethodBuilder
+final class MethodBuilder
 {
     /** @var string */
     private $name;

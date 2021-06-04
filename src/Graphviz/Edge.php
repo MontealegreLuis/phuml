@@ -16,7 +16,7 @@ namespace PhUml\Graphviz;
  *      - Via constructor injection
  *      - Via class attributes
  */
-class Edge implements HasDotRepresentation
+final class Edge implements HasDotRepresentation
 {
     /** @var HasNodeIdentifier */
     private $fromNode;

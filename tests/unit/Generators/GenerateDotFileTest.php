@@ -21,7 +21,7 @@ use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\TestBuilders\A;
 
-class GenerateDotFileTest extends TestCase
+final class GenerateDotFileTest extends TestCase
 {
     use WithNumericIds, WithDotLanguageAssertions;
 

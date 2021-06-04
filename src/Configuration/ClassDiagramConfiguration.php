@@ -9,7 +9,7 @@ namespace PhUml\Configuration;
 
 use PhUml\Processors\ImageProcessorName;
 
-class ClassDiagramConfiguration extends DigraphConfiguration
+final class ClassDiagramConfiguration extends DigraphConfiguration
 {
     /** @var ImageProcessorName */
     private $imageProcessor;

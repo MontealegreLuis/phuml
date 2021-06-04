@@ -7,7 +7,7 @@
 
 namespace PhUml\Code;
 
-class Name
+final class Name
 {
     /** @var string */
     private $name;

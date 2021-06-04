@@ -11,7 +11,7 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
 use PhUml\Fakes\NumericIdClass;
 
-class ClassBuilder extends DefinitionBuilder
+final class ClassBuilder extends DefinitionBuilder
 {
     use MembersBuilder;
 

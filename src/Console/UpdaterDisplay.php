@@ -10,6 +10,7 @@ namespace PhUml\Console;
 use Exception;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/** @noRector \Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector */
 class UpdaterDisplay
 {
     /** @var OutputInterface */

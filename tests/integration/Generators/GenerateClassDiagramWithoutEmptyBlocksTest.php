@@ -22,7 +22,7 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
-class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
+final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
     use CompareImagesTrait;
 

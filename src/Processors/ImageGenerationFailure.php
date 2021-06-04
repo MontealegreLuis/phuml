@@ -12,7 +12,7 @@ use RuntimeException;
 /**
  * It is thrown when either the `dot` or `neato` commands fail
  */
-class ImageGenerationFailure extends RuntimeException
+final class ImageGenerationFailure extends RuntimeException
 {
     public static function withOutput(string $errorMessage): ImageGenerationFailure
     {

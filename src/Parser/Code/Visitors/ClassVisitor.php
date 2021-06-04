@@ -16,7 +16,7 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 /**
  * It extracts a `ClassDefinition` and adds it to the `Codebase`
  */
-class ClassVisitor extends NodeVisitorAbstract
+final class ClassVisitor extends NodeVisitorAbstract
 {
     /** @var ClassDefinitionBuilder */
     private $builder;

@@ -13,7 +13,7 @@ use Throwable;
 /**
  * Custom exception to catch problems related to Twig
  */
-class TemplateFailure extends RuntimeException
+final class TemplateFailure extends RuntimeException
 {
     public function __construct(Throwable $e)
     {

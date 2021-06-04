@@ -13,7 +13,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 /**
  * It extracts the return type and parameters type of a method
  */
-class MethodDocBlock extends DocBlock
+final class MethodDocBlock extends DocBlock
 {
     /** @var string */
     private static $returnExpression = '/@return\s*([\w]+(\[\])?)/';

@@ -19,7 +19,7 @@ use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 
-class GenerateClassDiagramWithDotTest extends TestCase
+final class GenerateClassDiagramWithDotTest extends TestCase
 {
     use CompareImagesTrait;
 

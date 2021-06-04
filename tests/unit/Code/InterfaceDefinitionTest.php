@@ -12,7 +12,7 @@ use PhUml\ContractTests\DefinitionTest;
 use PhUml\ContractTests\WithConstantsTests;
 use PhUml\TestBuilders\A;
 
-class InterfaceDefinitionTest extends DefinitionTest
+final class InterfaceDefinitionTest extends DefinitionTest
 {
     use WithConstantsTests;
 

@@ -22,7 +22,7 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
-class GenerateClassDiagramWithThemeTest extends TestCase
+final class GenerateClassDiagramWithThemeTest extends TestCase
 {
     use CompareImagesTrait;
 

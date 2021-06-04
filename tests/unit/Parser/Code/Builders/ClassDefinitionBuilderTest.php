@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Code\Name as TraitName;
 use PhUml\TestBuilders\A;
 
-class ClassDefinitionBuilderTest extends TestCase
+final class ClassDefinitionBuilderTest extends TestCase
 {
     /** @test */
     function it_builds_a_class_with_traits()

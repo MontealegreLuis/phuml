@@ -13,7 +13,7 @@ use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
-class ClassGraphBuilderTest extends TestCase
+final class ClassGraphBuilderTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_for_a_simple_class()

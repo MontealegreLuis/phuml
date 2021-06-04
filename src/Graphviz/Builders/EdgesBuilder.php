@@ -18,7 +18,7 @@ use PhUml\Graphviz\Edge;
  * 1. It creates edges by inspecting the attributes of a class
  * 2. It creates edges by inspecting the parameters of the constructor of a class
  */
-class EdgesBuilder implements AssociationsBuilder
+final class EdgesBuilder implements AssociationsBuilder
 {
     /** @var bool[] */
     private $associations = [];

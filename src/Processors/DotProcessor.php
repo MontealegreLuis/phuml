@@ -10,7 +10,7 @@ namespace PhUml\Processors;
 /**
  * It creates a `png` class diagram using the `dot` command
  */
-class DotProcessor extends ImageProcessor
+final class DotProcessor extends ImageProcessor
 {
     public function command(): string
     {

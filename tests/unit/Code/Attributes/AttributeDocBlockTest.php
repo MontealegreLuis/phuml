@@ -10,7 +10,7 @@ namespace PhUml\Code\Attributes;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Variables\TypeDeclaration;
 
-class AttributeDocBlockTest extends TestCase
+final class AttributeDocBlockTest extends TestCase
 {
     /** @test */
     function it_extracts_a_type_declaration_from_a_var_tag()

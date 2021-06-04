@@ -10,7 +10,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 /**
  * It will ignore the methods of a definition, and therefore its filters
  */
-class NoMethodsBuilder extends MethodsBuilder
+final class NoMethodsBuilder extends MethodsBuilder
 {
     public function __construct()
     {

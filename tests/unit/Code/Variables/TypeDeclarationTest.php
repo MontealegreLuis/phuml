@@ -9,7 +9,7 @@ namespace PhUml\Code\Variables;
 
 use PHPUnit\Framework\TestCase;
 
-class TypeDeclarationTest extends TestCase
+final class TypeDeclarationTest extends TestCase
 {
     /**
      * @test

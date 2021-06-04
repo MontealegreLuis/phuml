@@ -21,7 +21,7 @@ use PhUml\Code\Variables\Variable;
  * In this case a `ClassDefinition` is added by default.
  * Although we don't really know if it's an interface since we don't have access to the source code
  */
-class ExternalAssociationsResolver extends ExternalDefinitionsResolver
+final class ExternalAssociationsResolver extends ExternalDefinitionsResolver
 {
     protected function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {

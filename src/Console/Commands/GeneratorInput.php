@@ -9,7 +9,7 @@ namespace PhUml\Console\Commands;
 
 use Webmozart\Assert\Assert;
 
-class GeneratorInput
+final class GeneratorInput
 {
     /** @var string */
     private $directory;

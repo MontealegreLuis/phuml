@@ -11,7 +11,7 @@ namespace PhUml\Graphviz\Styles;
  * It will not create a row if the definition does not have methods or if it does not have
  * attributes
  */
-class NonEmptyBlocksStyle extends DigraphStyle
+final class NonEmptyBlocksStyle extends DigraphStyle
 {
     protected function setPartials(): void
     {

@@ -10,7 +10,7 @@ namespace PhUml\TestBuilders;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
-class ParameterBuilder
+final class ParameterBuilder
 {
     /** @var string */
     private $name;

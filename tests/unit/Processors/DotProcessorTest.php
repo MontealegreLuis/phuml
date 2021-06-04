@@ -10,7 +10,7 @@ namespace PhUml\Processors;
 use PhUml\ContractTests\ImageProcessorTest;
 use Symfony\Component\Process\Process;
 
-class DotProcessorTest extends ImageProcessorTest
+final class DotProcessorTest extends ImageProcessorTest
 {
     /** @test */
     function it_has_a_name()

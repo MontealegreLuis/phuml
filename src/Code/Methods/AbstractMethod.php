@@ -11,7 +11,7 @@ use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
-class AbstractMethod extends Method
+final class AbstractMethod extends Method
 {
     /** @param Variable[] $parameters */
     public function __construct(

@@ -18,7 +18,7 @@ use PhUml\Graphviz\Node;
  * It creates a node with the interface itself
  * It creates one or more edges for every interface it extends, if any
  */
-class InterfaceGraphBuilder
+final class InterfaceGraphBuilder
 {
     /**
      * The order in which the nodes and edges are created is as follows

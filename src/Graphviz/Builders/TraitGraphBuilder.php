@@ -12,7 +12,7 @@ use PhUml\Code\TraitDefinition;
 use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 
-class TraitGraphBuilder
+final class TraitGraphBuilder
 {
     /**
      * It creates a node for a Trait

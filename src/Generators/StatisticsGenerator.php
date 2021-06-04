@@ -18,7 +18,7 @@ use PhUml\Processors\StatisticsProcessor;
  * It reports the number of classes and interfaces, number of private, public and protected methods
  * among other details
  */
-class StatisticsGenerator extends Generator
+final class StatisticsGenerator extends Generator
 {
     /** @var StatisticsProcessor */
     private $statisticsProcessor;

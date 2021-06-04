@@ -15,7 +15,7 @@ use PhUml\Parser\InvalidDirectory;
 use RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class GenerateClassDiagramCommandTest extends TestCase
+final class GenerateClassDiagramCommandTest extends TestCase
 {
     /** @test */
     function it_fails_to_execute_if_the_arguments_are_missing()

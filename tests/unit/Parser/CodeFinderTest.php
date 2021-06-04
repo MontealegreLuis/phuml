@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
 
-class CodeFinderTest extends TestCase
+final class CodeFinderTest extends TestCase
 {
     private $pathToCode;
 

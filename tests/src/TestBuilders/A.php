@@ -15,7 +15,7 @@ use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\NumericIdTrait;
 
-class A
+final class A
 {
     public static function classNamed(string $name): ClassDefinition
     {

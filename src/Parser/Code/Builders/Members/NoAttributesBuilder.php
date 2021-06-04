@@ -10,7 +10,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 /**
  * It will ignore the attributes of a definition, and therefore its filters
  */
-class NoAttributesBuilder extends AttributesBuilder
+final class NoAttributesBuilder extends AttributesBuilder
 {
     public function __construct()
     {

@@ -12,7 +12,7 @@ use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\NonRecursiveCodeFinder;
 
-class Php5ParserTest extends TestCase
+final class Php5ParserTest extends TestCase
 {
     use WithVisibilityAssertions;
 

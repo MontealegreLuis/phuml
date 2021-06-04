@@ -10,7 +10,7 @@ namespace PhUml\Fakes;
 use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
 
-class NumericIdTrait extends TraitDefinition
+final class NumericIdTrait extends TraitDefinition
 {
     private static $id = 200;
 

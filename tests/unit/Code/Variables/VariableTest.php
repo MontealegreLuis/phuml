@@ -11,7 +11,7 @@ use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use PhUml\ContractTests\WithTypeDeclarationTests;
 
-class VariableTest extends TestCase
+final class VariableTest extends TestCase
 {
     use WithTypeDeclarationTests;
 

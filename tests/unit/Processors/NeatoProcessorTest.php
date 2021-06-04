@@ -10,7 +10,7 @@ namespace PhUml\Processors;
 use PhUml\ContractTests\ImageProcessorTest;
 use Symfony\Component\Process\Process;
 
-class NeatoProcessorTest extends ImageProcessorTest
+final class NeatoProcessorTest extends ImageProcessorTest
 {
     /** @test */
     function it_has_a_name()

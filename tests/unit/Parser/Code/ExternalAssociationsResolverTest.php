@@ -11,7 +11,7 @@ use PhUml\Code\Codebase;
 use PhUml\Code\Name;
 use PhUml\TestBuilders\A;
 
-class ExternalAssociationsResolverTest extends ExternalDefinitionsResolverTest
+final class ExternalAssociationsResolverTest extends ExternalDefinitionsResolverTest
 {
     /** @test */
     function it_adds_external_attributes()

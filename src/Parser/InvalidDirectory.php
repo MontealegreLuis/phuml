@@ -10,7 +10,7 @@ namespace PhUml\Parser;
 use RuntimeException;
 use SplFileInfo;
 
-class InvalidDirectory extends RuntimeException
+final class InvalidDirectory extends RuntimeException
 {
     public static function notFoundAt(SplFileInfo $path): InvalidDirectory
     {

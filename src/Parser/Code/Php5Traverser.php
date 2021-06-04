@@ -16,7 +16,7 @@ use PhUml\Parser\Code\Visitors\ClassVisitor;
 use PhUml\Parser\Code\Visitors\InterfaceVisitor;
 use PhUml\Parser\Code\Visitors\TraitVisitor;
 
-class Php5Traverser extends PhpTraverser
+final class Php5Traverser extends PhpTraverser
 {
     public function __construct(
         ClassDefinitionBuilder $classBuilder,

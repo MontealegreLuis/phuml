@@ -12,7 +12,7 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 
-class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
+final class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
 {
     public function build(Class_ $class): ClassDefinition
     {
@@ -20,7 +20,7 @@ class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
             Name::from($class->name),
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
-            !empty($class->extends) ? Name::from(end($class->extends->parts)) : null,
+            empty($class->extends) ? null : Name::from(end($class->extends->parts)),
             $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)

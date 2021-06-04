@@ -17,7 +17,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPUnit\Framework\TestCase;
 
-class ConstantsBuilderTest extends TestCase
+final class ConstantsBuilderTest extends TestCase
 {
     /** @test */
     function it_parses_a_class_constants()

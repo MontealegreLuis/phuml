@@ -22,7 +22,7 @@ use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
  * - The `InterfaceVisitor` which builds `InterfaceDefinition`s
  * - The `TraitVisitor` which builds `TraitDefinition`s
  */
-class PhpCodeParser extends PhpParser
+final class PhpCodeParser extends PhpParser
 {
     public function __construct(
         ClassDefinitionBuilder $classBuilder = null,

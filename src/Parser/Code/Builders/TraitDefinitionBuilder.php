@@ -18,7 +18,7 @@ use PhUml\Parser\Code\Builders\Names\TraitNamesBuilder;
  * @see MembersBuilder
  * @see TraitNamesBuilder
  */
-class TraitDefinitionBuilder
+final class TraitDefinitionBuilder
 {
     use TraitNamesBuilder;
 

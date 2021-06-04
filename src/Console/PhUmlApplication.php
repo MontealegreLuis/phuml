@@ -21,7 +21,7 @@ use Symfony\Component\Console\Application;
  * 2. `phuml:statistics` to generate a text file with statistics
  * 3. `phuml:dot` to generate a text file with a digraph in DOT format ready to create a class diagram
  */
-class PhUmlApplication extends Application
+final class PhUmlApplication extends Application
 {
     public function __construct(ProgressDisplay $display)
     {
@@ -29,6 +29,7 @@ class PhUmlApplication extends Application
         // 1.6.1 for instance
         $pharVersion = '@package_version@';
         $version = $pharVersion;
+        /** @noRector \Rector\CodeQuality\Rector\Concat\JoinStringConcatRector */
         if ($pharVersion === '@' . 'package_version' . '@') { // It's concatenated to prevent Box to replace it
             $version = '1.6-dev';
         }

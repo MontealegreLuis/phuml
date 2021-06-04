@@ -10,7 +10,7 @@ namespace PhUml\Fakes;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name;
 
-class NumericIdInterface extends InterfaceDefinition
+final class NumericIdInterface extends InterfaceDefinition
 {
     private static $id = 0;
 

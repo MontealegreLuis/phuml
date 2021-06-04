@@ -10,7 +10,7 @@ namespace PhUml\Code;
 /**
  * Collection of all the classes and interfaces definitions found in a given directory
  */
-class Codebase
+final class Codebase
 {
     /** @var Definition[] $definitions */
     private $definitions;

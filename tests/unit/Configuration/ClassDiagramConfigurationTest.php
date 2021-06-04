@@ -10,7 +10,7 @@ namespace PhUml\Configuration;
 use PHPUnit\Framework\TestCase;
 use PhUml\Processors\UnknownImageProcessor;
 
-class ClassDiagramConfigurationTest extends TestCase
+final class ClassDiagramConfigurationTest extends TestCase
 {
     /** @test */
     function it_fails_to_set_an_invalid_image_processor()

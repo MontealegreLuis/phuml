@@ -7,7 +7,7 @@
 
 namespace PhUml\Graphviz\Styles;
 
-class ThemeName
+final class ThemeName
 {
     /** @var string[] */
     private static $validNames = ['phuml', 'php', 'classic'];

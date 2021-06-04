@@ -10,7 +10,7 @@ namespace PhUml\Configuration;
 use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Styles\UnknownTheme;
 
-class DigraphConfigurationTest extends TestCase
+final class DigraphConfigurationTest extends TestCase
 {
     /** @test */
     function it_fails_to_set_an_invalid_theme_name()

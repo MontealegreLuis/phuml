@@ -30,7 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * 1. `recursive`. If present it will look recursively within the `directory` provided
  */
-class GenerateStatisticsCommand extends GeneratorCommand
+final class GenerateStatisticsCommand extends GeneratorCommand
 {
     /**
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException

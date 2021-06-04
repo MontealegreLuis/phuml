@@ -11,7 +11,7 @@ namespace PhUml\Graphviz\Styles;
  * It will show an empty row if the definition does not have methods or if it does not have
  * attributes
  */
-class DefaultDigraphStyle extends DigraphStyle
+final class DefaultDigraphStyle extends DigraphStyle
 {
     protected function setPartials(): void
     {

@@ -15,7 +15,7 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
 
-class GenerateStatisticsTest extends TestCase
+final class GenerateStatisticsTest extends TestCase
 {
     /** @test */
     function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()

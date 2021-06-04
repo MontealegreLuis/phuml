@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 
 use SplFileInfo;
 
-class CodebaseDirectory
+final class CodebaseDirectory
 {
     /** @var SplFileInfo */
     private $directory;

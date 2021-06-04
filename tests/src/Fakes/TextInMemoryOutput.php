@@ -11,7 +11,7 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TextInMemoryOutput implements OutputInterface
+final class TextInMemoryOutput implements OutputInterface
 {
     /** @var string */
     private $output = '';

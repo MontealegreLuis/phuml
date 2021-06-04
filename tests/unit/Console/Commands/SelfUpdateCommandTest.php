@@ -18,7 +18,7 @@ use PhUml\Fakes\TextInMemoryOutput;
 use Prophecy\Argument;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class SelfUpdateCommandTest extends TestCase
+final class SelfUpdateCommandTest extends TestCase
 {
     /** @test */
     function it_notifies_error_when_trying_to_rollback()
@@ -80,7 +80,6 @@ class SelfUpdateCommandTest extends TestCase
     /** @test */
     function it_notifies_when_there_are_no_remote_versions()
     {
-        $newVersion = '2.0.0';
         $this->updater->hasUpdate()->willReturn(false);
         $this->updater->getNewVersion()->willReturn(false);
 

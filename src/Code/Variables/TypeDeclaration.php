@@ -14,7 +14,7 @@ use PhUml\Code\WithName;
 /**
  * It represents a variable's type declaration
  */
-class TypeDeclaration implements Named
+final class TypeDeclaration implements Named
 {
     use WithName;
 

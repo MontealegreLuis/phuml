@@ -18,7 +18,7 @@ use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
  * @see AttributesBuilder for more details about the attributes creation
  * @see MethodsBuilder for more details about the methods creation
  */
-class MembersBuilder
+final class MembersBuilder
 {
     /** @var ConstantsBuilder */
     private $constantsBuilder;

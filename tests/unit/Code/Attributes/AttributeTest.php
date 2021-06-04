@@ -14,7 +14,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\ContractTests\WithTypeDeclarationTests;
 use PhUml\ContractTests\WithVisibilityTests;
 
-class AttributeTest extends TestCase
+final class AttributeTest extends TestCase
 {
     use WithTypeDeclarationTests, WithVisibilityTests;
 

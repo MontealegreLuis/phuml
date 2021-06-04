@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhUml\Code\Modifiers\Visibility;
@@ -42,7 +43,9 @@ class FiltersRunner
     {
         $attributes = $classMembers;
         foreach ($this->filters as $filter) {
-            $attributes = array_filter($attributes, [$filter, 'accept']);
+            $attributes = array_filter($attributes, static function (Stmt $member) use ($filter) : bool {
+                return $filter->accept($member);
+            });
         }
         return $attributes;
     }

@@ -10,7 +10,7 @@ namespace PhUml\Graphviz;
 use PHPUnit\Framework\TestCase;
 use PhUml\TestBuilders\A;
 
-class EdgeTest extends TestCase
+final class EdgeTest extends TestCase
 {
     /** @test */
     function it_can_represent_an_inheritance_relationship()

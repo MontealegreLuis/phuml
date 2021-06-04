@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @see WithDigraphConfiguration::addDigraphOptions() for more details about all the available options
  */
-class GenerateDotFileCommand extends GeneratorCommand
+final class GenerateDotFileCommand extends GeneratorCommand
 {
     use WithDigraphConfiguration;
 

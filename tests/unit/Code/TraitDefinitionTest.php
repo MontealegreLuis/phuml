@@ -13,7 +13,7 @@ use PhUml\Code\Methods\Method;
 use PhUml\ContractTests\DefinitionTest;
 use PhUml\ContractTests\WithAttributesTests;
 
-class TraitDefinitionTest extends DefinitionTest
+final class TraitDefinitionTest extends DefinitionTest
 {
     use WithAttributesTests;
 

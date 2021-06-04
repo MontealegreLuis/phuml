@@ -11,7 +11,7 @@ use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\WithTypeDeclaration;
 
-class Constant implements HasType
+final class Constant implements HasType
 {
     use WithTypeDeclaration;
 

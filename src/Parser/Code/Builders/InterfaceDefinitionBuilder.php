@@ -18,7 +18,7 @@ use PhUml\Parser\Code\Builders\Names\InterfaceNamesBuilder;
  * @see MembersBuilder
  * @see InterfaceNamesBuilder
  */
-class InterfaceDefinitionBuilder
+final class InterfaceDefinitionBuilder
 {
     use InterfaceNamesBuilder;
 

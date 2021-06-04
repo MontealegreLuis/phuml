@@ -17,7 +17,7 @@ use PhUml\Templates\TemplateFailure;
 use PhUml\TestBuilders\A;
 use RuntimeException;
 
-class DigraphPrinterTest extends TestCase
+final class DigraphPrinterTest extends TestCase
 {
     use WithNumericIds, WithDotLanguageAssertions;
 
@@ -285,10 +285,6 @@ mindist = 0.6;', $dotLanguage);
             public function render(string $template, array $context = []): string
             {
                 throw new TemplateFailure(new RuntimeException('Twig runtime error'));
-            }
-
-            public function __construct()
-            {
             }
         };
         $printer = new DigraphPrinter($templateEngine);

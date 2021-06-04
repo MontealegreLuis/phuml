@@ -21,7 +21,7 @@ use PhUml\Code\Methods\StaticMethod;
 use PhUml\Code\Name as TraitName;
 use PhUml\TestBuilders\A;
 
-class TraitDefinitionBuilderTest extends TestCase
+final class TraitDefinitionBuilderTest extends TestCase
 {
     /** @test */
     function it_builds_a_trait_definition()

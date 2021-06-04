@@ -12,7 +12,7 @@ namespace PhUml\Graphviz;
  *
  * @link https://en.wikipedia.org/wiki/DOT_(graph_description_language) See for more details about DOT language
  */
-class Digraph
+final class Digraph
 {
     /** @var HasDotRepresentation[] */
     private $elements;

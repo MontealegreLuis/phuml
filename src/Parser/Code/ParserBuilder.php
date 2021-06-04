@@ -21,7 +21,7 @@ use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
 use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 
-class ParserBuilder
+final class ParserBuilder
 {
     /** @var VisibilityFilter[] */
     private $filters;

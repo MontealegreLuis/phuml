@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\StringCodeFinder;
 use PhUml\TestBuilders\A;
 
-class CodeParserTest extends TestCase
+final class CodeParserTest extends TestCase
 {
     /** @test */
     function it_parses_a_class_with_no_attributes_and_no_methods()

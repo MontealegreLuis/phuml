@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SelfUpdateCommand extends Command
+final class SelfUpdateCommand extends Command
 {
     private const VERSION_URL = 'https://montealegreluis.com/phuml/phuml.phar.version';
 
@@ -59,11 +59,11 @@ class SelfUpdateCommand extends Command
     {
         $this->configureUpdaterStrategy();
 
-        if (true === (bool)$input->getOption('rollback')) {
+        if ((bool)$input->getOption('rollback')) {
             return $this->tryToRollback();
         }
 
-        if (true === (bool)$input->getOption('check')) {
+        if ((bool)$input->getOption('check')) {
             return $this->tryToCheckForUpdates();
         }
 
@@ -72,7 +72,9 @@ class SelfUpdateCommand extends Command
 
     private function tryToRollback(): int
     {
-        $this->tryAction([$this, 'rollback']);
+        $this->tryAction(function () : void {
+            $this->rollback();
+        });
 
         return self::SUCCESS;
     }
@@ -86,7 +88,9 @@ class SelfUpdateCommand extends Command
     private function tryToCheckForUpdates(): int
     {
         $this->display->currentLocalVersion($this->getApplication()->getVersion());
-        $this->tryAction([$this, 'showAvailableUpdates']);
+        $this->tryAction(function () : void {
+            $this->showAvailableUpdates();
+        });
 
         return self::SUCCESS;
     }
@@ -105,7 +109,9 @@ class SelfUpdateCommand extends Command
     private function tryToUpdate(OutputInterface $output): int
     {
         $output->writeln('Updating...' . PHP_EOL);
-        $this->tryAction([$this, 'update']);
+        $this->tryAction(function () : void {
+            $this->update();
+        });
         $output->write(PHP_EOL);
 
         return self::SUCCESS;

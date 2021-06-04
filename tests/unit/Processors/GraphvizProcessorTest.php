@@ -15,7 +15,7 @@ use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\TestBuilders\A;
 
-class GraphvizProcessorTest extends TestCase
+final class GraphvizProcessorTest extends TestCase
 {
     use WithNumericIds, WithDotLanguageAssertions;
 

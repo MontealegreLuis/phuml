@@ -22,7 +22,7 @@ use PhUml\Graphviz\Node;
  *   - The class attributes
  *   - The class constructor's parameters
  */
-class ClassGraphBuilder
+final class ClassGraphBuilder
 {
     /** @var \PhUml\Graphviz\HasDotRepresentation[] */
     private $dotElements;

@@ -16,7 +16,7 @@ use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
 /**
  * It extracts an `InterfaceDefinition` and adds it to the `Codebase`
  */
-class InterfaceVisitor extends NodeVisitorAbstract
+final class InterfaceVisitor extends NodeVisitorAbstract
 {
     /** @var Codebase */
     private $codebase;

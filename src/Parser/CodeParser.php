@@ -22,7 +22,7 @@ use PhUml\Parser\Code\PhpParser;
  *
  * These external definitions are either built-in or from third party libraries
  */
-class CodeParser
+final class CodeParser
 {
     /** @var PhpParser */
     private $parser;

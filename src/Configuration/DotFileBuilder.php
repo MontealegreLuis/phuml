@@ -9,7 +9,7 @@ namespace PhUml\Configuration;
 
 use PhUml\Generators\DotFileGenerator;
 
-class DotFileBuilder extends DigraphBuilder
+final class DotFileBuilder extends DigraphBuilder
 {
     public function __construct(DigraphConfiguration $configuration)
     {

@@ -11,7 +11,7 @@ use PhUml\Graphviz\Styles\DefaultDigraphStyle;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Templates\TemplateEngine;
 
-class DigraphPrinter
+final class DigraphPrinter
 {
     /** @var TemplateEngine */
     private $engine;

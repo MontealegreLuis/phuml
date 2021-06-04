@@ -10,7 +10,7 @@ namespace PhUml\Fakes;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
 
-class NumericIdClass extends ClassDefinition
+final class NumericIdClass extends ClassDefinition
 {
     private static $id = 100;
 

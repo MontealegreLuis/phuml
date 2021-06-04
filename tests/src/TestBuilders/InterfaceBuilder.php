@@ -13,7 +13,7 @@ use PhUml\Code\Name;
 use PhUml\Code\Variables\Variable;
 use PhUml\Fakes\NumericIdInterface;
 
-class InterfaceBuilder extends DefinitionBuilder
+final class InterfaceBuilder extends DefinitionBuilder
 {
     /** @var Name[] */
     protected $parents = [];

@@ -11,7 +11,7 @@ use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
 use PhUml\Fakes\NumericIdTrait;
 
-class TraitBuilder
+final class TraitBuilder
 {
     use MembersBuilder;
 

@@ -10,7 +10,7 @@ namespace PhUml\Code;
 use PHPUnit\Framework\TestCase;
 use PhUml\TestBuilders\A;
 
-class CodebaseTest extends TestCase
+final class CodebaseTest extends TestCase
 {
     /** @test */
     function it_adds_a_new_class_definition()

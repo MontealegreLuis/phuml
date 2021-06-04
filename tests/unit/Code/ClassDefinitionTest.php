@@ -16,7 +16,7 @@ use PhUml\ContractTests\WithAttributesTests;
 use PhUml\ContractTests\WithConstantsTests;
 use PhUml\TestBuilders\A;
 
-class ClassDefinitionTest extends DefinitionTest
+final class ClassDefinitionTest extends DefinitionTest
 {
     use WithConstantsTests, WithAttributesTests;
 

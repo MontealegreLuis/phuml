@@ -10,7 +10,7 @@ namespace PhUml\Code\Methods;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Variables\TypeDeclaration;
 
-class MethodDocBlockTest extends TestCase
+final class MethodDocBlockTest extends TestCase
 {
     /** @test */
     function it_extracts_type_declaration_from_param_tags()

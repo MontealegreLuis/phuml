@@ -16,7 +16,7 @@ use PhUml\Code\InterfaceDefinition;
  *
  * All nodes labels are HTML tables
  */
-class Node implements HasDotRepresentation
+final class Node implements HasDotRepresentation
 {
     /** @var Definition */
     private $definition;

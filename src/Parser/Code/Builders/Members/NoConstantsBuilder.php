@@ -7,7 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
-class NoConstantsBuilder extends ConstantsBuilder
+final class NoConstantsBuilder extends ConstantsBuilder
 {
     public function build(array $classAttributes): array
     {

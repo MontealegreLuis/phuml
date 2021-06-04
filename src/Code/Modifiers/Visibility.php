@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
 /**
  * It represents the visibility of either an attribute or a method
  */
-class Visibility
+final class Visibility
 {
     /** @var string[] */
     private static $symbols = [
@@ -52,6 +52,6 @@ class Visibility
 
     public function __toString()
     {
-        return sprintf('%s', self::$symbols[$this->modifier]);
+        return self::$symbols[$this->modifier];
     }
 }

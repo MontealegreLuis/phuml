@@ -14,6 +14,7 @@ use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter as Filter;
 
+/** @noRector \Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector */
 class TemplateEngine
 {
     /** @var Twig */

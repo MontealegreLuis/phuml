@@ -10,7 +10,7 @@ namespace PhUml\Graphviz;
 use PHPUnit\Framework\TestCase;
 use PhUml\TestBuilders\A;
 
-class NodeTest extends TestCase
+final class NodeTest extends TestCase
 {
     /** @test */
     function it_can_be_a_class_or_an_interface()
