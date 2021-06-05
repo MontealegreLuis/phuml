@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -37,7 +37,7 @@ class ConstantsBuilder
         });
         return array_map(function (ClassConst $constant): Constant {
             return new Constant(
-                $constant->consts[0]->name,
+                (string) $constant->consts[0]->name,
                 TypeDeclaration::from($this->determineType($constant->consts[0]))
             );
         }, $constants);

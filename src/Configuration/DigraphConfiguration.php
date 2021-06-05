@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -38,13 +38,13 @@ class DigraphConfiguration
     /** @param mixed[] $input */
     public function __construct(array $input)
     {
-        $this->searchRecursively = (bool)$input['recursive'];
-        $this->extractAssociations = (bool)$input['associations'];
-        $this->hidePrivate = (bool)$input['hide-private'];
-        $this->hideProtected = (bool)$input['hide-protected'];
-        $this->hideAttributes = (bool)$input['hide-attributes'];
-        $this->hideMethods = (bool)$input['hide-methods'];
-        $this->hideEmptyBlocks = (bool)$input['hide-empty-blocks'];
+        $this->searchRecursively = (bool) $input['recursive'];
+        $this->extractAssociations = (bool) $input['associations'];
+        $this->hidePrivate = (bool) $input['hide-private'];
+        $this->hideProtected = (bool) $input['hide-protected'];
+        $this->hideAttributes = (bool) $input['hide-attributes'];
+        $this->hideMethods = (bool) $input['hide-methods'];
+        $this->hideEmptyBlocks = (bool) $input['hide-empty-blocks'];
         $this->setTheme($input['theme']);
     }
 

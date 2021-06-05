@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -26,7 +26,7 @@ final class AttributeDocBlock extends DocBlock
     public function extractType(): TypeDeclaration
     {
         $type = null;
-        if (preg_match(self::$varExpression, (string)$this->comment, $matches) === 1) {
+        if (preg_match(self::$varExpression, (string) $this->comment, $matches) === 1) {
             $type = trim($matches[1]);
         }
         return TypeDeclaration::from($type);

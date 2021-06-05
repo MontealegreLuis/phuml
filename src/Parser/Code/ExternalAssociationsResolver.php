@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -33,7 +33,7 @@ final class ExternalAssociationsResolver extends ExternalDefinitionsResolver
     private function resolveExternalAttributes(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Attribute $attribute) use ($codebase): void {
-            if ($attribute->isAReference() && !$codebase->has($attribute->referenceName())) {
+            if ($attribute->isAReference() && ! $codebase->has($attribute->referenceName())) {
                 $codebase->add($this->externalClass($attribute->referenceName()));
             }
         }, $definition->attributes());
@@ -42,7 +42,7 @@ final class ExternalAssociationsResolver extends ExternalDefinitionsResolver
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Variable $parameter) use ($codebase): void {
-            if ($parameter->isAReference() && !$codebase->has($parameter->referenceName())) {
+            if ($parameter->isAReference() && ! $codebase->has($parameter->referenceName())) {
                 $codebase->add($this->externalClass($parameter->referenceName()));
             }
         }, $definition->constructorParameters());

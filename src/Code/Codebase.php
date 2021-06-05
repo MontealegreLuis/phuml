@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -22,17 +22,17 @@ final class Codebase
 
     public function add(Definition $definition): void
     {
-        $this->definitions[(string)$definition->name()] = $definition;
+        $this->definitions[(string) $definition->name()] = $definition;
     }
 
     public function has(Name $name): bool
     {
-        return isset($this->definitions[(string)$name]);
+        return isset($this->definitions[(string) $name]);
     }
 
     public function get(Name $name): Definition
     {
-        return $this->definitions[(string)$name];
+        return $this->definitions[(string) $name];
     }
 
     /** @return Definition[] */

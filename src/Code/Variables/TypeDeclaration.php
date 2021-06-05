@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -47,7 +47,7 @@ final class TypeDeclaration implements Named
 
     public function isPresent(): bool
     {
-        return null !== $this->name;
+        return $this->name !== null;
     }
 
     /**
@@ -58,7 +58,7 @@ final class TypeDeclaration implements Named
      */
     public function isBuiltIn(): bool
     {
-        $type = (string)$this->name;
+        $type = (string) $this->name;
         if ($this->isArray()) {
             $type = $this->removeArraySuffix();
         }
@@ -67,7 +67,7 @@ final class TypeDeclaration implements Named
 
     public function isArray(): bool
     {
-        return strpos((string)$this->name, '[]') === \strlen((string)$this->name) - 2;
+        return strpos((string) $this->name, '[]') === \strlen((string) $this->name) - 2;
     }
 
     public function isNullable(): bool
@@ -77,7 +77,7 @@ final class TypeDeclaration implements Named
 
     public function removeArraySuffix(): string
     {
-        return substr((string)$this->name, 0, -2);
+        return substr((string) $this->name, 0, -2);
     }
 
     public function __toString()

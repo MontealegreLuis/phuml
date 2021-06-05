@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -59,11 +59,11 @@ final class SelfUpdateCommand extends Command
     {
         $this->configureUpdaterStrategy();
 
-        if ((bool)$input->getOption('rollback')) {
+        if ((bool) $input->getOption('rollback')) {
             return $this->tryToRollback();
         }
 
-        if ((bool)$input->getOption('check')) {
+        if ((bool) $input->getOption('check')) {
             return $this->tryToCheckForUpdates();
         }
 
@@ -72,7 +72,7 @@ final class SelfUpdateCommand extends Command
 
     private function tryToRollback(): int
     {
-        $this->tryAction(function () : void {
+        $this->tryAction(function (): void {
             $this->rollback();
         });
 
@@ -88,7 +88,7 @@ final class SelfUpdateCommand extends Command
     private function tryToCheckForUpdates(): int
     {
         $this->display->currentLocalVersion($this->getApplication()->getVersion());
-        $this->tryAction(function () : void {
+        $this->tryAction(function (): void {
             $this->showAvailableUpdates();
         });
 
@@ -99,7 +99,7 @@ final class SelfUpdateCommand extends Command
     {
         if ($this->updater->hasUpdate()) {
             $this->display->newVersion($this->updater->getNewVersion());
-        } elseif (false === $this->updater->getNewVersion()) {
+        } elseif ($this->updater->getNewVersion() === false) {
             $this->display->noUpdatesAvailable();
         } else {
             $this->display->alreadyUpToDate();
@@ -109,7 +109,7 @@ final class SelfUpdateCommand extends Command
     private function tryToUpdate(OutputInterface $output): int
     {
         $output->writeln('Updating...' . PHP_EOL);
-        $this->tryAction(function () : void {
+        $this->tryAction(function (): void {
             $this->update();
         });
         $output->write(PHP_EOL);

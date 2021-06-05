@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -32,7 +32,7 @@ final class MethodDocBlock extends DocBlock
     public function returnType(): TypeDeclaration
     {
         $type = null;
-        if (preg_match(self::$returnExpression, (string)$this->comment, $matches) === 1) {
+        if (preg_match(self::$returnExpression, (string) $this->comment, $matches) === 1) {
             $type = trim($matches[1]);
         }
         return TypeDeclaration::from($type);
@@ -51,7 +51,7 @@ final class MethodDocBlock extends DocBlock
 
     private function setParameters(): void
     {
-        if (preg_match_all(self::$parameterExpression, (string)$this->comment, $matches) < 1) {
+        if (preg_match_all(self::$parameterExpression, (string) $this->comment, $matches) < 1) {
             return;
         }
         foreach ($matches[0] as $typeHint) {

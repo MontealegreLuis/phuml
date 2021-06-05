@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -43,9 +43,9 @@ class MethodsBuilder extends FiltersRunner
 
     private function buildMethod(ClassMethod $method): Method
     {
-        $name = $method->name;
+        $name = $method->name->name;
         $visibility = $this->resolveVisibility($method);
-        $docBlock = $method->getDocComment();
+        $docBlock = $method->getDocComment() === null ? null : $method->getDocComment()->getText();
         $returnType = $this->extractReturnType($method, $docBlock);
         $parameters = $this->buildParameters($method->params, $docBlock);
         switch (true) {
@@ -75,11 +75,11 @@ class MethodsBuilder extends FiltersRunner
             if ($type === null) {
                 $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
             } elseif ($type instanceof NullableType) {
-                $typeDeclaration = TypeDeclaration::fromNullable($type->type);
+                $typeDeclaration = TypeDeclaration::fromNullable((string) $type->type);
             } elseif ($type instanceof Name) {
                 $typeDeclaration = TypeDeclaration::from($type->getLast());
             } elseif ($type instanceof Identifier) {
-                $typeDeclaration = TypeDeclaration::from((string)$type);
+                $typeDeclaration = TypeDeclaration::from((string) $type);
             } else {
                 throw UnsupportedType::declaredAs($type);
             }
@@ -91,13 +91,13 @@ class MethodsBuilder extends FiltersRunner
     private function extractReturnType(ClassMethod $method, ?string $docBlock): TypeDeclaration
     {
         if ($method->returnType instanceof NullableType) {
-            return TypeDeclaration::fromNullable((string)$method->returnType->type);
+            return TypeDeclaration::fromNullable((string) $method->returnType->type);
         }
         if ($method->returnType === null) {
             return MethodDocBlock::from($docBlock)->returnType();
         }
         if ($method->returnType instanceof Identifier) {
-            return TypeDeclaration::from((string)$method->returnType);
+            return TypeDeclaration::from((string) $method->returnType);
         }
         if ($method->returnType instanceof Name) {
             return TypeDeclaration::from($method->returnType->getLast());

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -43,7 +43,7 @@ class FiltersRunner
     {
         $attributes = $classMembers;
         foreach ($this->filters as $filter) {
-            $attributes = array_filter($attributes, static function (Stmt $member) use ($filter) : bool {
+            $attributes = array_filter($attributes, static function (Stmt $member) use ($filter): bool {
                 return $filter->accept($member);
             });
         }

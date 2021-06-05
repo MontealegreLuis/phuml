@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -22,7 +22,9 @@ use PhUml\Code\Modifiers\Visibility;
  */
 class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
 {
-    use WithAttributes, WithConstants, WithTraits;
+    use WithAttributes;
+    use WithConstants;
+    use WithTraits;
 
     /** @var Name|null */
     protected $parent;

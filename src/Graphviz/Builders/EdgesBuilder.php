@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -57,7 +57,7 @@ final class EdgesBuilder implements AssociationsBuilder
     {
         $edges = [];
         foreach ($variables as $parameter) {
-            if (!$this->needAssociation($class, $parameter)) {
+            if (! $this->needAssociation($class, $parameter)) {
                 continue;
             }
             $edges[] = $this->addAssociation($class, $parameter, $codebase);
@@ -74,7 +74,7 @@ final class EdgesBuilder implements AssociationsBuilder
 
     private function needAssociation(ClassDefinition $class, Variable $attribute): bool
     {
-        return $attribute->isAReference() && !$this->isAssociationResolved($class, $attribute);
+        return $attribute->isAReference() && ! $this->isAssociationResolved($class, $attribute);
     }
 
     private function isAssociationResolved(ClassDefinition $class, Variable $attribute): bool

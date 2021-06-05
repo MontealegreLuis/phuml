@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -30,7 +30,7 @@ final class PhpCodeParser extends PhpParser
         TraitDefinitionBuilder $traitBuilder = null
     ) {
         parent::__construct(
-            (new ParserFactory)->create(ParserFactory::PREFER_PHP7),
+            (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
             new Php5Traverser(
                 $classBuilder ?? new ClassDefinitionBuilder(),
                 $interfaceBuilder ?? new InterfaceDefinitionBuilder(),

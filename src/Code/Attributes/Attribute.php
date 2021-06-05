@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,7 +20,8 @@ use PhUml\Code\Variables\Variable;
  */
 class Attribute extends Variable implements HasVisibility, CanBeStatic
 {
-    use WithVisibility, WithStaticModifier;
+    use WithVisibility;
+    use WithStaticModifier;
 
     public function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
     {

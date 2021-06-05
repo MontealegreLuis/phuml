@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -38,7 +38,7 @@ class AttributesBuilder extends FiltersRunner
         return array_map(function (Property $attribute): Attribute {
             $name = "\${$attribute->props[0]->name}";
             $visibility = $this->resolveVisibility($attribute);
-            $comment = $attribute->getDocComment();
+            $comment = $attribute->getDocComment() === null ? null : $attribute->getDocComment()->getText();
             if ($attribute->isStatic()) {
                 return new StaticAttribute($name, $visibility, $this->extractTypeFrom($comment));
             }
