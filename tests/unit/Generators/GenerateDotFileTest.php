@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -23,7 +23,8 @@ use PhUml\TestBuilders\A;
 
 final class GenerateDotFileTest extends TestCase
 {
-    use WithNumericIds, WithDotLanguageAssertions;
+    use WithNumericIds;
+    use WithDotLanguageAssertions;
 
     /** @test */
     function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()

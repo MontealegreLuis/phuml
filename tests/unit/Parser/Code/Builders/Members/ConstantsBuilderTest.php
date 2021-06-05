@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -33,10 +33,10 @@ final class ConstantsBuilderTest extends TestCase
         $constants = $builder->build($constants);
 
         $this->assertCount(4, $constants);
-        $this->assertEquals('+INTEGER: int', (string)$constants[0]);
-        $this->assertEquals('+FLOAT: float', (string)$constants[1]);
-        $this->assertEquals('+STRING: string', (string)$constants[2]);
-        $this->assertEquals('+BOOLEAN: bool', (string)$constants[3]);
+        $this->assertEquals('+INTEGER: int', (string) $constants[0]);
+        $this->assertEquals('+FLOAT: float', (string) $constants[1]);
+        $this->assertEquals('+STRING: string', (string) $constants[2]);
+        $this->assertEquals('+BOOLEAN: bool', (string) $constants[3]);
     }
 
     /** @test */
@@ -57,6 +57,6 @@ final class ConstantsBuilderTest extends TestCase
         $rawConstants = $builder->build($constants);
 
         $this->assertCount(1, $rawConstants);
-        $this->assertEquals('+GREETING', (string)$rawConstants[0]);
+        $this->assertEquals('+GREETING', (string) $rawConstants[0]);
     }
 }

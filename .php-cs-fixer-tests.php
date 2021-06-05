@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,7 +12,7 @@ $finder = PhpCsFixer\Finder::create()
 $config = new PhpCsFixer\Config();
 
 return $config->setRules([
-        '@PSR2' => true,
+        '@PSR12' => true,
         'visibility_required' => false,
         'no_unused_imports' => true,
         'array_syntax' => ['syntax' => 'short'],
@@ -29,5 +29,22 @@ return $config->setRules([
         'combine_consecutive_unsets' => true,
         'no_whitespace_in_blank_line' => true,
         'class_attributes_separation' => ['elements' => ['const' => 'one', 'method' => 'one', 'property' => 'one']],
+        'cast_spaces' => ['space' => 'single'],
+        'single_blank_line_at_eof' => true,
+        'not_operator_with_successor_space' => true,
+        'yoda_style' => ['equal' => false, 'identical' => false, 'less_and_greater' => false],
+        'return_type_declaration' => ['space_before' => 'none'],
+        'modernize_types_casting' => true,
+        'blank_line_after_opening_tag' => false,
+        'declare_strict_types' => true,
+        'header_comment' => [
+            'header' => 'PHP version 7.2
+
+This source file is subject to the license that is bundled with this package in the file LICENSE.',
+            'comment_type' => 'PHPDoc',
+            'location' => 'after_declare_strict',
+            'separate' => 'bottom'
+        ],
     ])
+    ->setRiskyAllowed(true)
     ->setFinder($finder);

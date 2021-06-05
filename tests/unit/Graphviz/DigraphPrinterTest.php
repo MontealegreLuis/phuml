@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -19,7 +19,8 @@ use RuntimeException;
 
 final class DigraphPrinterTest extends TestCase
 {
-    use WithNumericIds, WithDotLanguageAssertions;
+    use WithNumericIds;
+    use WithDotLanguageAssertions;
 
     /** @test */
     function its_dot_language_representation_contains_an_id_and_basic_display_settings()

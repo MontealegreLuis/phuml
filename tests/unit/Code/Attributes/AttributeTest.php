@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,7 +16,8 @@ use PhUml\ContractTests\WithVisibilityTests;
 
 final class AttributeTest extends TestCase
 {
-    use WithTypeDeclarationTests, WithVisibilityTests;
+    use WithTypeDeclarationTests;
+    use WithVisibilityTests;
 
     /** @test */
     function it_can_be_represented_as_string()
