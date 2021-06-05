@@ -87,7 +87,9 @@ final class SelfUpdateCommand extends Command
 
     private function tryToCheckForUpdates(): int
     {
-        $this->display->currentLocalVersion($this->getApplication()->getVersion());
+        $application = $this->getApplication();
+        $version = $application !== null ? $application->getVersion() : 'unknown';
+        $this->display->currentLocalVersion($version);
         $this->tryAction(function (): void {
             $this->showAvailableUpdates();
         });
