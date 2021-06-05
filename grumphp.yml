@@ -2,6 +2,16 @@ grumphp:
     hide_circumvention_tip: true
     stop_on_failure: true
     tasks:
+        git_commit_message:
+            allow_empty_message: false
+            enforce_capitalized_subject: false
+            enforce_no_subject_punctuations: false
+            enforce_no_subject_trailing_period: true
+            enforce_single_lined_subject: true
+            max_body_width: 72
+            max_subject_width: 50
+            case_insensitive: true
+            multiline: true
         composer:
         composer_normalize:
         phpstan:
