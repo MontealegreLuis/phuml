@@ -1,10 +1,11 @@
 vendor
-composer.lock
+composer.*
 build
 coverage.clover
 .php-cs-fixer.cache
 .phpunit.result.cache
 .couscous
+box.phar
 phuml.phar
 phuml.phar.pubkey
 phuml.phar.version
