@@ -1,14 +1,13 @@
 # phUML
 
-![CI workflow](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml/badge.svg)
+[![CI workflow](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml/badge.svg)](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml)
 [![Scrutinizer Code Quality][scrutinizer-badge]][scrutinizer]
 [![Code Coverage][coverage-badge]][coverage]
 [![Latest Stable Version][stable-badge]][packagist]
-[![Packagist Pre Release][unstable-badge]][packagist]
 [![Minimum PHP Version][php-version-badge]][php]
 
 phUML is a fully automatic [UML][uml] class diagram generator written in [PHP][php].
-It creates a class diagram from an OO codebase based on the UML specification.
+It creates a class diagram from an Object-Oriented codebase based on the UML specification.
 
 ## Installation
 
@@ -71,7 +70,6 @@ Special thanks to all of these [awesome contributors][contributors].
 [packagist]: https://packagist.org/packages/phuml/phuml
 [php-version-badge]: https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square
 [php]: https://php.net/
-[unstable-badge]: https://img.shields.io/packagist/vpre/phuml/phuml.svg
 [luis]: https://github.com/MontealegreLuis
 [jakob]: https://github.com/jakobwesthoff
 [contributors]: https://github.com/MontealegreLuis/phuml/contributors
