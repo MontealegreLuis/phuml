@@ -72,7 +72,7 @@ final class TraitDefinitionBuilderTest extends TestCase
         $traitWithMultipleTypesOfAttributes = A::trait('ATrait')
             ->withAPrivateAttribute('$privateAttribute')
             ->withAProtectedAttribute('$protectedAttribute')
-            ->withAnAttribute(StaticAttribute::public('$staticAttribute'))
+            ->withAnAttribute(StaticAttribute::public(A::variable('$staticAttribute')->build()))
             ->build();
         $this->assertEquals($traitWithMultipleTypesOfAttributes, $trait);
     }

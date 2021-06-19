@@ -9,7 +9,6 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
-use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
 trait MembersBuilder
@@ -23,7 +22,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPublicAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::public($name, TypeDeclaration::from($type));
+        $this->attributes[] = A::attribute($name)->public()->withType($type)->build();
 
         return $this;
     }
@@ -31,7 +30,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAProtectedAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::protected($name, TypeDeclaration::from($type));
+        $this->attributes[] = Attribute::protected(A::variable($name)->withType($type)->build());
 
         return $this;
     }
@@ -39,7 +38,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPrivateAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::private($name, TypeDeclaration::from($type));
+        $this->attributes[] = Attribute::private(A::variable($name)->withType($type)->build());
 
         return $this;
     }

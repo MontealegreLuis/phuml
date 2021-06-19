@@ -10,8 +10,8 @@ namespace PhUml\Code\Methods;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 use PhUml\ContractTests\WithVisibilityTests;
+use PhUml\TestBuilders\A;
 
 final class MethodTest extends TestCase
 {
@@ -41,8 +41,8 @@ final class MethodTest extends TestCase
     function it_knows_its_parameters()
     {
         $expectedParameters = [
-            Variable::declaredWith('first'),
-            Variable::declaredWith('second'),
+            A::variable('first')->build(),
+            A::variable('second')->build(),
         ];
         $methodWithParameters = Method::public('methodWithParameters', $expectedParameters);
 
@@ -75,8 +75,8 @@ final class MethodTest extends TestCase
     function its_string_representation_includes_its_visibility_its_parameters_and_its_return_type()
     {
         $method = Method::protected('withParameters', [
-            Variable::declaredWith('$parameterOne'),
-            Variable::declaredWith('$parameterTwoWithType', TypeDeclaration::from('int')),
+            A::variable('$parameterOne')->build(),
+            A::variable('$parameterTwoWithType')->withType('int')->build(),
         ], TypeDeclaration::from('SplStack'));
 
         $methodAsString = $method->__toString();

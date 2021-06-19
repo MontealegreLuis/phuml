@@ -7,30 +7,31 @@
 
 namespace PhUml\TestBuilders;
 
+use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
-final class ParameterBuilder
+final class VariableBuilder
 {
     /** @var string */
     private $name;
 
-    /** @var string */
+    /** @var TypeDeclaration */
     private $type;
 
     public function __construct(string $name)
     {
         $this->name = $name;
+        $this->type = TypeDeclaration::absent();
     }
 
-    public function withType(string $type): ParameterBuilder
+    public function withType(?string $type): VariableBuilder
     {
-        $this->type = $type;
-
+        $this->type = $type !== null ? TypeDeclaration::from($type) : TypeDeclaration::absent();
         return $this;
     }
 
     public function build(): Variable
     {
-        return A::variable($this->name)->withType($this->type)->build();
+        return Variable::declaredWith($this->name, $this->type);
     }
 }

@@ -67,6 +67,16 @@ final class A
         return new ParameterBuilder($name);
     }
 
+    public static function attribute(string $name): AttributeBuilder
+    {
+        return new AttributeBuilder($name);
+    }
+
+    public static function variable(string $name): VariableBuilder
+    {
+        return new VariableBuilder($name);
+    }
+
     public static function method(): MethodBuilder
     {
         return new MethodBuilder();

@@ -7,6 +7,9 @@
 
 namespace PhUml\Code\Variables;
 
+use BadMethodCallException;
+use PhUml\Code\Name;
+
 interface HasType
 {
     /**
@@ -17,6 +20,13 @@ interface HasType
      * @see \PhUml\Graphviz\Builders\EdgesBuilder::needAssociation() for more details
      */
     public function isAReference(): bool;
+
+    /**
+     * Returns the definition name referred by this type, if any
+     *
+     * @throws BadMethodCallException In case the current type is built-in
+     */
+    public function referenceName(): Name;
 
     /**
      * This is used to build the `Summary` of a `Structure`

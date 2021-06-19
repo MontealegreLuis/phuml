@@ -9,7 +9,7 @@ namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Variables\HasType;
 use PhUml\Graphviz\Edge;
 
 /**
@@ -50,7 +50,7 @@ final class EdgesBuilder implements AssociationsBuilder
     }
 
     /**
-     * @param Variable[] $variables
+     * @param HasType[] $variables
      * @return Edge[]
      */
     private function buildEdgesFor(ClassDefinition $class, array $variables, Codebase $codebase): array
@@ -65,29 +65,29 @@ final class EdgesBuilder implements AssociationsBuilder
         return $edges;
     }
 
-    private function addAssociation(ClassDefinition $class, Variable $attribute, Codebase $codebase): Edge
+    private function addAssociation(ClassDefinition $class, HasType $attribute, Codebase $codebase): Edge
     {
         $this->markAssociationResolvedFor($class, $attribute);
 
         return Edge::association($codebase->get($attribute->referenceName()), $class);
     }
 
-    private function needAssociation(ClassDefinition $class, Variable $attribute): bool
+    private function needAssociation(ClassDefinition $class, HasType $attribute): bool
     {
         return $attribute->isAReference() && ! $this->isAssociationResolved($class, $attribute);
     }
 
-    private function isAssociationResolved(ClassDefinition $class, Variable $attribute): bool
+    private function isAssociationResolved(ClassDefinition $class, HasType $attribute): bool
     {
         return array_key_exists($this->associationKey($class, $attribute), $this->associations);
     }
 
-    private function markAssociationResolvedFor(ClassDefinition $class, Variable $attribute): void
+    private function markAssociationResolvedFor(ClassDefinition $class, HasType $attribute): void
     {
         $this->associations[$this->associationKey($class, $attribute)] = true;
     }
 
-    private function associationKey(ClassDefinition $class, Variable $attribute): string
+    private function associationKey(ClassDefinition $class, HasType $attribute): string
     {
         return strtolower($class->name() . '.' . $attribute->type());
     }

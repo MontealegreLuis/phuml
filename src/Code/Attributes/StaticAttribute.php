@@ -8,16 +8,16 @@
 namespace PhUml\Code\Attributes;
 
 use PhUml\Code\Modifiers\Visibility;
-use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 
 /**
  * It represents a class variable
  */
 final class StaticAttribute extends Attribute
 {
-    public function __construct(string $name, Visibility $modifier, TypeDeclaration $type)
+    public function __construct(Variable $variable, Visibility $modifier)
     {
-        parent::__construct($name, $modifier, $type);
+        parent::__construct($variable, $modifier);
         $this->isStatic = true;
     }
 }

@@ -7,6 +7,8 @@
 
 namespace PhUml\Code\Attributes;
 
+use BadMethodCallException;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\WithTypeDeclaration;
@@ -31,5 +33,10 @@ final class Constant implements HasType
             $this->name,
             $this->type->isPresent() ? ": {$this->type}" : ''
         );
+    }
+
+    public function referenceName(): Name
+    {
+        throw new BadMethodCallException('Constants must be built-in types');
     }
 }

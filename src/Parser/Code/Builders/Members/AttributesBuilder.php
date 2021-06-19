@@ -12,6 +12,7 @@ use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\AttributeDocBlock;
 use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
@@ -39,10 +40,11 @@ class AttributesBuilder extends FiltersRunner
             $name = "\${$attribute->props[0]->name}";
             $visibility = $this->resolveVisibility($attribute);
             $comment = $attribute->getDocComment() === null ? null : $attribute->getDocComment()->getText();
+            $variable = Variable::declaredWith($name, $this->extractTypeFrom($comment));
             if ($attribute->isStatic()) {
-                return new StaticAttribute($name, $visibility, $this->extractTypeFrom($comment));
+                return new StaticAttribute($variable, $visibility);
             }
-            return new Attribute($name, $visibility, $this->extractTypeFrom($comment));
+            return new Attribute($variable, $visibility);
         }, $this->runFilters($attributes));
     }
 
