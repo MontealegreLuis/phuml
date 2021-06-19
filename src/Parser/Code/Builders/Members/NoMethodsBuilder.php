@@ -7,14 +7,16 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhUml\Parser\Code\Builders\TypeBuilder;
+
 /**
- * It will ignore the methods of a definition, and therefore its filters
+ * It will ignore the methods of a definition. It will produce diagrams without methods.
  */
 final class NoMethodsBuilder extends MethodsBuilder
 {
     public function __construct()
     {
-        parent::__construct([]);
+        parent::__construct(new TypeBuilder(), []);
     }
 
     public function build(array $methods): array

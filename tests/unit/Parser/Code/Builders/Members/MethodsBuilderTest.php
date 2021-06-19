@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
+use PhUml\Parser\Code\Builders\TypeBuilder;
 
 final class MethodsBuilderTest extends TestCase
 {
@@ -27,7 +28,7 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_private_methods()
     {
-        $methodsBuilder = new MethodsBuilder([new PrivateVisibilityFilter()]);
+        $methodsBuilder = new MethodsBuilder(new TypeBuilder(), [new PrivateVisibilityFilter()]);
 
         $methods = $methodsBuilder->build($this->methods);
 
@@ -41,7 +42,7 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_methods()
     {
-        $builder = new MethodsBuilder([new ProtectedVisibilityFilter()]);
+        $builder = new MethodsBuilder(new TypeBuilder(), [new ProtectedVisibilityFilter()]);
 
         $methods = $builder->build($this->methods);
 
@@ -56,7 +57,7 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_methods()
     {
-        $builder = new MethodsBuilder([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
+        $builder = new MethodsBuilder(new TypeBuilder(), [new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
 
         $methods = $builder->build($this->methods);
 
@@ -68,7 +69,6 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_does_not_support_union_types_as_return_type()
     {
-        $builder = new MethodsBuilder();
         $parsedMethods = [
             new ClassMethod('privateMethodA', [
                 'type' => Class_::MODIFIER_PRIVATE,
@@ -78,13 +78,12 @@ final class MethodsBuilderTest extends TestCase
         ];
 
         $this->expectException(UnsupportedType::class);
-        $builder->build($parsedMethods);
+        $this->builder->build($parsedMethods);
     }
 
     /** @test */
     function it_does_not_support_union_type_parameters()
     {
-        $builder = new MethodsBuilder();
         $parsedMethods = [
             new ClassMethod('privateMethodA', [
                 'type' => Class_::MODIFIER_PRIVATE,
@@ -93,12 +92,13 @@ final class MethodsBuilderTest extends TestCase
         ];
 
         $this->expectException(UnsupportedType::class);
-        $builder->build($parsedMethods);
+        $this->builder->build($parsedMethods);
     }
 
     /** @before */
     function let()
     {
+        $this->builder = new MethodsBuilder(new TypeBuilder());
         $this->methods = [
             new ClassMethod('privateMethodA', ['type' => Class_::MODIFIER_PRIVATE]),
             new ClassMethod('publicMethodA', [
@@ -135,4 +135,7 @@ final class MethodsBuilderTest extends TestCase
 
     /** @var ClassMethod[] */
     private $methods;
+
+    /** @var MethodsBuilder */
+    private $builder;
 }

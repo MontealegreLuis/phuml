@@ -7,9 +7,6 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
-use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\AbstractMethod;
@@ -18,6 +15,7 @@ use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Methods\StaticMethod;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
+use PhUml\Parser\Code\Builders\TypeBuilder;
 
 /**
  * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
@@ -30,6 +28,15 @@ use PhUml\Code\Variables\Variable;
  */
 class MethodsBuilder extends FiltersRunner
 {
+    /** @var TypeBuilder */
+    private $typeBuilder;
+
+    public function __construct(TypeBuilder $typeBuilder, array $filters = [])
+    {
+        parent::__construct($filters);
+        $this->typeBuilder = $typeBuilder;
+    }
+
     /**
      * @param ClassMethod[] $methods
      * @return Method[]
@@ -64,25 +71,18 @@ class MethodsBuilder extends FiltersRunner
      */
     private function buildParameters(array $parameters, ?string $docBlock): array
     {
-        return array_map(static function (Param $parameter) use ($docBlock): Variable {
+        return array_map(function (Param $parameter) use ($docBlock): Variable {
             /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */
             $parsedParameter = $parameter->var;
+
             /** @var string $parameterName Since it's a parameter not a variable */
             $parameterName = $parsedParameter->name;
-            $name = "\${$parameterName}";
 
+            $name = "\${$parameterName}";
+            $methodDocBlock = MethodDocBlock::from($docBlock);
             $type = $parameter->type;
-            if ($type === null) {
-                $typeDeclaration = MethodDocBlock::from($docBlock)->typeOfParameter($name);
-            } elseif ($type instanceof NullableType) {
-                $typeDeclaration = TypeDeclaration::fromNullable((string) $type->type);
-            } elseif ($type instanceof Name) {
-                $typeDeclaration = TypeDeclaration::from($type->getLast());
-            } elseif ($type instanceof Identifier) {
-                $typeDeclaration = TypeDeclaration::from((string) $type);
-            } else {
-                throw UnsupportedType::declaredAs($type);
-            }
+
+            $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name);
 
             return Variable::declaredWith($name, $typeDeclaration);
         }, $parameters);
@@ -90,19 +90,9 @@ class MethodsBuilder extends FiltersRunner
 
     private function extractReturnType(ClassMethod $method, ?string $docBlock): TypeDeclaration
     {
-        if ($method->returnType instanceof NullableType) {
-            return TypeDeclaration::fromNullable((string) $method->returnType->type);
-        }
-        if ($method->returnType === null) {
-            return MethodDocBlock::from($docBlock)->returnType();
-        }
-        if ($method->returnType instanceof Identifier) {
-            return TypeDeclaration::from((string) $method->returnType);
-        }
-        if ($method->returnType instanceof Name) {
-            return TypeDeclaration::from($method->returnType->getLast());
-        }
+        $returnType = $method->returnType;
+        $methodDocBlock = MethodDocBlock::from($docBlock);
 
-        throw UnsupportedType::declaredAs($method->returnType);
+        return $this->typeBuilder->fromMethodReturnType($returnType, $methodDocBlock);
     }
 }

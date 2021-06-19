@@ -36,7 +36,7 @@ final class MembersBuilder
     ) {
         $this->constantsBuilder = $constantsBuilder ?? new ConstantsBuilder();
         $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder([]);
-        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder([]);
+        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(new TypeBuilder(), []);
     }
 
     /**
