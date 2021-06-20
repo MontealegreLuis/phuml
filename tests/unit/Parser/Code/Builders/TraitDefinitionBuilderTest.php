@@ -15,7 +15,6 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\Node\Stmt\TraitUse;
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\StaticMethod;
 use PhUml\Code\Name as TraitName;
@@ -72,7 +71,7 @@ final class TraitDefinitionBuilderTest extends TestCase
         $traitWithMultipleTypesOfAttributes = A::trait('ATrait')
             ->withAPrivateAttribute('$privateAttribute')
             ->withAProtectedAttribute('$protectedAttribute')
-            ->withAnAttribute(StaticAttribute::public(A::variable('$staticAttribute')->build()))
+            ->withAnAttribute(A::attribute('$staticAttribute')->public()->static()->build())
             ->build();
         $this->assertEquals($traitWithMultipleTypesOfAttributes, $trait);
     }
@@ -105,7 +104,7 @@ final class TraitDefinitionBuilderTest extends TestCase
     }
 
     /** @before */
-    function createBuilder()
+    function let()
     {
         $this->builder = new TraitDefinitionBuilder();
     }

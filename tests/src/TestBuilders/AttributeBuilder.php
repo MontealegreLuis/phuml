@@ -22,9 +22,13 @@ final class AttributeBuilder
     /** @var TypeDeclaration */
     private $type;
 
+    /** @var bool */
+    private $isStatic;
+
     public function __construct(string $name)
     {
         $this->name = $name;
+        $this->isStatic = false;
     }
 
     public function public(): AttributeBuilder
@@ -51,6 +55,12 @@ final class AttributeBuilder
         return $this;
     }
 
+    public function static(): AttributeBuilder
+    {
+        $this->isStatic = true;
+        return $this;
+    }
+
     public function build(): Attribute
     {
         if ($this->type === null) {
@@ -63,6 +73,6 @@ final class AttributeBuilder
             ->withType($type)
             ->build();
 
-        return new Attribute($variable, $this->visibility);
+        return new Attribute($variable, $this->visibility, $this->isStatic);
     }
 }

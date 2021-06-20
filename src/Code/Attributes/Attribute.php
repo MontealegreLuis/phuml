@@ -20,7 +20,7 @@ use PhUml\Code\Variables\Variable;
 /**
  * It represents an instance variable
  */
-class Attribute implements HasType, HasVisibility, CanBeStatic
+final class Attribute implements HasType, HasVisibility, CanBeStatic
 {
     use WithVisibility;
     use WithStaticModifier;
@@ -28,26 +28,41 @@ class Attribute implements HasType, HasVisibility, CanBeStatic
     /** @var Variable */
     private $variable;
 
-    public function __construct(Variable $variable, Visibility $modifier)
+    public function __construct(Variable $variable, Visibility $modifier, bool $isStatic)
     {
         $this->variable = $variable;
         $this->modifier = $modifier;
-        $this->isStatic = false;
+        $this->isStatic = $isStatic;
     }
 
     public static function public(Variable $variable): Attribute
     {
-        return new static($variable, Visibility::public());
+        return new static($variable, Visibility::public(), false);
+    }
+
+    public static function staticPublic(Variable $variable): Attribute
+    {
+        return new static($variable, Visibility::public(), true);
     }
 
     public static function protected(Variable $variable): Attribute
     {
-        return new static($variable, Visibility::protected());
+        return new static($variable, Visibility::protected(), false);
+    }
+
+    public static function staticProtected(Variable $variable): Attribute
+    {
+        return new static($variable, Visibility::protected(), true);
     }
 
     public static function private(Variable $variable): Attribute
     {
-        return new static($variable, Visibility::private());
+        return new static($variable, Visibility::private(), false);
+    }
+
+    public static function staticPrivate(Variable $variable): Attribute
+    {
+        return new static($variable, Visibility::private(), true);
     }
 
     public function isAReference(): bool

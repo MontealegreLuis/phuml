@@ -9,7 +9,9 @@ namespace PhUml\Code\Attributes;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
+use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\ContractTests\WithTypeDeclarationTests;
 use PhUml\ContractTests\WithVisibilityTests;
 use PhUml\TestBuilders\A;
@@ -22,9 +24,9 @@ final class AttributeTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $privateAttribute = A::attribute('$privateAttribute')->private()->build();
-        $publicAttribute = A::attribute('$publicAttribute')->public()->build();
-        $protectedAttribute = A::attribute('$protectedAttribute')->protected()->build();
+        $privateAttribute = Attribute::private(A::variable('$privateAttribute')->build());
+        $publicAttribute = Attribute::public(A::variable('$publicAttribute')->build());
+        $protectedAttribute = Attribute::protected(A::variable('$protectedAttribute')->build());
 
         $private = $privateAttribute->__toString();
         $public = $publicAttribute->__toString();
@@ -47,6 +49,35 @@ final class AttributeTest extends TestCase
         $this->assertEquals('+$file: SplFileInfo', $object->__toString());
         $this->assertEquals('+$array: array', $array->__toString());
         $this->assertEquals('+$directories: Directory[]', $typedArray->__toString());
+    }
+
+    /** @test */
+    function it_can_be_static()
+    {
+        $staticPublic = Attribute::staticPublic(A::variable('$staticPublic')->build());
+        $staticProtected = Attribute::staticProtected(A::variable('$staticProtected')->build());
+        $staticPrivate = Attribute::staticPrivate(A::variable('$staticPrivate')->build());
+
+        $this->assertTrue($staticPublic->isStatic());
+        $this->assertTrue($staticProtected->isStatic());
+        $this->assertTrue($staticPrivate->isStatic());
+    }
+
+    /** @test */
+    function it_knows_its_type()
+    {
+        $string = A::attribute('$aString')->public()->withType('string')->build();
+
+        $this->assertEquals(TypeDeclaration::from('string'), $string->type());
+    }
+
+    /** @test */
+    function it_knows_if_its_type_refers_to_another_declaration_in_the_current_codebase()
+    {
+        $typedArray = A::attribute('$directories')->public()->withType('Directory[]')->build();
+
+        $this->assertTrue($typedArray->isAReference());
+        $this->assertEquals(Name::from('Directory'), $typedArray->referenceName());
     }
 
     protected function memberWithoutType(): HasType

@@ -10,7 +10,6 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node\Stmt\Property;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\AttributeDocBlock;
-use PhUml\Code\Attributes\StaticAttribute;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
@@ -41,10 +40,8 @@ class AttributesBuilder extends FiltersRunner
             $visibility = $this->resolveVisibility($attribute);
             $comment = $attribute->getDocComment() === null ? null : $attribute->getDocComment()->getText();
             $variable = Variable::declaredWith($name, $this->extractTypeFrom($comment));
-            if ($attribute->isStatic()) {
-                return new StaticAttribute($variable, $visibility);
-            }
-            return new Attribute($variable, $visibility);
+
+            return new Attribute($variable, $visibility, $attribute->isStatic());
         }, $this->runFilters($attributes));
     }
 
