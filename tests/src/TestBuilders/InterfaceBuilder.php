@@ -10,7 +10,7 @@ namespace PhUml\TestBuilders;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Parameters\Parameter;
 use PhUml\Fakes\NumericIdInterface;
 
 final class InterfaceBuilder extends DefinitionBuilder
@@ -21,7 +21,7 @@ final class InterfaceBuilder extends DefinitionBuilder
     /** @var Method[] */
     private $methods = [];
 
-    public function withAPublicMethod(string $name, Variable ...$parameters): InterfaceBuilder
+    public function withAPublicMethod(string $name, Parameter ...$parameters): InterfaceBuilder
     {
         $this->methods[] = Method::public($name, $parameters);
 

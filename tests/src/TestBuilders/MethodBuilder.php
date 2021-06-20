@@ -9,15 +9,15 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 
 final class MethodBuilder
 {
     /** @var string */
     private $name;
 
-    /** @var Variable[] */
+    /** @var Parameter[] */
     private $parameters = [];
 
     /** @var TypeDeclaration */
@@ -32,7 +32,7 @@ final class MethodBuilder
         return $this;
     }
 
-    public function withParameters(Variable... $parameters): MethodBuilder
+    public function withParameters(Parameter ...$parameters): MethodBuilder
     {
         $this->parameters = $parameters;
         return $this;

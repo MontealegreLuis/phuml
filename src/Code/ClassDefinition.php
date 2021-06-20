@@ -16,6 +16,7 @@ use PhUml\Code\Attributes\WithConstants;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\CanBeAbstract;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Parameters\Parameter;
 
 /**
  * It represents a class definition
@@ -60,7 +61,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      * This method is used by the `AssociationsBuilder` class to discover associations with other
      * classes via the constructor
      *
-     * @return \PhUml\Code\Variables\Variable[]
+     * @return Parameter[]
      * @see \PhUml\Graphviz\Builders\AssociationsBuilder::fromAttributes() for more details
      */
     public function constructorParameters(): array

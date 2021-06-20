@@ -8,12 +8,12 @@
 namespace PhUml\Code\Methods;
 
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 
 final class AbstractMethod extends Method
 {
-    /** @param Variable[] $parameters */
+    /** @param Parameter[] $parameters */
     public function __construct(
         string $name,
         Visibility $modifier,

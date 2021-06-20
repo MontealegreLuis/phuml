@@ -10,7 +10,7 @@ namespace PhUml\Parser\Code;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Parameters\Parameter;
 
 /**
  * It checks the attributes and the constructor parameters of a class looking for external definitions
@@ -41,7 +41,7 @@ final class ExternalAssociationsResolver extends ExternalDefinitionsResolver
 
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void
     {
-        array_map(function (Variable $parameter) use ($codebase): void {
+        array_map(function (Parameter $parameter) use ($codebase): void {
             if ($parameter->isAReference() && ! $codebase->has($parameter->referenceName())) {
                 $codebase->add($this->externalClass($parameter->referenceName()));
             }

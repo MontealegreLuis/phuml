@@ -13,6 +13,7 @@ use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Methods\StaticMethod;
+use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Code\Builders\TypeBuilder;
@@ -67,11 +68,11 @@ class MethodsBuilder extends FiltersRunner
 
     /**
      * @param Param[] $parameters
-     * @return Variable[]
+     * @return Parameter[]
      */
     private function buildParameters(array $parameters, ?string $docBlock): array
     {
-        return array_map(function (Param $parameter) use ($docBlock): Variable {
+        return array_map(function (Param $parameter) use ($docBlock): Parameter {
             /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */
             $parsedParameter = $parameter->var;
 
@@ -84,7 +85,7 @@ class MethodsBuilder extends FiltersRunner
 
             $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name);
 
-            return Variable::declaredWith($name, $typeDeclaration);
+            return new Parameter(Variable::declaredWith($name, $typeDeclaration));
         }, $parameters);
     }
 

@@ -7,7 +7,7 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Parameters\Parameter;
 
 final class ParameterBuilder
 {
@@ -29,8 +29,8 @@ final class ParameterBuilder
         return $this;
     }
 
-    public function build(): Variable
+    public function build(): Parameter
     {
-        return A::variable($this->name)->withType($this->type)->build();
+        return new Parameter(A::variable($this->name)->withType($this->type)->build());
     }
 }

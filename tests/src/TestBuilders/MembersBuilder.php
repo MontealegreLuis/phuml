@@ -9,7 +9,7 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Parameters\Parameter;
 
 trait MembersBuilder
 {
@@ -51,7 +51,7 @@ trait MembersBuilder
     }
 
     /** @return ClassBuilder|TraitBuilder */
-    public function withAProtectedMethod(string $name, Variable ...$parameters)
+    public function withAProtectedMethod(string $name, Parameter ...$parameters)
     {
         $this->methods[] = Method::protected($name, $parameters);
 
@@ -59,7 +59,7 @@ trait MembersBuilder
     }
 
     /** @return ClassBuilder|TraitBuilder */
-    public function withAPrivateMethod(string $name, Variable ...$parameters)
+    public function withAPrivateMethod(string $name, Parameter ...$parameters)
     {
         $this->methods[] = Method::private($name, $parameters);
 
@@ -67,7 +67,7 @@ trait MembersBuilder
     }
 
     /** @return ClassBuilder|TraitBuilder */
-    public function withAPublicMethod(string $name, Variable ...$parameters)
+    public function withAPublicMethod(string $name, Parameter ...$parameters)
     {
         $this->methods[] = Method::public($name, $parameters);
 

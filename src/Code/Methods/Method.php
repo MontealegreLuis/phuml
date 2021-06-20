@@ -14,6 +14,7 @@ use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithAbstractModifier;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
+use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
@@ -29,13 +30,13 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     /** @var string */
     private $name;
 
-    /** @var Variable[] */
+    /** @var Parameter[] */
     private $parameters;
 
     /** @var TypeDeclaration */
     private $returnType;
 
-    /** @param Variable[] $parameters */
+    /** @param Parameter[] $parameters */
     public static function public(
         string $name,
         array $parameters = [],
@@ -90,7 +91,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         );
     }
 
-    /** @param Variable[] $parameters */
+    /** @param Parameter[] $parameters */
     public function __construct(
         string $name,
         Visibility $modifier,
