@@ -25,41 +25,11 @@ final class Attribute implements HasType, HasVisibility, CanBeStatic
     use WithStaticModifier;
     use WithVariable;
 
-    public function __construct(Variable $variable, Visibility $modifier, bool $isStatic)
+    public function __construct(Variable $variable, Visibility $modifier, bool $isStatic = false)
     {
         $this->variable = $variable;
         $this->modifier = $modifier;
         $this->isStatic = $isStatic;
-    }
-
-    public static function public(Variable $variable): Attribute
-    {
-        return new static($variable, Visibility::public(), false);
-    }
-
-    public static function staticPublic(Variable $variable): Attribute
-    {
-        return new static($variable, Visibility::public(), true);
-    }
-
-    public static function protected(Variable $variable): Attribute
-    {
-        return new static($variable, Visibility::protected(), false);
-    }
-
-    public static function staticProtected(Variable $variable): Attribute
-    {
-        return new static($variable, Visibility::protected(), true);
-    }
-
-    public static function private(Variable $variable): Attribute
-    {
-        return new static($variable, Visibility::private(), false);
-    }
-
-    public static function staticPrivate(Variable $variable): Attribute
-    {
-        return new static($variable, Visibility::private(), true);
     }
 
     public function __toString()

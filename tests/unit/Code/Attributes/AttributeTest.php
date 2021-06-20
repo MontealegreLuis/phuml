@@ -9,6 +9,7 @@ namespace PhUml\Code\Attributes;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
+use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\TypeDeclaration;
@@ -24,9 +25,9 @@ final class AttributeTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $privateAttribute = Attribute::private(A::variable('$privateAttribute')->build());
-        $publicAttribute = Attribute::public(A::variable('$publicAttribute')->build());
-        $protectedAttribute = Attribute::protected(A::variable('$protectedAttribute')->build());
+        $privateAttribute = new Attribute(A::variable('$privateAttribute')->build(), Visibility::private());
+        $publicAttribute = new Attribute(A::variable('$publicAttribute')->build(), Visibility::public());
+        $protectedAttribute = new Attribute(A::variable('$protectedAttribute')->build(), Visibility::protected());
 
         $private = $privateAttribute->__toString();
         $public = $publicAttribute->__toString();
@@ -54,9 +55,9 @@ final class AttributeTest extends TestCase
     /** @test */
     function it_can_be_static()
     {
-        $staticPublic = Attribute::staticPublic(A::variable('$staticPublic')->build());
-        $staticProtected = Attribute::staticProtected(A::variable('$staticProtected')->build());
-        $staticPrivate = Attribute::staticPrivate(A::variable('$staticPrivate')->build());
+        $staticPublic = new Attribute(A::variable('$staticPublic')->build(), Visibility::public(), true);
+        $staticProtected = new Attribute(A::variable('$staticProtected')->build(), Visibility::protected(), true);
+        $staticPrivate = new Attribute(A::variable('$staticPrivate')->build(), Visibility::private(), true);
 
         $this->assertTrue($staticPublic->isStatic());
         $this->assertTrue($staticProtected->isStatic());
@@ -102,11 +103,11 @@ final class AttributeTest extends TestCase
 
     protected function protectedMember(): HasVisibility
     {
-        return Attribute::protected(A::variable('$attribute')->build());
+        return new Attribute(A::variable('$attribute')->build(), Visibility::protected());
     }
 
     protected function privateMember(): HasVisibility
     {
-        return Attribute::private(A::variable('$attribute')->build());
+        return new Attribute(A::variable('$attribute')->build(), Visibility::private());
     }
 }

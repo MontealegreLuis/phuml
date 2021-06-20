@@ -9,6 +9,7 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Parameters\Parameter;
 
 trait MembersBuilder
@@ -30,7 +31,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAProtectedAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::protected(A::variable($name)->withType($type)->build());
+        $this->attributes[] = new Attribute(A::variable($name)->withType($type)->build(), Visibility::protected());
 
         return $this;
     }
@@ -38,7 +39,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPrivateAttribute(string $name, string $type = null)
     {
-        $this->attributes[] = Attribute::private(A::variable($name)->withType($type)->build());
+        $this->attributes[] = new Attribute(A::variable($name)->withType($type)->build(), Visibility::private());
 
         return $this;
     }
