@@ -12,10 +12,9 @@ use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
-use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
-use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
+use PhUml\Code\Variables\WithVariable;
 
 /**
  * It represents an instance variable
@@ -24,9 +23,7 @@ final class Attribute implements HasType, HasVisibility, CanBeStatic
 {
     use WithVisibility;
     use WithStaticModifier;
-
-    /** @var Variable */
-    private $variable;
+    use WithVariable;
 
     public function __construct(Variable $variable, Visibility $modifier, bool $isStatic)
     {
@@ -63,26 +60,6 @@ final class Attribute implements HasType, HasVisibility, CanBeStatic
     public static function staticPrivate(Variable $variable): Attribute
     {
         return new static($variable, Visibility::private(), true);
-    }
-
-    public function isAReference(): bool
-    {
-        return $this->variable->isAReference();
-    }
-
-    public function referenceName(): Name
-    {
-        return $this->variable->referenceName();
-    }
-
-    public function hasTypeDeclaration(): bool
-    {
-        return $this->variable->hasTypeDeclaration();
-    }
-
-    public function type(): TypeDeclaration
-    {
-        return $this->variable->type();
     }
 
     public function __toString()

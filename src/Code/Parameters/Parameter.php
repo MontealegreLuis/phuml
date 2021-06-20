@@ -7,15 +7,13 @@
 
 namespace PhUml\Code\Parameters;
 
-use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
-use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
+use PhUml\Code\Variables\WithVariable;
 
 final class Parameter implements HasType
 {
-    /** @var Variable */
-    private $variable;
+    use WithVariable;
 
     /** @var bool */
     private $isVariadic;
@@ -38,25 +36,5 @@ final class Parameter implements HasType
             $this->isByReference ? '&' : '',
             $this->variable
         );
-    }
-
-    public function isAReference(): bool
-    {
-        return $this->variable->isAReference();
-    }
-
-    public function referenceName(): Name
-    {
-        return $this->variable->referenceName();
-    }
-
-    public function hasTypeDeclaration(): bool
-    {
-        return $this->variable->hasTypeDeclaration();
-    }
-
-    public function type(): TypeDeclaration
-    {
-        return $this->variable->type();
     }
 }
