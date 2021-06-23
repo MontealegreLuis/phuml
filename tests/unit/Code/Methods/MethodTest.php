@@ -9,7 +9,6 @@ namespace PhUml\Code\Methods;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
-use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\ContractTests\WithVisibilityTests;
 use PhUml\TestBuilders\A;
 
@@ -20,8 +19,8 @@ final class MethodTest extends TestCase
     /** @test */
     function it_knows_if_it_is_abstract()
     {
-        $abstractMethod = AbstractMethod::public('abstractMethod');
-        $nonAbstractMethod = Method::public('nonAbstractMethod');
+        $abstractMethod = A::method('abstractMethod')->public()->abstract()->build();
+        $nonAbstractMethod = A::method('nonAbstractMethod')->public()->build();
 
         $this->assertTrue($abstractMethod->isAbstract());
         $this->assertFalse($nonAbstractMethod->isAbstract());
@@ -30,7 +29,7 @@ final class MethodTest extends TestCase
     /** @test */
     function it_has_no_parameters_by_default()
     {
-        $noParametersMethod = Method::public('noParametersMethod');
+        $noParametersMethod = A::method('noParametersMethod')->public()->build();
 
         $parameters = $noParametersMethod->parameters();
 
@@ -41,10 +40,13 @@ final class MethodTest extends TestCase
     function it_knows_its_parameters()
     {
         $expectedParameters = [
-            A::variable('first')->build(),
-            A::variable('second')->build(),
+            A::parameter('first')->build(),
+            A::parameter('second')->build(),
         ];
-        $methodWithParameters = Method::public('methodWithParameters', $expectedParameters);
+        $methodWithParameters = A::method('methodWithParameters')
+            ->public()
+            ->withParameters(...$expectedParameters)
+            ->build();
 
         $parameters = $methodWithParameters->parameters();
 
@@ -54,7 +56,7 @@ final class MethodTest extends TestCase
     /** @test */
     function it_knows_it_is_a_constructor()
     {
-        $constructor = Method::public('__construct');
+        $constructor = A::method('__construct')->public()->build();
 
         $isConstructor = $constructor->isConstructor();
 
@@ -64,7 +66,7 @@ final class MethodTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $method = Method::public('method');
+        $method = A::method('method')->public()->build();
 
         $methodAsString = $method->__toString();
 
@@ -74,10 +76,14 @@ final class MethodTest extends TestCase
     /** @test */
     function its_string_representation_includes_its_visibility_its_parameters_and_its_return_type()
     {
-        $method = Method::protected('withParameters', [
-            A::variable('$parameterOne')->build(),
-            A::variable('$parameterTwoWithType')->withType('int')->build(),
-        ], TypeDeclaration::from('SplStack'));
+        $method =A::method('withParameters')
+            ->protected()
+            ->withParameters(
+                A::parameter('$parameterOne')->build(),
+                A::parameter('$parameterTwoWithType')->withType('int')->build()
+            )
+            ->withReturnType('SplStack')
+            ->build();
 
         $methodAsString = $method->__toString();
 
@@ -89,16 +95,16 @@ final class MethodTest extends TestCase
 
     protected function publicMember(): HasVisibility
     {
-        return Method::public('publicMethod');
+        return A::method('publicMethod')->public()->build();
     }
 
     protected function protectedMember(): HasVisibility
     {
-        return Method::protected('protectedMethod');
+        return A::method('protectedMethod')->protected()->build();
     }
 
     protected function privateMember(): HasVisibility
     {
-        return Method::private('privateMethod');
+        return A::method('privateMethod')->private()->build();
     }
 }

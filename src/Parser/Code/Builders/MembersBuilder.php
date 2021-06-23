@@ -11,6 +11,7 @@ use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
+use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 
 /**
  * It builds the constants, attributes and methods of a definition

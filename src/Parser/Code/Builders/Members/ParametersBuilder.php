@@ -11,7 +11,6 @@ use PhpParser\Node\Param;
 use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\Variable;
-use PhUml\Parser\Code\Builders\TypeBuilder;
 
 final class ParametersBuilder
 {
@@ -41,7 +40,7 @@ final class ParametersBuilder
 
             $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name);
 
-            return new Parameter(Variable::declaredWith($name, $typeDeclaration));
+            return new Parameter(new Variable($name, $typeDeclaration));
         }, $parameters);
     }
 }

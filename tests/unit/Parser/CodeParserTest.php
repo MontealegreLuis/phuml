@@ -122,23 +122,20 @@ CLASS
 
         $class = A::class('MyClass')
             ->withAMethod(
-                A::method()
+                A::method('changeName')
                     ->private()
-                    ->named('changeName')
                     ->withParameters(A::parameter('$newName')->withType('string')->build())
                     ->withReturnType('void')
                     ->build()
             )
             ->withAMethod(
-                A::method()
+                A::method('getAge')
                     ->protected()
-                    ->named('getAge')
                     ->withReturnType('int')
                     ->build()
             )->withAMethod(
-                A::method()
+                A::method('formatPhone')
                 ->public()
-                ->named('formatPhone')
                 ->withParameters(A::parameter('$format')->withType('string')->build())
                 ->withReturnType('string')
                 ->build()
@@ -175,9 +172,8 @@ CLASS
         $class = A::class('MyClass')
             ->withAPublicMethod('__construct')
             ->withAMethod(
-                A::method()
+                A::method('changeValues')
                     ->public()
-                    ->named('changeValues')
                     ->withParameters(
                         A::parameter('$name')->withType('string')->build(),
                         A::parameter('$age')->withType('int')->build(),
@@ -287,9 +283,8 @@ INTERFACE
 
         $interface = A::interface('MyInterface')
             ->withAMethod(
-                A::method()
+                A::method('changeValues')
                     ->public()
-                    ->named('changeValues')
                     ->withParameters(
                         A::parameter('$name')->withType('string')->build(),
                         A::parameter('$age')->withType('int')->build(),
@@ -298,9 +293,8 @@ INTERFACE
                     ->build()
             )
             ->withAMethod(
-                A::method()
+                A::method('ageToMonths')
                     ->public()
-                    ->named('ageToMonths')
                     ->withReturnType('int')
                     ->build()
             )->build();
@@ -442,22 +436,19 @@ CLASS;
             ->withAProtectedAttribute('$name', 'string')
             ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
             ->withAMethod(
-                A::method()
+                A::method('isNamed')
                 ->public()
-                ->named('isNamed')
                 ->withParameters(A::parameter('$name')->withType('string')->build())
                 ->withReturnType('bool')
                 ->build()
             )->build();
-        $currentMethod = A::method()
+        $currentMethod = A::method('current')
             ->public()
-            ->named('current')
             ->withReturnType('Page')
             ->build();
         $pageable = A::interface('Pageable')->withAMethod($currentMethod)->build();
-        $namedMethod = A::method()
+        $namedMethod = A::method('named')
             ->public()
-            ->named('named')
             ->withParameters(A::parameter('$name')->withType('string')->build())
             ->withReturnType('array')
             ->build();

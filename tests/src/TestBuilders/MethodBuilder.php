@@ -26,10 +26,17 @@ final class MethodBuilder
     /** @var Visibility */
     private $visibility;
 
-    public function named(string $name): MethodBuilder
+    /** @var bool */
+    private $isAbstract;
+
+    /** @var bool */
+    private $isStatic;
+
+    public function __construct(string $name)
     {
         $this->name = $name;
-        return $this;
+        $this->isAbstract = false;
+        $this->isStatic = false;
     }
 
     public function withParameters(Parameter ...$parameters): MethodBuilder
@@ -62,13 +69,27 @@ final class MethodBuilder
         return $this;
     }
 
+    public function abstract(): MethodBuilder
+    {
+        $this->isAbstract = true;
+        return $this;
+    }
+
+    public function static(): MethodBuilder
+    {
+        $this->isStatic = true;
+        return $this;
+    }
+
     public function build(): Method
     {
         return new Method(
             $this->name,
             $this->visibility,
             $this->returnType ?? TypeDeclaration::absent(),
-            $this->parameters
+            $this->parameters,
+            $this->isAbstract,
+            $this->isStatic
         );
     }
 }

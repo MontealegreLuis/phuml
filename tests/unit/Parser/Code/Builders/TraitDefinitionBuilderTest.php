@@ -15,8 +15,6 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\Node\Stmt\TraitUse;
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Methods\AbstractMethod;
-use PhUml\Code\Methods\StaticMethod;
 use PhUml\Code\Name as TraitName;
 use PhUml\TestBuilders\A;
 
@@ -49,8 +47,8 @@ final class TraitDefinitionBuilderTest extends TestCase
         $traitWithMultipleTypesOfMethods = A::trait('ATrait')
             ->withAPrivateMethod('privateMethod')
             ->withAProtectedMethod('protectedMethod')
-            ->withAMethod(StaticMethod::public('staticMethod'))
-            ->withAMethod(AbstractMethod::public('abstractMethod'))
+            ->withAMethod(A::method('staticMethod')->public()->static()->build())
+            ->withAMethod(A::method('abstractMethod')->public()->abstract()->build())
             ->build();
         $this->assertEquals($traitWithMultipleTypesOfMethods, $trait);
     }

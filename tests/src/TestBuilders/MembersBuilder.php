@@ -54,7 +54,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAProtectedMethod(string $name, Parameter ...$parameters)
     {
-        $this->methods[] = Method::protected($name, $parameters);
+        $this->methods[] = A::method($name)->protected()->withParameters(...$parameters)->build();
 
         return $this;
     }
@@ -62,7 +62,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPrivateMethod(string $name, Parameter ...$parameters)
     {
-        $this->methods[] = Method::private($name, $parameters);
+        $this->methods[] = A::method($name)->private()->withParameters(...$parameters)->build();
 
         return $this;
     }
@@ -70,7 +70,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPublicMethod(string $name, Parameter ...$parameters)
     {
-        $this->methods[] = Method::public($name, $parameters);
+        $this->methods[] = A::method($name)->public()->withParameters(...$parameters)->build();
 
         return $this;
     }

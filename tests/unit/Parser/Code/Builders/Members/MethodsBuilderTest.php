@@ -19,7 +19,6 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
-use PhUml\Parser\Code\Builders\TypeBuilder;
 
 final class MethodsBuilderTest extends TestCase
 {

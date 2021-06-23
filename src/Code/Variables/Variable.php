@@ -20,12 +20,7 @@ final class Variable implements HasType
     /** @var string */
     protected $name;
 
-    public static function declaredWith(string $name, TypeDeclaration $type = null): Variable
-    {
-        return new Variable($name, $type ?? TypeDeclaration::absent());
-    }
-
-    protected function __construct(string $name, TypeDeclaration $type)
+    public function __construct(string $name, TypeDeclaration $type)
     {
         $this->name = $name;
         $this->type = $type;

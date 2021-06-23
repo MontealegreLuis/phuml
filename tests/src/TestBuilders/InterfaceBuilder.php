@@ -23,7 +23,7 @@ final class InterfaceBuilder extends DefinitionBuilder
 
     public function withAPublicMethod(string $name, Parameter ...$parameters): InterfaceBuilder
     {
-        $this->methods[] = Method::public($name, $parameters);
+        $this->methods[] = A::method($name)->public()->withParameters(...$parameters)->build();
 
         return $this;
     }

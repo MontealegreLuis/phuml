@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Parser\Code\Builders;
+namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
@@ -13,7 +13,6 @@ use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
 use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Parser\Code\Builders\Members\UnsupportedType;
 
 final class TypeBuilder
 {

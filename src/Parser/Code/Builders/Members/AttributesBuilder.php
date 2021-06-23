@@ -39,7 +39,7 @@ class AttributesBuilder extends FiltersRunner
             $visibility = $this->resolveVisibility($attribute);
             $comment = $attribute->getDocComment() === null ? null : $attribute->getDocComment()->getText();
             $docBlock = AttributeDocBlock::from($comment);
-            $variable = Variable::declaredWith($name, $docBlock->extractType());
+            $variable = new Variable($name, $docBlock->extractType());
 
             return new Attribute($variable, $visibility, $attribute->isStatic());
         }, $this->runFilters($attributes));

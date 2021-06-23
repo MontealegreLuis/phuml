@@ -77,8 +77,8 @@ final class A
         return new VariableBuilder($name);
     }
 
-    public static function method(): MethodBuilder
+    public static function method(string $name): MethodBuilder
     {
-        return new MethodBuilder();
+        return new MethodBuilder($name);
     }
 }

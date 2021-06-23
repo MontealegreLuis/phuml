@@ -21,9 +21,9 @@ stats:
 	@docker-compose run --rm tests php bin/phuml phuml:statistics $(ARGS)
 
 format:
+	@vendor/bin/rector process
 	@vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --using-cache no
 	@vendor/bin/php-cs-fixer fix --config=.php-cs-fixer-tests.php -v --using-cache no
-	@vendor/bin/rector process
 
 check:
 	@vendor/bin/grumphp run

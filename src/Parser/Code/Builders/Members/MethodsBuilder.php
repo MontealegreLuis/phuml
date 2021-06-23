@@ -8,11 +8,8 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Stmt\ClassMethod;
-use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Methods\MethodDocBlock;
-use PhUml\Code\Methods\StaticMethod;
-use PhUml\Parser\Code\Builders\TypeBuilder;
 
 /**
  * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
@@ -59,9 +56,9 @@ class MethodsBuilder extends FiltersRunner
         $parameters = $this->parametersBuilder->build($method->params, $methodDocBlock);
         switch (true) {
             case $method->isAbstract():
-                return new AbstractMethod($name, $visibility, $returnType, $parameters);
+                return new Method($name, $visibility, $returnType, $parameters, true);
             case $method->isStatic():
-                return new StaticMethod($name, $visibility, $returnType, $parameters);
+                return new Method($name, $visibility, $returnType, $parameters, false, true);
             default:
                 return new Method($name, $visibility, $returnType, $parameters);
         }

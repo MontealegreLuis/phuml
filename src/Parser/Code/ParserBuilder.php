@@ -19,9 +19,9 @@ use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
+use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
-use PhUml\Parser\Code\Builders\TypeBuilder;
 
 final class ParserBuilder
 {

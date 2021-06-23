@@ -32,6 +32,6 @@ final class VariableBuilder
 
     public function build(): Variable
     {
-        return Variable::declaredWith($this->name, $this->type);
+        return new Variable($this->name, $this->type);
     }
 }

@@ -21,7 +21,7 @@ use PhUml\Code\Variables\Variable;
 /**
  * It represents a class or interface method
  */
-class Method implements HasVisibility, CanBeAbstract, CanBeStatic
+final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
 {
     use WithVisibility;
     use WithAbstractModifier;
@@ -35,33 +35,6 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
 
     /** @var TypeDeclaration */
     private $returnType;
-
-    /** @param Parameter[] $parameters */
-    public static function public(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::public(), $returnType ?? TypeDeclaration::absent(), $parameters);
-    }
-
-    /** @param Variable[] $parameters */
-    public static function protected(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::protected(), $returnType ?? TypeDeclaration::absent(), $parameters);
-    }
-
-    /** @param Variable[] $parameters */
-    public static function private(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::private(), $returnType ?? TypeDeclaration::absent(), $parameters);
-    }
 
     /**
      * It is used by the `ClassDefinition` to extract the parameters of a constructor
@@ -96,13 +69,15 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         string $name,
         Visibility $modifier,
         TypeDeclaration $returnType,
-        array $parameters = []
+        array $parameters = [],
+        bool $isAbstract = false,
+        bool $isStatic = false
     ) {
         $this->name = $name;
         $this->modifier = $modifier;
         $this->parameters = $parameters;
-        $this->isAbstract = false;
-        $this->isStatic = false;
+        $this->isAbstract = $isAbstract;
+        $this->isStatic = $isStatic;
         $this->returnType = $returnType;
     }
 }
