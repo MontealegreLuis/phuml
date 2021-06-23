@@ -28,7 +28,12 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_private_methods()
     {
-        $methodsBuilder = new MethodsBuilder(new TypeBuilder(), [new PrivateVisibilityFilter()]);
+        $typeBuilder = new TypeBuilder();
+        $methodsBuilder = new MethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            [new PrivateVisibilityFilter()]
+        );
 
         $methods = $methodsBuilder->build($this->methods);
 
@@ -42,7 +47,12 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_methods()
     {
-        $builder = new MethodsBuilder(new TypeBuilder(), [new ProtectedVisibilityFilter()]);
+        $typeBuilder = new TypeBuilder();
+        $builder = new MethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            [new ProtectedVisibilityFilter()]
+        );
 
         $methods = $builder->build($this->methods);
 
@@ -57,7 +67,12 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_methods()
     {
-        $builder = new MethodsBuilder(new TypeBuilder(), [new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
+        $typeBuilder = new TypeBuilder();
+        $builder = new MethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            [new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]
+        );
 
         $methods = $builder->build($this->methods);
 
@@ -98,7 +113,8 @@ final class MethodsBuilderTest extends TestCase
     /** @before */
     function let()
     {
-        $this->builder = new MethodsBuilder(new TypeBuilder());
+        $typeBuilder = new TypeBuilder();
+        $this->builder = new MethodsBuilder(new ParametersBuilder($typeBuilder), $typeBuilder);
         $this->methods = [
             new ClassMethod('privateMethodA', ['type' => Class_::MODIFIER_PRIVATE]),
             new ClassMethod('publicMethodA', [

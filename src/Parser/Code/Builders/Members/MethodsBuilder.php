@@ -7,15 +7,11 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
-use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\AbstractMethod;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Methods\StaticMethod;
-use PhUml\Code\Parameters\Parameter;
-use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Code\Builders\TypeBuilder;
 
 /**
@@ -29,13 +25,17 @@ use PhUml\Parser\Code\Builders\TypeBuilder;
  */
 class MethodsBuilder extends FiltersRunner
 {
+    /** @var ParametersBuilder */
+    private $parametersBuilder;
+
     /** @var TypeBuilder */
     private $typeBuilder;
 
-    public function __construct(TypeBuilder $typeBuilder, array $filters = [])
+    public function __construct(ParametersBuilder $parametersBuilder, TypeBuilder $typeBuilder, array $filters = [])
     {
         parent::__construct($filters);
         $this->typeBuilder = $typeBuilder;
+        $this->parametersBuilder = $parametersBuilder;
     }
 
     /**
@@ -54,8 +54,9 @@ class MethodsBuilder extends FiltersRunner
         $name = $method->name->name;
         $visibility = $this->resolveVisibility($method);
         $docBlock = $method->getDocComment() === null ? null : $method->getDocComment()->getText();
-        $returnType = $this->extractReturnType($method, $docBlock);
-        $parameters = $this->buildParameters($method->params, $docBlock);
+        $methodDocBlock = MethodDocBlock::from($docBlock);
+        $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $methodDocBlock);
+        $parameters = $this->parametersBuilder->build($method->params, $methodDocBlock);
         switch (true) {
             case $method->isAbstract():
                 return new AbstractMethod($name, $visibility, $returnType, $parameters);
@@ -64,36 +65,5 @@ class MethodsBuilder extends FiltersRunner
             default:
                 return new Method($name, $visibility, $returnType, $parameters);
         }
-    }
-
-    /**
-     * @param Param[] $parameters
-     * @return Parameter[]
-     */
-    private function buildParameters(array $parameters, ?string $docBlock): array
-    {
-        return array_map(function (Param $parameter) use ($docBlock): Parameter {
-            /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */
-            $parsedParameter = $parameter->var;
-
-            /** @var string $parameterName Since it's a parameter not a variable */
-            $parameterName = $parsedParameter->name;
-
-            $name = "\${$parameterName}";
-            $methodDocBlock = MethodDocBlock::from($docBlock);
-            $type = $parameter->type;
-
-            $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name);
-
-            return new Parameter(Variable::declaredWith($name, $typeDeclaration));
-        }, $parameters);
-    }
-
-    private function extractReturnType(ClassMethod $method, ?string $docBlock): TypeDeclaration
-    {
-        $returnType = $method->returnType;
-        $methodDocBlock = MethodDocBlock::from($docBlock);
-
-        return $this->typeBuilder->fromMethodReturnType($returnType, $methodDocBlock);
     }
 }

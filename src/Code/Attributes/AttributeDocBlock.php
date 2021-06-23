@@ -18,7 +18,7 @@ final class AttributeDocBlock extends DocBlock
     /** @var string */
     private static $varExpression = '/@var\s*([\w]+(\[\])?)/';
 
-    public static function from(string $text): AttributeDocBlock
+    public static function from(?string $text): AttributeDocBlock
     {
         return new AttributeDocBlock($text);
     }
