@@ -25,14 +25,22 @@ class MethodsBuilder extends FiltersRunner
     /** @var ParametersBuilder */
     private $parametersBuilder;
 
+    /** @var VisibilityBuilder */
+    private $visibilityBuilder;
+
     /** @var TypeBuilder */
     private $typeBuilder;
 
-    public function __construct(ParametersBuilder $parametersBuilder, TypeBuilder $typeBuilder, array $filters = [])
-    {
+    public function __construct(
+        ParametersBuilder $parametersBuilder,
+        TypeBuilder $typeBuilder,
+        VisibilityBuilder $visibilityBuilder,
+        array $filters = []
+    ) {
         parent::__construct($filters);
         $this->typeBuilder = $typeBuilder;
         $this->parametersBuilder = $parametersBuilder;
+        $this->visibilityBuilder = $visibilityBuilder;
     }
 
     /**
@@ -49,7 +57,7 @@ class MethodsBuilder extends FiltersRunner
     private function buildMethod(ClassMethod $method): Method
     {
         $name = $method->name->name;
-        $visibility = $this->resolveVisibility($method);
+        $visibility = $this->visibilityBuilder->build($method);
         $docBlock = $method->getDocComment() === null ? null : $method->getDocComment()->getText();
         $methodDocBlock = MethodDocBlock::from($docBlock);
         $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $methodDocBlock);

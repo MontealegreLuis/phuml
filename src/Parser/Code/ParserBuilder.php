@@ -75,14 +75,16 @@ final class ParserBuilder
 
     public function build(): PhpParser
     {
-        $constantsBuilder = $this->constantsBuilder ?? new AllConstantsBuilder(new VisibilityBuilder());
+        $visibilityBuilder = new VisibilityBuilder();
+        $constantsBuilder = $this->constantsBuilder ?? new AllConstantsBuilder($visibilityBuilder);
         $typeBuilder = new TypeBuilder();
         $methodsBuilder = $this->methodsBuilder ?? new MethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
+            $visibilityBuilder,
             $this->filters
         );
-        $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder(new VisibilityBuilder(), $this->filters);
+        $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder($visibilityBuilder, $this->filters);
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
 
         return new PhpCodeParser(

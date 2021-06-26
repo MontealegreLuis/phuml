@@ -38,12 +38,14 @@ final class MembersBuilder
         AttributesBuilder $attributesBuilder = null,
         MethodsBuilder $methodsBuilder = null
     ) {
-        $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder(new VisibilityBuilder());
-        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder(new VisibilityBuilder(), []);
+        $visibilityBuilder = new VisibilityBuilder();
+        $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder($visibilityBuilder);
+        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder($visibilityBuilder, []);
         $typeBuilder = new TypeBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
+            $visibilityBuilder,
             []
         );
     }
