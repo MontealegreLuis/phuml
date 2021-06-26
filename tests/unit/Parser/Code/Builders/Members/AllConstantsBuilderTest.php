@@ -14,6 +14,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPUnit\Framework\TestCase;
 
@@ -24,18 +25,18 @@ final class AllConstantsBuilderTest extends TestCase
     {
         $constants = [
             new ClassConst([new Const_('INTEGER', new LNumber(1))]),
-            new ClassConst([new Const_('FLOAT', new DNumber(1.5))]),
-            new ClassConst([new Const_('STRING', new String_('test'))]),
+            new ClassConst([new Const_('FLOAT', new DNumber(1.5))], Class_::MODIFIER_PRIVATE),
+            new ClassConst([new Const_('STRING', new String_('test'))], Class_::MODIFIER_PROTECTED),
             new ClassConst([new Const_('BOOLEAN', new ConstFetch(new Name(['false'])))]),
         ];
-        $builder = new AllConstantsBuilder();
+        $builder = new AllConstantsBuilder(new VisibilityBuilder());
 
         $constants = $builder->build($constants);
 
         $this->assertCount(4, $constants);
         $this->assertEquals('+INTEGER: int', (string) $constants[0]);
-        $this->assertEquals('+FLOAT: float', (string) $constants[1]);
-        $this->assertEquals('+STRING: string', (string) $constants[2]);
+        $this->assertEquals('-FLOAT: float', (string) $constants[1]);
+        $this->assertEquals('#STRING: string', (string) $constants[2]);
         $this->assertEquals('+BOOLEAN: bool', (string) $constants[3]);
     }
 
@@ -52,7 +53,7 @@ final class AllConstantsBuilderTest extends TestCase
                 )
             )]),
         ];
-        $builder = new AllConstantsBuilder();
+        $builder = new AllConstantsBuilder(new VisibilityBuilder());
 
         $rawConstants = $builder->build($constants);
 

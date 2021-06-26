@@ -8,28 +8,34 @@
 namespace PhUml\Code\Attributes;
 
 use BadMethodCallException;
+use PhUml\Code\Modifiers\HasVisibility;
+use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\WithTypeDeclaration;
 
-final class Constant implements HasType
+final class Constant implements HasType, HasVisibility
 {
     use WithTypeDeclaration;
+    use WithVisibility;
 
     /** @var string */
     private $name;
 
-    public function __construct(string $name, TypeDeclaration $type)
+    public function __construct(string $name, TypeDeclaration $type, Visibility $visibility = null)
     {
         $this->name = $name;
         $this->type = $type;
+        $this->modifier = $visibility ?? Visibility::public();
     }
 
     public function __toString()
     {
         return sprintf(
-            '+%s%s',
+            '%s%s%s',
+            $this->modifier,
             $this->name,
             $this->type->isPresent() ? ": {$this->type}" : ''
         );

@@ -13,6 +13,7 @@ use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 
 /**
  * It builds the constants, attributes and methods of a definition
@@ -37,7 +38,7 @@ final class MembersBuilder
         AttributesBuilder $attributesBuilder = null,
         MethodsBuilder $methodsBuilder = null
     ) {
-        $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder();
+        $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder(new VisibilityBuilder());
         $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder([]);
         $typeBuilder = new TypeBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(

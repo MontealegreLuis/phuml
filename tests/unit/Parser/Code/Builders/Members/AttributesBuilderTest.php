@@ -61,7 +61,7 @@ final class AttributesBuilderTest extends TestCase
     }
 
     /** @before */
-    function createAttributes()
+    function let()
     {
         $this->attributes = [
             new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('willBeRemoved')]),

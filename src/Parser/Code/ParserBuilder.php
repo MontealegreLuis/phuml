@@ -21,6 +21,7 @@ use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 
@@ -74,7 +75,7 @@ final class ParserBuilder
 
     public function build(): PhpParser
     {
-        $constantsBuilder = $this->constantsBuilder ?? new AllConstantsBuilder();
+        $constantsBuilder = $this->constantsBuilder ?? new AllConstantsBuilder(new VisibilityBuilder());
         $typeBuilder = new TypeBuilder();
         $methodsBuilder = $this->methodsBuilder ?? new MethodsBuilder(
             new ParametersBuilder($typeBuilder),

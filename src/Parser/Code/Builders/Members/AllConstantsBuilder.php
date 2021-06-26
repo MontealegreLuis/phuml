@@ -26,6 +26,14 @@ final class AllConstantsBuilder implements ConstantsBuilder
         'string' => 'string',
     ];
 
+    /** @var VisibilityBuilder */
+    private $visibilityBuilder;
+
+    public function __construct(VisibilityBuilder $visibilityBuilder)
+    {
+        $this->visibilityBuilder = $visibilityBuilder;
+    }
+
     /**
      * @param Node[] $classAttributes
      * @return Constant[]
@@ -38,7 +46,8 @@ final class AllConstantsBuilder implements ConstantsBuilder
         return array_map(function (ClassConst $constant): Constant {
             return new Constant(
                 (string) $constant->consts[0]->name,
-                TypeDeclaration::from($this->determineType($constant->consts[0]))
+                TypeDeclaration::from($this->determineType($constant->consts[0])),
+                $this->visibilityBuilder->build($constant)
             );
         }, $constants);
     }
