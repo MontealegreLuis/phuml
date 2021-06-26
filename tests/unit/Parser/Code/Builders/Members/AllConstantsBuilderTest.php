@@ -17,7 +17,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPUnit\Framework\TestCase;
 
-final class ConstantsBuilderTest extends TestCase
+final class AllConstantsBuilderTest extends TestCase
 {
     /** @test */
     function it_parses_a_class_constants()
@@ -28,7 +28,7 @@ final class ConstantsBuilderTest extends TestCase
             new ClassConst([new Const_('STRING', new String_('test'))]),
             new ClassConst([new Const_('BOOLEAN', new ConstFetch(new Name(['false'])))]),
         ];
-        $builder = new ConstantsBuilder();
+        $builder = new AllConstantsBuilder();
 
         $constants = $builder->build($constants);
 
@@ -52,7 +52,7 @@ final class ConstantsBuilderTest extends TestCase
                 )
             )]),
         ];
-        $builder = new ConstantsBuilder();
+        $builder = new AllConstantsBuilder();
 
         $rawConstants = $builder->build($constants);
 

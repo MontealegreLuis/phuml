@@ -12,6 +12,7 @@ use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
@@ -73,7 +74,7 @@ final class ParserBuilder
 
     public function build(): PhpParser
     {
-        $constantsBuilder = $this->constantsBuilder ?? new ConstantsBuilder();
+        $constantsBuilder = $this->constantsBuilder ?? new AllConstantsBuilder();
         $typeBuilder = new TypeBuilder();
         $methodsBuilder = $this->methodsBuilder ?? new MethodsBuilder(
             new ParametersBuilder($typeBuilder),

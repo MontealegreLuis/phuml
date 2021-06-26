@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders;
 
+use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
@@ -16,7 +17,7 @@ use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 /**
  * It builds the constants, attributes and methods of a definition
  *
- * @see ConstantsBuilder for more details about the constants creation
+ * @see AllConstantsBuilder for more details about the constants creation
  * @see AttributesBuilder for more details about the attributes creation
  * @see MethodsBuilder for more details about the methods creation
  */
@@ -36,7 +37,7 @@ final class MembersBuilder
         AttributesBuilder $attributesBuilder = null,
         MethodsBuilder $methodsBuilder = null
     ) {
-        $this->constantsBuilder = $constantsBuilder ?? new ConstantsBuilder();
+        $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder();
         $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder([]);
         $typeBuilder = new TypeBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(
