@@ -7,18 +7,25 @@
 
 namespace PhUml\Parser\Code\Builders;
 
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\Constant;
+use PhUml\Code\Methods\Method;
 use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 
 /**
  * It builds the constants, attributes and methods of a definition
  *
- * @see AllConstantsBuilder for more details about the constants creation
+ * @see ConstantsBuilder for more details about the constants creation
  * @see AttributesBuilder for more details about the attributes creation
  * @see MethodsBuilder for more details about the methods creation
  */
@@ -40,7 +47,10 @@ final class MembersBuilder
     ) {
         $visibilityBuilder = new VisibilityBuilder();
         $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder($visibilityBuilder);
-        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder($visibilityBuilder, []);
+        $this->attributesBuilder = $attributesBuilder ?? new FilteredAttributesBuilder(
+            $visibilityBuilder,
+            new VisibilityFilters([])
+        );
         $typeBuilder = new TypeBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(
             new ParametersBuilder($typeBuilder),
@@ -51,8 +61,8 @@ final class MembersBuilder
     }
 
     /**
-     * @param \PhpParser\Node[] $members
-     * @return \PhUml\Code\Attributes\Constant[]
+     * @param Node[] $members
+     * @return Constant[]
      */
     public function constants(array $members): array
     {
@@ -60,8 +70,8 @@ final class MembersBuilder
     }
 
     /**
-     * @param \PhpParser\Node[] $members
-     * @return \PhUml\Code\Attributes\Attribute[]
+     * @param Node[] $members
+     * @return Attribute[]
      */
     public function attributes(array $members): array
     {
@@ -69,8 +79,8 @@ final class MembersBuilder
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\ClassMethod[] $methods
-     * @return \PhUml\Code\Methods\Method[]
+     * @param ClassMethod[] $methods
+     * @return Method[]
      */
     public function methods(array $methods): array
     {

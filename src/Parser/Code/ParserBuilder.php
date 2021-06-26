@@ -15,6 +15,7 @@ use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
@@ -22,6 +23,7 @@ use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 
@@ -84,7 +86,10 @@ final class ParserBuilder
             $visibilityBuilder,
             $this->filters
         );
-        $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder($visibilityBuilder, $this->filters);
+        $attributesBuilder = $this->attributesBuilder ?? new FilteredAttributesBuilder(
+            $visibilityBuilder,
+            new VisibilityFilters($this->filters)
+        );
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
 
         return new PhpCodeParser(

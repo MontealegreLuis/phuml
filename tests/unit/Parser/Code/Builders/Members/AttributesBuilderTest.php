@@ -22,7 +22,10 @@ final class AttributesBuilderTest extends TestCase
     /** @test */
     function it_excludes_private_attributes()
     {
-        $builder = new AttributesBuilder(new VisibilityBuilder(), [new PrivateVisibilityFilter()]);
+        $builder = new FilteredAttributesBuilder(
+            new VisibilityBuilder(),
+            new VisibilityFilters([new PrivateVisibilityFilter()])
+        );
 
         $attributes = $builder->build($this->attributes);
 
@@ -36,7 +39,10 @@ final class AttributesBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_attributes()
     {
-        $builder = new AttributesBuilder(new VisibilityBuilder(), [new ProtectedVisibilityFilter()]);
+        $builder = new FilteredAttributesBuilder(
+            new VisibilityBuilder(),
+            new VisibilityFilters([new ProtectedVisibilityFilter()])
+        );
 
         $attributes = $builder->build($this->attributes);
 
@@ -51,9 +57,9 @@ final class AttributesBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_attributes()
     {
-        $builder = new AttributesBuilder(
+        $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
-            [new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]
+            new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
         );
 
         $attributes = $builder->build($this->attributes);

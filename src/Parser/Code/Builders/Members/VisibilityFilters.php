@@ -8,6 +8,7 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
@@ -23,7 +24,7 @@ use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-class FiltersRunner
+class VisibilityFilters
 {
     /** @var VisibilityFilter[] */
     protected $filters;
@@ -35,10 +36,10 @@ class FiltersRunner
     }
 
     /**
-     * @param Property[]|ClassMethod[] $classMembers
-     * @return Property[]|ClassMethod[]
+     * @param Property[]|ClassMethod[]|ClassConst[] $classMembers
+     * @return Property[]|ClassMethod[]|ClassConst[]
      */
-    protected function runFilters(array $classMembers): array
+    public function apply(array $classMembers): array
     {
         $attributes = $classMembers;
         foreach ($this->filters as $filter) {

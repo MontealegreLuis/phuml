@@ -10,14 +10,9 @@ namespace PhUml\Parser\Code\Builders\Members;
 /**
  * It will ignore the attributes of a definition, and therefore its filters
  */
-final class NoAttributesBuilder extends AttributesBuilder
+final class NoAttributesBuilder implements AttributesBuilder
 {
-    public function __construct()
-    {
-        parent::__construct(new VisibilityBuilder(), []);
-    }
-
-    public function build(array $definitionAttributes): array
+    public function build(array $parsedAttributes): array
     {
         return [];
     }

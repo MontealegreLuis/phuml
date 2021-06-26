@@ -20,7 +20,7 @@ use PhUml\Code\Methods\MethodDocBlock;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-class MethodsBuilder extends FiltersRunner
+class MethodsBuilder extends VisibilityFilters
 {
     /** @var ParametersBuilder */
     private $parametersBuilder;
@@ -51,7 +51,7 @@ class MethodsBuilder extends FiltersRunner
     {
         return array_map(function (ClassMethod $method): Method {
             return $this->buildMethod($method);
-        }, $this->runFilters($methods));
+        }, $this->apply($methods));
     }
 
     private function buildMethod(ClassMethod $method): Method
