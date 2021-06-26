@@ -12,10 +12,10 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Methods\Method;
-use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
@@ -48,7 +48,7 @@ final class MembersBuilder
     ) {
         $visibilityBuilder = new VisibilityBuilder();
         $filters = new VisibilityFilters();
-        $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder($visibilityBuilder);
+        $this->constantsBuilder = $constantsBuilder ?? new FilteredConstantsBuilder($visibilityBuilder, $filters);
         $this->attributesBuilder = $attributesBuilder ?? new FilteredAttributesBuilder(
             $visibilityBuilder,
             $filters

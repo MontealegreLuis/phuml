@@ -12,10 +12,10 @@ use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
@@ -81,7 +81,7 @@ final class ParserBuilder
         $visibilityBuilder = new VisibilityBuilder();
         $typeBuilder = new TypeBuilder();
         $filters = new VisibilityFilters($this->filters);
-        $constantsBuilder = $this->constantsBuilder ?? new AllConstantsBuilder($visibilityBuilder);
+        $constantsBuilder = $this->constantsBuilder ?? new FilteredConstantsBuilder($visibilityBuilder, $filters);
         $methodsBuilder = $this->methodsBuilder ?? new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,

@@ -17,7 +17,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 /**
  * It builds an array of `Constants` for either a `ClassDefinition` or an `InterfaceDefinition`
  */
-final class AllConstantsBuilder implements ConstantsBuilder
+final class FilteredConstantsBuilder implements ConstantsBuilder
 {
     /** @var string[] */
     private static $types = [
@@ -29,9 +29,13 @@ final class AllConstantsBuilder implements ConstantsBuilder
     /** @var VisibilityBuilder */
     private $visibilityBuilder;
 
-    public function __construct(VisibilityBuilder $visibilityBuilder)
+    /** @var VisibilityFilters */
+    private $visibilityFilters;
+
+    public function __construct(VisibilityBuilder $visibilityBuilder, VisibilityFilters $filters)
     {
         $this->visibilityBuilder = $visibilityBuilder;
+        $this->visibilityFilters = $filters;
     }
 
     /**
@@ -43,13 +47,14 @@ final class AllConstantsBuilder implements ConstantsBuilder
         $constants = array_filter($classAttributes, static function ($attribute): bool {
             return $attribute instanceof ClassConst;
         });
+
         return array_map(function (ClassConst $constant): Constant {
             return new Constant(
                 (string) $constant->consts[0]->name,
                 TypeDeclaration::from($this->determineType($constant->consts[0])),
                 $this->visibilityBuilder->build($constant)
             );
-        }, $constants);
+        }, $this->visibilityFilters->apply($constants));
     }
 
     private function determineType(Const_ $constant): ?string
