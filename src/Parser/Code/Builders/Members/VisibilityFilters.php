@@ -24,7 +24,7 @@ use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-class VisibilityFilters
+final class VisibilityFilters
 {
     /** @var VisibilityFilter[] */
     protected $filters;

@@ -14,7 +14,12 @@ final class NoMethodsBuilder extends MethodsBuilder
 {
     public function __construct()
     {
-        parent::__construct(new ParametersBuilder(new TypeBuilder()), new TypeBuilder(), new VisibilityBuilder(), []);
+        parent::__construct(
+            new ParametersBuilder(new TypeBuilder()),
+            new TypeBuilder(),
+            new VisibilityBuilder(),
+            new VisibilityFilters()
+        );
     }
 
     public function build(array $methods): array

@@ -46,17 +46,18 @@ final class MembersBuilder
         MethodsBuilder $methodsBuilder = null
     ) {
         $visibilityBuilder = new VisibilityBuilder();
+        $filters = new VisibilityFilters();
         $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder($visibilityBuilder);
         $this->attributesBuilder = $attributesBuilder ?? new FilteredAttributesBuilder(
             $visibilityBuilder,
-            new VisibilityFilters([])
+            $filters
         );
         $typeBuilder = new TypeBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             $visibilityBuilder,
-            []
+            $filters
         );
     }
 

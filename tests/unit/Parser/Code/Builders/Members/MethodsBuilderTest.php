@@ -32,7 +32,7 @@ final class MethodsBuilderTest extends TestCase
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             new VisibilityBuilder(),
-            [new PrivateVisibilityFilter()]
+            new VisibilityFilters([new PrivateVisibilityFilter()])
         );
 
         $methods = $methodsBuilder->build($this->methods);
@@ -52,7 +52,7 @@ final class MethodsBuilderTest extends TestCase
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             new VisibilityBuilder(),
-            [new ProtectedVisibilityFilter()]
+            new VisibilityFilters([new ProtectedVisibilityFilter()])
         );
 
         $methods = $builder->build($this->methods);
@@ -73,7 +73,7 @@ final class MethodsBuilderTest extends TestCase
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             new VisibilityBuilder(),
-            [new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]
+            new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
         );
 
         $methods = $builder->build($this->methods);
@@ -116,7 +116,12 @@ final class MethodsBuilderTest extends TestCase
     function let()
     {
         $typeBuilder = new TypeBuilder();
-        $this->builder = new MethodsBuilder(new ParametersBuilder($typeBuilder), $typeBuilder, new VisibilityBuilder());
+        $this->builder = new MethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            new VisibilityBuilder(),
+            new VisibilityFilters()
+        );
         $this->methods = [
             new ClassMethod('privateMethodA', ['type' => Class_::MODIFIER_PRIVATE]),
             new ClassMethod('publicMethodA', [
