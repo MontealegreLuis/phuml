@@ -10,18 +10,8 @@ namespace PhUml\Parser\Code\Builders\Members;
 /**
  * It will ignore the methods of a definition. It will produce diagrams without methods.
  */
-final class NoMethodsBuilder extends MethodsBuilder
+final class NoMethodsBuilder implements MethodsBuilder
 {
-    public function __construct()
-    {
-        parent::__construct(
-            new ParametersBuilder(new TypeBuilder()),
-            new TypeBuilder(),
-            new VisibilityBuilder(),
-            new VisibilityFilters()
-        );
-    }
-
     public function build(array $methods): array
     {
         return [];

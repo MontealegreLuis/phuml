@@ -20,7 +20,7 @@ use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
-final class MethodsBuilderTest extends TestCase
+final class FilteredMethodsBuilderTest extends TestCase
 {
     use WithVisibilityAssertions;
 
@@ -28,7 +28,7 @@ final class MethodsBuilderTest extends TestCase
     function it_excludes_private_methods()
     {
         $typeBuilder = new TypeBuilder();
-        $methodsBuilder = new MethodsBuilder(
+        $methodsBuilder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             new VisibilityBuilder(),
@@ -48,7 +48,7 @@ final class MethodsBuilderTest extends TestCase
     function it_excludes_protected_methods()
     {
         $typeBuilder = new TypeBuilder();
-        $builder = new MethodsBuilder(
+        $builder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             new VisibilityBuilder(),
@@ -69,7 +69,7 @@ final class MethodsBuilderTest extends TestCase
     function it_excludes_both_protected_and_private_methods()
     {
         $typeBuilder = new TypeBuilder();
-        $builder = new MethodsBuilder(
+        $builder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             new VisibilityBuilder(),
@@ -116,7 +116,7 @@ final class MethodsBuilderTest extends TestCase
     function let()
     {
         $typeBuilder = new TypeBuilder();
-        $this->builder = new MethodsBuilder(
+        $this->builder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             new VisibilityBuilder(),
@@ -159,6 +159,6 @@ final class MethodsBuilderTest extends TestCase
     /** @var ClassMethod[] */
     private $methods;
 
-    /** @var MethodsBuilder */
+    /** @var FilteredMethodsBuilder */
     private $builder;
 }

@@ -16,6 +16,7 @@ use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
@@ -81,7 +82,7 @@ final class ParserBuilder
         $typeBuilder = new TypeBuilder();
         $filters = new VisibilityFilters($this->filters);
         $constantsBuilder = $this->constantsBuilder ?? new AllConstantsBuilder($visibilityBuilder);
-        $methodsBuilder = $this->methodsBuilder ?? new MethodsBuilder(
+        $methodsBuilder = $this->methodsBuilder ?? new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             $visibilityBuilder,

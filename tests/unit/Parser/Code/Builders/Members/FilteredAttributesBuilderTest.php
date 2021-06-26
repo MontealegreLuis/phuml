@@ -15,7 +15,7 @@ use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
-final class AttributesBuilderTest extends TestCase
+final class FilteredAttributesBuilderTest extends TestCase
 {
     use WithVisibilityAssertions;
 

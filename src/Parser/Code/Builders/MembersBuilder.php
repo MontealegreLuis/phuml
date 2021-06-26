@@ -16,6 +16,7 @@ use PhUml\Parser\Code\Builders\Members\AllConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
@@ -53,7 +54,7 @@ final class MembersBuilder
             $filters
         );
         $typeBuilder = new TypeBuilder();
-        $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(
+        $this->methodsBuilder = $methodsBuilder ?? new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             $visibilityBuilder,
