@@ -13,6 +13,7 @@ use PhUml\Code\Attributes\AttributeDocBlock;
 use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 
 /**
  * It builds an array of `Attributes` for a `ClassDefinition` or a `TraitDefinition`
@@ -24,6 +25,16 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
  */
 class AttributesBuilder extends FiltersRunner
 {
+    /** @var VisibilityBuilder */
+    private $visibilityBuilder;
+
+    /** @param VisibilityFilter[] $filters */
+    public function __construct(VisibilityBuilder $visibilityBuilder, array $filters = [])
+    {
+        parent::__construct($filters);
+        $this->visibilityBuilder = $visibilityBuilder;
+    }
+
     /**
      * @param \PhpParser\Node[] $definitionAttributes
      * @return Attribute[]
@@ -36,7 +47,7 @@ class AttributesBuilder extends FiltersRunner
 
         return array_map(function (Property $attribute): Attribute {
             $name = "\${$attribute->props[0]->name}";
-            $visibility = $this->resolveVisibility($attribute);
+            $visibility = $this->visibilityBuilder->build($attribute);
             $comment = $attribute->getDocComment() === null ? null : $attribute->getDocComment()->getText();
             $docBlock = AttributeDocBlock::from($comment);
             $variable = new Variable($name, $docBlock->extractType());

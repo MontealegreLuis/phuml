@@ -82,7 +82,7 @@ final class ParserBuilder
             $typeBuilder,
             $this->filters
         );
-        $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder($this->filters);
+        $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder(new VisibilityBuilder(), $this->filters);
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
 
         return new PhpCodeParser(

@@ -14,7 +14,7 @@ final class NoAttributesBuilder extends AttributesBuilder
 {
     public function __construct()
     {
-        parent::__construct([]);
+        parent::__construct(new VisibilityBuilder(), []);
     }
 
     public function build(array $definitionAttributes): array

@@ -39,7 +39,7 @@ final class MembersBuilder
         MethodsBuilder $methodsBuilder = null
     ) {
         $this->constantsBuilder = $constantsBuilder ?? new AllConstantsBuilder(new VisibilityBuilder());
-        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder([]);
+        $this->attributesBuilder = $attributesBuilder ?? new AttributesBuilder(new VisibilityBuilder(), []);
         $typeBuilder = new TypeBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new MethodsBuilder(
             new ParametersBuilder($typeBuilder),
