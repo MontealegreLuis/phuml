@@ -23,16 +23,6 @@ final class GenerateClassDiagramWithDotTest extends TestCase
 {
     use CompareImagesTrait;
 
-    /** @before */
-    function createGenerator()
-    {
-        $this->generator = new ClassDiagramGenerator(
-            new CodeParser(),
-            new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder())),
-            new DotProcessor()
-        );
-    }
-
     /** @test */
     function it_fails_to_generate_diagram_if_a_command_is_not_provided()
     {
@@ -72,6 +62,16 @@ final class GenerateClassDiagramWithDotTest extends TestCase
         $this->generator->generate($codeFinder, $diagram);
 
         $this->assertImagesSame($expectedDiagram, $diagram);
+    }
+
+    /** @before */
+    function let()
+    {
+        $this->generator = new ClassDiagramGenerator(
+            new CodeParser(),
+            new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder())),
+            new DotProcessor()
+        );
     }
 
     /** @var ClassDiagramGenerator */

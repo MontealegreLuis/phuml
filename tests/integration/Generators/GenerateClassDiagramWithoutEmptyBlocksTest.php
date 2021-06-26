@@ -43,7 +43,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     }
 
     /** @before*/
-    function createGenerator()
+    function let()
     {
         $parser = (new ParserBuilder())->excludeMethods()->excludeAttributes()->build();
         $this->generator = new ClassDiagramGenerator(

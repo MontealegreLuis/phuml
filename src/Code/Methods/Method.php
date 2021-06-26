@@ -16,7 +16,6 @@ use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 
 /**
  * It represents a class or interface method
@@ -47,7 +46,7 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return $this->name === '__construct';
     }
 
-    /** @return Variable[] */
+    /** @return Parameter[] */
     public function parameters(): array
     {
         return $this->parameters;
