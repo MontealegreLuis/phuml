@@ -40,7 +40,7 @@ final class ParametersBuilder
 
             $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name);
 
-            return new Parameter(new Variable($name, $typeDeclaration));
+            return new Parameter(new Variable($name, $typeDeclaration), $parameter->variadic, $parameter->byRef);
         }, $parameters);
     }
 }
