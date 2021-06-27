@@ -25,11 +25,12 @@ jobs:
       - name: "Install dependencies with composer"
         run: |
           sudo apt-get install graphviz
-          composer install --optimize-autoloader --prefer-dist --no-interaction --no-progress --no-suggest --no-dev
+          composer install --optimize-autoloader --prefer-dist --no-interaction --no-progress --no-suggest --no-dev --no-plugins
 
       - name: "Build PHAR file"
         run: |
           wget https://github.com/box-project/box/releases/download/3.13.0/box.phar
+          chmod +x box.phar
           ./box.phar compile -vv
           gpg -u montealegreluis@gmail.com --detach-sign --output phuml.phar.asc phuml.phar
 
