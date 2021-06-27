@@ -10,7 +10,7 @@ The class below will show type information for all of its attributes and methods
 
 ```php
 <?php
-class WithTypes
+final class WithTypes
 {
     /** @var string $name */
     private $name;
@@ -31,7 +31,7 @@ class WithTypes
      */
     public function rename($name)
     {
-        $this->name = $name
+        $this->name = $name;
     }
 }
 ```
