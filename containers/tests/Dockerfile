@@ -1,8 +1,9 @@
-FROM ubuntu:xenial
+FROM php:7.2.34-cli-alpine3.12
 
-RUN apt-get update -y && apt-get install -y software-properties-common python-software-properties
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
-RUN apt-get update -y && apt-get install -y git graphviz pkg-config libmagickwand-dev imagemagick php7.1 php7.1-cli php7.1-common php7.1-dev php7.1-xml php7.1-xdebug php7.1-imagick
+RUN apk add --update --no-cache autoconf g++ pkgconfig imagemagick imagemagick-dev make ttf-freefont graphviz \
+    && printf "\n" | pecl install imagick \
+    && echo "extension=imagick.so" >> /usr/local/etc/php/php.ini
+
 RUN mkdir -p /usr/src/phuml
 
 WORKDIR /usr/src/phuml

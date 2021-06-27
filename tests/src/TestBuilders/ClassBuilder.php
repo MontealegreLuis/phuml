@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,7 +11,7 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
 use PhUml\Fakes\NumericIdClass;
 
-class ClassBuilder extends DefinitionBuilder
+final class ClassBuilder extends DefinitionBuilder
 {
     use MembersBuilder;
 

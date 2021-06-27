@@ -1,6 +1,4 @@
 {
-  "algorithm": "OPENSSL",
-  "chmod": "0755",
   "compression": "GZ",
   "directories": [
     "src"
@@ -21,8 +19,5 @@
   ],
   "git-version": "package_version",
   "intercept": true,
-  "key": ".travis/phar-private.pem",
-  "main": "bin/phuml",
-  "output": "phuml.phar",
-  "stub": true
+  "output": "phuml.phar"
 }

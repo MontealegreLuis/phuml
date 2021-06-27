@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,7 +12,7 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\NeatoProcessor;
 
-class ClassDiagramBuilder extends DigraphBuilder
+final class ClassDiagramBuilder extends DigraphBuilder
 {
     /** @var ClassDiagramConfiguration */
     protected $configuration;

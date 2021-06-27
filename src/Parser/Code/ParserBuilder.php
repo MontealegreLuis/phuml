@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,14 +14,21 @@ use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
+use PhUml\Parser\Code\Builders\Members\TypeBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 
-class ParserBuilder
+final class ParserBuilder
 {
     /** @var VisibilityFilter[] */
     private $filters;
@@ -71,9 +78,20 @@ class ParserBuilder
 
     public function build(): PhpParser
     {
-        $constantsBuilder = $this->constantsBuilder ?? new ConstantsBuilder();
-        $methodsBuilder = $this->methodsBuilder ?? new MethodsBuilder($this->filters);
-        $attributesBuilder = $this->attributesBuilder ?? new AttributesBuilder($this->filters);
+        $visibilityBuilder = new VisibilityBuilder();
+        $typeBuilder = new TypeBuilder();
+        $filters = new VisibilityFilters($this->filters);
+        $constantsBuilder = $this->constantsBuilder ?? new FilteredConstantsBuilder($visibilityBuilder, $filters);
+        $methodsBuilder = $this->methodsBuilder ?? new FilteredMethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            $visibilityBuilder,
+            $filters
+        );
+        $attributesBuilder = $this->attributesBuilder ?? new FilteredAttributesBuilder(
+            $visibilityBuilder,
+            $filters
+        );
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
 
         return new PhpCodeParser(

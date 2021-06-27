@@ -13,7 +13,7 @@ jobs:
       - name: "Install PHP with extensions"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "7.1"
+          php-version: "7.2"
           extensions: imagick
           ini-values: memory_limit=-1
           coverage: xdebug

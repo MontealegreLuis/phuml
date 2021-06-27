@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,7 @@ namespace PhUml\Graphviz;
 use PHPUnit\Framework\TestCase;
 use PhUml\TestBuilders\A;
 
-class NodeTest extends TestCase
+final class NodeTest extends TestCase
 {
     /** @test */
     function it_can_be_a_class_or_an_interface()

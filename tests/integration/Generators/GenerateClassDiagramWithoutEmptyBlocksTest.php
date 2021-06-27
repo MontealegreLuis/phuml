@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -22,7 +22,7 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
-class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
+final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
     use CompareImagesTrait;
 
@@ -43,7 +43,7 @@ class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     }
 
     /** @before*/
-    function createGenerator()
+    function let()
     {
         $parser = (new ParserBuilder())->excludeMethods()->excludeAttributes()->build();
         $this->generator = new ClassDiagramGenerator(

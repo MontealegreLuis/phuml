@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,7 +12,7 @@ use RuntimeException;
 /**
  * It is thrown when either the `dot` or `neato` commands fail
  */
-class ImageGenerationFailure extends RuntimeException
+final class ImageGenerationFailure extends RuntimeException
 {
     public static function withOutput(string $errorMessage): ImageGenerationFailure
     {

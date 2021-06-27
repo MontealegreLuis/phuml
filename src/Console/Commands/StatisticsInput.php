@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace PhUml\Console\Commands;
 
 use Webmozart\Assert\Assert;
 
-class StatisticsInput
+final class StatisticsInput
 {
     /** @var string */
     private $directory;
@@ -69,6 +69,6 @@ class StatisticsInput
     /** @param string[] $options */
     private function setRecursive(array $options): void
     {
-        $this->recursive = isset($options['recursive']) && (bool)$options['recursive'];
+        $this->recursive = isset($options['recursive']) && (bool) $options['recursive'];
     }
 }

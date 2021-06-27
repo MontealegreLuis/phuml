@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,15 +9,15 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 
-class MethodBuilder
+final class MethodBuilder
 {
     /** @var string */
     private $name;
 
-    /** @var Variable[] */
+    /** @var Parameter[] */
     private $parameters = [];
 
     /** @var TypeDeclaration */
@@ -26,13 +26,20 @@ class MethodBuilder
     /** @var Visibility */
     private $visibility;
 
-    public function named(string $name): MethodBuilder
+    /** @var bool */
+    private $isAbstract;
+
+    /** @var bool */
+    private $isStatic;
+
+    public function __construct(string $name)
     {
         $this->name = $name;
-        return $this;
+        $this->isAbstract = false;
+        $this->isStatic = false;
     }
 
-    public function withParameters(Variable... $parameters): MethodBuilder
+    public function withParameters(Parameter ...$parameters): MethodBuilder
     {
         $this->parameters = $parameters;
         return $this;
@@ -62,13 +69,27 @@ class MethodBuilder
         return $this;
     }
 
+    public function abstract(): MethodBuilder
+    {
+        $this->isAbstract = true;
+        return $this;
+    }
+
+    public function static(): MethodBuilder
+    {
+        $this->isStatic = true;
+        return $this;
+    }
+
     public function build(): Method
     {
         return new Method(
             $this->name,
             $this->visibility,
             $this->returnType ?? TypeDeclaration::absent(),
-            $this->parameters
+            $this->parameters,
+            $this->isAbstract,
+            $this->isStatic
         );
     }
 }

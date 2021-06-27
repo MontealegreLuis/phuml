@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,7 +13,7 @@ use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
-class ClassGraphBuilderTest extends TestCase
+final class ClassGraphBuilderTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_for_a_simple_class()
@@ -72,7 +72,7 @@ class ClassGraphBuilderTest extends TestCase
         $class = A::class('AClass')
             ->withAPublicMethod(
                 '__construct',
-                A::parameter('$reference')->withType($reference->name())->build()
+                A::parameter('$reference')->withType((string) $reference->name())->build()
             )
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
@@ -93,8 +93,8 @@ class ClassGraphBuilderTest extends TestCase
         $firstReference = A::classNamed('FirstClass');
         $secondReference = A::classNamed('SecondClass');
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', $firstReference->name())
-            ->withAPrivateAttribute('$secondReference', $secondReference->name())
+            ->withAPrivateAttribute('$firstReference', (string) $firstReference->name())
+            ->withAPrivateAttribute('$secondReference', (string) $secondReference->name())
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
@@ -116,8 +116,8 @@ class ClassGraphBuilderTest extends TestCase
         $reference = A::classNamed('FirstClass');
 
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', $reference->name())
-            ->withAPrivateAttribute('$secondReference', $reference->name())
+            ->withAPrivateAttribute('$firstReference', (string) $reference->name())
+            ->withAPrivateAttribute('$secondReference', (string) $reference->name())
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
@@ -139,8 +139,8 @@ class ClassGraphBuilderTest extends TestCase
         $class = A::class('AClass')
             ->withAPublicMethod(
                 '__construct',
-                A::parameter('$referenceA')->withType($reference->name())->build(),
-                A::parameter('$referenceB')->withType($reference->name())->build()
+                A::parameter('$referenceA')->withType((string) $reference->name())->build(),
+                A::parameter('$referenceB')->withType((string) $reference->name())->build()
             )
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
@@ -163,12 +163,12 @@ class ClassGraphBuilderTest extends TestCase
         $thirdReference = A::classNamed('ThirdClass');
 
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', $firstReference->name())
-            ->withAPrivateAttribute('$secondReference', $secondReference->name())
+            ->withAPrivateAttribute('$firstReference', (string) $firstReference->name())
+            ->withAPrivateAttribute('$secondReference', (string) $secondReference->name())
             ->withAPublicMethod(
                 '__construct',
-                A::parameter('$secondReference')->withType($secondReference->name())->build(),
-                A::parameter('$thirdReference')->withType($thirdReference->name())->build()
+                A::parameter('$secondReference')->withType((string) $secondReference->name())->build(),
+                A::parameter('$thirdReference')->withType((string) $thirdReference->name())->build()
             )
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
@@ -199,12 +199,12 @@ class ClassGraphBuilderTest extends TestCase
         $parent = A::classNamed('ParentClass');
 
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', $firstReference->name())
-            ->withAPrivateAttribute('$secondReference', $secondReference->name())
+            ->withAPrivateAttribute('$firstReference', (string) $firstReference->name())
+            ->withAPrivateAttribute('$secondReference', (string) $secondReference->name())
             ->withAPublicMethod(
                 '__construct',
-                A::parameter('$thirdReference')->withType($thirdReference->name())->build(),
-                A::parameter('$fourthReference')->withType($fourthReference->name())->build()
+                A::parameter('$thirdReference')->withType((string) $thirdReference->name())->build(),
+                A::parameter('$fourthReference')->withType((string) $fourthReference->name())->build()
             )
             ->implementing($firstInterface->name(), $secondInterface->name())
             ->extending($parent->name())
@@ -238,11 +238,11 @@ class ClassGraphBuilderTest extends TestCase
     {
         $reference = A::classNamed('AReference');
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', $reference->name())
+            ->withAPrivateAttribute('$firstReference', (string) $reference->name())
             ->build()
         ;
         $anotherClass = A::class('AnotherClass')
-            ->withAPrivateAttribute('$firstReference', $reference->name())
+            ->withAPrivateAttribute('$firstReference', (string) $reference->name())
             ->build()
         ;
         $codebase = new Codebase();

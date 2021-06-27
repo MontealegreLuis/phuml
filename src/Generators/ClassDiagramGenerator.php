@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,7 +18,7 @@ use PhUml\Processors\ImageProcessor;
  *
  * The image produced is a `.png` that will be saved in a specified path
  */
-class ClassDiagramGenerator extends DigraphGenerator
+final class ClassDiagramGenerator extends DigraphGenerator
 {
     /** @var ImageProcessor */
     private $imageProcessor;

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,7 @@ namespace PhUml\Parser;
 use RuntimeException;
 use SplFileInfo;
 
-class InvalidDirectory extends RuntimeException
+final class InvalidDirectory extends RuntimeException
 {
     public static function notFoundAt(SplFileInfo $path): InvalidDirectory
     {

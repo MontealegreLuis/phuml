@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,7 +16,7 @@ use PhUml\Code\Codebase;
  * This class is used when the user ran the `phuml:diagram` command without the `associations` option.
  * Which means that no associations should be discovered
  */
-class NoAssociationsBuilder implements AssociationsBuilder
+final class NoAssociationsBuilder implements AssociationsBuilder
 {
     public function fromAttributes(ClassDefinition $class, Codebase $codebase): array
     {

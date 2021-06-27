@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,7 +12,7 @@ namespace PhUml\Graphviz;
  *
  * @link https://en.wikipedia.org/wiki/DOT_(graph_description_language) See for more details about DOT language
  */
-class Digraph
+final class Digraph
 {
     /** @var HasDotRepresentation[] */
     private $elements;
@@ -36,6 +36,6 @@ class Digraph
 
     public function id(): string
     {
-        return sha1((string)mt_rand());
+        return sha1((string) mt_rand());
     }
 }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,51 +14,26 @@ use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithAbstractModifier;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
+use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
 
 /**
  * It represents a class or interface method
  */
-class Method implements HasVisibility, CanBeAbstract, CanBeStatic
+final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
 {
-    use WithVisibility, WithAbstractModifier, WithStaticModifier;
+    use WithVisibility;
+    use WithAbstractModifier;
+    use WithStaticModifier;
 
     /** @var string */
     private $name;
 
-    /** @var Variable[] */
+    /** @var Parameter[] */
     private $parameters;
 
     /** @var TypeDeclaration */
     private $returnType;
-
-    /** @param Variable[] $parameters */
-    public static function public(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::public(), $returnType ?? TypeDeclaration::absent(), $parameters);
-    }
-
-    /** @param Variable[] $parameters */
-    public static function protected(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::protected(), $returnType ?? TypeDeclaration::absent(), $parameters);
-    }
-
-    /** @param Variable[] $parameters */
-    public static function private(
-        string $name,
-        array $parameters = [],
-        TypeDeclaration $returnType = null
-    ): Method {
-        return new static($name, Visibility::private(), $returnType ?? TypeDeclaration::absent(), $parameters);
-    }
 
     /**
      * It is used by the `ClassDefinition` to extract the parameters of a constructor
@@ -71,7 +46,7 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return $this->name === '__construct';
     }
 
-    /** @return Variable[] */
+    /** @return Parameter[] */
     public function parameters(): array
     {
         return $this->parameters;
@@ -88,18 +63,20 @@ class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         );
     }
 
-    /** @param Variable[] $parameters */
+    /** @param Parameter[] $parameters */
     public function __construct(
         string $name,
         Visibility $modifier,
         TypeDeclaration $returnType,
-        array $parameters = []
+        array $parameters = [],
+        bool $isAbstract = false,
+        bool $isStatic = false
     ) {
         $this->name = $name;
         $this->modifier = $modifier;
         $this->parameters = $parameters;
-        $this->isAbstract = false;
-        $this->isStatic = false;
+        $this->isAbstract = $isAbstract;
+        $this->isStatic = $isStatic;
         $this->returnType = $returnType;
     }
 }

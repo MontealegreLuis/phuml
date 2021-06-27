@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,7 @@ namespace PhUml\Parser\Code;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Parameters\Parameter;
 
 /**
  * It checks the attributes and the constructor parameters of a class looking for external definitions
@@ -21,7 +21,7 @@ use PhUml\Code\Variables\Variable;
  * In this case a `ClassDefinition` is added by default.
  * Although we don't really know if it's an interface since we don't have access to the source code
  */
-class ExternalAssociationsResolver extends ExternalDefinitionsResolver
+final class ExternalAssociationsResolver extends ExternalDefinitionsResolver
 {
     protected function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
@@ -33,7 +33,7 @@ class ExternalAssociationsResolver extends ExternalDefinitionsResolver
     private function resolveExternalAttributes(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Attribute $attribute) use ($codebase): void {
-            if ($attribute->isAReference() && !$codebase->has($attribute->referenceName())) {
+            if ($attribute->isAReference() && ! $codebase->has($attribute->referenceName())) {
                 $codebase->add($this->externalClass($attribute->referenceName()));
             }
         }, $definition->attributes());
@@ -41,8 +41,8 @@ class ExternalAssociationsResolver extends ExternalDefinitionsResolver
 
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void
     {
-        array_map(function (Variable $parameter) use ($codebase): void {
-            if ($parameter->isAReference() && !$codebase->has($parameter->referenceName())) {
+        array_map(function (Parameter $parameter) use ($codebase): void {
+            if ($parameter->isAReference() && ! $codebase->has($parameter->referenceName())) {
                 $codebase->add($this->externalClass($parameter->referenceName()));
             }
         }, $definition->constructorParameters());

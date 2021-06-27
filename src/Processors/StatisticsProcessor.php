@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,7 +15,7 @@ use PhUml\Templates\TemplateFailure;
 /**
  * It takes a code `Structure` and extracts a `Summary` of its contents as text
  */
-class StatisticsProcessor extends Processor
+final class StatisticsProcessor extends Processor
 {
     /** @var TemplateEngine */
     private $engine;

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,7 +15,7 @@ use PhUml\Fakes\NumericIdClass;
 use PhUml\Fakes\NumericIdInterface;
 use PhUml\Fakes\NumericIdTrait;
 
-class A
+final class A
 {
     public static function classNamed(string $name): ClassDefinition
     {
@@ -67,8 +67,18 @@ class A
         return new ParameterBuilder($name);
     }
 
-    public static function method(): MethodBuilder
+    public static function attribute(string $name): AttributeBuilder
     {
-        return new MethodBuilder();
+        return new AttributeBuilder($name);
+    }
+
+    public static function variable(string $name): VariableBuilder
+    {
+        return new VariableBuilder($name);
+    }
+
+    public static function method(string $name): MethodBuilder
+    {
+        return new MethodBuilder($name);
     }
 }

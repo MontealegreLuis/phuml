@@ -13,24 +13,24 @@ It has the following options:
 
 ## Examples
 
-* The following command will produce a statistics file from the `tests/resources/.code` directory.
+* The following command will produce a statistics file from the `src` directory.
 * The DOT file will be saved to the file `example.txt` in the current directory.
 * It will search for classes and interfaces recursively, because of the `-r` option.
 
 ```
 # Composer installation
-vendor/bin/phuml phuml:statistics -r tests/resources/.code example.gv
+vendor/bin/phuml phuml:statistics -r src example.txt
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r tests/resources/.code example.gv
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r src example.txt
 ```
 
-* The following command will produce a statistics file from the `tests/resources/.code` directory.
+* The following command will produce a statistics file from the `src` directory.
 * The statistics file will be saved to the file `example.txt` in the current directory.
 * It **WILL NOT** search for classes and interfaces recursively, because of the lack of the `-r` option.
 
 ```
 # Composer installation
-vendor/bin/phuml phuml:statistics tests/resources/.code example.txt
+vendor/bin/phuml phuml:statistics src example.txt
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics tests/resources/.code example.txt
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics src example.txt
 ```

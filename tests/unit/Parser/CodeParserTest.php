@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\StringCodeFinder;
 use PhUml\TestBuilders\A;
 
-class CodeParserTest extends TestCase
+final class CodeParserTest extends TestCase
 {
     /** @test */
     function it_parses_a_class_with_no_attributes_and_no_methods()
@@ -122,23 +122,20 @@ CLASS
 
         $class = A::class('MyClass')
             ->withAMethod(
-                A::method()
+                A::method('changeName')
                     ->private()
-                    ->named('changeName')
                     ->withParameters(A::parameter('$newName')->withType('string')->build())
                     ->withReturnType('void')
                     ->build()
             )
             ->withAMethod(
-                A::method()
+                A::method('getAge')
                     ->protected()
-                    ->named('getAge')
                     ->withReturnType('int')
                     ->build()
             )->withAMethod(
-                A::method()
+                A::method('formatPhone')
                 ->public()
-                ->named('formatPhone')
                 ->withParameters(A::parameter('$format')->withType('string')->build())
                 ->withReturnType('string')
                 ->build()
@@ -175,9 +172,8 @@ CLASS
         $class = A::class('MyClass')
             ->withAPublicMethod('__construct')
             ->withAMethod(
-                A::method()
+                A::method('changeValues')
                     ->public()
-                    ->named('changeValues')
                     ->withParameters(
                         A::parameter('$name')->withType('string')->build(),
                         A::parameter('$age')->withType('int')->build(),
@@ -287,9 +283,8 @@ INTERFACE
 
         $interface = A::interface('MyInterface')
             ->withAMethod(
-                A::method()
+                A::method('changeValues')
                     ->public()
-                    ->named('changeValues')
                     ->withParameters(
                         A::parameter('$name')->withType('string')->build(),
                         A::parameter('$age')->withType('int')->build(),
@@ -298,9 +293,8 @@ INTERFACE
                     ->build()
             )
             ->withAMethod(
-                A::method()
+                A::method('ageToMonths')
                     ->public()
-                    ->named('ageToMonths')
                     ->withReturnType('int')
                     ->build()
             )->build();
@@ -442,22 +436,19 @@ CLASS;
             ->withAProtectedAttribute('$name', 'string')
             ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
             ->withAMethod(
-                A::method()
+                A::method('isNamed')
                 ->public()
-                ->named('isNamed')
                 ->withParameters(A::parameter('$name')->withType('string')->build())
                 ->withReturnType('bool')
                 ->build()
             )->build();
-        $currentMethod = A::method()
+        $currentMethod = A::method('current')
             ->public()
-            ->named('current')
             ->withReturnType('Page')
             ->build();
         $pageable = A::interface('Pageable')->withAMethod($currentMethod)->build();
-        $namedMethod = A::method()
+        $namedMethod = A::method('named')
             ->public()
-            ->named('named')
             ->withParameters(A::parameter('$name')->withType('string')->build())
             ->withReturnType('array')
             ->build();

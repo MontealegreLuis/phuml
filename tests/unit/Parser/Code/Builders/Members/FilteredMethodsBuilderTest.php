@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,14 +20,20 @@ use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
-final class MethodsBuilderTest extends TestCase
+final class FilteredMethodsBuilderTest extends TestCase
 {
     use WithVisibilityAssertions;
 
     /** @test */
     function it_excludes_private_methods()
     {
-        $methodsBuilder = new MethodsBuilder([new PrivateVisibilityFilter()]);
+        $typeBuilder = new TypeBuilder();
+        $methodsBuilder = new FilteredMethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            new VisibilityBuilder(),
+            new VisibilityFilters([new PrivateVisibilityFilter()])
+        );
 
         $methods = $methodsBuilder->build($this->methods);
 
@@ -41,7 +47,13 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_methods()
     {
-        $builder = new MethodsBuilder([new ProtectedVisibilityFilter()]);
+        $typeBuilder = new TypeBuilder();
+        $builder = new FilteredMethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            new VisibilityBuilder(),
+            new VisibilityFilters([new ProtectedVisibilityFilter()])
+        );
 
         $methods = $builder->build($this->methods);
 
@@ -56,7 +68,13 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_methods()
     {
-        $builder = new MethodsBuilder([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
+        $typeBuilder = new TypeBuilder();
+        $builder = new FilteredMethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            new VisibilityBuilder(),
+            new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
+        );
 
         $methods = $builder->build($this->methods);
 
@@ -68,7 +86,6 @@ final class MethodsBuilderTest extends TestCase
     /** @test */
     function it_does_not_support_union_types_as_return_type()
     {
-        $builder = new MethodsBuilder();
         $parsedMethods = [
             new ClassMethod('privateMethodA', [
                 'type' => Class_::MODIFIER_PRIVATE,
@@ -78,13 +95,12 @@ final class MethodsBuilderTest extends TestCase
         ];
 
         $this->expectException(UnsupportedType::class);
-        $builder->build($parsedMethods);
+        $this->builder->build($parsedMethods);
     }
 
     /** @test */
     function it_does_not_support_union_type_parameters()
     {
-        $builder = new MethodsBuilder();
         $parsedMethods = [
             new ClassMethod('privateMethodA', [
                 'type' => Class_::MODIFIER_PRIVATE,
@@ -93,12 +109,19 @@ final class MethodsBuilderTest extends TestCase
         ];
 
         $this->expectException(UnsupportedType::class);
-        $builder->build($parsedMethods);
+        $this->builder->build($parsedMethods);
     }
 
     /** @before */
     function let()
     {
+        $typeBuilder = new TypeBuilder();
+        $this->builder = new FilteredMethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            new VisibilityBuilder(),
+            new VisibilityFilters()
+        );
         $this->methods = [
             new ClassMethod('privateMethodA', ['type' => Class_::MODIFIER_PRIVATE]),
             new ClassMethod('publicMethodA', [
@@ -135,4 +158,7 @@ final class MethodsBuilderTest extends TestCase
 
     /** @var ClassMethod[] */
     private $methods;
+
+    /** @var FilteredMethodsBuilder */
+    private $builder;
 }

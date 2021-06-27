@@ -1,16 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\Variables\TypeDeclaration;
-use PhUml\Code\Variables\Variable;
+use PhUml\Code\Parameters\Parameter;
 
-class ParameterBuilder
+final class ParameterBuilder
 {
     /** @var string */
     private $name;
@@ -30,8 +29,8 @@ class ParameterBuilder
         return $this;
     }
 
-    public function build(): Variable
+    public function build(): Parameter
     {
-        return Variable::declaredWith($this->name, TypeDeclaration::from($this->type));
+        return new Parameter(A::variable($this->name)->withType($this->type)->build());
     }
 }

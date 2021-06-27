@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,14 +15,17 @@ use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
-class AttributesBuilderTest extends TestCase
+final class FilteredAttributesBuilderTest extends TestCase
 {
     use WithVisibilityAssertions;
 
     /** @test */
     function it_excludes_private_attributes()
     {
-        $builder = new AttributesBuilder([new PrivateVisibilityFilter()]);
+        $builder = new FilteredAttributesBuilder(
+            new VisibilityBuilder(),
+            new VisibilityFilters([new PrivateVisibilityFilter()])
+        );
 
         $attributes = $builder->build($this->attributes);
 
@@ -36,7 +39,10 @@ class AttributesBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_attributes()
     {
-        $builder = new AttributesBuilder([new ProtectedVisibilityFilter()]);
+        $builder = new FilteredAttributesBuilder(
+            new VisibilityBuilder(),
+            new VisibilityFilters([new ProtectedVisibilityFilter()])
+        );
 
         $attributes = $builder->build($this->attributes);
 
@@ -51,7 +57,10 @@ class AttributesBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_attributes()
     {
-        $builder = new AttributesBuilder([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
+        $builder = new FilteredAttributesBuilder(
+            new VisibilityBuilder(),
+            new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
+        );
 
         $attributes = $builder->build($this->attributes);
 
@@ -61,7 +70,7 @@ class AttributesBuilderTest extends TestCase
     }
 
     /** @before */
-    function createAttributes()
+    function let()
     {
         $this->attributes = [
             new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('willBeRemoved')]),

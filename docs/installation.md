@@ -15,5 +15,5 @@ You can replace `2.0.0` with any of th available [tags](https://hub.docker.com/r
 Alternatively, you may use  [Composer](https://getcomposer.org/) to download and install phUML as well as its dependencies.
 
 ```bash
-$ composer require phuml/phuml
+composer require phuml/phuml
 ```

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,13 +16,16 @@ use PhUml\Code\Attributes\WithConstants;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\CanBeAbstract;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Parameters\Parameter;
 
 /**
  * It represents a class definition
  */
 class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
 {
-    use WithAttributes, WithConstants, WithTraits;
+    use WithAttributes;
+    use WithConstants;
+    use WithTraits;
 
     /** @var Name|null */
     protected $parent;
@@ -58,7 +61,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      * This method is used by the `AssociationsBuilder` class to discover associations with other
      * classes via the constructor
      *
-     * @return \PhUml\Code\Variables\Variable[]
+     * @return Parameter[]
      * @see \PhUml\Graphviz\Builders\AssociationsBuilder::fromAttributes() for more details
      */
     public function constructorParameters(): array

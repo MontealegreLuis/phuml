@@ -1,15 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PhUml\Code\Modifiers\Visibility;
 use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 
 /**
@@ -23,7 +24,7 @@ use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-class FiltersRunner
+final class VisibilityFilters
 {
     /** @var VisibilityFilter[] */
     protected $filters;
@@ -35,28 +36,17 @@ class FiltersRunner
     }
 
     /**
-     * @param Property[]|ClassMethod[] $classMembers
-     * @return Property[]|ClassMethod[]
+     * @param Property[]|ClassMethod[]|ClassConst[] $classMembers
+     * @return Property[]|ClassMethod[]|ClassConst[]
      */
-    protected function runFilters(array $classMembers): array
+    public function apply(array $classMembers): array
     {
         $attributes = $classMembers;
         foreach ($this->filters as $filter) {
-            $attributes = array_filter($attributes, [$filter, 'accept']);
+            $attributes = array_filter($attributes, static function (Stmt $member) use ($filter): bool {
+                return $filter->accept($member);
+            });
         }
         return $attributes;
-    }
-
-    /** @param Property|ClassMethod $member */
-    protected function resolveVisibility($member): Visibility
-    {
-        switch (true) {
-            case $member->isPublic():
-                return Visibility::public();
-            case $member->isPrivate():
-                return Visibility::private();
-            default:
-                return Visibility::protected();
-        }
     }
 }

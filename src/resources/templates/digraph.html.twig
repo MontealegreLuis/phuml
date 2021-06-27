@@ -6,12 +6,12 @@ splines = true;
 overlap = false;
 mindist = 0.6;
 {% for element in digraph.elements %}
-{% spaceless %}
+{% apply spaceless %}
     {% set dot %}
         {% include element.dotTemplate ~ '.html.twig'  with {'element': element, 'style': style} %}
     {% endset %}
 {{ dot|replace({ '\n': '', '\r': '' })|raw }}
-{% endspaceless %}
+{% endapply %}
 
 {% endfor %}
 }

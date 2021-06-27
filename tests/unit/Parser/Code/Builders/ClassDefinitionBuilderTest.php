@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Code\Name as TraitName;
 use PhUml\TestBuilders\A;
 
-class ClassDefinitionBuilderTest extends TestCase
+final class ClassDefinitionBuilderTest extends TestCase
 {
     /** @test */
     function it_builds_a_class_with_traits()

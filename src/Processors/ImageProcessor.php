@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -45,7 +45,7 @@ abstract class ImageProcessor extends Processor
 
         $this->execute($dotFile, $imageFile);
 
-        $image = (string)file_get_contents($imageFile);
+        $image = (string) file_get_contents($imageFile);
 
         $this->fileSystem->remove($dotFile);
         $this->fileSystem->remove($imageFile);
@@ -60,7 +60,7 @@ abstract class ImageProcessor extends Processor
     {
         $process = $this->process ?? new Process([$this->command(), '-Tpng', '-o', $outputFile, $inputFile]);
         $process->run();
-        if (!$process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             throw ImageGenerationFailure::withOutput($process->getErrorOutput());
         }
     }

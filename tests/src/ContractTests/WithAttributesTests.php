@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,6 +9,7 @@ namespace PhUml\ContractTests;
 
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\HasAttributes;
+use PhUml\TestBuilders\A;
 
 trait WithAttributesTests
 {
@@ -26,8 +27,8 @@ trait WithAttributesTests
     function it_knows_its_attributes()
     {
         $attributes = [
-            Attribute::public('$firstAttribute'),
-            Attribute::public('$secondAttribute'),
+            A::attribute('$firstAttribute')->public()->build(),
+            A::attribute('$secondAttribute')->public()->build(),
         ];
 
         $classWithAttributes = $this->definitionWithAttributes($attributes);

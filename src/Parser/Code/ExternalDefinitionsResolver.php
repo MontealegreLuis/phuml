@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -65,7 +65,7 @@ class ExternalDefinitionsResolver
     private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void
     {
         array_map(function (Name $interface) use ($codebase): void {
-            if (!$codebase->has($interface)) {
+            if (! $codebase->has($interface)) {
                 $codebase->add($this->externalInterface($interface));
             }
         }, $interfaces);
@@ -75,7 +75,7 @@ class ExternalDefinitionsResolver
     private function resolveExternalTraits(array $traits, Codebase $codebase): void
     {
         array_map(function (Name $trait) use ($codebase): void {
-            if (!$codebase->has($trait)) {
+            if (! $codebase->has($trait)) {
                 $codebase->add($this->externalTrait($trait));
             }
         }, $traits);
@@ -83,11 +83,11 @@ class ExternalDefinitionsResolver
 
     private function resolveExternalParentClass(ClassDefinition $definition, Codebase $codebase): void
     {
-        if (!$definition->hasParent()) {
+        if (! $definition->hasParent()) {
             return;
         }
         $parent = $definition->parent();
-        if (!$codebase->has($parent)) {
+        if (! $codebase->has($parent)) {
             $codebase->add($this->externalClass($parent));
         }
     }

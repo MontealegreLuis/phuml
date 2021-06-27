@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 
 use SplFileInfo;
 
-class CodebaseDirectory
+final class CodebaseDirectory
 {
     /** @var SplFileInfo */
     private $directory;
@@ -21,7 +21,7 @@ class CodebaseDirectory
 
     public function absolutePath(): string
     {
-        return (string)$this->directory->getRealPath();
+        return (string) $this->directory->getRealPath();
     }
 
     private function __construct(string $path)
@@ -31,7 +31,7 @@ class CodebaseDirectory
 
     private function setDirectory(SplFileInfo $path): void
     {
-        if (!$path->isDir()) {
+        if (! $path->isDir()) {
             throw InvalidDirectory::notFoundAt($path);
         }
         $this->directory = $path;

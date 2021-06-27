@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace PhUml\ContractTests;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Definition;
-use PhUml\Code\Methods\Method;
+use PhUml\TestBuilders\A;
 
 abstract class DefinitionTest extends TestCase
 {
@@ -37,8 +37,8 @@ abstract class DefinitionTest extends TestCase
     function it_knows_its_methods()
     {
         $methods = [
-            Method::public('methodOne'),
-            Method::public('methodTwo'),
+            A::method('methodOne')->public(),
+            A::method('methodTwo')->public(),
         ];
         $definitionWithMethods = $this->definition($methods);
 

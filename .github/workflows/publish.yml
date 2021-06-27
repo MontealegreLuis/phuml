@@ -1,0 +1,41 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Publish PHAR file
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout project"
+        uses: actions/checkout@v1
+
+      - name: "Install PHP with extensions"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "7.2"
+          extensions: imagick
+          ini-values: memory_limit=-1, phar.readonly=Off
+          tools: composer:v1
+
+      - name: "Install dependencies with composer"
+        run: |
+          sudo apt-get install graphviz
+          composer install --optimize-autoloader --prefer-dist --no-interaction --no-progress --no-suggest --no-dev
+
+      - name: "Build PHAR file"
+        run: |
+          wget https://github.com/box-project/box/releases/download/3.13.0/box.phar
+          ./box.phar compile -vv
+          gpg -u montealegreluis@gmail.com --detach-sign --output phuml.phar.asc phuml.phar
+
+      - name: "Upload binaries to distribute phUML via PHIVE"
+        uses: "svenstaro/upload-release-action@v2"
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: phuml.phar*
+          tag: ${{ github.ref }}

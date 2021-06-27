@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,7 +11,7 @@ namespace PhUml\Graphviz\Styles;
  * It will not create a row if the definition does not have methods or if it does not have
  * attributes
  */
-class NonEmptyBlocksStyle extends DigraphStyle
+final class NonEmptyBlocksStyle extends DigraphStyle
 {
     protected function setPartials(): void
     {

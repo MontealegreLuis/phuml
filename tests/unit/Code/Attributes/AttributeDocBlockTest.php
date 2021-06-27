@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,7 @@ namespace PhUml\Code\Attributes;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Variables\TypeDeclaration;
 
-class AttributeDocBlockTest extends TestCase
+final class AttributeDocBlockTest extends TestCase
 {
     /** @test */
     function it_extracts_a_type_declaration_from_a_var_tag()

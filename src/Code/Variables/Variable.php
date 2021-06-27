@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,31 +13,17 @@ use PhUml\Code\Name;
 /**
  * It represents a variable declaration
  */
-class Variable implements HasType
+final class Variable implements HasType
 {
     use WithTypeDeclaration;
 
     /** @var string */
     protected $name;
 
-    protected function __construct(string $name, TypeDeclaration $type)
+    public function __construct(string $name, TypeDeclaration $type)
     {
         $this->name = $name;
         $this->type = $type;
-    }
-
-    public static function declaredWith(string $name, TypeDeclaration $type = null): Variable
-    {
-        return new Variable($name, $type ?? TypeDeclaration::absent());
-    }
-
-    public function __toString()
-    {
-        return sprintf(
-            '%s%s',
-            $this->name,
-            $this->type->isPresent() ? ": {$this->type}" : ''
-        );
     }
 
     /**
@@ -57,6 +43,15 @@ class Variable implements HasType
             throw new BadMethodCallException('This attribute is not a reference to a code definition');
         }
         return $name;
+    }
+
+    public function __toString()
+    {
+        return sprintf(
+            '%s%s',
+            $this->name,
+            $this->type->isPresent() ? ": {$this->type}" : ''
+        );
     }
 
     private function typeName(): ?Name

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,7 +15,7 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\NonRecursiveCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
 
-class GenerateStatisticsTest extends TestCase
+final class GenerateStatisticsTest extends TestCase
 {
     /** @test */
     function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()

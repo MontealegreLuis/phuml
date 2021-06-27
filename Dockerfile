@@ -6,7 +6,7 @@ ADD src/ src
 RUN composer global require hirak/prestissimo --no-plugins --no-scripts
 RUN composer install --optimize-autoloader --prefer-dist --no-progress --no-interaction --ignore-platform-reqs
 
-FROM php:7.1.30-cli-alpine AS phuml
+FROM php:7.2.34-cli-alpine3.12 AS phuml
 MAINTAINER Luis Montealegre <montealegreluis@gmail.com>
 
 RUN apk add --update --no-cache autoconf g++ pkgconfig imagemagick imagemagick-dev make ttf-freefont graphviz \

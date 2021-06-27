@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,7 @@ namespace PhUml\Code;
 use PHPUnit\Framework\TestCase;
 use PhUml\TestBuilders\A;
 
-class CodebaseTest extends TestCase
+final class CodebaseTest extends TestCase
 {
     /** @test */
     function it_adds_a_new_class_definition()
@@ -56,19 +56,19 @@ class CodebaseTest extends TestCase
 
         $this->assertCount(5, $definitions);
 
-        $this->assertArrayHasKey((string)$interfaceA->name(), $definitions);
-        $this->assertEquals($interfaceA, $definitions[(string)$interfaceA->name()]);
+        $this->assertArrayHasKey((string) $interfaceA->name(), $definitions);
+        $this->assertEquals($interfaceA, $definitions[(string) $interfaceA->name()]);
 
-        $this->assertArrayHasKey((string)$interfaceB->name(), $definitions);
-        $this->assertEquals($interfaceB, $definitions[(string)$interfaceB->name()]);
+        $this->assertArrayHasKey((string) $interfaceB->name(), $definitions);
+        $this->assertEquals($interfaceB, $definitions[(string) $interfaceB->name()]);
 
-        $this->assertArrayHasKey((string)$classA->name(), $definitions);
-        $this->assertEquals($classA, $definitions[(string)$classA->name()]);
+        $this->assertArrayHasKey((string) $classA->name(), $definitions);
+        $this->assertEquals($classA, $definitions[(string) $classA->name()]);
 
-        $this->assertArrayHasKey((string)$classB->name(), $definitions);
-        $this->assertEquals($classB, $definitions[(string)$classB->name()]);
+        $this->assertArrayHasKey((string) $classB->name(), $definitions);
+        $this->assertEquals($classB, $definitions[(string) $classB->name()]);
 
-        $this->assertArrayHasKey((string)$classC->name(), $definitions);
-        $this->assertEquals($classC, $definitions[(string)$classC->name()]);
+        $this->assertArrayHasKey((string) $classC->name(), $definitions);
+        $this->assertEquals($classC, $definitions[(string) $classC->name()]);
     }
 }

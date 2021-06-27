@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,6 +14,7 @@ use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter as Filter;
 
+/** @noRector \Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector */
 class TemplateEngine
 {
     /** @var Twig */

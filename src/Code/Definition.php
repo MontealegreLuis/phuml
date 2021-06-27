@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,7 +17,8 @@ use PhUml\Graphviz\ObjectHashIdentifier;
  */
 abstract class Definition implements Named, HasNodeIdentifier
 {
-    use WithName, ObjectHashIdentifier;
+    use WithName;
+    use ObjectHashIdentifier;
 
     /** @var Method[] */
     protected $methods;

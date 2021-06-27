@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,12 +13,12 @@ use PhUml\Code\Variables\TypeDeclaration;
 /**
  * It creates a type declaration for an attribute from its `@var` tag
  */
-class AttributeDocBlock extends DocBlock
+final class AttributeDocBlock extends DocBlock
 {
     /** @var string */
     private static $varExpression = '/@var\s*([\w]+(\[\])?)/';
 
-    public static function from(string $text): AttributeDocBlock
+    public static function from(?string $text): AttributeDocBlock
     {
         return new AttributeDocBlock($text);
     }
@@ -26,7 +26,7 @@ class AttributeDocBlock extends DocBlock
     public function extractType(): TypeDeclaration
     {
         $type = null;
-        if (preg_match(self::$varExpression, (string)$this->comment, $matches) === 1) {
+        if (preg_match(self::$varExpression, (string) $this->comment, $matches) === 1) {
             $type = trim($matches[1]);
         }
         return TypeDeclaration::from($type);

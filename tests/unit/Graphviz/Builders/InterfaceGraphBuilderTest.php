@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,7 +13,7 @@ use PhUml\Graphviz\Edge;
 use PhUml\Graphviz\Node;
 use PhUml\TestBuilders\A;
 
-class InterfaceGraphBuilderTest extends TestCase
+final class InterfaceGraphBuilderTest extends TestCase
 {
     /** @test */
     function it_extracts_the_elements_from_a_single_interface()

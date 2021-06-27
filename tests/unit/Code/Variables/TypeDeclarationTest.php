@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace PhUml\Code\Variables;
 
 use PHPUnit\Framework\TestCase;
 
-class TypeDeclarationTest extends TestCase
+final class TypeDeclarationTest extends TestCase
 {
     /**
      * @test
@@ -76,7 +76,7 @@ class TypeDeclarationTest extends TestCase
         $nullableType = TypeDeclaration::fromNullable('string');
 
         $this->assertTrue($nullableType->isNullable());
-        $this->assertEquals('?string', (string)$nullableType);
+        $this->assertEquals('?string', (string) $nullableType);
     }
 
     function builtInTypes()

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @see ProcessorProgressDisplay for more details about the things that are reported by this display
  */
-class ProgressDisplay implements ProcessorProgressDisplay
+final class ProgressDisplay implements ProcessorProgressDisplay
 {
     /** @var OutputInterface */
     private $output;

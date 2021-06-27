@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,13 +15,10 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\Node\Stmt\TraitUse;
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Attributes\StaticAttribute;
-use PhUml\Code\Methods\AbstractMethod;
-use PhUml\Code\Methods\StaticMethod;
 use PhUml\Code\Name as TraitName;
 use PhUml\TestBuilders\A;
 
-class TraitDefinitionBuilderTest extends TestCase
+final class TraitDefinitionBuilderTest extends TestCase
 {
     /** @test */
     function it_builds_a_trait_definition()
@@ -50,8 +47,8 @@ class TraitDefinitionBuilderTest extends TestCase
         $traitWithMultipleTypesOfMethods = A::trait('ATrait')
             ->withAPrivateMethod('privateMethod')
             ->withAProtectedMethod('protectedMethod')
-            ->withAMethod(StaticMethod::public('staticMethod'))
-            ->withAMethod(AbstractMethod::public('abstractMethod'))
+            ->withAMethod(A::method('staticMethod')->public()->static()->build())
+            ->withAMethod(A::method('abstractMethod')->public()->abstract()->build())
             ->build();
         $this->assertEquals($traitWithMultipleTypesOfMethods, $trait);
     }
@@ -72,7 +69,7 @@ class TraitDefinitionBuilderTest extends TestCase
         $traitWithMultipleTypesOfAttributes = A::trait('ATrait')
             ->withAPrivateAttribute('$privateAttribute')
             ->withAProtectedAttribute('$protectedAttribute')
-            ->withAnAttribute(StaticAttribute::public('$staticAttribute'))
+            ->withAnAttribute(A::attribute('$staticAttribute')->public()->static()->build())
             ->build();
         $this->assertEquals($traitWithMultipleTypesOfAttributes, $trait);
     }
@@ -105,7 +102,7 @@ class TraitDefinitionBuilderTest extends TestCase
     }
 
     /** @before */
-    function createBuilder()
+    function let()
     {
         $this->builder = new TraitDefinitionBuilder();
     }

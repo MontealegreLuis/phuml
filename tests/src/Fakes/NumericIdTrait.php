@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,7 @@ namespace PhUml\Fakes;
 use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
 
-class NumericIdTrait extends TraitDefinition
+final class NumericIdTrait extends TraitDefinition
 {
     private static $id = 200;
 
@@ -35,7 +35,7 @@ class NumericIdTrait extends TraitDefinition
 
     public function identifier(): string
     {
-        return (string)$this->identifier;
+        return (string) $this->identifier;
     }
 
     public static function reset(): void

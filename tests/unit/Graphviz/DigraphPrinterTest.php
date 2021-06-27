@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,8 +8,6 @@
 namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Methods\AbstractMethod;
-use PhUml\Code\Methods\StaticMethod;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Templates\TemplateEngine;
@@ -17,9 +15,10 @@ use PhUml\Templates\TemplateFailure;
 use PhUml\TestBuilders\A;
 use RuntimeException;
 
-class DigraphPrinterTest extends TestCase
+final class DigraphPrinterTest extends TestCase
 {
-    use WithNumericIds, WithDotLanguageAssertions;
+    use WithNumericIds;
+    use WithDotLanguageAssertions;
 
     /** @test */
     function its_dot_language_representation_contains_an_id_and_basic_display_settings()
@@ -141,8 +140,8 @@ mindist = 0.6;', $dotLanguage);
                 'setCategory',
                 A::parameter('category')->withType('string')->build()
             )
-            ->withAMethod(StaticMethod::protected('count'))
-            ->withAMethod(AbstractMethod::private('display'))
+            ->withAMethod(A::method('count')->protected()->static()->build())
+            ->withAMethod(A::method('display')->private()->abstract()->build())
             ->build();
         $digraph = new Digraph();
         $digraph->add([new Node($trait)]);
@@ -285,10 +284,6 @@ mindist = 0.6;', $dotLanguage);
             public function render(string $template, array $context = []): string
             {
                 throw new TemplateFailure(new RuntimeException('Twig runtime error'));
-            }
-
-            public function __construct()
-            {
             }
         };
         $printer = new DigraphPrinter($templateEngine);

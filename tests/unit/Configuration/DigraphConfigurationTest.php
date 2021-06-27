@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * PHP version 7.1
+ * PHP version 7.2
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,7 @@ namespace PhUml\Configuration;
 use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Styles\UnknownTheme;
 
-class DigraphConfigurationTest extends TestCase
+final class DigraphConfigurationTest extends TestCase
 {
     /** @test */
     function it_fails_to_set_an_invalid_theme_name()
