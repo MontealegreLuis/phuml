@@ -84,23 +84,23 @@
 </ul>
 <h2 id="examples">Examples</h2>
 <ul>
-<li>The following command will produce a statistics file from the <code>tests/resources/.code</code> directory.</li>
+<li>The following command will produce a statistics file from the <code>src</code> directory.</li>
 <li>The DOT file will be saved to the file <code>example.txt</code> in the current directory.</li>
 <li>It will search for classes and interfaces recursively, because of the <code>-r</code> option.</li>
 </ul>
 <pre><code># Composer installation
-vendor/bin/phuml phuml:statistics -r tests/resources/.code example.gv
+vendor/bin/phuml phuml:statistics -r src example.txt
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r tests/resources/.code example.gv</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r src example.txt</code></pre>
 <ul>
-<li>The following command will produce a statistics file from the <code>tests/resources/.code</code> directory.</li>
+<li>The following command will produce a statistics file from the <code>src</code> directory.</li>
 <li>The statistics file will be saved to the file <code>example.txt</code> in the current directory.</li>
 <li>It <strong>WILL NOT</strong> search for classes and interfaces recursively, because of the lack of the <code>-r</code> option.</li>
 </ul>
 <pre><code># Composer installation
-vendor/bin/phuml phuml:statistics tests/resources/.code example.txt
+vendor/bin/phuml phuml:statistics src example.txt
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics tests/resources/.code example.txt</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics src example.txt</code></pre>
                 </section>
 
             </div>

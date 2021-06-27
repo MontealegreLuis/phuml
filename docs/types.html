@@ -80,7 +80,7 @@
 </ul>
 <p>The class below will show type information for all of its attributes and methods</p>
 <pre><code class="language-php">&lt;?php
-class WithTypes
+final class WithTypes
 {
     /** @var string $name */
     private $name;
@@ -101,7 +101,7 @@ class WithTypes
      */
     public function rename($name)
     {
-        $this-&gt;name = $name
+        $this-&gt;name = $name;
     }
 }</code></pre>
                 </section>
