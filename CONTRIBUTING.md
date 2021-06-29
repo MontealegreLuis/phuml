@@ -14,6 +14,23 @@ By participating in this project you agree to abide by its terms.
 
 Pull requests for bug fixes must be based on the current stable branch whereas pull requests for new features must be based on the `master` branch.
 
+### Git commit format
+
+Commit messages must follow the [Conventional Commits Specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/) which is enforced as a Git pre-commit hook via [GrumPHP](https://github.com/phpro/grumphp).
+
+The allowed commit types are:
+
+- `build` for changes to Github Actions or Scrutinizer (CI Pipeline)
+- `chore` for changes to the configuration any of the code quality tools used by this project (PHPUnit, PHP CS Fixer, Rector, Composer Normalize, Composer Require Checker, etc.)
+- `docs` for updates or additions to the documentation
+- `feat` for new features
+- `fix` for a fix to an existing console command
+- `refactor` for refactoring changes
+- `style` for changes that only format code
+- `test` for tests only changes
+
+It is recommended to follow the [7 rules of a good commit message](https://chris.beams.io/posts/git-commit/#seven-rules). 
+
 ## Coding Guidelines
 
 This project follows the coding standards proposed in [PSR-2][psr2]
@@ -24,7 +41,7 @@ Run the following command if you modified either production code or tests.
 make format
 ```
 
-[Make][make] will run [PHP CS fixer][cs-fixer] in both folders `src` and `tests`.
+[Make][make] will run [PHP CS fixer][cs-fixer] and [Rector](https://getrector.org/) in both folders `src` and `tests`.
 
 ## Using phUML from a Git checkout
 
