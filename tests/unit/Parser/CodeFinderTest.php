@@ -21,8 +21,8 @@ final class CodeFinderTest extends TestCase
         $finder->addDirectory(CodebaseDirectory::from("{$this->pathToCode}/classes"));
 
         $this->assertCount(2, $finder->files());
-        $this->assertRegExp('/class plBase/', $finder->files()[0]);
-        $this->assertRegExp('/class plPhuml/', $finder->files()[1]);
+        $this->assertMatchesRegularExpression('/class plBase/', $finder->files()[0]);
+        $this->assertMatchesRegularExpression('/class plPhuml/', $finder->files()[1]);
     }
 
     /** @test */
@@ -33,13 +33,13 @@ final class CodeFinderTest extends TestCase
         $finder->addDirectory(CodebaseDirectory::from("{$this->pathToCode}/interfaces"));
 
         $this->assertCount(7, $finder->files());
-        $this->assertRegExp('/interface plCompatible/', $finder->files()[0]);
-        $this->assertRegExp('/trait plDiskWriter/', $finder->files()[1]);
-        $this->assertRegExp('/trait plFileWriter/', $finder->files()[2]);
-        $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[3]);
-        $this->assertRegExp('/abstract class plProcessor/', $finder->files()[4]);
-        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $finder->files()[5]);
-        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $finder->files()[6]);
+        $this->assertMatchesRegularExpression('/interface plCompatible/', $finder->files()[0]);
+        $this->assertMatchesRegularExpression('/trait plDiskWriter/', $finder->files()[1]);
+        $this->assertMatchesRegularExpression('/trait plFileWriter/', $finder->files()[2]);
+        $this->assertMatchesRegularExpression('/abstract class plStructureGenerator/', $finder->files()[3]);
+        $this->assertMatchesRegularExpression('/abstract class plProcessor/', $finder->files()[4]);
+        $this->assertMatchesRegularExpression('/abstract class plExternalCommandProcessor/', $finder->files()[5]);
+        $this->assertMatchesRegularExpression('/abstract class plGraphvizProcessorStyle/', $finder->files()[6]);
     }
 
     /** @before */

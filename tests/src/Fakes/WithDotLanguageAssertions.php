@@ -16,7 +16,7 @@ trait WithDotLanguageAssertions
 {
     public function assertNode(Definition $definition, string $dotLanguage): void
     {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\"{$definition->identifier()}\" \\[label=<(?:.)+{$definition->name()}(?:.)+> shape=plaintext color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "Definition {$definition->name()} with identifier {$definition->identifier()} cannot be found"
@@ -28,7 +28,7 @@ trait WithDotLanguageAssertions
         Definition $parent,
         string $dotLanguage
     ): void {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\"{$parent->identifier()}\" -> \"{$definition->identifier()}\" \\[dir=back arrowtail=empty style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "{$definition->name()} identified by {$definition->identifier()} does not inherits {$parent->name()} identified by {$parent->identifier()}"
@@ -40,7 +40,7 @@ trait WithDotLanguageAssertions
         InterfaceDefinition $interface,
         string $dotLanguage
     ): void {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\"{$interface->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=empty style=dashed color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "{$class->name()} does not implements {$interface->name()}"
@@ -52,7 +52,7 @@ trait WithDotLanguageAssertions
         Definition $to,
         string $dotLanguage
     ): void {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\"{$from->identifier()}\" -> \"{$to->identifier()}\" \\[dir=back arrowtail=none style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "There is no association between {$from->name()} and {$to->name()}"
@@ -64,7 +64,7 @@ trait WithDotLanguageAssertions
         TraitDefinition $trait,
         string $dotLanguage
     ): void {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "/\"{$trait->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=normal style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
             "Class {$class->name()} does not use trait {$trait->name()}"

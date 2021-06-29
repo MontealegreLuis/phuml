@@ -9,6 +9,7 @@ namespace PhUml\ContractTests;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Definition;
+use PhUml\Code\Methods\Method;
 use PhUml\TestBuilders\A;
 
 abstract class DefinitionTest extends TestCase
@@ -54,7 +55,7 @@ abstract class DefinitionTest extends TestCase
 
         $definitionId = $definition->identifier();
 
-        $this->assertRegExp('/^[0-9A-Fa-f]{32}$/', $definitionId);
+        $this->assertMatchesRegularExpression('/^[0-9A-Fa-f]{32}$/', $definitionId);
     }
 
     /** @test */
@@ -68,6 +69,6 @@ abstract class DefinitionTest extends TestCase
         $this->assertEquals($definitionTwo->identifier(), $definitionTwo->identifier());
     }
 
-    /** @param \PhUml\Code\Methods\Method[] */
+    /** @param Method[] */
     abstract protected function definition(array $methods = []): Definition;
 }

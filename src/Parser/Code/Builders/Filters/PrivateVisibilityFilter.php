@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders\Filters;
 
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 
@@ -15,7 +16,7 @@ use PhpParser\Node\Stmt\Property;
  */
 final class PrivateVisibilityFilter implements VisibilityFilter
 {
-    /** @param ClassMethod|Property $member */
+    /** @param ClassMethod|Property|ClassConst $member */
     public function accept($member): bool
     {
         return ! $member->isPrivate();

@@ -27,7 +27,7 @@ final class DigraphPrinterTest extends TestCase
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertRegExp('/^digraph "([0-9a-f]){40}"/', $dotLanguage);
+        $this->assertMatchesRegularExpression('/^digraph "([0-9a-f]){40}"/', $dotLanguage);
         $this->assertStringContainsString('splines = true;
 overlap = false;
 mindist = 0.6;', $dotLanguage);
