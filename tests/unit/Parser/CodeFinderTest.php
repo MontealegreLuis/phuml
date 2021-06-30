@@ -16,9 +16,7 @@ final class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_only_in_the_given_directory()
     {
-        $finder = new NonRecursiveCodeFinder();
-
-        $finder->addDirectory(CodebaseDirectory::from("{$this->pathToCode}/classes"));
+        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory("{$this->pathToCode}/classes"));
 
         $this->assertCount(2, $finder->files());
         $this->assertMatchesRegularExpression('/class plBase/', $finder->files()[0]);
@@ -28,9 +26,7 @@ final class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_recursively()
     {
-        $finder = new CodeFinder();
-
-        $finder->addDirectory(CodebaseDirectory::from("{$this->pathToCode}/interfaces"));
+        $finder = SourceCodeFinder::recursive(new CodebaseDirectory("{$this->pathToCode}/interfaces"));
 
         $this->assertCount(7, $finder->files());
         $this->assertMatchesRegularExpression('/interface plCompatible/', $finder->files()[0]);

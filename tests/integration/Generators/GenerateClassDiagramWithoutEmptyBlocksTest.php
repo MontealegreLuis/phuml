@@ -17,7 +17,7 @@ use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
 use PhUml\Parser\Code\ParserBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
@@ -32,8 +32,8 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
      */
     function it_removes_empty_blocks_if_only_definition_names_are_shown()
     {
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code/classes'));
+        $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
+        $finder = SourceCodeFinder::nonRecursive($directory);
         $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
 

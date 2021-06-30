@@ -26,7 +26,7 @@ final class StatisticsInput
      */
     public function __construct(array $arguments, array $options)
     {
-        $this->setDirectory($arguments);
+        $this->directory = $arguments['directory'] ?? '';
         $this->setOutputFile($arguments);
         $this->setRecursive($options);
     }
@@ -44,16 +44,6 @@ final class StatisticsInput
     public function recursive(): bool
     {
         return $this->recursive;
-    }
-
-    /** @param string[] $arguments */
-    private function setDirectory(array $arguments): void
-    {
-        Assert::stringNotEmpty(
-            $arguments['directory'] ?? '',
-            'The directory with the code to be scanned cannot be empty'
-        );
-        $this->directory = $arguments['directory'];
     }
 
     /** @param string[] $arguments */

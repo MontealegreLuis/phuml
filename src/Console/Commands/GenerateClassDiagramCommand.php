@@ -80,8 +80,7 @@ HELP
 
         $builder = new ClassDiagramBuilder(new ClassDiagramConfiguration($generatorInput->options()));
 
-        $codeFinder = $builder->codeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
+        $codeFinder = $builder->codeFinder(new CodebaseDirectory($codebasePath));
 
         $classDiagramGenerator = $builder->classDiagramGenerator();
         $classDiagramGenerator->attach($this->display);

@@ -9,10 +9,10 @@ namespace PhUml\Generators;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
+use PhUml\Fakes\StringCodeFinder;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
 
 final class GenerateStatisticsTest extends TestCase
@@ -23,7 +23,7 @@ final class GenerateStatisticsTest extends TestCase
         $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
 
         $this->expectException(LogicException::class);
-        $generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.txt');
+        $generator->generate(new StringCodeFinder(), 'wont-be-generated.txt');
     }
 
     /** @test */
@@ -59,8 +59,7 @@ STATS;
 
         $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
 
         $generator->generate($finder, $this->statisticsFile);
 
@@ -100,8 +99,7 @@ STATS;
 
         $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
 
         $generator->generate($finder, $this->statisticsFile);
 

@@ -26,7 +26,7 @@ final class GeneratorInput
      */
     public function __construct(array $arguments, array $options)
     {
-        $this->setDirectory($arguments);
+        $this->directory = $arguments['directory'] ?? '';
         $this->setOutputFile($arguments);
         $this->options = $options;
     }
@@ -45,16 +45,6 @@ final class GeneratorInput
     public function options(): array
     {
         return $this->options;
-    }
-
-    /** @param string[] $arguments */
-    private function setDirectory(array $arguments): void
-    {
-        Assert::stringNotEmpty(
-            $arguments['directory'] ?? '',
-            'The directory with the code to be scanned cannot be empty'
-        );
-        $this->directory = $arguments['directory'];
     }
 
     /** @param string[] $arguments */

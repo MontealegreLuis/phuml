@@ -69,8 +69,7 @@ HELP
         $dotFileGenerator = $builder->dotFileGenerator();
         $dotFileGenerator->attach($this->display);
 
-        $codeFinder = $builder->codeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from($codebasePath));
+        $codeFinder = $builder->codeFinder(new CodebaseDirectory($codebasePath));
 
         $dotFileGenerator->generate($codeFinder, $dotFilePath);
 

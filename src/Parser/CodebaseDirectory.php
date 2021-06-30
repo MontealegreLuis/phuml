@@ -8,15 +8,15 @@
 namespace PhUml\Parser;
 
 use SplFileInfo;
+use Webmozart\Assert\Assert;
 
 final class CodebaseDirectory
 {
-    /** @var SplFileInfo */
-    private $directory;
+    private SplFileInfo $directory;
 
-    public static function from(string $path): CodebaseDirectory
+    public function __construct(string $path)
     {
-        return new CodebaseDirectory($path);
+        $this->setDirectory($path);
     }
 
     public function absolutePath(): string
@@ -24,16 +24,16 @@ final class CodebaseDirectory
         return (string) $this->directory->getRealPath();
     }
 
-    private function __construct(string $path)
+    private function setDirectory(string $path): void
     {
-        $this->setDirectory(new SplFileInfo($path));
-    }
-
-    private function setDirectory(SplFileInfo $path): void
-    {
-        if (! $path->isDir()) {
-            throw InvalidDirectory::notFoundAt($path);
+        Assert::stringNotEmpty(
+            $path,
+            'The directory with the code to be scanned cannot be empty'
+        );
+        $directory = new SplFileInfo($path);
+        if (! $directory->isDir()) {
+            throw InvalidDirectory::notFoundAt($directory);
         }
-        $this->directory = $path;
+        $this->directory = $directory;
     }
 }

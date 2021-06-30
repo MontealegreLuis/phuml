@@ -10,7 +10,8 @@ namespace PhUml\Parser\Code;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\CodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 
 final class Php5ParserTest extends TestCase
 {
@@ -137,12 +138,11 @@ final class Php5ParserTest extends TestCase
     }
 
     /** @before */
-    function createFinder()
+    function let()
     {
-        $this->finder = new NonRecursiveCodeFinder();
-        $this->finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../../resources/.code/classes'));
+        $directory = new CodebaseDirectory(__DIR__ . '/../../../resources/.code/classes');
+        $this->finder = SourceCodeFinder::nonRecursive($directory);
     }
 
-    /** @var NonRecursiveCodeFinder */
-    private $finder;
+    private CodeFinder $finder;
 }

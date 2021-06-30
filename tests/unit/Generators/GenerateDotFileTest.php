@@ -11,13 +11,13 @@ use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
 use PhUml\Fakes\NumericIdClassDefinitionBuilder;
+use PhUml\Fakes\StringCodeFinder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\TestBuilders\A;
 
@@ -33,14 +33,13 @@ final class GenerateDotFileTest extends TestCase
 
         $this->expectException(LogicException::class);
 
-        $generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.gv');
+        $generator->generate(new StringCodeFinder(), 'wont-be-generated.gv');
     }
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
 
         $this->generator->generate($finder, $this->pathToDotFile);
 
@@ -53,8 +52,7 @@ final class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
 
         $this->generator->generate($finder, $this->pathToDotFile);
 

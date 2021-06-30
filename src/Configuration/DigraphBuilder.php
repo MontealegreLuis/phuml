@@ -20,9 +20,10 @@ use PhUml\Parser\Code\ExternalAssociationsResolver;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\ParserBuilder;
 use PhUml\Parser\Code\PhpParser;
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
@@ -39,9 +40,11 @@ class DigraphBuilder
         $this->parserBuilder = new ParserBuilder();
     }
 
-    public function codeFinder(): CodeFinder
+    public function codeFinder(CodebaseDirectory $directory): CodeFinder
     {
-        return $this->configuration->searchRecursively() ? new CodeFinder() : new NonRecursiveCodeFinder();
+        return $this->configuration->searchRecursively()
+            ? SourceCodeFinder::recursive($directory)
+            : SourceCodeFinder::nonRecursive($directory);
     }
 
     protected function digraphProcessor(): GraphvizProcessor

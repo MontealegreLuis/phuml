@@ -16,8 +16,8 @@ use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
@@ -32,8 +32,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_php_theme()
     {
-        $codeFinder = new CodeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code'));
+        $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
         $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
         $generator = $this->createGenerator('php');
@@ -49,8 +48,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_classic_theme()
     {
-        $codeFinder = new CodeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code'));
+        $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
         $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
         $generator = $this->createGenerator('classic');

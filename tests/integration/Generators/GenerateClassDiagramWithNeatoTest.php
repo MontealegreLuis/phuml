@@ -10,12 +10,12 @@ namespace PhUml\Generators;
 use LogicException;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
+use PhUml\Fakes\StringCodeFinder;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
 
@@ -27,7 +27,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     function it_fails_to_generate_diagram_if_a_command_is_not_provided()
     {
         $this->expectException(LogicException::class);
-        $this->generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.png');
+        $this->generator->generate(new StringCodeFinder(), 'wont-be-generated.png');
     }
 
     /**
@@ -37,8 +37,8 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     function it_generates_a_class_diagram()
     {
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code/classes'));
+        $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
+        $finder = SourceCodeFinder::nonRecursive($directory);
         $diagram = __DIR__ . '/../../resources/.output/graphviz-neato.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
 
@@ -54,8 +54,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     function it_generates_a_class_diagram_using_a_recursive_finder()
     {
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-        $codeFinder = new CodeFinder();
-        $codeFinder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code'));
+        $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
         $diagram = __DIR__ . '/../../resources/.output/graphviz-neato-recursive.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
 
@@ -74,6 +73,5 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
         );
     }
 
-    /** @var ClassDiagramGenerator */
-    private $generator;
+    private ClassDiagramGenerator $generator;
 }

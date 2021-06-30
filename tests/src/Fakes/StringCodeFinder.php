@@ -7,10 +7,13 @@
 
 namespace PhUml\Fakes;
 
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\CodeFinder;
 
-final class StringCodeFinder extends NonRecursiveCodeFinder
+final class StringCodeFinder implements CodeFinder
 {
+    /** @var string[]  */
+    private array $files;
+
     public function __construct()
     {
         $this->files = [];
@@ -19,5 +22,10 @@ final class StringCodeFinder extends NonRecursiveCodeFinder
     public function add(string $definition)
     {
         $this->files[] = $definition;
+    }
+
+    public function files(): array
+    {
+        return $this->files;
     }
 }

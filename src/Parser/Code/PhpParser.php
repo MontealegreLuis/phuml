@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Code;
 
+use PhpParser\Node\Stmt;
 use PhpParser\Parser;
 use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
@@ -28,7 +29,7 @@ abstract class PhpParser
     public function parse(CodeFinder $finder): Codebase
     {
         foreach ($finder->files() as $code) {
-            /** @var \PhpParser\Node\Stmt[] $nodes Since the parser is run in throw errors mode */
+            /** @var Stmt[] $nodes Since the parser is run in throw errors mode */
             $nodes = $this->parser->parse($code);
             $this->traverser->traverse($nodes);
         }
