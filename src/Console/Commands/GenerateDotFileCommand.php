@@ -7,8 +7,9 @@
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Configuration\DigraphBuilder;
 use PhUml\Configuration\DigraphConfiguration;
-use PhUml\Configuration\DotFileBuilder;
+use PhUml\Generators\DotFileGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -63,9 +64,9 @@ HELP
         $codebasePath = $generatorInput->directory();
         $dotFilePath = $generatorInput->outputFile();
 
-        $builder = new DotFileBuilder(new DigraphConfiguration($generatorInput->options()));
+        $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
-        $dotFileGenerator = $builder->dotFileGenerator();
+        $dotFileGenerator = new DotFileGenerator($builder->codeParser(), $builder->digraphProcessor());
         $dotFileGenerator->attach($this->display);
 
         $codeFinder = $builder->codeFinder($codebasePath);

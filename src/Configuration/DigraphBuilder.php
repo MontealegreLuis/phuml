@@ -25,7 +25,7 @@ use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
-class DigraphBuilder
+final class DigraphBuilder
 {
     /** @var DigraphConfiguration */
     protected $configuration;
@@ -33,9 +33,10 @@ class DigraphBuilder
     /** @var ParserBuilder */
     protected $parserBuilder;
 
-    public function __construct()
+    public function __construct(DigraphConfiguration $configuration)
     {
         $this->parserBuilder = new ParserBuilder();
+        $this->configuration = $configuration;
     }
 
     public function codeFinder(CodebaseDirectory $directory): CodeFinder
@@ -45,7 +46,7 @@ class DigraphBuilder
             : SourceCodeFinder::nonRecursive($directory);
     }
 
-    protected function digraphProcessor(): GraphvizProcessor
+    public function digraphProcessor(): GraphvizProcessor
     {
         $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
         return new GraphvizProcessor(
@@ -64,7 +65,7 @@ class DigraphBuilder
         return DigraphStyle::default($this->configuration->theme());
     }
 
-    protected function codeParser(): CodeParser
+    public function codeParser(): CodeParser
     {
         return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolver());
     }

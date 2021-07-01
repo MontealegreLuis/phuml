@@ -9,7 +9,7 @@ namespace PhUml\Configuration;
 
 use PhUml\Graphviz\Styles\ThemeName;
 
-class DigraphConfiguration
+final class DigraphConfiguration
 {
     /** @var bool */
     protected $searchRecursively;

@@ -15,21 +15,16 @@ final class ImageProcessorName
     /** @var string  */
     private $name;
 
-    public static function from(?string $text): ImageProcessorName
-    {
-        return new ImageProcessorName($text);
-    }
-
-    public function is(string $name): bool
-    {
-        return $this->name === $name;
-    }
-
-    private function __construct(?string $name)
+    public function __construct(?string $name)
     {
         if (! \in_array($name, self::$names, true)) {
             throw UnknownImageProcessor::named($name, self::$names);
         }
         $this->name = $name;
+    }
+
+    public function isDot(): bool
+    {
+        return $this->name === 'dot';
     }
 }

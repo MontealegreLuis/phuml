@@ -9,7 +9,7 @@ namespace PhUml\Configuration;
 
 use PhUml\Processors\ImageProcessorName;
 
-final class ClassDiagramConfiguration extends DigraphConfiguration
+final class ClassDiagramConfiguration
 {
     /** @var ImageProcessorName */
     private $imageProcessor;
@@ -17,17 +17,16 @@ final class ClassDiagramConfiguration extends DigraphConfiguration
     /** @param mixed[] $input */
     public function __construct(array $input)
     {
-        parent::__construct($input);
         $this->setImageProcessor($input['processor']);
     }
 
     public function isDotProcessor(): bool
     {
-        return $this->imageProcessor->is('dot');
+        return $this->imageProcessor->isDot();
     }
 
     private function setImageProcessor(?string $imageProcessor): void
     {
-        $this->imageProcessor = ImageProcessorName::from($imageProcessor);
+        $this->imageProcessor = new ImageProcessorName($imageProcessor);
     }
 }

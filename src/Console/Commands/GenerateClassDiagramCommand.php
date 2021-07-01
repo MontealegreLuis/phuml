@@ -8,8 +8,12 @@
 namespace PhUml\Console\Commands;
 
 use InvalidArgumentException;
-use PhUml\Configuration\ClassDiagramBuilder;
 use PhUml\Configuration\ClassDiagramConfiguration;
+use PhUml\Configuration\DigraphBuilder;
+use PhUml\Configuration\DigraphConfiguration;
+use PhUml\Generators\ClassDiagramGenerator;
+use PhUml\Processors\DotProcessor;
+use PhUml\Processors\NeatoProcessor;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -77,11 +81,16 @@ HELP
         $codebasePath = $generatorInput->directory();
         $classDiagramPath = $generatorInput->outputFile();
 
-        $builder = new ClassDiagramBuilder(new ClassDiagramConfiguration($generatorInput->options()));
+        $configuration = new ClassDiagramConfiguration($generatorInput->options());
+        $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
         $codeFinder = $builder->codeFinder($codebasePath);
 
-        $classDiagramGenerator = $builder->classDiagramGenerator();
+        $classDiagramGenerator = new ClassDiagramGenerator(
+            $builder->codeParser(),
+            $builder->digraphProcessor(),
+            $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor()
+        );
         $classDiagramGenerator->attach($this->display);
 
         $classDiagramGenerator->generate($codeFinder, $classDiagramPath);
