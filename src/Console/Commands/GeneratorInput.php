@@ -7,12 +7,12 @@
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Parser\CodebaseDirectory;
 use Webmozart\Assert\Assert;
 
 final class GeneratorInput
 {
-    /** @var string */
-    private $directory;
+    private CodebaseDirectory $directory;
 
     /** @var string */
     private $outputFile;
@@ -26,12 +26,12 @@ final class GeneratorInput
      */
     public function __construct(array $arguments, array $options)
     {
-        $this->directory = $arguments['directory'] ?? '';
+        $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
         $this->setOutputFile($arguments);
         $this->options = $options;
     }
 
-    public function directory(): string
+    public function directory(): CodebaseDirectory
     {
         return $this->directory;
     }

@@ -7,6 +7,9 @@
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Parser\CodebaseDirectory;
+use PhUml\Parser\CodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use Webmozart\Assert\Assert;
 
 final class StatisticsInput
@@ -27,23 +30,13 @@ final class StatisticsInput
     public function __construct(array $arguments, array $options)
     {
         $this->directory = $arguments['directory'] ?? '';
+        $this->recursive = isset($options['recursive']) && (bool) $options['recursive'];
         $this->setOutputFile($arguments);
-        $this->setRecursive($options);
-    }
-
-    public function directory(): string
-    {
-        return $this->directory;
     }
 
     public function outputFile(): string
     {
         return $this->outputFile;
-    }
-
-    public function recursive(): bool
-    {
-        return $this->recursive;
     }
 
     /** @param string[] $arguments */
@@ -56,9 +49,9 @@ final class StatisticsInput
         $this->outputFile = $arguments['output'];
     }
 
-    /** @param string[] $options */
-    private function setRecursive(array $options): void
+    public function codeFinder(): CodeFinder
     {
-        $this->recursive = isset($options['recursive']) && (bool) $options['recursive'];
+        $directory = new CodebaseDirectory($this->directory);
+        return $this->recursive ? SourceCodeFinder::recursive($directory) : SourceCodeFinder::nonRecursive($directory);
     }
 }

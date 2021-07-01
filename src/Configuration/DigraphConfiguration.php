@@ -83,13 +83,13 @@ class DigraphConfiguration
         return $this->hideEmptyBlocks;
     }
 
-    public function theme(): string
+    public function theme(): ThemeName
     {
-        return $this->theme->name();
+        return $this->theme;
     }
 
-    protected function setTheme(string $theme): void
+    protected function setTheme(string $name): void
     {
-        $this->theme = ThemeName::from($theme);
+        $this->theme = new ThemeName($name);
     }
 }

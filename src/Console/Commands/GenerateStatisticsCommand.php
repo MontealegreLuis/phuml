@@ -8,9 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Generators\StatisticsGenerator;
-use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -70,15 +68,12 @@ HELP
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $statisticsInput = new StatisticsInput($input->getArguments(), $input->getOptions());
-        $codebasePath = $statisticsInput->directory();
         $statisticsFilePath = $statisticsInput->outputFile();
-        $recursive = $statisticsInput->recursive();
 
         $statisticsGenerator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
         $statisticsGenerator->attach($this->display);
 
-        $directory = new CodebaseDirectory($codebasePath);
-        $codeFinder = $recursive ? SourceCodeFinder::recursive($directory) : SourceCodeFinder::nonRecursive($directory);
+        $codeFinder = $statisticsInput->codeFinder();
 
         $statisticsGenerator->generate($codeFinder, $statisticsFilePath);
 

@@ -13,7 +13,8 @@ use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
+use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Parser\Code\ParserBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
@@ -52,7 +53,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
                 new ClassGraphBuilder(),
                 new InterfaceGraphBuilder(),
                 new TraitGraphBuilder(),
-                new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksStyle())
+                new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName('phuml')))
             ),
             new DotProcessor()
         );

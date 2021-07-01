@@ -29,7 +29,7 @@ final class DigraphConfigurationTest extends TestCase
             'theme' => 'php',
         ]));
 
-        $this->assertEquals('php', $configuration->theme());
+        $this->assertEquals('php', $configuration->theme()->name());
     }
 
     private function options(array $override)

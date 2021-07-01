@@ -10,7 +10,6 @@ namespace PhUml\Console\Commands;
 use InvalidArgumentException;
 use PhUml\Configuration\ClassDiagramBuilder;
 use PhUml\Configuration\ClassDiagramConfiguration;
-use PhUml\Parser\CodebaseDirectory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -80,7 +79,7 @@ HELP
 
         $builder = new ClassDiagramBuilder(new ClassDiagramConfiguration($generatorInput->options()));
 
-        $codeFinder = $builder->codeFinder(new CodebaseDirectory($codebasePath));
+        $codeFinder = $builder->codeFinder($codebasePath);
 
         $classDiagramGenerator = $builder->classDiagramGenerator();
         $classDiagramGenerator->attach($this->display);

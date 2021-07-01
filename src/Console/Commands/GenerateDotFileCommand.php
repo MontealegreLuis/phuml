@@ -9,7 +9,6 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Configuration\DotFileBuilder;
-use PhUml\Parser\CodebaseDirectory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -69,7 +68,7 @@ HELP
         $dotFileGenerator = $builder->dotFileGenerator();
         $dotFileGenerator->attach($this->display);
 
-        $codeFinder = $builder->codeFinder(new CodebaseDirectory($codebasePath));
+        $codeFinder = $builder->codeFinder($codebasePath);
 
         $dotFileGenerator->generate($codeFinder, $dotFilePath);
 

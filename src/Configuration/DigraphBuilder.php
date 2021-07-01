@@ -13,9 +13,7 @@ use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\DefaultDigraphStyle;
 use PhUml\Graphviz\Styles\DigraphStyle;
-use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
 use PhUml\Parser\Code\ExternalAssociationsResolver;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\ParserBuilder;
@@ -61,9 +59,9 @@ class DigraphBuilder
     protected function digraphStyle(): DigraphStyle
     {
         if ($this->configuration->hideEmptyBlocks()) {
-            return new NonEmptyBlocksStyle($this->configuration->theme());
+            return DigraphStyle::withoutEmptyBlocks($this->configuration->theme());
         }
-        return new DefaultDigraphStyle($this->configuration->theme());
+        return DigraphStyle::default($this->configuration->theme());
     }
 
     protected function codeParser(): CodeParser

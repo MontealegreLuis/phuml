@@ -14,7 +14,8 @@ use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
+use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
@@ -66,7 +67,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
                 new ClassGraphBuilder(new EdgesBuilder()),
                 new InterfaceGraphBuilder(),
                 new TraitGraphBuilder(),
-                new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksStyle($theme))
+                new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName($theme)))
             ),
             new DotProcessor()
         );
