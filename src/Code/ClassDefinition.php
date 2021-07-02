@@ -9,6 +9,7 @@ namespace PhUml\Code;
 
 use BadMethodCallException;
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\HasConstants;
 use PhUml\Code\Attributes\WithAttributes;
@@ -35,7 +36,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
 
     /**
      * @param Method[] $methods
-     * @param \PhUml\Code\Attributes\Constant[] $constants
+     * @param Constant[] $constants
      * @param Attribute[] $attributes
      * @param Name[] $interfaces
      * @param Name[] $traits

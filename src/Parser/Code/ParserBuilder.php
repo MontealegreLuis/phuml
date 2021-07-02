@@ -76,7 +76,7 @@ final class ParserBuilder
         return $this;
     }
 
-    public function build(): PhpParser
+    public function build(): PhpCodeParser
     {
         $visibilityBuilder = new VisibilityBuilder();
         $typeBuilder = new TypeBuilder();

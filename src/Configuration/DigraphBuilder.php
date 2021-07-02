@@ -17,7 +17,8 @@ use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Parser\Code\ExternalAssociationsResolver;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\ParserBuilder;
-use PhUml\Parser\Code\PhpParser;
+use PhUml\Parser\Code\PhpCodeParser;
+use PhUml\Parser\Code\RelationshipsResolver;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -30,12 +31,8 @@ final class DigraphBuilder
     /** @var DigraphConfiguration */
     protected $configuration;
 
-    /** @var ParserBuilder */
-    protected $parserBuilder;
-
     public function __construct(DigraphConfiguration $configuration)
     {
-        $this->parserBuilder = new ParserBuilder();
         $this->configuration = $configuration;
     }
 
@@ -48,7 +45,10 @@ final class DigraphBuilder
 
     public function digraphProcessor(): GraphvizProcessor
     {
-        $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
+        $associationsBuilder = $this->configuration->extractAssociations()
+            ? new EdgesBuilder()
+            : new NoAssociationsBuilder();
+
         return new GraphvizProcessor(
             new ClassGraphBuilder($associationsBuilder),
             new InterfaceGraphBuilder(),
@@ -67,46 +67,34 @@ final class DigraphBuilder
 
     public function codeParser(): CodeParser
     {
-        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolver());
+        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolvers());
     }
 
-    protected function tokenParser(): PhpParser
+    protected function tokenParser(): PhpCodeParser
     {
-        $this->configureAttributes();
-        $this->configureMethods();
-        $this->configureFilters();
-        return $this->parserBuilder->build();
-    }
-
-    private function configureAttributes(): void
-    {
+        $parserBuilder = new ParserBuilder();
         if ($this->configuration->hideAttributes()) {
-            $this->parserBuilder->excludeAttributes();
+            $parserBuilder->excludeAttributes();
         }
-    }
-
-    private function configureMethods(): void
-    {
         if ($this->configuration->hideMethods()) {
-            $this->parserBuilder->excludeMethods();
+            $parserBuilder->excludeMethods();
         }
-    }
-
-    private function configureFilters(): void
-    {
         if ($this->configuration->hidePrivate()) {
-            $this->parserBuilder->excludePrivateMembers();
+            $parserBuilder->excludePrivateMembers();
         }
         if ($this->configuration->hideProtected()) {
-            $this->parserBuilder->excludeProtectedMembers();
+            $parserBuilder->excludeProtectedMembers();
         }
+        return $parserBuilder->build();
     }
 
-    private function externalDefinitionsResolver(): ExternalDefinitionsResolver
+    /** @return RelationshipsResolver[] */
+    private function externalDefinitionsResolvers(): array
     {
+        $resolvers = [new ExternalDefinitionsResolver()];
         if ($this->configuration->extractAssociations()) {
-            return new ExternalAssociationsResolver();
+            $resolvers[] = new ExternalAssociationsResolver();
         }
-        return new ExternalDefinitionsResolver();
+        return $resolvers;
     }
 }

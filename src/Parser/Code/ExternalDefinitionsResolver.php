@@ -17,10 +17,9 @@ use PhUml\Code\TraitDefinition;
  * It checks the parent of a definition, the interfaces it implements, and the traits it uses
  * looking for external definitions
  *
- * An external definition is a class, trait or interface from a third party library, or a built-in
- * class
+ * An external definition is a class, trait or interface from a third party library, or a built-in class or interface
  */
-class ExternalDefinitionsResolver
+final class ExternalDefinitionsResolver implements RelationshipsResolver
 {
     public function resolve(Codebase $codebase): void
     {
@@ -28,9 +27,9 @@ class ExternalDefinitionsResolver
             if ($definition instanceof ClassDefinition) {
                 $this->resolveForClass($definition, $codebase);
             } elseif ($definition instanceof InterfaceDefinition) {
-                $this->resolveForInterface($definition, $codebase);
+                $this->resolveExternalInterfaces($definition->parents(), $codebase);
             } elseif ($definition instanceof TraitDefinition) {
-                $this->resolveForTrait($definition, $codebase);
+                $this->resolveExternalTraits($definition->traits(), $codebase);
             }
         }
     }
@@ -45,38 +44,22 @@ class ExternalDefinitionsResolver
         $this->resolveExternalParentClass($definition, $codebase);
     }
 
-    /**
-     * It resolves for its parent interfaces
-     */
-    protected function resolveForInterface(InterfaceDefinition $definition, Codebase $codebase): void
-    {
-        $this->resolveExternalInterfaces($definition->parents(), $codebase);
-    }
-
-    /**
-     * It resolves for the traits it uses
-     */
-    private function resolveForTrait(TraitDefinition $trait, Codebase $codebase): void
-    {
-        $this->resolveExternalTraits($trait->traits(), $codebase);
-    }
-
-    /** @param \PhUml\Code\Name[] $interfaces */
+    /** @param Name[] $interfaces */
     private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void
     {
         array_map(function (Name $interface) use ($codebase): void {
             if (! $codebase->has($interface)) {
-                $codebase->add($this->externalInterface($interface));
+                $codebase->add(new InterfaceDefinition($interface));
             }
         }, $interfaces);
     }
 
-    /** @param \PhUml\Code\Name[] $traits */
+    /** @param Name[] $traits */
     private function resolveExternalTraits(array $traits, Codebase $codebase): void
     {
         array_map(function (Name $trait) use ($codebase): void {
             if (! $codebase->has($trait)) {
-                $codebase->add($this->externalTrait($trait));
+                $codebase->add(new TraitDefinition($trait));
             }
         }, $traits);
     }
@@ -88,22 +71,7 @@ class ExternalDefinitionsResolver
         }
         $parent = $definition->parent();
         if (! $codebase->has($parent)) {
-            $codebase->add($this->externalClass($parent));
+            $codebase->add(new ClassDefinition($parent));
         }
-    }
-
-    protected function externalInterface(Name $name): InterfaceDefinition
-    {
-        return new InterfaceDefinition($name);
-    }
-
-    protected function externalClass(Name $name): ClassDefinition
-    {
-        return new ClassDefinition($name);
-    }
-
-    protected function externalTrait(Name $name): TraitDefinition
-    {
-        return new TraitDefinition($name);
     }
 }

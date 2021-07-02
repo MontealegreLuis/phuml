@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser;
 
+use PhUml\Parser\Code\PhpCodeParser;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -15,7 +16,7 @@ use Symfony\Component\Finder\Finder;
  * This finder inspect inner directories recursively.
  * The contents of the files are used by the `PhpParser` to build a `Codebase`
  *
- * @see PhpParser::parse()
+ * @see PhpCodeParser::parse()
  */
 final class SourceCodeFinder implements CodeFinder
 {

@@ -10,6 +10,8 @@ namespace PhUml\Generators;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\StringCodeFinder;
+use PhUml\Parser\Code\ExternalDefinitionsResolver;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
@@ -20,7 +22,7 @@ final class GenerateStatisticsTest extends TestCase
     /** @test */
     function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()
     {
-        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
 
         $this->expectException(LogicException::class);
         $generator->generate(new StringCodeFinder(), 'wont-be-generated.txt');
@@ -57,7 +59,7 @@ Functions per class:  5.5
 
 STATS;
 
-        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
 
@@ -97,7 +99,8 @@ Functions per class:  4.53
 
 STATS;
 
-        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $parser = new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]);
+        $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
 

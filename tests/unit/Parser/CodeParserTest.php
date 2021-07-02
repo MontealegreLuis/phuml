@@ -9,6 +9,7 @@ namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\StringCodeFinder;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\TestBuilders\A;
 
 final class CodeParserTest extends TestCase
@@ -485,7 +486,7 @@ CLASS;
     /** @before */
     function buildParser()
     {
-        $this->parser = new CodeParser();
+        $this->parser = new CodeParser(new PhpCodeParser());
         $this->finder = new StringCodeFinder();
     }
 

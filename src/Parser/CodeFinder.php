@@ -7,12 +7,14 @@
 
 namespace PhUml\Parser;
 
+use PhUml\Parser\Code\PhpCodeParser;
+
 /**
  * It inspects a directory finding all the files with PHP code and saves their contents
  *
  * The contents of the files are used by the `PhpParser` to build a `Codebase`
  *
- * @see PhpParser::parse()
+ * @see PhpCodeParser::parse()
  */
 interface CodeFinder
 {

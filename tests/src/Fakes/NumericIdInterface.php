@@ -7,20 +7,23 @@
 
 namespace PhUml\Fakes;
 
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
 
 final class NumericIdInterface extends InterfaceDefinition
 {
+    /** @var int */
     private static $id = 0;
 
     /** @var int */
     private $identifier;
 
     /**
-     * @param \PhUml\Code\Methods\Method[] $methods
-     * @param \PhUml\Code\Attributes\Constant[] $constants
-     * @param \PhUml\Code\InterfaceDefinition[] $parents
+     * @param Method[] $methods
+     * @param Constant[] $constants
+     * @param Name[] $parents
      */
     public function __construct(
         Name $name,

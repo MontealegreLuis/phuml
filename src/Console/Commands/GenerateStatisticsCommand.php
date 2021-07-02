@@ -8,6 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Generators\StatisticsGenerator;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
 use Symfony\Component\Console\Input\InputArgument;
@@ -70,7 +71,7 @@ HELP
         $statisticsInput = new StatisticsInput($input->getArguments(), $input->getOptions());
         $statisticsFilePath = $statisticsInput->outputFile();
 
-        $statisticsGenerator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $statisticsGenerator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
         $statisticsGenerator->attach($this->display);
 
         $codeFinder = $statisticsInput->codeFinder();

@@ -7,8 +7,10 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Attributes\HasConstants;
 use PhUml\Code\Attributes\WithConstants;
+use PhUml\Code\Methods\Method;
 
 /**
  * It represents an interface definition
@@ -21,8 +23,8 @@ class InterfaceDefinition extends Definition implements HasConstants
     protected $parents;
 
     /**
-     * @param \PhUml\Code\Methods\Method[] $methods
-     * @param \PhUml\Code\Attributes\Constant[] $constants
+     * @param Method[] $methods
+     * @param Constant[] $constants
      * @param Name[] $parents
      */
     public function __construct(

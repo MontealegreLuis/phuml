@@ -13,7 +13,7 @@ use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\SourceCodeFinder;
 
-final class Php5ParserTest extends TestCase
+final class PhpCodeParserTest extends TestCase
 {
     use WithVisibilityAssertions;
 

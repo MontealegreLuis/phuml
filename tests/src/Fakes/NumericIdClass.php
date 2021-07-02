@@ -7,16 +7,27 @@
 
 namespace PhUml\Fakes;
 
+use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
 
 final class NumericIdClass extends ClassDefinition
 {
+    /** @var int */
     private static $id = 100;
 
     /** @var int */
     private $identifier;
 
+    /**
+     * @param Method[] $methods
+     * @param Constant[] $constants
+     * @param Attribute[] $attributes
+     * @param Name[] $interfaces
+     * @param Name[] $traits
+     */
     public function __construct(
         Name $name,
         array $methods = [],

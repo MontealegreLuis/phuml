@@ -29,7 +29,7 @@ final class GenerateDotFileTest extends TestCase
     /** @test */
     function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()
     {
-        $generator = new DotFileGenerator(new CodeParser(), new GraphvizProcessor());
+        $generator = new DotFileGenerator(new CodeParser(new PhpCodeParser()), new GraphvizProcessor());
 
         $this->expectException(LogicException::class);
 
@@ -113,7 +113,7 @@ final class GenerateDotFileTest extends TestCase
         $this->generator = new DotFileGenerator(
             new CodeParser(
                 new PhpCodeParser(new NumericIdClassDefinitionBuilder()),
-                new ExternalNumericIdDefinitionsResolver()
+                [new ExternalNumericIdDefinitionsResolver()]
             ),
             new GraphvizProcessor()
         );
