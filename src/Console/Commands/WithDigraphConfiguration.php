@@ -27,7 +27,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 trait WithDigraphConfiguration
 {
-    public function addDigraphOptions(Command $command): void
+    protected function addDigraphOptions(Command $command): void
     {
         $command
             ->addOption(

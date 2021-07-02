@@ -31,7 +31,7 @@ final class ExternalAssociationsResolver implements RelationshipsResolver
         }
     }
 
-    protected function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
+    private function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
         $this->resolveExternalAttributes($definition, $codebase);
         $this->resolveExternalConstructorParameters($definition, $codebase);

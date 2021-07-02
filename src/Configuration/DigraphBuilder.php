@@ -28,7 +28,7 @@ use PhUml\Templates\TemplateEngine;
 
 final class DigraphBuilder
 {
-    protected DigraphConfiguration $configuration;
+    private DigraphConfiguration $configuration;
 
     public function __construct(DigraphConfiguration $configuration)
     {
@@ -56,7 +56,12 @@ final class DigraphBuilder
         );
     }
 
-    protected function digraphStyle(): DigraphStyle
+    public function codeParser(): CodeParser
+    {
+        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolvers());
+    }
+
+    private function digraphStyle(): DigraphStyle
     {
         if ($this->configuration->hideEmptyBlocks()) {
             return DigraphStyle::withoutEmptyBlocks($this->configuration->theme());
@@ -64,12 +69,7 @@ final class DigraphBuilder
         return DigraphStyle::default($this->configuration->theme());
     }
 
-    public function codeParser(): CodeParser
-    {
-        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolvers());
-    }
-
-    protected function tokenParser(): PhpCodeParser
+    private function tokenParser(): PhpCodeParser
     {
         $parserBuilder = new ParserBuilder();
         if ($this->configuration->hideAttributes()) {

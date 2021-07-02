@@ -11,9 +11,9 @@ use PhUml\Graphviz\Styles\ThemeName;
 
 final class DigraphConfiguration
 {
-    protected bool $searchRecursively;
+    private bool $searchRecursively;
 
-    protected bool $extractAssociations;
+    private bool $extractAssociations;
 
     private bool $hideProtected;
 
@@ -23,9 +23,9 @@ final class DigraphConfiguration
 
     private bool $hideMethods;
 
-    protected bool $hideEmptyBlocks;
+    private bool $hideEmptyBlocks;
 
-    protected ThemeName $theme;
+    private ThemeName $theme;
 
     /** @param mixed[] $input */
     public function __construct(array $input)
@@ -80,7 +80,7 @@ final class DigraphConfiguration
         return $this->theme;
     }
 
-    protected function setTheme(string $name): void
+    private function setTheme(string $name): void
     {
         $this->theme = new ThemeName($name);
     }
