@@ -15,14 +15,13 @@ use Webmozart\Assert\Assert;
 final class Visibility
 {
     /** @var string[] */
-    private static $symbols = [
+    private static array $symbols = [
         'private' => '-',
         'public' => '+',
         'protected' => '#',
     ];
 
-    /** @var string */
-    private $modifier;
+    private string $modifier;
 
     public function __construct(string $modifier)
     {

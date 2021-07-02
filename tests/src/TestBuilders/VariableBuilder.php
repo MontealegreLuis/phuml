@@ -12,11 +12,9 @@ use PhUml\Code\Variables\Variable;
 
 final class VariableBuilder
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var TypeDeclaration */
-    private $type;
+    private TypeDeclaration $type;
 
     public function __construct(string $name)
     {

@@ -15,11 +15,9 @@ final class DigraphStyle
     /** @var string */
     protected $theme;
 
-    /** @var string */
-    protected $attributes;
+    protected string $attributes;
 
-    /** @var string */
-    protected $methods;
+    protected string $methods;
 
     public static function default(ThemeName $theme): DigraphStyle
     {

@@ -23,17 +23,13 @@ use PhUml\Graphviz\DigraphPrinter;
  */
 final class GraphvizProcessor extends Processor
 {
-    /** @var ClassGraphBuilder */
-    private $classBuilder;
+    private ClassGraphBuilder $classBuilder;
 
-    /** @var InterfaceGraphBuilder */
-    private $interfaceBuilder;
+    private InterfaceGraphBuilder $interfaceBuilder;
 
-    /** @var DigraphPrinter */
-    private $printer;
+    private DigraphPrinter $printer;
 
-    /** @var TraitGraphBuilder */
-    private $traitBuilder;
+    private TraitGraphBuilder $traitBuilder;
 
     public function __construct(
         ClassGraphBuilder $classBuilder = null,

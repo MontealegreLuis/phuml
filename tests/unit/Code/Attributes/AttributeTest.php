@@ -78,7 +78,7 @@ final class AttributeTest extends TestCase
         $typedArray = A::attribute('$directories')->public()->withType('Directory[]')->build();
 
         $this->assertTrue($typedArray->isAReference());
-        $this->assertEquals(Name::from('Directory'), $typedArray->referenceName());
+        $this->assertEquals(new Name('Directory'), $typedArray->referenceName());
     }
 
     protected function memberWithoutType(): HasType

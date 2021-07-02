@@ -13,11 +13,9 @@ use PhUml\Templates\TemplateEngine;
 
 final class DigraphPrinter
 {
-    /** @var TemplateEngine */
-    private $engine;
+    private TemplateEngine $engine;
 
-    /** @var DigraphStyle */
-    private $style;
+    private DigraphStyle $style;
 
     public function __construct(TemplateEngine $engine = null, DigraphStyle $style = null)
     {

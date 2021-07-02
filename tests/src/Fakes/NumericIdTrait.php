@@ -7,19 +7,20 @@
 
 namespace PhUml\Fakes;
 
+use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
 
 final class NumericIdTrait extends TraitDefinition
 {
-    private static $id = 200;
+    private static int $id = 200;
 
-    /** @var int */
-    private $identifier;
+    private int $identifier;
 
     /**
-     * @param \PhUml\Code\Methods\Method[] $methods
-     * @param \PhUml\Code\Attributes\Attribute[] $attributes
+     * @param Method[] $methods
+     * @param Attribute[] $attributes
      * @param Name[] $traits
      */
     public function __construct(

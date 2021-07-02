@@ -19,7 +19,7 @@ final class TypeDeclaration implements Named
     use WithName;
 
     /** @var string[] All valid types for PHP 7.1, pseudo-types, and aliases */
-    private static $builtInTypes = [
+    private static array $builtInTypes = [
         'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable',
         // pseudo-types
         'mixed', 'number', 'object', 'resource', 'self',
@@ -27,8 +27,7 @@ final class TypeDeclaration implements Named
         'boolean', 'integer', 'double',
     ];
 
-    /** @var bool */
-    private $isNullable;
+    private bool $isNullable;
 
     public static function absent(): TypeDeclaration
     {
@@ -87,7 +86,7 @@ final class TypeDeclaration implements Named
 
     private function __construct(?string $name, bool $isNullable = false)
     {
-        $this->name = $name !== null ? Name::from($name) : null;
+        $this->name = $name !== null ? new Name($name) : null;
         $this->isNullable = $name !== null && $isNullable;
     }
 }

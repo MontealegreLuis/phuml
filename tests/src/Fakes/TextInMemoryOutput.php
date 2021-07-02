@@ -13,8 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class TextInMemoryOutput implements OutputInterface
 {
-    /** @var string */
-    private $output = '';
+    private string $output = '';
 
     public function output(): string
     {

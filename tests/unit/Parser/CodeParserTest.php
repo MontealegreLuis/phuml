@@ -490,9 +490,7 @@ CLASS;
         $this->finder = new StringCodeFinder();
     }
 
-    /** @var CodeParser */
-    private $parser;
+    private ?CodeParser $parser = null;
 
-    /** @var StringCodeFinder */
-    private $finder;
+    private ?StringCodeFinder $finder = null;
 }

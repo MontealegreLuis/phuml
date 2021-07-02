@@ -11,29 +11,21 @@ use PhUml\Graphviz\Styles\ThemeName;
 
 final class DigraphConfiguration
 {
-    /** @var bool */
-    protected $searchRecursively;
+    protected bool $searchRecursively;
 
-    /** @var bool */
-    protected $extractAssociations;
+    protected bool $extractAssociations;
 
-    /** @var bool */
-    private $hideProtected;
+    private bool $hideProtected;
 
-    /** @var bool */
-    private $hidePrivate;
+    private bool $hidePrivate;
 
-    /** @var bool */
-    private $hideAttributes;
+    private bool $hideAttributes;
 
-    /** @var bool */
-    private $hideMethods;
+    private bool $hideMethods;
 
-    /** @var bool */
-    protected $hideEmptyBlocks;
+    protected bool $hideEmptyBlocks;
 
-    /** @var ThemeName */
-    protected $theme;
+    protected ThemeName $theme;
 
     /** @param mixed[] $input */
     public function __construct(array $input)

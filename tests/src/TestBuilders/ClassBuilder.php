@@ -15,14 +15,13 @@ final class ClassBuilder extends DefinitionBuilder
 {
     use MembersBuilder;
 
-    /** @var Name */
-    protected $parent;
+    protected ?Name $parent = null;
 
     /** @var Name[] */
-    private $interfaces = [];
+    private array $interfaces = [];
 
     /** @var Name[] */
-    private $traits = [];
+    private array $traits = [];
 
     public function extending(Name $parent): ClassBuilder
     {
@@ -45,11 +44,10 @@ final class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
-    /** @return ClassDefinition */
-    public function build()
+    public function build(): ClassDefinition
     {
         return new ClassDefinition(
-            Name::from($this->name),
+            new Name($this->name),
             $this->methods,
             $this->constants,
             $this->parent,
@@ -59,11 +57,10 @@ final class ClassBuilder extends DefinitionBuilder
         );
     }
 
-    /** @return NumericIdClass */
-    public function buildWithNumericId()
+    public function buildWithNumericId(): NumericIdClass
     {
         return new NumericIdClass(
-            Name::from($this->name),
+            new Name($this->name),
             $this->methods,
             $this->constants,
             $this->parent,

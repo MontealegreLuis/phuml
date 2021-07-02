@@ -32,14 +32,11 @@ use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
  */
 final class MembersBuilder
 {
-    /** @var ConstantsBuilder */
-    private $constantsBuilder;
+    private ConstantsBuilder $constantsBuilder;
 
-    /** @var AttributesBuilder */
-    private $attributesBuilder;
+    private AttributesBuilder $attributesBuilder;
 
-    /** @var MethodsBuilder */
-    private $methodsBuilder;
+    private MethodsBuilder $methodsBuilder;
 
     public function __construct(
         ConstantsBuilder $constantsBuilder = null,

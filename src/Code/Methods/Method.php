@@ -26,14 +26,12 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     use WithAbstractModifier;
     use WithStaticModifier;
 
-    /** @var string */
-    private $name;
+    private string $name;
 
     /** @var Parameter[] */
     private $parameters;
 
-    /** @var TypeDeclaration */
-    private $returnType;
+    private TypeDeclaration $returnType;
 
     /**
      * It is used by the `ClassDefinition` to extract the parameters of a constructor

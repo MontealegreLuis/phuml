@@ -13,6 +13,7 @@ use PhUml\Console\ProgressDisplay;
 use PhUml\Fakes\TextInMemoryOutput;
 use PhUml\Parser\InvalidDirectory;
 use RuntimeException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class GenerateStatisticsCommandTest extends TestCase
@@ -65,12 +66,9 @@ final class GenerateStatisticsCommandTest extends TestCase
         }
     }
 
-    /** @var GenerateStatisticsCommand */
-    private $command;
+    private ?Command $command = null;
 
-    /** @var CommandTester */
-    private $tester;
+    private ?CommandTester $tester = null;
 
-    /** @var string */
-    private $statistics;
+    private ?string $statistics = null;
 }

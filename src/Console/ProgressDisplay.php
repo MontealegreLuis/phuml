@@ -18,8 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class ProgressDisplay implements ProcessorProgressDisplay
 {
-    /** @var OutputInterface */
-    private $output;
+    private OutputInterface $output;
 
     public function __construct(OutputInterface $output)
     {

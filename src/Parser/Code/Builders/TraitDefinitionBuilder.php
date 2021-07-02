@@ -22,8 +22,7 @@ final class TraitDefinitionBuilder
 {
     use TraitNamesBuilder;
 
-    /** @var MembersBuilder */
-    protected $membersBuilder;
+    protected MembersBuilder $membersBuilder;
 
     public function __construct(MembersBuilder $membersBuilder = null)
     {
@@ -33,7 +32,7 @@ final class TraitDefinitionBuilder
     public function build(Trait_ $trait): TraitDefinition
     {
         return new TraitDefinition(
-            Name::from((string) $trait->name),
+            new Name((string) $trait->name),
             $this->membersBuilder->methods($trait->getMethods()),
             $this->membersBuilder->attributes($trait->stmts),
             $this->buildTraits($trait->stmts)

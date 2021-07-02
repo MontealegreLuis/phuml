@@ -16,6 +16,7 @@ use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\ThemeName;
+use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
@@ -63,7 +64,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     private function createGenerator(string $theme): ClassDiagramGenerator
     {
         $generator = new ClassDiagramGenerator(
-            new CodeParser(new PhpCodeParser()),
+            new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]),
             new GraphvizProcessor(
                 new ClassGraphBuilder(new EdgesBuilder()),
                 new InterfaceGraphBuilder(),

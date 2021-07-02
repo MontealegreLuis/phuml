@@ -84,5 +84,5 @@ final class FilteredAttributesBuilderTest extends TestCase
     }
 
     /** @var Property[] */
-    private $attributes;
+    private ?array $attributes = null;
 }

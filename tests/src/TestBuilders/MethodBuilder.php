@@ -14,23 +14,18 @@ use PhUml\Code\Variables\TypeDeclaration;
 
 final class MethodBuilder
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
     /** @var Parameter[] */
-    private $parameters = [];
+    private array $parameters = [];
 
-    /** @var TypeDeclaration */
-    private $returnType;
+    private ?TypeDeclaration $returnType = null;
 
-    /** @var Visibility */
-    private $visibility;
+    private ?Visibility $visibility = null;
 
-    /** @var bool */
-    private $isAbstract;
+    private bool $isAbstract;
 
-    /** @var bool */
-    private $isStatic;
+    private bool $isStatic;
 
     public function __construct(string $name)
     {

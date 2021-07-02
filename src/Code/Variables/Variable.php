@@ -17,8 +17,7 @@ final class Variable implements HasType
 {
     use WithTypeDeclaration;
 
-    /** @var string */
-    protected $name;
+    protected string $name;
 
     public function __construct(string $name, TypeDeclaration $type)
     {
@@ -66,6 +65,6 @@ final class Variable implements HasType
 
     private function arrayTypeName(): Name
     {
-        return Name::from($this->type->removeArraySuffix());
+        return new Name($this->type->removeArraySuffix());
     }
 }

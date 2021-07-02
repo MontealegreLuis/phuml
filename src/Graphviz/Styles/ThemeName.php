@@ -10,10 +10,9 @@ namespace PhUml\Graphviz\Styles;
 final class ThemeName
 {
     /** @var string[] */
-    private static $validNames = ['phuml', 'php', 'classic'];
+    private static array $validNames = ['phuml', 'php', 'classic'];
 
-    /** @var string */
-    private $name;
+    private string $name;
 
     public function __construct(string $name)
     {

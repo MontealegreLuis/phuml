@@ -28,8 +28,7 @@ use PhUml\Templates\TemplateEngine;
 
 final class DigraphBuilder
 {
-    /** @var DigraphConfiguration */
-    protected $configuration;
+    protected DigraphConfiguration $configuration;
 
     public function __construct(DigraphConfiguration $configuration)
     {

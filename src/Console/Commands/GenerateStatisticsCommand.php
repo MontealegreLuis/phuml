@@ -11,6 +11,7 @@ use PhUml\Generators\StatisticsGenerator;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,7 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class GenerateStatisticsCommand extends GeneratorCommand
 {
     /**
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function configure(): void
     {

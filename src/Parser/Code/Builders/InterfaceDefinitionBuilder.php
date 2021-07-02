@@ -22,8 +22,7 @@ final class InterfaceDefinitionBuilder
 {
     use InterfaceNamesBuilder;
 
-    /** @var MembersBuilder */
-    private $membersBuilder;
+    private MembersBuilder $membersBuilder;
 
     public function __construct(MembersBuilder $membersBuilder = null)
     {
@@ -33,7 +32,7 @@ final class InterfaceDefinitionBuilder
     public function build(Interface_ $interface): InterfaceDefinition
     {
         return new InterfaceDefinition(
-            InterfaceDefinitionName::from((string) $interface->name),
+            new InterfaceDefinitionName((string) $interface->name),
             $this->membersBuilder->methods($interface->getMethods()),
             $this->membersBuilder->constants($interface->stmts),
             $this->buildInterfaces($interface->extends)

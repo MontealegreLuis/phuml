@@ -7,23 +7,20 @@
 
 namespace PhUml\Code;
 
+use Webmozart\Assert\Assert;
+
 final class Name
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    public static function from(string $text): Name
+    public function __construct(string $name)
     {
-        return new Name($text);
+        Assert::notEmpty($name, 'Definition name cannot be null or empty');
+        $this->name = $name;
     }
 
     public function __toString()
     {
         return $this->name;
-    }
-
-    private function __construct(string $name)
-    {
-        $this->name = $name;
     }
 }

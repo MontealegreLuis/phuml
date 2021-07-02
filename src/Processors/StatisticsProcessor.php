@@ -17,8 +17,7 @@ use PhUml\Templates\TemplateFailure;
  */
 final class StatisticsProcessor extends Processor
 {
-    /** @var TemplateEngine */
-    private $engine;
+    private TemplateEngine $engine;
 
     public function __construct(TemplateEngine $engine = null)
     {

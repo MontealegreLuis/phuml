@@ -23,11 +23,10 @@ use PhUml\Parser\Code\RelationshipsResolver;
  */
 final class CodeParser
 {
-    /** @var PhpCodeParser */
-    private $parser;
+    private PhpCodeParser $parser;
 
     /** @var RelationshipsResolver[] */
-    private $resolvers;
+    private array $resolvers;
 
     /** @param RelationshipsResolver[] $resolvers */
     public function __construct(PhpCodeParser $parser, array $resolvers = [])

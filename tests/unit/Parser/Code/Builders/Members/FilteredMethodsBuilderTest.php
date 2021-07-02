@@ -157,8 +157,7 @@ final class FilteredMethodsBuilderTest extends TestCase
     }
 
     /** @var ClassMethod[] */
-    private $methods;
+    private ?array $methods = null;
 
-    /** @var FilteredMethodsBuilder */
-    private $builder;
+    private ?FilteredMethodsBuilder $builder = null;
 }

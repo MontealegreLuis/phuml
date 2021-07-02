@@ -60,6 +60,5 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
     }
 
-    /** @var ClassDiagramGenerator */
-    private $generator;
+    private ?ClassDiagramGenerator $generator = null;
 }

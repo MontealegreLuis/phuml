@@ -13,8 +13,7 @@ use PhUml\Processors\GraphvizProcessor;
 
 class DigraphGenerator extends Generator
 {
-    /** @var GraphvizProcessor */
-    protected $digraphProcessor;
+    protected GraphvizProcessor $digraphProcessor;
 
     public function __construct(CodeParser $parser, GraphvizProcessor $digraphProcessor)
     {

@@ -28,11 +28,9 @@ use PhUml\Parser\CodeFinder;
  */
 final class PhpCodeParser
 {
-    /** @var Parser */
-    private $parser;
+    private Parser $parser;
 
-    /** @var PhpTraverser */
-    private $traverser;
+    private PhpTraverser $traverser;
 
     public function __construct(
         ClassDefinitionBuilder $classBuilder = null,

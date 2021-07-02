@@ -10,6 +10,7 @@ namespace PhUml\Graphviz\Builders;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\HasDotRepresentation;
 use PhUml\Graphviz\Node;
 
 /**
@@ -24,14 +25,14 @@ use PhUml\Graphviz\Node;
  */
 final class ClassGraphBuilder
 {
-    /** @var \PhUml\Graphviz\HasDotRepresentation[] */
-    private $dotElements;
+    /** @var HasDotRepresentation[] */
+    private array $dotElements;
 
-    /** @var AssociationsBuilder */
-    private $associationsBuilder;
+    private AssociationsBuilder $associationsBuilder;
 
     public function __construct(AssociationsBuilder $associationsBuilder = null)
     {
+        $this->dotElements = [];
         $this->associationsBuilder = $associationsBuilder ?? new NoAssociationsBuilder();
     }
 
@@ -44,7 +45,7 @@ final class ClassGraphBuilder
      * 4. The parent class, if any
      * 5. The interfaces it implements, if any
      *
-     * @return \PhUml\Graphviz\HasDotRepresentation[]
+     * @return HasDotRepresentation[]
      */
     public function extractFrom(ClassDefinition $class, Codebase $codebase): array
     {
@@ -56,7 +57,11 @@ final class ClassGraphBuilder
         $this->dotElements[] = new Node($class);
 
         if ($class->hasParent()) {
-            $this->dotElements[] = Edge::inheritance($codebase->get($class->parent()), $class);
+            if (! $codebase->has($class->parent())) {
+                var_dump($class->parent());
+            }
+            $parent = $codebase->get($class->parent());
+            $this->dotElements[] = Edge::inheritance($parent, $class);
         }
 
         foreach ($class->interfaces() as $interface) {

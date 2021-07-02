@@ -21,8 +21,7 @@ final class Constant implements HasType, HasVisibility
     use WithTypeDeclaration;
     use WithVisibility;
 
-    /** @var string */
-    private $name;
+    private string $name;
 
     public function __construct(string $name, TypeDeclaration $type, Visibility $visibility = null)
     {

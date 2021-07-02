@@ -31,16 +31,13 @@ use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 final class ParserBuilder
 {
     /** @var VisibilityFilter[] */
-    private $filters;
+    private array $filters;
 
-    /** @var MethodsBuilder */
-    private $methodsBuilder;
+    private MethodsBuilder $methodsBuilder;
 
-    /** @var ConstantsBuilder */
-    private $constantsBuilder;
+    private ConstantsBuilder $constantsBuilder;
 
-    /** @var AttributesBuilder */
-    private $attributesBuilder;
+    private AttributesBuilder $attributesBuilder;
 
     public function __construct()
     {

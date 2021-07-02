@@ -38,9 +38,10 @@ abstract class Definition implements Named, HasNodeIdentifier
      */
     public function countMethodsByVisibility(Visibility $modifier): int
     {
-        return \count(array_filter($this->methods, static function (Method $method) use ($modifier): bool {
-            return $method->hasVisibility($modifier);
-        }));
+        return \count(array_filter(
+            $this->methods,
+            static fn (Method $method): bool => $method->hasVisibility($modifier)
+        ));
     }
 
     /**

@@ -25,8 +25,7 @@ class ClassDefinitionBuilder
     use InterfaceNamesBuilder;
     use TraitNamesBuilder;
 
-    /** @var MembersBuilder */
-    protected $membersBuilder;
+    protected MembersBuilder $membersBuilder;
 
     public function __construct(MembersBuilder $membersBuilder = null)
     {
@@ -36,10 +35,10 @@ class ClassDefinitionBuilder
     public function build(Class_ $class): ClassDefinition
     {
         return new ClassDefinition(
-            ClassDefinitionName::from((string) $class->name),
+            new ClassDefinitionName((string) $class->name),
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
-            $class->extends !== null ? ClassDefinitionName::from((string) end($class->extends->parts)) : null,
+            $class->extends !== null ? new ClassDefinitionName((string) end($class->extends->parts)) : null,
             $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)

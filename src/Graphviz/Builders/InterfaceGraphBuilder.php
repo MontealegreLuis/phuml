@@ -10,6 +10,7 @@ namespace PhUml\Graphviz\Builders;
 use PhUml\Code\Codebase;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\HasDotRepresentation;
 use PhUml\Graphviz\Node;
 
 /**
@@ -26,7 +27,7 @@ final class InterfaceGraphBuilder
      * 1. The node representing the interface itself
      * 2. The parent interface, if any
      *
-     * @return \PhUml\Graphviz\HasDotRepresentation[]
+     * @return HasDotRepresentation[]
      */
     public function extractFrom(InterfaceDefinition $interface, Codebase $codebase): array
     {

@@ -22,8 +22,7 @@ abstract class ImageProcessor extends Processor
     /** @var Process<string>|null */
     protected $process;
 
-    /** @var Filesystem */
-    private $fileSystem;
+    private Filesystem $fileSystem;
 
     /** @param Process<string> $process */
     public function __construct(Process $process = null, Filesystem $fileSystem = null)

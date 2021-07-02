@@ -14,11 +14,10 @@ final class GeneratorInput
 {
     private CodebaseDirectory $directory;
 
-    /** @var string */
-    private $outputFile;
+    private string $outputFile;
 
     /** @var mixed[] $options */
-    private $options;
+    private array $options;
 
     /**
      * @param string[] $arguments

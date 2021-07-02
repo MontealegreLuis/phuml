@@ -299,6 +299,5 @@ mindist = 0.6;', $dotLanguage);
         $this->printer = new DigraphPrinter();
     }
 
-    /** @var DigraphPrinter */
-    private $printer;
+    private ?DigraphPrinter $printer = null;
 }

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CodeFinderTest extends TestCase
 {
-    private $pathToCode;
+    private ?string $pathToCode = null;
 
     /** @test */
     function it_finds_files_only_in_the_given_directory()

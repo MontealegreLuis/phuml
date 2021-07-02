@@ -120,12 +120,9 @@ final class GenerateDotFileTest extends TestCase
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
     }
 
-    /** @var DotFileGenerator */
-    private $generator;
+    private ?DotFileGenerator $generator = null;
 
-    /** @var string */
-    private $pathToDotFile;
+    private ?string $pathToDotFile = null;
 
-    /** @var string */
-    private $pathToCode;
+    private ?string $pathToCode = null;
 }

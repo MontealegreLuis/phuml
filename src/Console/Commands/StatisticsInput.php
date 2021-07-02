@@ -14,14 +14,11 @@ use Webmozart\Assert\Assert;
 
 final class StatisticsInput
 {
-    /** @var string */
-    private $directory;
+    private string $directory;
 
-    /** @var string */
-    private $outputFile;
+    private string $outputFile;
 
-    /** @var bool */
-    private $recursive;
+    private bool $recursive;
 
     /**
      * @param string[] $arguments

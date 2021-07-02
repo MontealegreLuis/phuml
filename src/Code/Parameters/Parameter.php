@@ -15,11 +15,9 @@ final class Parameter implements HasType
 {
     use WithVariable;
 
-    /** @var bool */
-    private $isVariadic;
+    private bool $isVariadic;
 
-    /** @var bool */
-    private $isByReference;
+    private bool $isByReference;
 
     public function __construct(Variable $variable, bool $isVariadic = false, bool $isByReference = false)
     {

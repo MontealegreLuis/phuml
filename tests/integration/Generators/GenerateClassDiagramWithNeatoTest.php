@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\StringCodeFinder;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
+use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
@@ -68,7 +69,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     function let()
     {
         $this->generator = new ClassDiagramGenerator(
-            new CodeParser(new PhpCodeParser()),
+            new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]),
             new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder())),
             new NeatoProcessor()
         );

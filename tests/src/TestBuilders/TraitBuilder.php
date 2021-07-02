@@ -15,11 +15,10 @@ final class TraitBuilder
 {
     use MembersBuilder;
 
-    /** @var string */
-    private $name;
+    private string $name;
 
     /** @var Name[] */
-    private $traits = [];
+    private array $traits = [];
 
     public function __construct(string $name)
     {
@@ -36,7 +35,7 @@ final class TraitBuilder
     public function build(): TraitDefinition
     {
         return new TraitDefinition(
-            Name::from($this->name),
+            new Name($this->name),
             $this->methods,
             $this->attributes,
             $this->traits
@@ -46,7 +45,7 @@ final class TraitBuilder
     public function buildWithNumericId(): NumericIdTrait
     {
         return new NumericIdTrait(
-            Name::from($this->name),
+            new Name($this->name),
             $this->methods,
             $this->attributes,
             $this->traits

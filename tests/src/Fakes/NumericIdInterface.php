@@ -14,11 +14,9 @@ use PhUml\Code\Name;
 
 final class NumericIdInterface extends InterfaceDefinition
 {
-    /** @var int */
-    private static $id = 0;
+    private static int $id = 0;
 
-    /** @var int */
-    private $identifier;
+    private int $identifier;
 
     /**
      * @param Method[] $methods

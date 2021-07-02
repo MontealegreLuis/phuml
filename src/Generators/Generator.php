@@ -21,11 +21,9 @@ use PhUml\Processors\Processor;
  */
 abstract class Generator
 {
-    /** @var ProcessorProgressDisplay|null */
-    private $display;
+    private ?ProcessorProgressDisplay $display = null;
 
-    /** @var CodeParser */
-    private $parser;
+    private CodeParser $parser;
 
     public function __construct(CodeParser $parser)
     {
@@ -47,7 +45,7 @@ abstract class Generator
     }
 
     /**
-     * @throws \LogicException If the command is missing
+     * @throws LogicException If the command is missing
      */
     protected function parseCode(CodeFinder $finder): Codebase
     {

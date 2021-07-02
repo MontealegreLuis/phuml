@@ -93,9 +93,9 @@ final class TraitDefinitionBuilderTest extends TestCase
 
         $traitUsingOtherTraits = A::trait('ATraitWithTraits')
             ->using(
-                TraitName::from('ATrait'),
-                TraitName::from('AnotherTrait'),
-                TraitName::from('ThirdTrait')
+                new TraitName('ATrait'),
+                new TraitName('AnotherTrait'),
+                new TraitName('ThirdTrait')
             )
             ->build();
         $this->assertEquals($traitUsingOtherTraits, $trait);
@@ -107,6 +107,5 @@ final class TraitDefinitionBuilderTest extends TestCase
         $this->builder = new TraitDefinitionBuilder();
     }
 
-    /** @var TraitDefinitionBuilder */
-    private $builder;
+    private ?TraitDefinitionBuilder $builder = null;
 }

@@ -18,11 +18,9 @@ use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
  */
 final class TraitVisitor extends NodeVisitorAbstract
 {
-    /** @var TraitDefinitionBuilder */
-    private $builder;
+    private TraitDefinitionBuilder $builder;
 
-    /** @var Codebase */
-    private $codebase;
+    private Codebase $codebase;
 
     public function __construct(TraitDefinitionBuilder $builder, Codebase $codebase)
     {

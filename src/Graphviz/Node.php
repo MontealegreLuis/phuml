@@ -18,8 +18,7 @@ use PhUml\Code\InterfaceDefinition;
  */
 final class Node implements HasDotRepresentation
 {
-    /** @var Definition */
-    private $definition;
+    private Definition $definition;
 
     public function __construct(Definition $node)
     {

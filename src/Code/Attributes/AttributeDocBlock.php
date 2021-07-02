@@ -15,8 +15,7 @@ use PhUml\Code\Variables\TypeDeclaration;
  */
 final class AttributeDocBlock extends DocBlock
 {
-    /** @var string */
-    private static $varExpression = '/@var\s*([\w]+(\[\])?)/';
+    private static string $varExpression = '/@var\s*([\w]+(\[\])?)/';
 
     public static function from(?string $text): AttributeDocBlock
     {

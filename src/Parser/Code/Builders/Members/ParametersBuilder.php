@@ -14,8 +14,7 @@ use PhUml\Code\Variables\Variable;
 
 final class ParametersBuilder
 {
-    /** @var TypeBuilder */
-    private $typeBuilder;
+    private TypeBuilder $typeBuilder;
 
     public function __construct(TypeBuilder $typeBuilder)
     {

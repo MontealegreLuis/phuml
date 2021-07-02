@@ -13,6 +13,7 @@ use PhUml\Console\ProgressDisplay;
 use PhUml\Fakes\TextInMemoryOutput;
 use PhUml\Parser\InvalidDirectory;
 use RuntimeException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class GenerateClassDiagramCommandTest extends TestCase
@@ -158,15 +159,11 @@ final class GenerateClassDiagramCommandTest extends TestCase
         }
     }
 
-    /** @var GenerateClassDiagramCommand */
-    private $command;
+    private ?Command $command = null;
 
-    /** @var CommandTester */
-    private $tester;
+    private ?CommandTester $tester = null;
 
-    /** @var string */
-    private $diagram;
+    private ?string $diagram = null;
 
-    /** @var string */
-    private $pathToCode;
+    private ?string $pathToCode = null;
 }

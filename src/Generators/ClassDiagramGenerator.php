@@ -20,8 +20,7 @@ use PhUml\Processors\ImageProcessor;
  */
 final class ClassDiagramGenerator extends DigraphGenerator
 {
-    /** @var ImageProcessor */
-    private $imageProcessor;
+    private ImageProcessor $imageProcessor;
 
     public function __construct(
         CodeParser $parser,

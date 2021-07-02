@@ -116,9 +116,7 @@ STATS;
         $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
     }
 
-    /** @var string */
-    private $statisticsFile;
+    private ?string $statisticsFile = null;
 
-    /** @var string */
-    private $pathToCode;
+    private ?string $pathToCode = null;
 }

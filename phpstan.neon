@@ -5,4 +5,3 @@ parameters:
 	inferPrivatePropertyTypeFromConstructor: true
 	ignoreErrors:
 		- "#Strict comparison using === between '@package_version@' and '@package_version@' will always evaluate to true#"
-		- "#Unsafe usage of new static#"

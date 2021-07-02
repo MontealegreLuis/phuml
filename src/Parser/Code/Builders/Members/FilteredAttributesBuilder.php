@@ -25,11 +25,9 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
  */
 final class FilteredAttributesBuilder implements AttributesBuilder
 {
-    /** @var VisibilityBuilder */
-    private $visibilityBuilder;
+    private VisibilityBuilder $visibilityBuilder;
 
-    /** @var VisibilityFilters */
-    private $visibilityFilters;
+    private VisibilityFilters $visibilityFilters;
 
     public function __construct(VisibilityBuilder $visibilityBuilder, VisibilityFilters $filters)
     {
@@ -43,9 +41,7 @@ final class FilteredAttributesBuilder implements AttributesBuilder
      */
     public function build(array $parsedAttributes): array
     {
-        $attributes = array_filter($parsedAttributes, static function ($attribute): bool {
-            return $attribute instanceof Property;
-        });
+        $attributes = array_filter($parsedAttributes, static fn ($attribute): bool => $attribute instanceof Property);
 
         return array_map(function (Property $attribute): Attribute {
             $name = "\${$attribute->props[0]->name}";

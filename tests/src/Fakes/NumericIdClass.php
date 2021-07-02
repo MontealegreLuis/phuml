@@ -15,11 +15,9 @@ use PhUml\Code\Name;
 
 final class NumericIdClass extends ClassDefinition
 {
-    /** @var int */
-    private static $id = 100;
+    private static int $id = 100;
 
-    /** @var int */
-    private $identifier;
+    private int $identifier;
 
     /**
      * @param Method[] $methods

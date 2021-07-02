@@ -10,10 +10,9 @@ namespace PhUml\Processors;
 final class ImageProcessorName
 {
     /** @var string[] */
-    private static $names = ['neato', 'dot'];
+    private static array $names = ['neato', 'dot'];
 
-    /** @var string  */
-    private $name;
+    private string $name;
 
     public function __construct(?string $name)
     {

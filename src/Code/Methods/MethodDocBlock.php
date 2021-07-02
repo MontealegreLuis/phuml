@@ -15,14 +15,12 @@ use PhUml\Code\Variables\TypeDeclaration;
  */
 final class MethodDocBlock extends DocBlock
 {
-    /** @var string */
-    private static $returnExpression = '/@return\s*([\w]+(\[\])?)/';
+    private static string $returnExpression = '/@return\s*([\w]+(\[\])?)/';
 
-    /** @var string */
-    private static $parameterExpression = '/@param\s*([\w]+(?:\[\])?)\s*(\$[\w]+)/';
+    private static string $parameterExpression = '/@param\s*([\w]+(?:\[\])?)\s*(\$[\w]+)/';
 
     /** @var TypeDeclaration[] */
-    private $parameters;
+    private array $parameters = [];
 
     public static function from(?string $comment): MethodDocBlock
     {

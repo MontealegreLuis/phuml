@@ -11,11 +11,9 @@ use PhUml\Code\Parameters\Parameter;
 
 final class ParameterBuilder
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var string */
-    private $type;
+    private ?string $type = null;
 
     public function __construct(string $name)
     {

@@ -11,13 +11,12 @@ use PhUml\Processors\ImageProcessorName;
 
 final class ClassDiagramConfiguration
 {
-    /** @var ImageProcessorName */
-    private $imageProcessor;
+    private ImageProcessorName $imageProcessor;
 
     /** @param mixed[] $input */
     public function __construct(array $input)
     {
-        $this->setImageProcessor($input['processor']);
+        $this->setImageProcessor($input['processor'] ?? '');
     }
 
     public function isDotProcessor(): bool

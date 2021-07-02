@@ -18,14 +18,11 @@ namespace PhUml\Graphviz;
  */
 final class Edge implements HasDotRepresentation
 {
-    /** @var HasNodeIdentifier */
-    private $fromNode;
+    private HasNodeIdentifier $fromNode;
 
-    /** @var HasNodeIdentifier */
-    private $toNode;
+    private HasNodeIdentifier $toNode;
 
-    /** @var string */
-    private $options;
+    private string $options;
 
     public function __construct(
         HasNodeIdentifier $nodeA,

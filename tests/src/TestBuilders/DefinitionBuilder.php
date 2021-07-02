@@ -8,15 +8,18 @@
 namespace PhUml\TestBuilders;
 
 use PhUml\Code\Attributes\Constant;
+use PhUml\Code\ClassDefinition;
+use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Fakes\NumericIdClass;
+use PhUml\Fakes\NumericIdInterface;
 
 abstract class DefinitionBuilder
 {
-    /** @var string */
-    protected $name;
+    protected string $name;
 
     /** @var Constant[] */
-    protected $constants;
+    protected array $constants;
 
     public function __construct(string $name)
     {
@@ -32,9 +35,9 @@ abstract class DefinitionBuilder
         return $this;
     }
 
-    /** @return \PhUml\Code\ClassDefinition|\PhUml\Code\InterfaceDefinition */
+    /** @return ClassDefinition|InterfaceDefinition */
     abstract public function build();
 
-    /** @return \PhUml\Fakes\NumericIdClass|\PhUml\Fakes\NumericIdInterface */
+    /** @return NumericIdClass|NumericIdInterface */
     abstract public function buildWithNumericId();
 }
