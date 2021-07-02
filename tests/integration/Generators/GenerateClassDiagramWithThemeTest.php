@@ -24,10 +24,12 @@ use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateClassDiagramWithThemeTest extends TestCase
 {
     use CompareImagesTrait;
+    use ProphecyTrait;
 
     /**
      * @test

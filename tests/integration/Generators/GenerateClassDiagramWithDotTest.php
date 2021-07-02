@@ -20,10 +20,12 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateClassDiagramWithDotTest extends TestCase
 {
     use CompareImagesTrait;
+    use ProphecyTrait;
 
     /** @test */
     function it_fails_to_generate_diagram_if_a_command_is_not_provided()

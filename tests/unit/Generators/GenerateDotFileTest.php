@@ -20,11 +20,13 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\TestBuilders\A;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateDotFileTest extends TestCase
 {
     use WithNumericIds;
     use WithDotLanguageAssertions;
+    use ProphecyTrait;
 
     /** @test */
     function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()

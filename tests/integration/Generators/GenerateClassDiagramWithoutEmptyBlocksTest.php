@@ -22,10 +22,12 @@ use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
     use CompareImagesTrait;
+    use ProphecyTrait;
 
     /**
      * @test

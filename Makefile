@@ -10,7 +10,6 @@ test:
 coverage:
 	@docker-compose run --rm tests php vendor/bin/phpunit --coverage-html build/coverage
 
-
 diagram:
 	@docker-compose run --rm tests php bin/phuml phuml:diagram $(ARGS)
 

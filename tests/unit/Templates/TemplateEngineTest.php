@@ -9,12 +9,15 @@ namespace PhUml\Templates;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Twig\Environment;
 use Twig\Error\SyntaxError;
 use Twig\TwigFilter;
 
 final class TemplateEngineTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @test */
     function it_uses_twig_to_render_a_template()
     {

@@ -16,9 +16,12 @@ use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateStatisticsTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @test */
     function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()
     {
