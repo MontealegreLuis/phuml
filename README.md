@@ -3,6 +3,7 @@
 [![CI workflow](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml/badge.svg)](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml)
 [![Scrutinizer Code Quality][scrutinizer-badge]][scrutinizer]
 [![Code Coverage][coverage-badge]][coverage]
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/montealegreluis/phuml/master)](https://infection.github.io)
 [![Latest Stable Version][stable-badge]][packagist]
 [![Minimum PHP Version][php-version-badge]][php]
 
@@ -68,7 +69,7 @@ Special thanks to all of these [awesome contributors][contributors].
 [codebase]: https://github.com/jakobwesthoff/phuml/tree/master/src
 [stable-badge]: https://img.shields.io/packagist/v/phuml/phuml.svg?style=flat-square
 [packagist]: https://packagist.org/packages/phuml/phuml
-[php-version-badge]: https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square
+[php-version-badge]: https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg?style=flat-square
 [php]: https://php.net/
 [luis]: https://github.com/MontealegreLuis
 [jakob]: https://github.com/jakobwesthoff

@@ -3,6 +3,7 @@
 ![CI workflow](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml/badge.svg)
 [![Scrutinizer Code Quality][scrutinizer-badge]][scrutinizer]
 [![Code Coverage][coverage-badge]][coverage]
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/montealegreluis/phuml/master)](https://infection.github.io)
 [![Latest Stable Version][stable-badge]][packagist]
 [![Minimum PHP Version][php-badge]][php]
 
