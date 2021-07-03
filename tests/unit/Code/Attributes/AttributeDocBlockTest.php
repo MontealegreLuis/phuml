@@ -23,8 +23,8 @@ final class AttributeDocBlockTest extends TestCase
          * @var AnotherClass $testClass 
          */');
 
-        $this->assertEquals(TypeDeclaration::from('TestClass'), $docBlock->extractType());
-        $this->assertEquals(TypeDeclaration::from('AnotherClass'), $multiLineDocBlock->extractType());
+        $this->assertEquals(TypeDeclaration::from('TestClass'), $docBlock->attributeType());
+        $this->assertEquals(TypeDeclaration::from('AnotherClass'), $multiLineDocBlock->attributeType());
     }
 
     /** @test */
@@ -38,8 +38,8 @@ final class AttributeDocBlockTest extends TestCase
          * @var AnotherClass[] $testClass 
          */');
 
-        $this->assertEquals(TypeDeclaration::from('TestClass[]'), $docBlock->extractType());
-        $this->assertEquals(TypeDeclaration::from('AnotherClass[]'), $multiLineDocBlock->extractType());
+        $this->assertEquals(TypeDeclaration::from('TestClass[]'), $docBlock->attributeType());
+        $this->assertEquals(TypeDeclaration::from('AnotherClass[]'), $multiLineDocBlock->attributeType());
     }
 
     /** @test */
@@ -51,7 +51,7 @@ final class AttributeDocBlockTest extends TestCase
          * A description of the attribute
          */');
 
-        $this->assertEquals(TypeDeclaration::absent(), $docBlock->extractType());
-        $this->assertEquals(TypeDeclaration::absent(), $multiLineDocBlock->extractType());
+        $this->assertEquals(TypeDeclaration::absent(), $docBlock->attributeType());
+        $this->assertEquals(TypeDeclaration::absent(), $multiLineDocBlock->attributeType());
     }
 }

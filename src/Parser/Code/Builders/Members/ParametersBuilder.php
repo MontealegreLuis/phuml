@@ -7,8 +7,8 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Param;
-use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\Variable;
 
@@ -25,7 +25,7 @@ final class ParametersBuilder
      * @param Param[] $parameters
      * @return Parameter[]
      */
-    public function build(array $parameters, MethodDocBlock $methodDocBlock): array
+    public function build(array $parameters, ?Doc $methodDocBlock): array
     {
         return array_map(function (Param $parameter) use ($methodDocBlock): Parameter {
             /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */

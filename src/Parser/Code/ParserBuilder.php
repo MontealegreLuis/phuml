@@ -87,6 +87,7 @@ final class ParserBuilder
         );
         $attributesBuilder = $this->attributesBuilder ?? new FilteredAttributesBuilder(
             $visibilityBuilder,
+            $typeBuilder,
             $filters
         );
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);

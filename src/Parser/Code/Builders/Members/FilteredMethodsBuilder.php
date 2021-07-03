@@ -9,7 +9,6 @@ namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\Method;
-use PhUml\Code\Methods\MethodDocBlock;
 
 /**
  * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
@@ -58,10 +57,9 @@ final class FilteredMethodsBuilder implements MethodsBuilder
     {
         $name = $method->name->name;
         $visibility = $this->visibilityBuilder->build($method);
-        $docBlock = $method->getDocComment() === null ? null : $method->getDocComment()->getText();
-        $methodDocBlock = MethodDocBlock::from($docBlock);
-        $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $methodDocBlock);
-        $parameters = $this->parametersBuilder->build($method->params, $methodDocBlock);
+        $docBlock = $method->getDocComment();
+        $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $docBlock);
+        $parameters = $this->parametersBuilder->build($method->params, $docBlock);
         switch (true) {
             case $method->isAbstract():
                 return new Method($name, $visibility, $returnType, $parameters, true);

@@ -10,7 +10,7 @@ namespace PhUml\Code;
 trait WithTraits
 {
     /** @var Name[] */
-    protected $traits;
+    protected array $traits;
 
     /** @return Name[] */
     public function traits(): array

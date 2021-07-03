@@ -24,6 +24,7 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
+            new TypeBuilder(),
             new VisibilityFilters([new PrivateVisibilityFilter()])
         );
 
@@ -41,6 +42,7 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
+            new TypeBuilder(),
             new VisibilityFilters([new ProtectedVisibilityFilter()])
         );
 
@@ -59,6 +61,7 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
+            new TypeBuilder(),
             new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
         );
 

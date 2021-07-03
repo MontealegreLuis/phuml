@@ -7,27 +7,38 @@
 
 namespace PhUml\Code\Attributes;
 
-use PhUml\Code\DocBlock;
 use PhUml\Code\Variables\TypeDeclaration;
 
 /**
  * It creates a type declaration for an attribute from its `@var` tag
  */
-final class AttributeDocBlock extends DocBlock
+final class AttributeDocBlock
 {
-    private static string $varExpression = '/@var\s*([\w]+(\[\])?)/';
+    private const VAR_EXPRESSION = '/@var\s*([\w]+(\[\])?)/';
+
+    private TypeDeclaration $attributeType;
 
     public static function from(?string $text): AttributeDocBlock
     {
         return new AttributeDocBlock($text);
     }
 
-    public function extractType(): TypeDeclaration
+    public function __construct(?string $comment)
     {
-        $type = null;
-        if (preg_match(self::$varExpression, (string) $this->comment, $matches) === 1) {
-            $type = trim($matches[1]);
+        $this->extractType($comment);
+    }
+
+    public function attributeType(): TypeDeclaration
+    {
+        return $this->attributeType;
+    }
+
+    private function extractType(?string $comment): void
+    {
+        if (preg_match(self::VAR_EXPRESSION, (string) $comment, $matches) === 1) {
+            $this->attributeType = TypeDeclaration::from(trim($matches[1]));
+            return;
         }
-        return TypeDeclaration::from($type);
+        $this->attributeType = TypeDeclaration::absent();
     }
 }
