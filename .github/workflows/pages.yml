@@ -15,9 +15,9 @@ jobs:
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "7.1"
+          php-version: "7.4"
           ini-values: memory_limit=-1
-          tools: composer:v1
+          tools: composer
 
       - name: "Generate documentation"
         run: |
