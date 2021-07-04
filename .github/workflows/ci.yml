@@ -22,7 +22,7 @@ jobs:
       - name: "Install dependencies with composer"
         run: |
           sudo apt-get install graphviz
-          composer install --no-interaction --no-progress --no-suggest
+          composer install --no-interaction --no-progress
 
       - name: "Code quality checks"
         run: "make check"
