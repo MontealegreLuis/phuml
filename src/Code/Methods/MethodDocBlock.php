@@ -29,9 +29,19 @@ final class MethodDocBlock
         $this->extractReturnType($comment);
     }
 
+    public function hasReturnType(): bool
+    {
+        return $this->returnType->isPresent();
+    }
+
     public function returnType(): TypeDeclaration
     {
         return $this->returnType;
+    }
+
+    public function hasTypeOfParameter(string $parameterName): bool
+    {
+        return isset($this->parametersTypes[$parameterName]);
     }
 
     public function typeOfParameter(string $parameterName): TypeDeclaration

@@ -64,6 +64,11 @@ final class TypeDeclaration implements Named
         return $this->isPresent() && \in_array($type, self::$builtInTypes, true);
     }
 
+    public function isBuiltInArray(): bool
+    {
+        return (string) $this->name === 'array';
+    }
+
     public function isArray(): bool
     {
         return strpos((string) $this->name, '[]') === \strlen((string) $this->name) - 2;

@@ -21,51 +21,60 @@ final class TypeBuilder
     /** @param Identifier|Name|NullableType|UnionType|null $type */
     public function fromMethodParameter($type, ?Doc $docBlock, string $name): TypeDeclaration
     {
+        $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
         if ($type === null) {
-            $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
             return $methodDocBlock->typeOfParameter($name);
         }
 
-        return $this->fromParsedType($type);
+        $typeDeclaration = $this->fromParsedType($type);
+        if ($typeDeclaration->isBuiltInArray() && $methodDocBlock->hasTypeOfParameter($name)) {
+            return $methodDocBlock->typeOfParameter($name);
+        }
+        return $typeDeclaration;
     }
 
     /** @param Identifier|Name|NullableType|UnionType|null $type */
     public function fromMethodReturnType($type, ?Doc $docBlock): TypeDeclaration
     {
+        $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
         if ($type === null) {
-            $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
             return $methodDocBlock->returnType();
         }
 
-        return $this->fromParsedType($type);
+        $typeDeclaration = $this->fromParsedType($type);
+        if ($typeDeclaration->isBuiltInArray() && $methodDocBlock->hasReturnType()) {
+            return $methodDocBlock->returnType();
+        }
+        return $typeDeclaration;
     }
 
     /** @param Identifier|Name|NullableType|UnionType|null $type */
     public function fromAttributeType($type, ?Doc $docBlock): TypeDeclaration
     {
+        $attributeDocBlock = new AttributeDocBlock($docBlock === null ? null : $docBlock->getText());
         if ($type === null) {
-            $attributeDocBlock = new AttributeDocBlock($docBlock === null ? null : $docBlock->getText());
             return $attributeDocBlock->attributeType();
         }
 
-        return $this->fromParsedType($type);
+        $typeDeclaration = $this->fromParsedType($type);
+        if ($typeDeclaration->isBuiltInArray() && $attributeDocBlock->hasAttributeType()) {
+            return $attributeDocBlock->attributeType();
+        }
+        return $typeDeclaration;
     }
 
     /** @param Identifier|Name|NullableType|UnionType|null $type */
     private function fromParsedType($type): TypeDeclaration
     {
-        if ($type instanceof NullableType) {
-            return TypeDeclaration::fromNullable((string) $type->type);
+        switch (true) {
+            case $type instanceof NullableType:
+                return TypeDeclaration::fromNullable((string) $type->type);
+            case $type instanceof Name:
+                return TypeDeclaration::from($type->getLast());
+            case $type instanceof Identifier:
+                return TypeDeclaration::from((string) $type);
+            default:
+                throw UnsupportedType::declaredAs($type);
         }
-
-        if ($type instanceof Name) {
-            return TypeDeclaration::from($type->getLast());
-        }
-
-        if ($type instanceof Identifier) {
-            return TypeDeclaration::from((string) $type);
-        }
-
-        throw UnsupportedType::declaredAs($type);
     }
 }

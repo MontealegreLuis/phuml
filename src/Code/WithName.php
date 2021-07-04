@@ -9,8 +9,7 @@ namespace PhUml\Code;
 
 trait WithName
 {
-    /** @var Name|null */
-    private $name;
+    private ?Name $name = null;
 
     public function name(): ?Name
     {

@@ -18,11 +18,6 @@ final class AttributeDocBlock
 
     private TypeDeclaration $attributeType;
 
-    public static function from(?string $text): AttributeDocBlock
-    {
-        return new AttributeDocBlock($text);
-    }
-
     public function __construct(?string $comment)
     {
         $this->extractType($comment);
@@ -31,6 +26,11 @@ final class AttributeDocBlock
     public function attributeType(): TypeDeclaration
     {
         return $this->attributeType;
+    }
+
+    public function hasAttributeType(): bool
+    {
+        return $this->attributeType->isPresent();
     }
 
     private function extractType(?string $comment): void

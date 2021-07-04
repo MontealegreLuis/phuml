@@ -15,8 +15,8 @@ final class AttributeDocBlockTest extends TestCase
     /** @test */
     function it_extracts_a_type_declaration_from_a_var_tag()
     {
-        $docBlock = AttributeDocBlock::from('/** @var TestClass $testClass */');
-        $multiLineDocBlock = AttributeDocBlock::from('
+        $docBlock = new AttributeDocBlock('/** @var TestClass $testClass */');
+        $multiLineDocBlock = new AttributeDocBlock('
         /** 
          * A description of the attribute
          *
@@ -30,8 +30,8 @@ final class AttributeDocBlockTest extends TestCase
     /** @test */
     function it_extracts_an_array_type_declaration()
     {
-        $docBlock = AttributeDocBlock::from('/** @var TestClass[] $testClass */');
-        $multiLineDocBlock = AttributeDocBlock::from('
+        $docBlock = new AttributeDocBlock('/** @var TestClass[] $testClass */');
+        $multiLineDocBlock = new AttributeDocBlock('
         /** 
          * A description of the attribute
          *
@@ -45,8 +45,8 @@ final class AttributeDocBlockTest extends TestCase
     /** @test */
     function it_knows_if_it_does_not_have_a_type_declaration()
     {
-        $docBlock = AttributeDocBlock::from('/** A description of the attribute */');
-        $multiLineDocBlock = AttributeDocBlock::from('
+        $docBlock = new AttributeDocBlock('/** A description of the attribute */');
+        $multiLineDocBlock = new AttributeDocBlock('
         /** 
          * A description of the attribute
          */');

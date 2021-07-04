@@ -20,18 +20,67 @@ final class TypeBuilderTest extends TestCase
     /** @test */
     function it_extracts_an_attribute_type_from_its_parsed_type()
     {
-        $typeBuilder = new TypeBuilder();
         $expectedType = TypeDeclaration::from('ClassDefinition');
         $expectedNullableType = TypeDeclaration::fromNullable('ClassDefinition');
-
-        $typeA = $typeBuilder->fromAttributeType(new Identifier('ClassDefinition'), null);
-        $typeB = $typeBuilder->fromAttributeType(new Identifier('ClassDefinition'), new Doc('/** @var OutdatedTypeFromComment */'));
-        $typeC = $typeBuilder->fromAttributeType(new Name(ClassDefinition::class), new Doc('/** @var OutdatedTypeFromComment */'));
-        $typeD = $typeBuilder->fromAttributeType(new NullableType('ClassDefinition'), new Doc('/** @var AnotherTypeFromComment */'));
+        $typeA = $this->typeBuilder->fromAttributeType(new Identifier('ClassDefinition'), null);
+        $typeB = $this->typeBuilder->fromAttributeType(
+            new Identifier('ClassDefinition'),
+            new Doc('/** @var OutdatedTypeFromComment */')
+        );
+        $typeC = $this->typeBuilder->fromAttributeType(
+            new Name(ClassDefinition::class),
+            new Doc('/** @var OutdatedTypeFromComment */')
+        );
+        $typeD = $this->typeBuilder->fromAttributeType(
+            new NullableType('ClassDefinition'),
+            new Doc('/** @var AnotherTypeFromComment */')
+        );
 
         $this->assertEquals($expectedType, $typeA);
         $this->assertEquals($expectedType, $typeB);
         $this->assertEquals($expectedType, $typeC);
         $this->assertEquals($expectedNullableType, $typeD);
     }
+
+    /** @test */
+    function it_uses_type_in_an_attribute_doc_block_instead_of_generic_array_type_from_declaration()
+    {
+        $type = $this->typeBuilder->fromAttributeType(
+            new Identifier('array'),
+            new Doc('/** @var ClassDefinition[] */')
+        );
+
+        $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
+    }
+
+    /** @test */
+    function it_uses_type_in_method_return_dock_block_instead_generic_array_type_from_declaration()
+    {
+        $type = $this->typeBuilder->fromMethodReturnType(
+            new Identifier('array'),
+            new Doc('/** @return ClassDefinition[] */')
+        );
+
+        $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
+    }
+
+    /** @test */
+    function it_uses_type_in_method_parameter_dock_block_instead_generic_array_type_from_declaration()
+    {
+        $type = $this->typeBuilder->fromMethodParameter(
+            new Identifier('array'),
+            new Doc('/** @param ClassDefinition[] $definitions */'),
+            '$definitions'
+        );
+
+        $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
+    }
+
+    /** @before */
+    function let()
+    {
+        $this->typeBuilder = new TypeBuilder();
+    }
+
+    private TypeBuilder $typeBuilder;
 }

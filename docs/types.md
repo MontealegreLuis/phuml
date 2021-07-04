@@ -12,8 +12,8 @@ The class below will show type information for all of its attributes and methods
 <?php
 final class WithTypes
 {
-    /** @var string $name */
-    private $name;
+    // In this case type is taken from its declaration
+    private string $name;
 
     /** @var DateTime */
     private $dob;
@@ -35,3 +35,30 @@ final class WithTypes
     }
 }
 ```
+
+## How phUML handles `array`
+
+If `array` is found in a type declaration for an attribute or parameter, phUML will try to extract a more accurate type from the doc block, if present.
+
+```php
+<?php
+final class WithTypeDeclarationsForArray
+{
+    /** @var ClassDefinition[] */
+    private array $classes;
+    
+    /** @param ClassDefinition[] */
+    public function __construct(array $classes)
+    {
+        $this->classes = $classes;
+    }
+    
+    /** @return ClassDefinition[] */
+    public function classes(): array
+    {
+        return $this->classes;
+    }
+}
+```
+
+In the 3 cases above, phUML will use `ClassDefinition[]` instead of `array`.
