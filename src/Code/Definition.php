@@ -21,7 +21,7 @@ abstract class Definition implements Named, HasNodeIdentifier
     use ObjectHashIdentifier;
 
     /** @var Method[] */
-    protected $methods;
+    protected array $methods;
 
     /** @param Method[] $methods */
     public function __construct(Name $name, array $methods = [])

@@ -32,4 +32,4 @@ check:
 	@vendor/bin/composer-require-checker check
 	@docker-compose run --rm tests vendor/bin/phpunit --testsuite 'Integration tests'
 	@vendor/bin/rector process --dry-run
-	@docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/infection --threads=4s
+	@docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/infection --threads=4

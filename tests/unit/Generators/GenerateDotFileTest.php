@@ -69,6 +69,7 @@ final class GenerateDotFileTest extends TestCase
         $uml = A::numericIdClassNamed('plPhuml');
         $dotProcessor = A::numericIdClassNamed('plDotProcessor');
         $graphvizProcessor = A::numericIdClassNamed('plGraphvizProcessor');
+        $styleName = A::numericIdClassNamed('plStyleName');
         $graphvizOptions = A::numericIdClassNamed('plGraphvizProcessorOptions');
         $defaultStyle = A::numericIdClassNamed('plGraphvizProcessorDefaultStyle');
         $neatoProcessor = A::numericIdClassNamed('plNeatoProcessor');
@@ -81,6 +82,7 @@ final class GenerateDotFileTest extends TestCase
         $digraphInDotFormat = file_get_contents($this->pathToDotFile);
         $this->assertNode($base, $digraphInDotFormat);
         $this->assertNode($structureGenerator, $digraphInDotFormat);
+        $this->assertNode($styleName, $digraphInDotFormat);
         $this->assertNode($tokenParser, $digraphInDotFormat);
         $this->assertInheritance($tokenParser, $structureGenerator, $digraphInDotFormat);
         $this->assertNode($attribute, $digraphInDotFormat);

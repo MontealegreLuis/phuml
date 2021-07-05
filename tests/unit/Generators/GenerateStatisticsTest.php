@@ -81,24 +81,24 @@ phUML generated statistics
 General statistics
 ------------------
 
-Classes:    19
+Classes:    20
 Interfaces: 0
 
-Attributes: 23 (4 are typed)
-    * private:   17
+Attributes: 24 (5 are typed)
+    * private:   18
     * protected: 2
     * public:    4
 
-Functions:  86
+Functions:  87
     * private:   36
     * protected: 0
-    * public:    50
+    * public:    51
 
 Average statistics
 ------------------
 
-Attributes per class: 1.21
-Functions per class:  4.53
+Attributes per class: 1.2
+Functions per class:  4.35
 
 STATS;
 
@@ -113,7 +113,7 @@ STATS;
     }
 
     /** @before */
-    function configure()
+    function let()
     {
         $this->statisticsFile = __DIR__ . '/../../resources/.output/statistics.txt';
         $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
