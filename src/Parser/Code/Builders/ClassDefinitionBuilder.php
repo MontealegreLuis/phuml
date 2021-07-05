@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -25,8 +25,7 @@ class ClassDefinitionBuilder
     use InterfaceNamesBuilder;
     use TraitNamesBuilder;
 
-    /** @var MembersBuilder */
-    protected $membersBuilder;
+    protected MembersBuilder $membersBuilder;
 
     public function __construct(MembersBuilder $membersBuilder = null)
     {
@@ -36,10 +35,10 @@ class ClassDefinitionBuilder
     public function build(Class_ $class): ClassDefinition
     {
         return new ClassDefinition(
-            ClassDefinitionName::from((string) $class->name),
+            new ClassDefinitionName((string) $class->name),
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
-            $class->extends !== null ? ClassDefinitionName::from((string) end($class->extends->parts)) : null,
+            $class->extends !== null ? new ClassDefinitionName((string) end($class->extends->parts)) : null,
             $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)

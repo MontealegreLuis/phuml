@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,14 +18,11 @@ namespace PhUml\Graphviz;
  */
 final class Edge implements HasDotRepresentation
 {
-    /** @var HasNodeIdentifier */
-    private $fromNode;
+    private HasNodeIdentifier $fromNode;
 
-    /** @var HasNodeIdentifier */
-    private $toNode;
+    private HasNodeIdentifier $toNode;
 
-    /** @var string */
-    private $options;
+    private string $options;
 
     public function __construct(
         HasNodeIdentifier $nodeA,

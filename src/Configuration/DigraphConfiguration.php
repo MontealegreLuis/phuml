@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,31 +9,23 @@ namespace PhUml\Configuration;
 
 use PhUml\Graphviz\Styles\ThemeName;
 
-class DigraphConfiguration
+final class DigraphConfiguration
 {
-    /** @var bool */
-    protected $searchRecursively;
+    private bool $searchRecursively;
 
-    /** @var bool */
-    protected $extractAssociations;
+    private bool $extractAssociations;
 
-    /** @var bool */
-    private $hideProtected;
+    private bool $hideProtected;
 
-    /** @var bool */
-    private $hidePrivate;
+    private bool $hidePrivate;
 
-    /** @var bool */
-    private $hideAttributes;
+    private bool $hideAttributes;
 
-    /** @var bool */
-    private $hideMethods;
+    private bool $hideMethods;
 
-    /** @var bool */
-    protected $hideEmptyBlocks;
+    private bool $hideEmptyBlocks;
 
-    /** @var ThemeName */
-    protected $theme;
+    private ThemeName $theme;
 
     /** @param mixed[] $input */
     public function __construct(array $input)
@@ -83,13 +75,13 @@ class DigraphConfiguration
         return $this->hideEmptyBlocks;
     }
 
-    public function theme(): string
+    public function theme(): ThemeName
     {
-        return $this->theme->name();
+        return $this->theme;
     }
 
-    protected function setTheme(string $theme): void
+    private function setTheme(string $name): void
     {
-        $this->theme = ThemeName::from($theme);
+        $this->theme = new ThemeName($name);
     }
 }

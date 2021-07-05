@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -24,7 +24,7 @@ final class ClassDefinitionTest extends DefinitionTest
     /** @test */
     function it_does_not_implement_any_interface_by_default()
     {
-        $noInterfacesClass = new ClassDefinition(Name::from('NoInterfacesClass'));
+        $noInterfacesClass = new ClassDefinition(new Name('NoInterfacesClass'));
 
         $interfaces = $noInterfacesClass->interfaces();
 
@@ -67,8 +67,8 @@ final class ClassDefinitionTest extends DefinitionTest
     function it_knows_the_interfaces_it_implements()
     {
         $interfaces = [
-            Name::from('InterfaceOne'),
-            Name::from('InterfaceTwo'),
+            new Name('InterfaceOne'),
+            new Name('InterfaceTwo'),
         ];
         $classWithInterfaces = A::class('ClassWithInterfaces')
             ->implementing(...$interfaces)
@@ -83,7 +83,7 @@ final class ClassDefinitionTest extends DefinitionTest
     /** @test */
     function it_does_not_extends_another_definition_by_default()
     {
-        $definitionWithoutParent = new ClassDefinition(Name::from('NoParentClass'));
+        $definitionWithoutParent = new ClassDefinition(new Name('NoParentClass'));
 
         $hasParent = $definitionWithoutParent->hasParent();
 
@@ -93,7 +93,7 @@ final class ClassDefinitionTest extends DefinitionTest
     /** @test */
     function it_knows_its_parent()
     {
-        $parent = Name::from('ParentClass');
+        $parent = new Name('ParentClass');
         $interfaceWithParent = A::class('WithParent')->extending($parent)->build();
 
         $parentClass = $interfaceWithParent->parent();
@@ -112,17 +112,17 @@ final class ClassDefinitionTest extends DefinitionTest
 
     protected function definition(array $methods = []): Definition
     {
-        return new ClassDefinition(Name::from('ADefinition'), $methods);
+        return new ClassDefinition(new Name('ADefinition'), $methods);
     }
 
     protected function definitionWithConstants(array $constants = []): HasConstants
     {
-        return new ClassDefinition(Name::from('AnyClassDefinition'), [], $constants);
+        return new ClassDefinition(new Name('AnyClassDefinition'), [], $constants);
     }
 
     /** @param Attribute[] $attributes */
     protected function definitionWithAttributes(array $attributes = []): HasAttributes
     {
-        return new ClassDefinition(Name::from('AClassWithAttributes'), [], [], null, $attributes);
+        return new ClassDefinition(new Name('AClassWithAttributes'), [], [], null, $attributes);
     }
 }

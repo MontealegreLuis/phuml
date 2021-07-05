@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -27,7 +27,7 @@ final class DigraphPrinterTest extends TestCase
 
         $dotLanguage = $this->printer->toDot($digraph);
 
-        $this->assertRegExp('/^digraph "([0-9a-f]){40}"/', $dotLanguage);
+        $this->assertMatchesRegularExpression('/^digraph "([0-9a-f]){40}"/', $dotLanguage);
         $this->assertStringContainsString('splines = true;
 overlap = false;
 mindist = 0.6;', $dotLanguage);
@@ -299,6 +299,5 @@ mindist = 0.6;', $dotLanguage);
         $this->printer = new DigraphPrinter();
     }
 
-    /** @var DigraphPrinter */
-    private $printer;
+    private ?DigraphPrinter $printer = null;
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -78,7 +78,7 @@ final class AttributeTest extends TestCase
         $typedArray = A::attribute('$directories')->public()->withType('Directory[]')->build();
 
         $this->assertTrue($typedArray->isAReference());
-        $this->assertEquals(Name::from('Directory'), $typedArray->referenceName());
+        $this->assertEquals(new Name('Directory'), $typedArray->referenceName());
     }
 
     protected function memberWithoutType(): HasType

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,11 +15,9 @@ final class Parameter implements HasType
 {
     use WithVariable;
 
-    /** @var bool */
-    private $isVariadic;
+    private bool $isVariadic;
 
-    /** @var bool */
-    private $isByReference;
+    private bool $isByReference;
 
     public function __construct(Variable $variable, bool $isVariadic = false, bool $isByReference = false)
     {

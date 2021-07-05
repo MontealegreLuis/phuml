@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -32,7 +32,7 @@ final class ClassDefinitionBuilderTest extends TestCase
         $class = $builder->build($parsedClass);
 
         $expectedClassWithTraits = A::class('AClassWithTraits')
-            ->using(TraitName::from('ATrait'), TraitName::from('AnotherTrait'))
+            ->using(new TraitName('ATrait'), new TraitName('AnotherTrait'))
             ->build();
         $this->assertEquals($expectedClassWithTraits, $class);
     }
@@ -57,9 +57,9 @@ final class ClassDefinitionBuilderTest extends TestCase
 
         $classWithTwoUseTraitStatements = A::class('AClassWithTraits')
             ->using(
-                TraitName::from('ATrait'),
-                TraitName::from('AnotherTrait'),
-                TraitName::from('ThirdTrait')
+                new TraitName('ATrait'),
+                new TraitName('AnotherTrait'),
+                new TraitName('ThirdTrait')
             )
             ->build();
         $this->assertEquals($classWithTwoUseTraitStatements, $class);

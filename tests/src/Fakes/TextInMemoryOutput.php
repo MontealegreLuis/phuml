@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,8 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class TextInMemoryOutput implements OutputInterface
 {
-    /** @var string */
-    private $output = '';
+    private string $output = '';
 
     public function output(): string
     {

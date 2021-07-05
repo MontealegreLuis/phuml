@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,35 +11,31 @@ use PHPUnit\Framework\TestCase;
 
 final class CodeFinderTest extends TestCase
 {
-    private $pathToCode;
+    private ?string $pathToCode = null;
 
     /** @test */
     function it_finds_files_only_in_the_given_directory()
     {
-        $finder = new NonRecursiveCodeFinder();
-
-        $finder->addDirectory(CodebaseDirectory::from("{$this->pathToCode}/classes"));
+        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory("{$this->pathToCode}/classes"));
 
         $this->assertCount(2, $finder->files());
-        $this->assertRegExp('/class plBase/', $finder->files()[0]);
-        $this->assertRegExp('/class plPhuml/', $finder->files()[1]);
+        $this->assertMatchesRegularExpression('/class plBase/', $finder->files()[0]);
+        $this->assertMatchesRegularExpression('/class plPhuml/', $finder->files()[1]);
     }
 
     /** @test */
     function it_finds_files_recursively()
     {
-        $finder = new CodeFinder();
-
-        $finder->addDirectory(CodebaseDirectory::from("{$this->pathToCode}/interfaces"));
+        $finder = SourceCodeFinder::recursive(new CodebaseDirectory("{$this->pathToCode}/interfaces"));
 
         $this->assertCount(7, $finder->files());
-        $this->assertRegExp('/interface plCompatible/', $finder->files()[0]);
-        $this->assertRegExp('/trait plDiskWriter/', $finder->files()[1]);
-        $this->assertRegExp('/trait plFileWriter/', $finder->files()[2]);
-        $this->assertRegExp('/abstract class plStructureGenerator/', $finder->files()[3]);
-        $this->assertRegExp('/abstract class plProcessor/', $finder->files()[4]);
-        $this->assertRegExp('/abstract class plExternalCommandProcessor/', $finder->files()[5]);
-        $this->assertRegExp('/abstract class plGraphvizProcessorStyle/', $finder->files()[6]);
+        $this->assertMatchesRegularExpression('/interface plCompatible/', $finder->files()[0]);
+        $this->assertMatchesRegularExpression('/trait plDiskWriter/', $finder->files()[1]);
+        $this->assertMatchesRegularExpression('/trait plFileWriter/', $finder->files()[2]);
+        $this->assertMatchesRegularExpression('/abstract class plStructureGenerator/', $finder->files()[3]);
+        $this->assertMatchesRegularExpression('/abstract class plProcessor/', $finder->files()[4]);
+        $this->assertMatchesRegularExpression('/abstract class plExternalCommandProcessor/', $finder->files()[5]);
+        $this->assertMatchesRegularExpression('/abstract class plGraphvizProcessorStyle/', $finder->files()[6]);
     }
 
     /** @before */

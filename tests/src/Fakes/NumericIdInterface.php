@@ -1,26 +1,27 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Fakes;
 
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
 
 final class NumericIdInterface extends InterfaceDefinition
 {
-    private static $id = 0;
+    private static int $id = 0;
 
-    /** @var int */
-    private $identifier;
+    private int $identifier;
 
     /**
-     * @param \PhUml\Code\Methods\Method[] $methods
-     * @param \PhUml\Code\Attributes\Constant[] $constants
-     * @param \PhUml\Code\InterfaceDefinition[] $parents
+     * @param Method[] $methods
+     * @param Constant[] $constants
+     * @param Name[] $parents
      */
     public function __construct(
         Name $name,

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,11 +18,9 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
  */
 final class ClassVisitor extends NodeVisitorAbstract
 {
-    /** @var ClassDefinitionBuilder */
-    private $builder;
+    private ClassDefinitionBuilder $builder;
 
-    /** @var Codebase */
-    private $codebase;
+    private Codebase $codebase;
 
     public function __construct(ClassDefinitionBuilder $builder, Codebase $codebase)
     {

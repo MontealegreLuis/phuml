@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,6 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PHPUnit\Framework\TestCase;
-use PhUml\Code\Methods\MethodDocBlock;
 
 final class ParametersBuilderTest extends TestCase
 {
@@ -24,7 +23,7 @@ final class ParametersBuilderTest extends TestCase
         ];
         $builder = new ParametersBuilder(new TypeBuilder());
 
-        $parameters = $builder->build($parsedParameters, MethodDocBlock::from(null));
+        $parameters = $builder->build($parsedParameters, null);
 
         $this->assertEquals('&$page: int', $parameters[0]->__toString());
         $this->assertEquals('$size: int', $parameters[1]->__toString());

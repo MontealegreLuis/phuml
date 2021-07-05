@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,17 +20,15 @@ use PhUml\Code\Variables\TypeDeclaration;
 final class FilteredConstantsBuilder implements ConstantsBuilder
 {
     /** @var string[] */
-    private static $types = [
+    private static array $types = [
         'integer' => 'int',
         'double' => 'float',
         'string' => 'string',
     ];
 
-    /** @var VisibilityBuilder */
-    private $visibilityBuilder;
+    private VisibilityBuilder $visibilityBuilder;
 
-    /** @var VisibilityFilters */
-    private $visibilityFilters;
+    private VisibilityFilters $visibilityFilters;
 
     public function __construct(VisibilityBuilder $visibilityBuilder, VisibilityFilters $filters)
     {
@@ -44,17 +42,13 @@ final class FilteredConstantsBuilder implements ConstantsBuilder
      */
     public function build(array $classAttributes): array
     {
-        $constants = array_filter($classAttributes, static function ($attribute): bool {
-            return $attribute instanceof ClassConst;
-        });
+        $constants = array_filter($classAttributes, static fn ($attribute): bool => $attribute instanceof ClassConst);
 
-        return array_map(function (ClassConst $constant): Constant {
-            return new Constant(
-                (string) $constant->consts[0]->name,
-                TypeDeclaration::from($this->determineType($constant->consts[0])),
-                $this->visibilityBuilder->build($constant)
-            );
-        }, $this->visibilityFilters->apply($constants));
+        return array_map(fn (ClassConst $constant): Constant => new Constant(
+            (string) $constant->consts[0]->name,
+            TypeDeclaration::from($this->determineType($constant->consts[0])),
+            $this->visibilityBuilder->build($constant)
+        ), $this->visibilityFilters->apply($constants));
     }
 
     private function determineType(Const_ $constant): ?string

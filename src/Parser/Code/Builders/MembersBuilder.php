@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -32,14 +32,11 @@ use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
  */
 final class MembersBuilder
 {
-    /** @var ConstantsBuilder */
-    private $constantsBuilder;
+    private ConstantsBuilder $constantsBuilder;
 
-    /** @var AttributesBuilder */
-    private $attributesBuilder;
+    private AttributesBuilder $attributesBuilder;
 
-    /** @var MethodsBuilder */
-    private $methodsBuilder;
+    private MethodsBuilder $methodsBuilder;
 
     public function __construct(
         ConstantsBuilder $constantsBuilder = null,
@@ -49,11 +46,12 @@ final class MembersBuilder
         $visibilityBuilder = new VisibilityBuilder();
         $filters = new VisibilityFilters();
         $this->constantsBuilder = $constantsBuilder ?? new FilteredConstantsBuilder($visibilityBuilder, $filters);
+        $typeBuilder = new TypeBuilder();
         $this->attributesBuilder = $attributesBuilder ?? new FilteredAttributesBuilder(
             $visibilityBuilder,
+            $typeBuilder,
             $filters
         );
-        $typeBuilder = new TypeBuilder();
         $this->methodsBuilder = $methodsBuilder ?? new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,

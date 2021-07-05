@@ -1,21 +1,20 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Param;
-use PhUml\Code\Methods\MethodDocBlock;
 use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\Variable;
 
 final class ParametersBuilder
 {
-    /** @var TypeBuilder */
-    private $typeBuilder;
+    private TypeBuilder $typeBuilder;
 
     public function __construct(TypeBuilder $typeBuilder)
     {
@@ -26,7 +25,7 @@ final class ParametersBuilder
      * @param Param[] $parameters
      * @return Parameter[]
      */
-    public function build(array $parameters, MethodDocBlock $methodDocBlock): array
+    public function build(array $parameters, ?Doc $methodDocBlock): array
     {
         return array_map(function (Param $parameter) use ($methodDocBlock): Parameter {
             /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */

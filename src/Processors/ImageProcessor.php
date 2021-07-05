@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -22,8 +22,7 @@ abstract class ImageProcessor extends Processor
     /** @var Process<string>|null */
     protected $process;
 
-    /** @var Filesystem */
-    private $fileSystem;
+    private Filesystem $fileSystem;
 
     /** @param Process<string> $process */
     public function __construct(Process $process = null, Filesystem $fileSystem = null)

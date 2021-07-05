@@ -1,57 +1,68 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code\Methods;
 
-use PhUml\Code\DocBlock;
 use PhUml\Code\Variables\TypeDeclaration;
 
 /**
  * It extracts the return type and parameters type of a method
  */
-final class MethodDocBlock extends DocBlock
+final class MethodDocBlock
 {
-    /** @var string */
-    private static $returnExpression = '/@return\s*([\w]+(\[\])?)/';
+    private const RETURN_EXPRESSION = '/@return\s*([\w]+(\[\])?)/';
 
-    /** @var string */
-    private static $parameterExpression = '/@param\s*([\w]+(?:\[\])?)\s*(\$[\w]+)/';
+    private const PARAMETER_EXPRESSION = '/@param\s*([\w]+(?:\[\])?)\s*(\$[\w]+)/';
+
+    private TypeDeclaration $returnType;
 
     /** @var TypeDeclaration[] */
-    private $parameters;
+    private array $parametersTypes = [];
 
-    public static function from(?string $comment): MethodDocBlock
+    public function __construct(?string $comment)
     {
-        return new MethodDocBlock($comment);
+        $this->extractParametersTypes($comment);
+        $this->extractReturnType($comment);
+    }
+
+    public function hasReturnType(): bool
+    {
+        return $this->returnType->isPresent();
     }
 
     public function returnType(): TypeDeclaration
     {
-        $type = null;
-        if (preg_match(self::$returnExpression, (string) $this->comment, $matches) === 1) {
-            $type = trim($matches[1]);
-        }
-        return TypeDeclaration::from($type);
+        return $this->returnType;
+    }
+
+    public function hasTypeOfParameter(string $parameterName): bool
+    {
+        return isset($this->parametersTypes[$parameterName]);
     }
 
     public function typeOfParameter(string $parameterName): TypeDeclaration
     {
-        return $this->parameters[$parameterName] ?? TypeDeclaration::absent();
+        return $this->parametersTypes[$parameterName] ?? TypeDeclaration::absent();
     }
 
-    protected function __construct(?string $comment)
+    private function extractReturnType(?string $comment): void
     {
-        parent::__construct($comment);
-        $this->setParameters();
+        if (preg_match(self::RETURN_EXPRESSION, (string) $comment, $matches) === 1) {
+            $this->returnType = TypeDeclaration::from(trim($matches[1]));
+            return;
+        }
+
+        $this->returnType = TypeDeclaration::absent();
     }
 
-    private function setParameters(): void
+    private function extractParametersTypes(?string $comment): void
     {
-        if (preg_match_all(self::$parameterExpression, (string) $this->comment, $matches) < 1) {
+        if (preg_match_all(self::PARAMETER_EXPRESSION, (string) $comment, $matches) < 1) {
+            $this->parametersTypes = [];
             return;
         }
         foreach ($matches[0] as $typeHint) {
@@ -61,9 +72,9 @@ final class MethodDocBlock extends DocBlock
 
     private function extractDeclarationFrom(string $typeHint): void
     {
-        if (preg_match(self::$parameterExpression, $typeHint, $match) === 1) {
+        if (preg_match(self::PARAMETER_EXPRESSION, $typeHint, $match) === 1) {
             [$_, $type, $parameterName] = $match;
-            $this->parameters[$parameterName] = TypeDeclaration::from($type);
+            $this->parametersTypes[$parameterName] = TypeDeclaration::from($type);
         }
     }
 }

@@ -1,17 +1,15 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code\Builders\Filters;
 
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt;
 
 interface VisibilityFilter
 {
-    /** @param ClassMethod|Property $member */
-    public function accept($member): bool;
+    public function accept(Stmt $member): bool;
 }

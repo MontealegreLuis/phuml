@@ -1,37 +1,46 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code;
 
+use PhpParser\Node\Stmt;
+use PhpParser\NodeTraverser;
 use PhUml\Code\Codebase;
+use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
+use PhUml\Parser\Code\Visitors\ClassVisitor;
+use PhUml\Parser\Code\Visitors\InterfaceVisitor;
+use PhUml\Parser\Code\Visitors\TraitVisitor;
 
-/**
- * The traverser will create a `Definition` from the nodes of an AST
- *
- * It will use its visitors to build either a class, an interface or a trait
- *
- * @see \PhUml\Parser\Code\Visitors\ClassVisitor
- * @see \PhUml\Parser\Code\Visitors\InterfaceVisitor
- * @see \PhUml\Parser\Code\Visitors\TraitVisitor
- */
-abstract class PhpTraverser
+final class PhpTraverser
 {
-    /** @var \PhUml\Code\Codebase */
-    protected $codebase;
+    protected Codebase $codebase;
 
-    /** @var \PhpParser\NodeTraverser */
-    protected $traverser;
+    protected NodeTraverser $traverser;
+
+    public function __construct(
+        ClassDefinitionBuilder $classBuilder,
+        InterfaceDefinitionBuilder $interfaceBuilder,
+        TraitDefinitionBuilder $traitBuilder
+    ) {
+        $this->codebase = new Codebase();
+        $this->traverser = new NodeTraverser();
+        $this->traverser->addVisitor(new ClassVisitor($classBuilder, $this->codebase));
+        $this->traverser->addVisitor(new InterfaceVisitor($interfaceBuilder, $this->codebase));
+        $this->traverser->addVisitor(new TraitVisitor($traitBuilder, $this->codebase));
+    }
 
     /**
      * It will create a `Definition` from the given nodes.
      * It will add the `Definition` to the `Codebase`
      *
-     * @param \PhpParser\Node\Stmt[] $nodes
-     * @see PhpParser::parse()
+     * @param Stmt[] $nodes
+     * @see PhpCodeParser::parse()
      */
     public function traverse(array $nodes): void
     {

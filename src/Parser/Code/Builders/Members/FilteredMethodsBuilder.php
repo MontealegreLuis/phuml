@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,6 @@ namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\Method;
-use PhUml\Code\Methods\MethodDocBlock;
 
 /**
  * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
@@ -22,17 +21,13 @@ use PhUml\Code\Methods\MethodDocBlock;
  */
 final class FilteredMethodsBuilder implements MethodsBuilder
 {
-    /** @var ParametersBuilder */
-    private $parametersBuilder;
+    private ParametersBuilder $parametersBuilder;
 
-    /** @var VisibilityBuilder */
-    private $visibilityBuilder;
+    private VisibilityBuilder $visibilityBuilder;
 
-    /** @var TypeBuilder */
-    private $typeBuilder;
+    private TypeBuilder $typeBuilder;
 
-    /** @var VisibilityFilters */
-    private $visibilityFilters;
+    private VisibilityFilters $visibilityFilters;
 
     public function __construct(
         ParametersBuilder $parametersBuilder,
@@ -52,19 +47,19 @@ final class FilteredMethodsBuilder implements MethodsBuilder
      */
     public function build(array $methods): array
     {
-        return array_map(function (ClassMethod $method): Method {
-            return $this->buildMethod($method);
-        }, $this->visibilityFilters->apply($methods));
+        return array_map(
+            fn (ClassMethod $method): Method => $this->buildMethod($method),
+            $this->visibilityFilters->apply($methods)
+        );
     }
 
     private function buildMethod(ClassMethod $method): Method
     {
         $name = $method->name->name;
         $visibility = $this->visibilityBuilder->build($method);
-        $docBlock = $method->getDocComment() === null ? null : $method->getDocComment()->getText();
-        $methodDocBlock = MethodDocBlock::from($docBlock);
-        $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $methodDocBlock);
-        $parameters = $this->parametersBuilder->build($method->params, $methodDocBlock);
+        $docBlock = $method->getDocComment();
+        $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $docBlock);
+        $parameters = $this->parametersBuilder->build($method->params, $docBlock);
         switch (true) {
             case $method->isAbstract():
                 return new Method($name, $visibility, $returnType, $parameters, true);

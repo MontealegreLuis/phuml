@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -21,7 +21,7 @@ abstract class Definition implements Named, HasNodeIdentifier
     use ObjectHashIdentifier;
 
     /** @var Method[] */
-    protected $methods;
+    protected array $methods;
 
     /** @param Method[] $methods */
     public function __construct(Name $name, array $methods = [])
@@ -38,9 +38,10 @@ abstract class Definition implements Named, HasNodeIdentifier
      */
     public function countMethodsByVisibility(Visibility $modifier): int
     {
-        return \count(array_filter($this->methods, static function (Method $method) use ($modifier): bool {
-            return $method->hasVisibility($modifier);
-        }));
+        return \count(array_filter(
+            $this->methods,
+            static fn (Method $method): bool => $method->hasVisibility($modifier)
+        ));
     }
 
     /**

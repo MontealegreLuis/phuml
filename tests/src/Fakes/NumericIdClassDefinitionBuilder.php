@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,10 +17,10 @@ final class NumericIdClassDefinitionBuilder extends ClassDefinitionBuilder
     public function build(Class_ $class): ClassDefinition
     {
         return new NumericIdClass(
-            Name::from((string) $class->name),
+            new Name((string) $class->name),
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
-            empty($class->extends) ? null : Name::from(end($class->extends->parts)),
+            empty($class->extends) ? null : new Name(end($class->extends->parts)),
             $this->membersBuilder->attributes($class->stmts),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)

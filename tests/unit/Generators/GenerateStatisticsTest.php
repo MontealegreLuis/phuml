@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,21 +9,26 @@ namespace PhUml\Generators;
 
 use LogicException;
 use PHPUnit\Framework\TestCase;
+use PhUml\Fakes\StringCodeFinder;
+use PhUml\Parser\Code\ExternalDefinitionsResolver;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\StatisticsProcessor;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateStatisticsTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @test */
     function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()
     {
-        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
 
         $this->expectException(LogicException::class);
-        $generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.txt');
+        $generator->generate(new StringCodeFinder(), 'wont-be-generated.txt');
     }
 
     /** @test */
@@ -57,10 +62,9 @@ Functions per class:  5.5
 
 STATS;
 
-        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
 
         $generator->generate($finder, $this->statisticsFile);
 
@@ -77,31 +81,31 @@ phUML generated statistics
 General statistics
 ------------------
 
-Classes:    19
+Classes:    20
 Interfaces: 0
 
-Attributes: 23 (4 are typed)
-    * private:   17
+Attributes: 24 (5 are typed)
+    * private:   18
     * protected: 2
     * public:    4
 
-Functions:  86
+Functions:  87
     * private:   36
     * protected: 0
-    * public:    50
+    * public:    51
 
 Average statistics
 ------------------
 
-Attributes per class: 1.21
-Functions per class:  4.53
+Attributes per class: 1.2
+Functions per class:  4.35
 
 STATS;
 
-        $generator = new StatisticsGenerator(new CodeParser(), new StatisticsProcessor());
+        $parser = new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]);
+        $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
         $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
 
         $generator->generate($finder, $this->statisticsFile);
 
@@ -109,15 +113,13 @@ STATS;
     }
 
     /** @before */
-    function configure()
+    function let()
     {
         $this->statisticsFile = __DIR__ . '/../../resources/.output/statistics.txt';
         $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
     }
 
-    /** @var string */
-    private $statisticsFile;
+    private ?string $statisticsFile = null;
 
-    /** @var string */
-    private $pathToCode;
+    private ?string $pathToCode = null;
 }

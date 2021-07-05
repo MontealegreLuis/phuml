@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code\Builders\Filters;
 
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 
@@ -15,9 +17,14 @@ use PhpParser\Node\Stmt\Property;
  */
 final class PrivateVisibilityFilter implements VisibilityFilter
 {
-    /** @param ClassMethod|Property $member */
-    public function accept($member): bool
+    public function accept(Stmt $member): bool
     {
-        return ! $member->isPrivate();
+        if ($member instanceof ClassConst
+            || $member instanceof ClassMethod
+            || $member instanceof Property) {
+            return ! $member->isPrivate();
+        }
+
+        return false;
     }
 }

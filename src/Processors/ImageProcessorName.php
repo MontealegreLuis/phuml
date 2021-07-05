@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,26 +10,20 @@ namespace PhUml\Processors;
 final class ImageProcessorName
 {
     /** @var string[] */
-    private static $names = ['neato', 'dot'];
+    private static array $names = ['neato', 'dot'];
 
-    /** @var string  */
-    private $name;
+    private string $name;
 
-    public static function from(?string $text): ImageProcessorName
-    {
-        return new ImageProcessorName($text);
-    }
-
-    public function is(string $name): bool
-    {
-        return $this->name === $name;
-    }
-
-    private function __construct(?string $name)
+    public function __construct(?string $name)
     {
         if (! \in_array($name, self::$names, true)) {
             throw UnknownImageProcessor::named($name, self::$names);
         }
         $this->name = $name;
+    }
+
+    public function isDot(): bool
+    {
+        return $this->name === 'dot';
     }
 }

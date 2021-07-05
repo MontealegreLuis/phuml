@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,38 +16,27 @@ use PhUml\Code\Modifiers\Visibility;
  */
 final class Summary
 {
-    /** @var int */
-    private $interfaceCount;
+    private int $interfaceCount;
 
-    /** @var int */
-    private $classCount;
+    private int $classCount;
 
-    /** @var int */
-    private $publicFunctionCount;
+    private int $publicFunctionCount;
 
-    /** @var int */
-    private $publicAttributeCount;
+    private int $publicAttributeCount;
 
-    /** @var int */
-    private $publicTypedAttributes;
+    private int $publicTypedAttributes;
 
-    /** @var int */
-    private $protectedFunctionCount;
+    private int $protectedFunctionCount;
 
-    /** @var int */
-    private $protectedAttributeCount;
+    private int $protectedAttributeCount;
 
-    /** @var int */
-    private $protectedTypedAttributes;
+    private int $protectedTypedAttributes;
 
-    /** @var int */
-    private $privateFunctionCount;
+    private int $privateFunctionCount;
 
-    /** @var int */
-    private $privateAttributeCount;
+    private int $privateAttributeCount;
 
-    /** @var int */
-    private $privateTypedAttributes;
+    private int $privateTypedAttributes;
 
     public function __construct()
     {

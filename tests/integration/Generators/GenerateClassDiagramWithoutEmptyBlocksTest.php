@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,18 +13,21 @@ use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
+use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Parser\Code\ParserBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
     use CompareImagesTrait;
+    use ProphecyTrait;
 
     /**
      * @test
@@ -32,8 +35,8 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
      */
     function it_removes_empty_blocks_if_only_definition_names_are_shown()
     {
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from(__DIR__ . '/../../resources/.code/classes'));
+        $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
+        $finder = SourceCodeFinder::nonRecursive($directory);
         $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
 
@@ -52,13 +55,12 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
                 new ClassGraphBuilder(),
                 new InterfaceGraphBuilder(),
                 new TraitGraphBuilder(),
-                new DigraphPrinter(new TemplateEngine(), new NonEmptyBlocksStyle())
+                new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName('phuml')))
             ),
             new DotProcessor()
         );
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
     }
 
-    /** @var ClassDiagramGenerator */
-    private $generator;
+    private ?ClassDiagramGenerator $generator = null;
 }

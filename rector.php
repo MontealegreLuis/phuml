@@ -21,11 +21,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // Define what rule sets will be applied
     $containerConfigurator->import(SetList::DEAD_CODE);
     $containerConfigurator->import(SetList::CODE_QUALITY);
-    $containerConfigurator->import(SetList::PHP_72);
+    $containerConfigurator->import(SetList::PHP_74);
 
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_72);
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_74);
 
-    // Path to phpstan with extensions, that PHPStan in Rector uses to determine types
+    // Path to PHPStan with extensions, that PHPStan in Rector uses to determine types
     $parameters->set(Option::PHPSTAN_FOR_RECTOR_PATH, getcwd() . '/phpstan.neon');
 
     $services = $containerConfigurator->services();

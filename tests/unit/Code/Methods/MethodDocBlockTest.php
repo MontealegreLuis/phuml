@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -27,7 +27,7 @@ final class MethodDocBlockTest extends TestCase
  */
 COMMENT;
 
-        $docBlock = MethodDocBlock::from($comment);
+        $docBlock = new MethodDocBlock($comment);
 
         $this->assertEquals(TypeDeclaration::from('string'), $docBlock->typeOfParameter('$name'));
         $this->assertEquals(TypeDeclaration::from('Twig_Environment'), $docBlock->typeOfParameter('$engine'));
@@ -45,7 +45,7 @@ COMMENT;
  */
 COMMENT;
 
-        $docBlock = MethodDocBlock::from($comment);
+        $docBlock = new MethodDocBlock($comment);
 
         $this->assertEquals(TypeDeclaration::absent(), $docBlock->typeOfParameter('$name'));
     }
@@ -64,7 +64,7 @@ COMMENT;
  */
 COMMENT;
 
-        $docBlock = MethodDocBlock::from($comment);
+        $docBlock = new MethodDocBlock($comment);
 
         $this->assertEquals(TypeDeclaration::from('string'), $docBlock->typeOfParameter('$name'));
         $this->assertEquals(TypeDeclaration::from('void'), $docBlock->returnType());

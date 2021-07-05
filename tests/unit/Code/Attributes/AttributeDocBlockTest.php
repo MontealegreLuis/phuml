@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,43 +15,43 @@ final class AttributeDocBlockTest extends TestCase
     /** @test */
     function it_extracts_a_type_declaration_from_a_var_tag()
     {
-        $docBlock = AttributeDocBlock::from('/** @var TestClass $testClass */');
-        $multiLineDocBlock = AttributeDocBlock::from('
+        $docBlock = new AttributeDocBlock('/** @var TestClass $testClass */');
+        $multiLineDocBlock = new AttributeDocBlock('
         /** 
          * A description of the attribute
          *
          * @var AnotherClass $testClass 
          */');
 
-        $this->assertEquals(TypeDeclaration::from('TestClass'), $docBlock->extractType());
-        $this->assertEquals(TypeDeclaration::from('AnotherClass'), $multiLineDocBlock->extractType());
+        $this->assertEquals(TypeDeclaration::from('TestClass'), $docBlock->attributeType());
+        $this->assertEquals(TypeDeclaration::from('AnotherClass'), $multiLineDocBlock->attributeType());
     }
 
     /** @test */
     function it_extracts_an_array_type_declaration()
     {
-        $docBlock = AttributeDocBlock::from('/** @var TestClass[] $testClass */');
-        $multiLineDocBlock = AttributeDocBlock::from('
+        $docBlock = new AttributeDocBlock('/** @var TestClass[] $testClass */');
+        $multiLineDocBlock = new AttributeDocBlock('
         /** 
          * A description of the attribute
          *
          * @var AnotherClass[] $testClass 
          */');
 
-        $this->assertEquals(TypeDeclaration::from('TestClass[]'), $docBlock->extractType());
-        $this->assertEquals(TypeDeclaration::from('AnotherClass[]'), $multiLineDocBlock->extractType());
+        $this->assertEquals(TypeDeclaration::from('TestClass[]'), $docBlock->attributeType());
+        $this->assertEquals(TypeDeclaration::from('AnotherClass[]'), $multiLineDocBlock->attributeType());
     }
 
     /** @test */
     function it_knows_if_it_does_not_have_a_type_declaration()
     {
-        $docBlock = AttributeDocBlock::from('/** A description of the attribute */');
-        $multiLineDocBlock = AttributeDocBlock::from('
+        $docBlock = new AttributeDocBlock('/** A description of the attribute */');
+        $multiLineDocBlock = new AttributeDocBlock('
         /** 
          * A description of the attribute
          */');
 
-        $this->assertEquals(TypeDeclaration::absent(), $docBlock->extractType());
-        $this->assertEquals(TypeDeclaration::absent(), $multiLineDocBlock->extractType());
+        $this->assertEquals(TypeDeclaration::absent(), $docBlock->attributeType());
+        $this->assertEquals(TypeDeclaration::absent(), $multiLineDocBlock->attributeType());
     }
 }

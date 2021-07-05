@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -23,17 +23,13 @@ use PhUml\Graphviz\DigraphPrinter;
  */
 final class GraphvizProcessor extends Processor
 {
-    /** @var ClassGraphBuilder */
-    private $classBuilder;
+    private ClassGraphBuilder $classBuilder;
 
-    /** @var InterfaceGraphBuilder */
-    private $interfaceBuilder;
+    private InterfaceGraphBuilder $interfaceBuilder;
 
-    /** @var DigraphPrinter */
-    private $printer;
+    private DigraphPrinter $printer;
 
-    /** @var TraitGraphBuilder */
-    private $traitBuilder;
+    private TraitGraphBuilder $traitBuilder;
 
     public function __construct(
         ClassGraphBuilder $classBuilder = null,

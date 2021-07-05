@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,6 +9,7 @@ namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
+use PhUml\Graphviz\Edge;
 
 /**
  * It discovers associations between classes/interfaces by inspecting
@@ -20,9 +21,9 @@ use PhUml\Code\Codebase;
  */
 interface AssociationsBuilder
 {
-    /** @return \PhUml\Graphviz\Edge[]*/
+    /** @return Edge[]*/
     public function fromAttributes(ClassDefinition $class, Codebase $codebase): array;
 
-    /** @return \PhUml\Graphviz\Edge[] */
+    /** @return Edge[] */
     public function fromConstructor(ClassDefinition $class, Codebase $codebase): array;
 }

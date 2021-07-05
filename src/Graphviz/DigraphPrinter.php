@@ -1,28 +1,26 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Graphviz;
 
-use PhUml\Graphviz\Styles\DefaultDigraphStyle;
 use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Templates\TemplateEngine;
 
 final class DigraphPrinter
 {
-    /** @var TemplateEngine */
-    private $engine;
+    private TemplateEngine $engine;
 
-    /** @var DigraphStyle */
-    private $style;
+    private DigraphStyle $style;
 
     public function __construct(TemplateEngine $engine = null, DigraphStyle $style = null)
     {
         $this->engine = $engine ?? new TemplateEngine();
-        $this->style = $style ?? new DefaultDigraphStyle();
+        $this->style = $style ?? DigraphStyle::default(new ThemeName('phuml'));
     }
 
     public function toDot(Digraph $digraph): string

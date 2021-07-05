@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,15 +17,15 @@ use Twig\TwigFilter as Filter;
 /** @noRector \Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector */
 class TemplateEngine
 {
-    /** @var Twig */
-    private $twig;
+    private Twig $twig;
 
     public function __construct(Twig $twig = null)
     {
         $this->twig = $twig ?? new Twig(new FilesystemLoader(__DIR__ . '/../resources/templates'));
-        $this->twig->addFilter(new Filter('whitespace', static function (string $html): ?string {
-            return preg_replace('/\s\s+/', '', $html);
-        }));
+        $this->twig->addFilter(new Filter(
+            'whitespace',
+            static fn (string $html): ?string => preg_replace('/\s\s+/', '', $html)
+        ));
     }
 
     /** @param mixed[] $values */

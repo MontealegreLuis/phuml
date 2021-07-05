@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,6 +10,7 @@ namespace PhUml\Graphviz\Builders;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Graphviz\Edge;
+use PhUml\Graphviz\HasDotRepresentation;
 use PhUml\Graphviz\Node;
 
 /**
@@ -24,14 +25,14 @@ use PhUml\Graphviz\Node;
  */
 final class ClassGraphBuilder
 {
-    /** @var \PhUml\Graphviz\HasDotRepresentation[] */
-    private $dotElements;
+    /** @var HasDotRepresentation[] */
+    private array $dotElements;
 
-    /** @var AssociationsBuilder */
-    private $associationsBuilder;
+    private AssociationsBuilder $associationsBuilder;
 
     public function __construct(AssociationsBuilder $associationsBuilder = null)
     {
+        $this->dotElements = [];
         $this->associationsBuilder = $associationsBuilder ?? new NoAssociationsBuilder();
     }
 
@@ -44,7 +45,7 @@ final class ClassGraphBuilder
      * 4. The parent class, if any
      * 5. The interfaces it implements, if any
      *
-     * @return \PhUml\Graphviz\HasDotRepresentation[]
+     * @return HasDotRepresentation[]
      */
     public function extractFrom(ClassDefinition $class, Codebase $codebase): array
     {

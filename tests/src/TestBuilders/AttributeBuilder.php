@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,17 +13,13 @@ use PhUml\Code\Variables\TypeDeclaration;
 
 final class AttributeBuilder
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var Visibility */
-    private $visibility;
+    private ?Visibility $visibility = null;
 
-    /** @var TypeDeclaration */
-    private $type;
+    private ?TypeDeclaration $type = null;
 
-    /** @var bool */
-    private $isStatic;
+    private bool $isStatic;
 
     public function __construct(string $name)
     {

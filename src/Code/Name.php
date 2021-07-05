@@ -1,29 +1,26 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code;
 
+use Webmozart\Assert\Assert;
+
 final class Name
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    public static function from(string $text): Name
+    public function __construct(string $name)
     {
-        return new Name($text);
+        Assert::notEmpty($name, 'Definition name cannot be null or empty');
+        $this->name = $name;
     }
 
     public function __toString()
     {
         return $this->name;
-    }
-
-    private function __construct(string $name)
-    {
-        $this->name = $name;
     }
 }

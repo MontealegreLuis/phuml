@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,8 +17,7 @@ use Symfony\Component\Console\Command\Command;
  */
 class GeneratorCommand extends Command
 {
-    /** @var ProgressDisplay */
-    protected $display;
+    protected ProgressDisplay $display;
 
     public function __construct(ProgressDisplay $display)
     {

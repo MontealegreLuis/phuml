@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,8 +18,6 @@ trait InterfaceNamesBuilder
      */
     protected function buildInterfaces(array $implements): array
     {
-        return array_map(static function (Name $name): DefinitionName {
-            return DefinitionName::from($name->getLast());
-        }, $implements);
+        return array_map(static fn (Name $name): DefinitionName => new DefinitionName($name->getLast()), $implements);
     }
 }

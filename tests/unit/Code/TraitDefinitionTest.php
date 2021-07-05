@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,12 +20,12 @@ final class TraitDefinitionTest extends DefinitionTest
     /** @param Method[] */
     protected function definition(array $methods = []): Definition
     {
-        return new TraitDefinition(Name::from('ADefinition'), $methods);
+        return new TraitDefinition(new Name('ADefinition'), $methods);
     }
 
     /** @param Attribute[] $attributes */
     protected function definitionWithAttributes(array $attributes = []): HasAttributes
     {
-        return new TraitDefinition(Name::from('ATraitWithAttributes'), [], $attributes);
+        return new TraitDefinition(new Name('ATraitWithAttributes'), [], $attributes);
     }
 }

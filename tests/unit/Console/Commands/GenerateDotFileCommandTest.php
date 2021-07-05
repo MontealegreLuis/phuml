@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,6 +13,7 @@ use PhUml\Console\ProgressDisplay;
 use PhUml\Fakes\TextInMemoryOutput;
 use PhUml\Parser\InvalidDirectory;
 use RuntimeException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class GenerateDotFileCommandTest extends TestCase
@@ -98,15 +99,11 @@ final class GenerateDotFileCommandTest extends TestCase
         }
     }
 
-    /** @var string */
-    private $dotFile;
+    private ?string $dotFile = null;
 
-    /** @var GenerateDotFileCommand */
-    private $command;
+    private ?Command $command = null;
 
-    /** @var CommandTester */
-    private $tester;
+    private ?CommandTester $tester = null;
 
-    /** @var string */
-    private $pathToCode;
+    private ?string $pathToCode = null;
 }

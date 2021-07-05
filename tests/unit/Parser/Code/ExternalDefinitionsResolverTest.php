@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -37,10 +37,10 @@ class ExternalDefinitionsResolverTest extends TestCase
         $resolver = new ExternalDefinitionsResolver();
 
         $codebase->add(A::class('AClass')
-            ->implementing(Name::from('AnExternalInterface'), Name::from('AnExistingInterface'))
+            ->implementing(new Name('AnExternalInterface'), new Name('AnExistingInterface'))
             ->build());
         $codebase->add(A::interface('AnInterface')
-            ->extending(Name::from('AnotherExternalInterface'))->build());
+            ->extending(new Name('AnotherExternalInterface'))->build());
         $codebase->add(A::interface('AnExistingInterface')->build());
 
         $resolver->resolve($codebase);
@@ -56,8 +56,8 @@ class ExternalDefinitionsResolverTest extends TestCase
         $codebase = new Codebase();
         $resolver = new ExternalDefinitionsResolver();
 
-        $codebase->add(A::class('AClass')->extending(Name::from('AnExternalClass'))->build());
-        $codebase->add(A::class('AnotherClass')->extending(Name::from('AnotherExternalClass'))->build());
+        $codebase->add(A::class('AClass')->extending(new Name('AnExternalClass'))->build());
+        $codebase->add(A::class('AnotherClass')->extending(new Name('AnotherExternalClass'))->build());
 
         $resolver->resolve($codebase);
 
@@ -73,10 +73,10 @@ class ExternalDefinitionsResolverTest extends TestCase
         $resolver = new ExternalDefinitionsResolver();
 
         $codebase->add(A::class('AClass')
-            ->using(Name::from('AnExternalTrait'), Name::from('AnExistingTrait'))
+            ->using(new Name('AnExternalTrait'), new Name('AnExistingTrait'))
             ->build());
         $codebase->add(A::trait('ATrait')
-            ->using(Name::from('AnotherExternalTrait'))->build());
+            ->using(new Name('AnotherExternalTrait'))->build());
         $codebase->add(A::trait('AnExistingTrait')->build());
 
         $resolver->resolve($codebase);

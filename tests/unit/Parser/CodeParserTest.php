@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,6 +9,7 @@ namespace PhUml\Parser;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\StringCodeFinder;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\TestBuilders\A;
 
 final class CodeParserTest extends TestCase
@@ -485,13 +486,11 @@ CLASS;
     /** @before */
     function buildParser()
     {
-        $this->parser = new CodeParser();
+        $this->parser = new CodeParser(new PhpCodeParser());
         $this->finder = new StringCodeFinder();
     }
 
-    /** @var CodeParser */
-    private $parser;
+    private ?CodeParser $parser = null;
 
-    /** @var StringCodeFinder */
-    private $finder;
+    private ?StringCodeFinder $finder = null;
 }

@@ -1,14 +1,16 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Attributes\HasConstants;
 use PhUml\Code\Attributes\WithConstants;
+use PhUml\Code\Methods\Method;
 
 /**
  * It represents an interface definition
@@ -21,8 +23,8 @@ class InterfaceDefinition extends Definition implements HasConstants
     protected $parents;
 
     /**
-     * @param \PhUml\Code\Methods\Method[] $methods
-     * @param \PhUml\Code\Attributes\Constant[] $constants
+     * @param Method[] $methods
+     * @param Constant[] $constants
      * @param Name[] $parents
      */
     public function __construct(

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -31,16 +31,13 @@ use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 final class ParserBuilder
 {
     /** @var VisibilityFilter[] */
-    private $filters;
+    private array $filters;
 
-    /** @var MethodsBuilder */
-    private $methodsBuilder;
+    private MethodsBuilder $methodsBuilder;
 
-    /** @var ConstantsBuilder */
-    private $constantsBuilder;
+    private ConstantsBuilder $constantsBuilder;
 
-    /** @var AttributesBuilder */
-    private $attributesBuilder;
+    private AttributesBuilder $attributesBuilder;
 
     public function __construct()
     {
@@ -76,7 +73,7 @@ final class ParserBuilder
         return $this;
     }
 
-    public function build(): PhpParser
+    public function build(): PhpCodeParser
     {
         $visibilityBuilder = new VisibilityBuilder();
         $typeBuilder = new TypeBuilder();
@@ -90,6 +87,7 @@ final class ParserBuilder
         );
         $attributesBuilder = $this->attributesBuilder ?? new FilteredAttributesBuilder(
             $visibilityBuilder,
+            $typeBuilder,
             $filters
         );
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,7 +10,6 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PhUml\Code\Attributes\Attribute;
-use PhUml\Code\Attributes\AttributeDocBlock;
 use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
@@ -25,16 +24,20 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
  */
 final class FilteredAttributesBuilder implements AttributesBuilder
 {
-    /** @var VisibilityBuilder */
-    private $visibilityBuilder;
+    private VisibilityBuilder $visibilityBuilder;
 
-    /** @var VisibilityFilters */
-    private $visibilityFilters;
+    private TypeBuilder $typeBuilder;
 
-    public function __construct(VisibilityBuilder $visibilityBuilder, VisibilityFilters $filters)
-    {
+    private VisibilityFilters $visibilityFilters;
+
+    public function __construct(
+        VisibilityBuilder $visibilityBuilder,
+        TypeBuilder $typeBuilder,
+        VisibilityFilters $filters
+    ) {
         $this->visibilityBuilder = $visibilityBuilder;
         $this->visibilityFilters = $filters;
+        $this->typeBuilder = $typeBuilder;
     }
 
     /**
@@ -43,16 +46,14 @@ final class FilteredAttributesBuilder implements AttributesBuilder
      */
     public function build(array $parsedAttributes): array
     {
-        $attributes = array_filter($parsedAttributes, static function ($attribute): bool {
-            return $attribute instanceof Property;
-        });
+        $attributes = array_filter($parsedAttributes, static fn ($attribute): bool => $attribute instanceof Property);
 
         return array_map(function (Property $attribute): Attribute {
-            $name = "\${$attribute->props[0]->name}";
+            $variable = new Variable(
+                "\${$attribute->props[0]->name}",
+                $this->typeBuilder->fromAttributeType($attribute->type, $attribute->getDocComment())
+            );
             $visibility = $this->visibilityBuilder->build($attribute);
-            $comment = $attribute->getDocComment() === null ? null : $attribute->getDocComment()->getText();
-            $docBlock = AttributeDocBlock::from($comment);
-            $variable = new Variable($name, $docBlock->extractType());
 
             return new Attribute($variable, $visibility, $attribute->isStatic());
         }, $this->visibilityFilters->apply($attributes));

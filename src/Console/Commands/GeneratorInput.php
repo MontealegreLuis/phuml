@@ -1,24 +1,23 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Parser\CodebaseDirectory;
 use Webmozart\Assert\Assert;
 
 final class GeneratorInput
 {
-    /** @var string */
-    private $directory;
+    private CodebaseDirectory $directory;
 
-    /** @var string */
-    private $outputFile;
+    private string $outputFile;
 
     /** @var mixed[] $options */
-    private $options;
+    private array $options;
 
     /**
      * @param string[] $arguments
@@ -26,12 +25,12 @@ final class GeneratorInput
      */
     public function __construct(array $arguments, array $options)
     {
-        $this->setDirectory($arguments);
+        $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
         $this->setOutputFile($arguments);
         $this->options = $options;
     }
 
-    public function directory(): string
+    public function directory(): CodebaseDirectory
     {
         return $this->directory;
     }
@@ -45,16 +44,6 @@ final class GeneratorInput
     public function options(): array
     {
         return $this->options;
-    }
-
-    /** @param string[] $arguments */
-    private function setDirectory(array $arguments): void
-    {
-        Assert::stringNotEmpty(
-            $arguments['directory'] ?? '',
-            'The directory with the code to be scanned cannot be empty'
-        );
-        $this->directory = $arguments['directory'];
     }
 
     /** @param string[] $arguments */

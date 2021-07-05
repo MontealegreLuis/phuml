@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,40 +13,41 @@ use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\DefaultDigraphStyle;
 use PhUml\Graphviz\Styles\DigraphStyle;
-use PhUml\Graphviz\Styles\NonEmptyBlocksStyle;
 use PhUml\Parser\Code\ExternalAssociationsResolver;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\ParserBuilder;
-use PhUml\Parser\Code\PhpParser;
+use PhUml\Parser\Code\PhpCodeParser;
+use PhUml\Parser\Code\RelationshipsResolver;
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
 
-class DigraphBuilder
+final class DigraphBuilder
 {
-    /** @var DigraphConfiguration */
-    protected $configuration;
+    private DigraphConfiguration $configuration;
 
-    /** @var ParserBuilder */
-    protected $parserBuilder;
-
-    public function __construct()
+    public function __construct(DigraphConfiguration $configuration)
     {
-        $this->parserBuilder = new ParserBuilder();
+        $this->configuration = $configuration;
     }
 
-    public function codeFinder(): CodeFinder
+    public function codeFinder(CodebaseDirectory $directory): CodeFinder
     {
-        return $this->configuration->searchRecursively() ? new CodeFinder() : new NonRecursiveCodeFinder();
+        return $this->configuration->searchRecursively()
+            ? SourceCodeFinder::recursive($directory)
+            : SourceCodeFinder::nonRecursive($directory);
     }
 
-    protected function digraphProcessor(): GraphvizProcessor
+    public function digraphProcessor(): GraphvizProcessor
     {
-        $associationsBuilder = $this->configuration->extractAssociations() ? new EdgesBuilder() : new NoAssociationsBuilder();
+        $associationsBuilder = $this->configuration->extractAssociations()
+            ? new EdgesBuilder()
+            : new NoAssociationsBuilder();
+
         return new GraphvizProcessor(
             new ClassGraphBuilder($associationsBuilder),
             new InterfaceGraphBuilder(),
@@ -55,56 +56,44 @@ class DigraphBuilder
         );
     }
 
-    protected function digraphStyle(): DigraphStyle
+    public function codeParser(): CodeParser
+    {
+        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolvers());
+    }
+
+    private function digraphStyle(): DigraphStyle
     {
         if ($this->configuration->hideEmptyBlocks()) {
-            return new NonEmptyBlocksStyle($this->configuration->theme());
+            return DigraphStyle::withoutEmptyBlocks($this->configuration->theme());
         }
-        return new DefaultDigraphStyle($this->configuration->theme());
+        return DigraphStyle::default($this->configuration->theme());
     }
 
-    protected function codeParser(): CodeParser
+    private function tokenParser(): PhpCodeParser
     {
-        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolver());
-    }
-
-    protected function tokenParser(): PhpParser
-    {
-        $this->configureAttributes();
-        $this->configureMethods();
-        $this->configureFilters();
-        return $this->parserBuilder->build();
-    }
-
-    private function configureAttributes(): void
-    {
+        $parserBuilder = new ParserBuilder();
         if ($this->configuration->hideAttributes()) {
-            $this->parserBuilder->excludeAttributes();
+            $parserBuilder->excludeAttributes();
         }
-    }
-
-    private function configureMethods(): void
-    {
         if ($this->configuration->hideMethods()) {
-            $this->parserBuilder->excludeMethods();
+            $parserBuilder->excludeMethods();
         }
-    }
-
-    private function configureFilters(): void
-    {
         if ($this->configuration->hidePrivate()) {
-            $this->parserBuilder->excludePrivateMembers();
+            $parserBuilder->excludePrivateMembers();
         }
         if ($this->configuration->hideProtected()) {
-            $this->parserBuilder->excludeProtectedMembers();
+            $parserBuilder->excludeProtectedMembers();
         }
+        return $parserBuilder->build();
     }
 
-    private function externalDefinitionsResolver(): ExternalDefinitionsResolver
+    /** @return RelationshipsResolver[] */
+    private function externalDefinitionsResolvers(): array
     {
+        $resolvers = [new ExternalDefinitionsResolver()];
         if ($this->configuration->extractAssociations()) {
-            return new ExternalAssociationsResolver();
+            $resolvers[] = new ExternalAssociationsResolver();
         }
-        return new ExternalDefinitionsResolver();
+        return $resolvers;
     }
 }

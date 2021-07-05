@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,6 +9,7 @@ namespace PhUml\Code;
 
 use BadMethodCallException;
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\HasConstants;
 use PhUml\Code\Attributes\WithAttributes;
@@ -27,15 +28,14 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
     use WithConstants;
     use WithTraits;
 
-    /** @var Name|null */
-    protected $parent;
+    protected ?Name $parent;
 
     /** @var Name[] */
-    private $interfaces;
+    private array $interfaces;
 
     /**
      * @param Method[] $methods
-     * @param \PhUml\Code\Attributes\Constant[] $constants
+     * @param Constant[] $constants
      * @param Attribute[] $attributes
      * @param Name[] $interfaces
      * @param Name[] $traits
@@ -66,9 +66,7 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function constructorParameters(): array
     {
-        $constructors = array_filter($this->methods, static function (Method $method): bool {
-            return $method->isConstructor();
-        });
+        $constructors = array_filter($this->methods, static fn (Method $method): bool => $method->isConstructor());
         $constructor = reset($constructors);
 
         return $constructor === false ? [] : $constructor->parameters();
@@ -81,9 +79,10 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function countAttributesByVisibility(Visibility $modifier): int
     {
-        return \count(array_filter($this->attributes, static function (Attribute $attribute) use ($modifier): bool {
-            return $attribute->hasVisibility($modifier);
-        }));
+        return \count(array_filter(
+            $this->attributes,
+            static fn (Attribute $attribute): bool => $attribute->hasVisibility($modifier)
+        ));
     }
 
     /**
@@ -93,9 +92,11 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function countTypedAttributesByVisibility(Visibility $modifier): int
     {
-        return \count(array_filter($this->attributes, static function (Attribute $attribute) use ($modifier): bool {
-            return $attribute->hasTypeDeclaration() && $attribute->hasVisibility($modifier);
-        }));
+        return \count(array_filter(
+            $this->attributes,
+            static fn (Attribute $attribute): bool =>
+                $attribute->hasTypeDeclaration() && $attribute->hasVisibility($modifier)
+        ));
     }
 
     /**
@@ -151,8 +152,6 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
      */
     public function isAbstract(): bool
     {
-        return \count(array_filter($this->methods(), static function (Method $method): bool {
-            return $method->isAbstract();
-        })) > 0;
+        return \count(array_filter($this->methods(), static fn (Method $method): bool => $method->isAbstract())) > 0;
     }
 }

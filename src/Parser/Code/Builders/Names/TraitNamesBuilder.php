@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -19,9 +19,7 @@ trait TraitNamesBuilder
      */
     protected function buildTraits(array $nodes): array
     {
-        $useStatements = array_filter($nodes, static function (Node $node): bool {
-            return $node instanceof TraitUse;
-        });
+        $useStatements = array_filter($nodes, static fn (Node $node): bool => $node instanceof TraitUse);
 
         if (count($useStatements) === 0) {
             return [];
@@ -43,7 +41,7 @@ trait TraitNamesBuilder
     private function traitNames(TraitUse $use, array $traits): array
     {
         foreach ($use->traits as $name) {
-            $traits[] = TraitName::from($name->getLast());
+            $traits[] = new TraitName($name->getLast());
         }
         return $traits;
     }

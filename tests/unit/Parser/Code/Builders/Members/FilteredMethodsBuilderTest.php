@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -157,8 +157,7 @@ final class FilteredMethodsBuilderTest extends TestCase
     }
 
     /** @var ClassMethod[] */
-    private $methods;
+    private ?array $methods = null;
 
-    /** @var FilteredMethodsBuilder */
-    private $builder;
+    private ?FilteredMethodsBuilder $builder = null;
 }

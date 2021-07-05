@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -26,14 +26,12 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     use WithAbstractModifier;
     use WithStaticModifier;
 
-    /** @var string */
-    private $name;
+    private string $name;
 
     /** @var Parameter[] */
     private $parameters;
 
-    /** @var TypeDeclaration */
-    private $returnType;
+    private TypeDeclaration $returnType;
 
     /**
      * It is used by the `ClassDefinition` to extract the parameters of a constructor

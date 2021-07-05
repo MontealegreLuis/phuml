@@ -12,6 +12,16 @@ grumphp:
             max_subject_width: 50
             case_insensitive: true
             multiline: true
+            type_scope_conventions:
+                - types:
+                      - build
+                      - chore
+                      - docs
+                      - feat
+                      - fix
+                      - refactor
+                      - style
+                      - test
         composer:
         composer_normalize:
         phpstan:
@@ -26,3 +36,7 @@ grumphp:
             config_contains_finder: true
             config: .php-cs-fixer.php
             triggered_by: ['php']
+        phpcsfixer2_test:
+            config: .php-cs-fixer-tests.php
+            metadata:
+                task: phpcsfixer2

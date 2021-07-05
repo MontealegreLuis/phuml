@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,36 +11,37 @@ use LogicException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
 use PhUml\Fakes\NumericIdClassDefinitionBuilder;
+use PhUml\Fakes\StringCodeFinder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\NonRecursiveCodeFinder;
+use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\TestBuilders\A;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateDotFileTest extends TestCase
 {
     use WithNumericIds;
     use WithDotLanguageAssertions;
+    use ProphecyTrait;
 
     /** @test */
     function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()
     {
-        $generator = new DotFileGenerator(new CodeParser(), new GraphvizProcessor());
+        $generator = new DotFileGenerator(new CodeParser(new PhpCodeParser()), new GraphvizProcessor());
 
         $this->expectException(LogicException::class);
 
-        $generator->generate(new NonRecursiveCodeFinder(), 'wont-be-generated.gv');
+        $generator->generate(new StringCodeFinder(), 'wont-be-generated.gv');
     }
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
-        $finder = new NonRecursiveCodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
 
         $this->generator->generate($finder, $this->pathToDotFile);
 
@@ -53,8 +54,7 @@ final class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
-        $finder = new CodeFinder();
-        $finder->addDirectory(CodebaseDirectory::from($this->pathToCode));
+        $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
 
         $this->generator->generate($finder, $this->pathToDotFile);
 
@@ -69,6 +69,7 @@ final class GenerateDotFileTest extends TestCase
         $uml = A::numericIdClassNamed('plPhuml');
         $dotProcessor = A::numericIdClassNamed('plDotProcessor');
         $graphvizProcessor = A::numericIdClassNamed('plGraphvizProcessor');
+        $styleName = A::numericIdClassNamed('plStyleName');
         $graphvizOptions = A::numericIdClassNamed('plGraphvizProcessorOptions');
         $defaultStyle = A::numericIdClassNamed('plGraphvizProcessorDefaultStyle');
         $neatoProcessor = A::numericIdClassNamed('plNeatoProcessor');
@@ -81,6 +82,7 @@ final class GenerateDotFileTest extends TestCase
         $digraphInDotFormat = file_get_contents($this->pathToDotFile);
         $this->assertNode($base, $digraphInDotFormat);
         $this->assertNode($structureGenerator, $digraphInDotFormat);
+        $this->assertNode($styleName, $digraphInDotFormat);
         $this->assertNode($tokenParser, $digraphInDotFormat);
         $this->assertInheritance($tokenParser, $structureGenerator, $digraphInDotFormat);
         $this->assertNode($attribute, $digraphInDotFormat);
@@ -115,19 +117,16 @@ final class GenerateDotFileTest extends TestCase
         $this->generator = new DotFileGenerator(
             new CodeParser(
                 new PhpCodeParser(new NumericIdClassDefinitionBuilder()),
-                new ExternalNumericIdDefinitionsResolver()
+                [new ExternalNumericIdDefinitionsResolver()]
             ),
             new GraphvizProcessor()
         );
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
     }
 
-    /** @var DotFileGenerator */
-    private $generator;
+    private ?DotFileGenerator $generator = null;
 
-    /** @var string */
-    private $pathToDotFile;
+    private ?string $pathToDotFile = null;
 
-    /** @var string */
-    private $pathToCode;
+    private ?string $pathToCode = null;
 }

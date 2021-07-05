@@ -1,34 +1,44 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code\Attributes;
 
-use PhUml\Code\DocBlock;
 use PhUml\Code\Variables\TypeDeclaration;
 
 /**
  * It creates a type declaration for an attribute from its `@var` tag
  */
-final class AttributeDocBlock extends DocBlock
+final class AttributeDocBlock
 {
-    /** @var string */
-    private static $varExpression = '/@var\s*([\w]+(\[\])?)/';
+    private const VAR_EXPRESSION = '/@var\s*([\w]+(\[\])?)/';
 
-    public static function from(?string $text): AttributeDocBlock
+    private TypeDeclaration $attributeType;
+
+    public function __construct(?string $comment)
     {
-        return new AttributeDocBlock($text);
+        $this->extractType($comment);
     }
 
-    public function extractType(): TypeDeclaration
+    public function attributeType(): TypeDeclaration
     {
-        $type = null;
-        if (preg_match(self::$varExpression, (string) $this->comment, $matches) === 1) {
-            $type = trim($matches[1]);
+        return $this->attributeType;
+    }
+
+    public function hasAttributeType(): bool
+    {
+        return $this->attributeType->isPresent();
+    }
+
+    private function extractType(?string $comment): void
+    {
+        if (preg_match(self::VAR_EXPRESSION, (string) $comment, $matches) === 1) {
+            $this->attributeType = TypeDeclaration::from(trim($matches[1]));
+            return;
         }
-        return TypeDeclaration::from($type);
+        $this->attributeType = TypeDeclaration::absent();
     }
 }

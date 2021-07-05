@@ -8,8 +8,10 @@ test:
 	@docker-compose run --rm tests php vendor/bin/phpunit --testdox
 
 coverage:
-	@docker-compose run --rm tests php vendor/bin/phpunit --coverage-html build/coverage
+	@docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/phpunit --coverage-html build/coverage
 
+infection:
+	@docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/infection --threads=4
 
 diagram:
 	@docker-compose run --rm tests php bin/phuml phuml:diagram $(ARGS)
@@ -26,8 +28,8 @@ format:
 	@vendor/bin/php-cs-fixer fix --config=.php-cs-fixer-tests.php -v --using-cache no
 
 check:
-	@vendor/bin/grumphp run
+	@vendor/bin/grumphp run --no-interaction
 	@vendor/bin/composer-require-checker check
 	@docker-compose run --rm tests vendor/bin/phpunit --testsuite 'Integration tests'
-	@vendor/bin/php-cs-fixer fix --config=.php-cs-fixer-tests.php -v --dry-run --using-cache=no
 	@vendor/bin/rector process --dry-run
+	@docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/infection --threads=4

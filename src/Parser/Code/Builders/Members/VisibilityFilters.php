@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -27,7 +27,7 @@ use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 final class VisibilityFilters
 {
     /** @var VisibilityFilter[] */
-    protected $filters;
+    protected array $filters;
 
     /** @param VisibilityFilter[] $filters */
     public function __construct(array $filters = [])
@@ -43,9 +43,7 @@ final class VisibilityFilters
     {
         $attributes = $classMembers;
         foreach ($this->filters as $filter) {
-            $attributes = array_filter($attributes, static function (Stmt $member) use ($filter): bool {
-                return $filter->accept($member);
-            });
+            $attributes = array_filter($attributes, static fn (Stmt $member): bool => $filter->accept($member));
         }
         return $attributes;
     }

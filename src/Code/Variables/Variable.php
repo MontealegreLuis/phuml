@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,8 +17,7 @@ final class Variable implements HasType
 {
     use WithTypeDeclaration;
 
-    /** @var string */
-    protected $name;
+    protected string $name;
 
     public function __construct(string $name, TypeDeclaration $type)
     {
@@ -66,6 +65,6 @@ final class Variable implements HasType
 
     private function arrayTypeName(): Name
     {
-        return Name::from($this->type->removeArraySuffix());
+        return new Name($this->type->removeArraySuffix());
     }
 }

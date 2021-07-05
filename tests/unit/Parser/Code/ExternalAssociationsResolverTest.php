@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -29,9 +29,9 @@ final class ExternalAssociationsResolverTest extends ExternalDefinitionsResolver
 
         $resolver->resolve($codebase);
 
-        $this->assertTrue($codebase->has(Name::from('ReferenceA')));
-        $this->assertTrue($codebase->has(Name::from('ReferenceB')));
-        $this->assertTrue($codebase->has(Name::from('ReferenceC')));
+        $this->assertTrue($codebase->has(new Name('ReferenceA')));
+        $this->assertTrue($codebase->has(new Name('ReferenceB')));
+        $this->assertTrue($codebase->has(new Name('ReferenceC')));
     }
 
     /** @test */
@@ -54,9 +54,9 @@ final class ExternalAssociationsResolverTest extends ExternalDefinitionsResolver
         $resolver->resolve($codebase);
 
         $this->assertCount(4, $codebase->definitions());
-        $this->assertTrue($codebase->has(Name::from('ReferenceA')));
-        $this->assertTrue($codebase->has(Name::from('ReferenceB')));
-        $this->assertTrue($codebase->has(Name::from('ReferenceC')));
+        $this->assertTrue($codebase->has(new Name('ReferenceA')));
+        $this->assertTrue($codebase->has(new Name('ReferenceB')));
+        $this->assertTrue($codebase->has(new Name('ReferenceC')));
     }
 
     /** @test */
@@ -76,6 +76,6 @@ final class ExternalAssociationsResolverTest extends ExternalDefinitionsResolver
         $resolver->resolve($codebase);
         $this->assertCount(2, $codebase->definitions());
         $this->assertTrue($codebase->has($class->name()));
-        $this->assertTrue($codebase->has(Name::from('Reference')));
+        $this->assertTrue($codebase->has(new Name('Reference')));
     }
 }

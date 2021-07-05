@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -19,32 +19,32 @@ final class A
 {
     public static function classNamed(string $name): ClassDefinition
     {
-        return new ClassDefinition(Name::from($name));
+        return new ClassDefinition(new Name($name));
     }
 
     public static function interfaceNamed(string $name): InterfaceDefinition
     {
-        return new InterfaceDefinition(Name::from($name));
+        return new InterfaceDefinition(new Name($name));
     }
 
     public static function traitNamed(string $name): TraitDefinition
     {
-        return new TraitDefinition(Name::from($name));
+        return new TraitDefinition(new Name($name));
     }
 
     public static function numericIdClassNamed(string $name): NumericIdClass
     {
-        return new NumericIdClass(Name::from($name));
+        return new NumericIdClass(new Name($name));
     }
 
     public static function numericIdInterfaceNamed(string $name): NumericIdInterface
     {
-        return new NumericIdInterface(Name::from($name));
+        return new NumericIdInterface(new Name($name));
     }
 
     public static function numericIdTraitNamed(string $name): NumericIdTrait
     {
-        return new NumericIdTrait(Name::from($name));
+        return new NumericIdTrait(new Name($name));
     }
 
     public static function class(string $name): ClassBuilder

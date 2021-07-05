@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,11 +12,9 @@ use PhUml\Code\Variables\Variable;
 
 final class VariableBuilder
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var TypeDeclaration */
-    private $type;
+    private TypeDeclaration $type;
 
     public function __construct(string $name)
     {

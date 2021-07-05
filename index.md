@@ -3,11 +3,12 @@
 ![CI workflow](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml/badge.svg)
 [![Scrutinizer Code Quality][scrutinizer-badge]][scrutinizer]
 [![Code Coverage][coverage-badge]][coverage]
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/montealegreluis/phuml/master)](https://infection.github.io)
 [![Latest Stable Version][stable-badge]][packagist]
 [![Minimum PHP Version][php-badge]][php]
 
 phUML is a fully automatic [UML][uml] class diagram generator written [PHP][php].
-It creates a class diagram from an OO codebase based on the UML specification.
+It creates a class diagram from an Object-Oriented codebase based on the UML specification.
 
 To successfully create UML diagrams with phUML you will need to install the [graphviz][graphviz] toolkit.
 
@@ -32,5 +33,5 @@ You can take a look at the complete image by clicking [here][diagram].
 [coverage]: https://scrutinizer-ci.com/g/MontealegreLuis/phuml/?branch=master
 [stable-badge]: https://img.shields.io/packagist/v/phuml/phuml.svg?style=flat-square
 [packagist]: https://packagist.org/packages/phuml/phuml
-[php-badge]: https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg?style=flat-square
+[php-badge]: https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg?style=flat-square
 [php]: https://php.net/

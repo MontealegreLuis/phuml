@@ -38,7 +38,7 @@ return $config->setRules([
         'blank_line_after_opening_tag' => false,
         'declare_strict_types' => true,
         'header_comment' => [
-            'header' => 'PHP version 7.2
+            'header' => 'PHP version 7.4
 
 This source file is subject to the license that is bundled with this package in the file LICENSE.',
             'comment_type' => 'PHPDoc',

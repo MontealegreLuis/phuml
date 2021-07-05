@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.2
+ * PHP version 7.4
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -24,6 +24,7 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
+            new TypeBuilder(),
             new VisibilityFilters([new PrivateVisibilityFilter()])
         );
 
@@ -41,6 +42,7 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
+            new TypeBuilder(),
             new VisibilityFilters([new ProtectedVisibilityFilter()])
         );
 
@@ -59,6 +61,7 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
+            new TypeBuilder(),
             new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
         );
 
@@ -84,5 +87,5 @@ final class FilteredAttributesBuilderTest extends TestCase
     }
 
     /** @var Property[] */
-    private $attributes;
+    private ?array $attributes = null;
 }
