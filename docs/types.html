@@ -82,8 +82,8 @@
 <pre><code class="language-php">&lt;?php
 final class WithTypes
 {
-    /** @var string $name */
-    private $name;
+    // In this case type is taken from its declaration
+    private string $name;
 
     /** @var DateTime */
     private $dob;
@@ -104,6 +104,27 @@ final class WithTypes
         $this-&gt;name = $name;
     }
 }</code></pre>
+<h2 id="how-phuml-handles">How phUML handles <code>array</code></h2>
+<p>If <code>array</code> is found in a type declaration for an attribute or parameter, phUML will try to extract a more accurate type from the doc block, if present.</p>
+<pre><code class="language-php">&lt;?php
+final class WithTypeDeclarationsForArray
+{
+    /** @var ClassDefinition[] */
+    private array $classes;
+
+    /** @param ClassDefinition[] */
+    public function __construct(array $classes)
+    {
+        $this-&gt;classes = $classes;
+    }
+
+    /** @return ClassDefinition[] */
+    public function classes(): array
+    {
+        return $this-&gt;classes;
+    }
+}</code></pre>
+<p>In the 3 cases above, phUML will use <code>ClassDefinition[]</code> instead of <code>array</code>.</p>
                 </section>
 
             </div>

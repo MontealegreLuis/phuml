@@ -83,11 +83,25 @@ By participating in this project you agree to abide by its terms.</p>
 <li>Send a pull request. Bonus points for topic branches.</li>
 </ul>
 <p>Pull requests for bug fixes must be based on the current stable branch whereas pull requests for new features must be based on the <code>master</code> branch.</p>
+<h3 id="git-commit-format">Git commit format</h3>
+<p>Commit messages must follow the <a href="https://www.conventionalcommits.org/en/v1.0.0-beta.2/">Conventional Commits Specification</a> which is enforced as a Git pre-commit hook via <a href="https://github.com/phpro/grumphp">GrumPHP</a>.</p>
+<p>The allowed commit types are:</p>
+<ul>
+<li><code>build</code> for changes to Github Actions or Scrutinizer (CI Pipeline)</li>
+<li><code>chore</code> for changes to the configuration any of the code quality tools used by this project (PHPUnit, PHP CS Fixer, Rector, Composer Normalize, Composer Require Checker, etc.)</li>
+<li><code>docs</code> for updates or additions to the documentation</li>
+<li><code>feat</code> for new features</li>
+<li><code>fix</code> for a fix to an existing console command</li>
+<li><code>refactor</code> for refactoring changes</li>
+<li><code>style</code> for changes that only format code</li>
+<li><code>test</code> for tests only changes</li>
+</ul>
+<p>It is recommended to follow the <a href="https://chris.beams.io/posts/git-commit/#seven-rules">7 rules of a good commit message</a>. </p>
 <h2 id="coding-guidelines">Coding Guidelines</h2>
 <p>This project follows the coding standards proposed in <a href="http://www.php-fig.org/psr/psr-2/">PSR-2</a></p>
 <p>Run the following command if you modified either production code or tests.</p>
 <pre><code class="language-bash">make format</code></pre>
-<p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS fixer</a> in both folders <code>src</code> and <code>tests</code>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS fixer</a> and <a href="https://getrector.org/">Rector</a> in both folders <code>src</code> and <code>tests</code>.</p>
 <h2 id="using-phuml-from-a-git-checkout">Using phUML from a Git checkout</h2>
 <p>The following commands can be used to perform the initial checkout of phUML:</p>
 <pre><code class="language-bash">git clone git://github.com/MontealegreLuis/phuml.git
