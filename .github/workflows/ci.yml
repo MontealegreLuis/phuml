@@ -26,6 +26,8 @@ jobs:
 
       - name: "Code quality checks"
         run: "make check"
+        env:
+          INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
       - name: "Run tests with coverage"
         run: "vendor/bin/phpunit --exclude-group=snapshot --coverage-text --coverage-clover=coverage.clover"
