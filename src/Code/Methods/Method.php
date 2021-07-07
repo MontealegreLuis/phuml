@@ -29,7 +29,7 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
     private string $name;
 
     /** @var Parameter[] */
-    private $parameters;
+    private array $parameters;
 
     private TypeDeclaration $returnType;
 

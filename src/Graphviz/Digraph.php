@@ -15,7 +15,7 @@ namespace PhUml\Graphviz;
 final class Digraph
 {
     /** @var HasDotRepresentation[] */
-    private $elements;
+    private array $elements;
 
     public function __construct()
     {

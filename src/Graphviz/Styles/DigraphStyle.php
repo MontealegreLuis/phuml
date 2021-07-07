@@ -12,8 +12,7 @@ namespace PhUml\Graphviz\Styles;
  */
 final class DigraphStyle
 {
-    /** @var string */
-    protected $theme;
+    protected string $theme;
 
     protected string $attributes;
 

@@ -7,11 +7,18 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Stmt\ClassMethod;
+use PhUml\Code\Methods\Method;
+
 /**
  * It will ignore the methods of a definition. It will produce diagrams without methods.
  */
 final class NoMethodsBuilder implements MethodsBuilder
 {
+    /**
+     * @param ClassMethod[] $methods
+     * @return Method[]
+     */
     public function build(array $methods): array
     {
         return [];

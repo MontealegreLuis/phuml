@@ -11,8 +11,7 @@ use PhUml\Code\Name;
 
 trait WithVariable
 {
-    /** @var Variable */
-    private $variable;
+    private Variable $variable;
 
     public function isAReference(): bool
     {

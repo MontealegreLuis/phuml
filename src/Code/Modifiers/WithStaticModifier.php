@@ -9,8 +9,7 @@ namespace PhUml\Code\Modifiers;
 
 trait WithStaticModifier
 {
-    /** @var bool */
-    protected $isStatic;
+    protected bool $isStatic;
 
     public function isStatic(): bool
     {

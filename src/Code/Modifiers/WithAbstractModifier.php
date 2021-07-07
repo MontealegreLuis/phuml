@@ -9,8 +9,7 @@ namespace PhUml\Code\Modifiers;
 
 trait WithAbstractModifier
 {
-    /** @var bool */
-    protected $isAbstract;
+    protected bool $isAbstract;
 
     public function isAbstract(): bool
     {

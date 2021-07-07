@@ -24,7 +24,7 @@ final class ClassDiagramConfiguration
         return $this->imageProcessor->isDot();
     }
 
-    private function setImageProcessor(?string $imageProcessor): void
+    private function setImageProcessor(string $imageProcessor): void
     {
         $this->imageProcessor = new ImageProcessorName($imageProcessor);
     }

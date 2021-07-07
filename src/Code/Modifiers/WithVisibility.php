@@ -9,8 +9,7 @@ namespace PhUml\Code\Modifiers;
 
 trait WithVisibility
 {
-    /** @var Visibility */
-    private $modifier;
+    private Visibility $modifier;
 
     public function isPublic(): bool
     {

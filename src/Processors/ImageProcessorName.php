@@ -14,7 +14,7 @@ final class ImageProcessorName
 
     private string $name;
 
-    public function __construct(?string $name)
+    public function __construct(string $name)
     {
         if (! \in_array($name, self::$names, true)) {
             throw UnknownImageProcessor::named($name, self::$names);

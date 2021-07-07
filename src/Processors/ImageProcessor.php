@@ -20,7 +20,7 @@ use Symfony\Component\Process\Process;
 abstract class ImageProcessor extends Processor
 {
     /** @var Process<string>|null */
-    protected $process;
+    protected ?Process $process;
 
     private Filesystem $fileSystem;
 

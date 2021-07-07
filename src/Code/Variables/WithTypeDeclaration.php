@@ -9,8 +9,7 @@ namespace PhUml\Code\Variables;
 
 trait WithTypeDeclaration
 {
-    /** @var TypeDeclaration */
-    protected $type;
+    protected TypeDeclaration $type;
 
     /** @see HasType::isAReference() for more details */
     public function isAReference(): bool

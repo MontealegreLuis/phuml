@@ -7,8 +7,10 @@
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\WithAttributes;
+use PhUml\Code\Methods\Method;
 
 class TraitDefinition extends Definition implements HasAttributes, UseTraits
 {
@@ -16,8 +18,8 @@ class TraitDefinition extends Definition implements HasAttributes, UseTraits
     use WithTraits;
 
     /**
-     * @param \PhUml\Code\Methods\Method[] $methods
-     * @param \PhUml\Code\Attributes\Attribute[] $attributes
+     * @param Method[] $methods
+     * @param Attribute[] $attributes
      * @param Name[] $traits
      */
     public function __construct(
