@@ -19,6 +19,7 @@ use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\OutputFilePath;
 use PhUml\TestBuilders\A;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -35,7 +36,7 @@ final class GenerateDotFileTest extends TestCase
 
         $this->expectException(LogicException::class);
 
-        $generator->generate(new StringCodeFinder(), 'wont-be-generated.gv');
+        $generator->generate(new StringCodeFinder(), new OutputFilePath('wont-be-generated.gv'));
     }
 
     /** @test */
@@ -46,7 +47,7 @@ final class GenerateDotFileTest extends TestCase
         $this->generator->generate($finder, $this->pathToDotFile);
 
         $this->resetIds();
-        $digraphInDotFormat = file_get_contents($this->pathToDotFile);
+        $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
         $this->assertNode(A::numericIdClassNamed('plBase'), $digraphInDotFormat);
         $this->assertNode(A::numericIdClassNamed('plPhuml'), $digraphInDotFormat);
     }
@@ -79,7 +80,7 @@ final class GenerateDotFileTest extends TestCase
         $externalCommand = A::numericIdClassNamed('plExternalCommandProcessor');
         $processor = A::numericIdClassNamed('plProcessor');
         $style = A::numericIdClassNamed('plGraphvizProcessorStyle');
-        $digraphInDotFormat = file_get_contents($this->pathToDotFile);
+        $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
         $this->assertNode($base, $digraphInDotFormat);
         $this->assertNode($structureGenerator, $digraphInDotFormat);
         $this->assertNode($styleName, $digraphInDotFormat);
@@ -113,7 +114,7 @@ final class GenerateDotFileTest extends TestCase
     function let()
     {
         $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
-        $this->pathToDotFile = __DIR__ . '/../../resources/.output/dot.gv';
+        $this->pathToDotFile = new OutputFilePath(__DIR__ . '/../../resources/.output/dot.gv');
         $this->generator = new DotFileGenerator(
             new CodeParser(
                 new PhpCodeParser(new NumericIdClassDefinitionBuilder()),
@@ -126,7 +127,7 @@ final class GenerateDotFileTest extends TestCase
 
     private ?DotFileGenerator $generator = null;
 
-    private ?string $pathToDotFile = null;
+    private ?OutputFilePath $pathToDotFile = null;
 
     private ?string $pathToCode = null;
 }

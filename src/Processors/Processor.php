@@ -12,9 +12,9 @@ namespace PhUml\Processors;
  */
 abstract class Processor
 {
-    public function saveToFile(string $contents, string $filePath): void
+    public function saveToFile(OutputContent $contents, OutputFilePath $filePath): void
     {
-        file_put_contents($filePath, $contents);
+        file_put_contents($filePath->value(), $contents->value());
     }
 
     abstract public function name(): string;

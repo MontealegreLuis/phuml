@@ -11,6 +11,8 @@ use LogicException;
 use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Processors\OutputContent;
+use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\StatisticsProcessor;
 use PhUml\Templates\TemplateFailure;
 
@@ -40,14 +42,14 @@ final class StatisticsGenerator extends Generator
      * @throws TemplateFailure If Twig fails
      * @throws LogicException If the command is missing
      */
-    public function generate(CodeFinder $finder, string $statisticsFilePath): void
+    public function generate(CodeFinder $finder, OutputFilePath $statisticsFilePath): void
     {
         $this->display()->start();
         $statistics = $this->generateStatistics($this->parseCode($finder));
         $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath);
     }
 
-    private function generateStatistics(Codebase $codebase): string
+    private function generateStatistics(Codebase $codebase): OutputContent
     {
         $this->display()->runningProcessor($this->statisticsProcessor);
         return $this->statisticsProcessor->process($codebase);

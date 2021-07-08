@@ -15,6 +15,7 @@ use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
+use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\StatisticsProcessor;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -28,7 +29,7 @@ final class GenerateStatisticsTest extends TestCase
         $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
 
         $this->expectException(LogicException::class);
-        $generator->generate(new StringCodeFinder(), 'wont-be-generated.txt');
+        $generator->generate(new StringCodeFinder(), new OutputFilePath('wont-be-generated.txt'));
     }
 
     /** @test */
@@ -68,7 +69,7 @@ STATS;
 
         $generator->generate($finder, $this->statisticsFile);
 
-        $this->assertStringEqualsFile($this->statisticsFile, $statistics);
+        $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }
 
     /** @test */
@@ -109,17 +110,17 @@ STATS;
 
         $generator->generate($finder, $this->statisticsFile);
 
-        $this->assertStringEqualsFile($this->statisticsFile, $statistics);
+        $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }
 
     /** @before */
     function let()
     {
-        $this->statisticsFile = __DIR__ . '/../../resources/.output/statistics.txt';
+        $this->statisticsFile = new OutputFilePath(__DIR__ . '/../../resources/.output/statistics.txt');
         $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
     }
 
-    private ?string $statisticsFile = null;
+    private ?OutputFilePath $statisticsFile = null;
 
     private ?string $pathToCode = null;
 }

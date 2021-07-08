@@ -8,13 +8,13 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Parser\CodebaseDirectory;
-use Webmozart\Assert\Assert;
+use PhUml\Processors\OutputFilePath;
 
 final class GeneratorInput
 {
     private CodebaseDirectory $directory;
 
-    private string $outputFile;
+    private OutputFilePath $outputFile;
 
     /** @var mixed[] $options */
     private array $options;
@@ -26,7 +26,7 @@ final class GeneratorInput
     public function __construct(array $arguments, array $options)
     {
         $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
-        $this->setOutputFile($arguments);
+        $this->outputFile = new OutputFilePath($arguments['output'] ?? '');
         $this->options = $options;
     }
 
@@ -35,7 +35,7 @@ final class GeneratorInput
         return $this->directory;
     }
 
-    public function outputFile(): string
+    public function outputFile(): OutputFilePath
     {
         return $this->outputFile;
     }
@@ -44,15 +44,5 @@ final class GeneratorInput
     public function options(): array
     {
         return $this->options;
-    }
-
-    /** @param string[] $arguments */
-    private function setOutputFile(array $arguments): void
-    {
-        Assert::stringNotEmpty(
-            $arguments['output'] ?? '',
-            'The output file cannot be empty'
-        );
-        $this->outputFile = $arguments['output'];
     }
 }

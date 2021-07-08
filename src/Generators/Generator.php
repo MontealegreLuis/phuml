@@ -11,6 +11,8 @@ use LogicException;
 use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
+use PhUml\Processors\OutputContent;
+use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\Processor;
 
 /**
@@ -53,7 +55,7 @@ abstract class Generator
         return $this->parser->parse($finder);
     }
 
-    protected function save(Processor $processor, string $content, string $path): void
+    protected function save(Processor $processor, OutputContent $content, OutputFilePath $path): void
     {
         $this->display()->savingResult();
         $processor->saveToFile($content, $path);

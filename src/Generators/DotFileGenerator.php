@@ -9,6 +9,7 @@ namespace PhUml\Generators;
 
 use LogicException;
 use PhUml\Parser\CodeFinder;
+use PhUml\Processors\OutputFilePath;
 
 /**
  * It generates a file with a digraph in DOT format that can be used to create a class diagram
@@ -32,7 +33,7 @@ final class DotFileGenerator extends DigraphGenerator
      *
      * @throws LogicException If the command is missing
      */
-    public function generate(CodeFinder $finder, string $dotFilePath): void
+    public function generate(CodeFinder $finder, OutputFilePath $dotFilePath): void
     {
         $this->display()->start();
 

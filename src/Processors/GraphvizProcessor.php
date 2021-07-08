@@ -48,13 +48,13 @@ final class GraphvizProcessor extends Processor
         return 'Graphviz';
     }
 
-    public function process(Codebase $codebase): string
+    public function process(Codebase $codebase): OutputContent
     {
         $digraph = new Digraph();
         foreach ($codebase->definitions() as $definition) {
             $this->extractElements($definition, $codebase, $digraph);
         }
-        return $this->printer->toDot($digraph);
+        return new OutputContent($this->printer->toDot($digraph));
     }
 
     protected function extractElements(

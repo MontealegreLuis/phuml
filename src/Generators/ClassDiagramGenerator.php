@@ -12,6 +12,8 @@ use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
+use PhUml\Processors\OutputContent;
+use PhUml\Processors\OutputFilePath;
 
 /**
  * It generates a UML class diagram from a directory with PHP code
@@ -41,7 +43,7 @@ final class ClassDiagramGenerator extends DigraphGenerator
      *
      * @throws LogicException If either the image processor or the command are missing
      */
-    public function generate(CodeFinder $finder, string $imagePath): void
+    public function generate(CodeFinder $finder, OutputFilePath $imagePath): void
     {
         $this->display()->start();
         $image = $this->generateClassDiagram($this->generateDigraph($this->parseCode($finder)));
@@ -49,7 +51,7 @@ final class ClassDiagramGenerator extends DigraphGenerator
     }
 
     /** @throws LogicException If no command or image processor is provided */
-    private function generateClassDiagram(string $digraph): string
+    private function generateClassDiagram(OutputContent $digraph): OutputContent
     {
         $this->display()->runningProcessor($this->imageProcessor);
         return $this->imageProcessor->process($digraph);

@@ -21,6 +21,7 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\OutputFilePath;
 use PhUml\Templates\TemplateEngine;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -37,12 +38,12 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     {
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
         $finder = SourceCodeFinder::nonRecursive($directory);
-        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png';
+        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
 
         $this->generator->generate($finder, $diagram);
 
-        $this->assertImagesSame($expectedDiagram, $diagram);
+        $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
 
     /** @before*/

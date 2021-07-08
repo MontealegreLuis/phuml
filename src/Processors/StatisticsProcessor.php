@@ -32,11 +32,11 @@ final class StatisticsProcessor extends Processor
     /**
      * @throws TemplateFailure
      */
-    public function process(Codebase $codebase): string
+    public function process(Codebase $codebase): OutputContent
     {
         $summary = new Summary();
         $summary->from($codebase);
 
-        return $this->engine->render('statistics.txt.twig', ['summary' => $summary]);
+        return new OutputContent($this->engine->render('statistics.txt.twig', ['summary' => $summary]));
     }
 }

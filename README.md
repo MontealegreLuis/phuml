@@ -3,7 +3,7 @@
 [![CI workflow](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml/badge.svg)](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml)
 [![Scrutinizer Code Quality][scrutinizer-badge]][scrutinizer]
 [![Code Coverage][coverage-badge]][coverage]
-[![Infection MSI](https://badge.stryker-mutator.io/github.com/montealegreluis/phuml/master)](https://infection.github.io)
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/montealegreluis/phuml/master)](https://dashboard.stryker-mutator.io/reports/github.com/montealegreluis/phuml/master)
 [![Latest Stable Version][stable-badge]][packagist]
 [![Minimum PHP Version][php-version-badge]][php]
 

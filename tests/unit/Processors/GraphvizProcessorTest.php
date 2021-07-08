@@ -67,16 +67,16 @@ final class GraphvizProcessorTest extends TestCase
 
         $dotLanguage = $processor->process($codebase);
 
-        $this->assertNode($parentClass, $dotLanguage);
-        $this->assertNode($reference, $dotLanguage);
-        $this->assertNode($class, $dotLanguage);
-        $this->assertInheritance($class, $parentClass, $dotLanguage);
-        $this->assertAssociation($reference, $class, $dotLanguage);
-        $this->assertImplementation($class, $interface, $dotLanguage);
-        $this->assertNode($parentInterface, $dotLanguage);
-        $this->assertNode($interface, $dotLanguage);
-        $this->assertInheritance($interface, $parentInterface, $dotLanguage);
-        $this->assertNode($trait, $dotLanguage);
-        $this->assertUseTrait($class, $trait, $dotLanguage);
+        $this->assertNode($parentClass, $dotLanguage->value());
+        $this->assertNode($reference, $dotLanguage->value());
+        $this->assertNode($class, $dotLanguage->value());
+        $this->assertInheritance($class, $parentClass, $dotLanguage->value());
+        $this->assertAssociation($reference, $class, $dotLanguage->value());
+        $this->assertImplementation($class, $interface, $dotLanguage->value());
+        $this->assertNode($parentInterface, $dotLanguage->value());
+        $this->assertNode($interface, $dotLanguage->value());
+        $this->assertInheritance($interface, $parentInterface, $dotLanguage->value());
+        $this->assertNode($trait, $dotLanguage->value());
+        $this->assertUseTrait($class, $trait, $dotLanguage->value());
     }
 }

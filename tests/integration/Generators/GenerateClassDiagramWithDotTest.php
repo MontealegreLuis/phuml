@@ -20,6 +20,7 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\OutputFilePath;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateClassDiagramWithDotTest extends TestCase
@@ -31,7 +32,7 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     function it_fails_to_generate_diagram_if_a_command_is_not_provided()
     {
         $this->expectException(LogicException::class);
-        $this->generator->generate(new StringCodeFinder(), 'wont-be-generated.png');
+        $this->generator->generate(new StringCodeFinder(), new OutputFilePath('wont-be-generated.png'));
     }
 
     /**
@@ -43,12 +44,12 @@ final class GenerateClassDiagramWithDotTest extends TestCase
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
         $finder = SourceCodeFinder::nonRecursive($directory);
-        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot.png';
+        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot.png';
 
         $this->generator->generate($finder, $diagram);
 
-        $this->assertImagesSame($expectedDiagram, $diagram);
+        $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
 
     /**
@@ -59,12 +60,12 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     {
         $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
         $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
-        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-recursive.png';
+        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-recursive.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-recursive.png';
 
         $this->generator->generate($codeFinder, $diagram);
 
-        $this->assertImagesSame($expectedDiagram, $diagram);
+        $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
 
     /** @before */

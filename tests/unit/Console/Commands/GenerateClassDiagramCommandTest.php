@@ -147,7 +147,7 @@ final class GenerateClassDiagramCommandTest extends TestCase
     }
 
     /** @before */
-    function configureCommandTester()
+    function let()
     {
         $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
         $this->command = $application->find('phuml:diagram');

@@ -34,12 +34,12 @@ abstract class ImageProcessor extends Processor
     /**
      * It returns the contents of a `png` class diagram
      */
-    public function process(string $digraphInDotFormat): string
+    public function process(OutputContent $digraphInDotFormat): OutputContent
     {
         $dotFile = $this->fileSystem->tempnam('/tmp', 'phuml');
         $imageFile = $this->fileSystem->tempnam('/tmp', 'phuml');
 
-        $this->fileSystem->dumpFile($dotFile, $digraphInDotFormat);
+        $this->fileSystem->dumpFile($dotFile, $digraphInDotFormat->value());
         $this->fileSystem->remove($imageFile);
 
         $this->execute($dotFile, $imageFile);
@@ -49,7 +49,7 @@ abstract class ImageProcessor extends Processor
         $this->fileSystem->remove($dotFile);
         $this->fileSystem->remove($imageFile);
 
-        return $image;
+        return new OutputContent($image);
     }
 
     /**

@@ -10,13 +10,13 @@ namespace PhUml\Console\Commands;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\SourceCodeFinder;
-use Webmozart\Assert\Assert;
+use PhUml\Processors\OutputFilePath;
 
 final class StatisticsInput
 {
-    private string $directory;
+    private CodebaseDirectory $directory;
 
-    private string $outputFile;
+    private OutputFilePath $outputFile;
 
     private bool $recursive;
 
@@ -26,29 +26,20 @@ final class StatisticsInput
      */
     public function __construct(array $arguments, array $options)
     {
-        $this->directory = $arguments['directory'] ?? '';
+        $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
         $this->recursive = isset($options['recursive']) && (bool) $options['recursive'];
-        $this->setOutputFile($arguments);
+        $this->outputFile = new OutputFilePath($arguments['output'] ?? '');
     }
 
-    public function outputFile(): string
+    public function outputFile(): OutputFilePath
     {
         return $this->outputFile;
     }
 
-    /** @param string[] $arguments */
-    private function setOutputFile(array $arguments): void
-    {
-        Assert::stringNotEmpty(
-            $arguments['output'] ?? '',
-            'The output file cannot be empty'
-        );
-        $this->outputFile = $arguments['output'];
-    }
-
     public function codeFinder(): CodeFinder
     {
-        $directory = new CodebaseDirectory($this->directory);
-        return $this->recursive ? SourceCodeFinder::recursive($directory) : SourceCodeFinder::nonRecursive($directory);
+        return $this->recursive
+            ? SourceCodeFinder::recursive($this->directory)
+            : SourceCodeFinder::nonRecursive($this->directory);
     }
 }
