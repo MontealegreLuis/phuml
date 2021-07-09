@@ -7,7 +7,6 @@
 
 namespace PhUml\Generators;
 
-use LogicException;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
@@ -36,24 +35,23 @@ final class ClassDiagramGenerator extends DigraphGenerator
     /**
      * The process to generate a class diagram is as follows
      *
-     * 1. The parser produces a collection of classes and interfaces
+     * 1. The parser produces a collection of classes, interfaces and traits
      * 2. The `graphviz` processor takes this collection and creates a digraph using the DOT language
-     * 3. Either the `neato` or `dot` will produce a `.png` class diagram from the digraph
+     * 3. Either the `neato` or `dot` processor will produce a `.png` class diagram from the digraph
      * 4. The image is saved to the given path
-     *
-     * @throws LogicException If either the image processor or the command are missing
      */
-    public function generate(CodeFinder $finder, OutputFilePath $imagePath): void
+    public function generate(CodeFinder $finder, OutputFilePath $imagePath, ProgressDisplay $display): void
     {
-        $this->display()->start();
-        $image = $this->generateClassDiagram($this->generateDigraph($this->parseCode($finder)));
-        $this->save($this->imageProcessor, $image, $imagePath);
+        $display->start();
+        $codebase = $this->parseCode($finder, $display);
+        $digraph = $this->generateDigraph($codebase, $display);
+        $image = $this->generateClassDiagram($digraph, $display);
+        $this->save($this->imageProcessor, $image, $imagePath, $display);
     }
 
-    /** @throws LogicException If no command or image processor is provided */
-    private function generateClassDiagram(OutputContent $digraph): OutputContent
+    private function generateClassDiagram(OutputContent $digraph, ProgressDisplay $display): OutputContent
     {
-        $this->display()->runningProcessor($this->imageProcessor);
+        $display->runningProcessor($this->imageProcessor);
         return $this->imageProcessor->process($digraph);
     }
 }

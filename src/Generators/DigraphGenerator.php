@@ -22,9 +22,9 @@ class DigraphGenerator extends Generator
         $this->digraphProcessor = $digraphProcessor;
     }
 
-    protected function generateDigraph(Codebase $codebase): OutputContent
+    protected function generateDigraph(Codebase $codebase, ProgressDisplay $display): OutputContent
     {
-        $this->display()->runningProcessor($this->digraphProcessor);
+        $display->runningProcessor($this->digraphProcessor);
         return $this->digraphProcessor->process($codebase);
     }
 }

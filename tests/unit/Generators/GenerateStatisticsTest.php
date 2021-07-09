@@ -7,9 +7,8 @@
 
 namespace PhUml\Generators;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
-use PhUml\Fakes\StringCodeFinder;
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
@@ -17,21 +16,10 @@ use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\StatisticsProcessor;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateStatisticsTest extends TestCase
 {
-    use ProphecyTrait;
-
-    /** @test */
-    function it_fails_to_generate_the_statistics_if_a_command_is_not_provided()
-    {
-        $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
-
-        $this->expectException(LogicException::class);
-        $generator->generate(new StringCodeFinder(), new OutputFilePath('wont-be-generated.txt'));
-    }
-
     /** @test */
     function it_shows_the_statistics_of_a_directory()
     {
@@ -62,12 +50,11 @@ Attributes per class: 2.5
 Functions per class:  5.5
 
 STATS;
-
         $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
-        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $display = new ConsoleProgressDisplay(new NullOutput());
         $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
 
-        $generator->generate($finder, $this->statisticsFile);
+        $generator->generate($finder, $this->statisticsFile, $display);
 
         $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }
@@ -102,13 +89,12 @@ Attributes per class: 1.2
 Functions per class:  4.35
 
 STATS;
-
         $parser = new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]);
         $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
-        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $display = new ConsoleProgressDisplay(new NullOutput());
         $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
 
-        $generator->generate($finder, $this->statisticsFile);
+        $generator->generate($finder, $this->statisticsFile, $display);
 
         $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }

@@ -7,11 +7,10 @@
 
 namespace PhUml\Generators;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
 use PhUml\Fakes\NumericIdClassDefinitionBuilder;
-use PhUml\Fakes\StringCodeFinder;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Fakes\WithNumericIds;
 use PhUml\Parser\Code\PhpCodeParser;
@@ -21,30 +20,19 @@ use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputFilePath;
 use PhUml\TestBuilders\A;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateDotFileTest extends TestCase
 {
     use WithNumericIds;
     use WithDotLanguageAssertions;
-    use ProphecyTrait;
-
-    /** @test */
-    function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()
-    {
-        $generator = new DotFileGenerator(new CodeParser(new PhpCodeParser()), new GraphvizProcessor());
-
-        $this->expectException(LogicException::class);
-
-        $generator->generate(new StringCodeFinder(), new OutputFilePath('wont-be-generated.gv'));
-    }
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
         $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
 
-        $this->generator->generate($finder, $this->pathToDotFile);
+        $this->generator->generate($finder, $this->pathToDotFile, $this->display);
 
         $this->resetIds();
         $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
@@ -57,7 +45,7 @@ final class GenerateDotFileTest extends TestCase
     {
         $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
 
-        $this->generator->generate($finder, $this->pathToDotFile);
+        $this->generator->generate($finder, $this->pathToDotFile, $this->display);
 
         $this->resetIds();
         $base = A::numericIdClassNamed('plBase');
@@ -122,12 +110,14 @@ final class GenerateDotFileTest extends TestCase
             ),
             new GraphvizProcessor()
         );
-        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
     private ?DotFileGenerator $generator = null;
 
     private ?OutputFilePath $pathToDotFile = null;
+
+    private ?ProgressDisplay $display = null;
 
     private ?string $pathToCode = null;
 }

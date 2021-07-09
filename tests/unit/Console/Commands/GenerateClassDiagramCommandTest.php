@@ -9,8 +9,6 @@ namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
-use PhUml\Console\ProgressDisplay;
-use PhUml\Fakes\TextInMemoryOutput;
 use PhUml\Parser\InvalidDirectory;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -149,7 +147,7 @@ final class GenerateClassDiagramCommandTest extends TestCase
     /** @before */
     function let()
     {
-        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
+        $application = new PhUmlApplication();
         $this->command = $application->find('phuml:diagram');
         $this->tester = new CommandTester($this->command);
         $this->pathToCode = __DIR__ . '/../../../resources/.code';

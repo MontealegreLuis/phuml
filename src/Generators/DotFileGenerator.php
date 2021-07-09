@@ -7,7 +7,6 @@
 
 namespace PhUml\Generators;
 
-use LogicException;
 use PhUml\Parser\CodeFinder;
 use PhUml\Processors\OutputFilePath;
 
@@ -30,15 +29,14 @@ final class DotFileGenerator extends DigraphGenerator
      * 1. The parser produces a collection of classes and interfaces
      * 2. The `graphviz` processor takes this collection and creates a digraph using the DOT language
      * 4. The DOT file is saved to the given path
-     *
-     * @throws LogicException If the command is missing
      */
-    public function generate(CodeFinder $finder, OutputFilePath $dotFilePath): void
+    public function generate(CodeFinder $finder, OutputFilePath $dotFilePath, ProgressDisplay $display): void
     {
-        $this->display()->start();
+        $display->start();
 
-        $digraph = $this->generateDigraph($this->parseCode($finder));
+        $codebase = $this->parseCode($finder, $display);
+        $digraph = $this->generateDigraph($codebase, $display);
 
-        $this->save($this->digraphProcessor, $digraph, $dotFilePath);
+        $this->save($this->digraphProcessor, $digraph, $dotFilePath, $display);
     }
 }

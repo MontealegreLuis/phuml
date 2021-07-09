@@ -9,6 +9,7 @@ namespace PhUml\Generators;
 
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
@@ -25,12 +26,11 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Templates\TemplateEngine;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateClassDiagramWithThemeTest extends TestCase
 {
     use CompareImagesTrait;
-    use ProphecyTrait;
 
     /**
      * @test
@@ -43,7 +43,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
         $generator = $this->createGenerator('php');
 
-        $generator->generate($codeFinder, $diagram);
+        $generator->generate($codeFinder, $diagram, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -59,7 +59,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
         $generator = $this->createGenerator('classic');
 
-        $generator->generate($codeFinder, $diagram);
+        $generator->generate($codeFinder, $diagram, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -76,7 +76,9 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
             ),
             new DotProcessor()
         );
-        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $this->display = new ConsoleProgressDisplay(new NullOutput());
         return $generator;
     }
+
+    private ?ConsoleProgressDisplay $display = null;
 }

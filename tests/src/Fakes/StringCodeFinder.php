@@ -19,7 +19,7 @@ final class StringCodeFinder implements CodeFinder
         $this->files = [];
     }
 
-    public function add(string $definition)
+    public function add(string $definition): void
     {
         $this->files[] = $definition;
     }

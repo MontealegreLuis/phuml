@@ -7,10 +7,9 @@
 
 namespace PhUml\Generators;
 
-use LogicException;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
-use PhUml\Fakes\StringCodeFinder;
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
@@ -21,19 +20,11 @@ use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\NeatoProcessor;
 use PhUml\Processors\OutputFilePath;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateClassDiagramWithNeatoTest extends TestCase
 {
     use CompareImagesTrait;
-    use ProphecyTrait;
-
-    /** @test */
-    function it_fails_to_generate_diagram_if_a_command_is_not_provided()
-    {
-        $this->expectException(LogicException::class);
-        $this->generator->generate(new StringCodeFinder(), new OutputFilePath('wont-be-generated.png'));
-    }
 
     /**
      * @test
@@ -41,13 +32,13 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram()
     {
-        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $display = new ConsoleProgressDisplay(new NullOutput());
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
         $finder = SourceCodeFinder::nonRecursive($directory);
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
 
-        $this->generator->generate($finder, $diagram);
+        $this->generator->generate($finder, $diagram, $display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -58,12 +49,12 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram_using_a_recursive_finder()
     {
-        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $display = new ConsoleProgressDisplay(new NullOutput());
         $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato-recursive.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
 
-        $this->generator->generate($codeFinder, $diagram);
+        $this->generator->generate($codeFinder, $diagram, $display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }

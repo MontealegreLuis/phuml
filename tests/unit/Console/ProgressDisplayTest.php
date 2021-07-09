@@ -55,10 +55,10 @@ final class ProgressDisplayTest extends TestCase
     public function let()
     {
         $this->output = new BufferedOutput();
-        $this->display = new ProgressDisplay($this->output);
+        $this->display = new ConsoleProgressDisplay($this->output);
     }
 
     private BufferedOutput $output;
 
-    private ProgressDisplay $display;
+    private ConsoleProgressDisplay $display;
 }

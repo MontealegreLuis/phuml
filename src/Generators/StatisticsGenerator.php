@@ -7,7 +7,6 @@
 
 namespace PhUml\Generators;
 
-use LogicException;
 use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -40,18 +39,18 @@ final class StatisticsGenerator extends Generator
      * 4. The text file with the statistics is saved to the given path
      *
      * @throws TemplateFailure If Twig fails
-     * @throws LogicException If the command is missing
      */
-    public function generate(CodeFinder $finder, OutputFilePath $statisticsFilePath): void
+    public function generate(CodeFinder $finder, OutputFilePath $statisticsFilePath, ProgressDisplay $display): void
     {
-        $this->display()->start();
-        $statistics = $this->generateStatistics($this->parseCode($finder));
-        $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath);
+        $display->start();
+        $codebase = $this->parseCode($finder, $display);
+        $statistics = $this->generateStatistics($codebase, $display);
+        $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath, $display);
     }
 
-    private function generateStatistics(Codebase $codebase): OutputContent
+    private function generateStatistics(Codebase $codebase, ProgressDisplay $display): OutputContent
     {
-        $this->display()->runningProcessor($this->statisticsProcessor);
+        $display->runningProcessor($this->statisticsProcessor);
         return $this->statisticsProcessor->process($codebase);
     }
 }

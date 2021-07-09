@@ -9,6 +9,7 @@ namespace PhUml\Generators;
 
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
@@ -23,12 +24,11 @@ use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Templates\TemplateEngine;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
     use CompareImagesTrait;
-    use ProphecyTrait;
 
     /**
      * @test
@@ -41,7 +41,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
 
-        $this->generator->generate($finder, $diagram);
+        $this->generator->generate($finder, $diagram, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -60,8 +60,10 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
             ),
             new DotProcessor()
         );
-        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
     private ?ClassDiagramGenerator $generator = null;
+
+    private ?ConsoleProgressDisplay $display = null;
 }

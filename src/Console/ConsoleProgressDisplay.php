@@ -7,16 +7,16 @@
 
 namespace PhUml\Console;
 
-use PhUml\Generators\ProcessorProgressDisplay;
+use PhUml\Generators\ProgressDisplay;
 use PhUml\Processors\Processor;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * It provides visual feedback to the use about the progress of the current command
  *
- * @see ProcessorProgressDisplay for more details about the things that are reported by this display
+ * @see ProgressDisplay for more details about the things that are reported by this display
  */
-final class ProgressDisplay implements ProcessorProgressDisplay
+final class ConsoleProgressDisplay implements ProgressDisplay
 {
     private OutputInterface $output;
 

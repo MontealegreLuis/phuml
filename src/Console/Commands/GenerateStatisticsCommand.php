@@ -7,10 +7,12 @@
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\StatisticsGenerator;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * 1. `recursive`. If present it will look recursively within the `directory` provided
  */
-final class GenerateStatisticsCommand extends GeneratorCommand
+final class GenerateStatisticsCommand extends Command
 {
     /**
      * @throws InvalidArgumentException
@@ -73,11 +75,10 @@ HELP
         $statisticsFilePath = $statisticsInput->outputFile();
 
         $statisticsGenerator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
-        $statisticsGenerator->attach($this->display);
 
         $codeFinder = $statisticsInput->codeFinder();
 
-        $statisticsGenerator->generate($codeFinder, $statisticsFilePath);
+        $statisticsGenerator->generate($codeFinder, $statisticsFilePath, new ConsoleProgressDisplay($output));
 
         return self::SUCCESS;
     }

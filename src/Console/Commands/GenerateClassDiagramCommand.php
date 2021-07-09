@@ -11,9 +11,11 @@ use InvalidArgumentException;
 use PhUml\Configuration\ClassDiagramConfiguration;
 use PhUml\Configuration\DigraphBuilder;
 use PhUml\Configuration\DigraphConfiguration;
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\ClassDiagramGenerator;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\NeatoProcessor;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,7 +36,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @see WithDigraphConfiguration::addDigraphOptions() for more details about the rest of the options
  */
-final class GenerateClassDiagramCommand extends GeneratorCommand
+final class GenerateClassDiagramCommand extends Command
 {
     use WithDigraphConfiguration;
 
@@ -91,9 +93,8 @@ HELP
             $builder->digraphProcessor(),
             $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor()
         );
-        $classDiagramGenerator->attach($this->display);
 
-        $classDiagramGenerator->generate($codeFinder, $classDiagramPath);
+        $classDiagramGenerator->generate($codeFinder, $classDiagramPath, new ConsoleProgressDisplay($output));
 
         return self::SUCCESS;
     }

@@ -23,7 +23,7 @@ use Symfony\Component\Console\Application;
  */
 final class PhUmlApplication extends Application
 {
-    public function __construct(ProgressDisplay $display)
+    public function __construct()
     {
         // This will be replaced by Box with a version number if it's a PHAR
         // 1.6.1 for instance
@@ -34,8 +34,8 @@ final class PhUmlApplication extends Application
             $version = '1.6-dev';
         }
         parent::__construct('phUML', $version);
-        $this->add(new GenerateClassDiagramCommand($display));
-        $this->add(new GenerateStatisticsCommand($display));
-        $this->add(new GenerateDotFileCommand($display));
+        $this->add(new GenerateClassDiagramCommand());
+        $this->add(new GenerateStatisticsCommand());
+        $this->add(new GenerateDotFileCommand());
     }
 }

@@ -7,7 +7,6 @@
 
 namespace PhUml\Generators;
 
-use LogicException;
 use PhUml\Code\Codebase;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
@@ -19,12 +18,10 @@ use PhUml\Processors\Processor;
  * All generators will see the console commands as listeners that will provide feedback
  * to the end users about their progress
  *
- * @see ProcessorProgressDisplay for the details about the events that are tracked
+ * @see ProgressDisplay for the details about the events that are tracked
  */
 abstract class Generator
 {
-    private ?ProcessorProgressDisplay $display = null;
-
     private CodeParser $parser;
 
     public function __construct(CodeParser $parser)
@@ -32,32 +29,19 @@ abstract class Generator
         $this->parser = $parser;
     }
 
-    public function attach(ProcessorProgressDisplay $display): void
+    protected function parseCode(CodeFinder $finder, ProgressDisplay $display): Codebase
     {
-        $this->display = $display;
-    }
-
-    /** @throws LogicException */
-    protected function display(): ProcessorProgressDisplay
-    {
-        if ($this->display === null) {
-            throw new LogicException('No display was attached');
-        }
-        return $this->display;
-    }
-
-    /**
-     * @throws LogicException If the command is missing
-     */
-    protected function parseCode(CodeFinder $finder): Codebase
-    {
-        $this->display()->runningParser();
+        $display->runningParser();
         return $this->parser->parse($finder);
     }
 
-    protected function save(Processor $processor, OutputContent $content, OutputFilePath $path): void
-    {
-        $this->display()->savingResult();
+    protected function save(
+        Processor $processor,
+        OutputContent $content,
+        OutputFilePath $path,
+        ProgressDisplay $display
+    ): void {
+        $display->savingResult();
         $processor->saveToFile($content, $path);
     }
 }

@@ -10,13 +10,13 @@ namespace PhUml\Generators;
 use PhUml\Processors\Processor;
 
 /**
- * Listener for the Action classes. It provides feedback before:
+ * It provides feedback before:
  *
  * - Running the parser
  * - Running a processor
  * - Saving the results produced by the processors
  */
-interface ProcessorProgressDisplay
+interface ProgressDisplay
 {
     public function start(): void;
 
