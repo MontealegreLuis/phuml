@@ -11,6 +11,7 @@ use PhUml\Configuration\DigraphBuilder;
 use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\DotFileGenerator;
+use PhUml\Parser\CodeParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -68,7 +69,8 @@ HELP
 
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
-        $dotFileGenerator = new DotFileGenerator($builder->codeParser(), $builder->digraphProcessor());
+        $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
+        $dotFileGenerator = new DotFileGenerator($parser, $builder->digraphProcessor());
 
         $codeFinder = $builder->codeFinder();
         $sourceCode = $codeFinder->find($codebasePath);

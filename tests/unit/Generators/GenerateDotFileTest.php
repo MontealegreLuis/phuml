@@ -9,11 +9,7 @@ namespace PhUml\Generators;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
-use PhUml\Fakes\NumericIdClassDefinitionBuilder;
 use PhUml\Fakes\WithDotLanguageAssertions;
-use PhUml\Fakes\WithNumericIds;
-use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
@@ -24,52 +20,49 @@ use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateDotFileTest extends TestCase
 {
-    use WithNumericIds;
     use WithDotLanguageAssertions;
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
         $finder = SourceCodeFinder::nonRecursive();
-        $sourceCode = $finder->find(new CodebaseDirectory($this->pathToCode));
+        $sourceCode = $finder->find($this->codebaseDirectory);
 
         $this->generator->generate($sourceCode, $this->pathToDotFile, $this->display);
 
-        $this->resetIds();
         $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
-        $this->assertNode(A::numericIdClassNamed('plBase'), $digraphInDotFormat);
-        $this->assertNode(A::numericIdClassNamed('plPhuml'), $digraphInDotFormat);
+        $this->assertNode(A::classNamed('plBase'), $digraphInDotFormat);
+        $this->assertNode(A::classNamed('plPhuml'), $digraphInDotFormat);
     }
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
         $finder = SourceCodeFinder::recursive();
-        $sourceCode = $finder->find(new CodebaseDirectory($this->pathToCode));
+        $sourceCode = $finder->find($this->codebaseDirectory);
 
         $this->generator->generate($sourceCode, $this->pathToDotFile, $this->display);
 
-        $this->resetIds();
-        $base = A::numericIdClassNamed('plBase');
-        $tokenParser = A::numericIdClassNamed('plStructureTokenparserGenerator');
-        $attribute = A::numericIdClassNamed('plPhpAttribute');
-        $class = A::numericIdClassNamed('plPhpClass');
-        $function = A::numericIdClassNamed('plPhpFunction');
-        $parameter = A::numericIdClassNamed('plPhpFunctionParameter');
-        $interface = A::numericIdClassNamed('plPhpInterface');
-        $uml = A::numericIdClassNamed('plPhuml');
-        $dotProcessor = A::numericIdClassNamed('plDotProcessor');
-        $graphvizProcessor = A::numericIdClassNamed('plGraphvizProcessor');
-        $styleName = A::numericIdClassNamed('plStyleName');
-        $graphvizOptions = A::numericIdClassNamed('plGraphvizProcessorOptions');
-        $defaultStyle = A::numericIdClassNamed('plGraphvizProcessorDefaultStyle');
-        $neatoProcessor = A::numericIdClassNamed('plNeatoProcessor');
-        $options = A::numericIdClassNamed('plProcessorOptions');
-        $statisticsProcessor = A::numericIdClassNamed('plStatisticsProcessor');
-        $structureGenerator = A::numericIdClassNamed('plStructureGenerator');
-        $externalCommand = A::numericIdClassNamed('plExternalCommandProcessor');
-        $processor = A::numericIdClassNamed('plProcessor');
-        $style = A::numericIdClassNamed('plGraphvizProcessorStyle');
+        $base = A::classNamed('plBase');
+        $tokenParser = A::classNamed('plStructureTokenparserGenerator');
+        $attribute = A::classNamed('plPhpAttribute');
+        $class = A::classNamed('plPhpClass');
+        $function = A::classNamed('plPhpFunction');
+        $parameter = A::classNamed('plPhpFunctionParameter');
+        $interface = A::classNamed('plPhpInterface');
+        $uml = A::classNamed('plPhuml');
+        $dotProcessor = A::classNamed('plDotProcessor');
+        $graphvizProcessor = A::classNamed('plGraphvizProcessor');
+        $styleName = A::classNamed('plStyleName');
+        $graphvizOptions = A::classNamed('plGraphvizProcessorOptions');
+        $defaultStyle = A::classNamed('plGraphvizProcessorDefaultStyle');
+        $neatoProcessor = A::classNamed('plNeatoProcessor');
+        $options = A::classNamed('plProcessorOptions');
+        $statisticsProcessor = A::classNamed('plStatisticsProcessor');
+        $structureGenerator = A::classNamed('plStructureGenerator');
+        $externalCommand = A::classNamed('plExternalCommandProcessor');
+        $processor = A::classNamed('plProcessor');
+        $style = A::classNamed('plGraphvizProcessorStyle');
         $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
         $this->assertNode($base, $digraphInDotFormat);
         $this->assertNode($structureGenerator, $digraphInDotFormat);
@@ -103,23 +96,20 @@ final class GenerateDotFileTest extends TestCase
     /** @before */
     function let()
     {
-        $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
+        $this->codebaseDirectory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
         $this->pathToDotFile = new OutputFilePath(__DIR__ . '/../../resources/.output/dot.gv');
         $this->generator = new DotFileGenerator(
-            new CodeParser(
-                new PhpCodeParser(new NumericIdClassDefinitionBuilder()),
-                [new ExternalNumericIdDefinitionsResolver()]
-            ),
+            CodeParser::fromConfiguration(A::codeParserConfiguration()->build()),
             new GraphvizProcessor()
         );
         $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
-    private ?DotFileGenerator $generator = null;
+    private DotFileGenerator $generator;
 
-    private ?OutputFilePath $pathToDotFile = null;
+    private OutputFilePath $pathToDotFile;
 
-    private ?ProgressDisplay $display = null;
+    private ProgressDisplay $display;
 
-    private ?string $pathToCode = null;
+    private CodebaseDirectory $codebaseDirectory;
 }

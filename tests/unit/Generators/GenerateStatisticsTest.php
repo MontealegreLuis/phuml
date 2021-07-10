@@ -9,13 +9,12 @@ namespace PhUml\Generators;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Parser\Code\ExternalDefinitionsResolver;
-use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\StatisticsProcessor;
+use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateStatisticsTest extends TestCase
@@ -50,7 +49,8 @@ Attributes per class: 2.5
 Functions per class:  5.5
 
 STATS;
-        $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
+        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
+        $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
         $display = new ConsoleProgressDisplay(new NullOutput());
         $finder = SourceCodeFinder::nonRecursive();
         $sourceCode = $finder->find($this->pathToCode);
@@ -90,7 +90,7 @@ Attributes per class: 1.2
 Functions per class:  4.35
 
 STATS;
-        $parser = new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]);
+        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
         $display = new ConsoleProgressDisplay(new NullOutput());
         $finder = SourceCodeFinder::recursive();

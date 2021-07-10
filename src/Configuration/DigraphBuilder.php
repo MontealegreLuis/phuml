@@ -14,13 +14,7 @@ use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\DigraphStyle;
-use PhUml\Parser\Code\ExternalAssociationsResolver;
-use PhUml\Parser\Code\ExternalDefinitionsResolver;
-use PhUml\Parser\Code\ParserBuilder;
-use PhUml\Parser\Code\PhpCodeParser;
-use PhUml\Parser\Code\RelationshipsResolver;
 use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Templates\TemplateEngine;
@@ -55,11 +49,6 @@ final class DigraphBuilder
         );
     }
 
-    public function codeParser(): CodeParser
-    {
-        return new CodeParser($this->tokenParser(), $this->externalDefinitionsResolvers());
-    }
-
     private function digraphStyle(): DigraphStyle
     {
         $theme = $this->configuration->theme();
@@ -68,33 +57,5 @@ final class DigraphBuilder
             return DigraphStyle::withoutEmptyBlocks($theme);
         }
         return DigraphStyle::default($theme);
-    }
-
-    private function tokenParser(): PhpCodeParser
-    {
-        $parserBuilder = new ParserBuilder();
-        if ($this->configuration->hideAttributes()) {
-            $parserBuilder->excludeAttributes();
-        }
-        if ($this->configuration->hideMethods()) {
-            $parserBuilder->excludeMethods();
-        }
-        if ($this->configuration->hidePrivate()) {
-            $parserBuilder->excludePrivateMembers();
-        }
-        if ($this->configuration->hideProtected()) {
-            $parserBuilder->excludeProtectedMembers();
-        }
-        return $parserBuilder->build();
-    }
-
-    /** @return RelationshipsResolver[] */
-    private function externalDefinitionsResolvers(): array
-    {
-        $resolvers = [new ExternalDefinitionsResolver()];
-        if ($this->configuration->extractAssociations()) {
-            $resolvers[] = new ExternalAssociationsResolver();
-        }
-        return $resolvers;
     }
 }

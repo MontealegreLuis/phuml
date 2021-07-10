@@ -55,20 +55,9 @@ abstract class DefinitionTest extends TestCase
 
         $definitionId = $definition->identifier();
 
-        $this->assertMatchesRegularExpression('/^[0-9A-Fa-f]{32}$/', $definitionId);
+        $this->assertEquals((string) $definition->name(), $definitionId);
     }
 
-    /** @test */
-    function its_identifier_is_unique_per_object()
-    {
-        $definitionOne = $this->definition();
-        $definitionTwo = $this->definition();
-
-        $this->assertNotEquals($definitionOne->identifier(), $definitionTwo->identifier());
-        $this->assertEquals($definitionOne->identifier(), $definitionOne->identifier());
-        $this->assertEquals($definitionTwo->identifier(), $definitionTwo->identifier());
-    }
-
-    /** @param Method[] */
+    /** @param Method[] $methods */
     abstract protected function definition(array $methods = []): Definition;
 }

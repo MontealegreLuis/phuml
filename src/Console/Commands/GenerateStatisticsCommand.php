@@ -9,7 +9,6 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\StatisticsGenerator;
-use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\StatisticsProcessor;
 use Symfony\Component\Console\Command\Command;
@@ -75,7 +74,8 @@ HELP
         $statisticsFilePath = $statisticsInput->outputFile();
         $codebaseDirectory = $statisticsInput->directory();
 
-        $statisticsGenerator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
+        $parser = CodeParser::fromConfiguration($statisticsInput->codeParserConfiguration());
+        $statisticsGenerator = new StatisticsGenerator($parser, new StatisticsProcessor());
 
         $codeFinder = $statisticsInput->codeFinder();
         $sourceCode = $codeFinder->find($codebaseDirectory);

@@ -10,14 +10,12 @@ namespace PhUml\Processors;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Codebase;
 use PhUml\Fakes\WithDotLanguageAssertions;
-use PhUml\Fakes\WithNumericIds;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\TestBuilders\A;
 
 final class GraphvizProcessorTest extends TestCase
 {
-    use WithNumericIds;
     use WithDotLanguageAssertions;
 
     /** @test */
@@ -35,17 +33,16 @@ final class GraphvizProcessorTest extends TestCase
     {
         $processor = new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder()));
 
-        $parentInterface = A::numericIdInterfaceNamed('ParentInterface');
+        $parentInterface = A::interfaceNamed('ParentInterface');
         $interface = A::interface('ImplementedInterface')
             ->extending($parentInterface->name())
-            ->buildWithNumericId();
-        $parentClass = A::numericIdClassNamed('ParentClass');
-        $reference = A::numericIdClassNamed('ReferencedClass');
+            ->build();
+        $parentClass = A::classNamed('ParentClass');
+        $reference = A::classNamed('ReferencedClass');
         $trait = A::trait('ATrait')
             ->withAProtectedAttribute('$variable')
             ->withAPublicMethod('doSomething')
-            ->buildWithNumericId()
-        ;
+            ->build();
         $class = A::class('MyClass')
             ->withAPublicMethod(
                 '__construct',
@@ -54,9 +51,7 @@ final class GraphvizProcessorTest extends TestCase
             ->implementing($interface->name())
             ->extending($parentClass->name())
             ->using($trait->name())
-            ->buildWithNumericId()
-        ;
-
+            ->build();
         $codebase = new Codebase();
         $codebase->add($parentClass);
         $codebase->add($reference);

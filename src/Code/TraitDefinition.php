@@ -12,7 +12,7 @@ use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\WithAttributes;
 use PhUml\Code\Methods\Method;
 
-class TraitDefinition extends Definition implements HasAttributes, UseTraits
+final class TraitDefinition extends Definition implements HasAttributes, UseTraits
 {
     use WithAttributes;
     use WithTraits;

@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\PhpCodeParser;
-use PhUml\Parser\Code\RelationshipsResolver;
+use PhUml\Parser\Code\RelationshipsResolvers;
 
 /**
  * It takes the files found by the `CodeFinder` and turns them into a `Codebase`
@@ -25,11 +25,18 @@ final class CodeParser
 {
     private PhpCodeParser $parser;
 
-    /** @var RelationshipsResolver[] */
-    private array $resolvers;
+    private RelationshipsResolvers $resolvers;
 
-    /** @param RelationshipsResolver[] $resolvers */
-    public function __construct(PhpCodeParser $parser, array $resolvers = [])
+    public static function fromConfiguration(CodeParserConfiguration $configuration): CodeParser
+    {
+        $resolvers = $configuration->extractAssociations()
+            ? RelationshipsResolvers::withAssociations()
+            : RelationshipsResolvers::withoutAssociations();
+
+        return new CodeParser(PhpCodeParser::fromConfiguration($configuration), $resolvers);
+    }
+
+    private function __construct(PhpCodeParser $parser, RelationshipsResolvers $resolvers)
     {
         $this->parser = $parser;
         $this->resolvers = $resolvers;
@@ -45,7 +52,7 @@ final class CodeParser
     {
         $codebase = $this->parser->parse($sourceCode);
 
-        array_map(static fn (RelationshipsResolver $resolver) => $resolver->resolve($codebase), $this->resolvers);
+        $this->resolvers->addExternalDefinitionsTo($codebase);
 
         return $codebase;
     }

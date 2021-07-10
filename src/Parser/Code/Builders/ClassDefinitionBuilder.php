@@ -20,7 +20,7 @@ use PhUml\Parser\Code\Builders\Names\TraitNamesBuilder;
  * @see InterfaceNamesBuilder
  * @see TraitNamesBuilder
  */
-class ClassDefinitionBuilder
+final class ClassDefinitionBuilder
 {
     use InterfaceNamesBuilder;
     use TraitNamesBuilder;

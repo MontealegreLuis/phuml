@@ -10,7 +10,10 @@ namespace PhUml\Configuration;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
+use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
+use PhUml\Parser\CodeParser;
+use PhUml\TestBuilders\A;
 
 final class DigraphBuilderTest extends TestCase
 {
@@ -72,7 +75,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = PhpCodeParser::fromConfiguration(A::codeParserConfiguration()->withoutAttributes()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);
@@ -99,7 +102,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = PhpCodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);
@@ -126,7 +129,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = PhpCodeParser::fromConfiguration(A::codeParserConfiguration()->withoutMethods()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);
@@ -153,7 +156,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = PhpCodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);
@@ -180,7 +183,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/exceptions/base');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->withoutProtectedMembers()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);
@@ -209,7 +212,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/exceptions/base');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);
@@ -238,7 +241,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes/processor/graphviz/style');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->withAssociations()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);
@@ -263,7 +266,7 @@ final class DigraphBuilderTest extends TestCase
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes/processor/graphviz/style');
         $finder = $builder->codeFinder();
-        $parser = $builder->codeParser();
+        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $sourceCode = $finder->find($directory);
 
         $codebase = $parser->parse($sourceCode);

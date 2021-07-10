@@ -11,7 +11,6 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
 use PhUml\Code\Parameters\Parameter;
-use PhUml\Fakes\NumericIdInterface;
 
 final class InterfaceBuilder extends DefinitionBuilder
 {
@@ -44,16 +43,6 @@ final class InterfaceBuilder extends DefinitionBuilder
     public function build(): InterfaceDefinition
     {
         return new InterfaceDefinition(
-            new Name($this->name),
-            $this->methods,
-            $this->constants,
-            $this->parents
-        );
-    }
-
-    public function buildWithNumericId(): NumericIdInterface
-    {
-        return new NumericIdInterface(
             new Name($this->name),
             $this->methods,
             $this->constants,

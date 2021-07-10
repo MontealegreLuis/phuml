@@ -8,6 +8,7 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Parser\CodebaseDirectory;
+use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Processors\OutputFilePath;
 
 final class GeneratorInput
@@ -19,6 +20,8 @@ final class GeneratorInput
     /** @var mixed[] $options */
     private array $options;
 
+    private CodeParserConfiguration $codeParserConfiguration;
+
     /**
      * @param string[] $arguments
      * @param mixed[] $options
@@ -27,6 +30,7 @@ final class GeneratorInput
     {
         $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
         $this->outputFile = new OutputFilePath($arguments['output'] ?? '');
+        $this->codeParserConfiguration = new CodeParserConfiguration($options);
         $this->options = $options;
     }
 
@@ -44,5 +48,10 @@ final class GeneratorInput
     public function options(): array
     {
         return $this->options;
+    }
+
+    public function codeParserConfiguration(): CodeParserConfiguration
+    {
+        return $this->codeParserConfiguration;
     }
 }

@@ -22,7 +22,7 @@ use PhUml\Code\Parameters\Parameter;
 /**
  * It represents a class definition
  */
-class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
+final class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
 {
     use WithAttributes;
     use WithConstants;

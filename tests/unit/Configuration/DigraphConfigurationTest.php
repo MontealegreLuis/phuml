@@ -48,23 +48,14 @@ final class DigraphConfigurationTest extends TestCase
 
         $this->assertFalse($configuration->searchRecursively());
         $this->assertTrue($configuration->extractAssociations());
-        $this->assertTrue($configuration->hidePrivate());
-        $this->assertFalse($configuration->hideProtected());
-        $this->assertFalse($configuration->hideAttributes());
-        $this->assertTrue($configuration->hideMethods());
         $this->assertFalse($configuration->hideEmptyBlocks());
     }
 
-    private function options(array $override)
+    private function options(array $override): array
     {
         return array_merge([
             'recursive' => true,
             'associations' => true,
-            'hide-private' => true,
-            'hide-protected' => true,
-            'hide-public' => true,
-            'hide-attributes' => true,
-            'hide-methods' => true,
             'hide-empty-blocks' => true,
             'theme' => 'phuml',
         ], $override);

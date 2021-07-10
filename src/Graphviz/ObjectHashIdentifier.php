@@ -7,14 +7,18 @@
 
 namespace PhUml\Graphviz;
 
+use PhUml\Code\WithName;
+
 /**
  * Both `ClassDefinition` and `InterfaceDefinition` objects identifiers are generated using the
  * function `spl_object_hash`
  */
 trait ObjectHashIdentifier
 {
+    use WithName;
+
     public function identifier(): string
     {
-        return spl_object_hash($this);
+        return (string) $this->name();
     }
 }

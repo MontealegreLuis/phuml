@@ -11,9 +11,6 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
-use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdInterface;
-use PhUml\Fakes\NumericIdTrait;
 
 final class A
 {
@@ -30,21 +27,6 @@ final class A
     public static function traitNamed(string $name): TraitDefinition
     {
         return new TraitDefinition(new Name($name));
-    }
-
-    public static function numericIdClassNamed(string $name): NumericIdClass
-    {
-        return new NumericIdClass(new Name($name));
-    }
-
-    public static function numericIdInterfaceNamed(string $name): NumericIdInterface
-    {
-        return new NumericIdInterface(new Name($name));
-    }
-
-    public static function numericIdTraitNamed(string $name): NumericIdTrait
-    {
-        return new NumericIdTrait(new Name($name));
     }
 
     public static function class(string $name): ClassBuilder
@@ -80,5 +62,10 @@ final class A
     public static function method(string $name): MethodBuilder
     {
         return new MethodBuilder($name);
+    }
+
+    public static function codeParserConfiguration(): CodeParserConfigurationBuilder
+    {
+        return new CodeParserConfigurationBuilder();
     }
 }

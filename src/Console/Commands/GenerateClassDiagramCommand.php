@@ -13,8 +13,10 @@ use PhUml\Configuration\DigraphBuilder;
 use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\ClassDiagramGenerator;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\DotProcessor;
 use PhUml\Processors\NeatoProcessor;
+use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -80,20 +82,20 @@ HELP
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
-        $codebasePath = $generatorInput->directory();
+        $codebaseDirectory = $generatorInput->directory();
         $classDiagramPath = $generatorInput->outputFile();
 
         $configuration = new ClassDiagramConfiguration($generatorInput->options());
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
-        $codeFinder = $builder->codeFinder();
-
         $classDiagramGenerator = new ClassDiagramGenerator(
-            $builder->codeParser(),
+            CodeParser::fromConfiguration($generatorInput->codeParserConfiguration()),
             $builder->digraphProcessor(),
             $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor()
         );
-        $sourceCode = $codeFinder->find($codebasePath);
+
+        $codeFinder = $builder->codeFinder();
+        $sourceCode = $codeFinder->find($codebaseDirectory);
 
         $classDiagramGenerator->generate($sourceCode, $classDiagramPath, new ConsoleProgressDisplay($output));
 

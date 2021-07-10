@@ -9,6 +9,7 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
+use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\OutputFilePath;
 
@@ -17,6 +18,8 @@ final class StatisticsInput
     private CodebaseDirectory $directory;
 
     private OutputFilePath $outputFile;
+
+    private CodeParserConfiguration $codeParserConfiguration;
 
     private bool $recursive;
 
@@ -29,6 +32,7 @@ final class StatisticsInput
         $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
         $this->recursive = isset($options['recursive']) && (bool) $options['recursive'];
         $this->outputFile = new OutputFilePath($arguments['output'] ?? '');
+        $this->codeParserConfiguration = new CodeParserConfiguration($options);
     }
 
     public function outputFile(): OutputFilePath
@@ -46,5 +50,10 @@ final class StatisticsInput
         return $this->recursive
             ? SourceCodeFinder::recursive()
             : SourceCodeFinder::nonRecursive();
+    }
+
+    public function codeParserConfiguration(): CodeParserConfiguration
+    {
+        return $this->codeParserConfiguration;
     }
 }

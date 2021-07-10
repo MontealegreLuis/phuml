@@ -12,9 +12,23 @@ use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
+use PhUml\Parser\Code\Builders\Members\TypeBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
+use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
+use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 use PhUml\Parser\CodeFinder;
+use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCode;
 
 /**
@@ -33,7 +47,47 @@ final class PhpCodeParser
 
     private PhpTraverser $traverser;
 
-    public function __construct(
+    public static function fromConfiguration(CodeParserConfiguration $configuration): PhpCodeParser
+    {
+        if ($configuration->hideAttributes()) {
+            $constantsBuilder = new NoConstantsBuilder();
+            $attributesBuilder = new NoAttributesBuilder();
+        }
+        if ($configuration->hideMethods()) {
+            $methodsBuilder = new NoMethodsBuilder();
+        }
+        $filters = [];
+        if ($configuration->hidePrivate()) {
+            $filters[] = new PrivateVisibilityFilter();
+        }
+        if ($configuration->hideProtected()) {
+            $filters[] = new ProtectedVisibilityFilter();
+        }
+        $visibilityBuilder = new VisibilityBuilder();
+        $typeBuilder = new TypeBuilder();
+        $filters = new VisibilityFilters($filters);
+        $methodsBuilder ??= new FilteredMethodsBuilder(
+            new ParametersBuilder($typeBuilder),
+            $typeBuilder,
+            $visibilityBuilder,
+            $filters
+        );
+        $constantsBuilder ??= new FilteredConstantsBuilder($visibilityBuilder, $filters);
+        $attributesBuilder ??= new FilteredAttributesBuilder(
+            $visibilityBuilder,
+            $typeBuilder,
+            $filters
+        );
+        $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
+
+        return new PhpCodeParser(
+            new ClassDefinitionBuilder($membersBuilder),
+            new InterfaceDefinitionBuilder($membersBuilder),
+            new TraitDefinitionBuilder($membersBuilder)
+        );
+    }
+
+    private function __construct(
         ClassDefinitionBuilder $classBuilder = null,
         InterfaceDefinitionBuilder $interfaceBuilder = null,
         TraitDefinitionBuilder $traitBuilder = null

@@ -18,7 +18,7 @@ use PhUml\Code\Parameters\Parameter;
  * An external definition is either a class or interface from a third party library, or a built-in class or interface
  *
  * In the case of a third-party library or built-in type a `ClassDefinition` is added by default.
- * Although we don't really know if it's an interface since we don't have access to the source code
+ * Although we don't really know if it's an interface or trait since we don't have access to the source code
  */
 final class ExternalAssociationsResolver implements RelationshipsResolver
 {

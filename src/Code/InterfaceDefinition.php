@@ -15,7 +15,7 @@ use PhUml\Code\Methods\Method;
 /**
  * It represents an interface definition
  */
-class InterfaceDefinition extends Definition implements HasConstants
+final class InterfaceDefinition extends Definition implements HasConstants
 {
     use WithConstants;
 

@@ -12,6 +12,7 @@ use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\SourceCodeFinder;
+use PhUml\TestBuilders\A;
 
 final class PhpCodeParserTest extends TestCase
 {
@@ -20,7 +21,8 @@ final class PhpCodeParserTest extends TestCase
     /** @test */
     function it_excludes_methods()
     {
-        $parser = (new ParserBuilder())->excludeMethods()->build();
+        $configuration = A::codeParserConfiguration()->withoutMethods()->build();
+        $parser = PhpCodeParser::fromConfiguration($configuration);
         $sourceCode = $this->finder->find($this->directory);
 
         $definitions = $parser->parse($sourceCode)->definitions();
@@ -35,7 +37,8 @@ final class PhpCodeParserTest extends TestCase
     /** @test */
     function it_excludes_attributes()
     {
-        $parser = (new ParserBuilder())->excludeAttributes()->build();
+        $configuration = A::codeParserConfiguration()->withoutAttributes()->build();
+        $parser = PhpCodeParser::fromConfiguration($configuration);
         $sourceCode = $this->finder->find($this->directory);
 
         $definitions = $parser->parse($sourceCode)->definitions();
@@ -50,7 +53,8 @@ final class PhpCodeParserTest extends TestCase
     /** @test */
     function it_excludes_both_methods_and_attributes()
     {
-        $parser = (new ParserBuilder())->excludeAttributes()->excludeMethods()->build();
+        $configuration = A::codeParserConfiguration()->withoutMethods()->withoutAttributes()->build();
+        $parser = PhpCodeParser::fromConfiguration($configuration);
         $sourceCode = $this->finder->find($this->directory);
 
         $definitions = $parser->parse($sourceCode)->definitions();
@@ -65,7 +69,8 @@ final class PhpCodeParserTest extends TestCase
     /** @test */
     function it_excludes_private_members()
     {
-        $parser = (new ParserBuilder())->excludePrivateMembers()->build();
+        $configuration = A::codeParserConfiguration()->withoutPrivateMembers()->build();
+        $parser = PhpCodeParser::fromConfiguration($configuration);
         $sourceCode = $this->finder->find($this->directory);
 
         $definitions = $parser->parse($sourceCode)->definitions();
@@ -91,7 +96,8 @@ final class PhpCodeParserTest extends TestCase
     /** @test */
     function it_excludes_protected_members()
     {
-        $parser = (new ParserBuilder())->excludeProtectedMembers()->build();
+        $configuration = A::codeParserConfiguration()->withoutProtectedMembers()->build();
+        $parser = PhpCodeParser::fromConfiguration($configuration);
         $sourceCode = $this->finder->find($this->directory);
 
         $definitions = $parser->parse($sourceCode)->definitions();
@@ -121,7 +127,8 @@ final class PhpCodeParserTest extends TestCase
     /** @test */
     function it_excludes_private_and_protected_members()
     {
-        $parser = (new ParserBuilder())->excludeProtectedMembers()->excludePrivateMembers()->build();
+        $configuration = A::codeParserConfiguration()->withoutProtectedMembers()->withoutPrivateMembers()->build();
+        $parser = PhpCodeParser::fromConfiguration($configuration);
         $sourceCode = $this->finder->find($this->directory);
 
         $definitions = $parser->parse($sourceCode)->definitions();

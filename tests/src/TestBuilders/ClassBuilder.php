@@ -9,7 +9,6 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
-use PhUml\Fakes\NumericIdClass;
 
 final class ClassBuilder extends DefinitionBuilder
 {
@@ -47,19 +46,6 @@ final class ClassBuilder extends DefinitionBuilder
     public function build(): ClassDefinition
     {
         return new ClassDefinition(
-            new Name($this->name),
-            $this->methods,
-            $this->constants,
-            $this->parent,
-            $this->attributes,
-            $this->interfaces,
-            $this->traits
-        );
-    }
-
-    public function buildWithNumericId(): NumericIdClass
-    {
-        return new NumericIdClass(
             new Name($this->name),
             $this->methods,
             $this->constants,
