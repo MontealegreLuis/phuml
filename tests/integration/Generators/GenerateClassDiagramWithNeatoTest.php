@@ -14,7 +14,6 @@ use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\PhpCodeParser;
-use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
@@ -33,8 +32,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     function it_generates_a_class_diagram()
     {
         $display = new ConsoleProgressDisplay(new NullOutput());
-        $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
-        $finder = SourceCodeFinder::nonRecursive($directory);
+        $finder = SourceCodeFinder::nonRecursive();
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
 
@@ -50,7 +48,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     function it_generates_a_class_diagram_using_a_recursive_finder()
     {
         $display = new ConsoleProgressDisplay(new NullOutput());
-        $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
+        $codeFinder = SourceCodeFinder::recursive();
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato-recursive.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
 

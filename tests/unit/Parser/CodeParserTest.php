@@ -25,8 +25,9 @@ class MyClass
 }
 CLASS
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $class = A::classNamed('MyClass');
         $this->assertTrue($codebase->has($class->name()));
@@ -47,8 +48,9 @@ class MyClass
 }
 CLASS
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $class = A::class('MyClass')
             ->withAPrivateAttribute('$name')
@@ -83,8 +85,9 @@ class MyClass
 }
 CLASS;
         $this->finder->add($class);
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $class = A::class('MyClass')
             ->withAPrivateAttribute('$names', 'string[]')
@@ -118,8 +121,9 @@ class MyClass
 }
 CLASS
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $class = A::class('MyClass')
             ->withAMethod(
@@ -167,8 +171,9 @@ class MyClass
 }
 CLASS
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $class = A::class('MyClass')
             ->withAPublicMethod('__construct')
@@ -207,8 +212,9 @@ class ChildClass extends ParentClass
 }
 CLASS
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $parentClass = A::classNamed('ParentClass');
         $childClass = A::class('ChildClass')->extending($parentClass->name())->build();
@@ -246,8 +252,9 @@ class MyClass implements InterfaceOne, InterfaceTwo
 }
 CLASS
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $interfaceOne = A::interfaceNamed('InterfaceOne');
         $interfaceTwo = A::interfaceNamed('InterfaceTwo');
@@ -279,8 +286,9 @@ interface MyInterface
 }
 INTERFACE
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $interface = A::interface('MyInterface')
             ->withAMethod(
@@ -322,8 +330,9 @@ interface ChildInterface extends ParentInterface
 }
 INTERFACE
         );
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $parentInterface = A::interfaceNamed('ParentInterface');
         $childInterface = A::interface('ChildInterface')->extending($parentInterface->name())->build();
@@ -424,14 +433,14 @@ class InMemoryStudents implements Students
     }
 }
 CLASS;
-
         $this->finder->add($parentInterfaceCode);
         $this->finder->add($childInterfaceCode);
         $this->finder->add($parentClassCode);
         $this->finder->add($childClassCode);
         $this->finder->add($classCode);
+        $sourceCode = $this->finder->find($this->directory);
 
-        $codebase = $this->parser->parse($this->finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         $user = A::class('User')
             ->withAProtectedAttribute('$name', 'string')
@@ -484,13 +493,16 @@ CLASS;
     }
 
     /** @before */
-    function buildParser()
+    function let()
     {
         $this->parser = new CodeParser(new PhpCodeParser());
         $this->finder = new StringCodeFinder();
+        $this->directory = new CodebaseDirectory(__DIR__);
     }
 
-    private ?CodeParser $parser = null;
+    private CodeParser $parser;
 
-    private ?StringCodeFinder $finder = null;
+    private StringCodeFinder $finder;
+
+    private CodebaseDirectory $directory;
 }

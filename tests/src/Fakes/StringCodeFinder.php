@@ -7,25 +7,26 @@
 
 namespace PhUml\Fakes;
 
+use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
+use PhUml\Parser\SourceCode;
 
 final class StringCodeFinder implements CodeFinder
 {
-    /** @var string[]  */
-    private array $files;
+    private SourceCode $sourceCode;
 
     public function __construct()
     {
-        $this->files = [];
+        $this->sourceCode = new SourceCode();
     }
 
     public function add(string $definition): void
     {
-        $this->files[] = $definition;
+        $this->sourceCode->add($definition);
     }
 
-    public function files(): array
+    public function find(CodebaseDirectory $directory): SourceCode
     {
-        return $this->files;
+        return $this->sourceCode;
     }
 }

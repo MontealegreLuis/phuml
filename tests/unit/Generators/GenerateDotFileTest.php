@@ -30,9 +30,10 @@ final class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
-        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
+        $finder = SourceCodeFinder::nonRecursive();
+        $sourceCode = $finder->find(new CodebaseDirectory($this->pathToCode));
 
-        $this->generator->generate($finder, $this->pathToDotFile, $this->display);
+        $this->generator->generate($sourceCode, $this->pathToDotFile, $this->display);
 
         $this->resetIds();
         $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
@@ -43,9 +44,10 @@ final class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
-        $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
+        $finder = SourceCodeFinder::recursive();
+        $sourceCode = $finder->find(new CodebaseDirectory($this->pathToCode));
 
-        $this->generator->generate($finder, $this->pathToDotFile, $this->display);
+        $this->generator->generate($sourceCode, $this->pathToDotFile, $this->display);
 
         $this->resetIds();
         $base = A::numericIdClassNamed('plBase');

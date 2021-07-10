@@ -16,16 +16,11 @@ final class ClassDiagramConfiguration
     /** @param mixed[] $input */
     public function __construct(array $input)
     {
-        $this->setImageProcessor($input['processor'] ?? '');
+        $this->imageProcessor = new ImageProcessorName($input['processor'] ?? '');
     }
 
     public function isDotProcessor(): bool
     {
         return $this->imageProcessor->isDot();
-    }
-
-    private function setImageProcessor(string $imageProcessor): void
-    {
-        $this->imageProcessor = new ImageProcessorName($imageProcessor);
     }
 }

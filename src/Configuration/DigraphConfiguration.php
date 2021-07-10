@@ -37,7 +37,7 @@ final class DigraphConfiguration
         $this->hideAttributes = (bool) $input['hide-attributes'];
         $this->hideMethods = (bool) $input['hide-methods'];
         $this->hideEmptyBlocks = (bool) $input['hide-empty-blocks'];
-        $this->setTheme($input['theme']);
+        $this->theme = new ThemeName($input['theme']);
     }
 
     public function extractAssociations(): bool
@@ -78,10 +78,5 @@ final class DigraphConfiguration
     public function theme(): ThemeName
     {
         return $this->theme;
-    }
-
-    private function setTheme(string $name): void
-    {
-        $this->theme = new ThemeName($name);
     }
 }

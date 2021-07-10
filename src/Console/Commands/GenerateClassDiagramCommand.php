@@ -86,15 +86,16 @@ HELP
         $configuration = new ClassDiagramConfiguration($generatorInput->options());
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
-        $codeFinder = $builder->codeFinder($codebasePath);
+        $codeFinder = $builder->codeFinder();
 
         $classDiagramGenerator = new ClassDiagramGenerator(
             $builder->codeParser(),
             $builder->digraphProcessor(),
             $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor()
         );
+        $sourceCode = $codeFinder->find($codebasePath);
 
-        $classDiagramGenerator->generate($codeFinder, $classDiagramPath, new ConsoleProgressDisplay($output));
+        $classDiagramGenerator->generate($sourceCode, $classDiagramPath, new ConsoleProgressDisplay($output));
 
         return self::SUCCESS;
     }

@@ -52,9 +52,10 @@ Functions per class:  5.5
 STATS;
         $generator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
         $display = new ConsoleProgressDisplay(new NullOutput());
-        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
+        $finder = SourceCodeFinder::nonRecursive();
+        $sourceCode = $finder->find($this->pathToCode);
 
-        $generator->generate($finder, $this->statisticsFile, $display);
+        $generator->generate($sourceCode, $this->statisticsFile, $display);
 
         $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }
@@ -92,9 +93,10 @@ STATS;
         $parser = new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]);
         $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
         $display = new ConsoleProgressDisplay(new NullOutput());
-        $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
+        $finder = SourceCodeFinder::recursive();
+        $sourceCode = $finder->find($this->pathToCode);
 
-        $generator->generate($finder, $this->statisticsFile, $display);
+        $generator->generate($sourceCode, $this->statisticsFile, $display);
 
         $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }
@@ -103,10 +105,10 @@ STATS;
     function let()
     {
         $this->statisticsFile = new OutputFilePath(__DIR__ . '/../../resources/.output/statistics.txt');
-        $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
+        $this->pathToCode = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
     }
 
-    private ?OutputFilePath $statisticsFile = null;
+    private OutputFilePath $statisticsFile;
 
-    private ?string $pathToCode = null;
+    private CodebaseDirectory $pathToCode;
 }

@@ -19,7 +19,6 @@ use PhUml\Parser\Code\ExternalDefinitionsResolver;
 use PhUml\Parser\Code\ParserBuilder;
 use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\Code\RelationshipsResolver;
-use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
@@ -35,11 +34,11 @@ final class DigraphBuilder
         $this->configuration = $configuration;
     }
 
-    public function codeFinder(CodebaseDirectory $directory): CodeFinder
+    public function codeFinder(): CodeFinder
     {
         return $this->configuration->searchRecursively()
-            ? SourceCodeFinder::recursive($directory)
-            : SourceCodeFinder::nonRecursive($directory);
+            ? SourceCodeFinder::recursive()
+            : SourceCodeFinder::nonRecursive();
     }
 
     public function digraphProcessor(): GraphvizProcessor
@@ -63,10 +62,12 @@ final class DigraphBuilder
 
     private function digraphStyle(): DigraphStyle
     {
+        $theme = $this->configuration->theme();
+
         if ($this->configuration->hideEmptyBlocks()) {
-            return DigraphStyle::withoutEmptyBlocks($this->configuration->theme());
+            return DigraphStyle::withoutEmptyBlocks($theme);
         }
-        return DigraphStyle::default($this->configuration->theme());
+        return DigraphStyle::default($theme);
     }
 
     private function tokenParser(): PhpCodeParser

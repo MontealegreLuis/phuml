@@ -41,9 +41,9 @@ final class CodeParser
      * 1. Parse the code and populate the `Codebase` with definitions
      * 2. Add external definitions (built-in/third party), if needed
      */
-    public function parse(CodeFinder $finder): Codebase
+    public function parse(SourceCode $sourceCode): Codebase
     {
-        $codebase = $this->parser->parse($finder);
+        $codebase = $this->parser->parse($sourceCode);
 
         array_map(static fn (RelationshipsResolver $resolver) => $resolver->resolve($codebase), $this->resolvers);
 

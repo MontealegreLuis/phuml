@@ -36,10 +36,15 @@ final class StatisticsInput
         return $this->outputFile;
     }
 
+    public function directory(): CodebaseDirectory
+    {
+        return $this->directory;
+    }
+
     public function codeFinder(): CodeFinder
     {
         return $this->recursive
-            ? SourceCodeFinder::recursive($this->directory)
-            : SourceCodeFinder::nonRecursive($this->directory);
+            ? SourceCodeFinder::recursive()
+            : SourceCodeFinder::nonRecursive();
     }
 }

@@ -18,6 +18,5 @@ use PhUml\Parser\Code\PhpCodeParser;
  */
 interface CodeFinder
 {
-    /** @return string[] */
-    public function files(): array;
+    public function find(CodebaseDirectory $directory): SourceCode;
 }

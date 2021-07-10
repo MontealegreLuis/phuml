@@ -73,12 +73,14 @@ HELP
     {
         $statisticsInput = new StatisticsInput($input->getArguments(), $input->getOptions());
         $statisticsFilePath = $statisticsInput->outputFile();
+        $codebaseDirectory = $statisticsInput->directory();
 
         $statisticsGenerator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
 
         $codeFinder = $statisticsInput->codeFinder();
+        $sourceCode = $codeFinder->find($codebaseDirectory);
 
-        $statisticsGenerator->generate($codeFinder, $statisticsFilePath, new ConsoleProgressDisplay($output));
+        $statisticsGenerator->generate($sourceCode, $statisticsFilePath, new ConsoleProgressDisplay($output));
 
         return self::SUCCESS;
     }

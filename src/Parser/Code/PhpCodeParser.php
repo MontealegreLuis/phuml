@@ -15,6 +15,7 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 use PhUml\Parser\CodeFinder;
+use PhUml\Parser\SourceCode;
 
 /**
  * It traverses the AST of all the files and interfaces found by the `CodeFinder` and builds a
@@ -45,9 +46,9 @@ final class PhpCodeParser
         );
     }
 
-    public function parse(CodeFinder $finder): Codebase
+    public function parse(SourceCode $sourceCode): Codebase
     {
-        foreach ($finder->files() as $code) {
+        foreach ($sourceCode->fileContents() as $code) {
             /** @var Stmt[] $nodes Since the parser is run in throw errors mode */
             $nodes = $this->parser->parse($code);
             $this->traverser->traverse($nodes);

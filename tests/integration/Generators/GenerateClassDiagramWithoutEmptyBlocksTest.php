@@ -17,7 +17,6 @@ use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Parser\Code\ParserBuilder;
-use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\DotProcessor;
@@ -36,8 +35,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
      */
     function it_removes_empty_blocks_if_only_definition_names_are_shown()
     {
-        $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
-        $finder = SourceCodeFinder::nonRecursive($directory);
+        $finder = SourceCodeFinder::nonRecursive();
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
 

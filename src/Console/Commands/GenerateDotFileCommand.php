@@ -70,9 +70,10 @@ HELP
 
         $dotFileGenerator = new DotFileGenerator($builder->codeParser(), $builder->digraphProcessor());
 
-        $codeFinder = $builder->codeFinder($codebasePath);
+        $codeFinder = $builder->codeFinder();
+        $sourceCode = $codeFinder->find($codebasePath);
 
-        $dotFileGenerator->generate($codeFinder, $dotFilePath, new ConsoleProgressDisplay($output));
+        $dotFileGenerator->generate($sourceCode, $dotFilePath, new ConsoleProgressDisplay($output));
 
         return self::SUCCESS;
     }

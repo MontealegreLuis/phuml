@@ -22,34 +22,30 @@ final class SourceCodeFinder implements CodeFinder
 {
     protected Finder $finder;
 
-    private CodebaseDirectory $directory;
-
-    public static function recursive(CodebaseDirectory $directory): SourceCodeFinder
+    public static function recursive(): SourceCodeFinder
     {
-        return new self(new Finder(), $directory);
+        return new self(new Finder());
     }
 
-    public static function nonRecursive(CodebaseDirectory $directory): SourceCodeFinder
+    public static function nonRecursive(): SourceCodeFinder
     {
         $finder = new Finder();
         $finder->depth(0);
-        return new self($finder, $directory);
+        return new self($finder);
     }
 
-    private function __construct(Finder $finder, CodebaseDirectory $directory)
+    private function __construct(Finder $finder)
     {
         $this->finder = $finder;
-        $this->directory = $directory;
     }
 
-    /** @return string[] */
-    public function files(): array
+    public function find(CodebaseDirectory $directory): SourceCode
     {
-        $files = [];
-        $this->finder->in($this->directory->absolutePath())->files()->name('*.php')->sortByName();
+        $sourceCode = new SourceCode();
+        $this->finder->in($directory->absolutePath())->files()->name('*.php')->sortByName();
         foreach ($this->finder as $file) {
-            $files[] = $file->getContents();
+            $sourceCode->add($file->getContents());
         }
-        return $files;
+        return $sourceCode;
     }
 }

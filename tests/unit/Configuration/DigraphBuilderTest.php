@@ -29,10 +29,10 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor');
+        $codeFinder = $builder->codeFinder();
+        $sourceCode = $codeFinder->find($directory);
 
-        $codeFinder = $builder->codeFinder($directory);
-
-        $this->assertCount(2, $codeFinder->files());
+        $this->assertCount(2, $sourceCode->fileContents());
     }
 
     /** @test */
@@ -50,10 +50,10 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor');
+        $codeFinder = $builder->codeFinder();
+        $sourceCode = $codeFinder->find($directory);
 
-        $codeFinder = $builder->codeFinder($directory);
-
-        $this->assertCount(1, $codeFinder->files());
+        $this->assertCount(1, $sourceCode->fileContents());
     }
 
     /** @test */
@@ -71,11 +71,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(1, $codebase->definitions());
         $className = new Name('plGraphvizProcessorStyle');
@@ -98,11 +98,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(1, $codebase->definitions());
         $className = new Name('plGraphvizProcessorStyle');
@@ -125,11 +125,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(1, $codebase->definitions());
         $className = new Name('plGraphvizProcessorStyle');
@@ -152,11 +152,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/interfaces/processor/graphviz');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(1, $codebase->definitions());
         $className = new Name('plGraphvizProcessorStyle');
@@ -179,11 +179,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/exceptions/base');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(2, $codebase->definitions());
         $className = new Name('plBasePropertyException');
@@ -208,11 +208,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/exceptions/base');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(2, $codebase->definitions());
         $className = new Name('plBasePropertyException');
@@ -237,11 +237,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes/processor/graphviz/style');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(3, $codebase->definitions());
         $this->assertTrue($codebase->has(new Name('plStyleName')));
@@ -262,11 +262,11 @@ final class DigraphBuilderTest extends TestCase
         ]);
         $builder = new DigraphBuilder($configuration);
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes/processor/graphviz/style');
-        $finder = $builder->codeFinder($directory);
-
+        $finder = $builder->codeFinder();
         $parser = $builder->codeParser();
+        $sourceCode = $finder->find($directory);
 
-        $codebase = $parser->parse($finder);
+        $codebase = $parser->parse($sourceCode);
 
         $this->assertCount(2, $codebase->definitions());
         $this->assertFalse($codebase->has(new Name('plStyleName')));

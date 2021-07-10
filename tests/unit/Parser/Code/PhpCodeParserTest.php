@@ -21,8 +21,9 @@ final class PhpCodeParserTest extends TestCase
     function it_excludes_methods()
     {
         $parser = (new ParserBuilder())->excludeMethods()->build();
+        $sourceCode = $this->finder->find($this->directory);
 
-        $definitions = $parser->parse($this->finder)->definitions();
+        $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->methods());
@@ -35,8 +36,9 @@ final class PhpCodeParserTest extends TestCase
     function it_excludes_attributes()
     {
         $parser = (new ParserBuilder())->excludeAttributes()->build();
+        $sourceCode = $this->finder->find($this->directory);
 
-        $definitions = $parser->parse($this->finder)->definitions();
+        $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
@@ -49,8 +51,9 @@ final class PhpCodeParserTest extends TestCase
     function it_excludes_both_methods_and_attributes()
     {
         $parser = (new ParserBuilder())->excludeAttributes()->excludeMethods()->build();
+        $sourceCode = $this->finder->find($this->directory);
 
-        $definitions = $parser->parse($this->finder)->definitions();
+        $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
@@ -63,8 +66,9 @@ final class PhpCodeParserTest extends TestCase
     function it_excludes_private_members()
     {
         $parser = (new ParserBuilder())->excludePrivateMembers()->build();
+        $sourceCode = $this->finder->find($this->directory);
 
-        $definitions = $parser->parse($this->finder)->definitions();
+        $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
@@ -88,8 +92,9 @@ final class PhpCodeParserTest extends TestCase
     function it_excludes_protected_members()
     {
         $parser = (new ParserBuilder())->excludeProtectedMembers()->build();
+        $sourceCode = $this->finder->find($this->directory);
 
-        $definitions = $parser->parse($this->finder)->definitions();
+        $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertCount(2, $definitions['plBase']->attributes());
@@ -117,8 +122,9 @@ final class PhpCodeParserTest extends TestCase
     function it_excludes_private_and_protected_members()
     {
         $parser = (new ParserBuilder())->excludeProtectedMembers()->excludePrivateMembers()->build();
+        $sourceCode = $this->finder->find($this->directory);
 
-        $definitions = $parser->parse($this->finder)->definitions();
+        $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
         $this->assertEmpty($definitions['plBase']->attributes());
@@ -140,9 +146,11 @@ final class PhpCodeParserTest extends TestCase
     /** @before */
     function let()
     {
-        $directory = new CodebaseDirectory(__DIR__ . '/../../../resources/.code/classes');
-        $this->finder = SourceCodeFinder::nonRecursive($directory);
+        $this->directory = new CodebaseDirectory(__DIR__ . '/../../../resources/.code/classes');
+        $this->finder = SourceCodeFinder::nonRecursive();
     }
 
     private CodeFinder $finder;
+
+    private CodebaseDirectory $directory;
 }
