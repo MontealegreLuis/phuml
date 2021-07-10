@@ -7,8 +7,7 @@
 
 namespace PhUml\Generators;
 
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCode;
+use PhUml\Code\Codebase;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputContent;
@@ -23,12 +22,9 @@ final class ClassDiagramGenerator extends DigraphGenerator
 {
     private ImageProcessor $imageProcessor;
 
-    public function __construct(
-        CodeParser $parser,
-        GraphvizProcessor $digraphProcessor,
-        ImageProcessor $imageProcessor
-    ) {
-        parent::__construct($parser, $digraphProcessor);
+    public function __construct(GraphvizProcessor $digraphProcessor, ImageProcessor $imageProcessor)
+    {
+        parent::__construct($digraphProcessor);
         $this->imageProcessor = $imageProcessor;
     }
 
@@ -40,10 +36,8 @@ final class ClassDiagramGenerator extends DigraphGenerator
      * 3. Either the `neato` or `dot` processor will produce a `.png` class diagram from the digraph
      * 4. The image is saved to the given path
      */
-    public function generate(SourceCode $sourceCode, OutputFilePath $imagePath, ProgressDisplay $display): void
+    public function generate(Codebase $codebase, OutputFilePath $imagePath, ProgressDisplay $display): void
     {
-        $display->start();
-        $codebase = $this->parseCode($sourceCode, $display);
         $digraph = $this->generateDigraph($codebase, $display);
         $image = $this->generateClassDiagram($digraph, $display);
         $this->save($this->imageProcessor, $image, $imagePath, $display);

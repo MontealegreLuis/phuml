@@ -7,9 +7,6 @@
 
 namespace PhUml\Generators;
 
-use PhUml\Code\Codebase;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCode;
 use PhUml\Processors\OutputContent;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\Processor;
@@ -22,19 +19,6 @@ use PhUml\Processors\Processor;
  */
 abstract class Generator
 {
-    private CodeParser $parser;
-
-    public function __construct(CodeParser $parser)
-    {
-        $this->parser = $parser;
-    }
-
-    protected function parseCode(SourceCode $sourceCode, ProgressDisplay $display): Codebase
-    {
-        $display->runningParser();
-        return $this->parser->parse($sourceCode);
-    }
-
     protected function save(
         Processor $processor,
         OutputContent $content,

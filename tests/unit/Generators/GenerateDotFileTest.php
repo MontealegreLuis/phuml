@@ -27,8 +27,9 @@ final class GenerateDotFileTest extends TestCase
     {
         $finder = SourceCodeFinder::nonRecursive();
         $sourceCode = $finder->find($this->codebaseDirectory);
+        $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($sourceCode, $this->pathToDotFile, $this->display);
+        $this->generator->generate($codebase, $this->pathToDotFile, $this->display);
 
         $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
         $this->assertNode(A::classNamed('plBase'), $digraphInDotFormat);
@@ -40,8 +41,9 @@ final class GenerateDotFileTest extends TestCase
     {
         $finder = SourceCodeFinder::recursive();
         $sourceCode = $finder->find($this->codebaseDirectory);
+        $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($sourceCode, $this->pathToDotFile, $this->display);
+        $this->generator->generate($codebase, $this->pathToDotFile, $this->display);
 
         $base = A::classNamed('plBase');
         $tokenParser = A::classNamed('plStructureTokenparserGenerator');
@@ -98,10 +100,8 @@ final class GenerateDotFileTest extends TestCase
     {
         $this->codebaseDirectory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
         $this->pathToDotFile = new OutputFilePath(__DIR__ . '/../../resources/.output/dot.gv');
-        $this->generator = new DotFileGenerator(
-            CodeParser::fromConfiguration(A::codeParserConfiguration()->build()),
-            new GraphvizProcessor()
-        );
+        $this->generator = new DotFileGenerator(new GraphvizProcessor());
+        $this->parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
@@ -112,4 +112,6 @@ final class GenerateDotFileTest extends TestCase
     private ProgressDisplay $display;
 
     private CodebaseDirectory $codebaseDirectory;
+
+    private CodeParser $parser;
 }

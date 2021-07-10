@@ -88,16 +88,20 @@ HELP
         $configuration = new ClassDiagramConfiguration($generatorInput->options());
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
+        $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
         $classDiagramGenerator = new ClassDiagramGenerator(
-            CodeParser::fromConfiguration($generatorInput->codeParserConfiguration()),
             $builder->digraphProcessor(),
             $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor()
         );
+        $display = new ConsoleProgressDisplay($output);
 
+        $display->start();
         $codeFinder = $builder->codeFinder();
         $sourceCode = $codeFinder->find($codebaseDirectory);
+        $display->runningParser();
+        $codebase = $parser->parse($sourceCode);
 
-        $classDiagramGenerator->generate($sourceCode, $classDiagramPath, new ConsoleProgressDisplay($output));
+        $classDiagramGenerator->generate($codebase, $classDiagramPath, $display);
 
         return self::SUCCESS;
     }

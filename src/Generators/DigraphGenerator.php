@@ -8,7 +8,6 @@
 namespace PhUml\Generators;
 
 use PhUml\Code\Codebase;
-use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputContent;
 
@@ -16,9 +15,8 @@ class DigraphGenerator extends Generator
 {
     protected GraphvizProcessor $digraphProcessor;
 
-    public function __construct(CodeParser $parser, GraphvizProcessor $digraphProcessor)
+    public function __construct(GraphvizProcessor $digraphProcessor)
     {
-        parent::__construct($parser);
         $this->digraphProcessor = $digraphProcessor;
     }
 

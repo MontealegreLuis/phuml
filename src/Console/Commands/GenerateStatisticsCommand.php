@@ -75,12 +75,16 @@ HELP
         $codebaseDirectory = $statisticsInput->directory();
 
         $parser = CodeParser::fromConfiguration($statisticsInput->codeParserConfiguration());
-        $statisticsGenerator = new StatisticsGenerator($parser, new StatisticsProcessor());
+        $statisticsGenerator = new StatisticsGenerator(new StatisticsProcessor());
+        $display = new ConsoleProgressDisplay($output);
 
+        $display->start();
         $codeFinder = $statisticsInput->codeFinder();
         $sourceCode = $codeFinder->find($codebaseDirectory);
+        $display->runningParser();
+        $codebase = $parser->parse($sourceCode);
 
-        $statisticsGenerator->generate($sourceCode, $statisticsFilePath, new ConsoleProgressDisplay($output));
+        $statisticsGenerator->generate($codebase, $statisticsFilePath, $display);
 
         return self::SUCCESS;
     }

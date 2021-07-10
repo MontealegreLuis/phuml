@@ -8,8 +8,6 @@
 namespace PhUml\Generators;
 
 use PhUml\Code\Codebase;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCode;
 use PhUml\Processors\OutputContent;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\StatisticsProcessor;
@@ -25,9 +23,8 @@ final class StatisticsGenerator extends Generator
 {
     private StatisticsProcessor $statisticsProcessor;
 
-    public function __construct(CodeParser $parser, StatisticsProcessor $statisticsProcessor)
+    public function __construct(StatisticsProcessor $statisticsProcessor)
     {
-        parent::__construct($parser);
         $this->statisticsProcessor = $statisticsProcessor;
     }
 
@@ -40,10 +37,8 @@ final class StatisticsGenerator extends Generator
      *
      * @throws TemplateFailure If Twig fails
      */
-    public function generate(SourceCode $sourceCode, OutputFilePath $statisticsFilePath, ProgressDisplay $display): void
+    public function generate(Codebase $codebase, OutputFilePath $statisticsFilePath, ProgressDisplay $display): void
     {
-        $display->start();
-        $codebase = $this->parseCode($sourceCode, $display);
         $statistics = $this->generateStatistics($codebase, $display);
         $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath, $display);
     }

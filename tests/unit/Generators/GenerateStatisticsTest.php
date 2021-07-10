@@ -50,12 +50,13 @@ Functions per class:  5.5
 
 STATS;
         $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
+        $generator = new StatisticsGenerator(new StatisticsProcessor());
         $display = new ConsoleProgressDisplay(new NullOutput());
         $finder = SourceCodeFinder::nonRecursive();
         $sourceCode = $finder->find($this->pathToCode);
+        $codebase = $parser->parse($sourceCode);
 
-        $generator->generate($sourceCode, $this->statisticsFile, $display);
+        $generator->generate($codebase, $this->statisticsFile, $display);
 
         $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }
@@ -91,12 +92,13 @@ Functions per class:  4.35
 
 STATS;
         $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $generator = new StatisticsGenerator($parser, new StatisticsProcessor());
+        $generator = new StatisticsGenerator(new StatisticsProcessor());
         $display = new ConsoleProgressDisplay(new NullOutput());
         $finder = SourceCodeFinder::recursive();
         $sourceCode = $finder->find($this->pathToCode);
+        $codebase = $parser->parse($sourceCode);
 
-        $generator->generate($sourceCode, $this->statisticsFile, $display);
+        $generator->generate($codebase, $this->statisticsFile, $display);
 
         $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
     }

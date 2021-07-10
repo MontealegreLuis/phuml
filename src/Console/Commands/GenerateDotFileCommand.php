@@ -70,12 +70,16 @@ HELP
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
-        $dotFileGenerator = new DotFileGenerator($parser, $builder->digraphProcessor());
+        $dotFileGenerator = new DotFileGenerator($builder->digraphProcessor());
+        $display = new ConsoleProgressDisplay($output);
 
+        $display->start();
         $codeFinder = $builder->codeFinder();
         $sourceCode = $codeFinder->find($codebasePath);
+        $display->runningParser();
+        $codebase = $parser->parse($sourceCode);
 
-        $dotFileGenerator->generate($sourceCode, $dotFilePath, new ConsoleProgressDisplay($output));
+        $dotFileGenerator->generate($codebase, $dotFilePath, $display);
 
         return self::SUCCESS;
     }
