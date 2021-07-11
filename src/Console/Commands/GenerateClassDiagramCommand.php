@@ -14,14 +14,13 @@ use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\ClassDiagramGenerator;
 use PhUml\Parser\CodeParser;
-use PhUml\Processors\DotProcessor;
-use PhUml\Processors\NeatoProcessor;
-use PhUml\TestBuilders\A;
+use PhUml\Processors\ImageProcessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * This command will generate a UML class diagram by reading an OO codebase
@@ -89,10 +88,11 @@ HELP
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
-        $classDiagramGenerator = new ClassDiagramGenerator(
-            $builder->digraphProcessor(),
-            $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor()
-        );
+        $filesystem = new Filesystem();
+        $imageProcessor = $configuration->isDotProcessor()
+            ? ImageProcessor::dot($filesystem)
+            : ImageProcessor::neato($filesystem);
+        $classDiagramGenerator = new ClassDiagramGenerator($builder->digraphProcessor(), $imageProcessor);
         $display = new ConsoleProgressDisplay($output);
 
         $display->start();

@@ -22,6 +22,16 @@ final class ImageProcessorName
         $this->name = $name;
     }
 
+    public function command(): string
+    {
+        return $this->name;
+    }
+
+    public function value(): string
+    {
+        return ucfirst($this->name);
+    }
+
     public function isDot(): bool
     {
         return $this->name === 'dot';

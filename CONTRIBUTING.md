@@ -33,7 +33,7 @@ It is recommended to follow the [7 rules of a good commit message](https://chris
 
 ## Coding Guidelines
 
-This project follows the coding standards proposed in [PSR-2][psr2]
+This project follows the coding standards proposed in [PSR-12][https://www.php-fig.org/psr/psr-12/].
 
 Run the following command if you modified either production code or tests.
 
@@ -122,7 +122,6 @@ $ couscous preview
 
 Before opening a new ticket, please search through the [existing issues][issues].
 
-[psr2]: http://www.php-fig.org/psr/psr-2/
 [cs-fixer]: https://github.com/FriendsOfPHP/PHP-CS-Fixer
 [issues]: https://github.com/MontealegreLuis/phuml/issues
 [docker]: https://www.docker.com/

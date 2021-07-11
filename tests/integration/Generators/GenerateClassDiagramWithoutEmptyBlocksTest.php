@@ -19,12 +19,13 @@ use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Templates\TemplateEngine;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
@@ -39,7 +40,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
         $finder = SourceCodeFinder::nonRecursive();
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
-        $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../resources/.code/classes'));
+        $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes'));
         $codebase = $this->parser->parse($sourceCode);
 
         $this->generator->generate($codebase, $diagram, $this->display);
@@ -59,7 +60,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
                 new TraitGraphBuilder(),
                 new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName('phuml')))
             ),
-            new DotProcessor()
+            ImageProcessor::dot(new Filesystem())
         );
         $this->display = new ConsoleProgressDisplay(new NullOutput());
     }

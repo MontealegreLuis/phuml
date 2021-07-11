@@ -10,39 +10,33 @@ namespace PhUml\ContractTests;
 use PHPUnit\Framework\TestCase;
 use PhUml\Processors\ImageGenerationFailure;
 use PhUml\Processors\ImageProcessor;
-use Symfony\Component\Process\Process;
+use PhUml\Processors\OutputContent;
 
 abstract class ImageProcessorTest extends TestCase
 {
-    abstract function processor(Process $process = null): ImageProcessor;
+    abstract function processor(): ImageProcessor;
 
-    /** @test */
+    /**
+     * @test
+     * @group snapshot
+     */
     function it_generates_an_image_from_a_dot_file()
     {
-        $dotFilePath = __DIR__ . '/../../resources/.fixtures/classes.dot';
-        $classDiagramPath = __DIR__ . '/../../resources/.output/diagram.png';
-        if (file_exists($classDiagramPath)) {
-            unlink($classDiagramPath);
-        }
+        $digraph = new OutputContent((string) file_get_contents(__DIR__ . '/../../resources/.fixtures/classes.dot'));
+        $name = strtolower($this->processor()->name());
+        $expectedImage = __DIR__ . "/../../resources/.fixtures/${name}.png";
 
-        $this->processor()->execute($dotFilePath, $classDiagramPath);
+        $pngDiagram = $this->processor()->process($digraph);
 
-        $this->assertFileExists($classDiagramPath);
+        $this->assertEquals($pngDiagram->value(), file_get_contents($expectedImage));
     }
 
     /** @test */
     function it_provides_feedback_when_the_call_to_the_command_fails()
     {
-        $process = new class(['unknown']) extends Process {
-            public function getErrorOutput()
-            {
-                return 'Error calling the external command';
-            }
-        };
-
         $this->expectException(ImageGenerationFailure::class);
-        $this->expectExceptionMessage('Error calling the external command');
+        $this->expectExceptionMessageMatches('/syntax error in line 1 near/');
 
-        $this->processor($process)->execute('wrong_input.dot', 'output.png');
+        $this->processor()->process(new OutputContent('invalid dot content'));
     }
 }

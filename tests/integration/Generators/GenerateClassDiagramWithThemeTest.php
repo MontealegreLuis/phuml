@@ -7,6 +7,7 @@
 
 namespace PhUml\Generators;
 
+use GrumPHP\Util\Filesystem;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
@@ -17,11 +18,14 @@ use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\ThemeName;
+use PhUml\Parser\CodebaseDirectory;
+use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\DotProcessor;
 use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Templates\TemplateEngine;
+use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateClassDiagramWithThemeTest extends TestCase
@@ -38,8 +42,11 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
         $generator = $this->createGenerator('php');
+        $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
+        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
+        $codebase = $codeParser->parse($sourceCode);
 
-        $generator->generate($codeFinder, $diagram, $this->display);
+        $generator->generate($codebase, $diagram, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -54,8 +61,11 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
         $generator = $this->createGenerator('classic');
+        $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
+        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
+        $codebase = $codeParser->parse($sourceCode);
 
-        $generator->generate($codeFinder, $diagram, $this->display);
+        $generator->generate($codebase, $diagram, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -69,11 +79,11 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
                 new TraitGraphBuilder(),
                 new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName($theme)))
             ),
-            new DotProcessor()
+            ImageProcessor::dot(new Filesystem())
         );
         $this->display = new ConsoleProgressDisplay(new NullOutput());
         return $generator;
     }
 
-    private ?ConsoleProgressDisplay $display = null;
+    private ConsoleProgressDisplay $display;
 }

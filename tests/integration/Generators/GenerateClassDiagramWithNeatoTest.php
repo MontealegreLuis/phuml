@@ -12,11 +12,15 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
+use PhUml\Parser\CodebaseDirectory;
+use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\NeatoProcessor;
+use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
+use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Filesystem\Filesystem;
 
 final class GenerateClassDiagramWithNeatoTest extends TestCase
 {
@@ -32,8 +36,11 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
         $finder = SourceCodeFinder::nonRecursive();
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
+        $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes'));
+        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
+        $codebase = $codeParser->parse($sourceCode);
 
-        $this->generator->generate($finder, $diagram, $display);
+        $this->generator->generate($codebase, $diagram, $display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -48,8 +55,11 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
         $codeFinder = SourceCodeFinder::recursive();
         $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato-recursive.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
+        $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
+        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
+        $codebase = $codeParser->parse($sourceCode);
 
-        $this->generator->generate($codeFinder, $diagram, $display);
+        $this->generator->generate($codebase, $diagram, $display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -59,7 +69,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     {
         $this->generator = new ClassDiagramGenerator(
             new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder())),
-            new NeatoProcessor()
+            ImageProcessor::neato(new Filesystem())
         );
     }
 

@@ -8,7 +8,6 @@
 namespace PhUml\Generators;
 
 use PhUml\Code\Codebase;
-use PhUml\Processors\OutputContent;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\StatisticsProcessor;
 use PhUml\Templates\TemplateFailure;
@@ -39,13 +38,8 @@ final class StatisticsGenerator extends Generator
      */
     public function generate(Codebase $codebase, OutputFilePath $statisticsFilePath, ProgressDisplay $display): void
     {
-        $statistics = $this->generateStatistics($codebase, $display);
-        $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath, $display);
-    }
-
-    private function generateStatistics(Codebase $codebase, ProgressDisplay $display): OutputContent
-    {
         $display->runningProcessor($this->statisticsProcessor);
-        return $this->statisticsProcessor->process($codebase);
+        $statistics = $this->statisticsProcessor->process($codebase);
+        $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath, $display);
     }
 }

@@ -17,18 +17,31 @@ use Symfony\Component\Process\Process;
  * diagram out of it.
  * It uses either the `dot` or `neato` command to create the image
  */
-abstract class ImageProcessor extends Processor
+final class ImageProcessor extends Processor
 {
-    /** @var Process<string>|null */
-    protected ?Process $process;
+    private ImageProcessorName $name;
 
     private Filesystem $fileSystem;
 
-    /** @param Process<string> $process */
-    public function __construct(Process $process = null, Filesystem $fileSystem = null)
+    public static function neato(Filesystem $filesystem): ImageProcessor
     {
-        $this->process = $process;
-        $this->fileSystem = $fileSystem ?? new Filesystem();
+        return new ImageProcessor(new ImageProcessorName('neato'), $filesystem);
+    }
+
+    public static function dot(Filesystem $filesystem): ImageProcessor
+    {
+        return new ImageProcessor(new ImageProcessorName('dot'), $filesystem);
+    }
+
+    private function __construct(ImageProcessorName $name, Filesystem $fileSystem)
+    {
+        $this->name = $name;
+        $this->fileSystem = $fileSystem;
+    }
+
+    public function name(): string
+    {
+        return $this->name->value();
     }
 
     /**
@@ -53,16 +66,14 @@ abstract class ImageProcessor extends Processor
     }
 
     /**
-     * @throws ImageGenerationFailure If the Grpahviz command failed
+     * @throws ImageGenerationFailure If the Graphviz command failed
      */
-    public function execute(string $inputFile, string $outputFile): void
+    private function execute(string $inputFile, string $outputFile): void
     {
-        $process = $this->process ?? new Process([$this->command(), '-Tpng', '-o', $outputFile, $inputFile]);
+        $process = new Process([$this->name->command(), '-Tpng', '-o', $outputFile, $inputFile]);
         $process->run();
         if (! $process->isSuccessful()) {
             throw ImageGenerationFailure::withOutput($process->getErrorOutput());
         }
     }
-
-    abstract public function command(): string;
 }
