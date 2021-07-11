@@ -8,14 +8,14 @@
 namespace PhUml\Processors;
 
 use PhUml\ContractTests\ImageProcessorTest;
-use Symfony\Component\Filesystem\Filesystem;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DotProcessorTest extends ImageProcessorTest
 {
     /** @test */
     function it_has_a_name()
     {
-        $processor = ImageProcessor::dot(new Filesystem());
+        $processor = ImageProcessor::dot(new SmartFileSystem());
 
         $name = $processor->name();
 
@@ -24,6 +24,6 @@ final class DotProcessorTest extends ImageProcessorTest
 
     function processor(): ImageProcessor
     {
-        return ImageProcessor::dot(new Filesystem());
+        return ImageProcessor::dot(new SmartFileSystem());
     }
 }

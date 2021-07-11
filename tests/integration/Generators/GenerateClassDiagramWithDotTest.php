@@ -20,7 +20,7 @@ use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Filesystem\Filesystem;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class GenerateClassDiagramWithDotTest extends TestCase
 {
@@ -69,7 +69,7 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     {
         $this->generator = new ClassDiagramGenerator(
             new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder())),
-            ImageProcessor::dot(new Filesystem())
+            ImageProcessor::dot(new SmartFileSystem())
         );
     }
 

@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * This command will generate a UML class diagram by reading an OO codebase
@@ -88,7 +88,7 @@ HELP
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
 
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
-        $filesystem = new Filesystem();
+        $filesystem = new SmartFileSystem();
         $imageProcessor = $configuration->isDotProcessor()
             ? ImageProcessor::dot($filesystem)
             : ImageProcessor::neato($filesystem);

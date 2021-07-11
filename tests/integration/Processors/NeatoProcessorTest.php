@@ -8,23 +8,22 @@
 namespace PhUml\Processors;
 
 use PhUml\ContractTests\ImageProcessorTest;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class NeatoProcessorTest extends ImageProcessorTest
 {
     /** @test */
     function it_has_a_name()
     {
-        $processor = ImageProcessor::neato(new Filesystem());
+        $processor = ImageProcessor::neato(new SmartFileSystem());
 
         $name = $processor->name();
 
         $this->assertEquals('Neato', $name);
     }
 
-    function processor(Process $process = null): ImageProcessor
+    function processor(): ImageProcessor
     {
-        return ImageProcessor::neato(new Filesystem());
+        return ImageProcessor::neato(new SmartFileSystem());
     }
 }

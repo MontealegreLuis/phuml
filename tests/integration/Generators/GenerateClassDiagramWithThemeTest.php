@@ -7,7 +7,6 @@
 
 namespace PhUml\Generators;
 
-use GrumPHP\Util\Filesystem;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
@@ -27,6 +26,7 @@ use PhUml\Processors\OutputFilePath;
 use PhUml\Templates\TemplateEngine;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class GenerateClassDiagramWithThemeTest extends TestCase
 {
@@ -79,7 +79,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
                 new TraitGraphBuilder(),
                 new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName($theme)))
             ),
-            ImageProcessor::dot(new Filesystem())
+            ImageProcessor::dot(new SmartFileSystem())
         );
         $this->display = new ConsoleProgressDisplay(new NullOutput());
         return $generator;

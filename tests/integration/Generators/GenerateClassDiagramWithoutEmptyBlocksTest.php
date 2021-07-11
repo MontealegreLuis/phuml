@@ -25,7 +25,7 @@ use PhUml\Processors\OutputFilePath;
 use PhUml\Templates\TemplateEngine;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Filesystem\Filesystem;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
 {
@@ -60,7 +60,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
                 new TraitGraphBuilder(),
                 new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName('phuml')))
             ),
-            ImageProcessor::dot(new Filesystem())
+            ImageProcessor::dot(new SmartFileSystem())
         );
         $this->display = new ConsoleProgressDisplay(new NullOutput());
     }

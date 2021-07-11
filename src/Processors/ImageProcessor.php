@@ -7,8 +7,8 @@
 
 namespace PhUml\Processors;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * It generates a `png` class diagram from a digraph in DOT format
@@ -21,19 +21,19 @@ final class ImageProcessor extends Processor
 {
     private ImageProcessorName $name;
 
-    private Filesystem $fileSystem;
+    private SmartFileSystem $fileSystem;
 
-    public static function neato(Filesystem $filesystem): ImageProcessor
+    public static function neato(SmartFileSystem $filesystem): ImageProcessor
     {
         return new ImageProcessor(new ImageProcessorName('neato'), $filesystem);
     }
 
-    public static function dot(Filesystem $filesystem): ImageProcessor
+    public static function dot(SmartFileSystem $filesystem): ImageProcessor
     {
         return new ImageProcessor(new ImageProcessorName('dot'), $filesystem);
     }
 
-    private function __construct(ImageProcessorName $name, Filesystem $fileSystem)
+    private function __construct(ImageProcessorName $name, SmartFileSystem $fileSystem)
     {
         $this->name = $name;
         $this->fileSystem = $fileSystem;
@@ -53,11 +53,11 @@ final class ImageProcessor extends Processor
         $imageFile = $this->fileSystem->tempnam('/tmp', 'phuml');
 
         $this->fileSystem->dumpFile($dotFile, $digraphInDotFormat->value());
-        $this->fileSystem->remove($imageFile);
+        $this->fileSystem->remove($imageFile); // Remove any previously generated image
 
         $this->execute($dotFile, $imageFile);
 
-        $image = (string) file_get_contents($imageFile);
+        $image = $this->fileSystem->readFile($imageFile);
 
         $this->fileSystem->remove($dotFile);
         $this->fileSystem->remove($imageFile);
