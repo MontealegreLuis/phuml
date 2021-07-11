@@ -8,7 +8,7 @@
 namespace PhUml\Generators;
 
 use PhUml\Code\Codebase;
-use PhUml\Processors\OutputFilePath;
+use PhUml\Processors\OutputContent;
 use PhUml\Processors\StatisticsProcessor;
 use PhUml\Templates\TemplateFailure;
 
@@ -18,7 +18,7 @@ use PhUml\Templates\TemplateFailure;
  * It reports the number of classes and interfaces, number of private, public and protected methods
  * among other details
  */
-final class StatisticsGenerator extends Generator
+final class StatisticsGenerator
 {
     private StatisticsProcessor $statisticsProcessor;
 
@@ -36,10 +36,9 @@ final class StatisticsGenerator extends Generator
      *
      * @throws TemplateFailure If Twig fails
      */
-    public function generate(Codebase $codebase, OutputFilePath $statisticsFilePath, ProgressDisplay $display): void
+    public function generate(Codebase $codebase, ProgressDisplay $display): OutputContent
     {
         $display->runningProcessor($this->statisticsProcessor);
-        $statistics = $this->statisticsProcessor->process($codebase);
-        $this->save($this->statisticsProcessor, $statistics, $statisticsFilePath, $display);
+        return $this->statisticsProcessor->process($codebase);
     }
 }

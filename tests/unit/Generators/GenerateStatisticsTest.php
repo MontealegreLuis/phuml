@@ -12,7 +12,6 @@ use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\StatisticsProcessor;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
@@ -22,7 +21,7 @@ final class GenerateStatisticsTest extends TestCase
     /** @test */
     function it_shows_the_statistics_of_a_directory()
     {
-        $statistics = <<<STATS
+        $expectedStatistics = <<<STATS
 phUML generated statistics
 ==========================
 
@@ -56,15 +55,15 @@ STATS;
         $sourceCode = $finder->find($this->pathToCode);
         $codebase = $parser->parse($sourceCode);
 
-        $generator->generate($codebase, $this->statisticsFile, $display);
+        $statistics = $generator->generate($codebase, $display);
 
-        $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
+        $this->assertEquals($expectedStatistics, $statistics->value());
     }
 
     /** @test */
     function it_shows_the_statistics_of_a_directory_using_a_recursive_finder()
     {
-        $statistics = <<<STATS
+        $expectedStatistics = <<<STATS
 phUML generated statistics
 ==========================
 
@@ -98,19 +97,16 @@ STATS;
         $sourceCode = $finder->find($this->pathToCode);
         $codebase = $parser->parse($sourceCode);
 
-        $generator->generate($codebase, $this->statisticsFile, $display);
+        $statistics = $generator->generate($codebase, $display);
 
-        $this->assertStringEqualsFile($this->statisticsFile->value(), $statistics);
+        $this->assertEquals($expectedStatistics, $statistics->value());
     }
 
     /** @before */
     function let()
     {
-        $this->statisticsFile = new OutputFilePath(__DIR__ . '/../../resources/.output/statistics.txt');
         $this->pathToCode = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
     }
-
-    private OutputFilePath $statisticsFile;
 
     private CodebaseDirectory $pathToCode;
 }

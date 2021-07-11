@@ -29,7 +29,7 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($codebase, $this->pathToDotFile, $this->display);
+        $this->generator->generate($codebase, $this->display);
 
         $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
         $this->assertNode(A::classNamed('plBase'), $digraphInDotFormat);
@@ -43,7 +43,7 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($codebase, $this->pathToDotFile, $this->display);
+        $this->generator->generate($codebase, $this->display);
 
         $base = A::classNamed('plBase');
         $tokenParser = A::classNamed('plStructureTokenparserGenerator');

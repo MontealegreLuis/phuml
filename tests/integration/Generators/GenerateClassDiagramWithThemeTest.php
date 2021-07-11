@@ -46,7 +46,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
 
-        $generator->generate($codebase, $diagram, $this->display);
+        $generator->generate($codebase, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -65,7 +65,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
 
-        $generator->generate($codebase, $diagram, $this->display);
+        $generator->generate($codebase, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }

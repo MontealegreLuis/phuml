@@ -11,7 +11,6 @@ use PhUml\Code\Codebase;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputContent;
-use PhUml\Processors\OutputFilePath;
 
 /**
  * It generates a UML class diagram from a directory with PHP code
@@ -36,15 +35,9 @@ final class ClassDiagramGenerator extends DigraphGenerator
      * 3. Either the `neato` or `dot` processor will produce a `.png` class diagram from the digraph
      * 4. The image is saved to the given path
      */
-    public function generate(Codebase $codebase, OutputFilePath $imagePath, ProgressDisplay $display): void
+    public function generate(Codebase $codebase, ProgressDisplay $display): OutputContent
     {
         $digraph = $this->generateDigraph($codebase, $display);
-        $image = $this->generateClassDiagram($digraph, $display);
-        $this->save($this->imageProcessor, $image, $imagePath, $display);
-    }
-
-    private function generateClassDiagram(OutputContent $digraph, ProgressDisplay $display): OutputContent
-    {
         $display->runningProcessor($this->imageProcessor);
         return $this->imageProcessor->process($digraph);
     }

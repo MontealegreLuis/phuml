@@ -11,7 +11,7 @@ use PhUml\Code\Codebase;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputContent;
 
-class DigraphGenerator extends Generator
+class DigraphGenerator
 {
     protected GraphvizProcessor $digraphProcessor;
 

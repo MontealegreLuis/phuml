@@ -43,7 +43,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
         $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes'));
         $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($codebase, $diagram, $this->display);
+        $this->generator->generate($codebase, $this->display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }

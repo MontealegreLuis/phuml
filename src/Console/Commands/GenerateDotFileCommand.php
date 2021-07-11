@@ -12,10 +12,12 @@ use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\DotFileGenerator;
 use PhUml\Parser\CodeParser;
+use PhUml\Processors\OutputWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * This command will generate file in `DOT` format that is ready to use to generate a UML class
@@ -68,18 +70,19 @@ HELP
         $dotFilePath = $generatorInput->outputFile();
 
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
-
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
         $dotFileGenerator = new DotFileGenerator($builder->digraphProcessor());
         $display = new ConsoleProgressDisplay($output);
+        $writer = new OutputWriter(new SmartFileSystem());
 
         $display->start();
         $codeFinder = $builder->codeFinder();
         $sourceCode = $codeFinder->find($codebasePath);
         $display->runningParser();
         $codebase = $parser->parse($sourceCode);
-
-        $dotFileGenerator->generate($codebase, $dotFilePath, $display);
+        $digraph = $dotFileGenerator->generate($codebase, $display);
+        $display->savingResult();
+        $writer->save($digraph, $dotFilePath);
 
         return self::SUCCESS;
     }

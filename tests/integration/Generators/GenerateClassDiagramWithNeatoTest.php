@@ -40,7 +40,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
 
-        $this->generator->generate($codebase, $diagram, $display);
+        $this->generator->generate($codebase, $display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }
@@ -59,7 +59,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
 
-        $this->generator->generate($codebase, $diagram, $display);
+        $this->generator->generate($codebase, $display);
 
         $this->assertImagesSame($expectedDiagram, $diagram->value());
     }

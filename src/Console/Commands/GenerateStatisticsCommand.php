@@ -10,6 +10,7 @@ namespace PhUml\Console\Commands;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\StatisticsGenerator;
 use PhUml\Parser\CodeParser;
+use PhUml\Processors\OutputWriter;
 use PhUml\Processors\StatisticsProcessor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -17,6 +18,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * This command will generate a text file with the statistics of an OO codebase
@@ -77,14 +79,16 @@ HELP
         $parser = CodeParser::fromConfiguration($statisticsInput->codeParserConfiguration());
         $statisticsGenerator = new StatisticsGenerator(new StatisticsProcessor());
         $display = new ConsoleProgressDisplay($output);
+        $writer = new OutputWriter(new SmartFileSystem());
 
         $display->start();
         $codeFinder = $statisticsInput->codeFinder();
         $sourceCode = $codeFinder->find($codebaseDirectory);
         $display->runningParser();
         $codebase = $parser->parse($sourceCode);
-
-        $statisticsGenerator->generate($codebase, $statisticsFilePath, $display);
+        $statistics = $statisticsGenerator->generate($codebase, $display);
+        $display->savingResult();
+        $writer->save($statistics, $statisticsFilePath);
 
         return self::SUCCESS;
     }

@@ -8,7 +8,7 @@
 namespace PhUml\Generators;
 
 use PhUml\Code\Codebase;
-use PhUml\Processors\OutputFilePath;
+use PhUml\Processors\OutputContent;
 
 /**
  * It generates a file with a digraph in DOT format that can be used to create a class diagram
@@ -30,10 +30,8 @@ final class DotFileGenerator extends DigraphGenerator
      * 2. The `graphviz` processor takes this collection and creates a digraph using the DOT language
      * 4. The DOT file is saved to the given path
      */
-    public function generate(Codebase $codebase, OutputFilePath $dotFilePath, ProgressDisplay $display): void
+    public function generate(Codebase $codebase, ProgressDisplay $display): OutputContent
     {
-        $digraph = $this->generateDigraph($codebase, $display);
-
-        $this->save($this->digraphProcessor, $digraph, $dotFilePath, $display);
+        return $this->generateDigraph($codebase, $display);
     }
 }

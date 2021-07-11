@@ -15,6 +15,7 @@ use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\ClassDiagramGenerator;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\ImageProcessor;
+use PhUml\Processors\OutputWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -86,9 +87,10 @@ HELP
 
         $configuration = new ClassDiagramConfiguration($generatorInput->options());
         $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
-
+        $codeFinder = $builder->codeFinder();
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
         $filesystem = new SmartFileSystem();
+        $writer = new OutputWriter($filesystem);
         $imageProcessor = $configuration->isDotProcessor()
             ? ImageProcessor::dot($filesystem)
             : ImageProcessor::neato($filesystem);
@@ -96,12 +98,12 @@ HELP
         $display = new ConsoleProgressDisplay($output);
 
         $display->start();
-        $codeFinder = $builder->codeFinder();
         $sourceCode = $codeFinder->find($codebaseDirectory);
         $display->runningParser();
         $codebase = $parser->parse($sourceCode);
-
-        $classDiagramGenerator->generate($codebase, $classDiagramPath, $display);
+        $classDiagram = $classDiagramGenerator->generate($codebase, $display);
+        $display->savingResult();
+        $writer->save($classDiagram, $classDiagramPath);
 
         return self::SUCCESS;
     }
