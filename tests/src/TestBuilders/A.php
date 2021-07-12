@@ -68,4 +68,9 @@ final class A
     {
         return new CodeParserConfigurationBuilder();
     }
+
+    public static function graphvizProcessor(): GraphvizProcessorBuilder
+    {
+        return new GraphvizProcessorBuilder();
+    }
 }

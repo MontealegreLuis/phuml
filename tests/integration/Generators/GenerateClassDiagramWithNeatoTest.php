@@ -10,12 +10,9 @@ namespace PhUml\Generators;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
 use PhUml\TestBuilders\A;
@@ -68,7 +65,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     function let()
     {
         $this->generator = new ClassDiagramGenerator(
-            new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder())),
+            A::graphvizProcessor()->withAssociations()->build(),
             ImageProcessor::neato(new SmartFileSystem())
         );
     }

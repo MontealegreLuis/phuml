@@ -14,6 +14,7 @@ use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\ClassDiagramGenerator;
 use PhUml\Parser\CodeParser;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputWriter;
 use Symfony\Component\Console\Command\Command;
@@ -86,7 +87,8 @@ HELP
         $classDiagramPath = $generatorInput->outputFile();
 
         $configuration = new ClassDiagramConfiguration($generatorInput->options());
-        $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
+        $digraphConfiguration = new DigraphConfiguration($generatorInput->options());
+        $builder = new DigraphBuilder($digraphConfiguration);
         $codeFinder = $builder->codeFinder();
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
         $filesystem = new SmartFileSystem();
@@ -94,7 +96,8 @@ HELP
         $imageProcessor = $configuration->isDotProcessor()
             ? ImageProcessor::dot($filesystem)
             : ImageProcessor::neato($filesystem);
-        $classDiagramGenerator = new ClassDiagramGenerator($builder->digraphProcessor(), $imageProcessor);
+        $digraphProcessor = GraphvizProcessor::fromConfiguration($digraphConfiguration);
+        $classDiagramGenerator = new ClassDiagramGenerator($digraphProcessor, $imageProcessor);
         $display = new ConsoleProgressDisplay($output);
 
         $display->start();

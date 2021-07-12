@@ -10,19 +10,11 @@ namespace PhUml\Generators;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
-use PhUml\Graphviz\Builders\TraitGraphBuilder;
-use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\DigraphStyle;
-use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
-use PhUml\Templates\TemplateEngine;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -54,12 +46,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
         $configuration = A::codeParserConfiguration()->withoutAttributes()->withoutMethods()->build();
         $this->parser = CodeParser::fromConfiguration($configuration);
         $this->generator = new ClassDiagramGenerator(
-            new GraphvizProcessor(
-                new ClassGraphBuilder(),
-                new InterfaceGraphBuilder(),
-                new TraitGraphBuilder(),
-                new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName('phuml')))
-            ),
+            A::graphvizProcessor()->withoutEmptyBlocks()->build(),
             ImageProcessor::dot(new SmartFileSystem())
         );
         $this->display = new ConsoleProgressDisplay(new NullOutput());

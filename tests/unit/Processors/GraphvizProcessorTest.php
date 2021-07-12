@@ -10,8 +10,6 @@ namespace PhUml\Processors;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Codebase;
 use PhUml\Fakes\WithDotLanguageAssertions;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\TestBuilders\A;
 
 final class GraphvizProcessorTest extends TestCase
@@ -21,7 +19,7 @@ final class GraphvizProcessorTest extends TestCase
     /** @test */
     function it_has_a_name()
     {
-        $processor = new GraphvizProcessor();
+        $processor = A::graphvizProcessor()->build();
 
         $name = $processor->name();
 
@@ -31,7 +29,7 @@ final class GraphvizProcessorTest extends TestCase
     /** @test */
     function it_turns_a_code_structure_into_dot_language()
     {
-        $processor = new GraphvizProcessor(new ClassGraphBuilder(new EdgesBuilder()));
+        $processor = A::graphvizProcessor()->withAssociations()->build();
 
         $parentInterface = A::interfaceNamed('ParentInterface');
         $interface = A::interface('ImplementedInterface')

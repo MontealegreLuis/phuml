@@ -12,6 +12,7 @@ use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\DotFileGenerator;
 use PhUml\Parser\CodeParser;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -69,9 +70,11 @@ HELP
         $codebasePath = $generatorInput->directory();
         $dotFilePath = $generatorInput->outputFile();
 
-        $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
+        $digraphConfiguration = new DigraphConfiguration($generatorInput->options());
+        $builder = new DigraphBuilder($digraphConfiguration);
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
-        $dotFileGenerator = new DotFileGenerator($builder->digraphProcessor());
+        $digraphProcessor = GraphvizProcessor::fromConfiguration($digraphConfiguration);
+        $dotFileGenerator = new DotFileGenerator($digraphProcessor);
         $display = new ConsoleProgressDisplay($output);
         $writer = new OutputWriter(new SmartFileSystem());
 

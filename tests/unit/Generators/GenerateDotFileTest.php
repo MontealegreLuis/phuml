@@ -13,8 +13,6 @@ use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\OutputFilePath;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -29,11 +27,10 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($codebase, $this->display);
+        $digraph = $this->generator->generate($codebase, $this->display);
 
-        $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
-        $this->assertNode(A::classNamed('plBase'), $digraphInDotFormat);
-        $this->assertNode(A::classNamed('plPhuml'), $digraphInDotFormat);
+        $this->assertNode(A::classNamed('plBase'), $digraph->value());
+        $this->assertNode(A::classNamed('plPhuml'), $digraph->value());
     }
 
     /** @test */
@@ -43,7 +40,7 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($codebase, $this->display);
+        $digraph = $this->generator->generate($codebase, $this->display);
 
         $base = A::classNamed('plBase');
         $tokenParser = A::classNamed('plStructureTokenparserGenerator');
@@ -65,49 +62,45 @@ final class GenerateDotFileTest extends TestCase
         $externalCommand = A::classNamed('plExternalCommandProcessor');
         $processor = A::classNamed('plProcessor');
         $style = A::classNamed('plGraphvizProcessorStyle');
-        $digraphInDotFormat = file_get_contents($this->pathToDotFile->value());
-        $this->assertNode($base, $digraphInDotFormat);
-        $this->assertNode($structureGenerator, $digraphInDotFormat);
-        $this->assertNode($styleName, $digraphInDotFormat);
-        $this->assertNode($tokenParser, $digraphInDotFormat);
-        $this->assertInheritance($tokenParser, $structureGenerator, $digraphInDotFormat);
-        $this->assertNode($attribute, $digraphInDotFormat);
-        $this->assertNode($class, $digraphInDotFormat);
-        $this->assertNode($function, $digraphInDotFormat);
-        $this->assertNode($parameter, $digraphInDotFormat);
-        $this->assertNode($interface, $digraphInDotFormat);
-        $this->assertNode($uml, $digraphInDotFormat);
-        $this->assertNode($externalCommand, $digraphInDotFormat);
-        $this->assertNode($dotProcessor, $digraphInDotFormat);
-        $this->assertInheritance($dotProcessor, $externalCommand, $digraphInDotFormat);
-        $this->assertNode($processor, $digraphInDotFormat);
-        $this->assertNode($graphvizProcessor, $digraphInDotFormat);
-        $this->assertInheritance($graphvizProcessor, $processor, $digraphInDotFormat);
-        $this->assertNode($options, $digraphInDotFormat);
-        $this->assertNode($graphvizOptions, $digraphInDotFormat);
-        $this->assertInheritance($graphvizOptions, $options, $digraphInDotFormat);
-        $this->assertNode($style, $digraphInDotFormat);
-        $this->assertNode($defaultStyle, $digraphInDotFormat);
-        $this->assertInheritance($defaultStyle, $style, $digraphInDotFormat);
-        $this->assertNode($neatoProcessor, $digraphInDotFormat);
-        $this->assertInheritance($neatoProcessor, $externalCommand, $digraphInDotFormat);
-        $this->assertNode($statisticsProcessor, $digraphInDotFormat);
-        $this->assertInheritance($statisticsProcessor, $processor, $digraphInDotFormat);
+        $this->assertNode($base, $digraph->value());
+        $this->assertNode($structureGenerator, $digraph->value());
+        $this->assertNode($styleName, $digraph->value());
+        $this->assertNode($tokenParser, $digraph->value());
+        $this->assertInheritance($tokenParser, $structureGenerator, $digraph->value());
+        $this->assertNode($attribute, $digraph->value());
+        $this->assertNode($class, $digraph->value());
+        $this->assertNode($function, $digraph->value());
+        $this->assertNode($parameter, $digraph->value());
+        $this->assertNode($interface, $digraph->value());
+        $this->assertNode($uml, $digraph->value());
+        $this->assertNode($externalCommand, $digraph->value());
+        $this->assertNode($dotProcessor, $digraph->value());
+        $this->assertInheritance($dotProcessor, $externalCommand, $digraph->value());
+        $this->assertNode($processor, $digraph->value());
+        $this->assertNode($graphvizProcessor, $digraph->value());
+        $this->assertInheritance($graphvizProcessor, $processor, $digraph->value());
+        $this->assertNode($options, $digraph->value());
+        $this->assertNode($graphvizOptions, $digraph->value());
+        $this->assertInheritance($graphvizOptions, $options, $digraph->value());
+        $this->assertNode($style, $digraph->value());
+        $this->assertNode($defaultStyle, $digraph->value());
+        $this->assertInheritance($defaultStyle, $style, $digraph->value());
+        $this->assertNode($neatoProcessor, $digraph->value());
+        $this->assertInheritance($neatoProcessor, $externalCommand, $digraph->value());
+        $this->assertNode($statisticsProcessor, $digraph->value());
+        $this->assertInheritance($statisticsProcessor, $processor, $digraph->value());
     }
 
     /** @before */
     function let()
     {
         $this->codebaseDirectory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
-        $this->pathToDotFile = new OutputFilePath(__DIR__ . '/../../resources/.output/dot.gv');
-        $this->generator = new DotFileGenerator(new GraphvizProcessor());
+        $this->generator = new DotFileGenerator(A::graphvizProcessor()->build());
         $this->parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
     private DotFileGenerator $generator;
-
-    private OutputFilePath $pathToDotFile;
 
     private ProgressDisplay $display;
 

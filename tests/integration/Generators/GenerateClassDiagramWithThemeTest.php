@@ -10,20 +10,11 @@ namespace PhUml\Generators;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\EdgesBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
-use PhUml\Graphviz\Builders\TraitGraphBuilder;
-use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\DigraphStyle;
-use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
-use PhUml\Templates\TemplateEngine;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -73,12 +64,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     private function createGenerator(string $theme): ClassDiagramGenerator
     {
         $generator = new ClassDiagramGenerator(
-            new GraphvizProcessor(
-                new ClassGraphBuilder(new EdgesBuilder()),
-                new InterfaceGraphBuilder(),
-                new TraitGraphBuilder(),
-                new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName($theme)))
-            ),
+            A::graphvizProcessor()->withoutEmptyBlocks()->withTheme($theme)->build(),
             ImageProcessor::dot(new SmartFileSystem())
         );
         $this->display = new ConsoleProgressDisplay(new NullOutput());

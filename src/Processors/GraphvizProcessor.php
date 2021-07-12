@@ -12,11 +12,16 @@ use PhUml\Code\Codebase;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\TraitDefinition;
+use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
+use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\Digraph;
 use PhUml\Graphviz\DigraphPrinter;
+use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Templates\TemplateEngine;
 
 /**
  * It creates a digraph from a `Structure` and returns it as a string in DOT format
@@ -27,20 +32,39 @@ final class GraphvizProcessor extends Processor
 
     private InterfaceGraphBuilder $interfaceBuilder;
 
-    private DigraphPrinter $printer;
-
     private TraitGraphBuilder $traitBuilder;
 
-    public function __construct(
-        ClassGraphBuilder $classBuilder = null,
-        InterfaceGraphBuilder $interfaceBuilder = null,
-        TraitGraphBuilder $traitBuilder = null,
-        DigraphPrinter $printer = null
+    private DigraphPrinter $printer;
+
+    public static function fromConfiguration(DigraphConfiguration $configuration): GraphvizProcessor
+    {
+        $associationsBuilder = $configuration->extractAssociations()
+            ? new EdgesBuilder()
+            : new NoAssociationsBuilder();
+
+        $theme = $configuration->theme();
+        $style = $configuration->hideEmptyBlocks()
+            ? DigraphStyle::withoutEmptyBlocks($theme)
+            : DigraphStyle::default($theme);
+
+        return new GraphvizProcessor(
+            new ClassGraphBuilder($associationsBuilder),
+            new InterfaceGraphBuilder(),
+            new TraitGraphBuilder(),
+            new DigraphPrinter(new TemplateEngine(), $style)
+        );
+    }
+
+    private function __construct(
+        ClassGraphBuilder $classBuilder,
+        InterfaceGraphBuilder $interfaceBuilder,
+        TraitGraphBuilder $traitBuilder,
+        DigraphPrinter $printer
     ) {
-        $this->classBuilder = $classBuilder ?? new ClassGraphBuilder();
-        $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder();
-        $this->traitBuilder = $traitBuilder ?? new TraitGraphBuilder();
-        $this->printer = $printer ?? new DigraphPrinter();
+        $this->classBuilder = $classBuilder;
+        $this->interfaceBuilder = $interfaceBuilder;
+        $this->traitBuilder = $traitBuilder;
+        $this->printer = $printer;
     }
 
     public function name(): string
