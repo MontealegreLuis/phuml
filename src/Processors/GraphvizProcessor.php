@@ -26,7 +26,7 @@ use PhUml\Templates\TemplateEngine;
 /**
  * It creates a digraph from a `Structure` and returns it as a string in DOT format
  */
-final class GraphvizProcessor extends Processor
+final class GraphvizProcessor implements Processor
 {
     private ClassGraphBuilder $classBuilder;
 
@@ -43,6 +43,7 @@ final class GraphvizProcessor extends Processor
             : new NoAssociationsBuilder();
 
         $theme = $configuration->theme();
+
         $style = $configuration->hideEmptyBlocks()
             ? DigraphStyle::withoutEmptyBlocks($theme)
             : DigraphStyle::default($theme);

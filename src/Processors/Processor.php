@@ -8,14 +8,9 @@
 namespace PhUml\Processors;
 
 /**
- * Every processor has a name and can write their output to a file
+ * Every processor has a name
  */
-abstract class Processor
+interface Processor
 {
-    public function saveToFile(OutputContent $contents, OutputFilePath $filePath): void
-    {
-        file_put_contents($filePath->value(), $contents->value());
-    }
-
-    abstract public function name(): string;
+    public function name(): string;
 }

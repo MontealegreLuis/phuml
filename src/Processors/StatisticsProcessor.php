@@ -15,7 +15,7 @@ use PhUml\Templates\TemplateFailure;
 /**
  * It takes a code `Structure` and extracts a `Summary` of its contents as text
  */
-final class StatisticsProcessor extends Processor
+final class StatisticsProcessor implements Processor
 {
     private TemplateEngine $engine;
 

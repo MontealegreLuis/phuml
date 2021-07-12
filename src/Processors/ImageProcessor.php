@@ -17,7 +17,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
  * diagram out of it.
  * It uses either the `dot` or `neato` command to create the image
  */
-final class ImageProcessor extends Processor
+final class ImageProcessor implements Processor
 {
     private ImageProcessorName $name;
 
