@@ -7,10 +7,8 @@
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Generators\ProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParserConfiguration;
-use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\OutputFilePath;
 
 final class StatisticsInput
@@ -19,20 +17,14 @@ final class StatisticsInput
 
     private OutputFilePath $outputFile;
 
-    private CodeParserConfiguration $codeParserConfiguration;
+    private ProgressDisplay $display;
 
-    private bool $recursive;
-
-    /**
-     * @param string[] $arguments
-     * @param string[] $options
-     */
-    public function __construct(array $arguments, array $options)
+    /** @param string[] $input */
+    public function __construct(array $input, ProgressDisplay $display)
     {
-        $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
-        $this->recursive = isset($options['recursive']) && (bool) $options['recursive'];
-        $this->outputFile = new OutputFilePath($arguments['output'] ?? '');
-        $this->codeParserConfiguration = new CodeParserConfiguration($options);
+        $this->directory = new CodebaseDirectory($input['directory'] ?? '');
+        $this->outputFile = new OutputFilePath($input['output'] ?? '');
+        $this->display = $display;
     }
 
     public function outputFile(): OutputFilePath
@@ -45,15 +37,8 @@ final class StatisticsInput
         return $this->directory;
     }
 
-    public function codeFinder(): CodeFinder
+    public function display(): ProgressDisplay
     {
-        return $this->recursive
-            ? SourceCodeFinder::recursive()
-            : SourceCodeFinder::nonRecursive();
-    }
-
-    public function codeParserConfiguration(): CodeParserConfiguration
-    {
-        return $this->codeParserConfiguration;
+        return $this->display;
     }
 }

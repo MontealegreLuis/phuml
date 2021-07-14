@@ -64,9 +64,9 @@ final class GenerateStatisticsCommandTest extends TestCase
         }
     }
 
-    private ?Command $command = null;
+    private Command $command;
 
-    private ?CommandTester $tester = null;
+    private CommandTester $tester;
 
-    private ?string $statistics = null;
+    private string $statistics;
 }

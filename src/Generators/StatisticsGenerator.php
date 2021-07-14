@@ -7,8 +7,10 @@
 
 namespace PhUml\Generators;
 
-use PhUml\Code\Codebase;
-use PhUml\Processors\OutputContent;
+use PhUml\Console\Commands\StatisticsInput;
+use PhUml\Parser\CodeParser;
+use PhUml\Parser\SourceCodeFinder;
+use PhUml\Processors\OutputWriter;
 use PhUml\Processors\StatisticsProcessor;
 use PhUml\Templates\TemplateFailure;
 
@@ -20,25 +22,50 @@ use PhUml\Templates\TemplateFailure;
  */
 final class StatisticsGenerator
 {
+    private SourceCodeFinder $codeFinder;
+
+    private CodeParser $codeParser;
+
     private StatisticsProcessor $statisticsProcessor;
 
-    public function __construct(StatisticsProcessor $statisticsProcessor)
+    private OutputWriter $writer;
+
+    public static function fromConfiguration(StatisticsGeneratorConfiguration $configuration): StatisticsGenerator
     {
+        return new StatisticsGenerator(
+            $configuration->sourceCodeFinder(),
+            $configuration->codeParser(),
+            $configuration->statisticsProcessor(),
+            $configuration->writer()
+        );
+    }
+
+    private function __construct(
+        SourceCodeFinder $codeFinder,
+        CodeParser $codeParser,
+        StatisticsProcessor $statisticsProcessor,
+        OutputWriter $writer
+    ) {
+        $this->codeFinder = $codeFinder;
+        $this->codeParser = $codeParser;
         $this->statisticsProcessor = $statisticsProcessor;
+        $this->writer = $writer;
     }
 
     /**
-     * The process to generate a text file with statistics is as follows
-     *
-     * 1. The parser produces a collection of classes and interfaces
-     * 2. The `statistics` processor takes this collection and creates a summary
-     * 4. The text file with the statistics is saved to the given path
+     * It generates a text file with statistics
      *
      * @throws TemplateFailure If Twig fails
      */
-    public function generate(Codebase $codebase, ProgressDisplay $display): OutputContent
+    public function generate(StatisticsInput $input): void
     {
-        $display->runningProcessor($this->statisticsProcessor);
-        return $this->statisticsProcessor->process($codebase);
+        $input->display()->start();
+        $sourceCode = $this->codeFinder->find($input->directory());
+        $input->display()->runningParser();
+        $codebase = $this->codeParser->parse($sourceCode);
+        $input->display()->runningProcessor($this->statisticsProcessor);
+        $statistics = $this->statisticsProcessor->process($codebase);
+        $input->display()->savingResult();
+        $this->writer->save($statistics, $input->outputFile());
     }
 }

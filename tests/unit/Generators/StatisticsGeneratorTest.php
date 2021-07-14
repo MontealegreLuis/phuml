@@ -8,15 +8,12 @@
 namespace PhUml\Generators;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\Commands\StatisticsInput;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\StatisticsProcessor;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 
-final class GenerateStatisticsTest extends TestCase
+final class StatisticsGeneratorTest extends TestCase
 {
     /** @test */
     function it_shows_the_statistics_of_a_directory()
@@ -48,16 +45,11 @@ Attributes per class: 2.5
 Functions per class:  5.5
 
 STATS;
-        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $generator = new StatisticsGenerator(new StatisticsProcessor());
-        $display = new ConsoleProgressDisplay(new NullOutput());
-        $finder = SourceCodeFinder::nonRecursive();
-        $sourceCode = $finder->find($this->pathToCode);
-        $codebase = $parser->parse($sourceCode);
+        $generator = StatisticsGenerator::fromConfiguration(A::statisticsGeneratorConfiguration()->build());
 
-        $statistics = $generator->generate($codebase, $display);
+        $generator->generate($this->input);
 
-        $this->assertEquals($expectedStatistics, $statistics->value());
+        $this->assertEquals($expectedStatistics, file_get_contents($this->statisticsFile));
     }
 
     /** @test */
@@ -90,23 +82,28 @@ Attributes per class: 1.2
 Functions per class:  4.35
 
 STATS;
-        $parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $generator = new StatisticsGenerator(new StatisticsProcessor());
-        $display = new ConsoleProgressDisplay(new NullOutput());
-        $finder = SourceCodeFinder::recursive();
-        $sourceCode = $finder->find($this->pathToCode);
-        $codebase = $parser->parse($sourceCode);
+        $configuration = A::statisticsGeneratorConfiguration()->recursive()->build();
+        $generator = StatisticsGenerator::fromConfiguration($configuration);
 
-        $statistics = $generator->generate($codebase, $display);
+        $generator->generate($this->input);
 
-        $this->assertEquals($expectedStatistics, $statistics->value());
+        $this->assertEquals($expectedStatistics, file_get_contents($this->statisticsFile));
     }
 
     /** @before */
     function let()
     {
-        $this->pathToCode = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
+        $this->statisticsFile  = __DIR__ . '/../../resources/.output/statistics.txt';
+        $this->input = new StatisticsInput(
+            ['directory' => __DIR__ . '/../../resources/.code/classes', 'output' => $this->statisticsFile],
+            new ConsoleProgressDisplay(new NullOutput())
+        );
+        if (file_exists($this->statisticsFile)) {
+            unlink($this->statisticsFile);
+        }
     }
 
-    private CodebaseDirectory $pathToCode;
+    private string $statisticsFile;
+
+    private StatisticsInput $input;
 }

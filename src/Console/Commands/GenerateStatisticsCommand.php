@@ -9,16 +9,13 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\StatisticsGenerator;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\OutputWriter;
-use PhUml\Processors\StatisticsProcessor;
+use PhUml\Generators\StatisticsGeneratorConfiguration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * This command will generate a text file with the statistics of an OO codebase
@@ -28,7 +25,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
  * 1. `directory`. The path where your codebase lives
  * 2. `output`. The path to where the generated `png` image will be saved
  *
- * There is 1 options
+ * There is 1 option
  *
  * 1. `recursive`. If present it will look recursively within the `directory` provided
  */
@@ -72,23 +69,11 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $statisticsInput = new StatisticsInput($input->getArguments(), $input->getOptions());
-        $statisticsFilePath = $statisticsInput->outputFile();
-        $codebaseDirectory = $statisticsInput->directory();
+        $statisticsInput = new StatisticsInput($input->getArguments(), new ConsoleProgressDisplay($output));
 
-        $parser = CodeParser::fromConfiguration($statisticsInput->codeParserConfiguration());
-        $statisticsGenerator = new StatisticsGenerator(new StatisticsProcessor());
-        $display = new ConsoleProgressDisplay($output);
-        $writer = new OutputWriter(new SmartFileSystem());
+        $generator = StatisticsGenerator::fromConfiguration(new StatisticsGeneratorConfiguration($input->getOptions()));
 
-        $display->start();
-        $codeFinder = $statisticsInput->codeFinder();
-        $sourceCode = $codeFinder->find($codebaseDirectory);
-        $display->runningParser();
-        $codebase = $parser->parse($sourceCode);
-        $statistics = $statisticsGenerator->generate($codebase, $display);
-        $display->savingResult();
-        $writer->save($statistics, $statisticsFilePath);
+        $generator->generate($statisticsInput);
 
         return self::SUCCESS;
     }

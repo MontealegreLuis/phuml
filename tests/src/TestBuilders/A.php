@@ -78,4 +78,9 @@ final class A
     {
         return new DigraphConfigurationBuilder();
     }
+
+    public static function statisticsGeneratorConfiguration(): StatisticsGeneratorConfigurationBuilder
+    {
+        return new StatisticsGeneratorConfigurationBuilder();
+    }
 }
