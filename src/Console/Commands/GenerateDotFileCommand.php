@@ -10,7 +10,7 @@ namespace PhUml\Console\Commands;
 use PhUml\Configuration\DigraphBuilder;
 use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Generators\DotFileGenerator;
+use PhUml\Generators\DigraphGenerator;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputWriter;
@@ -74,7 +74,7 @@ HELP
         $builder = new DigraphBuilder($digraphConfiguration);
         $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
         $digraphProcessor = GraphvizProcessor::fromConfiguration($digraphConfiguration);
-        $dotFileGenerator = new DotFileGenerator($digraphProcessor);
+        $digraphGenerator = new DigraphGenerator($digraphProcessor);
         $display = new ConsoleProgressDisplay($output);
         $writer = new OutputWriter(new SmartFileSystem());
 
@@ -83,7 +83,7 @@ HELP
         $sourceCode = $codeFinder->find($codebasePath);
         $display->runningParser();
         $codebase = $parser->parse($sourceCode);
-        $digraph = $dotFileGenerator->generate($codebase, $display);
+        $digraph = $digraphGenerator->generateDigraph($codebase, $display);
         $display->savingResult();
         $writer->save($digraph, $dotFilePath);
 

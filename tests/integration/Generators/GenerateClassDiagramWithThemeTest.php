@@ -13,8 +13,10 @@ use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
+use PhUml\Processors\OutputWriter;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -30,16 +32,23 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     function it_generates_a_class_diagram_using_the_php_theme()
     {
         $codeFinder = SourceCodeFinder::recursive();
-        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png');
+        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
-        $generator = $this->createGenerator('php');
         $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
+        $configuration = A::digraphConfiguration()
+            ->withTheme('php')
+            ->withAssociations()
+            ->withoutEmptyBlocks()
+            ->build();
+        $graphvizProcessor = GraphvizProcessor::fromConfiguration($configuration);
+        $digraph = $graphvizProcessor->process($codebase);
 
-        $generator->generate($codebase, $this->display);
+        $diagram = $this->generator->generate($digraph, $this->display);
 
-        $this->assertImagesSame($expectedDiagram, $diagram->value());
+        $this->outputWriter->save($diagram, $diagramPath);
+        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
     }
 
     /**
@@ -49,27 +58,36 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     function it_generates_a_class_diagram_using_the_classic_theme()
     {
         $codeFinder = SourceCodeFinder::recursive();
-        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png');
+        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
-        $generator = $this->createGenerator('classic');
         $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
+        $configuration = A::digraphConfiguration()
+            ->withTheme('classic')
+            ->withAssociations()
+            ->withoutEmptyBlocks()
+            ->build();
+        $graphvizProcessor = GraphvizProcessor::fromConfiguration($configuration);
+        $digraph = $graphvizProcessor->process($codebase);
 
-        $generator->generate($codebase, $this->display);
+        $diagram = $this->generator->generate($digraph, $this->display);
 
-        $this->assertImagesSame($expectedDiagram, $diagram->value());
+        $this->outputWriter->save($diagram, $diagramPath);
+        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
     }
 
-    private function createGenerator(string $theme): ClassDiagramGenerator
+    /** @before */
+    function let()
     {
-        $generator = new ClassDiagramGenerator(
-            A::graphvizProcessor()->withoutEmptyBlocks()->withTheme($theme)->build(),
-            ImageProcessor::dot(new SmartFileSystem())
-        );
+        $this->generator = new ClassDiagramGenerator(ImageProcessor::dot(new SmartFileSystem()));
         $this->display = new ConsoleProgressDisplay(new NullOutput());
-        return $generator;
+        $this->outputWriter = new OutputWriter(new SmartFileSystem());
     }
 
     private ConsoleProgressDisplay $display;
+
+    private OutputWriter $outputWriter;
+
+    private ClassDiagramGenerator $generator;
 }

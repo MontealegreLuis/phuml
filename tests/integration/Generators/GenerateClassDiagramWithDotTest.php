@@ -13,8 +13,10 @@ use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
+use PhUml\Processors\OutputWriter;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -31,15 +33,18 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     {
         $display = new ConsoleProgressDisplay(new NullOutput());
         $finder = SourceCodeFinder::nonRecursive();
-        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot.png');
+        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot.png';
         $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes'));
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
+        $graphvizProcessor = GraphvizProcessor::fromConfiguration(A::digraphConfiguration()->build());
+        $digraph = $graphvizProcessor->process($codebase);
 
-        $this->generator->generate($codebase, $display);
+        $diagram = $this->generator->generate($digraph, $display);
 
-        $this->assertImagesSame($expectedDiagram, $diagram->value());
+        $this->outputWriter->save($diagram, $diagramPath);
+        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
     }
 
     /**
@@ -50,25 +55,29 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     {
         $display = new ConsoleProgressDisplay(new NullOutput());
         $codeFinder = SourceCodeFinder::recursive();
-        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-recursive.png');
+        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-recursive.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-recursive.png';
         $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
         $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $codebase = $codeParser->parse($sourceCode);
+        $configuration = A::digraphConfiguration()->withAssociations()->build();
+        $graphvizProcessor = GraphvizProcessor::fromConfiguration($configuration);
+        $digraph = $graphvizProcessor->process($codebase);
 
-        $this->generator->generate($codebase, $display);
+        $diagram = $this->generator->generate($digraph, $display);
 
-        $this->assertImagesSame($expectedDiagram, $diagram->value());
+        $this->outputWriter->save($diagram, $diagramPath);
+        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
     }
 
     /** @before */
     function let()
     {
-        $this->generator = new ClassDiagramGenerator(
-            A::graphvizProcessor()->build(),
-            ImageProcessor::dot(new SmartFileSystem())
-        );
+        $this->generator = new ClassDiagramGenerator(ImageProcessor::dot(new SmartFileSystem()));
+        $this->outputWriter = new OutputWriter(new SmartFileSystem());
     }
 
     private ClassDiagramGenerator $generator;
+
+    private OutputWriter $outputWriter;
 }

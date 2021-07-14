@@ -14,13 +14,10 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\TraitDefinition;
 use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
-use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\Digraph;
 use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Templates\TemplateEngine;
 
 /**
@@ -38,15 +35,8 @@ final class GraphvizProcessor implements Processor
 
     public static function fromConfiguration(DigraphConfiguration $configuration): GraphvizProcessor
     {
-        $associationsBuilder = $configuration->extractAssociations()
-            ? new EdgesBuilder()
-            : new NoAssociationsBuilder();
-
-        $theme = $configuration->theme();
-
-        $style = $configuration->hideEmptyBlocks()
-            ? DigraphStyle::withoutEmptyBlocks($theme)
-            : DigraphStyle::default($theme);
+        $style = $configuration->digraphStyle();
+        $associationsBuilder = $configuration->associationsBuilder();
 
         return new GraphvizProcessor(
             new ClassGraphBuilder($associationsBuilder),

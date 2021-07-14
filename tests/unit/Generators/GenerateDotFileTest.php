@@ -27,7 +27,7 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $digraph = $this->generator->generate($codebase, $this->display);
+        $digraph = $this->generator->generateDigraph($codebase, $this->display);
 
         $this->assertNode(A::classNamed('plBase'), $digraph->value());
         $this->assertNode(A::classNamed('plPhuml'), $digraph->value());
@@ -40,7 +40,7 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $digraph = $this->generator->generate($codebase, $this->display);
+        $digraph = $this->generator->generateDigraph($codebase, $this->display);
 
         $base = A::classNamed('plBase');
         $tokenParser = A::classNamed('plStructureTokenparserGenerator');
@@ -95,12 +95,12 @@ final class GenerateDotFileTest extends TestCase
     function let()
     {
         $this->codebaseDirectory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
-        $this->generator = new DotFileGenerator(A::graphvizProcessor()->build());
+        $this->generator = new DigraphGenerator(A::graphvizProcessor()->build());
         $this->parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
         $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
-    private DotFileGenerator $generator;
+    private DigraphGenerator $generator;
 
     private ProgressDisplay $display;
 

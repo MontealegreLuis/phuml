@@ -73,4 +73,9 @@ final class A
     {
         return new GraphvizProcessorBuilder();
     }
+
+    public static function digraphConfiguration(): DigraphConfigurationBuilder
+    {
+        return new DigraphConfigurationBuilder();
+    }
 }

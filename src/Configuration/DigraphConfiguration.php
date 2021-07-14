@@ -7,44 +7,43 @@
 
 namespace PhUml\Configuration;
 
+use PhUml\Graphviz\Builders\AssociationsBuilder;
+use PhUml\Graphviz\Builders\EdgesBuilder;
+use PhUml\Graphviz\Builders\NoAssociationsBuilder;
+use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\ThemeName;
 
 final class DigraphConfiguration
 {
     private bool $searchRecursively;
 
-    private bool $extractAssociations;
+    private AssociationsBuilder $associationsBuilder;
 
-    private bool $hideEmptyBlocks;
-
-    private ThemeName $theme;
+    private DigraphStyle $digraphStyle;
 
     /** @param mixed[] $input */
     public function __construct(array $input)
     {
         $this->searchRecursively = (bool) $input['recursive'];
-        $this->extractAssociations = (bool) $input['associations'];
-        $this->hideEmptyBlocks = (bool) $input['hide-empty-blocks'];
-        $this->theme = new ThemeName($input['theme']);
+        $this->associationsBuilder = (bool) $input['associations'] ? new EdgesBuilder() : new NoAssociationsBuilder();
+        $theme = new ThemeName($input['theme']);
+        $this->digraphStyle = (bool) $input['hide-empty-blocks']
+            ? DigraphStyle::withoutEmptyBlocks($theme)
+            : DigraphStyle::default($theme);
     }
 
-    public function extractAssociations(): bool
+    public function associationsBuilder(): AssociationsBuilder
     {
-        return $this->extractAssociations;
+        return $this->associationsBuilder;
+    }
+
+    public function digraphStyle(): DigraphStyle
+    {
+        return $this->digraphStyle;
     }
 
     public function searchRecursively(): bool
     {
         return $this->searchRecursively;
-    }
-
-    public function hideEmptyBlocks(): bool
-    {
-        return $this->hideEmptyBlocks;
-    }
-
-    public function theme(): ThemeName
-    {
-        return $this->theme;
     }
 }

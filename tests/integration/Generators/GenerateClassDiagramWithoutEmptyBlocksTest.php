@@ -13,8 +13,10 @@ use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputFilePath;
+use PhUml\Processors\OutputWriter;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -30,14 +32,18 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     function it_removes_empty_blocks_if_only_definition_names_are_shown()
     {
         $finder = SourceCodeFinder::nonRecursive();
-        $diagram = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png');
+        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png');
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
         $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes'));
         $codebase = $this->parser->parse($sourceCode);
+        $configuration = A::digraphConfiguration()->withoutEmptyBlocks()->build();
+        $graphvizProcessor = GraphvizProcessor::fromConfiguration($configuration);
+        $digraph = $graphvizProcessor->process($codebase);
 
-        $this->generator->generate($codebase, $this->display);
+        $diagram = $this->generator->generate($digraph, $this->display);
 
-        $this->assertImagesSame($expectedDiagram, $diagram->value());
+        $this->outputWriter->save($diagram, $diagramPath);
+        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
     }
 
     /** @before*/
@@ -45,11 +51,9 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     {
         $configuration = A::codeParserConfiguration()->withoutAttributes()->withoutMethods()->build();
         $this->parser = CodeParser::fromConfiguration($configuration);
-        $this->generator = new ClassDiagramGenerator(
-            A::graphvizProcessor()->withoutEmptyBlocks()->build(),
-            ImageProcessor::dot(new SmartFileSystem())
-        );
+        $this->generator = new ClassDiagramGenerator(ImageProcessor::dot(new SmartFileSystem()));
         $this->display = new ConsoleProgressDisplay(new NullOutput());
+        $this->outputWriter = new OutputWriter(new SmartFileSystem());
     }
 
     private ClassDiagramGenerator $generator;
@@ -57,4 +61,6 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     private ConsoleProgressDisplay $display;
 
     private CodeParser $parser;
+
+    private OutputWriter $outputWriter;
 }

@@ -97,14 +97,16 @@ HELP
             ? ImageProcessor::dot($filesystem)
             : ImageProcessor::neato($filesystem);
         $digraphProcessor = GraphvizProcessor::fromConfiguration($digraphConfiguration);
-        $classDiagramGenerator = new ClassDiagramGenerator($digraphProcessor, $imageProcessor);
+        $classDiagramGenerator = new ClassDiagramGenerator($imageProcessor);
         $display = new ConsoleProgressDisplay($output);
 
         $display->start();
         $sourceCode = $codeFinder->find($codebaseDirectory);
         $display->runningParser();
         $codebase = $parser->parse($sourceCode);
-        $classDiagram = $classDiagramGenerator->generate($codebase, $display);
+        $display->runningProcessor($digraphProcessor);
+        $digraph = $digraphProcessor->process($codebase);
+        $classDiagram = $classDiagramGenerator->generate($digraph, $display);
         $display->savingResult();
         $writer->save($classDiagram, $classDiagramPath);
 
