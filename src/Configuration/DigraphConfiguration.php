@@ -15,8 +15,6 @@ use PhUml\Graphviz\Styles\ThemeName;
 
 final class DigraphConfiguration
 {
-    private bool $searchRecursively;
-
     private AssociationsBuilder $associationsBuilder;
 
     private DigraphStyle $digraphStyle;
@@ -24,10 +22,11 @@ final class DigraphConfiguration
     /** @param mixed[] $input */
     public function __construct(array $input)
     {
-        $this->searchRecursively = (bool) $input['recursive'];
-        $this->associationsBuilder = (bool) $input['associations'] ? new EdgesBuilder() : new NoAssociationsBuilder();
+        $extractAssociations = (bool) ($input['associations'] ?? false);
+        $this->associationsBuilder = $extractAssociations ? new EdgesBuilder() : new NoAssociationsBuilder();
         $theme = new ThemeName($input['theme']);
-        $this->digraphStyle = (bool) $input['hide-empty-blocks']
+        $hideEmptyBlocks = (bool) ($input['hide-empty-blocks'] ?? false);
+        $this->digraphStyle = $hideEmptyBlocks
             ? DigraphStyle::withoutEmptyBlocks($theme)
             : DigraphStyle::default($theme);
     }
@@ -40,10 +39,5 @@ final class DigraphConfiguration
     public function digraphStyle(): DigraphStyle
     {
         return $this->digraphStyle;
-    }
-
-    public function searchRecursively(): bool
-    {
-        return $this->searchRecursively;
     }
 }

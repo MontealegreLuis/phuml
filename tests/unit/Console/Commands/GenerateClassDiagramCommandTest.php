@@ -157,11 +157,11 @@ final class GenerateClassDiagramCommandTest extends TestCase
         }
     }
 
-    private ?Command $command = null;
+    private Command $command;
 
-    private ?CommandTester $tester = null;
+    private CommandTester $tester;
 
-    private ?string $diagram = null;
+    private string $diagram;
 
     private ?string $pathToCode = null;
 }

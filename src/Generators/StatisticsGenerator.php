@@ -7,9 +7,9 @@
 
 namespace PhUml\Generators;
 
-use PhUml\Console\Commands\StatisticsInput;
+use PhUml\Console\Commands\GeneratorInput;
+use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\OutputWriter;
 use PhUml\Processors\StatisticsProcessor;
 use PhUml\Templates\TemplateFailure;
@@ -22,7 +22,7 @@ use PhUml\Templates\TemplateFailure;
  */
 final class StatisticsGenerator
 {
-    private SourceCodeFinder $codeFinder;
+    private CodeFinder $codeFinder;
 
     private CodeParser $codeParser;
 
@@ -41,7 +41,7 @@ final class StatisticsGenerator
     }
 
     private function __construct(
-        SourceCodeFinder $codeFinder,
+        CodeFinder $codeFinder,
         CodeParser $codeParser,
         StatisticsProcessor $statisticsProcessor,
         OutputWriter $writer
@@ -57,7 +57,7 @@ final class StatisticsGenerator
      *
      * @throws TemplateFailure If Twig fails
      */
-    public function generate(StatisticsInput $input): void
+    public function generate(GeneratorInput $input): void
     {
         $input->display()->start();
         $sourceCode = $this->codeFinder->find($input->directory());

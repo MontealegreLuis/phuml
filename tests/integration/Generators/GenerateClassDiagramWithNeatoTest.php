@@ -9,17 +9,10 @@ namespace PhUml\Generators;
 
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\Commands\GeneratorInput;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\ImageProcessor;
-use PhUml\Processors\OutputFilePath;
-use PhUml\Processors\OutputWriter;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class GenerateClassDiagramWithNeatoTest extends TestCase
 {
@@ -31,20 +24,18 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram()
     {
-        $display = new ConsoleProgressDisplay(new NullOutput());
-        $finder = SourceCodeFinder::nonRecursive();
-        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato.png');
+        $diagramPath = __DIR__ . '/../../resources/.output/graphviz-neato.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
-        $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes'));
-        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $codebase = $codeParser->parse($sourceCode);
-        $graphvizProcessor = GraphvizProcessor::fromConfiguration(A::digraphConfiguration()->build());
-        $digraph = $graphvizProcessor->process($codebase);
+        $arguments = [
+            'directory' => __DIR__ . '/../../resources/.code/classes',
+            'output' => $diagramPath,
+        ];
+        $input = new GeneratorInput($arguments, $this->display);
+        $generator = ClassDiagramGenerator::fromConfiguration(A::classDiagramConfiguration()->usingNeato()->build());
 
-        $diagram = $this->generator->generate($digraph, $display);
+        $generator->generate($input);
 
-        $this->outputWriter->save($diagram, $diagramPath);
-        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
+        $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
 
     /**
@@ -53,31 +44,26 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
      */
     function it_generates_a_class_diagram_using_a_recursive_finder()
     {
-        $display = new ConsoleProgressDisplay(new NullOutput());
-        $codeFinder = SourceCodeFinder::recursive();
-        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-neato-recursive.png');
+        $diagramPath = __DIR__ . '/../../resources/.output/graphviz-neato-recursive.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
-        $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
-        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $codebase = $codeParser->parse($sourceCode);
-        $configuration = A::digraphConfiguration()->withAssociations()->build();
-        $graphvizProcessor = GraphvizProcessor::fromConfiguration($configuration);
-        $digraph = $graphvizProcessor->process($codebase);
+        $arguments = [
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $diagramPath,
+        ];
+        $input = new GeneratorInput($arguments, $this->display);
+        $configuration = A::classDiagramConfiguration()->recursive()->withAssociations()->usingNeato()->build();
+        $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $diagram = $this->generator->generate($digraph, $display);
+        $generator->generate($input);
 
-        $this->outputWriter->save($diagram, $diagramPath);
-        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
+        $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
 
     /** @before */
     function let()
     {
-        $this->generator = new ClassDiagramGenerator(ImageProcessor::neato(new SmartFileSystem()));
-        $this->outputWriter = new OutputWriter(new SmartFileSystem());
+        $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
-    private ClassDiagramGenerator $generator;
-
-    private OutputWriter $outputWriter;
+    private ConsoleProgressDisplay $display;
 }

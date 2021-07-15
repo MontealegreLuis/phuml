@@ -8,7 +8,7 @@
 namespace PhUml\Generators;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Console\Commands\StatisticsInput;
+use PhUml\Console\Commands\GeneratorInput;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
@@ -94,7 +94,7 @@ STATS;
     function let()
     {
         $this->statisticsFile  = __DIR__ . '/../../resources/.output/statistics.txt';
-        $this->input = new StatisticsInput(
+        $this->input = new GeneratorInput(
             ['directory' => __DIR__ . '/../../resources/.code/classes', 'output' => $this->statisticsFile],
             new ConsoleProgressDisplay(new NullOutput())
         );
@@ -105,5 +105,5 @@ STATS;
 
     private string $statisticsFile;
 
-    private StatisticsInput $input;
+    private GeneratorInput $input;
 }

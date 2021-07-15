@@ -83,4 +83,9 @@ final class A
     {
         return new StatisticsGeneratorConfigurationBuilder();
     }
+
+    public static function classDiagramConfiguration(): ClassDiagramConfigurationBuilder
+    {
+        return new ClassDiagramConfigurationBuilder();
+    }
 }

@@ -7,9 +7,11 @@
 
 namespace PhUml\Generators;
 
-use PhUml\Code\Codebase;
+use PhUml\Console\Commands\GeneratorInput;
+use PhUml\Parser\CodeFinder;
+use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\OutputContent;
+use PhUml\Processors\OutputWriter;
 
 /**
  * It generates a file with a digraph in DOT format that can be used to create a class diagram
@@ -24,16 +26,45 @@ use PhUml\Processors\OutputContent;
  */
 final class DigraphGenerator
 {
+    private CodeFinder $codeFinder;
+
+    private CodeParser $codeParser;
+
     protected GraphvizProcessor $digraphProcessor;
 
-    public function __construct(GraphvizProcessor $digraphProcessor)
+    private OutputWriter $writer;
+
+    public static function fromConfiguration(DotFileConfiguration $configuration): DigraphGenerator
     {
-        $this->digraphProcessor = $digraphProcessor;
+        return new self(
+            $configuration->codeFinder(),
+            $configuration->codeParser(),
+            $configuration->graphvizProcessor(),
+            $configuration->writer()
+        );
     }
 
-    public function generateDigraph(Codebase $codebase, ProgressDisplay $display): OutputContent
+    public function __construct(
+        CodeFinder  $codeFinder,
+        CodeParser $codeParser,
+        GraphvizProcessor $digraphProcessor,
+        OutputWriter $writer
+    ) {
+        $this->codeFinder = $codeFinder;
+        $this->codeParser = $codeParser;
+        $this->digraphProcessor = $digraphProcessor;
+        $this->writer = $writer;
+    }
+
+    public function generate(GeneratorInput $input): void
     {
-        $display->runningProcessor($this->digraphProcessor);
-        return $this->digraphProcessor->process($codebase);
+        $input->display()->start();
+        $sourceCode = $this->codeFinder->find($input->directory());
+        $input->display()->runningParser();
+        $codebase = $this->codeParser->parse($sourceCode);
+        $input->display()->runningProcessor($this->digraphProcessor);
+        $digraph = $this->digraphProcessor->process($codebase);
+        $input->display()->savingResult();
+        $this->writer->save($digraph, $input->outputFile());
     }
 }

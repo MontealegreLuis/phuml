@@ -22,26 +22,6 @@ final class ClassDiagramConfigurationTest extends TestCase
         ]));
     }
 
-    /** @test */
-    function it_knows_it_is_the_dot_processor()
-    {
-        $configuration = new ClassDiagramConfiguration($this->options([
-            'processor' => 'dot',
-        ]));
-
-        $this->assertTrue($configuration->isDotProcessor());
-    }
-
-    /** @test */
-    function it_knows_it_is_the_neato_processor()
-    {
-        $configuration = new ClassDiagramConfiguration($this->options([
-            'processor' => 'neato',
-        ]));
-
-        $this->assertFalse($configuration->isDotProcessor());
-    }
-
     private function options(array $override)
     {
         return array_merge([

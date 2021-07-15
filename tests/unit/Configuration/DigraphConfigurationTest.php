@@ -27,13 +27,11 @@ final class DigraphConfigurationTest extends TestCase
     function it_casts_to_bool_all_options_but_theme()
     {
         $options = $this->options([
-            'recursive' => 0,
             'associations' => 'true',
             'hide-empty-blocks' => null,
         ]);
         $configuration = new DigraphConfiguration($options);
 
-        $this->assertFalse($configuration->searchRecursively());
         $this->assertInstanceOf(EdgesBuilder::class, $configuration->associationsBuilder());
     }
 

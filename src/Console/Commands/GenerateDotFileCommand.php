@@ -7,18 +7,13 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Configuration\DigraphBuilder;
-use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\DigraphGenerator;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\OutputWriter;
+use PhUml\Generators\DotFileConfiguration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * This command will generate file in `DOT` format that is ready to use to generate a UML class
@@ -66,26 +61,11 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
-        $codebasePath = $generatorInput->directory();
-        $dotFilePath = $generatorInput->outputFile();
+        $generatorInput = new GeneratorInput($input->getArguments(), new ConsoleProgressDisplay($output));
 
-        $digraphConfiguration = new DigraphConfiguration($generatorInput->options());
-        $builder = new DigraphBuilder($digraphConfiguration);
-        $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
-        $digraphProcessor = GraphvizProcessor::fromConfiguration($digraphConfiguration);
-        $digraphGenerator = new DigraphGenerator($digraphProcessor);
-        $display = new ConsoleProgressDisplay($output);
-        $writer = new OutputWriter(new SmartFileSystem());
+        $generator = DigraphGenerator::fromConfiguration(new DotFileConfiguration($input->getOptions()));
 
-        $display->start();
-        $codeFinder = $builder->codeFinder();
-        $sourceCode = $codeFinder->find($codebasePath);
-        $display->runningParser();
-        $codebase = $parser->parse($sourceCode);
-        $digraph = $digraphGenerator->generateDigraph($codebase, $display);
-        $display->savingResult();
-        $writer->save($digraph, $dotFilePath);
+        $generator->generate($generatorInput);
 
         return self::SUCCESS;
     }

@@ -9,17 +9,10 @@ namespace PhUml\Generators;
 
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\Commands\GeneratorInput;
 use PhUml\Console\ConsoleProgressDisplay;
-use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\ImageProcessor;
-use PhUml\Processors\OutputFilePath;
-use PhUml\Processors\OutputWriter;
 use PhUml\TestBuilders\A;
 use Symfony\Component\Console\Output\NullOutput;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class GenerateClassDiagramWithDotTest extends TestCase
 {
@@ -32,19 +25,18 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     function it_generates_a_class_diagram()
     {
         $display = new ConsoleProgressDisplay(new NullOutput());
-        $finder = SourceCodeFinder::nonRecursive();
-        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot.png');
+        $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot.png';
-        $sourceCode = $finder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes'));
-        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $codebase = $codeParser->parse($sourceCode);
-        $graphvizProcessor = GraphvizProcessor::fromConfiguration(A::digraphConfiguration()->build());
-        $digraph = $graphvizProcessor->process($codebase);
+        $arguments = [
+            'directory' => __DIR__ . '/../../resources/.code/classes',
+            'output' => $diagramPath,
+        ];
+        $input = new GeneratorInput($arguments, $display);
+        $generator = ClassDiagramGenerator::fromConfiguration(A::classDiagramConfiguration()->build());
 
-        $diagram = $this->generator->generate($digraph, $display);
+        $generator->generate($input);
 
-        $this->outputWriter->save($diagram, $diagramPath);
-        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
+        $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
 
     /**
@@ -54,30 +46,18 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     function it_generates_a_class_diagram_using_a_recursive_finder()
     {
         $display = new ConsoleProgressDisplay(new NullOutput());
-        $codeFinder = SourceCodeFinder::recursive();
-        $diagramPath = new OutputFilePath(__DIR__ . '/../../resources/.output/graphviz-dot-recursive.png');
+        $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-recursive.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-recursive.png';
-        $sourceCode = $codeFinder->find(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
-        $codeParser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $codebase = $codeParser->parse($sourceCode);
-        $configuration = A::digraphConfiguration()->withAssociations()->build();
-        $graphvizProcessor = GraphvizProcessor::fromConfiguration($configuration);
-        $digraph = $graphvizProcessor->process($codebase);
+        $arguments = [
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $diagramPath,
+        ];
+        $input = new GeneratorInput($arguments, $display);
+        $configuration = A::classDiagramConfiguration()->recursive()->withAssociations()->build();
+        $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $diagram = $this->generator->generate($digraph, $display);
+        $generator->generate($input);
 
-        $this->outputWriter->save($diagram, $diagramPath);
-        $this->assertImagesSame($expectedDiagram, $diagramPath->value());
+        $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
-
-    /** @before */
-    function let()
-    {
-        $this->generator = new ClassDiagramGenerator(ImageProcessor::dot(new SmartFileSystem()));
-        $this->outputWriter = new OutputWriter(new SmartFileSystem());
-    }
-
-    private ClassDiagramGenerator $generator;
-
-    private OutputWriter $outputWriter;
 }

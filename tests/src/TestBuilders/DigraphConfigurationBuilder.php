@@ -38,7 +38,6 @@ final class DigraphConfigurationBuilder
     public function build(): DigraphConfiguration
     {
         return new DigraphConfiguration([
-            'recursive' => true,
             'theme' => $this->theme,
             'hide-empty-blocks' => $this->hideEmptyBlocks,
             'associations' => $this->associations,

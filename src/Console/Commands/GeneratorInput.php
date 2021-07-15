@@ -7,8 +7,8 @@
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Generators\ProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Processors\OutputFilePath;
 
 final class GeneratorInput
@@ -17,26 +17,14 @@ final class GeneratorInput
 
     private OutputFilePath $outputFile;
 
-    /** @var mixed[] $options */
-    private array $options;
+    private ProgressDisplay $display;
 
-    private CodeParserConfiguration $codeParserConfiguration;
-
-    /**
-     * @param string[] $arguments
-     * @param mixed[] $options
-     */
-    public function __construct(array $arguments, array $options)
+    /** @param string[] $input */
+    public function __construct(array $input, ProgressDisplay $display)
     {
-        $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
-        $this->outputFile = new OutputFilePath($arguments['output'] ?? '');
-        $this->codeParserConfiguration = new CodeParserConfiguration($options);
-        $this->options = $options;
-    }
-
-    public function directory(): CodebaseDirectory
-    {
-        return $this->directory;
+        $this->directory = new CodebaseDirectory($input['directory'] ?? '');
+        $this->outputFile = new OutputFilePath($input['output'] ?? '');
+        $this->display = $display;
     }
 
     public function outputFile(): OutputFilePath
@@ -44,14 +32,13 @@ final class GeneratorInput
         return $this->outputFile;
     }
 
-    /** @return mixed[] $options */
-    public function options(): array
+    public function directory(): CodebaseDirectory
     {
-        return $this->options;
+        return $this->directory;
     }
 
-    public function codeParserConfiguration(): CodeParserConfiguration
+    public function display(): ProgressDisplay
     {
-        return $this->codeParserConfiguration;
+        return $this->display;
     }
 }

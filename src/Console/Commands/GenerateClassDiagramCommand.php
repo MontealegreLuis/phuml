@@ -9,20 +9,13 @@ namespace PhUml\Console\Commands;
 
 use InvalidArgumentException;
 use PhUml\Configuration\ClassDiagramConfiguration;
-use PhUml\Configuration\DigraphBuilder;
-use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\ClassDiagramGenerator;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\ImageProcessor;
-use PhUml\Processors\OutputWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * This command will generate a UML class diagram by reading an OO codebase
@@ -82,33 +75,11 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
-        $codebaseDirectory = $generatorInput->directory();
-        $classDiagramPath = $generatorInput->outputFile();
+        $generatorInput = new GeneratorInput($input->getArguments(), new ConsoleProgressDisplay($output));
 
-        $configuration = new ClassDiagramConfiguration($generatorInput->options());
-        $digraphConfiguration = new DigraphConfiguration($generatorInput->options());
-        $builder = new DigraphBuilder($digraphConfiguration);
-        $codeFinder = $builder->codeFinder();
-        $parser = CodeParser::fromConfiguration($generatorInput->codeParserConfiguration());
-        $filesystem = new SmartFileSystem();
-        $writer = new OutputWriter($filesystem);
-        $imageProcessor = $configuration->isDotProcessor()
-            ? ImageProcessor::dot($filesystem)
-            : ImageProcessor::neato($filesystem);
-        $digraphProcessor = GraphvizProcessor::fromConfiguration($digraphConfiguration);
-        $classDiagramGenerator = new ClassDiagramGenerator($imageProcessor);
-        $display = new ConsoleProgressDisplay($output);
+        $generator = ClassDiagramGenerator::fromConfiguration(new ClassDiagramConfiguration($input->getOptions()));
 
-        $display->start();
-        $sourceCode = $codeFinder->find($codebaseDirectory);
-        $display->runningParser();
-        $codebase = $parser->parse($sourceCode);
-        $display->runningProcessor($digraphProcessor);
-        $digraph = $digraphProcessor->process($codebase);
-        $classDiagram = $classDiagramGenerator->generate($digraph, $display);
-        $display->savingResult();
-        $writer->save($classDiagram, $classDiagramPath);
+        $generator->generate($generatorInput);
 
         return self::SUCCESS;
     }

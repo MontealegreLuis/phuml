@@ -69,7 +69,7 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $statisticsInput = new StatisticsInput($input->getArguments(), new ConsoleProgressDisplay($output));
+        $statisticsInput = new GeneratorInput($input->getArguments(), new ConsoleProgressDisplay($output));
 
         $generator = StatisticsGenerator::fromConfiguration(new StatisticsGeneratorConfiguration($input->getOptions()));
 

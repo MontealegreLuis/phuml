@@ -8,13 +8,12 @@
 namespace PhUml\Generators;
 
 use PHPUnit\Framework\TestCase;
-use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\TestBuilders\A;
-use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateDotFileTest extends TestCase
 {
@@ -27,7 +26,7 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $digraph = $this->generator->generateDigraph($codebase, $this->display);
+        $digraph = $this->processor->process($codebase);
 
         $this->assertNode(A::classNamed('plBase'), $digraph->value());
         $this->assertNode(A::classNamed('plPhuml'), $digraph->value());
@@ -40,7 +39,7 @@ final class GenerateDotFileTest extends TestCase
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
-        $digraph = $this->generator->generateDigraph($codebase, $this->display);
+        $digraph = $this->processor->process($codebase);
 
         $base = A::classNamed('plBase');
         $tokenParser = A::classNamed('plStructureTokenparserGenerator');
@@ -95,14 +94,11 @@ final class GenerateDotFileTest extends TestCase
     function let()
     {
         $this->codebaseDirectory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
-        $this->generator = new DigraphGenerator(A::graphvizProcessor()->build());
+        $this->processor = GraphvizProcessor::fromConfiguration(A::digraphConfiguration()->build());
         $this->parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
-        $this->display = new ConsoleProgressDisplay(new NullOutput());
     }
 
-    private DigraphGenerator $generator;
-
-    private ProgressDisplay $display;
+    private GraphvizProcessor $processor;
 
     private CodebaseDirectory $codebaseDirectory;
 

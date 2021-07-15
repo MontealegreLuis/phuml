@@ -7,8 +7,13 @@
 
 namespace PhUml\Generators;
 
+use PhUml\Configuration\ClassDiagramConfiguration;
+use PhUml\Console\Commands\GeneratorInput;
+use PhUml\Parser\CodeFinder;
+use PhUml\Parser\CodeParser;
+use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
-use PhUml\Processors\OutputContent;
+use PhUml\Processors\OutputWriter;
 
 /**
  * It generates a UML class diagram from a directory with PHP code
@@ -17,11 +22,39 @@ use PhUml\Processors\OutputContent;
  */
 final class ClassDiagramGenerator
 {
+    private CodeFinder $codeFinder;
+
+    private CodeParser $codeParser;
+
+    private GraphvizProcessor $graphvizProcessor;
+
     private ImageProcessor $imageProcessor;
 
-    public function __construct(ImageProcessor $imageProcessor)
+    private OutputWriter $writer;
+
+    public static function fromConfiguration(ClassDiagramConfiguration $configuration): ClassDiagramGenerator
     {
+        return new self(
+            $configuration->codeFinder(),
+            $configuration->codeParser(),
+            $configuration->graphvizProcessor(),
+            $configuration->imageProcessor(),
+            $configuration->writer()
+        );
+    }
+
+    public function __construct(
+        CodeFinder $codeFinder,
+        CodeParser $codeParser,
+        GraphvizProcessor $graphvizProcessor,
+        ImageProcessor $imageProcessor,
+        OutputWriter $writer
+    ) {
+        $this->codeFinder = $codeFinder;
+        $this->codeParser = $codeParser;
+        $this->graphvizProcessor = $graphvizProcessor;
         $this->imageProcessor = $imageProcessor;
+        $this->writer = $writer;
     }
 
     /**
@@ -32,9 +65,17 @@ final class ClassDiagramGenerator
      * 3. Either the `neato` or `dot` processor will produce a `.png` class diagram from the digraph
      * 4. The image is saved to the given path
      */
-    public function generate(OutputContent $digraph, ProgressDisplay $display): OutputContent
+    public function generate(GeneratorInput $input): void
     {
-        $display->runningProcessor($this->imageProcessor);
-        return $this->imageProcessor->process($digraph);
+        $input->display()->start();
+        $sourceCode = $this->codeFinder->find($input->directory());
+        $input->display()->runningParser();
+        $codebase = $this->codeParser->parse($sourceCode);
+        $input->display()->runningProcessor($this->graphvizProcessor);
+        $digraph = $this->graphvizProcessor->process($codebase);
+        $input->display()->runningProcessor($this->imageProcessor);
+        $classDiagram = $this->imageProcessor->process($digraph);
+        $input->display()->savingResult();
+        $this->writer->save($classDiagram, $input->outputFile());
     }
 }
