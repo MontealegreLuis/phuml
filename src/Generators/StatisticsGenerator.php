@@ -7,11 +7,16 @@
 
 namespace PhUml\Generators;
 
+use League\Pipeline\Pipeline;
 use PhUml\Console\Commands\GeneratorInput;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Processors\OutputWriter;
 use PhUml\Processors\StatisticsProcessor;
+use PhUml\Stages\CalculateStatistics;
+use PhUml\Stages\FindCode;
+use PhUml\Stages\ParseCode;
+use PhUml\Stages\SaveFile;
 use PhUml\Templates\TemplateFailure;
 
 /**
@@ -59,13 +64,12 @@ final class StatisticsGenerator
      */
     public function generate(GeneratorInput $input): void
     {
-        $input->display()->start();
-        $sourceCode = $this->codeFinder->find($input->directory());
-        $input->display()->runningParser();
-        $codebase = $this->codeParser->parse($sourceCode);
-        $input->display()->runningProcessor($this->statisticsProcessor);
-        $statistics = $this->statisticsProcessor->process($codebase);
-        $input->display()->savingResult();
-        $this->writer->save($statistics, $input->outputFile());
+        $pipeline = (new Pipeline())
+            ->pipe(new FindCode($this->codeFinder, $input->display()))
+            ->pipe(new ParseCode($this->codeParser, $input->display()))
+            ->pipe(new CalculateStatistics($this->statisticsProcessor, $input->display()))
+            ->pipe(new SaveFile($this->writer, $input->outputFile(), $input->display()));
+
+        $pipeline->process($input->directory());
     }
 }

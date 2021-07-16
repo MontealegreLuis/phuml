@@ -7,6 +7,7 @@
 
 namespace PhUml\Generators;
 
+use League\Pipeline\Pipeline;
 use PhUml\Configuration\ClassDiagramConfiguration;
 use PhUml\Console\Commands\GeneratorInput;
 use PhUml\Parser\CodeFinder;
@@ -14,6 +15,11 @@ use PhUml\Parser\CodeParser;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputWriter;
+use PhUml\Stages\CreateClassDiagram;
+use PhUml\Stages\CreateDigraph;
+use PhUml\Stages\FindCode;
+use PhUml\Stages\ParseCode;
+use PhUml\Stages\SaveFile;
 
 /**
  * It generates a UML class diagram from a directory with PHP code
@@ -67,15 +73,13 @@ final class ClassDiagramGenerator
      */
     public function generate(GeneratorInput $input): void
     {
-        $input->display()->start();
-        $sourceCode = $this->codeFinder->find($input->directory());
-        $input->display()->runningParser();
-        $codebase = $this->codeParser->parse($sourceCode);
-        $input->display()->runningProcessor($this->graphvizProcessor);
-        $digraph = $this->graphvizProcessor->process($codebase);
-        $input->display()->runningProcessor($this->imageProcessor);
-        $classDiagram = $this->imageProcessor->process($digraph);
-        $input->display()->savingResult();
-        $this->writer->save($classDiagram, $input->outputFile());
+        $pipeline = (new Pipeline())
+            ->pipe(new FindCode($this->codeFinder, $input->display()))
+            ->pipe(new ParseCode($this->codeParser, $input->display()))
+            ->pipe(new CreateDigraph($this->graphvizProcessor, $input->display()))
+            ->pipe(new CreateClassDiagram($this->imageProcessor, $input->display()))
+            ->pipe(new SaveFile($this->writer, $input->outputFile(), $input->display()));
+
+        $pipeline->process($input->directory());
     }
 }
