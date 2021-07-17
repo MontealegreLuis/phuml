@@ -7,7 +7,6 @@
 
 namespace PhUml\Stages;
 
-use PhUml\Generators\ProgressDisplay;
 use PhUml\Processors\OutputContent;
 use PhUml\Processors\OutputFilePath;
 use PhUml\Processors\OutputWriter;

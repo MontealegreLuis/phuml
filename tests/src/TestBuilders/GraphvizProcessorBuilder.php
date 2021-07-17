@@ -7,7 +7,7 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Configuration\DigraphConfiguration;
+use PhUml\Processors\GraphvizConfiguration;
 use PhUml\Processors\GraphvizProcessor;
 
 final class GraphvizProcessorBuilder
@@ -38,7 +38,7 @@ final class GraphvizProcessorBuilder
 
     public function build(): GraphvizProcessor
     {
-        return GraphvizProcessor::fromConfiguration(new DigraphConfiguration([
+        return GraphvizProcessor::fromConfiguration(new GraphvizConfiguration([
             'recursive' => true,
             'associations' => $this->associations,
             'hide-empty-blocks' => $this->withoutEmptyBlocks,

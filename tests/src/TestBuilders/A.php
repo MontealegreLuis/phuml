@@ -74,9 +74,9 @@ final class A
         return new GraphvizProcessorBuilder();
     }
 
-    public static function digraphConfiguration(): DigraphConfigurationBuilder
+    public static function graphvizConfiguration(): GraphvizConfigurationBuilder
     {
-        return new DigraphConfigurationBuilder();
+        return new GraphvizConfigurationBuilder();
     }
 
     public static function statisticsGeneratorConfiguration(): StatisticsGeneratorConfigurationBuilder
@@ -87,5 +87,10 @@ final class A
     public static function classDiagramConfiguration(): ClassDiagramConfigurationBuilder
     {
         return new ClassDiagramConfigurationBuilder();
+    }
+
+    public static function digraphConfiguration(): DigraphConfigurationBuilder
+    {
+        return new DigraphConfigurationBuilder();
     }
 }

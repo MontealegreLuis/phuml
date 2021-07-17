@@ -8,7 +8,6 @@
 namespace PhUml\Stages;
 
 use PhUml\Code\Codebase;
-use PhUml\Generators\ProgressDisplay;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputContent;
 

@@ -8,8 +8,8 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Console\ConsoleProgressDisplay;
+use PhUml\Generators\DigraphConfiguration;
 use PhUml\Generators\DigraphGenerator;
-use PhUml\Generators\DotFileConfiguration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,7 +63,7 @@ HELP
     {
         $generatorInput = new GeneratorInput($input->getArguments(), new ConsoleProgressDisplay($output));
 
-        $generator = DigraphGenerator::fromConfiguration(new DotFileConfiguration($input->getOptions()));
+        $generator = DigraphGenerator::fromConfiguration(new DigraphConfiguration($input->getOptions()));
 
         $generator->generate($generatorInput);
 

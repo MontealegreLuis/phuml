@@ -19,9 +19,9 @@ final class StatisticsProcessor implements Processor
 {
     private TemplateEngine $engine;
 
-    public function __construct(TemplateEngine $engine = null)
+    public function __construct(TemplateEngine $engine)
     {
-        $this->engine = $engine ?? new TemplateEngine();
+        $this->engine = $engine;
     }
 
     public function name(): string
@@ -34,8 +34,7 @@ final class StatisticsProcessor implements Processor
      */
     public function process(Codebase $codebase): OutputContent
     {
-        $summary = new Summary();
-        $summary->from($codebase);
+        $summary = Summary::from($codebase);
 
         return new OutputContent($this->engine->render('statistics.txt.twig', ['summary' => $summary]));
     }

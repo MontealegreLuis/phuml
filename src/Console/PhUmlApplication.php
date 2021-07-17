@@ -25,15 +25,8 @@ final class PhUmlApplication extends Application
 {
     public function __construct()
     {
-        // This will be replaced by Box with a version number if it's a PHAR
-        // 1.6.1 for instance
-        $pharVersion = '@package_version@';
-        $version = $pharVersion;
-        /** @noRector \Rector\CodeQuality\Rector\Concat\JoinStringConcatRector */
-        if ($pharVersion === '@' . 'package_version' . '@') { // It's concatenated to prevent Box to replace it
-            $version = '1.6-dev';
-        }
-        parent::__construct('phUML', $version);
+        // This will be replaced by Box with a version number if it's a PHAR, 1.6.1 for instance
+        parent::__construct('phUML', '@package_version@');
         $this->add(new GenerateClassDiagramCommand());
         $this->add(new GenerateStatisticsCommand());
         $this->add(new GenerateDotFileCommand());

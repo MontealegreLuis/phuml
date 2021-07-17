@@ -7,7 +7,6 @@
 
 namespace PhUml\Stages;
 
-use PhUml\Generators\ProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\SourceCode;

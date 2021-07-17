@@ -9,6 +9,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Expr\BinaryOp\Greater;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\DNumber;
@@ -69,24 +70,26 @@ final class FilteredConstantsBuilderTest extends TestCase
             new ClassConst([new Const_('INTEGER', new LNumber(1))]),
             new ClassConst([new Const_('FLOAT', new DNumber(1.5))], Class_::MODIFIER_PRIVATE),
             new ClassConst([new Const_('STRING', new String_('test'))], Class_::MODIFIER_PROTECTED),
-            new ClassConst([new Const_('BOOLEAN', new ConstFetch(new Name(['false'])))]),
+            new ClassConst([new Const_('IS_TRUE', new ConstFetch(new Name(['false'])))]),
+            new ClassConst([new Const_('IS_FALSE', new ConstFetch(new Name(['true'])))]),
         ];
         $builder = new FilteredConstantsBuilder(new VisibilityBuilder(), new VisibilityFilters());
 
         $constants = $builder->build($constants);
 
-        $this->assertCount(4, $constants);
+        $this->assertCount(5, $constants);
         $this->assertEquals('+INTEGER: int', (string) $constants[0]);
         $this->assertEquals('-FLOAT: float', (string) $constants[1]);
         $this->assertEquals('#STRING: string', (string) $constants[2]);
-        $this->assertEquals('+BOOLEAN: bool', (string) $constants[3]);
+        $this->assertEquals('+IS_TRUE: bool', (string) $constants[3]);
+        $this->assertEquals('+IS_FALSE: bool', (string) $constants[4]);
     }
 
     /** @test */
-    function it_does_not_extracts_types_for_expressions()
+    function it_does_not_extract_types_for_expressions()
     {
-        // const GREETING = 'My sentence' . PHP_EOL;
-        $constants = [
+        $parsedConstants = [
+            // const GREETING = 'My sentence' . PHP_EOL;
             new ClassConst([new Const_(
                 'GREETING',
                 new Concat(
@@ -94,12 +97,21 @@ final class FilteredConstantsBuilderTest extends TestCase
                     new ConstFetch(new Name('PHP_EOL'))
                 )
             )]),
+            // const IS_GREATER = 1 > 0;
+            new ClassConst([new Const_(
+                'IS_GREATER',
+                new Greater(
+                    new LNumber(1),
+                    new LNumber(0)
+                )
+            )]),
         ];
         $builder = new FilteredConstantsBuilder(new VisibilityBuilder(), new VisibilityFilters());
 
-        $rawConstants = $builder->build($constants);
+        $constants = $builder->build($parsedConstants);
 
-        $this->assertCount(1, $rawConstants);
-        $this->assertEquals('+GREETING', (string) $rawConstants[0]);
+        $this->assertCount(2, $constants);
+        $this->assertEquals('+GREETING', (string) $constants[0]);
+        $this->assertEquals('+IS_GREATER', (string) $constants[1]);
     }
 }

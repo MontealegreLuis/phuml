@@ -13,6 +13,59 @@ use PhUml\TestBuilders\A;
 final class SummaryTest extends TestCase
 {
     /** @test */
+    function it_generates_a_summary_from_an_empty_codebase()
+    {
+        $codebase = new Codebase();
+
+        $summary = Summary::from($codebase);
+
+        $this->assertEquals(0, $summary->interfaceCount());
+        $this->assertEquals(0, $summary->classCount());
+        $this->assertEquals(0, $summary->publicFunctionCount());
+        $this->assertEquals(0, $summary->publicAttributeCount());
+        $this->assertEquals(0, $summary->publicTypedAttributes());
+        $this->assertEquals(0, $summary->protectedFunctionCount());
+        $this->assertEquals(0, $summary->protectedAttributeCount());
+        $this->assertEquals(0, $summary->protectedTypedAttributes());
+        $this->assertEquals(0, $summary->privateFunctionCount());
+        $this->assertEquals(0, $summary->privateAttributeCount());
+        $this->assertEquals(0, $summary->privateTypedAttributes());
+        $this->assertEquals(0, $summary->functionCount());
+        $this->assertEquals(0, $summary->attributeCount());
+        $this->assertEquals(0, $summary->typedAttributeCount());
+        $this->assertEquals(0, $summary->attributesPerClass());
+        $this->assertEquals(0, $summary->functionsPerClass());
+    }
+
+    /** @test */
+    function it_counts_protected_typed_attributes()
+    {
+        $codebase = new Codebase();
+        $classWith2TypedAttributes = A::class('ClassA')
+            ->withAProtectedAttribute('aString', 'string')
+            ->withAProtectedAttribute('aFloat', 'float')
+            ->withAProtectedAttribute('aMixed')
+            ->build();
+        $classWith3TypedAttributes = A::class('ClassB')
+            ->withAProtectedAttribute('aString', 'string')
+            ->withAProtectedAttribute('aFloat', 'float')
+            ->withAProtectedAttribute('aBoolean', 'bool')
+            ->build();
+        $classWith1TypedAttribute = A::class('ClassC')
+            ->withAProtectedAttribute('aString', 'string')
+            ->withAPrivateAttribute('aFloat', 'float')
+            ->withAPublicAttribute('aBoolean', 'bool')
+            ->build();
+        $codebase->add($classWith2TypedAttributes);
+        $codebase->add($classWith3TypedAttributes);
+        $codebase->add($classWith1TypedAttribute);
+
+        $summary = Summary::from($codebase);
+
+        $this->assertEquals(6, $summary->protectedTypedAttributes());
+    }
+
+    /** @test */
     function it_generates_a_summary_from_a_codebase()
     {
         $parentClass = A::class('ParentClass')
@@ -45,9 +98,8 @@ final class SummaryTest extends TestCase
             ->implementing($interface->name())
             ->extending($parentClass->name())
             ->build());
-        $summary = new Summary();
 
-        $summary->from($codebase);
+        $summary = Summary::from($codebase);
 
         $this->assertEquals(2, $summary->interfaceCount());
         $this->assertEquals(2, $summary->classCount());
@@ -65,31 +117,5 @@ final class SummaryTest extends TestCase
         $this->assertEquals(3, $summary->typedAttributeCount());
         $this->assertEquals(3, $summary->attributesPerClass());
         $this->assertEquals(3, $summary->functionsPerClass());
-    }
-
-    /** @test */
-    function it_generates_a_summary_from_an_empty_codebase()
-    {
-        $codebase = new Codebase();
-        $summary = new Summary();
-
-        $summary->from($codebase);
-
-        $this->assertEquals(0, $summary->interfaceCount());
-        $this->assertEquals(0, $summary->classCount());
-        $this->assertEquals(0, $summary->publicFunctionCount());
-        $this->assertEquals(0, $summary->publicAttributeCount());
-        $this->assertEquals(0, $summary->publicTypedAttributes());
-        $this->assertEquals(0, $summary->protectedFunctionCount());
-        $this->assertEquals(0, $summary->protectedAttributeCount());
-        $this->assertEquals(0, $summary->protectedTypedAttributes());
-        $this->assertEquals(0, $summary->privateFunctionCount());
-        $this->assertEquals(0, $summary->privateAttributeCount());
-        $this->assertEquals(0, $summary->privateTypedAttributes());
-        $this->assertEquals(0, $summary->functionCount());
-        $this->assertEquals(0, $summary->attributeCount());
-        $this->assertEquals(0, $summary->typedAttributeCount());
-        $this->assertEquals(0, $summary->attributesPerClass());
-        $this->assertEquals(0, $summary->functionsPerClass());
     }
 }

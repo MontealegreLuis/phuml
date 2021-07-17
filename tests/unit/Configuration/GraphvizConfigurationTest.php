@@ -10,15 +10,16 @@ namespace PhUml\Configuration;
 use PHPUnit\Framework\TestCase;
 use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Styles\UnknownTheme;
+use PhUml\Processors\GraphvizConfiguration;
 
-final class DigraphConfigurationTest extends TestCase
+final class GraphvizConfigurationTest extends TestCase
 {
     /** @test */
     function it_fails_to_set_an_invalid_theme_name()
     {
         $this->expectException(UnknownTheme::class);
 
-        new DigraphConfiguration($this->options([
+        new GraphvizConfiguration($this->options([
             'theme' => 'not-a-valid-theme-name',
         ]));
     }
@@ -28,11 +29,13 @@ final class DigraphConfigurationTest extends TestCase
     {
         $options = $this->options([
             'associations' => 'true',
-            'hide-empty-blocks' => null,
+            'hide-empty-blocks' => 1,
         ]);
-        $configuration = new DigraphConfiguration($options);
+        $configuration = new GraphvizConfiguration($options);
 
         $this->assertInstanceOf(EdgesBuilder::class, $configuration->associationsBuilder());
+        $this->assertStringContainsString('empty', $configuration->digraphStyle()->methods());
+        $this->assertStringContainsString('empty', $configuration->digraphStyle()->attributes());
     }
 
     private function options(array $override): array

@@ -7,18 +7,20 @@
 
 namespace PhUml\Generators;
 
+use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\OutputWriter;
 use PhUml\Processors\StatisticsProcessor;
+use PhUml\Templates\TemplateEngine;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class StatisticsGeneratorConfiguration
 {
-    private CodeParser $codeParser;
+    private CodeFinder $codeFinder;
 
-    private SourceCodeFinder $sourceCodeFinder;
+    private CodeParser $codeParser;
 
     private StatisticsProcessor $statisticsProcessor;
 
@@ -27,10 +29,10 @@ final class StatisticsGeneratorConfiguration
     /** @param mixed[] $configuration */
     public function __construct(array $configuration)
     {
-        $recursive = $configuration['recursive'] ?? false;
-        $this->sourceCodeFinder = (bool) $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
+        $recursive = (bool) ($configuration['recursive'] ?? false);
+        $this->codeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
         $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($configuration));
-        $this->statisticsProcessor = new StatisticsProcessor();
+        $this->statisticsProcessor = new StatisticsProcessor(new TemplateEngine());
         $this->writer = new OutputWriter(new SmartFileSystem());
     }
 
@@ -39,9 +41,9 @@ final class StatisticsGeneratorConfiguration
         return $this->codeParser;
     }
 
-    public function sourceCodeFinder(): SourceCodeFinder
+    public function codeFinder(): CodeFinder
     {
-        return $this->sourceCodeFinder;
+        return $this->codeFinder;
     }
 
     public function statisticsProcessor(): StatisticsProcessor

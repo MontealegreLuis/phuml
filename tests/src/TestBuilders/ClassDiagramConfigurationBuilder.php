@@ -7,7 +7,7 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Configuration\ClassDiagramConfiguration;
+use PhUml\Generators\ClassDiagramConfiguration;
 
 final class ClassDiagramConfigurationBuilder
 {

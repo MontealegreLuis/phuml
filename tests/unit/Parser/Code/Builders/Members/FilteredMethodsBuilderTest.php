@@ -109,7 +109,29 @@ final class FilteredMethodsBuilderTest extends TestCase
         ];
 
         $this->expectException(UnsupportedType::class);
+        $this->expectExceptionMessage('PhpParser\Node\UnionType is not yet a type supported by phUML');
         $this->builder->build($parsedMethods);
+    }
+
+    /** @test */
+    function it_builds_static_and_abstract_methods()
+    {
+        $parsedMethods = [
+            new ClassMethod('staticMethod', [
+                'type' => Class_::MODIFIER_PUBLIC | Class_::MODIFIER_STATIC,
+            ]),
+            new ClassMethod('abstractMethod', [
+                'flags' => Class_::MODIFIER_PRIVATE | Class_::MODIFIER_ABSTRACT,
+            ]),
+            new ClassMethod('regularMethod', ['type' => Class_::MODIFIER_PRIVATE]),
+        ];
+
+        $methods = $this->builder->build($parsedMethods);
+
+        $this->assertTrue($methods[0]->isStatic());
+        $this->assertTrue($methods[1]->isAbstract());
+        $this->assertFalse($methods[2]->isStatic());
+        $this->assertFalse($methods[2]->isAbstract());
     }
 
     /** @before */
@@ -157,7 +179,7 @@ final class FilteredMethodsBuilderTest extends TestCase
     }
 
     /** @var ClassMethod[] */
-    private ?array $methods = null;
+    private array $methods;
 
-    private ?FilteredMethodsBuilder $builder = null;
+    private FilteredMethodsBuilder $builder;
 }

@@ -8,7 +8,6 @@
 namespace PhUml\Generators;
 
 use League\Pipeline\Pipeline;
-use PhUml\Configuration\ClassDiagramConfiguration;
 use PhUml\Console\Commands\GeneratorInput;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;

@@ -94,7 +94,7 @@ final class GenerateDotFileTest extends TestCase
     function let()
     {
         $this->codebaseDirectory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
-        $this->processor = GraphvizProcessor::fromConfiguration(A::digraphConfiguration()->build());
+        $this->processor = GraphvizProcessor::fromConfiguration(A::graphvizConfiguration()->build());
         $this->parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
     }
 

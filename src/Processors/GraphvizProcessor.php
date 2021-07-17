@@ -12,7 +12,6 @@ use PhUml\Code\Codebase;
 use PhUml\Code\Definition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\TraitDefinition;
-use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
@@ -33,7 +32,7 @@ final class GraphvizProcessor implements Processor
 
     private DigraphPrinter $printer;
 
-    public static function fromConfiguration(DigraphConfiguration $configuration): GraphvizProcessor
+    public static function fromConfiguration(GraphvizConfiguration $configuration): GraphvizProcessor
     {
         $style = $configuration->digraphStyle();
         $associationsBuilder = $configuration->associationsBuilder();

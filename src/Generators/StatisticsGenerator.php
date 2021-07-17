@@ -38,7 +38,7 @@ final class StatisticsGenerator
     public static function fromConfiguration(StatisticsGeneratorConfiguration $configuration): StatisticsGenerator
     {
         return new StatisticsGenerator(
-            $configuration->sourceCodeFinder(),
+            $configuration->codeFinder(),
             $configuration->codeParser(),
             $configuration->statisticsProcessor(),
             $configuration->writer()

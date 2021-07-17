@@ -8,6 +8,7 @@
 namespace PhUml\Configuration;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Generators\ClassDiagramConfiguration;
 use PhUml\Processors\UnknownImageProcessor;
 
 final class ClassDiagramConfigurationTest extends TestCase
@@ -16,6 +17,9 @@ final class ClassDiagramConfigurationTest extends TestCase
     function it_fails_to_set_an_invalid_image_processor()
     {
         $this->expectException(UnknownImageProcessor::class);
+        $this->expectExceptionMessage(
+            'Invalid processor "not-a-valid-image-processor-name" found, expected processors are: neato, dot'
+        );
 
         new ClassDiagramConfiguration($this->options([
             'processor' => 'not-a-valid-image-processor-name',

@@ -286,7 +286,7 @@ mindist = 0.6;', $dotLanguage);
         $printer = new DigraphPrinter($templateEngine);
 
         $this->expectException(TemplateFailure::class);
-
+        $this->expectExceptionMessage('Template rendering failed: Twig runtime error');
         $printer->toDot(new Digraph());
     }
 

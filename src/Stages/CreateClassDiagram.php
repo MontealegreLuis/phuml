@@ -7,7 +7,6 @@
 
 namespace PhUml\Stages;
 
-use PhUml\Generators\ProgressDisplay;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputContent;
 

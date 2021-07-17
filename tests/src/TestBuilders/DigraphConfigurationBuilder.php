@@ -7,40 +7,39 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Configuration\DigraphConfiguration;
+use PhUml\Generators\DigraphConfiguration;
 
 final class DigraphConfigurationBuilder
 {
-    private bool $hideEmptyBlocks = false;
+    /** @var mixed[]  */
+    private array $overrides = [];
 
-    private string $theme = 'phuml';
+    private bool $recursive = false;
 
-    private bool $associations = false;
-
-    public function withoutEmptyBlocks(): DigraphConfigurationBuilder
+    public function recursive(): DigraphConfigurationBuilder
     {
-        $this->hideEmptyBlocks = true;
+        $this->recursive = true;
         return $this;
     }
 
-    public function withTheme(string $theme): DigraphConfigurationBuilder
+    /** @param mixed[] $options */
+    public function withOverriddenOptions(array $options): DigraphConfigurationBuilder
     {
-        $this->theme = $theme;
-        return $this;
-    }
-
-    public function withAssociations(): DigraphConfigurationBuilder
-    {
-        $this->associations = true;
+        $this->overrides = $options;
         return $this;
     }
 
     public function build(): DigraphConfiguration
     {
-        return new DigraphConfiguration([
-            'theme' => $this->theme,
-            'hide-empty-blocks' => $this->hideEmptyBlocks,
-            'associations' => $this->associations,
-        ]);
+        return new DigraphConfiguration(array_merge([
+            'recursive' => $this->recursive,
+            'associations' => false,
+            'hide-private' => false,
+            'hide-protected' => false,
+            'hide-attributes' => false,
+            'hide-methods' => false,
+            'theme' => 'phuml',
+            'hide-empty-blocks' => false,
+        ], $this->overrides));
     }
 }

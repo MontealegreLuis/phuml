@@ -14,6 +14,6 @@ final class UnsupportedType extends RuntimeException
     /** @param mixed $type */
     public static function declaredAs($type): UnsupportedType
     {
-        return new self(var_export($type, true) . ' is not supported by phUML');
+        return new self(get_class($type) . ' is not yet a type supported by phUML');
     }
 }

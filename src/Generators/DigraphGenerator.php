@@ -39,7 +39,7 @@ final class DigraphGenerator
 
     private OutputWriter $writer;
 
-    public static function fromConfiguration(DotFileConfiguration $configuration): DigraphGenerator
+    public static function fromConfiguration(DigraphConfiguration $configuration): DigraphGenerator
     {
         return new self(
             $configuration->codeFinder(),

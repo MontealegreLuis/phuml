@@ -7,9 +7,9 @@
 
 namespace PhUml\Console\Commands;
 
-use PhUml\Generators\ProgressDisplay;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Processors\OutputFilePath;
+use PhUml\Stages\ProgressDisplay;
 
 final class GeneratorInput
 {

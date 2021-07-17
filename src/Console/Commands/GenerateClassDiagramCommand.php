@@ -8,8 +8,8 @@
 namespace PhUml\Console\Commands;
 
 use InvalidArgumentException;
-use PhUml\Configuration\ClassDiagramConfiguration;
 use PhUml\Console\ConsoleProgressDisplay;
+use PhUml\Generators\ClassDiagramConfiguration;
 use PhUml\Generators\ClassDiagramGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

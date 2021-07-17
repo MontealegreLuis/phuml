@@ -7,22 +7,26 @@
 
 namespace PhUml\Generators;
 
-use PhUml\Configuration\DigraphConfiguration;
 use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCodeFinder;
+use PhUml\Processors\GraphvizConfiguration;
 use PhUml\Processors\GraphvizProcessor;
+use PhUml\Processors\ImageProcessor;
+use PhUml\Processors\ImageProcessorName;
 use PhUml\Processors\OutputWriter;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class DotFileConfiguration
+final class ClassDiagramConfiguration
 {
-    private CodeFinder $sourceCodeFinder;
+    private CodeFinder $codeFinder;
 
     private CodeParser $codeParser;
 
     private GraphvizProcessor $graphvizProcessor;
+
+    private ImageProcessor $imageProcessor;
 
     private OutputWriter $writer;
 
@@ -30,15 +34,20 @@ final class DotFileConfiguration
     public function __construct(array $configuration)
     {
         $recursive = (bool) ($configuration['recursive'] ?? false);
-        $this->sourceCodeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
+        $this->codeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
         $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($configuration));
-        $this->graphvizProcessor = GraphvizProcessor::fromConfiguration(new DigraphConfiguration($configuration));
-        $this->writer = new OutputWriter(new SmartFileSystem());
+        $this->graphvizProcessor = GraphvizProcessor::fromConfiguration(new GraphvizConfiguration($configuration));
+        $imageProcessorName = new ImageProcessorName($configuration['processor'] ?? '');
+        $filesystem = new SmartFileSystem();
+        $this->imageProcessor = $imageProcessorName->isDot()
+            ? ImageProcessor::dot($filesystem)
+            : ImageProcessor::neato($filesystem);
+        $this->writer = new OutputWriter($filesystem);
     }
 
     public function codeFinder(): CodeFinder
     {
-        return $this->sourceCodeFinder;
+        return $this->codeFinder;
     }
 
     public function codeParser(): CodeParser
@@ -49,6 +58,11 @@ final class DotFileConfiguration
     public function graphvizProcessor(): GraphvizProcessor
     {
         return $this->graphvizProcessor;
+    }
+
+    public function imageProcessor(): ImageProcessor
+    {
+        return $this->imageProcessor;
     }
 
     public function writer(): OutputWriter

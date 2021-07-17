@@ -1,4 +1,5 @@
 {
+    "timeout": 25,
     "source": {
         "directories": [
             "src"
@@ -16,6 +17,6 @@
     "mutators": {
         "@default": true
     },
-    "minMsi": 85,
-    "minCoveredMsi": 85
+    "minMsi": 90,
+    "minCoveredMsi": 90
 }

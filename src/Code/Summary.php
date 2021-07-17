@@ -38,7 +38,12 @@ final class Summary
 
     private int $privateTypedAttributes;
 
-    public function __construct()
+    public static function from(Codebase $codebase): Summary
+    {
+        return new Summary($codebase);
+    }
+
+    private function __construct(Codebase $codebase)
     {
         $this->interfaceCount = 0;
         $this->classCount = 0;
@@ -51,10 +56,6 @@ final class Summary
         $this->privateFunctionCount = 0;
         $this->privateAttributeCount = 0;
         $this->privateTypedAttributes = 0;
-    }
-
-    public function from(Codebase $codebase): void
-    {
         foreach ($codebase->definitions() as $definition) {
             if ($definition instanceof InterfaceDefinition) {
                 $this->interfaceCount++;
