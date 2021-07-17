@@ -12,7 +12,7 @@ build:
                 command: 'echo "No need to install dependencies"'
     environment:
         php:
-            version: 7.1.30
+            version: 7.4.20
     tests:
         override: true
     project_setup:
