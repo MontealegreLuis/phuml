@@ -9,9 +9,7 @@ namespace PhUml\Generators;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\Commands\GeneratorInput;
-use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\TestBuilders\A;
-use Symfony\Component\Console\Output\NullOutput;
 
 final class StatisticsGeneratorTest extends TestCase
 {
@@ -95,8 +93,7 @@ STATS;
     {
         $this->statisticsFile  = __DIR__ . '/../../resources/.output/statistics.txt';
         $this->input = new GeneratorInput(
-            ['directory' => __DIR__ . '/../../resources/.code/classes', 'output' => $this->statisticsFile],
-            new ConsoleProgressDisplay(new NullOutput())
+            ['directory' => __DIR__ . '/../../resources/.code/classes', 'output' => $this->statisticsFile]
         );
         if (file_exists($this->statisticsFile)) {
             unlink($this->statisticsFile);

@@ -16,8 +16,8 @@ use PhUml\Processors\StatisticsProcessor;
 use PhUml\Stages\CalculateStatistics;
 use PhUml\Stages\FindCode;
 use PhUml\Stages\ParseCode;
+use PhUml\Stages\ProgressDisplay;
 use PhUml\Stages\SaveFile;
-use PhUml\Templates\TemplateFailure;
 
 /**
  * It generates a text file with the statistics of an object oriented codebase
@@ -33,7 +33,8 @@ final class StatisticsGenerator
             $configuration->codeFinder(),
             $configuration->codeParser(),
             $configuration->statisticsProcessor(),
-            $configuration->writer()
+            $configuration->writer(),
+            $configuration->display()
         );
     }
 
@@ -41,22 +42,18 @@ final class StatisticsGenerator
         private CodeFinder $codeFinder,
         private CodeParser $codeParser,
         private StatisticsProcessor $statisticsProcessor,
-        private OutputWriter $writer
+        private OutputWriter $writer,
+        private ProgressDisplay $display
     ) {
     }
 
-    /**
-     * It generates a text file with statistics
-     *
-     * @throws TemplateFailure If Twig fails
-     */
     public function generate(GeneratorInput $input): void
     {
         $pipeline = (new Pipeline())
-            ->pipe(new FindCode($this->codeFinder, $input->display()))
-            ->pipe(new ParseCode($this->codeParser, $input->display()))
-            ->pipe(new CalculateStatistics($this->statisticsProcessor, $input->display()))
-            ->pipe(new SaveFile($this->writer, $input->outputFile(), $input->display()));
+            ->pipe(new FindCode($this->codeFinder, $this->display))
+            ->pipe(new ParseCode($this->codeParser, $this->display))
+            ->pipe(new CalculateStatistics($this->statisticsProcessor, $this->display))
+            ->pipe(new SaveFile($this->writer, $input->outputFile(), $this->display));
 
         $pipeline->process($input->directory());
     }

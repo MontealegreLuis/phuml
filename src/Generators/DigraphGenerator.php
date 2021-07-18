@@ -16,6 +16,7 @@ use PhUml\Processors\OutputWriter;
 use PhUml\Stages\CreateDigraph;
 use PhUml\Stages\FindCode;
 use PhUml\Stages\ParseCode;
+use PhUml\Stages\ProgressDisplay;
 use PhUml\Stages\SaveFile;
 
 /**
@@ -37,7 +38,8 @@ final class DigraphGenerator
             $configuration->codeFinder(),
             $configuration->codeParser(),
             $configuration->graphvizProcessor(),
-            $configuration->writer()
+            $configuration->writer(),
+            $configuration->display()
         );
     }
 
@@ -45,17 +47,18 @@ final class DigraphGenerator
         private CodeFinder  $codeFinder,
         private CodeParser $codeParser,
         protected GraphvizProcessor $digraphProcessor,
-        private OutputWriter $writer
+        private OutputWriter $writer,
+        private ProgressDisplay $display
     ) {
     }
 
     public function generate(GeneratorInput $input): void
     {
         $pipeline = (new Pipeline())
-            ->pipe(new FindCode($this->codeFinder, $input->display()))
-            ->pipe(new ParseCode($this->codeParser, $input->display()))
-            ->pipe(new CreateDigraph($this->digraphProcessor, $input->display()))
-            ->pipe(new SaveFile($this->writer, $input->outputFile(), $input->display()));
+            ->pipe(new FindCode($this->codeFinder, $this->display))
+            ->pipe(new ParseCode($this->codeParser, $this->display))
+            ->pipe(new CreateDigraph($this->digraphProcessor, $this->display))
+            ->pipe(new SaveFile($this->writer, $input->outputFile(), $this->display));
 
         $pipeline->process($input->directory());
     }

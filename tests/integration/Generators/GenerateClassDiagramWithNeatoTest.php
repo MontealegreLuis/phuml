@@ -10,9 +10,7 @@ namespace PhUml\Generators;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\Commands\GeneratorInput;
-use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\TestBuilders\A;
-use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateClassDiagramWithNeatoTest extends TestCase
 {
@@ -26,11 +24,10 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-neato.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
-        $arguments = [
+        $input = new GeneratorInput([
             'directory' => __DIR__ . '/../../resources/.code/classes',
             'output' => $diagramPath,
-        ];
-        $input = new GeneratorInput($arguments, $this->display);
+        ]);
         $generator = ClassDiagramGenerator::fromConfiguration(A::classDiagramConfiguration()->usingNeato()->build());
 
         $generator->generate($input);
@@ -46,11 +43,10 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-neato-recursive.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
-        $arguments = [
+        $input = new GeneratorInput([
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $diagramPath,
-        ];
-        $input = new GeneratorInput($arguments, $this->display);
+        ]);
         $configuration = A::classDiagramConfiguration()->recursive()->withAssociations()->usingNeato()->build();
         $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
@@ -58,12 +54,4 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
 
         $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
-
-    /** @before */
-    function let()
-    {
-        $this->display = new ConsoleProgressDisplay(new NullOutput());
-    }
-
-    private ConsoleProgressDisplay $display;
 }

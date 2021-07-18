@@ -8,8 +8,10 @@
 namespace PhUml\Configuration;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\ClassDiagramConfiguration;
 use PhUml\Processors\UnknownImageProcessor;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class ClassDiagramConfigurationTest extends TestCase
 {
@@ -21,12 +23,16 @@ final class ClassDiagramConfigurationTest extends TestCase
             'Invalid processor "not-a-valid-image-processor-name" found, expected processors are: neato, dot'
         );
 
-        new ClassDiagramConfiguration($this->options([
-            'processor' => 'not-a-valid-image-processor-name',
-        ]));
+        new ClassDiagramConfiguration(
+            $this->options([
+                'processor' => 'not-a-valid-image-processor-name',
+            ]),
+            new ConsoleProgressDisplay(new NullOutput())
+        );
     }
 
-    private function options(array $override)
+    /** @return mixed[] $override */
+    private function options(array $override): array
     {
         return array_merge([
             'recursive' => true,

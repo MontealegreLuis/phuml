@@ -19,14 +19,14 @@ final class CodeParserConfiguration
 
     private bool $hideMethods;
 
-    /** @param mixed[] $config */
-    public function __construct(array $config)
+    /** @param mixed[] $options */
+    public function __construct(array $options)
     {
-        $this->extractAssociations = (bool) ($config['associations'] ?? false);
-        $this->hidePrivate = (bool) ($config['hide-private'] ?? false);
-        $this->hideProtected = (bool) ($config['hide-protected'] ?? false);
-        $this->hideAttributes = (bool) ($config['hide-attributes'] ?? false);
-        $this->hideMethods = (bool) ($config['hide-methods'] ?? false);
+        $this->extractAssociations = (bool) ($options['associations'] ?? false);
+        $this->hidePrivate = (bool) ($options['hide-private'] ?? false);
+        $this->hideProtected = (bool) ($options['hide-protected'] ?? false);
+        $this->hideAttributes = (bool) ($options['hide-attributes'] ?? false);
+        $this->hideMethods = (bool) ($options['hide-methods'] ?? false);
     }
 
     public function extractAssociations(): bool

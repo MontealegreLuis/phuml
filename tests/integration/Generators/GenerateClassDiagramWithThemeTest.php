@@ -10,9 +10,7 @@ namespace PhUml\Generators;
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\Commands\GeneratorInput;
-use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\TestBuilders\A;
-use Symfony\Component\Console\Output\NullOutput;
 
 final class GenerateClassDiagramWithThemeTest extends TestCase
 {
@@ -26,11 +24,10 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
-        $arguments = [
+        $input = new GeneratorInput([
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $diagramPath,
-        ];
-        $input = new GeneratorInput($arguments, $this->display);
+        ]);
         $configuration = A::classDiagramConfiguration()
             ->recursive()
             ->withAssociations()
@@ -52,11 +49,10 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
-        $arguments = [
+        $input = new GeneratorInput([
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $diagramPath,
-        ];
-        $input = new GeneratorInput($arguments, $this->display);
+        ]);
         $configuration = A::classDiagramConfiguration()
             ->recursive()
             ->withAssociations()
@@ -69,12 +65,4 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
 
         $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
-
-    /** @before */
-    function let()
-    {
-        $this->display = new ConsoleProgressDisplay(new NullOutput());
-    }
-
-    private ConsoleProgressDisplay $display;
 }

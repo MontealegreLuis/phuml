@@ -14,11 +14,12 @@ use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizConfiguration;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\Processors\OutputWriter;
+use PhUml\Stages\ProgressDisplay;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DigraphConfiguration
 {
-    private CodeFinder $sourceCodeFinder;
+    private CodeFinder $codeFinder;
 
     private CodeParser $codeParser;
 
@@ -26,19 +27,22 @@ final class DigraphConfiguration
 
     private OutputWriter $writer;
 
-    /** @param mixed[] $configuration */
-    public function __construct(array $configuration)
+    private ProgressDisplay $display;
+
+    /** @param mixed[] $options */
+    public function __construct(array $options, ProgressDisplay $display)
     {
-        $recursive = (bool) ($configuration['recursive'] ?? false);
-        $this->sourceCodeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
-        $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($configuration));
-        $this->graphvizProcessor = GraphvizProcessor::fromConfiguration(new GraphvizConfiguration($configuration));
+        $recursive = (bool) ($options['recursive'] ?? false);
+        $this->codeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
+        $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($options));
+        $this->graphvizProcessor = GraphvizProcessor::fromConfiguration(new GraphvizConfiguration($options));
         $this->writer = new OutputWriter(new SmartFileSystem());
+        $this->display = $display;
     }
 
     public function codeFinder(): CodeFinder
     {
-        return $this->sourceCodeFinder;
+        return $this->codeFinder;
     }
 
     public function codeParser(): CodeParser
@@ -54,5 +58,10 @@ final class DigraphConfiguration
     public function writer(): OutputWriter
     {
         return $this->writer;
+    }
+
+    public function display(): ProgressDisplay
+    {
+        return $this->display;
     }
 }

@@ -7,7 +7,9 @@
 
 namespace PhUml\TestBuilders;
 
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\DigraphConfiguration;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class DigraphConfigurationBuilder
 {
@@ -31,15 +33,18 @@ final class DigraphConfigurationBuilder
 
     public function build(): DigraphConfiguration
     {
-        return new DigraphConfiguration(array_merge([
-            'recursive' => $this->recursive,
-            'associations' => false,
-            'hide-private' => false,
-            'hide-protected' => false,
-            'hide-attributes' => false,
-            'hide-methods' => false,
-            'theme' => 'phuml',
-            'hide-empty-blocks' => false,
-        ], $this->overrides));
+        return new DigraphConfiguration(
+            array_merge([
+                'recursive' => $this->recursive,
+                'associations' => false,
+                'hide-private' => false,
+                'hide-protected' => false,
+                'hide-attributes' => false,
+                'hide-methods' => false,
+                'theme' => 'phuml',
+                'hide-empty-blocks' => false,
+            ], $this->overrides),
+            new ConsoleProgressDisplay(new NullOutput())
+        );
     }
 }

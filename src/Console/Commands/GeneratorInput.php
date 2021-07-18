@@ -9,7 +9,6 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Processors\OutputFilePath;
-use PhUml\Stages\ProgressDisplay;
 
 final class GeneratorInput
 {
@@ -18,7 +17,7 @@ final class GeneratorInput
     private OutputFilePath $outputFile;
 
     /** @param string[] $input */
-    public function __construct(array $input, private ProgressDisplay $display)
+    public function __construct(array $input)
     {
         $this->directory = new CodebaseDirectory($input['directory'] ?? '');
         $this->outputFile = new OutputFilePath($input['output'] ?? '');
@@ -32,10 +31,5 @@ final class GeneratorInput
     public function directory(): CodebaseDirectory
     {
         return $this->directory;
-    }
-
-    public function display(): ProgressDisplay
-    {
-        return $this->display;
     }
 }

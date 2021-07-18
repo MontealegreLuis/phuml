@@ -61,11 +61,10 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $generatorInput = new GeneratorInput($input->getArguments(), new ConsoleProgressDisplay($output));
+        $configuration = new DigraphConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        $generator = DigraphGenerator::fromConfiguration($configuration);
 
-        $generator = DigraphGenerator::fromConfiguration(new DigraphConfiguration($input->getOptions()));
-
-        $generator->generate($generatorInput);
+        $generator->generate(new GeneratorInput($input->getArguments()));
 
         return self::SUCCESS;
     }

@@ -69,11 +69,10 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $statisticsInput = new GeneratorInput($input->getArguments(), new ConsoleProgressDisplay($output));
+        $configuration = new StatisticsGeneratorConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        $generator = StatisticsGenerator::fromConfiguration($configuration);
 
-        $generator = StatisticsGenerator::fromConfiguration(new StatisticsGeneratorConfiguration($input->getOptions()));
-
-        $generator->generate($statisticsInput);
+        $generator->generate(new GeneratorInput($input->getArguments()));
 
         return self::SUCCESS;
     }

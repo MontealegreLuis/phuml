@@ -75,11 +75,10 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $generatorInput = new GeneratorInput($input->getArguments(), new ConsoleProgressDisplay($output));
+        $configuration = new ClassDiagramConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $generator = ClassDiagramGenerator::fromConfiguration(new ClassDiagramConfiguration($input->getOptions()));
-
-        $generator->generate($generatorInput);
+        $generator->generate(new GeneratorInput($input->getArguments()));
 
         return self::SUCCESS;
     }

@@ -13,6 +13,7 @@ use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\OutputWriter;
 use PhUml\Processors\StatisticsProcessor;
+use PhUml\Stages\ProgressDisplay;
 use PhUml\Templates\TemplateEngine;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -26,14 +27,17 @@ final class StatisticsGeneratorConfiguration
 
     private OutputWriter $writer;
 
-    /** @param mixed[] $configuration */
-    public function __construct(array $configuration)
+    private ProgressDisplay $display;
+
+    /** @param mixed[] $options*/
+    public function __construct(array $options, ProgressDisplay $display)
     {
-        $recursive = (bool) ($configuration['recursive'] ?? false);
+        $recursive = (bool) ($options['recursive'] ?? false);
         $this->codeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
-        $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($configuration));
+        $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($options));
         $this->statisticsProcessor = new StatisticsProcessor(new TemplateEngine());
         $this->writer = new OutputWriter(new SmartFileSystem());
+        $this->display = $display;
     }
 
     public function codeParser(): CodeParser
@@ -54,5 +58,10 @@ final class StatisticsGeneratorConfiguration
     public function writer(): OutputWriter
     {
         return $this->writer;
+    }
+
+    public function display(): ProgressDisplay
+    {
+        return $this->display;
     }
 }

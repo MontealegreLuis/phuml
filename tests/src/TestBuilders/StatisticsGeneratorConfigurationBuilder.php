@@ -7,7 +7,9 @@
 
 namespace PhUml\TestBuilders;
 
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\StatisticsGeneratorConfiguration;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class StatisticsGeneratorConfigurationBuilder
 {
@@ -31,13 +33,16 @@ final class StatisticsGeneratorConfigurationBuilder
 
     public function build(): StatisticsGeneratorConfiguration
     {
-        return new StatisticsGeneratorConfiguration(array_merge([
-            'recursive' => $this->recursive,
-            'associations' => false,
-            'hide-private' => false,
-            'hide-protected' => false,
-            'hide-attributes' => false,
-            'hide-methods' => false,
-        ], $this->overrides));
+        return new StatisticsGeneratorConfiguration(
+            array_merge([
+                'recursive' => $this->recursive,
+                'associations' => false,
+                'hide-private' => false,
+                'hide-protected' => false,
+                'hide-attributes' => false,
+                'hide-methods' => false,
+            ], $this->overrides),
+            new ConsoleProgressDisplay(new NullOutput())
+        );
     }
 }

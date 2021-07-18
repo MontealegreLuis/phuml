@@ -18,6 +18,7 @@ use PhUml\Stages\CreateClassDiagram;
 use PhUml\Stages\CreateDigraph;
 use PhUml\Stages\FindCode;
 use PhUml\Stages\ParseCode;
+use PhUml\Stages\ProgressDisplay;
 use PhUml\Stages\SaveFile;
 
 /**
@@ -34,7 +35,8 @@ final class ClassDiagramGenerator
             $configuration->codeParser(),
             $configuration->graphvizProcessor(),
             $configuration->imageProcessor(),
-            $configuration->writer()
+            $configuration->writer(),
+            $configuration->display()
         );
     }
 
@@ -43,18 +45,19 @@ final class ClassDiagramGenerator
         private CodeParser $codeParser,
         private GraphvizProcessor $graphvizProcessor,
         private ImageProcessor $imageProcessor,
-        private OutputWriter $writer
+        private OutputWriter $writer,
+        private ProgressDisplay $display
     ) {
     }
 
     public function generate(GeneratorInput $input): void
     {
         $pipeline = (new Pipeline())
-            ->pipe(new FindCode($this->codeFinder, $input->display()))
-            ->pipe(new ParseCode($this->codeParser, $input->display()))
-            ->pipe(new CreateDigraph($this->graphvizProcessor, $input->display()))
-            ->pipe(new CreateClassDiagram($this->imageProcessor, $input->display()))
-            ->pipe(new SaveFile($this->writer, $input->outputFile(), $input->display()));
+            ->pipe(new FindCode($this->codeFinder, $this->display))
+            ->pipe(new ParseCode($this->codeParser, $this->display))
+            ->pipe(new CreateDigraph($this->graphvizProcessor, $this->display))
+            ->pipe(new CreateClassDiagram($this->imageProcessor, $this->display))
+            ->pipe(new SaveFile($this->writer, $input->outputFile(), $this->display));
 
         $pipeline->process($input->directory());
     }
