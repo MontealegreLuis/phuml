@@ -62,14 +62,6 @@ final class ClassDiagramGenerator
         $this->writer = $writer;
     }
 
-    /**
-     * The process to generate a class diagram is as follows
-     *
-     * 1. The parser produces a collection of classes, interfaces and traits
-     * 2. The `graphviz` processor takes this collection and creates a digraph using the DOT language
-     * 3. Either the `neato` or `dot` processor will produce a `.png` class diagram from the digraph
-     * 4. The image is saved to the given path
-     */
     public function generate(GeneratorInput $input): void
     {
         $pipeline = (new Pipeline())

@@ -5,7 +5,7 @@ ADD src/ src
 
 RUN composer install --no-dev --optimize-autoloader --prefer-dist --no-progress --no-interaction --ignore-platform-reqs --no-plugins
 
-FROM php:7.4.20-cli-alpine3.14 AS phuml
+FROM php:8.0.8-cli-alpine3.13 AS phuml
 MAINTAINER Luis Montealegre <montealegreluis@gmail.com>
 
 RUN apk add --update --no-cache autoconf g++ pkgconfig imagemagick imagemagick-dev make ttf-freefont graphviz \

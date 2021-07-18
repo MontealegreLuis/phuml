@@ -1,6 +1,7 @@
 SHELL = /bin/bash
 
 ARGS=""
+INFECTION_BADGE_API_KEY=""
 
 .PHONY: help
 help: ## Show help
@@ -34,14 +35,16 @@ check: ## Execute all code quality checks
 	@vendor/bin/composer-require-checker check
 	@docker-compose run --rm tests vendor/bin/phpunit --testsuite 'Integration tests'
 	@vendor/bin/rector process --dry-run
-	@docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/infection --threads=4
+	@docker-compose run --rm -e XDEBUG_MODE=coverage -e INFECTION_BADGE_API_KEY=$(INFECTION_BADGE_API_KEY) tests php vendor/bin/infection --threads=4
 
 .PHONY: diagram
 diagram: ## Generate a class diagram with phUML using a Docker container
 	@docker-compose run --rm tests php bin/phuml phuml:diagram $(ARGS)
 
+.PHONY: dot
 dot: ## Generate a DOT file with phUML using a Docker container
 	@docker-compose run --rm tests php bin/phuml phuml:dot $(ARGS)
 
+.PHONY: stats
 stats: ## Generate a statistics file with phUML using a Docker container
 	@docker-compose run --rm tests php bin/phuml phuml:statistics $(ARGS)
