@@ -14,8 +14,6 @@ use PhUml\Code\Variables\TypeDeclaration;
 
 final class MethodBuilder
 {
-    private string $name;
-
     /** @var Parameter[] */
     private array $parameters = [];
 
@@ -27,9 +25,8 @@ final class MethodBuilder
 
     private bool $isStatic;
 
-    public function __construct(string $name)
+    public function __construct(private string $name)
     {
-        $this->name = $name;
         $this->isAbstract = false;
         $this->isStatic = false;
     }

@@ -20,8 +20,6 @@ use Symfony\Component\Finder\Finder;
  */
 final class SourceCodeFinder implements CodeFinder
 {
-    protected Finder $finder;
-
     public static function recursive(): SourceCodeFinder
     {
         return new self(new Finder());
@@ -34,9 +32,8 @@ final class SourceCodeFinder implements CodeFinder
         return new self($finder);
     }
 
-    private function __construct(Finder $finder)
+    private function __construct(private Finder $finder)
     {
-        $this->finder = $finder;
     }
 
     public function find(CodebaseDirectory $directory): SourceCode

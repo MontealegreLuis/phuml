@@ -18,14 +18,8 @@ use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
  */
 final class InterfaceVisitor extends NodeVisitorAbstract
 {
-    private Codebase $codebase;
-
-    private InterfaceDefinitionBuilder $builder;
-
-    public function __construct(InterfaceDefinitionBuilder $builder, Codebase $codebase)
+    public function __construct(private InterfaceDefinitionBuilder $builder, private Codebase $codebase)
     {
-        $this->builder = $builder;
-        $this->codebase = $codebase;
     }
 
     public function leaveNode(Node $node)

@@ -31,14 +31,6 @@ use PhUml\Stages\SaveFile;
  */
 final class DigraphGenerator
 {
-    private CodeFinder $codeFinder;
-
-    private CodeParser $codeParser;
-
-    protected GraphvizProcessor $digraphProcessor;
-
-    private OutputWriter $writer;
-
     public static function fromConfiguration(DigraphConfiguration $configuration): DigraphGenerator
     {
         return new self(
@@ -50,15 +42,11 @@ final class DigraphGenerator
     }
 
     public function __construct(
-        CodeFinder  $codeFinder,
-        CodeParser $codeParser,
-        GraphvizProcessor $digraphProcessor,
-        OutputWriter $writer
+        private CodeFinder  $codeFinder,
+        private CodeParser $codeParser,
+        protected GraphvizProcessor $digraphProcessor,
+        private OutputWriter $writer
     ) {
-        $this->codeFinder = $codeFinder;
-        $this->codeParser = $codeParser;
-        $this->digraphProcessor = $digraphProcessor;
-        $this->writer = $writer;
     }
 
     public function generate(GeneratorInput $input): void

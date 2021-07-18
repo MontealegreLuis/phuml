@@ -24,14 +24,6 @@ use PhUml\Templates\TemplateEngine;
  */
 final class GraphvizProcessor implements Processor
 {
-    private ClassGraphBuilder $classBuilder;
-
-    private InterfaceGraphBuilder $interfaceBuilder;
-
-    private TraitGraphBuilder $traitBuilder;
-
-    private DigraphPrinter $printer;
-
     public static function fromConfiguration(GraphvizConfiguration $configuration): GraphvizProcessor
     {
         $style = $configuration->digraphStyle();
@@ -46,15 +38,11 @@ final class GraphvizProcessor implements Processor
     }
 
     private function __construct(
-        ClassGraphBuilder $classBuilder,
-        InterfaceGraphBuilder $interfaceBuilder,
-        TraitGraphBuilder $traitBuilder,
-        DigraphPrinter $printer
+        private ClassGraphBuilder $classBuilder,
+        private InterfaceGraphBuilder $interfaceBuilder,
+        private TraitGraphBuilder $traitBuilder,
+        private DigraphPrinter $printer
     ) {
-        $this->classBuilder = $classBuilder;
-        $this->interfaceBuilder = $interfaceBuilder;
-        $this->traitBuilder = $traitBuilder;
-        $this->printer = $printer;
     }
 
     public function name(): string

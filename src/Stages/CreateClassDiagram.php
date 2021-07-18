@@ -12,14 +12,8 @@ use PhUml\Processors\OutputContent;
 
 final class CreateClassDiagram
 {
-    private ImageProcessor $imageProcessor;
-
-    private ProgressDisplay $display;
-
-    public function __construct(ImageProcessor $imageProcessor, ProgressDisplay $display)
+    public function __construct(private ImageProcessor $imageProcessor, private ProgressDisplay $display)
     {
-        $this->imageProcessor = $imageProcessor;
-        $this->display = $display;
     }
 
     public function __invoke(OutputContent $digraph): OutputContent

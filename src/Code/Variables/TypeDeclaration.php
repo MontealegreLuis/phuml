@@ -10,11 +10,12 @@ namespace PhUml\Code\Variables;
 use PhUml\Code\Name;
 use PhUml\Code\Named;
 use PhUml\Code\WithName;
+use Stringable;
 
 /**
  * It represents a variable's type declaration
  */
-final class TypeDeclaration implements Named
+final class TypeDeclaration implements Named, Stringable
 {
     use WithName;
 
@@ -84,7 +85,7 @@ final class TypeDeclaration implements Named
         return substr((string) $this->name, 0, -2);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return ($this->isNullable ? '?' : '') . $this->name;
     }

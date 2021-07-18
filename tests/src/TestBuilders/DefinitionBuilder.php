@@ -14,14 +14,11 @@ use PhUml\Code\Variables\TypeDeclaration;
 
 abstract class DefinitionBuilder
 {
-    protected string $name;
-
     /** @var Constant[] */
     protected array $constants;
 
-    public function __construct(string $name)
+    public function __construct(protected string $name)
     {
-        $this->name = $name;
         $this->constants = [];
     }
 
@@ -33,6 +30,5 @@ abstract class DefinitionBuilder
         return $this;
     }
 
-    /** @return ClassDefinition|InterfaceDefinition */
-    abstract public function build();
+    abstract public function build(): ClassDefinition|InterfaceDefinition;
 }

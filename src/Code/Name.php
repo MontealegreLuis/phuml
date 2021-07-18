@@ -7,9 +7,10 @@
 
 namespace PhUml\Code;
 
+use Stringable;
 use Webmozart\Assert\Assert;
 
-final class Name
+final class Name implements Stringable
 {
     private string $name;
 
@@ -19,7 +20,7 @@ final class Name
         $this->name = $name;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }

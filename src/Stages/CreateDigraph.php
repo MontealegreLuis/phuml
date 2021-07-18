@@ -13,14 +13,8 @@ use PhUml\Processors\OutputContent;
 
 final class CreateDigraph
 {
-    private GraphvizProcessor $processor;
-
-    private ProgressDisplay $display;
-
-    public function __construct(GraphvizProcessor $processor, ProgressDisplay $display)
+    public function __construct(private GraphvizProcessor $processor, private ProgressDisplay $display)
     {
-        $this->processor = $processor;
-        $this->display = $display;
     }
 
     public function __invoke(Codebase $codebase): OutputContent

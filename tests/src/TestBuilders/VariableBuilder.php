@@ -12,13 +12,10 @@ use PhUml\Code\Variables\Variable;
 
 final class VariableBuilder
 {
-    private string $name;
-
     private TypeDeclaration $type;
 
-    public function __construct(string $name)
+    public function __construct(private string $name)
     {
-        $this->name = $name;
         $this->type = TypeDeclaration::absent();
     }
 

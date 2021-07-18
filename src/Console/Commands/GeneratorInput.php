@@ -17,14 +17,11 @@ final class GeneratorInput
 
     private OutputFilePath $outputFile;
 
-    private ProgressDisplay $display;
-
     /** @param string[] $input */
-    public function __construct(array $input, ProgressDisplay $display)
+    public function __construct(array $input, private ProgressDisplay $display)
     {
         $this->directory = new CodebaseDirectory($input['directory'] ?? '');
         $this->outputFile = new OutputFilePath($input['output'] ?? '');
-        $this->display = $display;
     }
 
     public function outputFile(): OutputFilePath

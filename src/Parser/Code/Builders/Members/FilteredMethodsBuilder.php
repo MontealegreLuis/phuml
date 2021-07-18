@@ -21,24 +21,12 @@ use PhUml\Code\Methods\Method;
  */
 final class FilteredMethodsBuilder implements MethodsBuilder
 {
-    private ParametersBuilder $parametersBuilder;
-
-    private VisibilityBuilder $visibilityBuilder;
-
-    private TypeBuilder $typeBuilder;
-
-    private VisibilityFilters $visibilityFilters;
-
     public function __construct(
-        ParametersBuilder $parametersBuilder,
-        TypeBuilder $typeBuilder,
-        VisibilityBuilder $visibilityBuilder,
-        VisibilityFilters $filters
+        private ParametersBuilder $parametersBuilder,
+        private TypeBuilder $typeBuilder,
+        private VisibilityBuilder $visibilityBuilder,
+        private VisibilityFilters $visibilityFilters
     ) {
-        $this->visibilityFilters = $filters;
-        $this->typeBuilder = $typeBuilder;
-        $this->parametersBuilder = $parametersBuilder;
-        $this->visibilityBuilder = $visibilityBuilder;
     }
 
     /**
@@ -60,13 +48,10 @@ final class FilteredMethodsBuilder implements MethodsBuilder
         $docBlock = $method->getDocComment();
         $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $docBlock);
         $parameters = $this->parametersBuilder->build($method->params, $docBlock);
-        switch (true) {
-            case $method->isAbstract():
-                return new Method($name, $visibility, $returnType, $parameters, true);
-            case $method->isStatic():
-                return new Method($name, $visibility, $returnType, $parameters, false, true);
-            default:
-                return new Method($name, $visibility, $returnType, $parameters);
-        }
+        return match (true) {
+            $method->isAbstract() => new Method($name, $visibility, $returnType, $parameters, true),
+            $method->isStatic() => new Method($name, $visibility, $returnType, $parameters, false, true),
+            default => new Method($name, $visibility, $returnType, $parameters),
+        };
     }
 }

@@ -14,16 +14,12 @@ use PhUml\Code\Modifiers\Visibility;
 
 final class VisibilityBuilder
 {
-    /** @param Property|ClassMethod|ClassConst $member */
-    public function build($member): Visibility
+    public function build(Property|ClassMethod|ClassConst $member): Visibility
     {
-        switch (true) {
-            case $member->isPublic():
-                return Visibility::public();
-            case $member->isPrivate():
-                return Visibility::private();
-            default:
-                return Visibility::protected();
-        }
+        return match (true) {
+            $member->isPublic() => Visibility::public(),
+            $member->isPrivate() => Visibility::private(),
+            default => Visibility::protected(),
+        };
     }
 }

@@ -15,11 +15,12 @@ use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\Variable;
 use PhUml\Code\Variables\WithVariable;
+use Stringable;
 
 /**
  * It represents an instance variable
  */
-final class Attribute implements HasType, HasVisibility, CanBeStatic
+final class Attribute implements HasType, HasVisibility, CanBeStatic, Stringable
 {
     use WithVisibility;
     use WithStaticModifier;
@@ -32,7 +33,7 @@ final class Attribute implements HasType, HasVisibility, CanBeStatic
         $this->isStatic = $isStatic;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf(
             '%s%s',

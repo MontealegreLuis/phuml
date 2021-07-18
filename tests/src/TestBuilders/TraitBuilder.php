@@ -14,14 +14,11 @@ final class TraitBuilder
 {
     use MembersBuilder;
 
-    private string $name;
-
     /** @var Name[] */
     private array $traits = [];
 
-    public function __construct(string $name)
+    public function __construct(private string $name)
     {
-        $this->name = $name;
     }
 
     public function using(Name ...$traits): TraitBuilder

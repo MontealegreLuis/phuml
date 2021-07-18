@@ -19,10 +19,6 @@ use Symplify\SmartFileSystem\SmartFileSystem;
  */
 final class ImageProcessor implements Processor
 {
-    private ImageProcessorName $name;
-
-    private SmartFileSystem $fileSystem;
-
     public static function neato(SmartFileSystem $filesystem): ImageProcessor
     {
         return new ImageProcessor(new ImageProcessorName('neato'), $filesystem);
@@ -33,10 +29,8 @@ final class ImageProcessor implements Processor
         return new ImageProcessor(new ImageProcessorName('dot'), $filesystem);
     }
 
-    private function __construct(ImageProcessorName $name, SmartFileSystem $fileSystem)
+    private function __construct(private ImageProcessorName $name, private SmartFileSystem $fileSystem)
     {
-        $this->name = $name;
-        $this->fileSystem = $fileSystem;
     }
 
     public function name(): string

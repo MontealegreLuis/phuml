@@ -12,11 +12,7 @@ namespace PhUml\Graphviz\Styles;
  */
 final class DigraphStyle
 {
-    protected string $theme;
-
-    protected string $attributes;
-
-    protected string $methods;
+    private string $theme;
 
     public static function default(ThemeName $theme): DigraphStyle
     {
@@ -28,11 +24,9 @@ final class DigraphStyle
         return new DigraphStyle($theme, 'partials/_empty-attributes.html.twig', 'partials/_empty-methods.html.twig');
     }
 
-    private function __construct(ThemeName $theme, string $attributesTemplate, string $methodsTemplate)
+    private function __construct(ThemeName $theme, private string $attributes, private string $methods)
     {
         $this->theme = "{$theme->name()}.html.twig";
-        $this->attributes = $attributesTemplate;
-        $this->methods = $methodsTemplate;
     }
 
     public function attributes(): string

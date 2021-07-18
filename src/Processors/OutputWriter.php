@@ -11,11 +11,8 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class OutputWriter
 {
-    private SmartFileSystem $fileSystem;
-
-    public function __construct(SmartFileSystem $fileSystem)
+    public function __construct(private SmartFileSystem $fileSystem)
     {
-        $this->fileSystem = $fileSystem;
     }
 
     public function save(OutputContent $contents, OutputFilePath $filePath): void

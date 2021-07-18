@@ -15,22 +15,20 @@ use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\WithTypeDeclaration;
+use Stringable;
 
-final class Constant implements HasType, HasVisibility
+final class Constant implements HasType, HasVisibility, Stringable
 {
     use WithTypeDeclaration;
     use WithVisibility;
 
-    private string $name;
-
-    public function __construct(string $name, TypeDeclaration $type, Visibility $visibility = null)
+    public function __construct(private string $name, TypeDeclaration $type, Visibility $visibility = null)
     {
-        $this->name = $name;
         $this->type = $type;
         $this->modifier = $visibility ?? Visibility::public();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf(
             '%s%s%s',

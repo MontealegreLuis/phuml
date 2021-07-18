@@ -27,16 +27,6 @@ use PhUml\Stages\SaveFile;
  */
 final class ClassDiagramGenerator
 {
-    private CodeFinder $codeFinder;
-
-    private CodeParser $codeParser;
-
-    private GraphvizProcessor $graphvizProcessor;
-
-    private ImageProcessor $imageProcessor;
-
-    private OutputWriter $writer;
-
     public static function fromConfiguration(ClassDiagramConfiguration $configuration): ClassDiagramGenerator
     {
         return new self(
@@ -49,17 +39,12 @@ final class ClassDiagramGenerator
     }
 
     public function __construct(
-        CodeFinder $codeFinder,
-        CodeParser $codeParser,
-        GraphvizProcessor $graphvizProcessor,
-        ImageProcessor $imageProcessor,
-        OutputWriter $writer
+        private CodeFinder $codeFinder,
+        private CodeParser $codeParser,
+        private GraphvizProcessor $graphvizProcessor,
+        private ImageProcessor $imageProcessor,
+        private OutputWriter $writer
     ) {
-        $this->codeFinder = $codeFinder;
-        $this->codeParser = $codeParser;
-        $this->graphvizProcessor = $graphvizProcessor;
-        $this->imageProcessor = $imageProcessor;
-        $this->writer = $writer;
     }
 
     public function generate(GeneratorInput $input): void

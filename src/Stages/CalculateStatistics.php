@@ -13,14 +13,8 @@ use PhUml\Processors\StatisticsProcessor;
 
 final class CalculateStatistics
 {
-    private StatisticsProcessor $statisticsProcessor;
-
-    private ProgressDisplay $display;
-
-    public function __construct(StatisticsProcessor $processor, ProgressDisplay $display)
+    public function __construct(private StatisticsProcessor $statisticsProcessor, private ProgressDisplay $display)
     {
-        $this->statisticsProcessor = $processor;
-        $this->display = $display;
     }
 
     public function __invoke(Codebase $codebase): OutputContent

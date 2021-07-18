@@ -9,19 +9,17 @@ namespace PhUml\Code\Variables;
 
 use BadMethodCallException;
 use PhUml\Code\Name;
+use Stringable;
 
 /**
  * It represents a variable declaration
  */
-final class Variable implements HasType
+final class Variable implements HasType, Stringable
 {
     use WithTypeDeclaration;
 
-    protected string $name;
-
-    public function __construct(string $name, TypeDeclaration $type)
+    public function __construct(private string $name, TypeDeclaration $type)
     {
-        $this->name = $name;
         $this->type = $type;
     }
 
@@ -44,7 +42,7 @@ final class Variable implements HasType
         return $name;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf(
             '%s%s',

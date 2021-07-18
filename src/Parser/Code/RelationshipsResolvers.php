@@ -11,9 +11,6 @@ use PhUml\Code\Codebase;
 
 final class RelationshipsResolvers
 {
-    /** @var RelationshipsResolver[]  */
-    private array $resolvers;
-
     public static function withAssociations(): RelationshipsResolvers
     {
         return new RelationshipsResolvers([new ExternalDefinitionsResolver(), new ExternalAssociationsResolver()]);
@@ -30,8 +27,7 @@ final class RelationshipsResolvers
     }
 
     /** @param RelationshipsResolver[] $resolvers */
-    private function __construct(array $resolvers)
+    private function __construct(private array $resolvers)
     {
-        $this->resolvers = $resolvers;
     }
 }

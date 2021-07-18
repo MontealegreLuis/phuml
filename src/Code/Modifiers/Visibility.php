@@ -7,12 +7,13 @@
 
 namespace PhUml\Code\Modifiers;
 
+use Stringable;
 use Webmozart\Assert\Assert;
 
 /**
  * It represents the visibility of either an attribute or a method
  */
-final class Visibility
+final class Visibility implements Stringable
 {
     /** @var string[] */
     private static array $symbols = [
@@ -49,7 +50,7 @@ final class Visibility
         return $this->modifier === $another->modifier;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return self::$symbols[$this->modifier];
     }

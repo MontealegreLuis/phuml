@@ -13,14 +13,8 @@ use PhUml\Parser\SourceCode;
 
 final class FindCode
 {
-    private CodeFinder $codeFinder;
-
-    private ProgressDisplay $display;
-
-    public function __construct(CodeFinder $codeFinder, ProgressDisplay $display)
+    public function __construct(private CodeFinder $codeFinder, private ProgressDisplay $display)
     {
-        $this->codeFinder = $codeFinder;
-        $this->display = $display;
     }
 
     public function __invoke(CodebaseDirectory $directory): SourceCode

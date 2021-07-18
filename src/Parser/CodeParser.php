@@ -23,10 +23,6 @@ use PhUml\Parser\Code\RelationshipsResolvers;
  */
 final class CodeParser
 {
-    private PhpCodeParser $parser;
-
-    private RelationshipsResolvers $resolvers;
-
     public static function fromConfiguration(CodeParserConfiguration $configuration): CodeParser
     {
         $resolvers = $configuration->extractAssociations()
@@ -36,10 +32,8 @@ final class CodeParser
         return new CodeParser(PhpCodeParser::fromConfiguration($configuration), $resolvers);
     }
 
-    private function __construct(PhpCodeParser $parser, RelationshipsResolvers $resolvers)
+    private function __construct(private PhpCodeParser $parser, private RelationshipsResolvers $resolvers)
     {
-        $this->parser = $parser;
-        $this->resolvers = $resolvers;
     }
 
     /**

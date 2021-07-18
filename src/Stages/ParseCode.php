@@ -13,14 +13,8 @@ use PhUml\Parser\SourceCode;
 
 final class ParseCode
 {
-    private CodeParser $codeParser;
-
-    private ProgressDisplay $display;
-
-    public function __construct(CodeParser $codeParser, ProgressDisplay $display)
+    public function __construct(private CodeParser $codeParser, private ProgressDisplay $display)
     {
-        $this->codeParser = $codeParser;
-        $this->display = $display;
     }
 
     public function __invoke(SourceCode $sourceCode): Codebase

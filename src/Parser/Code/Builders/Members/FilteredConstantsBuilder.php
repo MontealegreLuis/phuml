@@ -26,14 +26,10 @@ final class FilteredConstantsBuilder implements ConstantsBuilder
         'string' => 'string',
     ];
 
-    private VisibilityBuilder $visibilityBuilder;
-
-    private VisibilityFilters $visibilityFilters;
-
-    public function __construct(VisibilityBuilder $visibilityBuilder, VisibilityFilters $filters)
-    {
-        $this->visibilityBuilder = $visibilityBuilder;
-        $this->visibilityFilters = $filters;
+    public function __construct(
+        private VisibilityBuilder $visibilityBuilder,
+        private VisibilityFilters $visibilityFilters
+    ) {
     }
 
     /**

@@ -18,14 +18,8 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
  */
 final class ClassVisitor extends NodeVisitorAbstract
 {
-    private ClassDefinitionBuilder $builder;
-
-    private Codebase $codebase;
-
-    public function __construct(ClassDefinitionBuilder $builder, Codebase $codebase)
+    public function __construct(private ClassDefinitionBuilder $builder, private Codebase $codebase)
     {
-        $this->builder = $builder;
-        $this->codebase = $codebase;
     }
 
     public function leaveNode(Node $node)

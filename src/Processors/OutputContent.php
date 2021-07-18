@@ -9,11 +9,8 @@ namespace PhUml\Processors;
 
 final class OutputContent
 {
-    private string $content;
-
-    public function __construct(string $content)
+    public function __construct(private string $content)
     {
-        $this->content = $content;
     }
 
     public function value(): string

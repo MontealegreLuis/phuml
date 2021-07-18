@@ -13,17 +13,11 @@ use PhUml\Processors\OutputWriter;
 
 final class SaveFile
 {
-    private OutputWriter $writer;
-
-    private OutputFilePath $path;
-
-    private ProgressDisplay $display;
-
-    public function __construct(OutputWriter $writer, OutputFilePath $path, ProgressDisplay $display)
-    {
-        $this->writer = $writer;
-        $this->path = $path;
-        $this->display = $display;
+    public function __construct(
+        private OutputWriter $writer,
+        private OutputFilePath $path,
+        private ProgressDisplay $display
+    ) {
     }
 
     public function __invoke(OutputContent $content): void

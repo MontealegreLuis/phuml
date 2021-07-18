@@ -28,8 +28,6 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
     use WithConstants;
     use WithTraits;
 
-    protected ?Name $parent;
-
     /** @var Name[] */
     private array $interfaces;
 
@@ -44,14 +42,13 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
         Name $name,
         array $methods = [],
         array $constants = [],
-        Name $parent = null,
+        protected ?Name $parent = null,
         array $attributes = [],
         array $interfaces = [],
         array $traits = []
     ) {
         parent::__construct($name, $methods);
         $this->constants = $constants;
-        $this->parent = $parent;
         $this->attributes = $attributes;
         $this->interfaces = $interfaces;
         $this->traits = $traits;

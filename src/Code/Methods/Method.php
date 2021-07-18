@@ -16,22 +16,34 @@ use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
 use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\Variables\TypeDeclaration;
+use Stringable;
 
 /**
  * It represents a class or interface method
  */
-final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
+final class Method implements HasVisibility, CanBeAbstract, CanBeStatic, Stringable
 {
     use WithVisibility;
     use WithAbstractModifier;
     use WithStaticModifier;
 
-    private string $name;
-
     /** @var Parameter[] */
     private array $parameters;
 
-    private TypeDeclaration $returnType;
+    /** @param Parameter[] $parameters */
+    public function __construct(
+        private string $name,
+        Visibility $modifier,
+        private TypeDeclaration $returnType,
+        array $parameters = [],
+        bool $isAbstract = false,
+        bool $isStatic = false
+    ) {
+        $this->modifier = $modifier;
+        $this->parameters = $parameters;
+        $this->isAbstract = $isAbstract;
+        $this->isStatic = $isStatic;
+    }
 
     /**
      * It is used by the `ClassDefinition` to extract the parameters of a constructor
@@ -50,7 +62,7 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
         return $this->parameters;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf(
             '%s%s%s%s',
@@ -59,22 +71,5 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic
             count($this->parameters) === 0 ? '()' : '(' . implode(', ', $this->parameters) . ')',
             $this->returnType->isPresent() ? ": {$this->returnType}" : ''
         );
-    }
-
-    /** @param Parameter[] $parameters */
-    public function __construct(
-        string $name,
-        Visibility $modifier,
-        TypeDeclaration $returnType,
-        array $parameters = [],
-        bool $isAbstract = false,
-        bool $isStatic = false
-    ) {
-        $this->name = $name;
-        $this->modifier = $modifier;
-        $this->parameters = $parameters;
-        $this->isAbstract = $isAbstract;
-        $this->isStatic = $isStatic;
-        $this->returnType = $returnType;
     }
 }

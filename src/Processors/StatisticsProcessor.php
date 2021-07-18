@@ -17,11 +17,8 @@ use PhUml\Templates\TemplateFailure;
  */
 final class StatisticsProcessor implements Processor
 {
-    private TemplateEngine $engine;
-
-    public function __construct(TemplateEngine $engine)
+    public function __construct(private TemplateEngine $engine)
     {
-        $this->engine = $engine;
     }
 
     public function name(): string

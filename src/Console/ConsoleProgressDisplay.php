@@ -18,11 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class ConsoleProgressDisplay implements ProgressDisplay
 {
-    private OutputInterface $output;
-
-    public function __construct(OutputInterface $output)
+    public function __construct(private OutputInterface $output)
     {
-        $this->output = $output;
     }
 
     public function start(): void

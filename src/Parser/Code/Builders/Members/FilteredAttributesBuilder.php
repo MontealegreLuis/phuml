@@ -24,20 +24,11 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
  */
 final class FilteredAttributesBuilder implements AttributesBuilder
 {
-    private VisibilityBuilder $visibilityBuilder;
-
-    private TypeBuilder $typeBuilder;
-
-    private VisibilityFilters $visibilityFilters;
-
     public function __construct(
-        VisibilityBuilder $visibilityBuilder,
-        TypeBuilder $typeBuilder,
-        VisibilityFilters $filters
+        private VisibilityBuilder $visibilityBuilder,
+        private TypeBuilder $typeBuilder,
+        private VisibilityFilters $visibilityFilters
     ) {
-        $this->visibilityBuilder = $visibilityBuilder;
-        $this->visibilityFilters = $filters;
-        $this->typeBuilder = $typeBuilder;
     }
 
     /**

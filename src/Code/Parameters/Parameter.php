@@ -10,20 +10,18 @@ namespace PhUml\Code\Parameters;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\Variable;
 use PhUml\Code\Variables\WithVariable;
+use Stringable;
 
-final class Parameter implements HasType
+final class Parameter implements HasType, Stringable
 {
     use WithVariable;
 
-    private bool $isVariadic;
-
-    private bool $isByReference;
-
-    public function __construct(Variable $variable, bool $isVariadic = false, bool $isByReference = false)
-    {
+    public function __construct(
+        Variable $variable,
+        private bool $isVariadic = false,
+        private bool $isByReference = false
+    ) {
         $this->variable = $variable;
-        $this->isVariadic = $isVariadic;
-        $this->isByReference = $isByReference;
     }
 
     public function __toString(): string

@@ -27,14 +27,6 @@ use PhUml\Templates\TemplateFailure;
  */
 final class StatisticsGenerator
 {
-    private CodeFinder $codeFinder;
-
-    private CodeParser $codeParser;
-
-    private StatisticsProcessor $statisticsProcessor;
-
-    private OutputWriter $writer;
-
     public static function fromConfiguration(StatisticsGeneratorConfiguration $configuration): StatisticsGenerator
     {
         return new StatisticsGenerator(
@@ -46,15 +38,11 @@ final class StatisticsGenerator
     }
 
     private function __construct(
-        CodeFinder $codeFinder,
-        CodeParser $codeParser,
-        StatisticsProcessor $statisticsProcessor,
-        OutputWriter $writer
+        private CodeFinder $codeFinder,
+        private CodeParser $codeParser,
+        private StatisticsProcessor $statisticsProcessor,
+        private OutputWriter $writer
     ) {
-        $this->codeFinder = $codeFinder;
-        $this->codeParser = $codeParser;
-        $this->statisticsProcessor = $statisticsProcessor;
-        $this->writer = $writer;
     }
 
     /**

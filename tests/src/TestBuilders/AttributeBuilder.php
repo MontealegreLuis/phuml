@@ -13,17 +13,14 @@ use PhUml\Code\Variables\TypeDeclaration;
 
 final class AttributeBuilder
 {
-    private string $name;
-
     private ?Visibility $visibility = null;
 
     private ?TypeDeclaration $type = null;
 
     private bool $isStatic;
 
-    public function __construct(string $name)
+    public function __construct(private string $name)
     {
-        $this->name = $name;
         $this->isStatic = false;
     }
 

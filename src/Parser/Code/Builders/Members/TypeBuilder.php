@@ -18,9 +18,11 @@ use PhUml\Code\Variables\TypeDeclaration;
 
 final class TypeBuilder
 {
-    /** @param Identifier|Name|NullableType|UnionType|null $type */
-    public function fromMethodParameter($type, ?Doc $docBlock, string $name): TypeDeclaration
-    {
+    public function fromMethodParameter(
+        Identifier|Name|NullableType|UnionType|null $type,
+        ?Doc $docBlock,
+        string $name
+    ): TypeDeclaration {
         $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
         if ($type === null) {
             return $methodDocBlock->typeOfParameter($name);
@@ -33,9 +35,10 @@ final class TypeBuilder
         return $typeDeclaration;
     }
 
-    /** @param Identifier|Name|NullableType|UnionType|null $type */
-    public function fromMethodReturnType($type, ?Doc $docBlock): TypeDeclaration
-    {
+    public function fromMethodReturnType(
+        Identifier|Name|NullableType|UnionType|null $type,
+        ?Doc $docBlock
+    ): TypeDeclaration {
         $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
         if ($type === null) {
             return $methodDocBlock->returnType();
@@ -48,9 +51,10 @@ final class TypeBuilder
         return $typeDeclaration;
     }
 
-    /** @param Identifier|Name|NullableType|UnionType|null $type */
-    public function fromAttributeType($type, ?Doc $docBlock): TypeDeclaration
-    {
+    public function fromAttributeType(
+        Identifier|Name|NullableType|UnionType|null $type,
+        ?Doc $docBlock
+    ): TypeDeclaration {
         $attributeDocBlock = new AttributeDocBlock($docBlock === null ? null : $docBlock->getText());
         if ($type === null) {
             return $attributeDocBlock->attributeType();
@@ -63,18 +67,14 @@ final class TypeBuilder
         return $typeDeclaration;
     }
 
-    /** @param Identifier|Name|NullableType|UnionType|null $type */
-    private function fromParsedType($type): TypeDeclaration
+    private function fromParsedType(Identifier|Name|NullableType|UnionType|null $type): TypeDeclaration
     {
-        switch (true) {
-            case $type instanceof NullableType:
-                return TypeDeclaration::fromNullable((string) $type->type);
-            case $type instanceof Name:
-                return TypeDeclaration::from($type->getLast());
-            case $type instanceof Identifier:
-                return TypeDeclaration::from((string) $type);
-            default:
-                throw UnsupportedType::declaredAs($type);
-        }
+        return match (true) {
+            $type instanceof NullableType => TypeDeclaration::fromNullable((string) $type->type),
+            $type instanceof Name => TypeDeclaration::from($type->getLast()),
+            $type instanceof Identifier => TypeDeclaration::from((string) $type),
+            $type === null => TypeDeclaration::absent(),
+            default => throw UnsupportedType::declaredAs($type),
+        };
     }
 }

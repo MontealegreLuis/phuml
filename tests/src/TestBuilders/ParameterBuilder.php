@@ -11,13 +11,10 @@ use PhUml\Code\Parameters\Parameter;
 
 final class ParameterBuilder
 {
-    private string $name;
-
     private ?string $type = null;
 
-    public function __construct(string $name)
+    public function __construct(private string $name)
     {
-        $this->name = $name;
     }
 
     public function withType(string $type): ParameterBuilder
