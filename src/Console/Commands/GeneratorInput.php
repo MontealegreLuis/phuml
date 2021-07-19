@@ -23,12 +23,12 @@ final class GeneratorInput
         $this->outputFile = new OutputFilePath($input['output'] ?? '');
     }
 
-    public function outputFile(): OutputFilePath
+    public function filePath(): OutputFilePath
     {
         return $this->outputFile;
     }
 
-    public function directory(): CodebaseDirectory
+    public function codebaseDirectory(): CodebaseDirectory
     {
         return $this->directory;
     }

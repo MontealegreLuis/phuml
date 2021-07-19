@@ -9,14 +9,10 @@ namespace PhUml\Generators;
 
 use League\Pipeline\Pipeline;
 use PhUml\Console\Commands\GeneratorInput;
-use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\OutputWriter;
+use PhUml\Processors\OutputContent;
 use PhUml\Stages\CreateDigraph;
 use PhUml\Stages\FindCode;
 use PhUml\Stages\ParseCode;
-use PhUml\Stages\ProgressDisplay;
 use PhUml\Stages\SaveFile;
 
 /**
@@ -35,31 +31,29 @@ final class DigraphGenerator
     public static function fromConfiguration(DigraphConfiguration $configuration): DigraphGenerator
     {
         return new self(
-            $configuration->codeFinder(),
-            $configuration->codeParser(),
-            $configuration->graphvizProcessor(),
-            $configuration->writer(),
-            $configuration->display()
+            new FindCode($configuration->codeFinder(), $configuration->display()),
+            new ParseCode($configuration->codeParser(), $configuration->display()),
+            new CreateDigraph($configuration->graphvizProcessor(), $configuration->display()),
+            new SaveFile($configuration->writer(), $configuration->display()),
         );
     }
 
     public function __construct(
-        private CodeFinder  $codeFinder,
-        private CodeParser $codeParser,
-        protected GraphvizProcessor $digraphProcessor,
-        private OutputWriter $writer,
-        private ProgressDisplay $display
+        private FindCode $findCode,
+        private ParseCode $parseCode,
+        private CreateDigraph $createDigraph,
+        private SaveFile $saveFile,
     ) {
     }
 
     public function generate(GeneratorInput $input): void
     {
         $pipeline = (new Pipeline())
-            ->pipe(new FindCode($this->codeFinder, $this->display))
-            ->pipe(new ParseCode($this->codeParser, $this->display))
-            ->pipe(new CreateDigraph($this->digraphProcessor, $this->display))
-            ->pipe(new SaveFile($this->writer, $input->outputFile(), $this->display));
+            ->pipe($this->findCode)
+            ->pipe($this->parseCode)
+            ->pipe($this->createDigraph)
+            ->pipe(fn (OutputContent $content) => $this->saveFile->saveTo($content, $input->filePath()));
 
-        $pipeline->process($input->directory());
+        $pipeline->process($input->codebaseDirectory());
     }
 }

@@ -31,10 +31,8 @@ final class ClassDiagramConfiguration
 
     private OutputWriter $writer;
 
-    private ProgressDisplay $display;
-
     /** @param mixed[] $options */
-    public function __construct(array $options, ProgressDisplay $display)
+    public function __construct(array $options, private ProgressDisplay $display)
     {
         $recursive = (bool) ($options['recursive'] ?? false);
         $this->codeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
@@ -46,7 +44,6 @@ final class ClassDiagramConfiguration
             ? ImageProcessor::dot($filesystem)
             : ImageProcessor::neato($filesystem);
         $this->writer = new OutputWriter($filesystem);
-        $this->display = $display;
     }
 
     public function codeFinder(): CodeFinder

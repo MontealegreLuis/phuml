@@ -27,17 +27,14 @@ final class DigraphConfiguration
 
     private OutputWriter $writer;
 
-    private ProgressDisplay $display;
-
     /** @param mixed[] $options */
-    public function __construct(array $options, ProgressDisplay $display)
+    public function __construct(array $options, private ProgressDisplay $display)
     {
         $recursive = (bool) ($options['recursive'] ?? false);
         $this->codeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
         $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($options));
         $this->graphvizProcessor = GraphvizProcessor::fromConfiguration(new GraphvizConfiguration($options));
         $this->writer = new OutputWriter(new SmartFileSystem());
-        $this->display = $display;
     }
 
     public function codeFinder(): CodeFinder

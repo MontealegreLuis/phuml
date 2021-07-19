@@ -9,16 +9,11 @@ namespace PhUml\Generators;
 
 use League\Pipeline\Pipeline;
 use PhUml\Console\Commands\GeneratorInput;
-use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\ImageProcessor;
-use PhUml\Processors\OutputWriter;
+use PhUml\Processors\OutputContent;
 use PhUml\Stages\CreateClassDiagram;
 use PhUml\Stages\CreateDigraph;
 use PhUml\Stages\FindCode;
 use PhUml\Stages\ParseCode;
-use PhUml\Stages\ProgressDisplay;
 use PhUml\Stages\SaveFile;
 
 /**
@@ -31,34 +26,32 @@ final class ClassDiagramGenerator
     public static function fromConfiguration(ClassDiagramConfiguration $configuration): ClassDiagramGenerator
     {
         return new self(
-            $configuration->codeFinder(),
-            $configuration->codeParser(),
-            $configuration->graphvizProcessor(),
-            $configuration->imageProcessor(),
-            $configuration->writer(),
-            $configuration->display()
+            new FindCode($configuration->codeFinder(), $configuration->display()),
+            new ParseCode($configuration->codeParser(), $configuration->display()),
+            new CreateDigraph($configuration->graphvizProcessor(), $configuration->display()),
+            new CreateClassDiagram($configuration->imageProcessor(), $configuration->display()),
+            new SaveFile($configuration->writer(), $configuration->display()),
         );
     }
 
     public function __construct(
-        private CodeFinder $codeFinder,
-        private CodeParser $codeParser,
-        private GraphvizProcessor $graphvizProcessor,
-        private ImageProcessor $imageProcessor,
-        private OutputWriter $writer,
-        private ProgressDisplay $display
+        private FindCode $findCode,
+        private ParseCode $parseCode,
+        private CreateDigraph $createDigraph,
+        private CreateClassDiagram $createClassDiagram,
+        private SaveFile $saveFile,
     ) {
     }
 
     public function generate(GeneratorInput $input): void
     {
         $pipeline = (new Pipeline())
-            ->pipe(new FindCode($this->codeFinder, $this->display))
-            ->pipe(new ParseCode($this->codeParser, $this->display))
-            ->pipe(new CreateDigraph($this->graphvizProcessor, $this->display))
-            ->pipe(new CreateClassDiagram($this->imageProcessor, $this->display))
-            ->pipe(new SaveFile($this->writer, $input->outputFile(), $this->display));
+            ->pipe($this->findCode)
+            ->pipe($this->parseCode)
+            ->pipe($this->createDigraph)
+            ->pipe($this->createClassDiagram)
+            ->pipe(fn (OutputContent $content) => $this->saveFile->saveTo($content, $input->filePath()));
 
-        $pipeline->process($input->directory());
+        $pipeline->process($input->codebaseDirectory());
     }
 }

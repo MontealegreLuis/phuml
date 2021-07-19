@@ -15,14 +15,13 @@ final class SaveFile
 {
     public function __construct(
         private OutputWriter $writer,
-        private OutputFilePath $path,
         private ProgressDisplay $display
     ) {
     }
 
-    public function __invoke(OutputContent $content): void
+    public function saveTo(OutputContent $content, OutputFilePath $path): void
     {
         $this->display->savingResult();
-        $this->writer->save($content, $this->path);
+        $this->writer->save($content, $path);
     }
 }
