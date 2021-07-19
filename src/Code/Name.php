@@ -16,8 +16,8 @@ final class Name implements Stringable
 
     public function __construct(string $name)
     {
-        Assert::notEmpty($name, 'Definition name cannot be null or empty');
-        $this->name = $name;
+        Assert::notEmpty(trim($name), 'Definition name cannot be null or empty');
+        $this->name = trim($name);
     }
 
     public function __toString(): string

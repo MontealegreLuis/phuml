@@ -20,13 +20,16 @@ final class DigraphConfigurationTest extends TestCase
         $recursiveConfiguration = A::digraphConfiguration()->recursive()->build();
         $nonRecursiveConfiguration = A::digraphConfiguration()->build();
         $typeCastedConfiguration = A::digraphConfiguration()->withOverriddenOptions(['recursive' => '1'])->build();
+        $withoutOption = A::digraphConfiguration()->withoutOption('recursive')->build();
 
         $recursiveFinder = $recursiveConfiguration->codeFinder();
         $nonRecursiveFinder = $nonRecursiveConfiguration->codeFinder();
         $typeCastedRecursiveFinder = $typeCastedConfiguration->codeFinder();
+        $defaultNonRecursiveFinder = $withoutOption->codeFinder();
 
         $this->assertCount(8, $recursiveFinder->find($directory)->fileContents());
         $this->assertCount(0, $nonRecursiveFinder->find($directory)->fileContents());
         $this->assertCount(8, $typeCastedRecursiveFinder->find($directory)->fileContents());
+        $this->assertCount(0, $defaultNonRecursiveFinder->find($directory)->fileContents());
     }
 }

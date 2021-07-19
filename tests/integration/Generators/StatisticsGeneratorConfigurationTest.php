@@ -14,38 +14,26 @@ use PhUml\TestBuilders\A;
 final class StatisticsGeneratorConfigurationTest extends TestCase
 {
     /** @test */
-    function it_configures_a_recursive_code_finder()
+    function it_configures_a_code_finder()
     {
         $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/exceptions');
-        $configuration = A::statisticsGeneratorConfiguration()->recursive()->build();
+        $recursiveConfiguration = A::statisticsGeneratorConfiguration()->recursive()->build();
+        $nonRecursiveConfiguration = A::statisticsGeneratorConfiguration()->build();
+        $typeCastedRecursiveConfiguration = A::statisticsGeneratorConfiguration()
+            ->withOverriddenOptions(['recursive' => '1'])
+            ->build();
+        $withoutOption = A::statisticsGeneratorConfiguration()
+            ->withoutOption('recursive')
+            ->build();
 
-        $finder = $configuration->codeFinder();
+        $recursiveFinder = $recursiveConfiguration->codeFinder();
+        $nonRecursiveFinder = $nonRecursiveConfiguration->codeFinder();
+        $typeCastedRecursiveFinder = $typeCastedRecursiveConfiguration->codeFinder();
+        $defaultNonRecursiveFinder = $withoutOption->codeFinder();
 
-        $sourceCode = $finder->find($directory);
-        $this->assertCount(8, $sourceCode->fileContents());
-    }
-
-    /** @test */
-    function it_configures_a_non_recursive_code_finder()
-    {
-        $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/exceptions');
-        $configuration = A::statisticsGeneratorConfiguration()->build();
-
-        $finder = $configuration->codeFinder();
-
-        $sourceCode = $finder->find($directory);
-        $this->assertCount(0, $sourceCode->fileContents());
-    }
-
-    /** @test */
-    function it_casts_to_boolean_the_recursive_option()
-    {
-        $directory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/exceptions');
-        $configuration = A::statisticsGeneratorConfiguration()->withOverriddenOptions(['recursive' => '1'])->build();
-
-        $finder = $configuration->codeFinder();
-
-        $sourceCode = $finder->find($directory);
-        $this->assertCount(8, $sourceCode->fileContents());
+        $this->assertCount(8, $recursiveFinder->find($directory)->fileContents());
+        $this->assertCount(0, $nonRecursiveFinder->find($directory)->fileContents());
+        $this->assertCount(8, $typeCastedRecursiveFinder->find($directory)->fileContents());
+        $this->assertCount(0, $defaultNonRecursiveFinder->find($directory)->fileContents());
     }
 }

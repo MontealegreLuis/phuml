@@ -25,11 +25,8 @@ final class ClassDefinitionBuilder
     use InterfaceNamesBuilder;
     use TraitNamesBuilder;
 
-    protected MembersBuilder $membersBuilder;
-
-    public function __construct(MembersBuilder $membersBuilder = null)
+    public function __construct(private MembersBuilder $membersBuilder)
     {
-        $this->membersBuilder = $membersBuilder ?? new MembersBuilder();
     }
 
     public function build(Class_ $class): ClassDefinition

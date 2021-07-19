@@ -93,4 +93,9 @@ final class A
     {
         return new DigraphConfigurationBuilder();
     }
+
+    public static function membersBuilder(): MembersBuilderBuilder
+    {
+        return new MembersBuilderBuilder();
+    }
 }

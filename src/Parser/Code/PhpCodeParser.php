@@ -27,7 +27,6 @@ use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
-use PhUml\Parser\CodeFinder;
 use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCode;
 
@@ -43,10 +42,6 @@ use PhUml\Parser\SourceCode;
  */
 final class PhpCodeParser
 {
-    private Parser $parser;
-
-    private PhpTraverser $traverser;
-
     public static function fromConfiguration(CodeParserConfiguration $configuration): PhpCodeParser
     {
         if ($configuration->hideAttributes()) {
@@ -80,24 +75,20 @@ final class PhpCodeParser
         );
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
 
-        return new PhpCodeParser(
-            new ClassDefinitionBuilder($membersBuilder),
-            new InterfaceDefinitionBuilder($membersBuilder),
-            new TraitDefinitionBuilder($membersBuilder)
+        return new self(
+            (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
+            new PhpTraverser(
+                new ClassDefinitionBuilder($membersBuilder),
+                new InterfaceDefinitionBuilder($membersBuilder),
+                new TraitDefinitionBuilder($membersBuilder)
+            )
         );
     }
 
     private function __construct(
-        ClassDefinitionBuilder $classBuilder = null,
-        InterfaceDefinitionBuilder $interfaceBuilder = null,
-        TraitDefinitionBuilder $traitBuilder = null
+        private Parser $parser,
+        private PhpTraverser $traverser,
     ) {
-        $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
-        $this->traverser = new PhpTraverser(
-            $classBuilder ?? new ClassDefinitionBuilder(),
-            $interfaceBuilder ?? new InterfaceDefinitionBuilder(),
-            $traitBuilder ?? new TraitDefinitionBuilder()
-        );
     }
 
     public function parse(SourceCode $sourceCode): Codebase

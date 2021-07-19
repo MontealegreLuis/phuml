@@ -18,6 +18,8 @@ final class StatisticsGeneratorConfigurationBuilder
 
     private bool $recursive = false;
 
+    private ?string $optionToRemove = null;
+
     public function recursive(): StatisticsGeneratorConfigurationBuilder
     {
         $this->recursive = true;
@@ -31,18 +33,27 @@ final class StatisticsGeneratorConfigurationBuilder
         return $this;
     }
 
+    public function withoutOption(string $option)
+    {
+        $this->optionToRemove = $option;
+        return $this;
+    }
+
     public function build(): StatisticsGeneratorConfiguration
     {
-        return new StatisticsGeneratorConfiguration(
-            array_merge([
-                'recursive' => $this->recursive,
-                'associations' => false,
-                'hide-private' => false,
-                'hide-protected' => false,
-                'hide-attributes' => false,
-                'hide-methods' => false,
-            ], $this->overrides),
-            new ConsoleProgressDisplay(new NullOutput())
-        );
+        $options = array_merge([
+            'recursive' => $this->recursive,
+            'associations' => false,
+            'hide-private' => false,
+            'hide-protected' => false,
+            'hide-attributes' => false,
+            'hide-methods' => false,
+        ], $this->overrides);
+
+        if ($this->optionToRemove !== null) {
+            unset($options[$this->optionToRemove]);
+        }
+
+        return new StatisticsGeneratorConfiguration($options, new ConsoleProgressDisplay(new NullOutput()));
     }
 }

@@ -18,6 +18,8 @@ final class DigraphConfigurationBuilder
 
     private bool $recursive = false;
 
+    private ?string $optionToRemove = null;
+
     public function recursive(): DigraphConfigurationBuilder
     {
         $this->recursive = true;
@@ -31,20 +33,29 @@ final class DigraphConfigurationBuilder
         return $this;
     }
 
+    public function withoutOption(string $option): DigraphConfigurationBuilder
+    {
+        $this->optionToRemove = $option;
+        return $this;
+    }
+
     public function build(): DigraphConfiguration
     {
-        return new DigraphConfiguration(
-            array_merge([
-                'recursive' => $this->recursive,
-                'associations' => false,
-                'hide-private' => false,
-                'hide-protected' => false,
-                'hide-attributes' => false,
-                'hide-methods' => false,
-                'theme' => 'phuml',
-                'hide-empty-blocks' => false,
-            ], $this->overrides),
-            new ConsoleProgressDisplay(new NullOutput())
-        );
+        $options = array_merge([
+            'recursive' => $this->recursive,
+            'associations' => false,
+            'hide-private' => false,
+            'hide-protected' => false,
+            'hide-attributes' => false,
+            'hide-methods' => false,
+            'theme' => 'phuml',
+            'hide-empty-blocks' => false,
+        ], $this->overrides);
+
+        if ($this->optionToRemove !== null) {
+            unset($options[$this->optionToRemove]);
+        }
+
+        return new DigraphConfiguration($options, new ConsoleProgressDisplay(new NullOutput()));
     }
 }

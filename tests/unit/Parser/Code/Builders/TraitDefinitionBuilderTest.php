@@ -104,8 +104,8 @@ final class TraitDefinitionBuilderTest extends TestCase
     /** @before */
     function let()
     {
-        $this->builder = new TraitDefinitionBuilder();
+        $this->builder = new TraitDefinitionBuilder(A::membersBuilder()->build());
     }
 
-    private ?TraitDefinitionBuilder $builder = null;
+    private TraitDefinitionBuilder $builder;
 }

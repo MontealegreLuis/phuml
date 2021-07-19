@@ -17,7 +17,7 @@ trait TraitNamesBuilder
      * @param Node[] $nodes
      * @return TraitName[]
      */
-    protected function buildTraits(array $nodes): array
+    private function buildTraits(array $nodes): array
     {
         $useStatements = array_filter($nodes, static fn (Node $node): bool => $node instanceof TraitUse);
 

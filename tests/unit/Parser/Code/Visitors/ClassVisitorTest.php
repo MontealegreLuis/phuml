@@ -11,13 +11,14 @@ use PhpParser\Node\Stmt\Class_;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
+use PhUml\TestBuilders\A;
 
 final class ClassVisitorTest extends TestCase
 {
     /** @test */
     function it_ignores_anonymous_classes()
     {
-        $builder = new ClassDefinitionBuilder();
+        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build());
         $codebase = new Codebase();
         $visitor = new ClassVisitor($builder, $codebase);
         $anonymousClass = new Class_(null);

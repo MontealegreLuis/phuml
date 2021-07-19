@@ -118,4 +118,33 @@ final class SummaryTest extends TestCase
         $this->assertEquals(3, $summary->attributesPerClass());
         $this->assertEquals(3, $summary->functionsPerClass());
     }
+
+    /** @test */
+    function it_calculates_the_average_attributes_per_class()
+    {
+        $codebase = new Codebase();
+        $classWith3Attributes = A::class('ClassA')
+            ->withAProtectedAttribute('aString', 'string')
+            ->withAProtectedAttribute('aFloat', 'float')
+            ->withAProtectedAttribute('aMixed')
+            ->build();
+        $classWith2Attributes = A::class('ClassB')
+            ->withAProtectedAttribute('aString', 'string')
+            ->withAProtectedAttribute('aBoolean', 'bool')
+            ->build();
+        $classWith5Attributes = A::class('ClassC')
+            ->withAProtectedAttribute('aString', 'string')
+            ->withAPrivateAttribute('aFloat', 'float')
+            ->withAPublicAttribute('aBoolean', 'bool')
+            ->withAPublicAttribute('anArray')
+            ->withAPublicAttribute('anObject')
+            ->build();
+        $codebase->add($classWith3Attributes);
+        $codebase->add($classWith2Attributes);
+        $codebase->add($classWith5Attributes);
+
+        $summary = Summary::from($codebase);
+
+        $this->assertEquals(3.33, $summary->attributesPerClass());
+    }
 }

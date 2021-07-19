@@ -16,7 +16,7 @@ trait InterfaceNamesBuilder
      * @param Name[] $implements
      * @return DefinitionName[]
      */
-    protected function buildInterfaces(array $implements): array
+    private function buildInterfaces(array $implements): array
     {
         return array_map(static fn (Name $name): DefinitionName => new DefinitionName($name->getLast()), $implements);
     }

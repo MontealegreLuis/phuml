@@ -14,14 +14,7 @@ use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Methods\Method;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
-use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
-use PhUml\Parser\Code\Builders\Members\TypeBuilder;
-use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
-use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 
 /**
  * It builds the constants, attributes and methods of a definition
@@ -32,32 +25,11 @@ use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
  */
 final class MembersBuilder
 {
-    private ConstantsBuilder $constantsBuilder;
-
-    private AttributesBuilder $attributesBuilder;
-
-    private MethodsBuilder $methodsBuilder;
-
     public function __construct(
-        ConstantsBuilder $constantsBuilder = null,
-        AttributesBuilder $attributesBuilder = null,
-        MethodsBuilder $methodsBuilder = null
+        private ConstantsBuilder $constantsBuilder,
+        private AttributesBuilder $attributesBuilder,
+        private MethodsBuilder $methodsBuilder,
     ) {
-        $visibilityBuilder = new VisibilityBuilder();
-        $filters = new VisibilityFilters();
-        $this->constantsBuilder = $constantsBuilder ?? new FilteredConstantsBuilder($visibilityBuilder, $filters);
-        $typeBuilder = new TypeBuilder();
-        $this->attributesBuilder = $attributesBuilder ?? new FilteredAttributesBuilder(
-            $visibilityBuilder,
-            $typeBuilder,
-            $filters
-        );
-        $this->methodsBuilder = $methodsBuilder ?? new FilteredMethodsBuilder(
-            new ParametersBuilder($typeBuilder),
-            $typeBuilder,
-            $visibilityBuilder,
-            $filters
-        );
     }
 
     /**
