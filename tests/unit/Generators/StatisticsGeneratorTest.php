@@ -92,7 +92,7 @@ STATS;
     function let()
     {
         $this->statisticsFile  = __DIR__ . '/../../resources/.output/statistics.txt';
-        $this->input = new GeneratorInput(
+        $this->input = GeneratorInput::textFile(
             ['directory' => __DIR__ . '/../../resources/.code/classes', 'output' => $this->statisticsFile]
         );
         if (file_exists($this->statisticsFile)) {

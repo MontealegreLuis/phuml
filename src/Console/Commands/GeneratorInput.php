@@ -17,10 +17,28 @@ final class GeneratorInput
     private OutputFilePath $outputFile;
 
     /** @param string[] $input */
-    public function __construct(array $input)
+    public static function dotFile(array $input): GeneratorInput
+    {
+        return new GeneratorInput($input, 'gv');
+    }
+
+    /** @param string[] $input */
+    public static function textFile(array $input): GeneratorInput
+    {
+        return new GeneratorInput($input, 'txt');
+    }
+
+    /** @param string[] $input */
+    public static function pngFile(array $input): GeneratorInput
+    {
+        return new GeneratorInput($input, 'png');
+    }
+
+    /** @param string[] $input */
+    private function __construct(array $input, string $extension)
     {
         $this->directory = new CodebaseDirectory($input['directory'] ?? '');
-        $this->outputFile = new OutputFilePath($input['output'] ?? '');
+        $this->outputFile = OutputFilePath::withExpectedExtension($input['output'] ?? '', $extension);
     }
 
     public function filePath(): OutputFilePath

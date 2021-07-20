@@ -85,7 +85,7 @@ final class GenerateDotFileCommandTest extends TestCase
     }
 
     /** @before */
-    function configureCommandTester()
+    function let()
     {
         $application = new PhUmlApplication();
         $this->command = $application->find('phuml:dot');
@@ -97,11 +97,11 @@ final class GenerateDotFileCommandTest extends TestCase
         }
     }
 
-    private ?string $dotFile = null;
+    private string $dotFile;
 
-    private ?Command $command = null;
+    private Command $command;
 
-    private ?CommandTester $tester = null;
+    private CommandTester $tester;
 
-    private ?string $pathToCode = null;
+    private string $pathToCode;
 }

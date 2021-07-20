@@ -12,12 +12,21 @@ use Webmozart\Assert\Assert;
 
 final class OutputFilePath
 {
-    private SplFileInfo $filePath;
-
-    public function __construct(string $filePath)
+    public static function withExpectedExtension(string $filePath, string $expectedExtension): OutputFilePath
     {
-        Assert::stringNotEmpty(trim($filePath), 'Output file path cannot be empty');
-        $this->filePath = new SplFileInfo(trim($filePath));
+        $path = new SplFileInfo(trim($filePath));
+        $extension = $path->getExtension();
+        Assert::eq(
+            $extension,
+            $expectedExtension,
+            "Output file is expected to have extension '.{$expectedExtension}', '.{$extension}' given"
+        );
+
+        return new OutputFilePath($path);
+    }
+
+    private function __construct(private SplFileInfo $filePath)
+    {
     }
 
     public function value(): string

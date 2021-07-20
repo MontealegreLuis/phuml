@@ -24,7 +24,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-without-empty-blocks.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-without-empty-blocks.png';
-        $input = new GeneratorInput([
+        $input = GeneratorInput::pngFile([
             'directory' => __DIR__ . '/../../resources/.code/classes',
             'output' => $diagramPath,
         ]);

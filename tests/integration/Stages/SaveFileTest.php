@@ -22,7 +22,7 @@ final class SaveFileTest extends TestCase
     {
         $statistics = new SaveFile(new OutputWriter(new SmartFileSystem()), $this->display);
         $content = new OutputContent('Any content is allowed here');
-        $path = new OutputFilePath($this->filePath);
+        $path = OutputFilePath::withExpectedExtension($this->filePath, 'txt');
 
         $statistics->saveTo($content, $path);
 

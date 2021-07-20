@@ -24,7 +24,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
-        $input = new GeneratorInput([
+        $input = GeneratorInput::pngFile([
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $diagramPath,
         ]);
@@ -49,7 +49,7 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
-        $input = new GeneratorInput([
+        $input = GeneratorInput::pngFile([
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $diagramPath,
         ]);

@@ -15,7 +15,7 @@ final class OutputFilePathTest extends TestCase
     /** @test */
     function it_knows_its_current_value()
     {
-        $path = new OutputFilePath(__DIR__ . '/../../resources/.output/output.png');
+        $path = OutputFilePath::withExpectedExtension(__DIR__ . '/../../resources/.output/output.png', 'png');
 
         $this->assertStringEndsWith('/resources/.output/output.png', $path->value());
     }
@@ -25,6 +25,6 @@ final class OutputFilePathTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new OutputFilePath('  ');
+        OutputFilePath::withExpectedExtension('  ', 'txt');
     }
 }

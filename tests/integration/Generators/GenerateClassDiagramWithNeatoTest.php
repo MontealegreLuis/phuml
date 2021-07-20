@@ -24,7 +24,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-neato.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato.png';
-        $input = new GeneratorInput([
+        $input = GeneratorInput::pngFile([
             'directory' => __DIR__ . '/../../resources/.code/classes',
             'output' => $diagramPath,
         ]);
@@ -43,7 +43,7 @@ final class GenerateClassDiagramWithNeatoTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-neato-recursive.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-neato-recursive.png';
-        $input = new GeneratorInput([
+        $input = GeneratorInput::pngFile([
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $diagramPath,
         ]);

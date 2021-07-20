@@ -24,7 +24,7 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot.png';
-        $input = new GeneratorInput([
+        $input = GeneratorInput::pngFile([
             'directory' => __DIR__ . '/../../resources/.code/classes',
             'output' => $diagramPath,
         ]);
@@ -43,7 +43,7 @@ final class GenerateClassDiagramWithDotTest extends TestCase
     {
         $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-recursive.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-recursive.png';
-        $input = new GeneratorInput([
+        $input = GeneratorInput::pngFile([
             'directory' => __DIR__ . '/../../resources/.code',
             'output' => $diagramPath,
         ]);

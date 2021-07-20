@@ -72,7 +72,7 @@ HELP
         $configuration = new StatisticsGeneratorConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
         $generator = StatisticsGenerator::fromConfiguration($configuration);
 
-        $generator->generate(new GeneratorInput($input->getArguments()));
+        $generator->generate(GeneratorInput::textFile($input->getArguments()));
 
         return self::SUCCESS;
     }

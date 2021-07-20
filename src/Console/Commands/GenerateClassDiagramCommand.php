@@ -78,7 +78,7 @@ HELP
         $configuration = new ClassDiagramConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
         $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $generator->generate(new GeneratorInput($input->getArguments()));
+        $generator->generate(GeneratorInput::pngFile($input->getArguments()));
 
         return self::SUCCESS;
     }

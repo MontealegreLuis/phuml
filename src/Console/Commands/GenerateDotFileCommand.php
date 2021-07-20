@@ -64,7 +64,7 @@ HELP
         $configuration = new DigraphConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
         $generator = DigraphGenerator::fromConfiguration($configuration);
 
-        $generator->generate(new GeneratorInput($input->getArguments()));
+        $generator->generate(GeneratorInput::dotFile($input->getArguments()));
 
         return self::SUCCESS;
     }
