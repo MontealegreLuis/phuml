@@ -120,7 +120,7 @@ final class SummaryTest extends TestCase
     }
 
     /** @test */
-    function it_calculates_the_average_attributes_per_class()
+    function it_calculates_average_of_attributes_per_class()
     {
         $codebase = new Codebase();
         $classWith3Attributes = A::class('ClassA')
@@ -146,5 +146,34 @@ final class SummaryTest extends TestCase
         $summary = Summary::from($codebase);
 
         $this->assertEquals(3.33, $summary->attributesPerClass());
+    }
+
+    /** @test */
+    function it_calculates_average_of_methods_per_class()
+    {
+        $codebase = new Codebase();
+        $classWith3Methods = A::class('ClassA')
+            ->withAProtectedMethod('methodA')
+            ->withAProtectedMethod('methodB')
+            ->withAProtectedMethod('methodC')
+            ->build();
+        $classWith2Methods = A::class('ClassB')
+            ->withAProtectedMethod('methodA')
+            ->withAProtectedMethod('methodB')
+            ->build();
+        $classWith5Methods = A::class('ClassC')
+            ->withAProtectedMethod('methodA')
+            ->withAPrivateMethod('methodB')
+            ->withAPublicMethod('methodC')
+            ->withAPublicMethod('methodD')
+            ->withAPublicMethod('methodE')
+            ->build();
+        $codebase->add($classWith3Methods);
+        $codebase->add($classWith2Methods);
+        $codebase->add($classWith5Methods);
+
+        $summary = Summary::from($codebase);
+
+        $this->assertEquals(3.33, $summary->functionsPerClass());
     }
 }

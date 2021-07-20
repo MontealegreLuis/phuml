@@ -15,7 +15,7 @@ use PhUml\Code\Parameters\Parameter;
 final class InterfaceBuilder extends DefinitionBuilder
 {
     /** @var Name[] */
-    protected array $parents = [];
+    private array $parents = [];
 
     /** @var Method[] */
     private array $methods = [];

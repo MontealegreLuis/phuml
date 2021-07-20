@@ -19,9 +19,9 @@ use PhUml\Parser\Code\Visitors\TraitVisitor;
 
 final class PhpTraverser
 {
-    protected Codebase $codebase;
+    private Codebase $codebase;
 
-    protected NodeTraverser $traverser;
+    private NodeTraverser $traverser;
 
     public function __construct(
         ClassDefinitionBuilder $classBuilder,

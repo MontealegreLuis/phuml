@@ -24,9 +24,13 @@ final class ClassVisitor extends NodeVisitorAbstract
 
     public function leaveNode(Node $node)
     {
-        if ($node instanceof Class_ && ! $node->isAnonymous()) {
-            $this->codebase->add($this->builder->build($node));
+        if (! $node instanceof Class_) {
+            return null;
         }
+        if ($node->isAnonymous()) {
+            return null;
+        }
+        $this->codebase->add($this->builder->build($node));
         return null;
     }
 }

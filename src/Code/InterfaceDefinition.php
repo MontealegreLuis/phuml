@@ -20,7 +20,7 @@ final class InterfaceDefinition extends Definition implements HasConstants
     use WithConstants;
 
     /** @var Name[] */
-    protected array $parents;
+    private array $parents;
 
     /**
      * @param Method[] $methods

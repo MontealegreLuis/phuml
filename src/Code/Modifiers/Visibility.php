@@ -16,7 +16,7 @@ use Webmozart\Assert\Assert;
 final class Visibility implements Stringable
 {
     /** @var string[] */
-    private static array $symbols = [
+    private const SYMBOLS = [
         'private' => '-',
         'public' => '+',
         'protected' => '#',
@@ -26,7 +26,7 @@ final class Visibility implements Stringable
 
     public function __construct(string $modifier)
     {
-        Assert::oneOf($modifier, array_keys(self::$symbols));
+        Assert::oneOf($modifier, array_keys(self::SYMBOLS));
         $this->modifier = $modifier;
     }
 
@@ -52,6 +52,6 @@ final class Visibility implements Stringable
 
     public function __toString(): string
     {
-        return self::$symbols[$this->modifier];
+        return self::SYMBOLS[$this->modifier];
     }
 }

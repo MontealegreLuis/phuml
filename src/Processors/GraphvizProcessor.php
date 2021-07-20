@@ -59,7 +59,7 @@ final class GraphvizProcessor implements Processor
         return new OutputContent($this->printer->toDot($digraph));
     }
 
-    protected function extractElements(
+    private function extractElements(
         Definition $definition,
         Codebase $codebase,
         Digraph $digraph

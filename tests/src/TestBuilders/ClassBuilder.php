@@ -14,7 +14,7 @@ final class ClassBuilder extends DefinitionBuilder
 {
     use MembersBuilder;
 
-    protected ?Name $parent = null;
+    private ?Name $parent = null;
 
     /** @var Name[] */
     private array $interfaces = [];

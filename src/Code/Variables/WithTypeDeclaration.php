@@ -14,7 +14,10 @@ trait WithTypeDeclaration
     /** @see HasType::isAReference() for more details */
     public function isAReference(): bool
     {
-        return $this->hasTypeDeclaration() && ! $this->type->isBuiltIn();
+        if (! $this->hasTypeDeclaration()) {
+            return false;
+        }
+        return ! $this->type->isBuiltIn();
     }
 
     /** @see HasType::hasTypeDeclaration() for more details */

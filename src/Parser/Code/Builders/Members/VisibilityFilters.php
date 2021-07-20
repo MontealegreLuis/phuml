@@ -27,7 +27,7 @@ use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 final class VisibilityFilters
 {
     /** @var VisibilityFilter[] */
-    protected array $filters;
+    private array $filters;
 
     /** @param VisibilityFilter[] $filters */
     public function __construct(array $filters = [])

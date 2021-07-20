@@ -20,7 +20,7 @@ final class TypeDeclaration implements Named, Stringable
     use WithName;
 
     /** @var string[] All valid types for PHP 7.1, pseudo-types, and aliases */
-    private static array $builtInTypes = [
+    private const BUILT_IN_TYPES = [
         'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable',
         // pseudo-types
         'mixed', 'number', 'object', 'resource', 'self',
@@ -62,7 +62,10 @@ final class TypeDeclaration implements Named, Stringable
         if ($this->isArray()) {
             $type = $this->removeArraySuffix();
         }
-        return $this->isPresent() && \in_array($type, self::$builtInTypes, true);
+        if (! $this->isPresent()) {
+            return false;
+        }
+        return \in_array($type, self::BUILT_IN_TYPES, true);
     }
 
     public function isBuiltInArray(): bool

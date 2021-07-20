@@ -29,10 +29,13 @@ final class TypeBuilder
         }
 
         $typeDeclaration = $this->fromParsedType($type);
-        if ($typeDeclaration->isBuiltInArray() && $methodDocBlock->hasTypeOfParameter($name)) {
-            return $methodDocBlock->typeOfParameter($name);
+        if (! $typeDeclaration->isBuiltInArray()) {
+            return $typeDeclaration;
         }
-        return $typeDeclaration;
+        if (! $methodDocBlock->hasTypeOfParameter($name)) {
+            return $typeDeclaration;
+        }
+        return $methodDocBlock->typeOfParameter($name);
     }
 
     public function fromMethodReturnType(
@@ -45,10 +48,13 @@ final class TypeBuilder
         }
 
         $typeDeclaration = $this->fromParsedType($type);
-        if ($typeDeclaration->isBuiltInArray() && $methodDocBlock->hasReturnType()) {
-            return $methodDocBlock->returnType();
+        if (! $typeDeclaration->isBuiltInArray()) {
+            return $typeDeclaration;
         }
-        return $typeDeclaration;
+        if (! $methodDocBlock->hasReturnType()) {
+            return $typeDeclaration;
+        }
+        return $methodDocBlock->returnType();
     }
 
     public function fromAttributeType(
@@ -61,10 +67,13 @@ final class TypeBuilder
         }
 
         $typeDeclaration = $this->fromParsedType($type);
-        if ($typeDeclaration->isBuiltInArray() && $attributeDocBlock->hasAttributeType()) {
-            return $attributeDocBlock->attributeType();
+        if (! $typeDeclaration->isBuiltInArray()) {
+            return $typeDeclaration;
         }
-        return $typeDeclaration;
+        if (! $attributeDocBlock->hasAttributeType()) {
+            return $typeDeclaration;
+        }
+        return $attributeDocBlock->attributeType();
     }
 
     private function fromParsedType(Identifier|Name|NullableType|UnionType|null $type): TypeDeclaration

@@ -10,14 +10,14 @@ namespace PhUml\Processors;
 final class ImageProcessorName
 {
     /** @var string[] */
-    private static array $names = ['neato', 'dot'];
+    private const NAMES = ['neato', 'dot'];
 
     private string $name;
 
     public function __construct(string $name)
     {
-        if (! \in_array($name, self::$names, true)) {
-            throw UnknownImageProcessor::named($name, self::$names);
+        if (! \in_array($name, self::NAMES, true)) {
+            throw UnknownImageProcessor::named($name, self::NAMES);
         }
         $this->name = $name;
     }

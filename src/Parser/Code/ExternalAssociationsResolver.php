@@ -40,18 +40,26 @@ final class ExternalAssociationsResolver implements RelationshipsResolver
     private function resolveExternalAttributes(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Attribute $attribute) use ($codebase): void {
-            if ($attribute->isAReference() && ! $codebase->has($attribute->referenceName())) {
-                $codebase->add(new ClassDefinition($attribute->referenceName()));
+            if (! $attribute->isAReference()) {
+                return;
             }
+            if ($codebase->has($attribute->referenceName())) {
+                return;
+            }
+            $codebase->add(new ClassDefinition($attribute->referenceName()));
         }, $definition->attributes());
     }
 
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Parameter $parameter) use ($codebase): void {
-            if ($parameter->isAReference() && ! $codebase->has($parameter->referenceName())) {
-                $codebase->add(new ClassDefinition($parameter->referenceName()));
+            if (! $parameter->isAReference()) {
+                return;
             }
+            if ($codebase->has($parameter->referenceName())) {
+                return;
+            }
+            $codebase->add(new ClassDefinition($parameter->referenceName()));
         }, $definition->constructorParameters());
     }
 }

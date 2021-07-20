@@ -10,14 +10,14 @@ namespace PhUml\Graphviz\Styles;
 final class ThemeName
 {
     /** @var string[] */
-    private static array $validNames = ['phuml', 'php', 'classic'];
+    private const VALID_NAMES = ['phuml', 'php', 'classic'];
 
     private string $name;
 
     public function __construct(string $name)
     {
-        if (! \in_array($name, self::$validNames, true)) {
-            throw UnknownTheme::named($name, self::$validNames);
+        if (! \in_array($name, self::VALID_NAMES, true)) {
+            throw UnknownTheme::named($name, self::VALID_NAMES);
         }
         $this->name = $name;
     }

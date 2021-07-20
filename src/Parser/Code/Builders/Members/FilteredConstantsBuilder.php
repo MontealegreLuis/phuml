@@ -20,7 +20,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 final class FilteredConstantsBuilder implements ConstantsBuilder
 {
     /** @var string[] */
-    private static array $types = [
+    private const TYPES = [
         'integer' => 'int',
         'double' => 'float',
         'string' => 'string',
@@ -50,12 +50,14 @@ final class FilteredConstantsBuilder implements ConstantsBuilder
     private function determineType(Const_ $constant): ?string
     {
         if (property_exists($constant->value, 'value')) {
-            return self::$types[\gettype($constant->value->value)];
+            return self::TYPES[\gettype($constant->value->value)];
         }
-        if ($constant->value instanceof ConstFetch
-            && \in_array($constant->value->name->parts[0], ['true', 'false'], true)) {
-            return 'bool';
+        if (! $constant->value instanceof ConstFetch) {
+            return null;
         }
-        return null; // It's an expression
+        if (! \in_array($constant->value->name->parts[0], ['true', 'false'], true)) {
+            return null;
+        }
+        return 'bool'; // It's an expression
     }
 }

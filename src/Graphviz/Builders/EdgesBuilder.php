@@ -74,7 +74,10 @@ final class EdgesBuilder implements AssociationsBuilder
 
     private function needAssociation(ClassDefinition $class, HasType $attribute): bool
     {
-        return $attribute->isAReference() && ! $this->isAssociationResolved($class, $attribute);
+        if (! $attribute->isAReference()) {
+            return false;
+        }
+        return ! $this->isAssociationResolved($class, $attribute);
     }
 
     private function isAssociationResolved(ClassDefinition $class, HasType $attribute): bool
