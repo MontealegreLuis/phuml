@@ -111,8 +111,8 @@ final class PhpCodeParserTest extends TestCase
         $this->assertPublic($definitions['plBase']->methods()[1]);
         $this->assertPublic($definitions['plBase']->methods()[2]);
         $this->assertCount(2, $definitions['plPhuml']->attributes());
+        $this->assertPrivate($definitions['plPhuml']->attributes()[0]);
         $this->assertPrivate($definitions['plPhuml']->attributes()[1]);
-        $this->assertPrivate($definitions['plPhuml']->attributes()[2]);
         $this->assertCount(8, $definitions['plPhuml']->methods());
         $this->assertPublic($definitions['plPhuml']->methods()[0]);
         $this->assertPublic($definitions['plPhuml']->methods()[1]);

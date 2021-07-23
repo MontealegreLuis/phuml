@@ -45,9 +45,14 @@ final class MembersBuilder
      * @param Node[] $members
      * @return Attribute[]
      */
-    public function attributes(array $members): array
+    public function attributes(array $members, ?ClassMethod $constructor): array
     {
-        return $this->attributesBuilder->build($members);
+        $attributes = [];
+        if ($constructor !== null) {
+            $attributes = $this->attributesBuilder->fromPromotedProperties($constructor->getParams());
+        }
+
+        return array_merge($this->attributesBuilder->build($members), $attributes);
     }
 
     /**

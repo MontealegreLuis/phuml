@@ -16,4 +16,9 @@ final class NoAttributesBuilder implements AttributesBuilder
     {
         return [];
     }
+
+    public function fromPromotedProperties(array $constructorParameters): array
+    {
+        return [];
+    }
 }

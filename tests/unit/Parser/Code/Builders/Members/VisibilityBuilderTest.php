@@ -77,4 +77,20 @@ final class VisibilityBuilderTest extends TestCase
         $this->assertEquals(Visibility::protected(), $protectedVisibility);
         $this->assertEquals(Visibility::private(), $privateVisibility);
     }
+
+    /** @test */
+    function it_extracts_visibility_from_parsed_flags()
+    {
+        $builder = new VisibilityBuilder();
+
+        $private = $builder->fromFlags(4);
+        $protected = $builder->fromFlags(2);
+        $public = $builder->fromFlags(1);
+
+        $this->assertEquals(Visibility::private(), $private);
+        $this->assertEquals(Visibility::protected(), $protected);
+        $this->assertEquals(Visibility::public(), $public);
+        $this->expectException(UnknownVisibilityFlag::class);
+        $builder->fromFlags(0);
+    }
 }

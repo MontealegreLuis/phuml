@@ -25,4 +25,10 @@ interface AttributesBuilder
      * @return Attribute[]
      */
     public function build(array $parsedAttributes): array;
+
+    /**
+     * @param Node\Param[] $constructorParameters
+     * @return Attribute[]
+     */
+    public function fromPromotedProperties(array $constructorParameters): array;
 }
