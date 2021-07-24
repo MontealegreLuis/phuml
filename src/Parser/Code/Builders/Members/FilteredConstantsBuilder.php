@@ -55,9 +55,6 @@ final class FilteredConstantsBuilder implements ConstantsBuilder
         if (! $constant->value instanceof ConstFetch) {
             return null;
         }
-        if (! \in_array($constant->value->name->parts[0], ['true', 'false'], true)) {
-            return null;
-        }
-        return 'bool'; // It's an expression
+        return 'bool';
     }
 }

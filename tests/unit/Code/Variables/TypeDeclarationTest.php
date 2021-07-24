@@ -67,7 +67,9 @@ final class TypeDeclarationTest extends TestCase
         $nullType = TypeDeclaration::from(null);
 
         $this->assertFalse($noType->isPresent());
+        $this->assertFalse($noType->isBuiltIn());
         $this->assertFalse($nullType->isPresent());
+        $this->assertFalse($nullType->isBuiltIn());
     }
 
     /** @test */
