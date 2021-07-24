@@ -26,9 +26,13 @@ You can replace `4.0.0` with any of the available [tags](https://hub.docker.com/
 
 Alternatively, you may use [Composer][composer] to download and install phUML as well as its dependencies.
 
-```
+```bash
 composer require phuml/phuml
-# or globally
+```
+
+It can also be installed globally.
+
+```bash
 composer global require phuml/phuml
 ```
 

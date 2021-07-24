@@ -16,6 +16,10 @@ Alternatively, you may use  [Composer](https://getcomposer.org/) to download and
 
 ```bash
 composer require phuml/phuml
-# or globally
+```
+
+It can also be installed globally.
+
+```bash
 composer global require phuml/phuml
 ```

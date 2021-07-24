@@ -22,11 +22,8 @@ final class InterfaceDefinitionBuilder
 {
     use InterfaceNamesBuilder;
 
-    private MembersBuilder $membersBuilder;
-
-    public function __construct(MembersBuilder $membersBuilder = null)
+    public function __construct(private MembersBuilder $membersBuilder)
     {
-        $this->membersBuilder = $membersBuilder ?? new MembersBuilder();
     }
 
     public function build(Interface_ $interface): InterfaceDefinition
