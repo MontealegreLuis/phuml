@@ -34,5 +34,5 @@ jobs:
 
       - name: "Send code coverage to Scrutinizer"
         run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+          composer global require scrutinizer/ocular
+          ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
