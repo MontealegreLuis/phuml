@@ -7,7 +7,6 @@
 
 namespace PhUml\Code\Attributes;
 
-use BadMethodCallException;
 use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithVisibility;
@@ -38,8 +37,9 @@ final class Constant implements HasType, HasVisibility, Stringable
         );
     }
 
-    public function referenceName(): Name
+    /** @return Name[] */
+    public function references(): array
     {
-        throw new BadMethodCallException('Constants must be built-in types');
+        return []; // Constants can only be built-in types
     }
 }

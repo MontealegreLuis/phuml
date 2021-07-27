@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Name as NodeName;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
 use PhUml\Code\Attributes\AttributeDocBlock;
@@ -83,7 +84,15 @@ final class TypeBuilder
             $type instanceof Name => TypeDeclaration::from($type->getLast()),
             $type instanceof Identifier => TypeDeclaration::from((string) $type),
             $type === null => TypeDeclaration::absent(),
-            default => throw UnsupportedType::declaredAs($type),
+            default => TypeDeclaration::fromUnionType($this->fromUnionType($type)),
         };
+    }
+
+    /** @return string[] */
+    private function fromUnionType(UnionType $type): array
+    {
+        return array_map(function (Identifier|NodeName $name): string {
+            return $name instanceof Identifier ? $name->name : $name->getLast();
+        }, $type->types);
     }
 }

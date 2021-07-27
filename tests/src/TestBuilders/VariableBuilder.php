@@ -21,7 +21,14 @@ final class VariableBuilder
 
     public function withType(?string $type): VariableBuilder
     {
-        $this->type = $type !== null ? TypeDeclaration::from($type) : TypeDeclaration::absent();
+        if ($type === null) {
+            $this->type = TypeDeclaration::absent();
+        } elseif (str_contains($type, '|')) {
+            $this->type = TypeDeclaration::fromUnionType(explode('|', $type));
+        } else {
+            $this->type = TypeDeclaration::from($type);
+        }
+
         return $this;
     }
 

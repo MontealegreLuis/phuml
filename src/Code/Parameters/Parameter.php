@@ -7,6 +7,7 @@
 
 namespace PhUml\Code\Parameters;
 
+use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\Variable;
 use PhUml\Code\Variables\WithVariable;
@@ -22,6 +23,12 @@ final class Parameter implements HasType, Stringable
         private bool $isByReference = false
     ) {
         $this->variable = $variable;
+    }
+
+    /** @return Name[] */
+    public function references(): array
+    {
+        return $this->variable->references();
     }
 
     public function __toString(): string

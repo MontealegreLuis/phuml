@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
+use PhUml\Code\Name;
 use PhUml\Code\Parameters\Parameter;
 
 /**
@@ -40,26 +41,25 @@ final class ExternalAssociationsResolver implements RelationshipsResolver
     private function resolveExternalAttributes(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Attribute $attribute) use ($codebase): void {
-            if (! $attribute->isAReference()) {
-                return;
-            }
-            if ($codebase->has($attribute->referenceName())) {
-                return;
-            }
-            $codebase->add(new ClassDefinition($attribute->referenceName()));
+            $this->resolveExternalAssociationsFromTypeNames($attribute->references(), $codebase);
         }, $definition->attributes());
     }
 
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Parameter $parameter) use ($codebase): void {
-            if (! $parameter->isAReference()) {
-                return;
-            }
-            if ($codebase->has($parameter->referenceName())) {
-                return;
-            }
-            $codebase->add(new ClassDefinition($parameter->referenceName()));
+            $this->resolveExternalAssociationsFromTypeNames($parameter->references(), $codebase);
         }, $definition->constructorParameters());
+    }
+
+    /** @param Name[] $references */
+    private function resolveExternalAssociationsFromTypeNames(array $references, Codebase $codebase): void
+    {
+        array_map(static function (Name $reference) use ($codebase): void {
+            if ($codebase->has($reference)) {
+                return;
+            }
+            $codebase->add(new ClassDefinition($reference));
+        }, $references);
     }
 }

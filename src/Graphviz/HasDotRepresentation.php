@@ -8,8 +8,7 @@
 namespace PhUml\Graphviz;
 
 /**
- * Both `ClassDefinition` and `InterfaceDefinition` have a DOT language representation.
- * `Edge`s can be represented as DOT language too
+ * `Node`s and `Edge`s can be represented in DOT language
  */
 interface HasDotRepresentation
 {

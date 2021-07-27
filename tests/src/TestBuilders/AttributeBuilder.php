@@ -59,7 +59,7 @@ final class AttributeBuilder
         if ($this->type === null) {
             $type = null;
         } else {
-            $type = $this->type->isPresent() ? (string) $this->type->name() : null;
+            $type = $this->type->isPresent() ? (string) $this->type : null;
         }
 
         $variable = A::variable($this->name)

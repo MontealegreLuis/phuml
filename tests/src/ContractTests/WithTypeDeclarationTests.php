@@ -24,11 +24,11 @@ trait WithTypeDeclarationTests
     /** @test */
     function it_knows_if_it_refers_to_another_class_or_interface()
     {
-        $reference = $this->reference();
+        $reference = $this->typeDeclaration();
 
-        $isAReference = $reference->isAReference();
+        $references = $reference->references();
 
-        $this->assertTrue($isAReference);
+        $this->assertCount(1, $references);
     }
 
     /** @test */
@@ -37,13 +37,13 @@ trait WithTypeDeclarationTests
         $noType = $this->memberWithoutType();
         $builtInType = $this->memberWithBuiltInType();
 
-        $this->assertFalse($noType->isAReference());
-        $this->assertFalse($builtInType->isAReference());
+        $this->assertCount(0, $noType->references());
+        $this->assertCount(0, $builtInType->references());
     }
 
     abstract protected function memberWithoutType(): HasType;
 
-    abstract protected function reference(): HasType;
+    abstract protected function typeDeclaration(): HasType;
 
     abstract protected function memberWithBuiltInType(): HasType;
 }

@@ -84,33 +84,39 @@ final class FilteredMethodsBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_support_union_types_as_return_type()
+    function it_supports_union_types_as_return_type()
     {
         $parsedMethods = [
             new ClassMethod('privateMethodA', [
                 'type' => Class_::MODIFIER_PRIVATE,
-                'returnType' => new UnionType(['int', 'float']),
-                'params' => [new Param(new Variable('example'), null, new UnionType(['int', 'float']))],
+                'returnType' => new UnionType([new Identifier('int'), new Identifier('float')]),
             ]),
         ];
 
-        $this->expectException(UnsupportedType::class);
-        $this->builder->build($parsedMethods);
+        $methods = $this->builder->build($parsedMethods);
+
+        $this->assertCount(1, $methods);
+        $this->assertEquals('-privateMethodA(): int|float', (string) $methods[0]);
     }
 
     /** @test */
-    function it_does_not_support_union_type_parameters()
+    function it_supports_union_type_parameters()
     {
         $parsedMethods = [
             new ClassMethod('privateMethodA', [
                 'type' => Class_::MODIFIER_PRIVATE,
-                'params' => [new Param(new Variable('example'), null, new UnionType(['int', 'float']))],
+                'params' => [new Param(
+                    new Variable('example'),
+                    type: new UnionType([new Identifier('int'), new Identifier('float')])
+                )],
             ]),
         ];
 
-        $this->expectException(UnsupportedType::class);
-        $this->expectExceptionMessage('PhpParser\Node\UnionType is not yet a type supported by phUML');
-        $this->builder->build($parsedMethods);
+        $methods = $this->builder->build($parsedMethods);
+
+        $this->assertCount(1, $methods);
+        $this->assertCount(1, $methods[0]->parameters());
+        $this->assertEquals('$example: int|float', (string) $methods[0]->parameters()[0]);
     }
 
     /** @test */

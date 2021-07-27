@@ -12,6 +12,7 @@ use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\Variable;
 use PhUml\Code\Variables\WithVariable;
@@ -31,6 +32,12 @@ final class Attribute implements HasType, HasVisibility, CanBeStatic, Stringable
         $this->variable = $variable;
         $this->modifier = $modifier;
         $this->isStatic = $isStatic;
+    }
+
+    /** @return Name[] */
+    public function references(): array
+    {
+        return $this->variable->references();
     }
 
     public function __toString(): string

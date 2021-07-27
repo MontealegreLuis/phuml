@@ -7,21 +7,9 @@
 
 namespace PhUml\Code\Variables;
 
-use PhUml\Code\Name;
-
 trait WithVariable
 {
     private Variable $variable;
-
-    public function isAReference(): bool
-    {
-        return $this->variable->isAReference();
-    }
-
-    public function referenceName(): Name
-    {
-        return $this->variable->referenceName();
-    }
 
     public function hasTypeDeclaration(): bool
     {

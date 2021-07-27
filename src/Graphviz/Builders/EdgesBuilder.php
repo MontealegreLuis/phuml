@@ -9,6 +9,7 @@ namespace PhUml\Graphviz\Builders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Graphviz\Edge;
 
@@ -60,23 +61,24 @@ final class EdgesBuilder implements AssociationsBuilder
             if (! $this->needAssociation($class, $parameter)) {
                 continue;
             }
-            $edges[] = $this->addAssociation($class, $parameter, $codebase);
+            $edges[] = $this->addAssociations($class, $parameter, $codebase);
         }
-        return $edges;
+        return array_merge(...$edges);
     }
 
-    private function addAssociation(ClassDefinition $class, HasType $attribute, Codebase $codebase): Edge
+    /** @return Edge[] */
+    private function addAssociations(ClassDefinition $class, HasType $attribute, Codebase $codebase): array
     {
         $this->markAssociationResolvedFor($class, $attribute);
 
-        return Edge::association($codebase->get($attribute->referenceName()), $class);
+        return array_map(
+            fn (Name $reference): Edge => Edge::association($codebase->get($reference), $class),
+            $attribute->references()
+        );
     }
 
     private function needAssociation(ClassDefinition $class, HasType $attribute): bool
     {
-        if (! $attribute->isAReference()) {
-            return false;
-        }
         return ! $this->isAssociationResolved($class, $attribute);
     }
 

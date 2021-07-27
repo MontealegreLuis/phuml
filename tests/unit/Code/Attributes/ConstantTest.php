@@ -7,7 +7,6 @@
 
 namespace PhUml\Code\Attributes;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;
@@ -31,12 +30,11 @@ final class ConstantTest extends TestCase
     }
 
     /** @test */
-    function its_type_cannot_be_a_reference_to_a_definition_since_constants_must_have_built_in_types()
+    function its_type_cannot_be_a_reference_to_a_definition_since_constants_must_be_built_in_types()
     {
         $constant = new Constant('A_CONSTANT', TypeDeclaration::from('string'));
 
-        $this->expectException(BadMethodCallException::class);
-        $constant->referenceName();
+        $this->assertCount(0, $constant->references());
     }
 
     protected function publicMember(): HasVisibility

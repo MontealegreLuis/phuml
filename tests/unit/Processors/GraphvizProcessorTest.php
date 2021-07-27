@@ -30,7 +30,6 @@ final class GraphvizProcessorTest extends TestCase
     function it_turns_a_code_structure_into_dot_language()
     {
         $processor = A::graphvizProcessor()->withAssociations()->build();
-
         $parentInterface = A::interfaceNamed('ParentInterface');
         $interface = A::interface('ImplementedInterface')
             ->extending($parentInterface->name())

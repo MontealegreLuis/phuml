@@ -40,7 +40,7 @@ final class ParameterTest extends TestCase
         return new Parameter(A::variable('$parameter')->build());
     }
 
-    protected function reference(): HasType
+    protected function typeDeclaration(): HasType
     {
         return new Parameter(A::variable('$parameter')->withType('Directory')->build());
     }
