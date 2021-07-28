@@ -52,7 +52,7 @@ final class MethodDocBlock
     private function extractReturnType(?string $comment): void
     {
         if (preg_match(self::RETURN_EXPRESSION, (string) $comment, $matches) === 1) {
-            $this->returnType = TypeDeclaration::from(trim($matches[1]));
+            $this->returnType = TypeDeclaration::from($matches[1]);
             return;
         }
 

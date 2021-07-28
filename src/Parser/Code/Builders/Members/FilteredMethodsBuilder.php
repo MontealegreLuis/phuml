@@ -49,8 +49,8 @@ final class FilteredMethodsBuilder implements MethodsBuilder
         $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $docBlock);
         $parameters = $this->parametersBuilder->build($method->params, $docBlock);
         return match (true) {
-            $method->isAbstract() => new Method($name, $visibility, $returnType, $parameters, true),
-            $method->isStatic() => new Method($name, $visibility, $returnType, $parameters, false, true),
+            $method->isAbstract() => new Method($name, $visibility, $returnType, $parameters, isAbstract: true),
+            $method->isStatic() => new Method($name, $visibility, $returnType, $parameters, isStatic: true),
             default => new Method($name, $visibility, $returnType, $parameters),
         };
     }

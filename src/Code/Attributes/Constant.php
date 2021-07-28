@@ -21,10 +21,10 @@ final class Constant implements HasType, HasVisibility, Stringable
     use WithTypeDeclaration;
     use WithVisibility;
 
-    public function __construct(private string $name, TypeDeclaration $type, Visibility $visibility = null)
+    public function __construct(private string $name, TypeDeclaration $type, Visibility $visibility)
     {
         $this->type = $type;
-        $this->modifier = $visibility ?? Visibility::public();
+        $this->modifier = $visibility;
     }
 
     public function __toString(): string

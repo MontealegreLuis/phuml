@@ -16,19 +16,19 @@ final class GeneratorInput
 
     private OutputFilePath $outputFile;
 
-    /** @param string[] $input */
+    /** @param mixed[] $input */
     public static function dotFile(array $input): GeneratorInput
     {
         return new GeneratorInput($input, 'gv');
     }
 
-    /** @param string[] $input */
+    /** @param mixed[] $input */
     public static function textFile(array $input): GeneratorInput
     {
         return new GeneratorInput($input, 'txt');
     }
 
-    /** @param string[] $input */
+    /** @param mixed[] $input */
     public static function pngFile(array $input): GeneratorInput
     {
         return new GeneratorInput($input, 'png');

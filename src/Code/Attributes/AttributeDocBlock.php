@@ -36,7 +36,7 @@ final class AttributeDocBlock
     private function extractType(?string $comment): void
     {
         if (preg_match(self::VAR_EXPRESSION, (string) $comment, $matches) === 1) {
-            $this->attributeType = TypeDeclaration::from(trim($matches[1]));
+            $this->attributeType = TypeDeclaration::from($matches[1]);
             return;
         }
         $this->attributeType = TypeDeclaration::absent();

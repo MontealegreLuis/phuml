@@ -9,6 +9,8 @@ namespace PhUml\Code\Methods;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
+use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\ContractTests\WithVisibilityTests;
 use PhUml\TestBuilders\A;
 
@@ -71,6 +73,34 @@ final class MethodTest extends TestCase
         $methodAsString = $method->__toString();
 
         $this->assertEquals('+method()', $methodAsString);
+    }
+
+    /** @test */
+    function it_is_a_concrete_method_by_default()
+    {
+        $method = new Method(
+            'aMethod',
+            Visibility::public(),
+            TypeDeclaration::absent(),
+        );
+
+        $isAbstract = $method->isAbstract();
+
+        $this->assertFalse($isAbstract);
+    }
+
+    /** @test */
+    function it_is_an_instance_method_by_default()
+    {
+        $method = new Method(
+            'aMethod',
+            Visibility::public(),
+            TypeDeclaration::absent(),
+        );
+
+        $isStatic = $method->isStatic();
+
+        $this->assertFalse($isStatic);
     }
 
     /** @test */

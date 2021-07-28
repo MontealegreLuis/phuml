@@ -10,6 +10,7 @@ namespace PhUml\TestBuilders;
 use PhUml\Code\Attributes\Constant;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
+use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Variables\TypeDeclaration;
 
 abstract class DefinitionBuilder
@@ -25,7 +26,7 @@ abstract class DefinitionBuilder
     /** @return ClassBuilder|InterfaceBuilder */
     public function withAConstant(string $name, string $type = null): DefinitionBuilder
     {
-        $this->constants[] = new Constant($name, TypeDeclaration::from($type));
+        $this->constants[] = new Constant($name, TypeDeclaration::from($type), Visibility::public());
 
         return $this;
     }

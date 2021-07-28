@@ -38,7 +38,19 @@ final class GraphvizConfigurationTest extends TestCase
         $this->assertStringContainsString('empty', $configuration->digraphStyle()->attributes());
     }
 
-    private function options(array $override): array
+    /** @test */
+    function it_shows_empty_blocks_by_default()
+    {
+        $options = $this->options();
+        unset($options['hide-empty-blocks']);
+        $configuration = new GraphvizConfiguration($options);
+
+        $this->assertInstanceOf(EdgesBuilder::class, $configuration->associationsBuilder());
+        $this->assertStringContainsString('methods', $configuration->digraphStyle()->methods());
+        $this->assertStringContainsString('attributes', $configuration->digraphStyle()->attributes());
+    }
+
+    private function options(array $override = []): array
     {
         return array_merge([
             'recursive' => true,

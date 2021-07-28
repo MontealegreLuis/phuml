@@ -60,7 +60,7 @@ COMMENT;
  * This is the long summary....
  *
  * @param string $name The name of the student
- * @return void
+ * @return    void   
  */
 COMMENT;
 
