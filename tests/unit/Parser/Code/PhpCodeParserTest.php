@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Parser\CodeFinder;
+use PhUml\Parser\CodeFinderConfiguration;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\TestBuilders\A;
 
@@ -154,7 +155,7 @@ final class PhpCodeParserTest extends TestCase
     function let()
     {
         $this->directory = new CodebaseDirectory(__DIR__ . '/../../../resources/.code/classes');
-        $this->finder = SourceCodeFinder::nonRecursive();
+        $this->finder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration(['recursive' => false]));
     }
 
     private CodeFinder $finder;

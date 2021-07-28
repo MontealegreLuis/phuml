@@ -8,6 +8,7 @@
 namespace PhUml\Generators;
 
 use PhUml\Parser\CodeFinder;
+use PhUml\Parser\CodeFinderConfiguration;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCodeFinder;
@@ -30,8 +31,7 @@ final class StatisticsGeneratorConfiguration
     /** @param mixed[] $options*/
     public function __construct(array $options, private ProgressDisplay $display)
     {
-        $recursive = (bool) ($options['recursive'] ?? false);
-        $this->codeFinder = $recursive ? SourceCodeFinder::recursive() : SourceCodeFinder::nonRecursive();
+        $this->codeFinder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration($options));
         $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($options));
         $this->statisticsProcessor = new StatisticsProcessor(new TemplateEngine());
         $this->writer = new OutputWriter(new SmartFileSystem());

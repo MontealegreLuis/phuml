@@ -9,6 +9,8 @@ namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithDotLanguageAssertions;
+use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Templates\TemplateEngine;
 use PhUml\Templates\TemplateFailure;
 use PhUml\TestBuilders\A;
@@ -283,7 +285,7 @@ mindist = 0.6;', $dotLanguage);
                 throw new TemplateFailure(new RuntimeException('Twig runtime error'));
             }
         };
-        $printer = new DigraphPrinter($templateEngine);
+        $printer = new DigraphPrinter($templateEngine, DigraphStyle::default(new ThemeName('phuml')));
 
         $this->expectException(TemplateFailure::class);
         $this->expectExceptionMessage('Template rendering failed: Twig runtime error');
@@ -293,7 +295,7 @@ mindist = 0.6;', $dotLanguage);
     /** @before */
     function let()
     {
-        $this->printer = new DigraphPrinter();
+        $this->printer = new DigraphPrinter(new TemplateEngine(), DigraphStyle::default(new ThemeName('phuml')));
     }
 
     private DigraphPrinter $printer;

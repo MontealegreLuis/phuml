@@ -20,15 +20,12 @@ use Symfony\Component\Finder\Finder;
  */
 final class SourceCodeFinder implements CodeFinder
 {
-    public static function recursive(): SourceCodeFinder
-    {
-        return new self(new Finder());
-    }
-
-    public static function nonRecursive(): SourceCodeFinder
+    public static function fromConfiguration(CodeFinderConfiguration $configuration): SourceCodeFinder
     {
         $finder = new Finder();
-        $finder->depth(0);
+        if (! $configuration->recursive()) {
+            $finder->depth(0);
+        }
         return new self($finder);
     }
 

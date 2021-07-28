@@ -14,7 +14,7 @@ final class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_only_in_the_given_directory()
     {
-        $finder = SourceCodeFinder::nonRecursive();
+        $finder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration(['recursive' => false]));
 
         $sourceCode = $finder->find(new CodebaseDirectory("{$this->pathToCode}/classes"));
 
@@ -26,7 +26,7 @@ final class CodeFinderTest extends TestCase
     /** @test */
     function it_finds_files_recursively()
     {
-        $finder = SourceCodeFinder::recursive();
+        $finder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration(['recursive' => true]));
 
         $sourceCode = $finder->find(new CodebaseDirectory("{$this->pathToCode}/interfaces"));
 

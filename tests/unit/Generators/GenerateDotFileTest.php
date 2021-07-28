@@ -10,6 +10,7 @@ namespace PhUml\Generators;
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\Parser\CodebaseDirectory;
+use PhUml\Parser\CodeFinderConfiguration;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
@@ -22,7 +23,7 @@ final class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
-        $finder = SourceCodeFinder::nonRecursive();
+        $finder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration(['recursive' => false]));
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 
@@ -35,7 +36,7 @@ final class GenerateDotFileTest extends TestCase
     /** @test */
     function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
-        $finder = SourceCodeFinder::recursive();
+        $finder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration(['recursive' => true]));
         $sourceCode = $finder->find($this->codebaseDirectory);
         $codebase = $this->parser->parse($sourceCode);
 

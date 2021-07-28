@@ -34,7 +34,7 @@ final class ClassDiagramGenerator
         );
     }
 
-    public function __construct(
+    private function __construct(
         private FindCode $findCode,
         private ParseCode $parseCode,
         private CreateDigraph $createDigraph,
