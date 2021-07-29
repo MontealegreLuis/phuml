@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -22,13 +22,11 @@ use PhUml\Code\Parameters\Parameter;
 /**
  * It represents a class definition
  */
-class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
+final class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
 {
     use WithAttributes;
     use WithConstants;
     use WithTraits;
-
-    protected ?Name $parent;
 
     /** @var Name[] */
     private array $interfaces;
@@ -44,14 +42,13 @@ class ClassDefinition extends Definition implements HasAttributes, HasConstants,
         Name $name,
         array $methods = [],
         array $constants = [],
-        Name $parent = null,
+        protected ?Name $parent = null,
         array $attributes = [],
         array $interfaces = [],
         array $traits = []
     ) {
         parent::__construct($name, $methods);
         $this->constants = $constants;
-        $this->parent = $parent;
         $this->attributes = $attributes;
         $this->interfaces = $interfaces;
         $this->traits = $traits;

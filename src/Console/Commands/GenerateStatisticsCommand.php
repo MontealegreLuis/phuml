@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Console\Commands;
 
+use PhUml\Console\ConsoleProgressDisplay;
 use PhUml\Generators\StatisticsGenerator;
-use PhUml\Parser\Code\PhpCodeParser;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\StatisticsProcessor;
+use PhUml\Generators\StatisticsGeneratorConfiguration;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,11 +25,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  * 1. `directory`. The path where your codebase lives
  * 2. `output`. The path to where the generated `png` image will be saved
  *
- * There is 1 options
+ * There is 1 option
  *
  * 1. `recursive`. If present it will look recursively within the `directory` provided
  */
-final class GenerateStatisticsCommand extends GeneratorCommand
+final class GenerateStatisticsCommand extends Command
 {
     /**
      * @throws InvalidArgumentException
@@ -69,15 +69,10 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $statisticsInput = new StatisticsInput($input->getArguments(), $input->getOptions());
-        $statisticsFilePath = $statisticsInput->outputFile();
+        $configuration = new StatisticsGeneratorConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        $generator = StatisticsGenerator::fromConfiguration($configuration);
 
-        $statisticsGenerator = new StatisticsGenerator(new CodeParser(new PhpCodeParser()), new StatisticsProcessor());
-        $statisticsGenerator->attach($this->display);
-
-        $codeFinder = $statisticsInput->codeFinder();
-
-        $statisticsGenerator->generate($codeFinder, $statisticsFilePath);
+        $generator->generate(GeneratorInput::textFile($input->getArguments()));
 
         return self::SUCCESS;
     }

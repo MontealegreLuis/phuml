@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,14 +18,8 @@ use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
  */
 final class InterfaceVisitor extends NodeVisitorAbstract
 {
-    private Codebase $codebase;
-
-    private InterfaceDefinitionBuilder $builder;
-
-    public function __construct(InterfaceDefinitionBuilder $builder, Codebase $codebase)
+    public function __construct(private InterfaceDefinitionBuilder $builder, private Codebase $codebase)
     {
-        $this->builder = $builder;
-        $this->codebase = $codebase;
     }
 
     public function leaveNode(Node $node)

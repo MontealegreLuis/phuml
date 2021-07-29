@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,14 +14,7 @@ use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Methods\Method;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
-use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
-use PhUml\Parser\Code\Builders\Members\TypeBuilder;
-use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
-use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 
 /**
  * It builds the constants, attributes and methods of a definition
@@ -32,32 +25,11 @@ use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
  */
 final class MembersBuilder
 {
-    private ConstantsBuilder $constantsBuilder;
-
-    private AttributesBuilder $attributesBuilder;
-
-    private MethodsBuilder $methodsBuilder;
-
     public function __construct(
-        ConstantsBuilder $constantsBuilder = null,
-        AttributesBuilder $attributesBuilder = null,
-        MethodsBuilder $methodsBuilder = null
+        private ConstantsBuilder $constantsBuilder,
+        private AttributesBuilder $attributesBuilder,
+        private MethodsBuilder $methodsBuilder,
     ) {
-        $visibilityBuilder = new VisibilityBuilder();
-        $filters = new VisibilityFilters();
-        $this->constantsBuilder = $constantsBuilder ?? new FilteredConstantsBuilder($visibilityBuilder, $filters);
-        $typeBuilder = new TypeBuilder();
-        $this->attributesBuilder = $attributesBuilder ?? new FilteredAttributesBuilder(
-            $visibilityBuilder,
-            $typeBuilder,
-            $filters
-        );
-        $this->methodsBuilder = $methodsBuilder ?? new FilteredMethodsBuilder(
-            new ParametersBuilder($typeBuilder),
-            $typeBuilder,
-            $visibilityBuilder,
-            $filters
-        );
     }
 
     /**
@@ -73,9 +45,14 @@ final class MembersBuilder
      * @param Node[] $members
      * @return Attribute[]
      */
-    public function attributes(array $members): array
+    public function attributes(array $members, ?ClassMethod $constructor): array
     {
-        return $this->attributesBuilder->build($members);
+        $attributes = [];
+        if ($constructor !== null) {
+            $attributes = $this->attributesBuilder->fromPromotedProperties($constructor->getParams());
+        }
+
+        return array_merge($this->attributesBuilder->build($members), $attributes);
     }
 
     /**

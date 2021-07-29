@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -54,10 +54,16 @@ final class TypeDeclarationTest extends TestCase
     function it_knows_it_is_not_a_built_in_type()
     {
         $type = TypeDeclaration::from('MyClass');
+        $arrayOfObjects = TypeDeclaration::from('MyClass[]');
+        $unionType = TypeDeclaration::fromUnionType(['MyClass', 'AnotherClass', 'null']);
 
         $isBuiltIn = $type->isBuiltIn();
+        $isArrayOfObjects = $arrayOfObjects->isBuiltIn();
+        $isUnionTypeBuiltIn = $unionType->isBuiltIn();
 
         $this->assertFalse($isBuiltIn);
+        $this->assertFalse($isArrayOfObjects);
+        $this->assertFalse($isUnionTypeBuiltIn);
     }
 
     /** @test */
@@ -67,39 +73,66 @@ final class TypeDeclarationTest extends TestCase
         $nullType = TypeDeclaration::from(null);
 
         $this->assertFalse($noType->isPresent());
+        $this->assertFalse($noType->isBuiltIn());
         $this->assertFalse($nullType->isPresent());
+        $this->assertFalse($nullType->isBuiltIn());
     }
 
     /** @test */
     function it_knows_it_is_a_nullable_type()
     {
+        $unionType = TypeDeclaration::fromUnionType(['string', 'int', 'null']);
+        $regularType = TypeDeclaration::from('string');
         $nullableType = TypeDeclaration::fromNullable('string');
 
+        $this->assertFalse($unionType->isNullable());
+        $this->assertFalse($regularType->isNullable());
         $this->assertTrue($nullableType->isNullable());
         $this->assertEquals('?string', (string) $nullableType);
+    }
+
+    /** @test */
+    function it_represents_to_string_union_types()
+    {
+        $unionTypeA = TypeDeclaration::fromUnionType(['string', 'int', 'null']);
+        $unionTypeB = TypeDeclaration::fromUnionType(['MyClass', 'AnotherClass']);
+
+        $this->assertEquals('string|int|null', (string) $unionTypeA);
+        $this->assertEquals('MyClass|AnotherClass', (string) $unionTypeB);
+    }
+
+    /** @test */
+    function it_extracts_reference_types_from_union_types()
+    {
+        $unionType = TypeDeclaration::fromUnionType(['string', 'AClass', 'null', 'AnotherClass[]']);
+
+        $references = $unionType->references();
+
+        $this->assertCount(2, $references);
+        $this->assertEquals('AClass', (string) $references[1]);
+        $this->assertEquals('AnotherClass', (string) $references[3]);
     }
 
     function builtInTypes()
     {
         return [
             'int' => ['int'],
+            'int[]' => ['int[]'], // It also recognizes arrays of built-in types
             'float' => ['float'],
             'bool' => ['bool'],
             'string' => ['string'],
             'array' => ['array'],
             'callable' => ['callable'],
             'iterable' => ['iterable'],
+            'mixed' => ['mixed'],
+            'object' => ['object'],
         ];
     }
 
     function pseudoTypes()
     {
         return [
-            'mixed' => ['mixed'],
-            'number' => ['number'],
-            'object' => ['object'],
             'resource' => ['resource'],
-            'self' => ['self'],
         ];
     }
 
@@ -108,6 +141,7 @@ final class TypeDeclarationTest extends TestCase
         return [
             'boolean' => ['boolean'],
             'integer' => ['integer'],
+            'number' => ['number'],
             'double' => ['double'],
         ];
     }

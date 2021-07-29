@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,23 +11,20 @@ use PhpParser\Node\Stmt\Class_;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
-use Prophecy\PhpUnit\ProphecyTrait;
+use PhUml\TestBuilders\A;
 
 final class ClassVisitorTest extends TestCase
 {
-    use ProphecyTrait;
-
     /** @test */
     function it_ignores_anonymous_classes()
     {
-        $builder = $this->prophesize(ClassDefinitionBuilder::class);
+        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build());
         $codebase = new Codebase();
-        $visitor = new ClassVisitor($builder->reveal(), $codebase);
+        $visitor = new ClassVisitor($builder, $codebase);
         $anonymousClass = new Class_(null);
 
         $visitor->leaveNode($anonymousClass);
 
-        $builder->build($anonymousClass)->shouldNotHaveBeenCalled();
         $this->assertEmpty($codebase->definitions());
     }
 }

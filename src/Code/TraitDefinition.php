@@ -1,23 +1,25 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code;
 
+use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\HasAttributes;
 use PhUml\Code\Attributes\WithAttributes;
+use PhUml\Code\Methods\Method;
 
-class TraitDefinition extends Definition implements HasAttributes, UseTraits
+final class TraitDefinition extends Definition implements HasAttributes, UseTraits
 {
     use WithAttributes;
     use WithTraits;
 
     /**
-     * @param \PhUml\Code\Methods\Method[] $methods
-     * @param \PhUml\Code\Attributes\Attribute[] $attributes
+     * @param Method[] $methods
+     * @param Attribute[] $attributes
      * @param Name[] $traits
      */
     public function __construct(

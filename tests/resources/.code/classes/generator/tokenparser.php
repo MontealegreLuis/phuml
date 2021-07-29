@@ -2,13 +2,11 @@
 
 class plStructureTokenparserGenerator extends plStructureGenerator
 {
-    private $classes;
     private $interfaces;
-
     private $parserStruct;
     private $lastToken;
 
-    public function __construct()
+    public function __construct(private $classes)
     {
     }
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,20 +20,16 @@ use PhUml\Code\Variables\TypeDeclaration;
 final class FilteredConstantsBuilder implements ConstantsBuilder
 {
     /** @var string[] */
-    private static array $types = [
+    private const TYPES = [
         'integer' => 'int',
         'double' => 'float',
         'string' => 'string',
     ];
 
-    private VisibilityBuilder $visibilityBuilder;
-
-    private VisibilityFilters $visibilityFilters;
-
-    public function __construct(VisibilityBuilder $visibilityBuilder, VisibilityFilters $filters)
-    {
-        $this->visibilityBuilder = $visibilityBuilder;
-        $this->visibilityFilters = $filters;
+    public function __construct(
+        private VisibilityBuilder $visibilityBuilder,
+        private VisibilityFilters $visibilityFilters
+    ) {
     }
 
     /**
@@ -54,12 +50,11 @@ final class FilteredConstantsBuilder implements ConstantsBuilder
     private function determineType(Const_ $constant): ?string
     {
         if (property_exists($constant->value, 'value')) {
-            return self::$types[\gettype($constant->value->value)];
+            return self::TYPES[\gettype($constant->value->value)];
         }
-        if ($constant->value instanceof ConstFetch
-            && \in_array($constant->value->name->parts[0], ['true', 'false'], true)) {
-            return 'bool';
+        if (! $constant->value instanceof ConstFetch) {
+            return null;
         }
-        return null; // It's an expression
+        return 'bool';
     }
 }

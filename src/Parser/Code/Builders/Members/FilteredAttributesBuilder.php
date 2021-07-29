@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -24,20 +24,11 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
  */
 final class FilteredAttributesBuilder implements AttributesBuilder
 {
-    private VisibilityBuilder $visibilityBuilder;
-
-    private TypeBuilder $typeBuilder;
-
-    private VisibilityFilters $visibilityFilters;
-
     public function __construct(
-        VisibilityBuilder $visibilityBuilder,
-        TypeBuilder $typeBuilder,
-        VisibilityFilters $filters
+        private VisibilityBuilder $visibilityBuilder,
+        private TypeBuilder $typeBuilder,
+        private VisibilityFilters $visibilityFilters
     ) {
-        $this->visibilityBuilder = $visibilityBuilder;
-        $this->visibilityFilters = $filters;
-        $this->typeBuilder = $typeBuilder;
     }
 
     /**
@@ -57,5 +48,27 @@ final class FilteredAttributesBuilder implements AttributesBuilder
 
             return new Attribute($variable, $visibility, $attribute->isStatic());
         }, $this->visibilityFilters->apply($attributes));
+    }
+
+    /**
+     * @param Node\Param[] $constructorParameters
+     * @return Attribute[]
+     */
+    public function fromPromotedProperties(array $constructorParameters): array
+    {
+        $promotedProperties = array_filter($constructorParameters, fn (Node\Param $param) => $param->flags !== 0);
+
+        return array_map(function (Node\Param $param): Attribute {
+            /** @var Node\Expr\Variable $var */
+            $var = $param->var;
+
+            /** @var string $name */
+            $name = $var->name;
+
+            $type = $this->typeBuilder->fromMethodParameter($param->type, $param->getDocComment(), $name);
+            $visibility = $this->visibilityBuilder->fromFlags($param->flags);
+
+            return new Attribute(new Variable("\$${name}", $type), $visibility);
+        }, $promotedProperties);
     }
 }

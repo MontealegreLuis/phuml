@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,9 +11,6 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
-use PhUml\Fakes\NumericIdClass;
-use PhUml\Fakes\NumericIdInterface;
-use PhUml\Fakes\NumericIdTrait;
 
 final class A
 {
@@ -30,21 +27,6 @@ final class A
     public static function traitNamed(string $name): TraitDefinition
     {
         return new TraitDefinition(new Name($name));
-    }
-
-    public static function numericIdClassNamed(string $name): NumericIdClass
-    {
-        return new NumericIdClass(new Name($name));
-    }
-
-    public static function numericIdInterfaceNamed(string $name): NumericIdInterface
-    {
-        return new NumericIdInterface(new Name($name));
-    }
-
-    public static function numericIdTraitNamed(string $name): NumericIdTrait
-    {
-        return new NumericIdTrait(new Name($name));
     }
 
     public static function class(string $name): ClassBuilder
@@ -80,5 +62,40 @@ final class A
     public static function method(string $name): MethodBuilder
     {
         return new MethodBuilder($name);
+    }
+
+    public static function codeParserConfiguration(): CodeParserConfigurationBuilder
+    {
+        return new CodeParserConfigurationBuilder();
+    }
+
+    public static function graphvizProcessor(): GraphvizProcessorBuilder
+    {
+        return new GraphvizProcessorBuilder();
+    }
+
+    public static function graphvizConfiguration(): GraphvizConfigurationBuilder
+    {
+        return new GraphvizConfigurationBuilder();
+    }
+
+    public static function statisticsGeneratorConfiguration(): StatisticsGeneratorConfigurationBuilder
+    {
+        return new StatisticsGeneratorConfigurationBuilder();
+    }
+
+    public static function classDiagramConfiguration(): ClassDiagramConfigurationBuilder
+    {
+        return new ClassDiagramConfigurationBuilder();
+    }
+
+    public static function digraphConfiguration(): DigraphConfigurationBuilder
+    {
+        return new DigraphConfigurationBuilder();
+    }
+
+    public static function membersBuilder(): MembersBuilderBuilder
+    {
+        return new MembersBuilderBuilder();
     }
 }

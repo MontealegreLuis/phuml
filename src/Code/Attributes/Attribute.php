@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,14 +12,16 @@ use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithStaticModifier;
 use PhUml\Code\Modifiers\WithVisibility;
+use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\Variable;
 use PhUml\Code\Variables\WithVariable;
+use Stringable;
 
 /**
  * It represents an instance variable
  */
-final class Attribute implements HasType, HasVisibility, CanBeStatic
+final class Attribute implements HasType, HasVisibility, CanBeStatic, Stringable
 {
     use WithVisibility;
     use WithStaticModifier;
@@ -32,7 +34,13 @@ final class Attribute implements HasType, HasVisibility, CanBeStatic
         $this->isStatic = $isStatic;
     }
 
-    public function __toString()
+    /** @return Name[] */
+    public function references(): array
+    {
+        return $this->variable->references();
+    }
+
+    public function __toString(): string
     {
         return sprintf(
             '%s%s',

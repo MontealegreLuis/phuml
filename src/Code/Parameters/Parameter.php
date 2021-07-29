@@ -1,29 +1,34 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code\Parameters;
 
+use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\Variable;
 use PhUml\Code\Variables\WithVariable;
+use Stringable;
 
-final class Parameter implements HasType
+final class Parameter implements HasType, Stringable
 {
     use WithVariable;
 
-    private bool $isVariadic;
-
-    private bool $isByReference;
-
-    public function __construct(Variable $variable, bool $isVariadic = false, bool $isByReference = false)
-    {
+    public function __construct(
+        Variable $variable,
+        private bool $isVariadic = false,
+        private bool $isByReference = false
+    ) {
         $this->variable = $variable;
-        $this->isVariadic = $isVariadic;
-        $this->isByReference = $isByReference;
+    }
+
+    /** @return Name[] */
+    public function references(): array
+    {
+        return $this->variable->references();
     }
 
     public function __toString(): string

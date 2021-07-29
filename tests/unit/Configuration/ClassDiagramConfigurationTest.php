@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,7 +8,10 @@
 namespace PhUml\Configuration;
 
 use PHPUnit\Framework\TestCase;
+use PhUml\Console\ConsoleProgressDisplay;
+use PhUml\Generators\ClassDiagramConfiguration;
 use PhUml\Processors\UnknownImageProcessor;
+use Symfony\Component\Console\Output\NullOutput;
 
 final class ClassDiagramConfigurationTest extends TestCase
 {
@@ -16,33 +19,20 @@ final class ClassDiagramConfigurationTest extends TestCase
     function it_fails_to_set_an_invalid_image_processor()
     {
         $this->expectException(UnknownImageProcessor::class);
+        $this->expectExceptionMessage(
+            'Invalid processor "not-a-valid-image-processor-name" found, expected processors are: neato, dot'
+        );
 
-        new ClassDiagramConfiguration($this->options([
-            'processor' => 'not-a-valid-image-processor-name',
-        ]));
+        new ClassDiagramConfiguration(
+            $this->options([
+                'processor' => 'not-a-valid-image-processor-name',
+            ]),
+            new ConsoleProgressDisplay(new NullOutput())
+        );
     }
 
-    /** @test */
-    function it_knows_it_is_the_dot_processor()
-    {
-        $configuration = new ClassDiagramConfiguration($this->options([
-            'processor' => 'dot',
-        ]));
-
-        $this->assertTrue($configuration->isDotProcessor());
-    }
-
-    /** @test */
-    function it_knows_it_is_the_neato_processor()
-    {
-        $configuration = new ClassDiagramConfiguration($this->options([
-            'processor' => 'neato',
-        ]));
-
-        $this->assertFalse($configuration->isDotProcessor());
-    }
-
-    private function options(array $override)
+    /** @return mixed[] $override */
+    private function options(array $override): array
     {
         return array_merge([
             'recursive' => true,

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,13 +9,12 @@ namespace PhUml\TestBuilders;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Name;
-use PhUml\Fakes\NumericIdClass;
 
 final class ClassBuilder extends DefinitionBuilder
 {
     use MembersBuilder;
 
-    protected ?Name $parent = null;
+    private ?Name $parent = null;
 
     /** @var Name[] */
     private array $interfaces = [];
@@ -47,19 +46,6 @@ final class ClassBuilder extends DefinitionBuilder
     public function build(): ClassDefinition
     {
         return new ClassDefinition(
-            new Name($this->name),
-            $this->methods,
-            $this->constants,
-            $this->parent,
-            $this->attributes,
-            $this->interfaces,
-            $this->traits
-        );
-    }
-
-    public function buildWithNumericId(): NumericIdClass
-    {
-        return new NumericIdClass(
             new Name($this->name),
             $this->methods,
             $this->constants,

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -22,11 +22,8 @@ final class InterfaceDefinitionBuilder
 {
     use InterfaceNamesBuilder;
 
-    private MembersBuilder $membersBuilder;
-
-    public function __construct(MembersBuilder $membersBuilder = null)
+    public function __construct(private MembersBuilder $membersBuilder)
     {
-        $this->membersBuilder = $membersBuilder ?? new MembersBuilder();
     }
 
     public function build(Interface_ $interface): InterfaceDefinition

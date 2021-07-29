@@ -1,21 +1,22 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code\Modifiers;
 
+use Stringable;
 use Webmozart\Assert\Assert;
 
 /**
  * It represents the visibility of either an attribute or a method
  */
-final class Visibility
+final class Visibility implements Stringable
 {
     /** @var string[] */
-    private static array $symbols = [
+    private const SYMBOLS = [
         'private' => '-',
         'public' => '+',
         'protected' => '#',
@@ -25,7 +26,7 @@ final class Visibility
 
     public function __construct(string $modifier)
     {
-        Assert::oneOf($modifier, array_keys(self::$symbols));
+        Assert::oneOf($modifier, array_keys(self::SYMBOLS));
         $this->modifier = $modifier;
     }
 
@@ -49,8 +50,8 @@ final class Visibility
         return $this->modifier === $another->modifier;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return self::$symbols[$this->modifier];
+        return self::SYMBOLS[$this->modifier];
     }
 }

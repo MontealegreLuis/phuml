@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -60,7 +60,7 @@ COMMENT;
  * This is the long summary....
  *
  * @param string $name The name of the student
- * @return void
+ * @return    void   
  */
 COMMENT;
 

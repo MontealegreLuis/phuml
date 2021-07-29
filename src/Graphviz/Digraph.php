@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,7 +15,7 @@ namespace PhUml\Graphviz;
 final class Digraph
 {
     /** @var HasDotRepresentation[] */
-    private $elements;
+    private array $elements;
 
     public function __construct()
     {

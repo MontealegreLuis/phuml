@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,21 +18,19 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
  */
 final class ClassVisitor extends NodeVisitorAbstract
 {
-    private ClassDefinitionBuilder $builder;
-
-    private Codebase $codebase;
-
-    public function __construct(ClassDefinitionBuilder $builder, Codebase $codebase)
+    public function __construct(private ClassDefinitionBuilder $builder, private Codebase $codebase)
     {
-        $this->builder = $builder;
-        $this->codebase = $codebase;
     }
 
     public function leaveNode(Node $node)
     {
-        if ($node instanceof Class_ && ! $node->isAnonymous()) {
-            $this->codebase->add($this->builder->build($node));
+        if (! $node instanceof Class_) {
+            return null;
         }
+        if ($node->isAnonymous()) {
+            return null;
+        }
+        $this->codebase->add($this->builder->build($node));
         return null;
     }
 }

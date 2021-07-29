@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,70 +8,113 @@
 namespace PhUml\Code\Variables;
 
 use PhUml\Code\Name;
-use PhUml\Code\Named;
-use PhUml\Code\WithName;
+use Stringable;
 
 /**
  * It represents a variable's type declaration
  */
-final class TypeDeclaration implements Named
+final class TypeDeclaration implements Stringable
 {
-    use WithName;
-
-    /** @var string[] All valid types for PHP 7.1, pseudo-types, and aliases */
-    private static array $builtInTypes = [
-        'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable',
+    /** @var string[] All valid types for PHP 8.0, pseudo-types, and aliases */
+    private const BUILT_IN_TYPES = [
+        // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.base
+        'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable', 'mixed', 'object',
+        // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.union.nullable
+        'null',
+        // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.return-only
+        'void',
         // pseudo-types
-        'mixed', 'number', 'object', 'resource', 'self',
+        'resource',
         // aliases
-        'boolean', 'integer', 'double',
+        'number', 'boolean', 'integer', 'double',
     ];
 
-    private bool $isNullable;
+    /** @var Name[] */
+    private array $names;
 
     public static function absent(): TypeDeclaration
     {
-        return new TypeDeclaration(null);
+        return new TypeDeclaration();
     }
 
     public static function from(?string $type): TypeDeclaration
     {
-        return new TypeDeclaration($type);
+        return new TypeDeclaration($type === null ? [] : [new Name($type)]);
     }
 
     public static function fromNullable(string $type): TypeDeclaration
     {
-        return new TypeDeclaration($type, true);
+        return new TypeDeclaration([new Name($type)], isNullable: true);
+    }
+
+    /** @param string[] $types */
+    public static function fromUnionType(array $types): TypeDeclaration
+    {
+        return new TypeDeclaration(array_map(static fn (string $type) => new Name($type), $types));
     }
 
     public function isPresent(): bool
     {
-        return $this->name !== null;
+        return count($this->names) > 0;
+    }
+
+    /** @return Name[] */
+    public function references(): array
+    {
+        if (! $this->isPresent()) {
+            return [];
+        }
+        if ($this->isBuiltIn()) {
+            return [];
+        }
+        if ($this->isRegularType()) {
+            return [$this->isArray() ? new Name($this->removeArraySuffix()) : $this->names[0]];
+        }
+
+        $typesFromUnion = array_map(fn (Name $name) => TypeDeclaration::from((string) $name), $this->names);
+        $references = array_filter($typesFromUnion, fn (TypeDeclaration $type) => ! $type->isBuiltIn());
+
+        return array_map(
+            fn (TypeDeclaration $reference) => $reference->isArray()
+                ? new Name($reference->removeArraySuffix())
+                : $reference->names[0],
+            $references
+        );
     }
 
     /**
      * It helps building the relationships between classes/interfaces since built-in
      * types are not part of a UML class diagram
-     *
-     * @see \PhUml\Code\Variables\WithTypeDeclaration::isAReference() for more details
      */
     public function isBuiltIn(): bool
     {
-        $type = (string) $this->name;
+        if (! $this->isRegularType()) {
+            return false;
+        }
+        $type = (string) $this->names[0];
         if ($this->isArray()) {
             $type = $this->removeArraySuffix();
         }
-        return $this->isPresent() && \in_array($type, self::$builtInTypes, true);
+
+        return in_array($type, self::BUILT_IN_TYPES, true);
+    }
+
+    private function removeArraySuffix(): string
+    {
+        return substr((string) $this->names[0], 0, -2);
     }
 
     public function isBuiltInArray(): bool
     {
-        return (string) $this->name === 'array';
+        if ($this->isRegularType()) {
+            return (string) $this->names[0] === 'array';
+        }
+        return false;
     }
 
-    public function isArray(): bool
+    private function isArray(): bool
     {
-        return strpos((string) $this->name, '[]') === \strlen((string) $this->name) - 2;
+        return strpos((string) $this->names[0], '[]') === strlen((string) $this->names[0]) - 2;
     }
 
     public function isNullable(): bool
@@ -79,19 +122,19 @@ final class TypeDeclaration implements Named
         return $this->isNullable;
     }
 
-    public function removeArraySuffix(): string
+    private function isRegularType(): bool
     {
-        return substr((string) $this->name, 0, -2);
+        return count($this->names) === 1;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return ($this->isNullable ? '?' : '') . $this->name;
+        return ($this->isNullable ? '?' : '') . implode('|', $this->names);
     }
 
-    private function __construct(?string $name, bool $isNullable = false)
+    /** @param Name[] $names */
+    private function __construct(array $names = [], private bool $isNullable = false)
     {
-        $this->name = $name !== null ? new Name($name) : null;
-        $this->isNullable = $name !== null && $isNullable;
+        $this->names = $names;
     }
 }

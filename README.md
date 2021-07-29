@@ -3,11 +3,11 @@
 [![CI workflow](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml/badge.svg)](https://github.com/montealegreluis/phuml/actions/workflows/ci.yml)
 [![Scrutinizer Code Quality][scrutinizer-badge]][scrutinizer]
 [![Code Coverage][coverage-badge]][coverage]
-[![Infection MSI](https://badge.stryker-mutator.io/github.com/montealegreluis/phuml/master)](https://infection.github.io)
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/montealegreluis/phuml/master)](https://dashboard.stryker-mutator.io/reports/github.com/montealegreluis/phuml/master)
 [![Latest Stable Version][stable-badge]][packagist]
-[![Minimum PHP Version][php-version-badge]][php]
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg?style=flat-square)](https://php.net/)
 
-phUML is a fully automatic [UML][uml] class diagram generator written in [PHP][php].
+phUML is a fully automatic [UML][uml] class diagram generator written in [PHP](https://php.net/).
 It creates a class diagram from an Object-Oriented codebase based on the UML specification.
 
 ## Installation
@@ -17,18 +17,22 @@ It creates a class diagram from an Object-Oriented codebase based on the UML spe
 The official phUML Docker image can be found on [Docker Hub](https://hub.docker.com/r/montealegreluis/phuml/).
 
 ```bash
-docker pull montealegreluis/phuml:4.0.0
+docker pull montealegreluis/phuml:5.0.0
 ```
 
-You can replace `4.0.0` with any of the available [tags](https://hub.docker.com/r/montealegreluis/phuml/tags?page=1&ordering=last_updated)
+You can replace `5.0.0` with any of the available [tags](https://hub.docker.com/r/montealegreluis/phuml/tags?page=1&ordering=last_updated)
 
 ### Composer
 
 Alternatively, you may use [Composer][composer] to download and install phUML as well as its dependencies.
 
-```
+```bash
 composer require phuml/phuml
-# or globally
+```
+
+It can also be installed globally.
+
+```bash
 composer global require phuml/phuml
 ```
 
@@ -69,8 +73,6 @@ Special thanks to all of these [awesome contributors][contributors].
 [codebase]: https://github.com/jakobwesthoff/phuml/tree/master/src
 [stable-badge]: https://img.shields.io/packagist/v/phuml/phuml.svg?style=flat-square
 [packagist]: https://packagist.org/packages/phuml/phuml
-[php-version-badge]: https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg?style=flat-square
-[php]: https://php.net/
 [luis]: https://github.com/MontealegreLuis
 [jakob]: https://github.com/jakobwesthoff
 [contributors]: https://github.com/MontealegreLuis/phuml/contributors

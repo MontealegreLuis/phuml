@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,19 +12,23 @@ use PhUml\Code\Variables\Variable;
 
 final class VariableBuilder
 {
-    private string $name;
-
     private TypeDeclaration $type;
 
-    public function __construct(string $name)
+    public function __construct(private string $name)
     {
-        $this->name = $name;
         $this->type = TypeDeclaration::absent();
     }
 
     public function withType(?string $type): VariableBuilder
     {
-        $this->type = $type !== null ? TypeDeclaration::from($type) : TypeDeclaration::absent();
+        if ($type === null) {
+            $this->type = TypeDeclaration::absent();
+        } elseif (str_contains($type, '|')) {
+            $this->type = TypeDeclaration::fromUnionType(explode('|', $type));
+        } else {
+            $this->type = TypeDeclaration::from($type);
+        }
+
         return $this;
     }
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,36 +20,26 @@ use Symfony\Component\Finder\Finder;
  */
 final class SourceCodeFinder implements CodeFinder
 {
-    protected Finder $finder;
-
-    private CodebaseDirectory $directory;
-
-    public static function recursive(CodebaseDirectory $directory): SourceCodeFinder
-    {
-        return new self(new Finder(), $directory);
-    }
-
-    public static function nonRecursive(CodebaseDirectory $directory): SourceCodeFinder
+    public static function fromConfiguration(CodeFinderConfiguration $configuration): SourceCodeFinder
     {
         $finder = new Finder();
-        $finder->depth(0);
-        return new self($finder, $directory);
-    }
-
-    private function __construct(Finder $finder, CodebaseDirectory $directory)
-    {
-        $this->finder = $finder;
-        $this->directory = $directory;
-    }
-
-    /** @return string[] */
-    public function files(): array
-    {
-        $files = [];
-        $this->finder->in($this->directory->absolutePath())->files()->name('*.php')->sortByName();
-        foreach ($this->finder as $file) {
-            $files[] = $file->getContents();
+        if (! $configuration->recursive()) {
+            $finder->depth(0);
         }
-        return $files;
+        return new self($finder);
+    }
+
+    private function __construct(private Finder $finder)
+    {
+    }
+
+    public function find(CodebaseDirectory $directory): SourceCode
+    {
+        $sourceCode = new SourceCode();
+        $this->finder->in($directory->absolutePath())->files()->name('*.php')->sortByName();
+        foreach ($this->finder as $file) {
+            $sourceCode->add($file->getContents());
+        }
+        return $sourceCode;
     }
 }

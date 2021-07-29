@@ -13,7 +13,7 @@ jobs:
       - name: "Install PHP with extensions"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "7.4"
+          php-version: "8.0"
           extensions: imagick
           ini-values: memory_limit=-1
           coverage: xdebug
@@ -26,11 +26,13 @@ jobs:
 
       - name: "Code quality checks"
         run: "make check"
+        env:
+          INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
       - name: "Run tests with coverage"
         run: "vendor/bin/phpunit --exclude-group=snapshot --coverage-text --coverage-clover=coverage.clover"
 
       - name: "Send code coverage to Scrutinizer"
         run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+          composer global require scrutinizer/ocular
+          ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover

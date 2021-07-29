@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,8 +9,6 @@ namespace PhUml\Console\Commands;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Console\PhUmlApplication;
-use PhUml\Console\ProgressDisplay;
-use PhUml\Fakes\TextInMemoryOutput;
 use PhUml\Parser\InvalidDirectory;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -87,9 +85,9 @@ final class GenerateDotFileCommandTest extends TestCase
     }
 
     /** @before */
-    function configureCommandTester()
+    function let()
     {
-        $application = new PhUmlApplication(new ProgressDisplay(new TextInMemoryOutput()));
+        $application = new PhUmlApplication();
         $this->command = $application->find('phuml:dot');
         $this->tester = new CommandTester($this->command);
         $this->pathToCode = __DIR__ . '/../../../resources/.code';
@@ -99,11 +97,11 @@ final class GenerateDotFileCommandTest extends TestCase
         }
     }
 
-    private ?string $dotFile = null;
+    private string $dotFile;
 
-    private ?Command $command = null;
+    private Command $command;
 
-    private ?CommandTester $tester = null;
+    private CommandTester $tester;
 
-    private ?string $pathToCode = null;
+    private string $pathToCode;
 }

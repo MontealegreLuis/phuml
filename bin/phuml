@@ -25,10 +25,6 @@ if (!$installed) {
 }
 
 use PhUml\Console\PhUmlApplication;
-use PhUml\Console\ProgressDisplay;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
-$output = new ConsoleOutput();
-$application = new PhUmlApplication(new ProgressDisplay($output));
-$application->run(new ArgvInput(), $output);
+$application = new PhUmlApplication();
+$application->run();

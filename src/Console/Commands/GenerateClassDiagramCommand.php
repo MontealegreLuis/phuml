@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,12 +8,10 @@
 namespace PhUml\Console\Commands;
 
 use InvalidArgumentException;
-use PhUml\Configuration\ClassDiagramConfiguration;
-use PhUml\Configuration\DigraphBuilder;
-use PhUml\Configuration\DigraphConfiguration;
+use PhUml\Console\ConsoleProgressDisplay;
+use PhUml\Generators\ClassDiagramConfiguration;
 use PhUml\Generators\ClassDiagramGenerator;
-use PhUml\Processors\DotProcessor;
-use PhUml\Processors\NeatoProcessor;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,7 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @see WithDigraphConfiguration::addDigraphOptions() for more details about the rest of the options
  */
-final class GenerateClassDiagramCommand extends GeneratorCommand
+final class GenerateClassDiagramCommand extends Command
 {
     use WithDigraphConfiguration;
 
@@ -77,23 +75,10 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $generatorInput = new GeneratorInput($input->getArguments(), $input->getOptions());
-        $codebasePath = $generatorInput->directory();
-        $classDiagramPath = $generatorInput->outputFile();
+        $configuration = new ClassDiagramConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $configuration = new ClassDiagramConfiguration($generatorInput->options());
-        $builder = new DigraphBuilder(new DigraphConfiguration($generatorInput->options()));
-
-        $codeFinder = $builder->codeFinder($codebasePath);
-
-        $classDiagramGenerator = new ClassDiagramGenerator(
-            $builder->codeParser(),
-            $builder->digraphProcessor(),
-            $configuration->isDotProcessor() ? new DotProcessor() : new NeatoProcessor()
-        );
-        $classDiagramGenerator->attach($this->display);
-
-        $classDiagramGenerator->generate($codeFinder, $classDiagramPath);
+        $generator->generate(GeneratorInput::pngFile($input->getArguments()));
 
         return self::SUCCESS;
     }

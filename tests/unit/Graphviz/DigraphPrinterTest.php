@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,8 @@ namespace PhUml\Graphviz;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Fakes\WithDotLanguageAssertions;
-use PhUml\Fakes\WithNumericIds;
+use PhUml\Graphviz\Styles\DigraphStyle;
+use PhUml\Graphviz\Styles\ThemeName;
 use PhUml\Templates\TemplateEngine;
 use PhUml\Templates\TemplateFailure;
 use PhUml\TestBuilders\A;
@@ -17,7 +18,6 @@ use RuntimeException;
 
 final class DigraphPrinterTest extends TestCase
 {
-    use WithNumericIds;
     use WithDotLanguageAssertions;
 
     /** @test */
@@ -157,7 +157,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_a_single_definition_as_dot_language()
     {
-        $class = A::numericIdClassNamed('TestClass');
+        $class = A::classNamed('TestClass');
         $digraph = new Digraph();
         $digraph->add([new Node($class)]);
 
@@ -169,8 +169,8 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_inheritance_as_dot_language()
     {
-        $parentClass = A::numericIdClassNamed('ParentClass');
-        $class = A::class('TestClass')->extending($parentClass->name())->buildWithNumericId();
+        $parentClass = A::classNamed('ParentClass');
+        $class = A::class('TestClass')->extending($parentClass->name())->build();
         $digraph = new Digraph();
         $digraph->add([
             new Node($parentClass),
@@ -188,8 +188,8 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_a_class_using_a_trait_as_dot_language()
     {
-        $trait = A::numericIdTraitNamed('ATrait');
-        $class = A::class('TestClass')->extending($trait->name())->buildWithNumericId();
+        $trait = A::traitNamed('ATrait');
+        $class = A::class('TestClass')->extending($trait->name())->build();
         $digraph = new Digraph();
         $digraph->add([
             new Node($trait),
@@ -207,11 +207,11 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_interfaces_implementations_as_dot_language()
     {
-        $anInterface = A::numericIdInterfaceNamed('AnInterface');
-        $anotherInterface = A::numericIdInterfaceNamed('AnotherInterface');
+        $anInterface = A::interfaceNamed('AnInterface');
+        $anotherInterface = A::interfaceNamed('AnotherInterface');
         $class = A::class('TestClass')
             ->implementing($anInterface->name(), $anotherInterface->name())
-            ->buildWithNumericId();
+            ->build();
         $digraph = new Digraph();
         $digraph->add([
             new Node($class),
@@ -233,14 +233,13 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_constructor_dependencies_as_associations_in_dot_language()
     {
-        $reference = A::numericIdClassNamed('AReference');
+        $reference = A::classNamed('AReference');
         $class = A::class('TestClass')
             ->withAPublicMethod(
                 '__construct',
                 A::parameter('$aReference')->withType('AReference')->build()
             )
-            ->buildWithNumericId()
-        ;
+            ->build();
         $digraph = new Digraph();
         $digraph->add([
             new Node($reference),
@@ -258,10 +257,10 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_represents_class_attributes_as_associations_in_dot_language()
     {
-        $reference = A::numericIdClassNamed('AReference');
+        $reference = A::classNamed('AReference');
         $class = A::class('TestClass')
             ->withAPrivateAttribute('$aReference', 'AReference')
-            ->buildWithNumericId()
+            ->build()
         ;
         $digraph = new Digraph();
         $digraph->add([
@@ -286,18 +285,18 @@ mindist = 0.6;', $dotLanguage);
                 throw new TemplateFailure(new RuntimeException('Twig runtime error'));
             }
         };
-        $printer = new DigraphPrinter($templateEngine);
+        $printer = new DigraphPrinter($templateEngine, DigraphStyle::default(new ThemeName('phuml')));
 
         $this->expectException(TemplateFailure::class);
-
+        $this->expectExceptionMessage('Template rendering failed: Twig runtime error');
         $printer->toDot(new Digraph());
     }
 
     /** @before */
     function let()
     {
-        $this->printer = new DigraphPrinter();
+        $this->printer = new DigraphPrinter(new TemplateEngine(), DigraphStyle::default(new ThemeName('phuml')));
     }
 
-    private ?DigraphPrinter $printer = null;
+    private DigraphPrinter $printer;
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -55,20 +55,9 @@ abstract class DefinitionTest extends TestCase
 
         $definitionId = $definition->identifier();
 
-        $this->assertMatchesRegularExpression('/^[0-9A-Fa-f]{32}$/', $definitionId);
+        $this->assertEquals((string) $definition->name(), $definitionId);
     }
 
-    /** @test */
-    function its_identifier_is_unique_per_object()
-    {
-        $definitionOne = $this->definition();
-        $definitionTwo = $this->definition();
-
-        $this->assertNotEquals($definitionOne->identifier(), $definitionTwo->identifier());
-        $this->assertEquals($definitionOne->identifier(), $definitionOne->identifier());
-        $this->assertEquals($definitionTwo->identifier(), $definitionTwo->identifier());
-    }
-
-    /** @param Method[] */
+    /** @param Method[] $methods */
     abstract protected function definition(array $methods = []): Definition;
 }

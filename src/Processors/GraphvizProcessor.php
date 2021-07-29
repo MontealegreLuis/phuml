@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,30 +17,32 @@ use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\Digraph;
 use PhUml\Graphviz\DigraphPrinter;
+use PhUml\Templates\TemplateEngine;
 
 /**
  * It creates a digraph from a `Structure` and returns it as a string in DOT format
  */
-final class GraphvizProcessor extends Processor
+final class GraphvizProcessor implements Processor
 {
-    private ClassGraphBuilder $classBuilder;
+    public static function fromConfiguration(GraphvizConfiguration $configuration): GraphvizProcessor
+    {
+        $style = $configuration->digraphStyle();
+        $associationsBuilder = $configuration->associationsBuilder();
 
-    private InterfaceGraphBuilder $interfaceBuilder;
+        return new GraphvizProcessor(
+            new ClassGraphBuilder($associationsBuilder),
+            new InterfaceGraphBuilder(),
+            new TraitGraphBuilder(),
+            new DigraphPrinter(new TemplateEngine(), $style)
+        );
+    }
 
-    private DigraphPrinter $printer;
-
-    private TraitGraphBuilder $traitBuilder;
-
-    public function __construct(
-        ClassGraphBuilder $classBuilder = null,
-        InterfaceGraphBuilder $interfaceBuilder = null,
-        TraitGraphBuilder $traitBuilder = null,
-        DigraphPrinter $printer = null
+    private function __construct(
+        private ClassGraphBuilder $classBuilder,
+        private InterfaceGraphBuilder $interfaceBuilder,
+        private TraitGraphBuilder $traitBuilder,
+        private DigraphPrinter $printer
     ) {
-        $this->classBuilder = $classBuilder ?? new ClassGraphBuilder();
-        $this->interfaceBuilder = $interfaceBuilder ?? new InterfaceGraphBuilder();
-        $this->traitBuilder = $traitBuilder ?? new TraitGraphBuilder();
-        $this->printer = $printer ?? new DigraphPrinter();
     }
 
     public function name(): string
@@ -48,16 +50,16 @@ final class GraphvizProcessor extends Processor
         return 'Graphviz';
     }
 
-    public function process(Codebase $codebase): string
+    public function process(Codebase $codebase): OutputContent
     {
         $digraph = new Digraph();
         foreach ($codebase->definitions() as $definition) {
             $this->extractElements($definition, $codebase, $digraph);
         }
-        return $this->printer->toDot($digraph);
+        return new OutputContent($this->printer->toDot($digraph));
     }
 
-    protected function extractElements(
+    private function extractElements(
         Definition $definition,
         Codebase $codebase,
         Digraph $digraph

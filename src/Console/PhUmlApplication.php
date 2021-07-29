@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -23,19 +23,12 @@ use Symfony\Component\Console\Application;
  */
 final class PhUmlApplication extends Application
 {
-    public function __construct(ProgressDisplay $display)
+    public function __construct()
     {
-        // This will be replaced by Box with a version number if it's a PHAR
-        // 1.6.1 for instance
-        $pharVersion = '@package_version@';
-        $version = $pharVersion;
-        /** @noRector \Rector\CodeQuality\Rector\Concat\JoinStringConcatRector */
-        if ($pharVersion === '@' . 'package_version' . '@') { // It's concatenated to prevent Box to replace it
-            $version = '1.6-dev';
-        }
-        parent::__construct('phUML', $version);
-        $this->add(new GenerateClassDiagramCommand($display));
-        $this->add(new GenerateStatisticsCommand($display));
-        $this->add(new GenerateDotFileCommand($display));
+        // This will be replaced by Box with a version number if it's a PHAR, 1.6.1 for instance
+        parent::__construct('phUML', '@package_version@');
+        $this->add(new GenerateClassDiagramCommand());
+        $this->add(new GenerateStatisticsCommand());
+        $this->add(new GenerateDotFileCommand());
     }
 }

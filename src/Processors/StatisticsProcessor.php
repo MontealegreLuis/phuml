@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,13 +15,10 @@ use PhUml\Templates\TemplateFailure;
 /**
  * It takes a code `Structure` and extracts a `Summary` of its contents as text
  */
-final class StatisticsProcessor extends Processor
+final class StatisticsProcessor implements Processor
 {
-    private TemplateEngine $engine;
-
-    public function __construct(TemplateEngine $engine = null)
+    public function __construct(private TemplateEngine $engine)
     {
-        $this->engine = $engine ?? new TemplateEngine();
     }
 
     public function name(): string
@@ -32,11 +29,10 @@ final class StatisticsProcessor extends Processor
     /**
      * @throws TemplateFailure
      */
-    public function process(Codebase $codebase): string
+    public function process(Codebase $codebase): OutputContent
     {
-        $summary = new Summary();
-        $summary->from($codebase);
+        $summary = Summary::from($codebase);
 
-        return $this->engine->render('statistics.txt.twig', ['summary' => $summary]);
+        return new OutputContent($this->engine->render('statistics.txt.twig', ['summary' => $summary]));
     }
 }

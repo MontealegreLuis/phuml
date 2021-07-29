@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,27 +9,12 @@ namespace PhUml\Generators;
 
 use Lupka\PHPUnitCompareImages\CompareImagesTrait;
 use PHPUnit\Framework\TestCase;
-use PhUml\Graphviz\Builders\ClassGraphBuilder;
-use PhUml\Graphviz\Builders\EdgesBuilder;
-use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
-use PhUml\Graphviz\Builders\TraitGraphBuilder;
-use PhUml\Graphviz\DigraphPrinter;
-use PhUml\Graphviz\Styles\DigraphStyle;
-use PhUml\Graphviz\Styles\ThemeName;
-use PhUml\Parser\Code\ExternalDefinitionsResolver;
-use PhUml\Parser\Code\PhpCodeParser;
-use PhUml\Parser\CodebaseDirectory;
-use PhUml\Parser\CodeParser;
-use PhUml\Parser\SourceCodeFinder;
-use PhUml\Processors\DotProcessor;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Templates\TemplateEngine;
-use Prophecy\PhpUnit\ProphecyTrait;
+use PhUml\Console\Commands\GeneratorInput;
+use PhUml\TestBuilders\A;
 
 final class GenerateClassDiagramWithThemeTest extends TestCase
 {
     use CompareImagesTrait;
-    use ProphecyTrait;
 
     /**
      * @test
@@ -37,14 +22,23 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_php_theme()
     {
-        $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
-        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png';
+        $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-php-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-php-theme.png';
-        $generator = $this->createGenerator('php');
+        $input = GeneratorInput::pngFile([
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $diagramPath,
+        ]);
+        $configuration = A::classDiagramConfiguration()
+            ->recursive()
+            ->withAssociations()
+            ->withoutEmptyBlocks()
+            ->withTheme('php')
+            ->build();
+        $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $generator->generate($codeFinder, $diagram);
+        $generator->generate($input);
 
-        $this->assertImagesSame($expectedDiagram, $diagram);
+        $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
 
     /**
@@ -53,29 +47,22 @@ final class GenerateClassDiagramWithThemeTest extends TestCase
      */
     function it_generates_a_class_diagram_using_the_classic_theme()
     {
-        $codeFinder = SourceCodeFinder::recursive(new CodebaseDirectory(__DIR__ . '/../../resources/.code'));
-        $diagram = __DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png';
+        $diagramPath = __DIR__ . '/../../resources/.output/graphviz-dot-classic-theme.png';
         $expectedDiagram = __DIR__ . '/../../resources/images/graphviz-dot-classic-theme.png';
-        $generator = $this->createGenerator('classic');
+        $input = GeneratorInput::pngFile([
+            'directory' => __DIR__ . '/../../resources/.code',
+            'output' => $diagramPath,
+        ]);
+        $configuration = A::classDiagramConfiguration()
+            ->recursive()
+            ->withAssociations()
+            ->withoutEmptyBlocks()
+            ->withTheme('classic')
+            ->build();
+        $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $generator->generate($codeFinder, $diagram);
+        $generator->generate($input);
 
-        $this->assertImagesSame($expectedDiagram, $diagram);
-    }
-
-    private function createGenerator(string $theme): ClassDiagramGenerator
-    {
-        $generator = new ClassDiagramGenerator(
-            new CodeParser(new PhpCodeParser(), [new ExternalDefinitionsResolver()]),
-            new GraphvizProcessor(
-                new ClassGraphBuilder(new EdgesBuilder()),
-                new InterfaceGraphBuilder(),
-                new TraitGraphBuilder(),
-                new DigraphPrinter(new TemplateEngine(), DigraphStyle::withoutEmptyBlocks(new ThemeName($theme)))
-            ),
-            new DotProcessor()
-        );
-        $generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
-        return $generator;
+        $this->assertImagesSame($expectedDiagram, $diagramPath);
     }
 }

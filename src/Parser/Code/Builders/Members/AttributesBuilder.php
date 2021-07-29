@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -25,4 +25,10 @@ interface AttributesBuilder
      * @return Attribute[]
      */
     public function build(array $parsedAttributes): array;
+
+    /**
+     * @param Node\Param[] $constructorParameters
+     * @return Attribute[]
+     */
+    public function fromPromotedProperties(array $constructorParameters): array;
 }

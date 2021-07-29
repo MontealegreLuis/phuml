@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,51 +8,46 @@
 namespace PhUml\Console\Commands;
 
 use PhUml\Parser\CodebaseDirectory;
-use Webmozart\Assert\Assert;
+use PhUml\Processors\OutputFilePath;
 
 final class GeneratorInput
 {
     private CodebaseDirectory $directory;
 
-    private string $outputFile;
+    private OutputFilePath $outputFile;
 
-    /** @var mixed[] $options */
-    private array $options;
-
-    /**
-     * @param string[] $arguments
-     * @param mixed[] $options
-     */
-    public function __construct(array $arguments, array $options)
+    /** @param mixed[] $input */
+    public static function dotFile(array $input): GeneratorInput
     {
-        $this->directory = new CodebaseDirectory($arguments['directory'] ?? '');
-        $this->setOutputFile($arguments);
-        $this->options = $options;
+        return new GeneratorInput($input, 'gv');
     }
 
-    public function directory(): CodebaseDirectory
+    /** @param mixed[] $input */
+    public static function textFile(array $input): GeneratorInput
     {
-        return $this->directory;
+        return new GeneratorInput($input, 'txt');
     }
 
-    public function outputFile(): string
+    /** @param mixed[] $input */
+    public static function pngFile(array $input): GeneratorInput
+    {
+        return new GeneratorInput($input, 'png');
+    }
+
+    /** @param string[] $input */
+    private function __construct(array $input, string $extension)
+    {
+        $this->directory = new CodebaseDirectory($input['directory'] ?? '');
+        $this->outputFile = OutputFilePath::withExpectedExtension($input['output'] ?? '', $extension);
+    }
+
+    public function filePath(): OutputFilePath
     {
         return $this->outputFile;
     }
 
-    /** @return mixed[] $options */
-    public function options(): array
+    public function codebaseDirectory(): CodebaseDirectory
     {
-        return $this->options;
-    }
-
-    /** @param string[] $arguments */
-    private function setOutputFile(array $arguments): void
-    {
-        Assert::stringNotEmpty(
-            $arguments['output'] ?? '',
-            'The output file cannot be empty'
-        );
-        $this->outputFile = $arguments['output'];
+        return $this->directory;
     }
 }

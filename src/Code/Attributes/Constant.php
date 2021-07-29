@@ -1,13 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code\Attributes;
 
-use BadMethodCallException;
 use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Modifiers\WithVisibility;
@@ -15,22 +14,20 @@ use PhUml\Code\Name;
 use PhUml\Code\Variables\HasType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\WithTypeDeclaration;
+use Stringable;
 
-final class Constant implements HasType, HasVisibility
+final class Constant implements HasType, HasVisibility, Stringable
 {
     use WithTypeDeclaration;
     use WithVisibility;
 
-    private string $name;
-
-    public function __construct(string $name, TypeDeclaration $type, Visibility $visibility = null)
+    public function __construct(private string $name, TypeDeclaration $type, Visibility $visibility)
     {
-        $this->name = $name;
         $this->type = $type;
-        $this->modifier = $visibility ?? Visibility::public();
+        $this->modifier = $visibility;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf(
             '%s%s%s',
@@ -40,8 +37,9 @@ final class Constant implements HasType, HasVisibility
         );
     }
 
-    public function referenceName(): Name
+    /** @return Name[] */
+    public function references(): array
     {
-        throw new BadMethodCallException('Constants must be built-in types');
+        return []; // Constants can only be built-in types
     }
 }

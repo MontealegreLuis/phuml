@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code\Builders;
 
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\TraitUse;
@@ -19,7 +20,7 @@ final class ClassDefinitionBuilderTest extends TestCase
     /** @test */
     function it_builds_a_class_with_traits()
     {
-        $parsedClass = new Class_('AClassWithTraits', [
+        $parsedClass = new Class_(new Identifier('AClassWithTraits'), [
             'stmts' => [
                 new TraitUse([
                     new Name('ATrait'),
@@ -27,7 +28,7 @@ final class ClassDefinitionBuilderTest extends TestCase
                 ]),
             ],
         ]);
-        $builder = new ClassDefinitionBuilder();
+        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build());
 
         $class = $builder->build($parsedClass);
 
@@ -40,7 +41,7 @@ final class ClassDefinitionBuilderTest extends TestCase
     /** @test */
     function it_builds_a_class_with_traits_from_multiple_use_statements()
     {
-        $parsedClass = new Class_('AClassWithTraits', [
+        $parsedClass = new Class_(new Identifier('AClassWithTraits'), [
             'stmts' => [
                 new TraitUse([
                     new Name('ATrait'),
@@ -51,7 +52,7 @@ final class ClassDefinitionBuilderTest extends TestCase
                 ]),
             ],
         ]);
-        $builder = new ClassDefinitionBuilder();
+        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build());
 
         $class = $builder->build($parsedClass);
 

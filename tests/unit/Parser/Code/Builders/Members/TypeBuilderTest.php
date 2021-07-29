@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -74,6 +74,21 @@ final class TypeBuilderTest extends TestCase
         );
 
         $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
+    }
+
+    /** @test */
+    function it_extracts_types_from_identifiers_names_and_union_types()
+    {
+        $typeFromIdentifier = $this->typeBuilder->fromAttributeType(new Identifier('array'), null);
+        $typeFromName = $this->typeBuilder->fromAttributeType(new Name(['PhpParser', 'Node', 'Name']), null);
+        $typeFromNullableType = $this->typeBuilder->fromAttributeType(
+            new NullableType(new Identifier('string')),
+            null
+        );
+
+        $this->assertEquals(TypeDeclaration::from('array'), $typeFromIdentifier);
+        $this->assertEquals(TypeDeclaration::from('Name'), $typeFromName);
+        $this->assertEquals(TypeDeclaration::fromNullable('string'), $typeFromNullableType);
     }
 
     /** @before */

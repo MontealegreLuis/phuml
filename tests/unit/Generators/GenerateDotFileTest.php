@@ -1,132 +1,107 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Generators;
 
-use LogicException;
 use PHPUnit\Framework\TestCase;
-use PhUml\Fakes\ExternalNumericIdDefinitionsResolver;
-use PhUml\Fakes\NumericIdClassDefinitionBuilder;
-use PhUml\Fakes\StringCodeFinder;
 use PhUml\Fakes\WithDotLanguageAssertions;
-use PhUml\Fakes\WithNumericIds;
-use PhUml\Parser\Code\PhpCodeParser;
 use PhUml\Parser\CodebaseDirectory;
+use PhUml\Parser\CodeFinderConfiguration;
 use PhUml\Parser\CodeParser;
 use PhUml\Parser\SourceCodeFinder;
 use PhUml\Processors\GraphvizProcessor;
 use PhUml\TestBuilders\A;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class GenerateDotFileTest extends TestCase
 {
-    use WithNumericIds;
     use WithDotLanguageAssertions;
-    use ProphecyTrait;
-
-    /** @test */
-    function it_fails_to_generate_the_dot_file_if_a_command_is_not_provided()
-    {
-        $generator = new DotFileGenerator(new CodeParser(new PhpCodeParser()), new GraphvizProcessor());
-
-        $this->expectException(LogicException::class);
-
-        $generator->generate(new StringCodeFinder(), 'wont-be-generated.gv');
-    }
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory()
     {
-        $finder = SourceCodeFinder::nonRecursive(new CodebaseDirectory($this->pathToCode));
+        $finder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration(['recursive' => false]));
+        $sourceCode = $finder->find($this->codebaseDirectory);
+        $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($finder, $this->pathToDotFile);
+        $digraph = $this->processor->process($codebase);
 
-        $this->resetIds();
-        $digraphInDotFormat = file_get_contents($this->pathToDotFile);
-        $this->assertNode(A::numericIdClassNamed('plBase'), $digraphInDotFormat);
-        $this->assertNode(A::numericIdClassNamed('plPhuml'), $digraphInDotFormat);
+        $this->assertNode(A::classNamed('plBase'), $digraph->value());
+        $this->assertNode(A::classNamed('plPhuml'), $digraph->value());
     }
 
     /** @test */
     function it_creates_the_dot_file_of_a_directory_using_a_recursive_finder()
     {
-        $finder = SourceCodeFinder::recursive(new CodebaseDirectory($this->pathToCode));
+        $finder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration(['recursive' => true]));
+        $sourceCode = $finder->find($this->codebaseDirectory);
+        $codebase = $this->parser->parse($sourceCode);
 
-        $this->generator->generate($finder, $this->pathToDotFile);
+        $digraph = $this->processor->process($codebase);
 
-        $this->resetIds();
-        $base = A::numericIdClassNamed('plBase');
-        $tokenParser = A::numericIdClassNamed('plStructureTokenparserGenerator');
-        $attribute = A::numericIdClassNamed('plPhpAttribute');
-        $class = A::numericIdClassNamed('plPhpClass');
-        $function = A::numericIdClassNamed('plPhpFunction');
-        $parameter = A::numericIdClassNamed('plPhpFunctionParameter');
-        $interface = A::numericIdClassNamed('plPhpInterface');
-        $uml = A::numericIdClassNamed('plPhuml');
-        $dotProcessor = A::numericIdClassNamed('plDotProcessor');
-        $graphvizProcessor = A::numericIdClassNamed('plGraphvizProcessor');
-        $styleName = A::numericIdClassNamed('plStyleName');
-        $graphvizOptions = A::numericIdClassNamed('plGraphvizProcessorOptions');
-        $defaultStyle = A::numericIdClassNamed('plGraphvizProcessorDefaultStyle');
-        $neatoProcessor = A::numericIdClassNamed('plNeatoProcessor');
-        $options = A::numericIdClassNamed('plProcessorOptions');
-        $statisticsProcessor = A::numericIdClassNamed('plStatisticsProcessor');
-        $structureGenerator = A::numericIdClassNamed('plStructureGenerator');
-        $externalCommand = A::numericIdClassNamed('plExternalCommandProcessor');
-        $processor = A::numericIdClassNamed('plProcessor');
-        $style = A::numericIdClassNamed('plGraphvizProcessorStyle');
-        $digraphInDotFormat = file_get_contents($this->pathToDotFile);
-        $this->assertNode($base, $digraphInDotFormat);
-        $this->assertNode($structureGenerator, $digraphInDotFormat);
-        $this->assertNode($styleName, $digraphInDotFormat);
-        $this->assertNode($tokenParser, $digraphInDotFormat);
-        $this->assertInheritance($tokenParser, $structureGenerator, $digraphInDotFormat);
-        $this->assertNode($attribute, $digraphInDotFormat);
-        $this->assertNode($class, $digraphInDotFormat);
-        $this->assertNode($function, $digraphInDotFormat);
-        $this->assertNode($parameter, $digraphInDotFormat);
-        $this->assertNode($interface, $digraphInDotFormat);
-        $this->assertNode($uml, $digraphInDotFormat);
-        $this->assertNode($externalCommand, $digraphInDotFormat);
-        $this->assertNode($dotProcessor, $digraphInDotFormat);
-        $this->assertInheritance($dotProcessor, $externalCommand, $digraphInDotFormat);
-        $this->assertNode($processor, $digraphInDotFormat);
-        $this->assertNode($graphvizProcessor, $digraphInDotFormat);
-        $this->assertInheritance($graphvizProcessor, $processor, $digraphInDotFormat);
-        $this->assertNode($options, $digraphInDotFormat);
-        $this->assertNode($graphvizOptions, $digraphInDotFormat);
-        $this->assertInheritance($graphvizOptions, $options, $digraphInDotFormat);
-        $this->assertNode($style, $digraphInDotFormat);
-        $this->assertNode($defaultStyle, $digraphInDotFormat);
-        $this->assertInheritance($defaultStyle, $style, $digraphInDotFormat);
-        $this->assertNode($neatoProcessor, $digraphInDotFormat);
-        $this->assertInheritance($neatoProcessor, $externalCommand, $digraphInDotFormat);
-        $this->assertNode($statisticsProcessor, $digraphInDotFormat);
-        $this->assertInheritance($statisticsProcessor, $processor, $digraphInDotFormat);
+        $base = A::classNamed('plBase');
+        $tokenParser = A::classNamed('plStructureTokenparserGenerator');
+        $attribute = A::classNamed('plPhpAttribute');
+        $class = A::classNamed('plPhpClass');
+        $function = A::classNamed('plPhpFunction');
+        $parameter = A::classNamed('plPhpFunctionParameter');
+        $interface = A::classNamed('plPhpInterface');
+        $uml = A::classNamed('plPhuml');
+        $dotProcessor = A::classNamed('plDotProcessor');
+        $graphvizProcessor = A::classNamed('plGraphvizProcessor');
+        $styleName = A::classNamed('plStyleName');
+        $graphvizOptions = A::classNamed('plGraphvizProcessorOptions');
+        $defaultStyle = A::classNamed('plGraphvizProcessorDefaultStyle');
+        $neatoProcessor = A::classNamed('plNeatoProcessor');
+        $options = A::classNamed('plProcessorOptions');
+        $statisticsProcessor = A::classNamed('plStatisticsProcessor');
+        $structureGenerator = A::classNamed('plStructureGenerator');
+        $externalCommand = A::classNamed('plExternalCommandProcessor');
+        $processor = A::classNamed('plProcessor');
+        $style = A::classNamed('plGraphvizProcessorStyle');
+        $this->assertNode($base, $digraph->value());
+        $this->assertNode($structureGenerator, $digraph->value());
+        $this->assertNode($styleName, $digraph->value());
+        $this->assertNode($tokenParser, $digraph->value());
+        $this->assertInheritance($tokenParser, $structureGenerator, $digraph->value());
+        $this->assertNode($attribute, $digraph->value());
+        $this->assertNode($class, $digraph->value());
+        $this->assertNode($function, $digraph->value());
+        $this->assertNode($parameter, $digraph->value());
+        $this->assertNode($interface, $digraph->value());
+        $this->assertNode($uml, $digraph->value());
+        $this->assertNode($externalCommand, $digraph->value());
+        $this->assertNode($dotProcessor, $digraph->value());
+        $this->assertInheritance($dotProcessor, $externalCommand, $digraph->value());
+        $this->assertNode($processor, $digraph->value());
+        $this->assertNode($graphvizProcessor, $digraph->value());
+        $this->assertInheritance($graphvizProcessor, $processor, $digraph->value());
+        $this->assertNode($options, $digraph->value());
+        $this->assertNode($graphvizOptions, $digraph->value());
+        $this->assertInheritance($graphvizOptions, $options, $digraph->value());
+        $this->assertNode($style, $digraph->value());
+        $this->assertNode($defaultStyle, $digraph->value());
+        $this->assertInheritance($defaultStyle, $style, $digraph->value());
+        $this->assertNode($neatoProcessor, $digraph->value());
+        $this->assertInheritance($neatoProcessor, $externalCommand, $digraph->value());
+        $this->assertNode($statisticsProcessor, $digraph->value());
+        $this->assertInheritance($statisticsProcessor, $processor, $digraph->value());
     }
 
     /** @before */
     function let()
     {
-        $this->pathToCode = __DIR__ . '/../../resources/.code/classes';
-        $this->pathToDotFile = __DIR__ . '/../../resources/.output/dot.gv';
-        $this->generator = new DotFileGenerator(
-            new CodeParser(
-                new PhpCodeParser(new NumericIdClassDefinitionBuilder()),
-                [new ExternalNumericIdDefinitionsResolver()]
-            ),
-            new GraphvizProcessor()
-        );
-        $this->generator->attach($this->prophesize(ProcessorProgressDisplay::class)->reveal());
+        $this->codebaseDirectory = new CodebaseDirectory(__DIR__ . '/../../resources/.code/classes');
+        $this->processor = GraphvizProcessor::fromConfiguration(A::graphvizConfiguration()->build());
+        $this->parser = CodeParser::fromConfiguration(A::codeParserConfiguration()->build());
     }
 
-    private ?DotFileGenerator $generator = null;
+    private GraphvizProcessor $processor;
 
-    private ?string $pathToDotFile = null;
+    private CodebaseDirectory $codebaseDirectory;
 
-    private ?string $pathToCode = null;
+    private CodeParser $parser;
 }

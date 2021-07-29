@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -37,7 +37,7 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
     /**
      * It resolves for its parent class, its interfaces and traits
      */
-    protected function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
+    private function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
         $this->resolveExternalInterfaces($definition->interfaces(), $codebase);
         $this->resolveExternalTraits($definition->traits(), $codebase);

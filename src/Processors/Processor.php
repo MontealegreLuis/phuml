@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,14 +8,9 @@
 namespace PhUml\Processors;
 
 /**
- * Every processor has a name and can write their output to a file
+ * Every processor has a name
  */
-abstract class Processor
+interface Processor
 {
-    public function saveToFile(string $contents, string $filePath): void
-    {
-        file_put_contents($filePath, $contents);
-    }
-
-    abstract public function name(): string;
+    public function name(): string;
 }

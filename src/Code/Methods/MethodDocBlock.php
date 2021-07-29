@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -52,7 +52,7 @@ final class MethodDocBlock
     private function extractReturnType(?string $comment): void
     {
         if (preg_match(self::RETURN_EXPRESSION, (string) $comment, $matches) === 1) {
-            $this->returnType = TypeDeclaration::from(trim($matches[1]));
+            $this->returnType = TypeDeclaration::from($matches[1]);
             return;
         }
 

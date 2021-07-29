@@ -13,7 +13,7 @@ class plDotProcessor extends plExternalCommandProcessor
     {
     }
 
-    public function getOutputType()
+    public function getOutputType(): int|string
     {
     }
 

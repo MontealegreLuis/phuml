@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace PhUml\Parser;
 
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\PhpCodeParser;
-use PhUml\Parser\Code\RelationshipsResolver;
+use PhUml\Parser\Code\RelationshipsResolvers;
 
 /**
  * It takes the files found by the `CodeFinder` and turns them into a `Codebase`
@@ -23,16 +23,17 @@ use PhUml\Parser\Code\RelationshipsResolver;
  */
 final class CodeParser
 {
-    private PhpCodeParser $parser;
-
-    /** @var RelationshipsResolver[] */
-    private array $resolvers;
-
-    /** @param RelationshipsResolver[] $resolvers */
-    public function __construct(PhpCodeParser $parser, array $resolvers = [])
+    public static function fromConfiguration(CodeParserConfiguration $configuration): CodeParser
     {
-        $this->parser = $parser;
-        $this->resolvers = $resolvers;
+        $resolvers = $configuration->extractAssociations()
+            ? RelationshipsResolvers::withAssociations()
+            : RelationshipsResolvers::withoutAssociations();
+
+        return new CodeParser(PhpCodeParser::fromConfiguration($configuration), $resolvers);
+    }
+
+    private function __construct(private PhpCodeParser $parser, private RelationshipsResolvers $resolvers)
+    {
     }
 
     /**
@@ -41,11 +42,11 @@ final class CodeParser
      * 1. Parse the code and populate the `Codebase` with definitions
      * 2. Add external definitions (built-in/third party), if needed
      */
-    public function parse(CodeFinder $finder): Codebase
+    public function parse(SourceCode $sourceCode): Codebase
     {
-        $codebase = $this->parser->parse($finder);
+        $codebase = $this->parser->parse($sourceCode);
 
-        array_map(static fn (RelationshipsResolver $resolver) => $resolver->resolve($codebase), $this->resolvers);
+        $this->resolvers->addExternalDefinitionsTo($codebase);
 
         return $codebase;
     }

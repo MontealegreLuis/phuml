@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,6 +13,11 @@ namespace PhUml\Parser\Code\Builders\Members;
 final class NoAttributesBuilder implements AttributesBuilder
 {
     public function build(array $parsedAttributes): array
+    {
+        return [];
+    }
+
+    public function fromPromotedProperties(array $constructorParameters): array
     {
         return [];
     }

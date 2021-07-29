@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
+use PhUml\Code\Name;
 use PhUml\Code\Parameters\Parameter;
 
 /**
@@ -18,7 +19,7 @@ use PhUml\Code\Parameters\Parameter;
  * An external definition is either a class or interface from a third party library, or a built-in class or interface
  *
  * In the case of a third-party library or built-in type a `ClassDefinition` is added by default.
- * Although we don't really know if it's an interface since we don't have access to the source code
+ * Although we don't really know if it's an interface or trait since we don't have access to the source code
  */
 final class ExternalAssociationsResolver implements RelationshipsResolver
 {
@@ -40,18 +41,25 @@ final class ExternalAssociationsResolver implements RelationshipsResolver
     private function resolveExternalAttributes(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Attribute $attribute) use ($codebase): void {
-            if ($attribute->isAReference() && ! $codebase->has($attribute->referenceName())) {
-                $codebase->add(new ClassDefinition($attribute->referenceName()));
-            }
+            $this->resolveExternalAssociationsFromTypeNames($attribute->references(), $codebase);
         }, $definition->attributes());
     }
 
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void
     {
         array_map(function (Parameter $parameter) use ($codebase): void {
-            if ($parameter->isAReference() && ! $codebase->has($parameter->referenceName())) {
-                $codebase->add(new ClassDefinition($parameter->referenceName()));
-            }
+            $this->resolveExternalAssociationsFromTypeNames($parameter->references(), $codebase);
         }, $definition->constructorParameters());
+    }
+
+    /** @param Name[] $references */
+    private function resolveExternalAssociationsFromTypeNames(array $references, Codebase $codebase): void
+    {
+        array_map(static function (Name $reference) use ($codebase): void {
+            if ($codebase->has($reference)) {
+                return;
+            }
+            $codebase->add(new ClassDefinition($reference));
+        }, $references);
     }
 }

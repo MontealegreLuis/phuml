@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,12 +12,7 @@ namespace PhUml\Graphviz\Styles;
  */
 final class DigraphStyle
 {
-    /** @var string */
-    protected $theme;
-
-    protected string $attributes;
-
-    protected string $methods;
+    private string $theme;
 
     public static function default(ThemeName $theme): DigraphStyle
     {
@@ -29,11 +24,9 @@ final class DigraphStyle
         return new DigraphStyle($theme, 'partials/_empty-attributes.html.twig', 'partials/_empty-methods.html.twig');
     }
 
-    private function __construct(ThemeName $theme, string $attributesTemplate, string $methodsTemplate)
+    private function __construct(ThemeName $theme, private string $attributes, private string $methods)
     {
         $this->theme = "{$theme->name()}.html.twig";
-        $this->attributes = $attributesTemplate;
-        $this->methods = $methodsTemplate;
     }
 
     public function attributes(): string

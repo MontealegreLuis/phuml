@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,12 +11,11 @@ use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Name;
 use PhUml\Code\Parameters\Parameter;
-use PhUml\Fakes\NumericIdInterface;
 
 final class InterfaceBuilder extends DefinitionBuilder
 {
     /** @var Name[] */
-    protected array $parents = [];
+    private array $parents = [];
 
     /** @var Method[] */
     private array $methods = [];
@@ -44,16 +43,6 @@ final class InterfaceBuilder extends DefinitionBuilder
     public function build(): InterfaceDefinition
     {
         return new InterfaceDefinition(
-            new Name($this->name),
-            $this->methods,
-            $this->constants,
-            $this->parents
-        );
-    }
-
-    public function buildWithNumericId(): NumericIdInterface
-    {
-        return new NumericIdInterface(
             new Name($this->name),
             $this->methods,
             $this->constants,

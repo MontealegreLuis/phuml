@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,7 +17,7 @@ trait TraitNamesBuilder
      * @param Node[] $nodes
      * @return TraitName[]
      */
-    protected function buildTraits(array $nodes): array
+    private function buildTraits(array $nodes): array
     {
         $useStatements = array_filter($nodes, static fn (Node $node): bool => $node instanceof TraitUse);
 

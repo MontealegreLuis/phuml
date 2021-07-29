@@ -32,11 +32,11 @@ class plPhuml
     {
     }
 
-    public function __get( $key )
+    public function __get( string|int $key )
     {
     }
 
-    public function __set( $key, $val )
+    public function __set( string|int $key, $val )
     {
     }
 }

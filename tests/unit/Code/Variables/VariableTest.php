@@ -1,13 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code\Variables;
 
-use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use PhUml\ContractTests\WithTypeDeclarationTests;
 
@@ -26,12 +25,11 @@ final class VariableTest extends TestCase
     }
 
     /** @test */
-    function it_fails_getting_its_reference_name_if_it_does_not_refers_to_another_class_or_interface()
+    function it_has_no_references_if_its_type_does_not_refers_to_another_class_or_interface()
     {
         $noType = new Variable('$noTypeForParameter', TypeDeclaration::absent());
 
-        $this->expectException(BadMethodCallException::class);
-        $noType->referenceName();
+        $this->assertCount(0, $noType->references());
     }
 
     protected function memberWithoutType(): HasType
@@ -39,7 +37,7 @@ final class VariableTest extends TestCase
         return new Variable('$noTypeForParameter', TypeDeclaration::absent());
     }
 
-    protected function reference(): HasType
+    protected function typeDeclaration(): HasType
     {
         return new Variable('$reference', TypeDeclaration::from('AClass'));
     }

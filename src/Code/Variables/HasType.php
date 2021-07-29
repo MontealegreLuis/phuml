@@ -1,32 +1,22 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code\Variables;
 
-use BadMethodCallException;
 use PhUml\Code\Name;
 
 interface HasType
 {
     /**
-     * A member is a reference if it has a type and it's not a built-in type
+     * Returns the definition names referred by this type, if any
      *
-     * This is used when building the digraph and the option `createAssociations` is set
-     *
-     * @see \PhUml\Graphviz\Builders\EdgesBuilder::needAssociation() for more details
+     * @return Name[]
      */
-    public function isAReference(): bool;
-
-    /**
-     * Returns the definition name referred by this type, if any
-     *
-     * @throws BadMethodCallException In case the current type is built-in
-     */
-    public function referenceName(): Name;
+    public function references(): array;
 
     /**
      * This is used to build the `Summary` of a `Structure`

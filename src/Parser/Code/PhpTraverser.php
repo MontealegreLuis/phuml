@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -19,9 +19,9 @@ use PhUml\Parser\Code\Visitors\TraitVisitor;
 
 final class PhpTraverser
 {
-    protected Codebase $codebase;
+    private Codebase $codebase;
 
-    protected NodeTraverser $traverser;
+    private NodeTraverser $traverser;
 
     public function __construct(
         ClassDefinitionBuilder $classBuilder,

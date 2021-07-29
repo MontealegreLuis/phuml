@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -38,7 +38,12 @@ final class Summary
 
     private int $privateTypedAttributes;
 
-    public function __construct()
+    public static function from(Codebase $codebase): Summary
+    {
+        return new Summary($codebase);
+    }
+
+    private function __construct(Codebase $codebase)
     {
         $this->interfaceCount = 0;
         $this->classCount = 0;
@@ -51,10 +56,6 @@ final class Summary
         $this->privateFunctionCount = 0;
         $this->privateAttributeCount = 0;
         $this->privateTypedAttributes = 0;
-    }
-
-    public function from(Codebase $codebase): void
-    {
         foreach ($codebase->definitions() as $definition) {
             if ($definition instanceof InterfaceDefinition) {
                 $this->interfaceCount++;

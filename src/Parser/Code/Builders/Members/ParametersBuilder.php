@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,11 +14,8 @@ use PhUml\Code\Variables\Variable;
 
 final class ParametersBuilder
 {
-    private TypeBuilder $typeBuilder;
-
-    public function __construct(TypeBuilder $typeBuilder)
+    public function __construct(private TypeBuilder $typeBuilder)
     {
-        $this->typeBuilder = $typeBuilder;
     }
 
     /**

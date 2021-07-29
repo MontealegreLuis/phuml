@@ -1,57 +1,57 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Generators;
 
-use LogicException;
-use PhUml\Parser\CodeFinder;
-use PhUml\Parser\CodeParser;
-use PhUml\Processors\GraphvizProcessor;
-use PhUml\Processors\ImageProcessor;
+use League\Pipeline\Pipeline;
+use PhUml\Console\Commands\GeneratorInput;
+use PhUml\Processors\OutputContent;
+use PhUml\Stages\CreateClassDiagram;
+use PhUml\Stages\CreateDigraph;
+use PhUml\Stages\FindCode;
+use PhUml\Stages\ParseCode;
+use PhUml\Stages\SaveFile;
 
 /**
  * It generates a UML class diagram from a directory with PHP code
  *
  * The image produced is a `.png` that will be saved in a specified path
  */
-final class ClassDiagramGenerator extends DigraphGenerator
+final class ClassDiagramGenerator
 {
-    private ImageProcessor $imageProcessor;
+    public static function fromConfiguration(ClassDiagramConfiguration $configuration): ClassDiagramGenerator
+    {
+        return new self(
+            new FindCode($configuration->codeFinder(), $configuration->display()),
+            new ParseCode($configuration->codeParser(), $configuration->display()),
+            new CreateDigraph($configuration->graphvizProcessor(), $configuration->display()),
+            new CreateClassDiagram($configuration->imageProcessor(), $configuration->display()),
+            new SaveFile($configuration->writer(), $configuration->display()),
+        );
+    }
 
-    public function __construct(
-        CodeParser $parser,
-        GraphvizProcessor $digraphProcessor,
-        ImageProcessor $imageProcessor
+    private function __construct(
+        private FindCode $findCode,
+        private ParseCode $parseCode,
+        private CreateDigraph $createDigraph,
+        private CreateClassDiagram $createClassDiagram,
+        private SaveFile $saveFile,
     ) {
-        parent::__construct($parser, $digraphProcessor);
-        $this->imageProcessor = $imageProcessor;
     }
 
-    /**
-     * The process to generate a class diagram is as follows
-     *
-     * 1. The parser produces a collection of classes and interfaces
-     * 2. The `graphviz` processor takes this collection and creates a digraph using the DOT language
-     * 3. Either the `neato` or `dot` will produce a `.png` class diagram from the digraph
-     * 4. The image is saved to the given path
-     *
-     * @throws LogicException If either the image processor or the command are missing
-     */
-    public function generate(CodeFinder $finder, string $imagePath): void
+    public function generate(GeneratorInput $input): void
     {
-        $this->display()->start();
-        $image = $this->generateClassDiagram($this->generateDigraph($this->parseCode($finder)));
-        $this->save($this->imageProcessor, $image, $imagePath);
-    }
+        $pipeline = (new Pipeline())
+            ->pipe($this->findCode)
+            ->pipe($this->parseCode)
+            ->pipe($this->createDigraph)
+            ->pipe($this->createClassDiagram)
+            ->pipe(fn (OutputContent $content) => $this->saveFile->saveTo($content, $input->filePath()));
 
-    /** @throws LogicException If no command or image processor is provided */
-    private function generateClassDiagram(string $digraph): string
-    {
-        $this->display()->runningProcessor($this->imageProcessor);
-        return $this->imageProcessor->process($digraph);
+        $pipeline->process($input->codebaseDirectory());
     }
 }

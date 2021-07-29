@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 7.4
+ * PHP version 8.0
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,16 +20,13 @@ use PhUml\Parser\Code\Builders\Names\TraitNamesBuilder;
  * @see InterfaceNamesBuilder
  * @see TraitNamesBuilder
  */
-class ClassDefinitionBuilder
+final class ClassDefinitionBuilder
 {
     use InterfaceNamesBuilder;
     use TraitNamesBuilder;
 
-    protected MembersBuilder $membersBuilder;
-
-    public function __construct(MembersBuilder $membersBuilder = null)
+    public function __construct(private MembersBuilder $membersBuilder)
     {
-        $this->membersBuilder = $membersBuilder ?? new MembersBuilder();
     }
 
     public function build(Class_ $class): ClassDefinition
@@ -39,7 +36,7 @@ class ClassDefinitionBuilder
             $this->membersBuilder->methods($class->getMethods()),
             $this->membersBuilder->constants($class->stmts),
             $class->extends !== null ? new ClassDefinitionName((string) end($class->extends->parts)) : null,
-            $this->membersBuilder->attributes($class->stmts),
+            $this->membersBuilder->attributes($class->stmts, $class->getMethod('__construct')),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)
         );
