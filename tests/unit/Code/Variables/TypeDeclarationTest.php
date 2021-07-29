@@ -124,17 +124,15 @@ final class TypeDeclarationTest extends TestCase
             'array' => ['array'],
             'callable' => ['callable'],
             'iterable' => ['iterable'],
+            'mixed' => ['mixed'],
+            'object' => ['object'],
         ];
     }
 
     function pseudoTypes()
     {
         return [
-            'mixed' => ['mixed'],
-            'number' => ['number'],
-            'object' => ['object'],
             'resource' => ['resource'],
-            'self' => ['self'],
         ];
     }
 
@@ -143,6 +141,7 @@ final class TypeDeclarationTest extends TestCase
         return [
             'boolean' => ['boolean'],
             'integer' => ['integer'],
+            'number' => ['number'],
             'double' => ['double'],
         ];
     }
