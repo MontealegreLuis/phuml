@@ -25,7 +25,7 @@ jobs:
           composer install --no-interaction --no-progress
 
       - name: "Code quality checks"
-        run: "make check"
+        run: "make check INFECTION_BADGE_API_KEY=$INFECTION_BADGE_API_KEY"
         env:
           INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
