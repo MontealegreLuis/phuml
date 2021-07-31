@@ -1,3 +1,7 @@
+---
+currentMenu: dot_file
+---
+
 # Generate a DOT file
 
 The `phuml:dot` command will generate a [DOT][dot] file by scanning the code from a given directory.

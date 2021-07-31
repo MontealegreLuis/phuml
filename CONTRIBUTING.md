@@ -1,3 +1,7 @@
+---
+currentMenu: contributing
+---
+
 # Contributing to phUML
 
 ## Code of Conduct

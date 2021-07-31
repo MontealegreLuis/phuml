@@ -1,3 +1,7 @@
+---
+currentMenu: statistics
+---
+
 # Generate statistics
 
 The `phuml:statistics` command will generate a text file with statistics about the code from a given directory.

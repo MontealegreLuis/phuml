@@ -1,4 +1,8 @@
-# Type hints
+---
+currentMenu: types
+---
+
+# Type Information
 
 phUML can extract type information from doc blocks
 

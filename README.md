@@ -30,7 +30,7 @@ Alternatively, you may use [Composer][composer] to download and install phUML as
 composer require phuml/phuml
 ```
 
-It can also be installed globally.
+phUML can also be installed globally.
 
 ```bash
 composer global require phuml/phuml

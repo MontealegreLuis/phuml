@@ -1,3 +1,7 @@
+---
+currentMenu: class_diagram
+---
+
 # Generate a class diagram
 
 The `phuml:diagram` command will generate a class diagram by scanning the code from a given directory.

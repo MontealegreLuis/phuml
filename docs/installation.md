@@ -1,3 +1,7 @@
+---
+currentMenu: index
+---
+
 # Installation
 
 ## Docker
@@ -18,7 +22,7 @@ Alternatively, you may use  [Composer](https://getcomposer.org/) to download and
 composer require phuml/phuml
 ```
 
-It can also be installed globally.
+phUML can also be installed globally.
 
 ```bash
 composer global require phuml/phuml
