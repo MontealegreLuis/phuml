@@ -29,10 +29,10 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
-        $this->assertEmpty($definitions['plBase']->methods());
-        $this->assertNotEmpty($definitions['plBase']->attributes());
-        $this->assertEmpty($definitions['plPhuml']->methods());
-        $this->assertNotEmpty($definitions['plPhuml']->attributes());
+        $this->assertEmpty($definitions['phuml\\plBase']->methods());
+        $this->assertNotEmpty($definitions['phuml\\plBase']->attributes());
+        $this->assertEmpty($definitions['phuml\\plPhuml']->methods());
+        $this->assertNotEmpty($definitions['phuml\\plPhuml']->attributes());
     }
 
     /** @test */
@@ -45,10 +45,10 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
-        $this->assertEmpty($definitions['plBase']->attributes());
-        $this->assertNotEmpty($definitions['plBase']->methods());
-        $this->assertEmpty($definitions['plPhuml']->attributes());
-        $this->assertNotEmpty($definitions['plPhuml']->methods());
+        $this->assertEmpty($definitions['phuml\\plBase']->attributes());
+        $this->assertNotEmpty($definitions['phuml\\plBase']->methods());
+        $this->assertEmpty($definitions['phuml\\plPhuml']->attributes());
+        $this->assertNotEmpty($definitions['phuml\\plPhuml']->methods());
     }
 
     /** @test */
@@ -61,10 +61,10 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
-        $this->assertEmpty($definitions['plBase']->attributes());
-        $this->assertEmpty($definitions['plBase']->methods());
-        $this->assertEmpty($definitions['plPhuml']->attributes());
-        $this->assertEmpty($definitions['plPhuml']->methods());
+        $this->assertEmpty($definitions['phuml\\plBase']->attributes());
+        $this->assertEmpty($definitions['phuml\\plBase']->methods());
+        $this->assertEmpty($definitions['phuml\\plPhuml']->attributes());
+        $this->assertEmpty($definitions['phuml\\plPhuml']->methods());
     }
 
     /** @test */
@@ -77,21 +77,21 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
-        $this->assertEmpty($definitions['plBase']->attributes());
-        $this->assertCount(3, $definitions['plBase']->methods());
-        $this->assertPublic($definitions['plBase']->methods()[0]);
-        $this->assertPublic($definitions['plBase']->methods()[1]);
-        $this->assertPublic($definitions['plBase']->methods()[2]);
-        $this->assertCount(1, $definitions['plPhuml']->attributes());
-        $this->assertProtected($definitions['plPhuml']->attributes()[0]);
-        $this->assertCount(7, $definitions['plPhuml']->methods());
-        $this->assertPublic($definitions['plPhuml']->methods()[0]);
-        $this->assertPublic($definitions['plPhuml']->methods()[1]);
-        $this->assertPublic($definitions['plPhuml']->methods()[2]);
-        $this->assertPublic($definitions['plPhuml']->methods()[3]);
-        $this->assertPublic($definitions['plPhuml']->methods()[5]);
-        $this->assertPublic($definitions['plPhuml']->methods()[6]);
-        $this->assertPublic($definitions['plPhuml']->methods()[7]);
+        $this->assertEmpty($definitions['phuml\\plBase']->attributes());
+        $this->assertCount(3, $definitions['phuml\\plBase']->methods());
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[0]);
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[1]);
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[2]);
+        $this->assertCount(1, $definitions['phuml\\plPhuml']->attributes());
+        $this->assertProtected($definitions['phuml\\plPhuml']->attributes()[0]);
+        $this->assertCount(7, $definitions['phuml\\plPhuml']->methods());
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[0]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[1]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[2]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[3]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[5]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[6]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[7]);
     }
 
     /** @test */
@@ -104,25 +104,25 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
-        $this->assertCount(2, $definitions['plBase']->attributes());
-        $this->assertPrivate($definitions['plBase']->attributes()[0]);
-        $this->assertPrivate($definitions['plBase']->attributes()[1]);
-        $this->assertCount(3, $definitions['plBase']->methods());
-        $this->assertPublic($definitions['plBase']->methods()[0]);
-        $this->assertPublic($definitions['plBase']->methods()[1]);
-        $this->assertPublic($definitions['plBase']->methods()[2]);
-        $this->assertCount(2, $definitions['plPhuml']->attributes());
-        $this->assertPrivate($definitions['plPhuml']->attributes()[0]);
-        $this->assertPrivate($definitions['plPhuml']->attributes()[1]);
-        $this->assertCount(8, $definitions['plPhuml']->methods());
-        $this->assertPublic($definitions['plPhuml']->methods()[0]);
-        $this->assertPublic($definitions['plPhuml']->methods()[1]);
-        $this->assertPublic($definitions['plPhuml']->methods()[2]);
-        $this->assertPublic($definitions['plPhuml']->methods()[3]);
-        $this->assertPrivate($definitions['plPhuml']->methods()[4]);
-        $this->assertPublic($definitions['plPhuml']->methods()[5]);
-        $this->assertPublic($definitions['plPhuml']->methods()[6]);
-        $this->assertPublic($definitions['plPhuml']->methods()[7]);
+        $this->assertCount(2, $definitions['phuml\\plBase']->attributes());
+        $this->assertPrivate($definitions['phuml\\plBase']->attributes()[0]);
+        $this->assertPrivate($definitions['phuml\\plBase']->attributes()[1]);
+        $this->assertCount(3, $definitions['phuml\\plBase']->methods());
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[0]);
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[1]);
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[2]);
+        $this->assertCount(2, $definitions['phuml\\plPhuml']->attributes());
+        $this->assertPrivate($definitions['phuml\\plPhuml']->attributes()[0]);
+        $this->assertPrivate($definitions['phuml\\plPhuml']->attributes()[1]);
+        $this->assertCount(8, $definitions['phuml\\plPhuml']->methods());
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[0]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[1]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[2]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[3]);
+        $this->assertPrivate($definitions['phuml\\plPhuml']->methods()[4]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[5]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[6]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[7]);
     }
 
     /** @test */
@@ -135,20 +135,20 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
-        $this->assertEmpty($definitions['plBase']->attributes());
-        $this->assertCount(3, $definitions['plBase']->methods());
-        $this->assertPublic($definitions['plBase']->methods()[0]);
-        $this->assertPublic($definitions['plBase']->methods()[1]);
-        $this->assertPublic($definitions['plBase']->methods()[2]);
-        $this->assertEmpty($definitions['plPhuml']->attributes());
-        $this->assertCount(7, $definitions['plPhuml']->methods());
-        $this->assertPublic($definitions['plPhuml']->methods()[0]);
-        $this->assertPublic($definitions['plPhuml']->methods()[1]);
-        $this->assertPublic($definitions['plPhuml']->methods()[2]);
-        $this->assertPublic($definitions['plPhuml']->methods()[3]);
-        $this->assertPublic($definitions['plPhuml']->methods()[5]);
-        $this->assertPublic($definitions['plPhuml']->methods()[6]);
-        $this->assertPublic($definitions['plPhuml']->methods()[7]);
+        $this->assertEmpty($definitions['phuml\\plBase']->attributes());
+        $this->assertCount(3, $definitions['phuml\\plBase']->methods());
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[0]);
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[1]);
+        $this->assertPublic($definitions['phuml\\plBase']->methods()[2]);
+        $this->assertEmpty($definitions['phuml\\plPhuml']->attributes());
+        $this->assertCount(7, $definitions['phuml\\plPhuml']->methods());
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[0]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[1]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[2]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[3]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[5]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[6]);
+        $this->assertPublic($definitions['phuml\\plPhuml']->methods()[7]);
     }
 
     /** @before */

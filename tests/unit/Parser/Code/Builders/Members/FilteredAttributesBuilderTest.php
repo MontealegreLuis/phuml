@@ -13,6 +13,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\UseStatements;
 use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
@@ -27,11 +28,11 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
-            new TypeBuilder(),
+            A::typeBuilderBuilder()->build(),
             new VisibilityFilters([new PrivateVisibilityFilter()])
         );
 
-        $attributes = $builder->build($this->attributes);
+        $attributes = $builder->build($this->attributes, $this->useStatements);
 
         $this->assertCount(4, $attributes);
         $this->assertPublic($attributes[1]);
@@ -45,11 +46,11 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
-            new TypeBuilder(),
+            A::typeBuilderBuilder()->build(),
             new VisibilityFilters([new ProtectedVisibilityFilter()])
         );
 
-        $attributes = $builder->build($this->attributes);
+        $attributes = $builder->build($this->attributes, $this->useStatements);
 
         $this->assertCount(5, $attributes);
         $this->assertPrivate($attributes[0]);
@@ -64,11 +65,11 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
-            new TypeBuilder(),
+            A::typeBuilderBuilder()->build(),
             new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
         );
 
-        $attributes = $builder->build($this->attributes);
+        $attributes = $builder->build($this->attributes, $this->useStatements);
 
         $this->assertCount(2, $attributes);
         $this->assertPublic($attributes[1]);
@@ -80,20 +81,21 @@ final class FilteredAttributesBuilderTest extends TestCase
     {
         $builder = new FilteredAttributesBuilder(
             new VisibilityBuilder(),
-            new TypeBuilder(),
+            A::typeBuilderBuilder()->build(),
             new VisibilityFilters()
         );
         $privatePromotedProperty = new Param(new Variable('aString'), type: 'string', flags: 4);
         $protectedPromotedProperty = new Param(new Variable('aFloat'), type: 'float', flags: 2);
         $publicPromotedProperty = new Param(new Variable('aBoolean'), type: 'bool', flags: 1);
         $regularParameter = new Param(new Variable('anArray'), type: 'array');
-
-        $attributes = $builder->fromPromotedProperties([
+        $constructorParameters = [
             $privatePromotedProperty,
             $protectedPromotedProperty,
             $publicPromotedProperty,
             $regularParameter,
-        ]);
+        ];
+
+        $attributes = $builder->fromPromotedProperties($constructorParameters, $this->useStatements);
 
         $this->assertCount(3, $attributes);
         $this->assertEquals(A::attribute('$aString')->private()->withType('string')->build(), $attributes[0]);
@@ -104,6 +106,7 @@ final class FilteredAttributesBuilderTest extends TestCase
     /** @before */
     function let()
     {
+        $this->useStatements = new UseStatements([]);
         $this->attributes = [
             new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('willBeRemoved')]),
             new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('publicA')]),
@@ -115,6 +118,8 @@ final class FilteredAttributesBuilderTest extends TestCase
         ];
     }
 
+    private UseStatements $useStatements;
+
     /** @var Property[] */
-    private ?array $attributes = null;
+    private array $attributes;
 }

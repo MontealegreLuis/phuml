@@ -12,16 +12,32 @@ use Webmozart\Assert\Assert;
 
 final class Name implements Stringable
 {
-    private string $name;
+    /** @var string[]  */
+    private array $parts;
 
     public function __construct(string $name)
     {
         Assert::notEmpty(trim($name), 'Definition name cannot be null or empty');
-        $this->name = trim($name);
+        $this->parts = explode('\\', trim($name));
+    }
+
+    public function fullName(): string
+    {
+        return implode('\\', $this->parts);
+    }
+
+    public function isArray(): bool
+    {
+        return str_ends_with((string) $this, '[]');
+    }
+
+    public function removeArraySuffix(): string
+    {
+        return str_replace(search: '[]', replace: '', subject: $this->fullName());
     }
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->parts[count($this->parts) - 1];
     }
 }

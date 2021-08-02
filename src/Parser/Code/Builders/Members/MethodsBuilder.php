@@ -9,6 +9,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\UseStatements;
 
 /**
  * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
@@ -25,5 +26,5 @@ interface MethodsBuilder
      * @param ClassMethod[] $methods
      * @return Method[]
      */
-    public function build(array $methods): array;
+    public function build(array $methods, UseStatements $useStatements): array;
 }

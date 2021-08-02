@@ -22,16 +22,19 @@ final class TraitDefinitionBuilder
 {
     use TraitNamesBuilder;
 
-    public function __construct(private MembersBuilder $membersBuilder)
-    {
+    public function __construct(
+        private MembersBuilder $membersBuilder,
+        private UseStatementsBuilder $useStatementsBuilder
+    ) {
     }
 
     public function build(Trait_ $trait): TraitDefinition
     {
+        $useStatements = $this->useStatementsBuilder->build($trait);
         return new TraitDefinition(
-            new Name((string) $trait->name),
-            $this->membersBuilder->methods($trait->getMethods()),
-            $this->membersBuilder->attributes($trait->stmts, $trait->getMethod('__construct')),
+            new Name((string) $trait->namespacedName),
+            $this->membersBuilder->methods($trait->getMethods(), $useStatements),
+            $this->membersBuilder->attributes($trait->stmts, $trait->getMethod('__construct'), $useStatements),
             $this->buildTraits($trait->stmts)
         );
     }

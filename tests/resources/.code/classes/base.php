@@ -1,4 +1,5 @@
 <?php
+namespace phuml;
 
 class plBase
 {

@@ -28,7 +28,8 @@ final class ClassDefinitionBuilderTest extends TestCase
                 ]),
             ],
         ]);
-        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build());
+        $parsedClass->namespacedName = new Name('AClassWithTraits');
+        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build(), new UseStatementsBuilder());
 
         $class = $builder->build($parsedClass);
 
@@ -52,7 +53,8 @@ final class ClassDefinitionBuilderTest extends TestCase
                 ]),
             ],
         ]);
-        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build());
+        $parsedClass->namespacedName = new Name('AClassWithTraits');
+        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build(), new UseStatementsBuilder());
 
         $class = $builder->build($parsedClass);
 

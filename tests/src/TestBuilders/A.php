@@ -98,4 +98,9 @@ final class A
     {
         return new MembersBuilderBuilder();
     }
+
+    public static function typeBuilderBuilder(): TypeBuilderBuilder
+    {
+        return new TypeBuilderBuilder();
+    }
 }

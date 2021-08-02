@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Attributes\Constant;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\UseStatements;
 use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
@@ -45,22 +46,22 @@ final class MembersBuilder
      * @param Node[] $members
      * @return Attribute[]
      */
-    public function attributes(array $members, ?ClassMethod $constructor): array
+    public function attributes(array $members, ?ClassMethod $constructor, UseStatements $useStatements): array
     {
         $attributes = [];
         if ($constructor !== null) {
-            $attributes = $this->attributesBuilder->fromPromotedProperties($constructor->getParams());
+            $attributes = $this->attributesBuilder->fromPromotedProperties($constructor->getParams(), $useStatements);
         }
 
-        return array_merge($this->attributesBuilder->build($members), $attributes);
+        return array_merge($this->attributesBuilder->build($members, $useStatements), $attributes);
     }
 
     /**
      * @param ClassMethod[] $methods
      * @return Method[]
      */
-    public function methods(array $methods): array
+    public function methods(array $methods, UseStatements $useStatements): array
     {
-        return $this->methodsBuilder->build($methods);
+        return $this->methodsBuilder->build($methods, $useStatements);
     }
 }

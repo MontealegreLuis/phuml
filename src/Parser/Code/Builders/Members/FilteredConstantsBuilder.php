@@ -38,6 +38,7 @@ final class FilteredConstantsBuilder implements ConstantsBuilder
      */
     public function build(array $classAttributes): array
     {
+        /** @var ClassConst[] $constants */
         $constants = array_filter($classAttributes, static fn ($attribute): bool => $attribute instanceof ClassConst);
 
         return array_map(fn (ClassConst $constant): Constant => new Constant(

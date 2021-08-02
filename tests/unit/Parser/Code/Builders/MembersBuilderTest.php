@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\UseStatements;
 use PhUml\TestBuilders\A;
 
 final class MembersBuilderTest extends TestCase
@@ -32,7 +33,7 @@ final class MembersBuilderTest extends TestCase
             ],
         ]);
 
-        $attributes = $membersBuilder->attributes([], $constructor);
+        $attributes = $membersBuilder->attributes([], $constructor, new UseStatements([]));
 
         $this->assertCount(3, $attributes);
         $this->assertEquals(A::attribute('$aString')->private()->withType('string')->build(), $attributes[0]);
@@ -59,7 +60,7 @@ final class MembersBuilderTest extends TestCase
             ],
         ]);
 
-        $attributes = $membersBuilder->attributes($attributes, $constructor);
+        $attributes = $membersBuilder->attributes($attributes, $constructor, new UseStatements([]));
 
         $this->assertCount(6, $attributes);
         $this->assertEquals(A::attribute('$privateProperty')->private()->build(), $attributes[0]);

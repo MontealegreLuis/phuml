@@ -22,15 +22,18 @@ final class InterfaceDefinitionBuilder
 {
     use InterfaceNamesBuilder;
 
-    public function __construct(private MembersBuilder $membersBuilder)
-    {
+    public function __construct(
+        private MembersBuilder $membersBuilder,
+        private UseStatementsBuilder $useStatementsBuilder
+    ) {
     }
 
     public function build(Interface_ $interface): InterfaceDefinition
     {
+        $useStatements = $this->useStatementsBuilder->build($interface);
         return new InterfaceDefinition(
-            new InterfaceDefinitionName((string) $interface->name),
-            $this->membersBuilder->methods($interface->getMethods()),
+            new InterfaceDefinitionName((string) $interface->namespacedName),
+            $this->membersBuilder->methods($interface->getMethods(), $useStatements),
             $this->membersBuilder->constants($interface->stmts),
             $this->buildInterfaces($interface->extends)
         );

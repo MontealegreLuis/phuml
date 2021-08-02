@@ -10,29 +10,13 @@ namespace PhUml\Parser\Code;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhUml\Code\Codebase;
-use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
-use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
-use PhUml\Parser\Code\Visitors\ClassVisitor;
-use PhUml\Parser\Code\Visitors\InterfaceVisitor;
-use PhUml\Parser\Code\Visitors\TraitVisitor;
 
 final class PhpTraverser
 {
-    private Codebase $codebase;
-
-    private NodeTraverser $traverser;
-
     public function __construct(
-        ClassDefinitionBuilder $classBuilder,
-        InterfaceDefinitionBuilder $interfaceBuilder,
-        TraitDefinitionBuilder $traitBuilder
+        private NodeTraverser $traverser,
+        private Codebase $codebase,
     ) {
-        $this->codebase = new Codebase();
-        $this->traverser = new NodeTraverser();
-        $this->traverser->addVisitor(new ClassVisitor($classBuilder, $this->codebase));
-        $this->traverser->addVisitor(new InterfaceVisitor($interfaceBuilder, $this->codebase));
-        $this->traverser->addVisitor(new TraitVisitor($traitBuilder, $this->codebase));
     }
 
     /**

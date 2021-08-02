@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Param;
 use PhUml\Code\Parameters\Parameter;
+use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\Variable;
 
 final class ParametersBuilder
@@ -22,9 +23,9 @@ final class ParametersBuilder
      * @param Param[] $parameters
      * @return Parameter[]
      */
-    public function build(array $parameters, ?Doc $methodDocBlock): array
+    public function build(array $parameters, ?Doc $methodDocBlock, UseStatements $useStatements): array
     {
-        return array_map(function (Param $parameter) use ($methodDocBlock): Parameter {
+        return array_map(function (Param $parameter) use ($methodDocBlock, $useStatements): Parameter {
             /** @var \PhpParser\Node\Expr\Variable $parsedParameter Since the parser throws error by default */
             $parsedParameter = $parameter->var;
 
@@ -34,7 +35,7 @@ final class ParametersBuilder
             $name = "\${$parameterName}";
             $type = $parameter->type;
 
-            $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name);
+            $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name, $useStatements);
 
             return new Parameter(new Variable($name, $typeDeclaration), $parameter->variadic, $parameter->byRef);
         }, $parameters);

@@ -16,9 +16,11 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\UseStatements;
 use PhUml\Fakes\WithVisibilityAssertions;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
+use PhUml\TestBuilders\A;
 
 final class FilteredMethodsBuilderTest extends TestCase
 {
@@ -27,7 +29,7 @@ final class FilteredMethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_private_methods()
     {
-        $typeBuilder = new TypeBuilder();
+        $typeBuilder = A::typeBuilderBuilder()->build();
         $methodsBuilder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
@@ -35,7 +37,7 @@ final class FilteredMethodsBuilderTest extends TestCase
             new VisibilityFilters([new PrivateVisibilityFilter()])
         );
 
-        $methods = $methodsBuilder->build($this->methods);
+        $methods = $methodsBuilder->build($this->methods, $this->useStatements);
 
         $this->assertCount(4, $methods);
         $this->assertPublic($methods[1]);
@@ -47,7 +49,7 @@ final class FilteredMethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_protected_methods()
     {
-        $typeBuilder = new TypeBuilder();
+        $typeBuilder = A::typeBuilderBuilder()->build();
         $builder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
@@ -55,7 +57,7 @@ final class FilteredMethodsBuilderTest extends TestCase
             new VisibilityFilters([new ProtectedVisibilityFilter()])
         );
 
-        $methods = $builder->build($this->methods);
+        $methods = $builder->build($this->methods, $this->useStatements);
 
         $this->assertCount(5, $methods);
         $this->assertPrivate($methods[0]);
@@ -68,7 +70,7 @@ final class FilteredMethodsBuilderTest extends TestCase
     /** @test */
     function it_excludes_both_protected_and_private_methods()
     {
-        $typeBuilder = new TypeBuilder();
+        $typeBuilder = A::typeBuilderBuilder()->build();
         $builder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
@@ -76,7 +78,7 @@ final class FilteredMethodsBuilderTest extends TestCase
             new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()])
         );
 
-        $methods = $builder->build($this->methods);
+        $methods = $builder->build($this->methods, $this->useStatements);
 
         $this->assertCount(2, $methods);
         $this->assertPublic($methods[1]);
@@ -93,7 +95,7 @@ final class FilteredMethodsBuilderTest extends TestCase
             ]),
         ];
 
-        $methods = $this->builder->build($parsedMethods);
+        $methods = $this->builder->build($parsedMethods, $this->useStatements);
 
         $this->assertCount(1, $methods);
         $this->assertEquals('-privateMethodA(): int|float', (string) $methods[0]);
@@ -112,7 +114,7 @@ final class FilteredMethodsBuilderTest extends TestCase
             ]),
         ];
 
-        $methods = $this->builder->build($parsedMethods);
+        $methods = $this->builder->build($parsedMethods, $this->useStatements);
 
         $this->assertCount(1, $methods);
         $this->assertCount(1, $methods[0]->parameters());
@@ -132,7 +134,7 @@ final class FilteredMethodsBuilderTest extends TestCase
             new ClassMethod('regularMethod', ['type' => Class_::MODIFIER_PRIVATE]),
         ];
 
-        $methods = $this->builder->build($parsedMethods);
+        $methods = $this->builder->build($parsedMethods, $this->useStatements);
 
         $this->assertTrue($methods[0]->isStatic());
         $this->assertTrue($methods[1]->isAbstract());
@@ -143,7 +145,8 @@ final class FilteredMethodsBuilderTest extends TestCase
     /** @before */
     function let()
     {
-        $typeBuilder = new TypeBuilder();
+        $this->useStatements = new UseStatements([]);
+        $typeBuilder = A::typeBuilderBuilder()->build();
         $this->builder = new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
@@ -188,4 +191,6 @@ final class FilteredMethodsBuilderTest extends TestCase
     private array $methods;
 
     private FilteredMethodsBuilder $builder;
+
+    private UseStatements $useStatements;
 }

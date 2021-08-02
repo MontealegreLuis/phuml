@@ -9,6 +9,7 @@ namespace PhUml\Code;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use SplFileInfo;
 
 final class NameTest extends TestCase
 {
@@ -25,5 +26,29 @@ final class NameTest extends TestCase
         $name = new Name('    TypeDeclaration   ');
 
         $this->assertEquals('TypeDeclaration', (string) $name);
+    }
+
+    /** @test */
+    function it_can_hold_a_fully_qualified_name()
+    {
+        $fqn = Name::class;
+        $name = new Name($fqn);
+
+        $this->assertEquals($fqn, $name->fullName());
+        $this->assertEquals('Name', (string) $name);
+    }
+
+    /** @test */
+    function it_can_hold_built_in_type_names()
+    {
+        $string = 'string';
+        $nameString = new Name($string);
+        $splObject = SplFileInfo::class;
+        $splObjectName = new Name($splObject);
+
+        $this->assertEquals($string, $nameString->fullName());
+        $this->assertEquals($string, (string) $nameString);
+        $this->assertEquals($splObject, $splObjectName->fullName());
+        $this->assertEquals($splObject, (string) $splObjectName);
     }
 }

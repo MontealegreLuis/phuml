@@ -47,7 +47,7 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
     /** @param Name[] $interfaces */
     private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void
     {
-        array_map(function (Name $interface) use ($codebase): void {
+        array_map(static function (Name $interface) use ($codebase): void {
             if (! $codebase->has($interface)) {
                 $codebase->add(new InterfaceDefinition($interface));
             }
@@ -57,7 +57,7 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
     /** @param Name[] $traits */
     private function resolveExternalTraits(array $traits, Codebase $codebase): void
     {
-        array_map(function (Name $trait) use ($codebase): void {
+        array_map(static function (Name $trait) use ($codebase): void {
             if (! $codebase->has($trait)) {
                 $codebase->add(new TraitDefinition($trait));
             }

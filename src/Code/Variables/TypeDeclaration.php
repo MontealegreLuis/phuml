@@ -71,11 +71,11 @@ final class TypeDeclaration implements Stringable
             return [$this->isArray() ? new Name($this->removeArraySuffix()) : $this->names[0]];
         }
 
-        $typesFromUnion = array_map(fn (Name $name) => TypeDeclaration::from((string) $name), $this->names);
-        $references = array_filter($typesFromUnion, fn (TypeDeclaration $type) => ! $type->isBuiltIn());
+        $typesFromUnion = array_map(static fn (Name $name) => TypeDeclaration::from((string) $name), $this->names);
+        $references = array_filter($typesFromUnion, static fn (TypeDeclaration $type) => ! $type->isBuiltIn());
 
         return array_map(
-            fn (TypeDeclaration $reference) => $reference->isArray()
+            static fn (TypeDeclaration $reference) => $reference->isArray()
                 ? new Name($reference->removeArraySuffix())
                 : $reference->names[0],
             $references
@@ -101,7 +101,7 @@ final class TypeDeclaration implements Stringable
 
     private function removeArraySuffix(): string
     {
-        return substr((string) $this->names[0], 0, -2);
+        return substr($this->names[0]->fullName(), 0, -2);
     }
 
     public function isBuiltInArray(): bool
@@ -114,7 +114,7 @@ final class TypeDeclaration implements Stringable
 
     private function isArray(): bool
     {
-        return strpos((string) $this->names[0], '[]') === strlen((string) $this->names[0]) - 2;
+        return str_ends_with($this->names[0]->fullName(), '[]');
     }
 
     public function isNullable(): bool

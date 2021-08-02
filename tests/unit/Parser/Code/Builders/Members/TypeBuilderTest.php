@@ -13,7 +13,9 @@ use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
+use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\TestBuilders\A;
 
 final class TypeBuilderTest extends TestCase
 {
@@ -22,23 +24,30 @@ final class TypeBuilderTest extends TestCase
     {
         $expectedType = TypeDeclaration::from('ClassDefinition');
         $expectedNullableType = TypeDeclaration::fromNullable('ClassDefinition');
-        $typeA = $this->typeBuilder->fromAttributeType(new Identifier('ClassDefinition'), null);
+        $typeA = $this->typeBuilder->fromAttributeType(
+            new Identifier('ClassDefinition'),
+            null,
+            $this->useStatements
+        );
         $typeB = $this->typeBuilder->fromAttributeType(
             new Identifier('ClassDefinition'),
-            new Doc('/** @var OutdatedTypeFromComment */')
+            new Doc('/** @var OutdatedTypeFromComment */'),
+            $this->useStatements,
         );
         $typeC = $this->typeBuilder->fromAttributeType(
             new Name(ClassDefinition::class),
-            new Doc('/** @var OutdatedTypeFromComment */')
+            new Doc('/** @var OutdatedTypeFromComment */'),
+            $this->useStatements,
         );
         $typeD = $this->typeBuilder->fromAttributeType(
             new NullableType('ClassDefinition'),
-            new Doc('/** @var AnotherTypeFromComment */')
+            new Doc('/** @var AnotherTypeFromComment */'),
+            $this->useStatements,
         );
 
         $this->assertEquals($expectedType, $typeA);
         $this->assertEquals($expectedType, $typeB);
-        $this->assertEquals($expectedType, $typeC);
+        $this->assertEquals('ClassDefinition', $typeC);
         $this->assertEquals($expectedNullableType, $typeD);
     }
 
@@ -47,7 +56,8 @@ final class TypeBuilderTest extends TestCase
     {
         $type = $this->typeBuilder->fromAttributeType(
             new Identifier('array'),
-            new Doc('/** @var ClassDefinition[] */')
+            new Doc('/** @var ClassDefinition[] */'),
+            $this->useStatements,
         );
 
         $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
@@ -58,7 +68,8 @@ final class TypeBuilderTest extends TestCase
     {
         $type = $this->typeBuilder->fromMethodReturnType(
             new Identifier('array'),
-            new Doc('/** @return ClassDefinition[] */')
+            new Doc('/** @return ClassDefinition[] */'),
+            $this->useStatements,
         );
 
         $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
@@ -70,7 +81,8 @@ final class TypeBuilderTest extends TestCase
         $type = $this->typeBuilder->fromMethodParameter(
             new Identifier('array'),
             new Doc('/** @param ClassDefinition[] $definitions */'),
-            '$definitions'
+            '$definitions',
+            $this->useStatements,
         );
 
         $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
@@ -79,23 +91,35 @@ final class TypeBuilderTest extends TestCase
     /** @test */
     function it_extracts_types_from_identifiers_names_and_union_types()
     {
-        $typeFromIdentifier = $this->typeBuilder->fromAttributeType(new Identifier('array'), null);
-        $typeFromName = $this->typeBuilder->fromAttributeType(new Name(['PhpParser', 'Node', 'Name']), null);
+        $typeFromIdentifier = $this->typeBuilder->fromAttributeType(
+            new Identifier('array'),
+            null,
+            $this->useStatements,
+        );
+        $typeFromName = $this->typeBuilder->fromAttributeType(
+            new Name(['PhpParser', 'Node', 'Name']),
+            null,
+            $this->useStatements,
+        );
         $typeFromNullableType = $this->typeBuilder->fromAttributeType(
             new NullableType(new Identifier('string')),
-            null
+            null,
+            $this->useStatements,
         );
 
         $this->assertEquals(TypeDeclaration::from('array'), $typeFromIdentifier);
-        $this->assertEquals(TypeDeclaration::from('Name'), $typeFromName);
+        $this->assertEquals('Name', (string) $typeFromName);
         $this->assertEquals(TypeDeclaration::fromNullable('string'), $typeFromNullableType);
     }
 
     /** @before */
     function let()
     {
-        $this->typeBuilder = new TypeBuilder();
+        $this->typeBuilder = A::typeBuilderBuilder()->build();
+        $this->useStatements = new UseStatements([]);
     }
 
     private TypeBuilder $typeBuilder;
+
+    private UseStatements $useStatements;
 }

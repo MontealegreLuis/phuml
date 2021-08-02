@@ -7,7 +7,11 @@
 
 namespace PhUml\Parser\Code;
 
+use phpDocumentor\Reflection\DocBlockFactory;
 use PhpParser\Node\Stmt;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
+use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhUml\Code\Codebase;
@@ -27,6 +31,10 @@ use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
+use PhUml\Parser\Code\Builders\UseStatementsBuilder;
+use PhUml\Parser\Code\Visitors\ClassVisitor;
+use PhUml\Parser\Code\Visitors\InterfaceVisitor;
+use PhUml\Parser\Code\Visitors\TraitVisitor;
 use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCode;
 
@@ -59,7 +67,7 @@ final class PhpCodeParser
             $filters[] = new ProtectedVisibilityFilter();
         }
         $visibilityBuilder = new VisibilityBuilder();
-        $typeBuilder = new TypeBuilder();
+        $typeBuilder = new TypeBuilder(new TypeResolver(DocBlockFactory::createInstance()));
         $filters = new VisibilityFilters($filters);
         $methodsBuilder ??= new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),
@@ -74,15 +82,23 @@ final class PhpCodeParser
             $filters
         );
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
+        $useStatementsBuilder = new UseStatementsBuilder();
+        $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder);
+        $interfaceBuilder = new InterfaceDefinitionBuilder($membersBuilder, $useStatementsBuilder);
+        $traitBuilder = new TraitDefinitionBuilder($membersBuilder, $useStatementsBuilder);
 
-        return new self(
-            (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
-            new PhpTraverser(
-                new ClassDefinitionBuilder($membersBuilder),
-                new InterfaceDefinitionBuilder($membersBuilder),
-                new TraitDefinitionBuilder($membersBuilder)
-            )
-        );
+        $codebase = new Codebase();
+
+        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor(new NameResolver());
+        $traverser->addVisitor(new NodeConnectingVisitor());
+        $traverser->addVisitor(new ClassVisitor($classBuilder, $codebase));
+        $traverser->addVisitor(new InterfaceVisitor($interfaceBuilder, $codebase));
+        $traverser->addVisitor(new TraitVisitor($traitBuilder, $codebase));
+        $traverser = new PhpTraverser($traverser, $codebase);
+
+        return new self($parser, $traverser);
     }
 
     private function __construct(
