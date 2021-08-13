@@ -30,6 +30,7 @@ use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder;
+use PhUml\Parser\Code\Builders\TagTypeFactory;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 use PhUml\Parser\Code\Builders\UseStatementsBuilder;
 use PhUml\Parser\Code\Visitors\ClassVisitor;
@@ -67,7 +68,7 @@ final class PhpCodeParser
             $filters[] = new ProtectedVisibilityFilter();
         }
         $visibilityBuilder = new VisibilityBuilder();
-        $typeBuilder = new TypeBuilder(new TypeResolver(DocBlockFactory::createInstance()));
+        $typeBuilder = new TypeBuilder(new TypeResolver(new TagTypeFactory(DocBlockFactory::createInstance())));
         $filters = new VisibilityFilters($filters);
         $methodsBuilder ??= new FilteredMethodsBuilder(
             new ParametersBuilder($typeBuilder),

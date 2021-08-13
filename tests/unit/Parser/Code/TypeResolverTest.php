@@ -13,6 +13,7 @@ use PhUml\Code\Name;
 use PhUml\Code\UseStatement;
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Parser\Code\Builders\TagTypeFactory;
 
 final class TypeResolverTest extends TestCase
 {
@@ -407,7 +408,7 @@ COMMENT;
     /** @before */
     function let()
     {
-        $this->resolver = new TypeResolver(DocBlockFactory::createInstance());
+        $this->resolver = new TypeResolver(new TagTypeFactory(DocBlockFactory::createInstance()));
     }
 
     private TypeResolver $resolver;
