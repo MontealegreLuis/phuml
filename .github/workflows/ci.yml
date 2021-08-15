@@ -35,7 +35,7 @@ jobs:
           INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
       - name: "Run tests with coverage"
-        run: "vendor/bin/phpunit --exclude-group=snapshot --coverage-text --coverage-clover=coverage.clover"
+        run: "docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/phpunit --exclude-group=snapshot --coverage-text --coverage-clover=coverage.clover"
 
       - name: "Send code coverage to Scrutinizer"
         run: |
