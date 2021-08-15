@@ -20,20 +20,15 @@ final class StatisticsGeneratorConfigurationTest extends TestCase
         $recursiveConfiguration = A::statisticsGeneratorConfiguration()->recursive()->build();
         $nonRecursiveConfiguration = A::statisticsGeneratorConfiguration()->build();
         $typeCastedRecursiveConfiguration = A::statisticsGeneratorConfiguration()
-            ->withOverriddenOptions(['recursive' => '1'])
-            ->build();
-        $withoutOption = A::statisticsGeneratorConfiguration()
-            ->withoutOption('recursive')
+            ->withOverriddenOptions(['recursive' => true])
             ->build();
 
         $recursiveFinder = $recursiveConfiguration->codeFinder();
         $nonRecursiveFinder = $nonRecursiveConfiguration->codeFinder();
         $typeCastedRecursiveFinder = $typeCastedRecursiveConfiguration->codeFinder();
-        $defaultNonRecursiveFinder = $withoutOption->codeFinder();
 
         $this->assertCount(8, $recursiveFinder->find($directory)->fileContents());
         $this->assertCount(0, $nonRecursiveFinder->find($directory)->fileContents());
         $this->assertCount(8, $typeCastedRecursiveFinder->find($directory)->fileContents());
-        $this->assertCount(0, $defaultNonRecursiveFinder->find($directory)->fileContents());
     }
 }

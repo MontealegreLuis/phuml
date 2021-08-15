@@ -8,6 +8,7 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\Property;
 use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\UseStatements;
 
@@ -22,7 +23,7 @@ use PhUml\Code\UseStatements;
 interface AttributesBuilder
 {
     /**
-     * @param Node[] $parsedAttributes
+     * @param Property[] $parsedAttributes
      * @return Attribute[]
      */
     public function build(array $parsedAttributes, UseStatements $useStatements): array;

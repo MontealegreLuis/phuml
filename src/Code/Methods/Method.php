@@ -68,7 +68,7 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic, Stringa
             '%s%s%s%s',
             $this->modifier,
             $this->name,
-            count($this->parameters) === 0 ? '()' : '(' . implode(', ', $this->parameters) . ')',
+            $this->parameters === [] ? '()' : '(' . implode(', ', $this->parameters) . ')',
             $this->returnType->isPresent() ? ": {$this->returnType}" : ''
         );
     }

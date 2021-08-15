@@ -149,6 +149,6 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
      */
     public function isAbstract(): bool
     {
-        return \count(array_filter($this->methods(), static fn (Method $method): bool => $method->isAbstract())) > 0;
+        return array_filter($this->methods(), static fn (Method $method): bool => $method->isAbstract()) !== [];
     }
 }

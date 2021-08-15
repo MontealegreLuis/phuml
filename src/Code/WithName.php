@@ -9,9 +9,9 @@ namespace PhUml\Code;
 
 trait WithName
 {
-    private ?Name $name = null;
+    private Name $name;
 
-    public function name(): ?Name
+    public function name(): Name
     {
         return $this->name;
     }

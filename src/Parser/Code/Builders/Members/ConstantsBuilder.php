@@ -7,7 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
-use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassConst;
 use PhUml\Code\Attributes\Constant;
 
 /**
@@ -16,8 +16,8 @@ use PhUml\Code\Attributes\Constant;
 interface ConstantsBuilder
 {
     /**
-     * @param Node[] $classAttributes
+     * @param ClassConst[] $classConstants
      * @return Constant[]
      */
-    public function build(array $classAttributes): array;
+    public function build(array $classConstants): array;
 }

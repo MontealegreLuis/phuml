@@ -7,7 +7,6 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
-use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\ClassConst;
@@ -17,7 +16,7 @@ use PhUml\Code\Variables\TypeDeclaration;
 /**
  * It builds an array of `Constants` for either a `ClassDefinition` or an `InterfaceDefinition`
  */
-final class FilteredConstantsBuilder implements ConstantsBuilder
+final class ParsedConstantsBuilder implements ConstantsBuilder
 {
     /** @var string[] */
     private const TYPES = [
@@ -26,26 +25,21 @@ final class FilteredConstantsBuilder implements ConstantsBuilder
         'string' => 'string',
     ];
 
-    public function __construct(
-        private VisibilityBuilder $visibilityBuilder,
-        private VisibilityFilters $visibilityFilters
-    ) {
+    public function __construct(private VisibilityBuilder $visibilityBuilder)
+    {
     }
 
     /**
-     * @param Node[] $classAttributes
+     * @param ClassConst[] $classConstants
      * @return Constant[]
      */
-    public function build(array $classAttributes): array
+    public function build(array $classConstants): array
     {
-        /** @var ClassConst[] $constants */
-        $constants = array_filter($classAttributes, static fn ($attribute): bool => $attribute instanceof ClassConst);
-
         return array_map(fn (ClassConst $constant): Constant => new Constant(
             (string) $constant->consts[0]->name,
             TypeDeclaration::from($this->determineType($constant->consts[0])),
             $this->visibilityBuilder->build($constant)
-        ), $this->visibilityFilters->apply($constants));
+        ), $classConstants);
     }
 
     private function determineType(Const_ $constant): ?string

@@ -19,13 +19,13 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
@@ -69,20 +69,15 @@ final class PhpCodeParser
         }
         $visibilityBuilder = new VisibilityBuilder();
         $typeBuilder = new TypeBuilder(new TypeResolver(new TagTypeFactory(DocBlockFactory::createInstance())));
-        $filters = new VisibilityFilters($filters);
-        $methodsBuilder ??= new FilteredMethodsBuilder(
+        $methodsBuilder ??= new ParsedMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             $visibilityBuilder,
-            $filters
         );
-        $constantsBuilder ??= new FilteredConstantsBuilder($visibilityBuilder, $filters);
-        $attributesBuilder ??= new FilteredAttributesBuilder(
-            $visibilityBuilder,
-            $typeBuilder,
-            $filters
-        );
-        $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
+        $constantsBuilder ??= new ParsedConstantsBuilder($visibilityBuilder);
+        $attributesBuilder ??= new ParsedAttributesBuilder($visibilityBuilder, $typeBuilder);
+        $filters = new VisibilityFilters($filters);
+        $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder, $filters);
         $useStatementsBuilder = new UseStatementsBuilder();
         $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder);
         $interfaceBuilder = new InterfaceDefinitionBuilder($membersBuilder, $useStatementsBuilder);

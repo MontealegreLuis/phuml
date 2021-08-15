@@ -9,6 +9,7 @@ namespace PhUml\Parser\Code;
 
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Parser\Code\Builders\TagType;
 use PhUml\Parser\Code\Builders\TagTypeFactory;
 
 final class TypeResolver
@@ -28,7 +29,7 @@ final class TypeResolver
 
         $parameterType = $this->factory->parameterTypeFrom($methodComment, $name);
 
-        return $parameterType === null ? TypeDeclaration::absent() : $parameterType->resolve($useStatements);
+        return $parameterType instanceof TagType ? $parameterType->resolve($useStatements) : TypeDeclaration::absent();
     }
 
     public function resolveForReturn(?string $methodComment, UseStatements $useStatements): TypeDeclaration
@@ -39,7 +40,7 @@ final class TypeResolver
 
         $returnType = $this->factory->returnTypeFrom($methodComment);
 
-        return $returnType === null ? TypeDeclaration::absent() : $returnType->resolve($useStatements);
+        return $returnType instanceof TagType ? $returnType->resolve($useStatements) : TypeDeclaration::absent();
     }
 
     public function resolveForAttribute(?string $attributeComment, UseStatements $useStatements): TypeDeclaration
@@ -50,6 +51,6 @@ final class TypeResolver
 
         $attributeType = $this->factory->attributeTypeFrom($attributeComment);
 
-        return $attributeType === null ? TypeDeclaration::absent() : $attributeType->resolve($useStatements);
+        return $attributeType instanceof TagType ? $attributeType->resolve($useStatements) : TypeDeclaration::absent();
     }
 }

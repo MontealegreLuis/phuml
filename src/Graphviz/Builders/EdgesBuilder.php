@@ -94,6 +94,6 @@ final class EdgesBuilder implements AssociationsBuilder
 
     private function associationKey(ClassDefinition $class, HasType $attribute): string
     {
-        return strtolower($class->name() . '.' . $attribute->type());
+        return $class->name() . $attribute->type();
     }
 }

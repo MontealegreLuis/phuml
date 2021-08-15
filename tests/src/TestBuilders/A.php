@@ -103,4 +103,9 @@ final class A
     {
         return new TypeBuilderBuilder();
     }
+
+    public static function codeFinderConfiguration(): CodeFinderConfigurationBuilder
+    {
+        return new CodeFinderConfigurationBuilder();
+    }
 }

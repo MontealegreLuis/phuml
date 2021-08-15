@@ -12,6 +12,7 @@ use PhUml\Graphviz\Builders\EdgesBuilder;
 use PhUml\Graphviz\Builders\NoAssociationsBuilder;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\ThemeName;
+use Webmozart\Assert\Assert;
 
 final class GraphvizConfiguration
 {
@@ -19,13 +20,15 @@ final class GraphvizConfiguration
 
     private DigraphStyle $digraphStyle;
 
-    /** @param mixed[] $configuration */
-    public function __construct(array $configuration)
+    /** @param mixed[] $options */
+    public function __construct(array $options)
     {
-        $extractAssociations = (bool) ($configuration['associations'] ?? false);
-        $this->associationsBuilder = $extractAssociations ? new EdgesBuilder() : new NoAssociationsBuilder();
-        $theme = new ThemeName($configuration['theme']);
-        $hideEmptyBlocks = (bool) ($configuration['hide-empty-blocks'] ?? false);
+        Assert::boolean($options['associations'], 'Generate digraph associations option must be a boolean value');
+        $this->associationsBuilder = $options['associations'] ? new EdgesBuilder() : new NoAssociationsBuilder();
+        Assert::string($options['theme'], 'Theme option must be a string value');
+        $theme = new ThemeName($options['theme']);
+        Assert::boolean($options['hide-empty-blocks'], 'Hide digraph empty blocks option must be a boolean value');
+        $hideEmptyBlocks = $options['hide-empty-blocks'];
         $this->digraphStyle = $hideEmptyBlocks
             ? DigraphStyle::withoutEmptyBlocks($theme)
             : DigraphStyle::default($theme);

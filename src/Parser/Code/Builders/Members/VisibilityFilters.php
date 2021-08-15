@@ -36,15 +36,15 @@ final class VisibilityFilters
     }
 
     /**
-     * @param Property[]|ClassMethod[]|ClassConst[] $classMembers
+     * @param Property[]|ClassMethod[]|ClassConst[] $definitionMembers
      * @return Property[]|ClassMethod[]|ClassConst[]
      */
-    public function apply(array $classMembers): array
+    public function apply(array $definitionMembers): array
     {
-        $attributes = $classMembers;
+        $members = $definitionMembers;
         foreach ($this->filters as $filter) {
-            $attributes = array_filter($attributes, static fn (Stmt $member): bool => $filter->accept($member));
+            $members = array_filter($members, static fn (Stmt $member): bool => $filter->accept($member));
         }
-        return $attributes;
+        return $members;
     }
 }

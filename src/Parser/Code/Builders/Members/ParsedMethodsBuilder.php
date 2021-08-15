@@ -20,13 +20,12 @@ use PhUml\Code\UseStatements;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-final class FilteredMethodsBuilder implements MethodsBuilder
+final class ParsedMethodsBuilder implements MethodsBuilder
 {
     public function __construct(
         private ParametersBuilder $parametersBuilder,
         private TypeBuilder $typeBuilder,
         private VisibilityBuilder $visibilityBuilder,
-        private VisibilityFilters $visibilityFilters
     ) {
     }
 
@@ -38,7 +37,7 @@ final class FilteredMethodsBuilder implements MethodsBuilder
     {
         return array_map(
             fn (ClassMethod $method): Method => $this->buildMethod($method, $useStatements),
-            $this->visibilityFilters->apply($methods)
+            $methods
         );
     }
 

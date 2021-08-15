@@ -22,7 +22,7 @@ final class Codebase
 
     public function add(Definition $definition): void
     {
-        $this->definitions[$definition->name()?->fullName()] = $definition;
+        $this->definitions[$definition->name()->fullName()] = $definition;
     }
 
     public function has(Name $name): bool

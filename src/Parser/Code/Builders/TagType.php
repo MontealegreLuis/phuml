@@ -38,8 +38,8 @@ final class TagType
     {
         return match (true) {
             $this->isNullable => TypeDeclaration::fromNullable($useStatements->fullyQualifiedNameFor($this->types()[0])),
-            count($this->types) > 1 => $this->resolveUnionTypes($useStatements),
-            default => TypeDeclaration::from($useStatements->fullyQualifiedNameFor($this->types()[0]))
+            count($this->types) === 1 => TypeDeclaration::from($useStatements->fullyQualifiedNameFor($this->types()[0])),
+            default => $this->resolveUnionTypes($useStatements),
         };
     }
 

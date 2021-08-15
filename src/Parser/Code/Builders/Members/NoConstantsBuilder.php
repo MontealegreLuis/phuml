@@ -7,16 +7,16 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
-use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassConst;
 use PhUml\Code\Attributes\Constant;
 
 final class NoConstantsBuilder implements ConstantsBuilder
 {
     /**
-     * @param Node[] $classAttributes
+     * @param ClassConst[] $classConstants
      * @return Constant[]
      */
-    public function build(array $classAttributes): array
+    public function build(array $classConstants): array
     {
         return [];
     }

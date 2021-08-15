@@ -97,7 +97,7 @@ final class TypeBuilder
     private function fromUnionType(UnionType $type): array
     {
         return array_map(
-            static fn (Identifier|Name $name): string => $name instanceof Identifier ? $name->name : (string) $name,
+            static fn (Identifier|Name $name): string => (string) $name,
             $type->types
         );
     }

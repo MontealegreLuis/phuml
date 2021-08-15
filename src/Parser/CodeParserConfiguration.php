@@ -7,8 +7,25 @@
 
 namespace PhUml\Parser;
 
+use Webmozart\Assert\Assert;
+
 final class CodeParserConfiguration
 {
+    /** @var string */
+    private const ASSOCIATIONS = 'associations';
+
+    /** @var string */
+    private const HIDE_PRIVATE = 'hide-private';
+
+    /** @var string */
+    private const HIDE_PROTECTED = 'hide-protected';
+
+    /** @var string */
+    private const HIDE_ATTRIBUTES = 'hide-attributes';
+
+    /** @var string */
+    private const HIDE_METHODS = 'hide-methods';
+
     private bool $extractAssociations;
 
     private bool $hideProtected;
@@ -19,14 +36,30 @@ final class CodeParserConfiguration
 
     private bool $hideMethods;
 
+    public static function defaultConfiguration(): CodeParserConfiguration
+    {
+        return new CodeParserConfiguration([
+            self::ASSOCIATIONS => false,
+            self::HIDE_PRIVATE => false,
+            self::HIDE_PROTECTED => false,
+            self::HIDE_ATTRIBUTES => false,
+            self::HIDE_METHODS => false,
+        ]);
+    }
+
     /** @param mixed[] $options */
     public function __construct(array $options)
     {
-        $this->extractAssociations = (bool) ($options['associations'] ?? false);
-        $this->hidePrivate = (bool) ($options['hide-private'] ?? false);
-        $this->hideProtected = (bool) ($options['hide-protected'] ?? false);
-        $this->hideAttributes = (bool) ($options['hide-attributes'] ?? false);
-        $this->hideMethods = (bool) ($options['hide-methods'] ?? false);
+        Assert::boolean($options[self::ASSOCIATIONS], 'Extract associations option must be a boolean value');
+        $this->extractAssociations = $options[self::ASSOCIATIONS];
+        Assert::boolean($options[self::HIDE_PRIVATE], 'Hide private members option must be a boolean value');
+        $this->hidePrivate = $options[self::HIDE_PRIVATE];
+        Assert::boolean($options[self::HIDE_PROTECTED], 'Hide protected members option must be a boolean value');
+        $this->hideProtected = $options[self::HIDE_PROTECTED];
+        Assert::boolean($options[self::HIDE_ATTRIBUTES], 'Hide attributes option must be a boolean value');
+        $this->hideAttributes = $options[self::HIDE_ATTRIBUTES];
+        Assert::boolean($options[self::HIDE_METHODS], 'Hide methods option must be a boolean value');
+        $this->hideMethods = $options[self::HIDE_METHODS];
     }
 
     public function extractAssociations(): bool

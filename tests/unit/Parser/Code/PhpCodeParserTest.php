@@ -77,6 +77,9 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
+        $this->assertCount(2, $definitions['phuml\\plBase']->constants());
+        $this->assertProtected($definitions['phuml\\plBase']->constants()[1]);
+        $this->assertPublic($definitions['phuml\\plBase']->constants()[2]);
         $this->assertEmpty($definitions['phuml\\plBase']->attributes());
         $this->assertCount(3, $definitions['phuml\\plBase']->methods());
         $this->assertPublic($definitions['phuml\\plBase']->methods()[0]);
@@ -104,6 +107,9 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
+        $this->assertCount(2, $definitions['phuml\\plBase']->constants());
+        $this->assertPrivate($definitions['phuml\\plBase']->constants()[0]);
+        $this->assertPublic($definitions['phuml\\plBase']->constants()[2]);
         $this->assertCount(2, $definitions['phuml\\plBase']->attributes());
         $this->assertPrivate($definitions['phuml\\plBase']->attributes()[0]);
         $this->assertPrivate($definitions['phuml\\plBase']->attributes()[1]);
@@ -135,6 +141,8 @@ final class PhpCodeParserTest extends TestCase
         $definitions = $parser->parse($sourceCode)->definitions();
 
         $this->assertCount(2, $definitions);
+        $this->assertCount(1, $definitions['phuml\\plBase']->constants());
+        $this->assertPublic($definitions['phuml\\plBase']->constants()[2]);
         $this->assertEmpty($definitions['phuml\\plBase']->attributes());
         $this->assertCount(3, $definitions['phuml\\plBase']->methods());
         $this->assertPublic($definitions['phuml\\plBase']->methods()[0]);

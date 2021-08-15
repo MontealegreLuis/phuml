@@ -55,7 +55,7 @@ final class TypeDeclaration implements Stringable
 
     public function isPresent(): bool
     {
-        return count($this->names) > 0;
+        return $this->names !== [];
     }
 
     /** @return Name[] */

@@ -56,6 +56,6 @@ final class UseStatementsBuilder
         if ($use->alias !== null) {
             $alias = new Name((string) $use->alias);
         }
-        return new UseStatement(new Name((string) ParsedName::concat($prefix, (string) $use->name)), $alias);
+        return new UseStatement(new Name((string) ParsedName::concat($prefix, $use->name)), $alias);
     }
 }

@@ -47,7 +47,6 @@ final class ImageProcessor implements Processor
         $imageFile = $this->fileSystem->tempnam('/tmp', 'phuml');
 
         $this->fileSystem->dumpFile($dotFile, $digraphInDotFormat->value());
-        $this->fileSystem->remove($imageFile); // Remove any previously generated image
 
         $this->execute($dotFile, $imageFile);
 

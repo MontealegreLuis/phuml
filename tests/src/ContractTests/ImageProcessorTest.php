@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Processors\ImageGenerationFailure;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputContent;
+use Symfony\Component\Finder\Finder;
 
 abstract class ImageProcessorTest extends TestCase
 {
@@ -29,6 +30,7 @@ abstract class ImageProcessorTest extends TestCase
         $pngDiagram = $this->processor()->process($digraph);
 
         $this->assertEquals($pngDiagram->value(), file_get_contents($expectedImage));
+        $this->assertEquals(0, (new Finder())->contains('phuml')->in('/tmp')->count());
     }
 
     /** @test */
@@ -38,5 +40,14 @@ abstract class ImageProcessorTest extends TestCase
         $this->expectExceptionMessageMatches('/syntax error in line 1 near/');
 
         $this->processor()->process(new OutputContent('invalid dot content'));
+    }
+
+    /** @before */
+    function let()
+    {
+        $finder = (new Finder())->contains('phuml')->in('/tmp');
+        foreach ($finder as $file) {
+            unlink($file->getRealPath());
+        }
     }
 }

@@ -3,6 +3,10 @@ namespace phuml;
 
 class plBase
 {
+    private const BOOL    = false;
+    protected const STRING  = 'hello!';
+    public const NUMBER = 3;
+
     /** @var array */
     private static $autoload = array();
 
