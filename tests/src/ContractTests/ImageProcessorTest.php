@@ -45,7 +45,7 @@ abstract class ImageProcessorTest extends TestCase
     /** @before */
     function let()
     {
-        $finder = (new Finder())->contains('phuml')->in('/tmp');
+        $finder = (new Finder())->contains('phuml')->in(sys_get_temp_dir());
         foreach ($finder as $file) {
             unlink($file->getRealPath());
         }

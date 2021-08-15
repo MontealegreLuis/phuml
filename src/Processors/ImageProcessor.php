@@ -43,8 +43,8 @@ final class ImageProcessor implements Processor
      */
     public function process(OutputContent $digraphInDotFormat): OutputContent
     {
-        $dotFile = $this->fileSystem->tempnam('/tmp', 'phuml');
-        $imageFile = $this->fileSystem->tempnam('/tmp', 'phuml');
+        $dotFile = $this->fileSystem->tempnam(sys_get_temp_dir(), 'phuml');
+        $imageFile = $this->fileSystem->tempnam(sys_get_temp_dir(), 'phuml');
 
         $this->fileSystem->dumpFile($dotFile, $digraphInDotFormat->value());
 
