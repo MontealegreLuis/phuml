@@ -35,7 +35,6 @@ check: ## Execute all code quality checks
 	@vendor/bin/composer-require-checker check
 	@docker-compose run --rm tests vendor/bin/phpunit --testsuite 'Integration tests'
 	@vendor/bin/rector process --dry-run
-	@docker-compose run --rm -e XDEBUG_MODE=coverage -e INFECTION_BADGE_API_KEY=$(INFECTION_BADGE_API_KEY) tests php vendor/bin/infection --threads=4
 
 .PHONY: diagram
 diagram: ## Generate a class diagram with phUML using a Docker container
