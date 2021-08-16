@@ -7,6 +7,9 @@
 
 namespace PhUml\TestBuilders;
 
+use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
+use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedConstantsBuilder;
@@ -17,6 +20,21 @@ use PhUml\Parser\Code\Builders\MembersBuilder as DefinitionMembersBuilder;
 
 final class MembersBuilderBuilder
 {
+    /** @var VisibilityFilter[]  */
+    private array $filters = [];
+
+    public function excludePrivateMembers(): MembersBuilderBuilder
+    {
+        $this->filters[] = new PrivateVisibilityFilter();
+        return $this;
+    }
+
+    public function excludeProtectedMembers(): MembersBuilderBuilder
+    {
+        $this->filters[] = new ProtectedVisibilityFilter();
+        return $this;
+    }
+
     public function build(): DefinitionMembersBuilder
     {
         $visibilityBuilder = new VisibilityBuilder();
@@ -29,7 +47,7 @@ final class MembersBuilderBuilder
                 $typeBuilder,
                 $visibilityBuilder,
             ),
-            new VisibilityFilters(),
+            new VisibilityFilters($this->filters),
         );
     }
 }

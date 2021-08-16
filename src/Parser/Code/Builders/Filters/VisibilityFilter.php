@@ -7,9 +7,10 @@
 
 namespace PhUml\Parser\Code\Builders\Filters;
 
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt;
 
 interface VisibilityFilter
 {
-    public function accept(Stmt $member): bool;
+    public function accept(Stmt|Param $member): bool;
 }

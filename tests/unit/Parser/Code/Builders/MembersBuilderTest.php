@@ -70,4 +70,24 @@ final class MembersBuilderTest extends TestCase
         $this->assertEquals(A::attribute('$aFloat')->protected()->withType('float')->build(), $attributes[4]);
         $this->assertEquals(A::attribute('$aBoolean')->public()->withType('bool')->build(), $attributes[5]);
     }
+
+    /** @test */
+    function it_filters_promoted_properties_by_visibility()
+    {
+        $membersBuilder = A::membersBuilder()->excludePrivateMembers()->excludeProtectedMembers()->build();
+        $constructor = new ClassMethod('__construct', [
+            'type' => Class_::MODIFIER_PUBLIC,
+            'params' => [
+                new Param(new Variable('aString'), type: 'string', flags: 4),
+                new Param(new Variable('aFloat'), type: 'float', flags: 2),
+                new Param(new Variable('aBoolean'), type: 'bool', flags: 1),
+                new Param(new Variable('anArray'), type: 'array'),
+            ],
+        ]);
+
+        $attributes = $membersBuilder->attributes([], $constructor, new UseStatements([]));
+
+        $this->assertCount(1, $attributes);
+        $this->assertEquals(A::attribute('$aBoolean')->public()->withType('bool')->build(), $attributes[0]);
+    }
 }

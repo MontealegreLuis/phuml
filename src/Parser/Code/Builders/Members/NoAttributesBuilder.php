@@ -19,7 +19,7 @@ final class NoAttributesBuilder implements AttributesBuilder
         return [];
     }
 
-    public function fromPromotedProperties(array $constructorParameters, UseStatements $useStatements): array
+    public function fromPromotedProperties(array $promotedProperties, UseStatements $useStatements): array
     {
         return [];
     }

@@ -25,15 +25,13 @@ final class ParsedAttributesBuilderTest extends TestCase
         $privatePromotedProperty = new Param(new Variable('aString'), type: 'string', flags: 4);
         $protectedPromotedProperty = new Param(new Variable('aFloat'), type: 'float', flags: 2);
         $publicPromotedProperty = new Param(new Variable('aBoolean'), type: 'bool', flags: 1);
-        $regularParameter = new Param(new Variable('anArray'), type: 'array');
-        $constructorParameters = [
+        $promotedProperties = [
             $privatePromotedProperty,
             $protectedPromotedProperty,
             $publicPromotedProperty,
-            $regularParameter,
         ];
 
-        $attributes = $builder->fromPromotedProperties($constructorParameters, $this->useStatements);
+        $attributes = $builder->fromPromotedProperties($promotedProperties, $this->useStatements);
 
         $this->assertCount(3, $attributes);
         $this->assertEquals(A::attribute('$aString')->private()->withType('string')->build(), $attributes[0]);

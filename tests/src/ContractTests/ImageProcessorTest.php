@@ -30,7 +30,7 @@ abstract class ImageProcessorTest extends TestCase
         $pngDiagram = $this->processor()->process($digraph);
 
         $this->assertEquals($pngDiagram->value(), file_get_contents($expectedImage));
-        $this->assertEquals(0, (new Finder())->contains('phuml')->in('/tmp')->count());
+        $this->assertEquals(0, (new Finder())->contains('phuml')->in(sys_get_temp_dir())->count());
     }
 
     /** @test */
@@ -40,14 +40,5 @@ abstract class ImageProcessorTest extends TestCase
         $this->expectExceptionMessageMatches('/syntax error in line 1 near/');
 
         $this->processor()->process(new OutputContent('invalid dot content'));
-    }
-
-    /** @before */
-    function let()
-    {
-        $finder = (new Finder())->contains('phuml')->in(sys_get_temp_dir());
-        foreach ($finder as $file) {
-            unlink($file->getRealPath());
-        }
     }
 }

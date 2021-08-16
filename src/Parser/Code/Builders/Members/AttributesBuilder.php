@@ -29,8 +29,8 @@ interface AttributesBuilder
     public function build(array $parsedAttributes, UseStatements $useStatements): array;
 
     /**
-     * @param Node\Param[] $constructorParameters
+     * @param Node\Param[] $promotedProperties
      * @return Attribute[]
      */
-    public function fromPromotedProperties(array $constructorParameters, UseStatements $useStatements): array;
+    public function fromPromotedProperties(array $promotedProperties, UseStatements $useStatements): array;
 }

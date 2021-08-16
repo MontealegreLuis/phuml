@@ -49,16 +49,11 @@ final class ParsedAttributesBuilder implements AttributesBuilder
     }
 
     /**
-     * @param Node\Param[] $constructorParameters
+     * @param Node\Param[] $promotedProperties
      * @return Attribute[]
      */
-    public function fromPromotedProperties(array $constructorParameters, UseStatements $useStatements): array
+    public function fromPromotedProperties(array $promotedProperties, UseStatements $useStatements): array
     {
-        $promotedProperties = array_filter(
-            $constructorParameters,
-            static fn (Node\Param $param) => $param->flags !== 0
-        );
-
         return array_map(function (Node\Param $param) use ($useStatements): Attribute {
             /** @var Node\Expr\Variable $var */
             $var = $param->var;

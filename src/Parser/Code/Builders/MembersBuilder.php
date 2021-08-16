@@ -60,7 +60,7 @@ final class MembersBuilder
     {
         $attributes = [];
         if ($constructor !== null) {
-            $attributes = $this->attributesBuilder->fromPromotedProperties($constructor->getParams(), $useStatements);
+            $attributes = $this->attributesFromPromotedProperties($constructor, $useStatements);
         }
 
         /** @var Property[] $properties */
@@ -82,5 +82,19 @@ final class MembersBuilder
         $filteredMethods = $this->filters->apply($methods);
 
         return $this->methodsBuilder->build($filteredMethods, $useStatements);
+    }
+
+    /** @return Attribute[] */
+    private function attributesFromPromotedProperties(ClassMethod $constructor, UseStatements $useStatements): array
+    {
+        $promotedProperties = array_filter(
+            $constructor->getParams(),
+            static fn (Node\Param $param) => $param->flags !== 0
+        );
+
+        /** @var Node\Param[] $filteredPromotedProperties */
+        $filteredPromotedProperties = $this->filters->apply($promotedProperties);
+
+        return $this->attributesBuilder->fromPromotedProperties($filteredPromotedProperties, $useStatements);
     }
 }
