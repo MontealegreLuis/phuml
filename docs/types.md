@@ -40,6 +40,27 @@ final class WithTypes
 }
 ```
 
+## Nullable and union types from DocBlocks
+
+If you can't migrate to a recent PHP version, phUML can extract, nullable and union types from DocBlocks that follow [PSR-5](https://github.com/php-fig/fig-standards/blob/master/proposed/phpdoc.md), as shown in the example below.
+
+```php
+final class FilteredAttributesBuilders
+{
+    /** @var ?VisibilityFilter */
+    private $filter;
+    
+    /**
+     * @param Stmt|Param $parsedAttribute
+     * @param UseStatements $useStatements
+     * @return ?Attribute
+     */
+    public function build($parsedAttribute, $useStatements)
+    {
+    }
+}
+```
+
 ## How phUML handles `array`
 
 If `array` is found in a type declaration for an attribute or parameter, phUML will try to extract a more accurate type from the doc block, if present.
