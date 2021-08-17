@@ -114,7 +114,7 @@ final class TypeDeclarationTest extends TestCase
     }
 
     /** @test */
-    function it_knows_if_its_built_in_array_type()
+    function it_knows_if_it_is_built_in_array_type()
     {
         $string = TypeDeclaration::from('string');
         $arrayOfString = TypeDeclaration::from('string[]');

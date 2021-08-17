@@ -15,6 +15,15 @@ use PhUml\Processors\GraphvizConfiguration;
 final class GraphvizConfigurationTest extends TestCase
 {
     /** @test */
+    function it_expects_theme_name_to_be_a_string()
+    {
+        $this->options['theme'] = 1;
+        $this->expectException(InvalidArgumentException::class);
+
+        new GraphvizConfiguration($this->options);
+    }
+
+    /** @test */
     function it_fails_to_set_an_invalid_theme_name()
     {
         $this->options['theme'] = 'not-a-valid-theme-name';
