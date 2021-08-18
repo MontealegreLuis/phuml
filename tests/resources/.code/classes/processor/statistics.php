@@ -1,4 +1,5 @@
 <?php
+use phuml\interfaces\plProcessor;
 
 class plStatisticsProcessor extends plProcessor
 {

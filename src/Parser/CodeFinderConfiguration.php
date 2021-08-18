@@ -7,6 +7,8 @@
 
 namespace PhUml\Parser;
 
+use Webmozart\Assert\Assert;
+
 final class CodeFinderConfiguration
 {
     private bool $recursive;
@@ -14,7 +16,8 @@ final class CodeFinderConfiguration
     /** @param mixed[] $options */
     public function __construct(array $options)
     {
-        $this->recursive = (bool) ($options['recursive'] ?? false);
+        Assert::boolean($options['recursive'], 'Recursive option must be a boolean value');
+        $this->recursive = $options['recursive'];
     }
 
     public function recursive(): bool

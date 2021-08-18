@@ -18,6 +18,6 @@ trait InterfaceNamesBuilder
      */
     private function buildInterfaces(array $implements): array
     {
-        return array_map(static fn (Name $name): DefinitionName => new DefinitionName($name->getLast()), $implements);
+        return array_map(static fn (Name $name): DefinitionName => new DefinitionName((string) $name), $implements);
     }
 }

@@ -8,3 +8,21 @@ services:
     image: phuml/tests
     volumes:
       - .:/usr/src/phuml
+  ci:
+    container_name: phuml_ci
+    build:
+      context: containers/tests
+    image: phuml/ci
+    volumes:
+      - .:/usr/src/phuml
+    environment:
+      XDEBUG_MODE: ${XDEBUG_MODE}
+      INFECTION_BADGE_API_KEY: ${INFECTION_BADGE_API_KEY}
+      GITHUB_ACTIONS: ${GITHUB_ACTIONS}
+      GITHUB_EVENT_NAME: ${GITHUB_EVENT_NAME}
+      GITHUB_RUN_NUMBER: ${GITHUB_RUN_NUMBER}
+      GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}
+      GITHUB_SHA: ${GITHUB_SHA}
+      GITHUB_HEAD_REF: ${GITHUB_HEAD_REF}
+      GITHUB_REF: ${GITHUB_REF}
+      GITHUB_BASE_REF: ${GITHUB_BASE_REF}

@@ -23,14 +23,13 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
 {
     public function resolve(Codebase $codebase): void
     {
+        /** @var ClassDefinition|InterfaceDefinition|TraitDefinition $definition */
         foreach ($codebase->definitions() as $definition) {
-            if ($definition instanceof ClassDefinition) {
-                $this->resolveForClass($definition, $codebase);
-            } elseif ($definition instanceof InterfaceDefinition) {
-                $this->resolveExternalInterfaces($definition->parents(), $codebase);
-            } elseif ($definition instanceof TraitDefinition) {
-                $this->resolveExternalTraits($definition->traits(), $codebase);
-            }
+            match (true) {
+                $definition instanceof ClassDefinition => $this->resolveForClass($definition, $codebase),
+                $definition instanceof InterfaceDefinition => $this->resolveInterfaces($definition->parents(), $codebase),
+                default => $this->resolveTraits($definition->traits(), $codebase),
+            };
         }
     }
 
@@ -39,15 +38,15 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
      */
     private function resolveForClass(ClassDefinition $definition, Codebase $codebase): void
     {
-        $this->resolveExternalInterfaces($definition->interfaces(), $codebase);
-        $this->resolveExternalTraits($definition->traits(), $codebase);
+        $this->resolveInterfaces($definition->interfaces(), $codebase);
+        $this->resolveTraits($definition->traits(), $codebase);
         $this->resolveExternalParentClass($definition, $codebase);
     }
 
     /** @param Name[] $interfaces */
-    private function resolveExternalInterfaces(array $interfaces, Codebase $codebase): void
+    private function resolveInterfaces(array $interfaces, Codebase $codebase): void
     {
-        array_map(function (Name $interface) use ($codebase): void {
+        array_map(static function (Name $interface) use ($codebase): void {
             if (! $codebase->has($interface)) {
                 $codebase->add(new InterfaceDefinition($interface));
             }
@@ -55,9 +54,9 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
     }
 
     /** @param Name[] $traits */
-    private function resolveExternalTraits(array $traits, Codebase $codebase): void
+    private function resolveTraits(array $traits, Codebase $codebase): void
     {
-        array_map(function (Name $trait) use ($codebase): void {
+        array_map(static function (Name $trait) use ($codebase): void {
             if (! $codebase->has($trait)) {
                 $codebase->add(new TraitDefinition($trait));
             }

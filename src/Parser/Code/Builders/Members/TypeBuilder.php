@@ -10,79 +10,84 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\Name as NodeName;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
-use PhUml\Code\Attributes\AttributeDocBlock;
-use PhUml\Code\Methods\MethodDocBlock;
+use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Parser\Code\TypeResolver;
 
 final class TypeBuilder
 {
+    public function __construct(private TypeResolver $typeResolver)
+    {
+    }
+
     public function fromMethodParameter(
         Identifier|Name|NullableType|UnionType|null $type,
         ?Doc $docBlock,
-        string $name
+        string $name,
+        UseStatements $useStatements
     ): TypeDeclaration {
-        $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
+        $methodComment = $docBlock?->getText();
         if ($type === null) {
-            return $methodDocBlock->typeOfParameter($name);
+            return $this->typeResolver->resolveForParameter($methodComment, $name, $useStatements);
         }
 
         $typeDeclaration = $this->fromParsedType($type);
         if (! $typeDeclaration->isBuiltInArray()) {
             return $typeDeclaration;
         }
-        if (! $methodDocBlock->hasTypeOfParameter($name)) {
-            return $typeDeclaration;
-        }
-        return $methodDocBlock->typeOfParameter($name);
+
+        $typeFromDocBlock = $this->typeResolver->resolveForParameter($methodComment, $name, $useStatements);
+
+        return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
     }
 
     public function fromMethodReturnType(
         Identifier|Name|NullableType|UnionType|null $type,
-        ?Doc $docBlock
+        ?Doc $docBlock,
+        UseStatements $useStatements
     ): TypeDeclaration {
-        $methodDocBlock = new MethodDocBlock($docBlock === null ? null : $docBlock->getText());
+        $methodComment = $docBlock?->getText();
         if ($type === null) {
-            return $methodDocBlock->returnType();
+            return $this->typeResolver->resolveForReturn($methodComment, $useStatements);
         }
 
         $typeDeclaration = $this->fromParsedType($type);
         if (! $typeDeclaration->isBuiltInArray()) {
             return $typeDeclaration;
         }
-        if (! $methodDocBlock->hasReturnType()) {
-            return $typeDeclaration;
-        }
-        return $methodDocBlock->returnType();
+
+        $typeFromDocBlock = $this->typeResolver->resolveForReturn($methodComment, $useStatements);
+
+        return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
     }
 
     public function fromAttributeType(
         Identifier|Name|NullableType|UnionType|null $type,
-        ?Doc $docBlock
+        ?Doc $docBlock,
+        UseStatements $useStatements
     ): TypeDeclaration {
-        $attributeDocBlock = new AttributeDocBlock($docBlock === null ? null : $docBlock->getText());
+        $attributeComment = $docBlock?->getText();
         if ($type === null) {
-            return $attributeDocBlock->attributeType();
+            return $this->typeResolver->resolveForAttribute($attributeComment, $useStatements);
         }
 
         $typeDeclaration = $this->fromParsedType($type);
         if (! $typeDeclaration->isBuiltInArray()) {
             return $typeDeclaration;
         }
-        if (! $attributeDocBlock->hasAttributeType()) {
-            return $typeDeclaration;
-        }
-        return $attributeDocBlock->attributeType();
+
+        $typeFromDocBlock = $this->typeResolver->resolveForAttribute($attributeComment, $useStatements);
+
+        return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
     }
 
     private function fromParsedType(Identifier|Name|NullableType|UnionType|null $type): TypeDeclaration
     {
         return match (true) {
             $type instanceof NullableType => TypeDeclaration::fromNullable((string) $type->type),
-            $type instanceof Name => TypeDeclaration::from($type->getLast()),
-            $type instanceof Identifier => TypeDeclaration::from((string) $type),
+            $type instanceof Name, $type instanceof Identifier => TypeDeclaration::from((string) $type),
             $type === null => TypeDeclaration::absent(),
             default => TypeDeclaration::fromUnionType($this->fromUnionType($type)),
         };
@@ -91,8 +96,9 @@ final class TypeBuilder
     /** @return string[] */
     private function fromUnionType(UnionType $type): array
     {
-        return array_map(function (Identifier|NodeName $name): string {
-            return $name instanceof Identifier ? $name->name : $name->getLast();
-        }, $type->types);
+        return array_map(
+            static fn (Identifier|Name $name): string => (string) $name,
+            $type->types
+        );
     }
 }

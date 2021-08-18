@@ -1,3 +1,7 @@
+---
+currentMenu: contributing
+---
+
 # Contributing to phUML
 
 ## Code of Conduct
@@ -33,7 +37,7 @@ It is recommended to follow the [7 rules of a good commit message](https://chris
 
 ## Coding Guidelines
 
-This project follows the coding standards proposed in [PSR-12][https://www.php-fig.org/psr/psr-12/].
+This project follows the coding standards proposed in [PSR-12](https://www.php-fig.org/psr/psr-12/).
 
 Run the following command if you modified either production code or tests.
 
@@ -41,7 +45,13 @@ Run the following command if you modified either production code or tests.
 make format
 ```
 
-[Make][make] will run [PHP CS fixer][cs-fixer] and [Rector](https://getrector.org/) in both folders `src` and `tests`.
+[Make][make] will run [PHP CS fixer][cs-fixer] in both folders `src` and `tests`.
+
+We also use [Rector](https://getrector.org/) to automatically refactor test and production code.
+
+```bash
+make refactor
+```
 
 ## Using phUML from a Git checkout
 

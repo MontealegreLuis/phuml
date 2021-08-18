@@ -18,51 +18,9 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPUnit\Framework\TestCase;
-use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
-use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 
-final class FilteredConstantsBuilderTest extends TestCase
+final class ParsedConstantsBuilderTest extends TestCase
 {
-    /** @test */
-    function it_excludes_private_constants()
-    {
-        $constants = [
-            new ClassConst([new Const_('INTEGER', new LNumber(1))]),
-            new ClassConst([new Const_('FLOAT', new DNumber(1.5))], Class_::MODIFIER_PRIVATE),
-            new ClassConst([new Const_('STRING', new String_('test'))], Class_::MODIFIER_PROTECTED),
-        ];
-        $builder = new FilteredConstantsBuilder(
-            new VisibilityBuilder(),
-            new VisibilityFilters([new PrivateVisibilityFilter()])
-        );
-
-        $constants = $builder->build($constants);
-
-        $this->assertCount(2, $constants);
-        $this->assertEquals('+INTEGER: int', (string) $constants[0]);
-        $this->assertEquals('#STRING: string', (string) $constants[2]); // filters preserve original index
-    }
-
-    /** @test */
-    function it_excludes_protected_constants()
-    {
-        $constants = [
-            new ClassConst([new Const_('INTEGER', new LNumber(1))]),
-            new ClassConst([new Const_('FLOAT', new DNumber(1.5))], Class_::MODIFIER_PRIVATE),
-            new ClassConst([new Const_('STRING', new String_('test'))], Class_::MODIFIER_PROTECTED),
-        ];
-        $builder = new FilteredConstantsBuilder(
-            new VisibilityBuilder(),
-            new VisibilityFilters([new ProtectedVisibilityFilter()])
-        );
-
-        $constants = $builder->build($constants);
-
-        $this->assertCount(2, $constants);
-        $this->assertEquals('+INTEGER: int', (string) $constants[0]);
-        $this->assertEquals('-FLOAT: float', (string) $constants[1]);
-    }
-
     /** @test */
     function it_parses_a_class_constants()
     {
@@ -73,7 +31,7 @@ final class FilteredConstantsBuilderTest extends TestCase
             new ClassConst([new Const_('IS_TRUE', new ConstFetch(new Name(['false'])))]),
             new ClassConst([new Const_('IS_FALSE', new ConstFetch(new Name(['true'])))]),
         ];
-        $builder = new FilteredConstantsBuilder(new VisibilityBuilder(), new VisibilityFilters());
+        $builder = new ParsedConstantsBuilder(new VisibilityBuilder());
 
         $constants = $builder->build($constants);
 
@@ -106,7 +64,7 @@ final class FilteredConstantsBuilderTest extends TestCase
                 )
             )]),
         ];
-        $builder = new FilteredConstantsBuilder(new VisibilityBuilder(), new VisibilityFilters());
+        $builder = new ParsedConstantsBuilder(new VisibilityBuilder());
 
         $constants = $builder->build($parsedConstants);
 

@@ -7,7 +7,11 @@
 
 namespace PhUml\Parser\Code;
 
+use phpDocumentor\Reflection\DocBlockFactory;
 use PhpParser\Node\Stmt;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
+use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhUml\Code\Codebase;
@@ -15,18 +19,23 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredAttributesBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredConstantsBuilder;
-use PhUml\Parser\Code\Builders\Members\FilteredMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedAttributesBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedConstantsBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedMethodsBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder;
+use PhUml\Parser\Code\Builders\TagTypeFactory;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
+use PhUml\Parser\Code\Builders\UseStatementsBuilder;
+use PhUml\Parser\Code\Visitors\ClassVisitor;
+use PhUml\Parser\Code\Visitors\InterfaceVisitor;
+use PhUml\Parser\Code\Visitors\TraitVisitor;
 use PhUml\Parser\CodeParserConfiguration;
 use PhUml\Parser\SourceCode;
 
@@ -59,30 +68,33 @@ final class PhpCodeParser
             $filters[] = new ProtectedVisibilityFilter();
         }
         $visibilityBuilder = new VisibilityBuilder();
-        $typeBuilder = new TypeBuilder();
-        $filters = new VisibilityFilters($filters);
-        $methodsBuilder ??= new FilteredMethodsBuilder(
+        $typeBuilder = new TypeBuilder(new TypeResolver(new TagTypeFactory(DocBlockFactory::createInstance())));
+        $methodsBuilder ??= new ParsedMethodsBuilder(
             new ParametersBuilder($typeBuilder),
             $typeBuilder,
             $visibilityBuilder,
-            $filters
         );
-        $constantsBuilder ??= new FilteredConstantsBuilder($visibilityBuilder, $filters);
-        $attributesBuilder ??= new FilteredAttributesBuilder(
-            $visibilityBuilder,
-            $typeBuilder,
-            $filters
-        );
-        $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder);
+        $constantsBuilder ??= new ParsedConstantsBuilder($visibilityBuilder);
+        $attributesBuilder ??= new ParsedAttributesBuilder($visibilityBuilder, $typeBuilder);
+        $filters = new VisibilityFilters($filters);
+        $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder, $filters);
+        $useStatementsBuilder = new UseStatementsBuilder();
+        $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder);
+        $interfaceBuilder = new InterfaceDefinitionBuilder($membersBuilder, $useStatementsBuilder);
+        $traitBuilder = new TraitDefinitionBuilder($membersBuilder, $useStatementsBuilder);
 
-        return new self(
-            (new ParserFactory())->create(ParserFactory::PREFER_PHP7),
-            new PhpTraverser(
-                new ClassDefinitionBuilder($membersBuilder),
-                new InterfaceDefinitionBuilder($membersBuilder),
-                new TraitDefinitionBuilder($membersBuilder)
-            )
-        );
+        $codebase = new Codebase();
+
+        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor(new NameResolver());
+        $traverser->addVisitor(new NodeConnectingVisitor());
+        $traverser->addVisitor(new ClassVisitor($classBuilder, $codebase));
+        $traverser->addVisitor(new InterfaceVisitor($interfaceBuilder, $codebase));
+        $traverser->addVisitor(new TraitVisitor($traitBuilder, $codebase));
+        $traverser = new PhpTraverser($traverser, $codebase);
+
+        return new self($parser, $traverser);
     }
 
     private function __construct(

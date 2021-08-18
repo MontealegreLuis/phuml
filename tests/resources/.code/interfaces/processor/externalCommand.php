@@ -1,4 +1,5 @@
 <?php
+use phuml\interfaces\plProcessor;
 
 abstract class plExternalCommandProcessor extends plProcessor
 {

@@ -32,3 +32,12 @@ menu:
     dot_file:
       text: Generate a DOT file
       relativeUrl: docs/dot-file.html
+    contributing:
+      text: Contributing
+      relativeUrl: contributing.html
+    conduct:
+      text: Code of conduct
+      relativeUrl: code-of-conduct.html
+    changelog:
+      text: Changelog
+      relativeUrl: changelog.html

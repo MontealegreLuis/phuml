@@ -57,7 +57,7 @@ final class InterfaceDefinition extends Definition implements HasConstants
      */
     public function hasParent(): bool
     {
-        return count($this->parents) > 0;
+        return $this->parents !== [];
     }
 
     /**
@@ -70,6 +70,6 @@ final class InterfaceDefinition extends Definition implements HasConstants
      */
     public function hasAttributes(): bool
     {
-        return \count($this->constants) > 0;
+        return $this->constants !== [];
     }
 }

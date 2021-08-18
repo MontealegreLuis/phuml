@@ -16,8 +16,10 @@ final class OutputFilePathTest extends TestCase
     function it_knows_its_current_value()
     {
         $path = OutputFilePath::withExpectedExtension(__DIR__ . '/../../resources/.output/output.png', 'png');
+        $trimmedPath = OutputFilePath::withExpectedExtension('  file.png  ', 'png');
 
         $this->assertStringEndsWith('/resources/.output/output.png', $path->value());
+        $this->assertStringEndsWith('file.png', $trimmedPath->value());
     }
 
     /** @test */

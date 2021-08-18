@@ -25,18 +25,22 @@ final class ClassDefinitionBuilder
     use InterfaceNamesBuilder;
     use TraitNamesBuilder;
 
-    public function __construct(private MembersBuilder $membersBuilder)
-    {
+    public function __construct(
+        private MembersBuilder $membersBuilder,
+        private UseStatementsBuilder $useStatementsBuilder
+    ) {
     }
 
     public function build(Class_ $class): ClassDefinition
     {
+        $useStatements = $this->useStatementsBuilder->build($class);
+
         return new ClassDefinition(
-            new ClassDefinitionName((string) $class->name),
-            $this->membersBuilder->methods($class->getMethods()),
+            new ClassDefinitionName((string) $class->namespacedName),
+            $this->membersBuilder->methods($class->getMethods(), $useStatements),
             $this->membersBuilder->constants($class->stmts),
-            $class->extends !== null ? new ClassDefinitionName((string) end($class->extends->parts)) : null,
-            $this->membersBuilder->attributes($class->stmts, $class->getMethod('__construct')),
+            $class->extends !== null ? new ClassDefinitionName((string) $class->extends) : null,
+            $this->membersBuilder->attributes($class->stmts, $class->getMethod('__construct'), $useStatements),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts)
         );

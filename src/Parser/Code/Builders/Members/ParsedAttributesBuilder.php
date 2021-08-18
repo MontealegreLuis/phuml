@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\Variable;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
@@ -22,50 +23,50 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
  * @see PrivateVisibilityFilter
  * @see ProtectedVisibilityFilter
  */
-final class FilteredAttributesBuilder implements AttributesBuilder
+final class ParsedAttributesBuilder implements AttributesBuilder
 {
     public function __construct(
         private VisibilityBuilder $visibilityBuilder,
         private TypeBuilder $typeBuilder,
-        private VisibilityFilters $visibilityFilters
     ) {
     }
 
     /**
-     * @param Node[] $parsedAttributes
+     * @param Property[] $parsedAttributes
      * @return Attribute[]
      */
-    public function build(array $parsedAttributes): array
+    public function build(array $parsedAttributes, UseStatements $useStatements): array
     {
-        $attributes = array_filter($parsedAttributes, static fn ($attribute): bool => $attribute instanceof Property);
-
-        return array_map(function (Property $attribute): Attribute {
+        return array_map(function (Property $attribute) use ($useStatements): Attribute {
             $variable = new Variable(
                 "\${$attribute->props[0]->name}",
-                $this->typeBuilder->fromAttributeType($attribute->type, $attribute->getDocComment())
+                $this->typeBuilder->fromAttributeType($attribute->type, $attribute->getDocComment(), $useStatements)
             );
             $visibility = $this->visibilityBuilder->build($attribute);
 
             return new Attribute($variable, $visibility, $attribute->isStatic());
-        }, $this->visibilityFilters->apply($attributes));
+        }, $parsedAttributes);
     }
 
     /**
-     * @param Node\Param[] $constructorParameters
+     * @param Node\Param[] $promotedProperties
      * @return Attribute[]
      */
-    public function fromPromotedProperties(array $constructorParameters): array
+    public function fromPromotedProperties(array $promotedProperties, UseStatements $useStatements): array
     {
-        $promotedProperties = array_filter($constructorParameters, fn (Node\Param $param) => $param->flags !== 0);
-
-        return array_map(function (Node\Param $param): Attribute {
+        return array_map(function (Node\Param $param) use ($useStatements): Attribute {
             /** @var Node\Expr\Variable $var */
             $var = $param->var;
 
             /** @var string $name */
             $name = $var->name;
 
-            $type = $this->typeBuilder->fromMethodParameter($param->type, $param->getDocComment(), $name);
+            $type = $this->typeBuilder->fromMethodParameter(
+                $param->type,
+                $param->getDocComment(),
+                $name,
+                $useStatements
+            );
             $visibility = $this->visibilityBuilder->fromFlags($param->flags);
 
             return new Attribute(new Variable("\$${name}", $type), $visibility);

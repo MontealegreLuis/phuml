@@ -1,4 +1,8 @@
-# Format
+---
+currentMenu: format
+---
+
+# Diagram Format
 
 ## Interfaces and classes
 

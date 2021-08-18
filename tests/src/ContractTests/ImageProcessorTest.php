@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Processors\ImageGenerationFailure;
 use PhUml\Processors\ImageProcessor;
 use PhUml\Processors\OutputContent;
+use Symfony\Component\Finder\Finder;
 
 abstract class ImageProcessorTest extends TestCase
 {
@@ -22,6 +23,10 @@ abstract class ImageProcessorTest extends TestCase
      */
     function it_generates_an_image_from_a_dot_file()
     {
+        $finder = (new Finder())->contains('phuml')->in(sys_get_temp_dir());
+        foreach ($finder as $file) {
+            unlink($file->getRealPath());
+        }
         $digraph = new OutputContent((string) file_get_contents(__DIR__ . '/../../resources/.fixtures/classes.dot'));
         $name = strtolower($this->processor()->name());
         $expectedImage = __DIR__ . "/../../resources/.fixtures/${name}.png";
@@ -29,6 +34,7 @@ abstract class ImageProcessorTest extends TestCase
         $pngDiagram = $this->processor()->process($digraph);
 
         $this->assertEquals($pngDiagram->value(), file_get_contents($expectedImage));
+        $this->assertEquals(0, (new Finder())->contains('phuml')->in(sys_get_temp_dir())->count());
     }
 
     /** @test */

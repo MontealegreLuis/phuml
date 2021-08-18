@@ -22,17 +22,17 @@ final class Codebase
 
     public function add(Definition $definition): void
     {
-        $this->definitions[(string) $definition->name()] = $definition;
+        $this->definitions[$definition->name()->fullName()] = $definition;
     }
 
     public function has(Name $name): bool
     {
-        return isset($this->definitions[(string) $name]);
+        return isset($this->definitions[$name->fullName()]);
     }
 
     public function get(Name $name): Definition
     {
-        return $this->definitions[(string) $name];
+        return $this->definitions[$name->fullName()];
     }
 
     /** @return Definition[] */

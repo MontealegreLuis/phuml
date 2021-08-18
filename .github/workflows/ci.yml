@@ -25,12 +25,17 @@ jobs:
           composer install --no-interaction --no-progress
 
       - name: "Code quality checks"
-        run: "make check"
+        run: |
+          make check
+          env | grep GITHUB > .env
+          env | grep INFECTION >> .env
+          echo 'XDEBUG_MODE=coverage' >> .env
+          docker-compose run --rm ci php vendor/bin/infection --threads=4
         env:
           INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
 
       - name: "Run tests with coverage"
-        run: "vendor/bin/phpunit --exclude-group=snapshot --coverage-text --coverage-clover=coverage.clover"
+        run: "docker-compose run --rm -e XDEBUG_MODE=coverage tests php vendor/bin/phpunit --exclude-group=snapshot --coverage-text --coverage-clover=coverage.clover"
 
       - name: "Send code coverage to Scrutinizer"
         run: |

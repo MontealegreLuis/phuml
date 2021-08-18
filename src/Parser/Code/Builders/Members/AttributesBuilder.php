@@ -8,7 +8,9 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node;
+use PhpParser\Node\Stmt\Property;
 use PhUml\Code\Attributes\Attribute;
+use PhUml\Code\UseStatements;
 
 /**
  * It builds an array of `Attributes` for a `ClassDefinition` or a `TraitDefinition`
@@ -21,14 +23,14 @@ use PhUml\Code\Attributes\Attribute;
 interface AttributesBuilder
 {
     /**
-     * @param Node[] $parsedAttributes
+     * @param Property[] $parsedAttributes
      * @return Attribute[]
      */
-    public function build(array $parsedAttributes): array;
+    public function build(array $parsedAttributes, UseStatements $useStatements): array;
 
     /**
-     * @param Node\Param[] $constructorParameters
+     * @param Node\Param[] $promotedProperties
      * @return Attribute[]
      */
-    public function fromPromotedProperties(array $constructorParameters): array;
+    public function fromPromotedProperties(array $promotedProperties, UseStatements $useStatements): array;
 }

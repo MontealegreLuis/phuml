@@ -10,6 +10,8 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PHPUnit\Framework\TestCase;
+use PhUml\Code\UseStatements;
+use PhUml\TestBuilders\A;
 
 final class ParametersBuilderTest extends TestCase
 {
@@ -21,9 +23,9 @@ final class ParametersBuilderTest extends TestCase
             new Param(new Variable('size'), null, 'int'),
             new Param(new Variable('items'), null, 'int', false, true),
         ];
-        $builder = new ParametersBuilder(new TypeBuilder());
+        $builder = new ParametersBuilder(A::typeBuilderBuilder()->build());
 
-        $parameters = $builder->build($parsedParameters, null);
+        $parameters = $builder->build($parsedParameters, null, new UseStatements([]));
 
         $this->assertEquals('&$page: int', $parameters[0]->__toString());
         $this->assertEquals('$size: int', $parameters[1]->__toString());

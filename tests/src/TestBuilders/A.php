@@ -98,4 +98,14 @@ final class A
     {
         return new MembersBuilderBuilder();
     }
+
+    public static function typeBuilderBuilder(): TypeBuilderBuilder
+    {
+        return new TypeBuilderBuilder();
+    }
+
+    public static function codeFinderConfiguration(): CodeFinderConfigurationBuilder
+    {
+        return new CodeFinderConfigurationBuilder();
+    }
 }

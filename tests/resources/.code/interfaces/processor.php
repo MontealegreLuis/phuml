@@ -1,4 +1,5 @@
 <?php
+namespace phuml\interfaces;
 
 abstract class plProcessor implements plCompatible
 {

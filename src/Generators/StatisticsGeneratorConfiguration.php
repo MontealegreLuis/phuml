@@ -32,7 +32,7 @@ final class StatisticsGeneratorConfiguration
     public function __construct(array $options, private ProgressDisplay $display)
     {
         $this->codeFinder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration($options));
-        $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($options));
+        $this->codeParser = CodeParser::fromConfiguration(CodeParserConfiguration::defaultConfiguration());
         $this->statisticsProcessor = new StatisticsProcessor(new TemplateEngine());
         $this->writer = new OutputWriter(new SmartFileSystem());
     }

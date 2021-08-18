@@ -113,6 +113,20 @@ final class TypeDeclarationTest extends TestCase
         $this->assertEquals('AnotherClass', (string) $references[3]);
     }
 
+    /** @test */
+    function it_knows_if_it_is_built_in_array_type()
+    {
+        $string = TypeDeclaration::from('string');
+        $arrayOfString = TypeDeclaration::from('string[]');
+        $arrayOfObjects = TypeDeclaration::from('MyClass[]');
+        $builtInArray = TypeDeclaration::from('array');
+
+        $this->assertFalse($string->isBuiltInArray());
+        $this->assertFalse($arrayOfString->isBuiltInArray());
+        $this->assertFalse($arrayOfObjects->isBuiltInArray());
+        $this->assertTrue($builtInArray->isBuiltInArray());
+    }
+
     function builtInTypes()
     {
         return [

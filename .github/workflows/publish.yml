@@ -27,6 +27,12 @@ jobs:
           sudo apt-get install graphviz
           composer install --optimize-autoloader --prefer-dist --no-interaction --no-progress --no-dev --no-plugins
 
+      - name: "Import GPG Key"
+        uses: crazy-max/ghaction-import-gpg@v3
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+
       - name: "Build PHAR file"
         run: |
           wget https://github.com/box-project/box/releases/download/3.13.0/box.phar

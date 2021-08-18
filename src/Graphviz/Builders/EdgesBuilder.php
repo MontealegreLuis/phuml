@@ -72,7 +72,7 @@ final class EdgesBuilder implements AssociationsBuilder
         $this->markAssociationResolvedFor($class, $attribute);
 
         return array_map(
-            fn (Name $reference): Edge => Edge::association($codebase->get($reference), $class),
+            static fn (Name $reference): Edge => Edge::association($codebase->get($reference), $class),
             $attribute->references()
         );
     }
@@ -94,6 +94,6 @@ final class EdgesBuilder implements AssociationsBuilder
 
     private function associationKey(ClassDefinition $class, HasType $attribute): string
     {
-        return strtolower($class->name() . '.' . $attribute->type());
+        return $class->name() . $attribute->type();
     }
 }

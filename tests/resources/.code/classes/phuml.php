@@ -1,10 +1,15 @@
 <?php
+namespace phuml;
+
+use phuml\interfaces\plProcessor;
 
 class plPhuml
 {
     protected $properties;
 
     private $files;
+
+    /** @var plProcessor[] */
     private $processors;
 
     public function __construct()
@@ -20,6 +25,7 @@ class plPhuml
     {
     }
 
+    /** @param  plProcessor $processor */
     public function addProcessor( $processor )
     {
     }

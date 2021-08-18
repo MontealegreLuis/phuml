@@ -35,6 +35,6 @@ final class TraitDefinition extends Definition implements HasAttributes, UseTrai
 
     public function hasAttributes(): bool
     {
-        return \count($this->attributes) > 0;
+        return $this->attributes !== [];
     }
 }

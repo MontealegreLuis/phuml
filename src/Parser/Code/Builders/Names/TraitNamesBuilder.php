@@ -21,10 +21,6 @@ trait TraitNamesBuilder
     {
         $useStatements = array_filter($nodes, static fn (Node $node): bool => $node instanceof TraitUse);
 
-        if (count($useStatements) === 0) {
-            return [];
-        }
-
         $traits = [];
         /** @var TraitUse $use */
         foreach ($useStatements as $use) {
@@ -41,7 +37,7 @@ trait TraitNamesBuilder
     private function traitNames(TraitUse $use, array $traits): array
     {
         foreach ($use->traits as $name) {
-            $traits[] = new TraitName($name->getLast());
+            $traits[] = new TraitName((string) $name);
         }
         return $traits;
     }

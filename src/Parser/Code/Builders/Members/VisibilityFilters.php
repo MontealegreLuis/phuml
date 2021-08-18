@@ -7,6 +7,7 @@
 
 namespace PhUml\Parser\Code\Builders\Members;
 
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -36,15 +37,15 @@ final class VisibilityFilters
     }
 
     /**
-     * @param Property[]|ClassMethod[]|ClassConst[] $classMembers
-     * @return Property[]|ClassMethod[]|ClassConst[]
+     * @param Property[]|ClassMethod[]|ClassConst[]|Param[] $definitionMembers
+     * @return Property[]|ClassMethod[]|ClassConst[]|Param[]
      */
-    public function apply(array $classMembers): array
+    public function apply(array $definitionMembers): array
     {
-        $attributes = $classMembers;
+        $members = $definitionMembers;
         foreach ($this->filters as $filter) {
-            $attributes = array_filter($attributes, static fn (Stmt $member): bool => $filter->accept($member));
+            $members = array_filter($members, static fn (Stmt|Param $member): bool => $filter->accept($member));
         }
-        return $attributes;
+        return $members;
     }
 }

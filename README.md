@@ -17,10 +17,10 @@ It creates a class diagram from an Object-Oriented codebase based on the UML spe
 The official phUML Docker image can be found on [Docker Hub](https://hub.docker.com/r/montealegreluis/phuml/).
 
 ```bash
-docker pull montealegreluis/phuml:5.0.0
+docker pull montealegreluis/phuml:5.1.0
 ```
 
-You can replace `5.0.0` with any of the available [tags](https://hub.docker.com/r/montealegreluis/phuml/tags?page=1&ordering=last_updated)
+You can replace `5.1.0` with any of the available [tags](https://hub.docker.com/r/montealegreluis/phuml/tags?page=1&ordering=last_updated)
 
 ### Composer
 
@@ -30,7 +30,7 @@ Alternatively, you may use [Composer][composer] to download and install phUML as
 composer require phuml/phuml
 ```
 
-It can also be installed globally.
+phUML can also be installed globally.
 
 ```bash
 composer global require phuml/phuml
