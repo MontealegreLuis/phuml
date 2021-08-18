@@ -65,6 +65,21 @@
                                         Generate a DOT file
                                     </a>
                                 </li>
+                                                            <li class="active">
+                                    <a href="https://montealegreluis.com/phuml/contributing.html">
+                                        Contributing
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://montealegreluis.com/phuml/code-of-conduct.html">
+                                        Code of conduct
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://montealegreluis.com/phuml/changelog.html">
+                                        Changelog
+                                    </a>
+                                </li>
                                                     </ul>
 
                     </nav>
@@ -98,10 +113,12 @@ By participating in this project you agree to abide by its terms.</p>
 </ul>
 <p>It is recommended to follow the <a href="https://chris.beams.io/posts/git-commit/#seven-rules">7 rules of a good commit message</a>. </p>
 <h2 id="coding-guidelines">Coding Guidelines</h2>
-<p>This project follows the coding standards proposed in [PSR-12][<a href="https://www.php-fig.org/psr/psr-12/">https://www.php-fig.org/psr/psr-12/</a>].</p>
+<p>This project follows the coding standards proposed in <a href="https://www.php-fig.org/psr/psr-12/">PSR-12</a>.</p>
 <p>Run the following command if you modified either production code or tests.</p>
 <pre><code class="language-bash">make format</code></pre>
-<p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS fixer</a> and <a href="https://getrector.org/">Rector</a> in both folders <code>src</code> and <code>tests</code>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Make_(software)">Make</a> will run <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">PHP CS fixer</a> in both folders <code>src</code> and <code>tests</code>.</p>
+<p>We also use <a href="https://getrector.org/">Rector</a> to automatically refactor test and production code.</p>
+<pre><code class="language-bash">make refactor</code></pre>
 <h2 id="using-phuml-from-a-git-checkout">Using phUML from a Git checkout</h2>
 <p>The following commands can be used to perform the initial checkout of phUML:</p>
 <pre><code class="language-bash">git clone git://github.com/MontealegreLuis/phuml.git
