@@ -30,7 +30,7 @@ final class TagType
     }
 
     /** @param string[] $types */
-    public function __construct(private array $types, private bool $isNullable = false)
+    private function __construct(private array $types, private bool $isNullable = false)
     {
     }
 

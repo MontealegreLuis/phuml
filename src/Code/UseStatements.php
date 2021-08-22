@@ -20,6 +20,9 @@ final class UseStatements
             if ($useStatement->endsWith($name)) {
                 return $useStatement->fullyQualifiedName($name);
             }
+            if ($useStatement->includes($name)) {
+                return $useStatement->merge($name);
+            }
             if ($useStatement->isAliasedAs($name)) {
                 return $useStatement->fullyQualifiedName($name);
             }
