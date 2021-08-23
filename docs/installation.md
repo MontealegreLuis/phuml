@@ -1,5 +1,5 @@
 ---
-currentMenu: index
+currentMenu: installation
 ---
 
 # Installation
