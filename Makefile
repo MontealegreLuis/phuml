@@ -1,7 +1,6 @@
 SHELL = /bin/bash
 
 ARGS=""
-INFECTION_BADGE_API_KEY=""
 
 .PHONY: help
 help: ## Show help

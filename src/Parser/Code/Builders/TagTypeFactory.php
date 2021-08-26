@@ -14,6 +14,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Nullable;
+use phpDocumentor\Reflection\Types\Object_;
 
 final class TagTypeFactory
 {
@@ -88,7 +89,7 @@ final class TagTypeFactory
             $type === null => null,
             $type instanceof Nullable => TagType::nullable((string) $type->getActualType()),
             $type instanceof Compound => TagType::compound(array_map('strval', $type->getIterator()->getArrayCopy())),
-            default => TagType::named((string) $type)
+            default => TagType::named((string) ($type instanceof Object_ ? $type->getFqsen() : $type))
         };
     }
 }

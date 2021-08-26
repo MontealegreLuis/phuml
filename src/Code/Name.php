@@ -21,6 +21,11 @@ final class Name implements Stringable
         $this->parts = explode('\\', trim($name));
     }
 
+    public function first(): string
+    {
+        return $this->parts[0];
+    }
+
     public function fullName(): string
     {
         return implode('\\', $this->parts);
@@ -39,5 +44,11 @@ final class Name implements Stringable
     public function __toString(): string
     {
         return $this->parts[count($this->parts) - 1];
+    }
+
+    public function packageName(): string
+    {
+        $package = array_slice($this->parts, 0, -1);
+        return implode('\\', $package);
     }
 }

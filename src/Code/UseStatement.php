@@ -18,6 +18,11 @@ final class UseStatement
         return str_ends_with(haystack: (string) $this->name, needle: $name->removeArraySuffix());
     }
 
+    public function includes(Name $name): bool
+    {
+        return str_ends_with(haystack: (string) $this->name, needle: $name->first());
+    }
+
     public function isAliasedAs(Name $name): bool
     {
         return $this->alias !== null && (string) $this->alias === $name->removeArraySuffix();
@@ -25,6 +30,11 @@ final class UseStatement
 
     public function fullyQualifiedName(Name $name): string
     {
-        return $name->isArray() ? $this->name->fullName() . '[]' : $this->name->fullName();
+        return $name->isArray() ? "{$this->name->fullName()}[]" : $this->name->fullName();
+    }
+
+    public function merge(Name $name): string
+    {
+        return "{$this->name->packageName()}\\{$name->fullName()}";
     }
 }

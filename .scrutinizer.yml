@@ -20,5 +20,4 @@ build:
 
 tools:
     external_code_coverage:
-        timeout: 600
-        runs: 3
+        timeout: 1200

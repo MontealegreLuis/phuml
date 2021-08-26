@@ -39,6 +39,7 @@ jobs:
           chmod +x box.phar
           ./box.phar compile -vv
           gpg -u montealegreluis@gmail.com --detach-sign --output phuml.phar.asc phuml.phar
+          ls -alh phuml*
 
       - name: "Upload binaries to distribute phUML via PHIVE"
         uses: "svenstaro/upload-release-action@v2"
@@ -46,3 +47,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: phuml.phar*
           tag: ${{ github.ref }}
+          file_glob: true
