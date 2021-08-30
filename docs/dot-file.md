@@ -52,6 +52,8 @@ It has the following options:
 vendor/bin/phuml phuml:dot -r -a -i -o src example.gv
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -a -i -o src example.gv
+# Phive installation
+tools/phuml phuml:dot -r -a -i -o src example.gv
 ```
 
 * The following command will produce a DOT file from the `src` directory.
@@ -65,6 +67,8 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -a -i -o src ex
 vendor/bin/phuml phuml:dot -r -t -m src example.gv
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -t -m src example.gv
+# Phive installation
+tools/phuml phuml:dot -r -t -m src example.gv
 ```
 
 * The following command will produce a DOT file from the `src` directory.
@@ -79,6 +83,8 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -t -m src examp
 vendor/bin/phuml phuml:diagram -r -t -m -b src example.gv
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b src example.gv
+# Phive installation
+tools/phuml phuml:diagram -r -t -m -b src example.gv
 ```
 
 * The following command will produce a DOT file from the `src` directory.
@@ -92,6 +98,8 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b sr
 vendor/bin/phuml phuml:dot src example.gv
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot src example.gv
+# Phive installation
+tools/phuml phuml:dot src example.gv
 ```
 
 * The following command will produce a DOT file from the `src` directory.
@@ -106,6 +114,8 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot src example.gv
 vendor/bin/phuml phuml:dot -e php src example.gv
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -e php src example.gv
+# Phive installation
+tools/phuml phuml:dot -e php src example.gv
 ```
 
 [dot]: https://en.wikipedia.org/wiki/DOT_(graph_description_language)

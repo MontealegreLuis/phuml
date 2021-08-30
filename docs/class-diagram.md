@@ -40,6 +40,8 @@ It has the following options:
 vendor/bin/phuml phuml:diagram -r -a -i -o -p dot src example.png
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -a -i -o -p dot src example.png
+# Phive installation
+tools/phuml phuml:diagram -r -a -i -o -p dot src example.png
 ```
 
 * The following command will produce a class diagram from the `src` directory.
@@ -54,6 +56,8 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -a -i -o -p
 vendor/bin/phuml phuml:diagram -r -t -m -p dot src example.png
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -p dot src example.png
+# Phive installation
+tools/phuml phuml:diagram -r -t -m -p dot src example.png
 ```
 
 * The following command will produce a class diagram from the `src` directory.
@@ -69,6 +73,8 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -p do
 vendor/bin/phuml phuml:diagram -r -t -m -b -p dot src example.png
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b -p dot src example.png
+# Phive installation
+tools/phuml phuml:diagram -r -t -m -b -p dot src example.png
 ```
 
 * The following command will produce a class diagram from the `src` directory.
@@ -83,6 +89,8 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b -p
 vendor/bin/phuml phuml:diagram -p neato src example.png
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p neato src example.png
+# Phive installation
+tools/phuml phuml:diagram -p neato src example.png
 ```
 
 * The following command will produce a class diagram from the `src` directory.
@@ -98,4 +106,6 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p neato src e
 vendor/bin/phuml phuml:diagram -p dot -e php src example.png
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p dot -e php src example.png
+# Phive installation
+tools/phuml phuml:diagram -p dot -e php src example.png
 ```

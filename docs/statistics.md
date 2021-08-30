@@ -26,6 +26,8 @@ It has the following options:
 vendor/bin/phuml phuml:statistics -r src example.txt
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r src example.txt
+# Phive installation
+tools/phuml phuml:statistics -r src example.txt
 ```
 
 * The following command will produce a statistics file from the `src` directory.
@@ -37,4 +39,6 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r src exam
 vendor/bin/phuml phuml:statistics src example.txt
 # Docker installation
 docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics src example.txt
+# Phive installation
+tools/phuml phuml:statistics src example.txt
 ```
