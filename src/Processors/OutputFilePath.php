@@ -16,13 +16,15 @@ final class OutputFilePath
     {
         $path = new SplFileInfo(trim($filePath));
         $extension = $path->getExtension();
+        $directory = realpath($path->getPath());
+        Assert::true($directory !== false, "Directory '{$path->getPath()}' does not exist");
         Assert::eq(
             $extension,
             $expectedExtension,
             "Output file is expected to have extension '.{$expectedExtension}', '.{$extension}' given"
         );
 
-        return new OutputFilePath($path);
+        return new OutputFilePath(new SplFileInfo($directory . '/' . $path->getBasename()));
     }
 
     private function __construct(private SplFileInfo $filePath)

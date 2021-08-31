@@ -29,4 +29,22 @@ final class OutputFilePathTest extends TestCase
 
         OutputFilePath::withExpectedExtension('  ', 'txt');
     }
+
+    /** @test */
+    function it_supports_relative_paths()
+    {
+        $currentPath = OutputFilePath::withExpectedExtension('./file.png', 'png');
+        $absolutePath = OutputFilePath::withExpectedExtension(getcwd() . '/file.png', 'png');
+
+        $this->assertEquals(getcwd() . '/file.png', $currentPath->value());
+        $this->assertEquals(getcwd() . '/file.png', $absolutePath->value());
+    }
+
+    /** @test */
+    function it_prevents_attempting_to_same_in_invalid_directories()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectErrorMessage("Directory './src/gjs2s3e2js' does not exist");
+        OutputFilePath::withExpectedExtension('./src/gjs2s3e2js/file.png', 'png');
+    }
 }
