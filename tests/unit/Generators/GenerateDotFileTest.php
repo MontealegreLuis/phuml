@@ -29,8 +29,8 @@ final class GenerateDotFileTest extends TestCase
 
         $digraph = $this->processor->process($codebase);
 
-        $this->assertNode(A::classNamed('plBase'), $digraph->value());
-        $this->assertNode(A::classNamed('plPhuml'), $digraph->value());
+        $this->assertNode(A::classNamed('phuml\plBase'), $digraph->value());
+        $this->assertNode(A::classNamed('phuml\plPhuml'), $digraph->value());
     }
 
     /** @test */
@@ -42,14 +42,14 @@ final class GenerateDotFileTest extends TestCase
 
         $digraph = $this->processor->process($codebase);
 
-        $base = A::classNamed('plBase');
+        $base = A::classNamed('phuml\plBase');
         $tokenParser = A::classNamed('plStructureTokenparserGenerator');
         $attribute = A::classNamed('plPhpAttribute');
         $class = A::classNamed('plPhpClass');
         $function = A::classNamed('plPhpFunction');
         $parameter = A::classNamed('plPhpFunctionParameter');
         $interface = A::classNamed('plPhpInterface');
-        $uml = A::classNamed('plPhuml');
+        $uml = A::classNamed('phuml\plPhuml');
         $dotProcessor = A::classNamed('plDotProcessor');
         $graphvizProcessor = A::classNamed('plGraphvizProcessor');
         $styleName = A::classNamed('plStyleName');
@@ -60,7 +60,7 @@ final class GenerateDotFileTest extends TestCase
         $statisticsProcessor = A::classNamed('plStatisticsProcessor');
         $structureGenerator = A::classNamed('plStructureGenerator');
         $externalCommand = A::classNamed('plExternalCommandProcessor');
-        $processor = A::classNamed('plProcessor');
+        $processor = A::classNamed('phuml\interfaces\plProcessor');
         $style = A::classNamed('plGraphvizProcessorStyle');
         $this->assertNode($base, $digraph->value());
         $this->assertNode($structureGenerator, $digraph->value());
