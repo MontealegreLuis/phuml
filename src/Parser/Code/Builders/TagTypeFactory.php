@@ -89,7 +89,18 @@ final class TagTypeFactory
             $type === null => null,
             $type instanceof Nullable => TagType::nullable((string) $type->getActualType()),
             $type instanceof Compound => TagType::compound(array_map('strval', $type->getIterator()->getArrayCopy())),
-            default => TagType::named((string) ($type instanceof Object_ ? $type->getFqsen() : $type))
+            default => $this->fromType($type)
         };
+    }
+
+    private function fromType(Type $type): TagType
+    {
+        if (! $type instanceof Object_) {
+            return TagType::named((string) $type);
+        }
+        if ($type->getFqsen() === null) {
+            return TagType::named((string) $type);
+        }
+        return TagType::named((string) $type->getFqsen());
     }
 }

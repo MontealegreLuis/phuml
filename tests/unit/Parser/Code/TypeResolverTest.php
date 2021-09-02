@@ -18,6 +18,22 @@ use PhUml\Parser\Code\Builders\TagTypeFactory;
 final class TypeResolverTest extends TestCase
 {
     /** @test */
+    function it_resolves_built_in_types()
+    {
+        $useStatements = new UseStatements([]);
+
+        $objectType = $this->resolver->resolveForAttribute('/** @var object */', $useStatements);
+        $mixedType = $this->resolver->resolveForReturn('/** @return mixed */', $useStatements);
+        $stringType = $this->resolver->resolveForParameter('/** @param string[] $test */', '$test', $useStatements);
+        $boolType = $this->resolver->resolveForAttribute('/** @var bool */', $useStatements);
+
+        $this->assertEquals('object', (string) $objectType);
+        $this->assertEquals('mixed', (string) $mixedType);
+        $this->assertEquals('string[]', (string) $stringType);
+        $this->assertEquals('bool', (string) $boolType);
+    }
+
+    /** @test */
     function it_resolves_to_absent_type_if_doc_block_is_invalid()
     {
         $useStatements = new UseStatements([]);
