@@ -106,7 +106,9 @@
 <pre><code># Composer installation
 vendor/bin/phuml phuml:statistics -r src example.txt
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r src example.txt</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r src example.txt
+# Phive installation
+tools/phuml phuml:statistics -r src example.txt</code></pre>
 <ul>
 <li>The following command will produce a statistics file from the <code>src</code> directory.</li>
 <li>The statistics file will be saved to the file <code>example.txt</code> in the current directory.</li>
@@ -115,7 +117,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics -r src exam
 <pre><code># Composer installation
 vendor/bin/phuml phuml:statistics src example.txt
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics src example.txt</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:statistics src example.txt
+# Phive installation
+tools/phuml phuml:statistics src example.txt</code></pre>
                 </section>
 
             </div>

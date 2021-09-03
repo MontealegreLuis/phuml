@@ -126,7 +126,9 @@ There are 3 themes to choose from: <code>phuml</code>, which is the default them
 <pre><code># Composer installation
 vendor/bin/phuml phuml:dot -r -a -i -o src example.gv
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -a -i -o src example.gv</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -a -i -o src example.gv
+# Phive installation
+tools/phuml phuml:dot -r -a -i -o src example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>src</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.gv</code> in the current directory.</li>
@@ -137,7 +139,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -a -i -o src ex
 <pre><code># Composer installation
 vendor/bin/phuml phuml:dot -r -t -m src example.gv
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -t -m src example.gv</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -t -m src example.gv
+# Phive installation
+tools/phuml phuml:dot -r -t -m src example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>src</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.gv</code> in the current directory.</li>
@@ -149,7 +153,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -r -t -m src examp
 <pre><code># Composer installation
 vendor/bin/phuml phuml:diagram -r -t -m -b src example.gv
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b src example.gv</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b src example.gv
+# Phive installation
+tools/phuml phuml:diagram -r -t -m -b src example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>src</code> directory.</li>
 <li>The DOT file will be saved to the file <code>example.gv</code> in the current directory.</li>
@@ -160,7 +166,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b sr
 <pre><code># Composer installation
 vendor/bin/phuml phuml:dot src example.gv
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot src example.gv</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot src example.gv
+# Phive installation
+tools/phuml phuml:dot src example.gv</code></pre>
 <ul>
 <li>The following command will produce a DOT file from the <code>src</code> directory.</li>
 <li>The DOT file will be saved to the file <code>example.gv</code> in the current directory.</li>
@@ -172,7 +180,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot src example.gv</co
 <pre><code># Composer installation
 vendor/bin/phuml phuml:dot -e php src example.gv
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -e php src example.gv</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:dot -e php src example.gv
+# Phive installation
+tools/phuml phuml:dot -e php src example.gv</code></pre>
                 </section>
 
             </div>

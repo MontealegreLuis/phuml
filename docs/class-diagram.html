@@ -120,7 +120,9 @@ There are 3 themes to choose from: <code>phuml</code>, which is the default them
 <pre><code># Composer installation
 vendor/bin/phuml phuml:diagram -r -a -i -o -p dot src example.png
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -a -i -o -p dot src example.png</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -a -i -o -p dot src example.png
+# Phive installation
+tools/phuml phuml:diagram -r -a -i -o -p dot src example.png</code></pre>
 <ul>
 <li>The following command will produce a class diagram from the <code>src</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
@@ -132,7 +134,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -a -i -o -p
 <pre><code># Composer installation
 vendor/bin/phuml phuml:diagram -r -t -m -p dot src example.png
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -p dot src example.png</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -p dot src example.png
+# Phive installation
+tools/phuml phuml:diagram -r -t -m -p dot src example.png</code></pre>
 <ul>
 <li>The following command will produce a class diagram from the <code>src</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
@@ -145,7 +149,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -p do
 <pre><code># Composer installation
 vendor/bin/phuml phuml:diagram -r -t -m -b -p dot src example.png
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b -p dot src example.png</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b -p dot src example.png
+# Phive installation
+tools/phuml phuml:diagram -r -t -m -b -p dot src example.png</code></pre>
 <ul>
 <li>The following command will produce a class diagram from the <code>src</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
@@ -157,7 +163,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -r -t -m -b -p
 <pre><code># Composer installation
 vendor/bin/phuml phuml:diagram -p neato src example.png
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p neato src example.png</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p neato src example.png
+# Phive installation
+tools/phuml phuml:diagram -p neato src example.png</code></pre>
 <ul>
 <li>The following command will produce a class diagram from the <code>src</code> directory.</li>
 <li>The diagram will be saved to the file <code>example.png</code> in the current directory.</li>
@@ -170,7 +178,9 @@ docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p neato src e
 <pre><code># Composer installation
 vendor/bin/phuml phuml:diagram -p dot -e php src example.png
 # Docker installation
-docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p dot -e php src example.png</code></pre>
+docker run --rm -v $PWD:/code montealegreluis/phuml phuml:diagram -p dot -e php src example.png
+# Phive installation
+tools/phuml phuml:diagram -p dot -e php src example.png</code></pre>
                 </section>
 
             </div>
