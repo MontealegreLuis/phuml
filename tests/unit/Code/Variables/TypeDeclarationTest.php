@@ -104,13 +104,22 @@ final class TypeDeclarationTest extends TestCase
     /** @test */
     function it_extracts_reference_types_from_union_types()
     {
-        $unionType = TypeDeclaration::fromUnionType(['string', 'AClass', 'null', 'AnotherClass[]']);
+        $unionType = TypeDeclaration::fromUnionType(
+            [
+                'string',
+                'AClass',
+                'null',
+                'AnotherClass[]',
+                'Class\\With\\Namespace',
+            ]
+        );
 
         $references = $unionType->references();
 
-        $this->assertCount(2, $references);
+        $this->assertCount(3, $references);
         $this->assertEquals('AClass', (string) $references[1]);
         $this->assertEquals('AnotherClass', (string) $references[3]);
+        $this->assertEquals('Class\\With\\Namespace', $references[4]->fullName());
     }
 
     /** @test */
