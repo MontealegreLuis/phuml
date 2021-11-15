@@ -18,7 +18,7 @@
         "php": "^8.0",
         "ext-tokenizer": "*",
         "league/pipeline": "^1.0.0",
-        "nikic/php-parser": "^4.11.0",
+        "nikic/php-parser": "4.11.0",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpdocumentor/type-resolver": "^1.4",
         "symfony/console": "^5.3.2",
