@@ -24,4 +24,14 @@ final class UseStatementsTest extends TestCase
 
         $this->assertEquals('Package\\SubPackage\\AnotherClass', $fullyQualifiedName);
     }
+
+    /** @test */
+    function it_get_fully_qualified_name_if_not_imported()
+    {
+        $useStatements = new UseStatements([]);
+        $fqn = 'Inline\\Fully\\Qualified\\Name';
+        $name = new Name($fqn);
+
+        $this->assertEquals($fqn, $useStatements->fullyQualifiedNameFor($name));
+    }
 }

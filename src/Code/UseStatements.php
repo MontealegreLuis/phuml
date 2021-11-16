@@ -27,6 +27,6 @@ final class UseStatements
                 return $useStatement->fullyQualifiedName($name);
             }
         }
-        return (string) $name;
+        return $name->fullName();
     }
 }

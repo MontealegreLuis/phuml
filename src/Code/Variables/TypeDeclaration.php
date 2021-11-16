@@ -71,7 +71,7 @@ final class TypeDeclaration implements Stringable
             return [$this->isArray() ? new Name($this->removeArraySuffix()) : $this->names[0]];
         }
 
-        $typesFromUnion = array_map(static fn (Name $name) => TypeDeclaration::from((string) $name), $this->names);
+        $typesFromUnion = array_map(static fn (Name $name) => TypeDeclaration::from($name->fullName()), $this->names);
         $references = array_filter($typesFromUnion, static fn (TypeDeclaration $type) => ! $type->isBuiltIn());
 
         return array_map(
