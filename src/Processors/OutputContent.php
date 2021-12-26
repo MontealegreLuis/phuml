@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace PhUml\Processors;
 
 final class OutputContent
 {
-    public function __construct(private string $content)
+    public function __construct(private readonly string $content)
     {
     }
 

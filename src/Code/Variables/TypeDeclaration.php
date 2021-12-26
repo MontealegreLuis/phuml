@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -30,7 +30,7 @@ final class TypeDeclaration implements Stringable
     ];
 
     /** @var Name[] */
-    private array $names;
+    private readonly array $names;
 
     public static function absent(): TypeDeclaration
     {
@@ -133,7 +133,7 @@ final class TypeDeclaration implements Stringable
     }
 
     /** @param Name[] $names */
-    private function __construct(array $names = [], private bool $isNullable = false)
+    private function __construct(array $names = [], private readonly bool $isNullable = false)
     {
         $this->names = $names;
     }

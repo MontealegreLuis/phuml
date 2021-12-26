@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -88,7 +88,7 @@ final class TypeDeclarationTest extends TestCase
         $this->assertFalse($unionType->isNullable());
         $this->assertFalse($regularType->isNullable());
         $this->assertTrue($nullableType->isNullable());
-        $this->assertEquals('?string', (string) $nullableType);
+        $this->assertSame('?string', (string) $nullableType);
     }
 
     /** @test */
@@ -97,8 +97,8 @@ final class TypeDeclarationTest extends TestCase
         $unionTypeA = TypeDeclaration::fromUnionType(['string', 'int', 'null']);
         $unionTypeB = TypeDeclaration::fromUnionType(['MyClass', 'AnotherClass']);
 
-        $this->assertEquals('string|int|null', (string) $unionTypeA);
-        $this->assertEquals('MyClass|AnotherClass', (string) $unionTypeB);
+        $this->assertSame('string|int|null', (string) $unionTypeA);
+        $this->assertSame('MyClass|AnotherClass', (string) $unionTypeB);
     }
 
     /** @test */
@@ -117,9 +117,9 @@ final class TypeDeclarationTest extends TestCase
         $references = $unionType->references();
 
         $this->assertCount(3, $references);
-        $this->assertEquals('AClass', (string) $references[1]);
-        $this->assertEquals('AnotherClass', (string) $references[3]);
-        $this->assertEquals('Class\\With\\Namespace', $references[4]->fullName());
+        $this->assertSame('AClass', (string) $references[1]);
+        $this->assertSame('AnotherClass', (string) $references[3]);
+        $this->assertSame('Class\\With\\Namespace', $references[4]->fullName());
     }
 
     /** @test */

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -27,10 +27,10 @@ final class TypeResolverTest extends TestCase
         $stringType = $this->resolver->resolveForParameter('/** @param string[] $test */', '$test', $useStatements);
         $boolType = $this->resolver->resolveForAttribute('/** @var bool */', $useStatements);
 
-        $this->assertEquals('object', (string) $objectType);
-        $this->assertEquals('mixed', (string) $mixedType);
-        $this->assertEquals('string[]', (string) $stringType);
-        $this->assertEquals('bool', (string) $boolType);
+        $this->assertSame('object', (string) $objectType);
+        $this->assertSame('mixed', (string) $mixedType);
+        $this->assertSame('string[]', (string) $stringType);
+        $this->assertSame('bool', (string) $boolType);
     }
 
     /** @test */

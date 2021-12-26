@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -61,10 +61,29 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $configuration = new DigraphConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        /**
+         * @var array{
+         *     recursive: bool,
+         *     associations: bool,
+         *     "hide-private": bool,
+         *     "hide-protected": bool,
+         *     "hide-methods": bool,
+         *     "hide-attributes": bool,
+         *     "hide-empty-blocks": bool,
+         *     theme: string
+         *  } $options
+         */
+        $options = $input->getOptions();
+        $configuration = new DigraphConfiguration($options, new ConsoleProgressDisplay($output));
         $generator = DigraphGenerator::fromConfiguration($configuration);
-
-        $generator->generate(GeneratorInput::dotFile($input->getArguments()));
+        /**
+         * @var array{
+         *      directory: string,
+         *      output: string
+         * } $arguments
+         */
+        $arguments = $input->getArguments();
+        $generator->generate(GeneratorInput::dotFile($arguments));
 
         return self::SUCCESS;
     }

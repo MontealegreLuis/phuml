@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,7 +18,7 @@ use PhUml\Code\InterfaceDefinition;
  */
 final class Node implements HasDotRepresentation
 {
-    public function __construct(private Definition $definition)
+    public function __construct(private readonly Definition $definition)
     {
     }
 

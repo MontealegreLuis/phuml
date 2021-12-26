@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,8 +14,8 @@ use PhUml\Processors\OutputWriter;
 final class SaveFile
 {
     public function __construct(
-        private OutputWriter $writer,
-        private ProgressDisplay $display
+        private readonly OutputWriter $writer,
+        private readonly ProgressDisplay $display
     ) {
     }
 

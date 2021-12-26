@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -19,22 +19,22 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(0, $summary->interfaceCount());
-        $this->assertEquals(0, $summary->classCount());
-        $this->assertEquals(0, $summary->publicFunctionCount());
-        $this->assertEquals(0, $summary->publicAttributeCount());
-        $this->assertEquals(0, $summary->publicTypedAttributes());
-        $this->assertEquals(0, $summary->protectedFunctionCount());
-        $this->assertEquals(0, $summary->protectedAttributeCount());
-        $this->assertEquals(0, $summary->protectedTypedAttributes());
-        $this->assertEquals(0, $summary->privateFunctionCount());
-        $this->assertEquals(0, $summary->privateAttributeCount());
-        $this->assertEquals(0, $summary->privateTypedAttributes());
-        $this->assertEquals(0, $summary->functionCount());
-        $this->assertEquals(0, $summary->attributeCount());
-        $this->assertEquals(0, $summary->typedAttributeCount());
-        $this->assertEquals(0, $summary->attributesPerClass());
-        $this->assertEquals(0, $summary->functionsPerClass());
+        $this->assertSame(0, $summary->interfaceCount());
+        $this->assertSame(0, $summary->classCount());
+        $this->assertSame(0, $summary->publicFunctionCount());
+        $this->assertSame(0, $summary->publicAttributeCount());
+        $this->assertSame(0, $summary->publicTypedAttributes());
+        $this->assertSame(0, $summary->protectedFunctionCount());
+        $this->assertSame(0, $summary->protectedAttributeCount());
+        $this->assertSame(0, $summary->protectedTypedAttributes());
+        $this->assertSame(0, $summary->privateFunctionCount());
+        $this->assertSame(0, $summary->privateAttributeCount());
+        $this->assertSame(0, $summary->privateTypedAttributes());
+        $this->assertSame(0, $summary->functionCount());
+        $this->assertSame(0, $summary->attributeCount());
+        $this->assertSame(0, $summary->typedAttributeCount());
+        $this->assertSame(0.0, $summary->attributesPerClass());
+        $this->assertSame(0.0, $summary->functionsPerClass());
     }
 
     /** @test */
@@ -62,7 +62,7 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(6, $summary->protectedTypedAttributes());
+        $this->assertSame(6, $summary->protectedTypedAttributes());
     }
 
     /** @test */
@@ -101,22 +101,22 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(2, $summary->interfaceCount());
-        $this->assertEquals(2, $summary->classCount());
-        $this->assertEquals(4, $summary->publicFunctionCount());
-        $this->assertEquals(2, $summary->publicAttributeCount());
-        $this->assertEquals(1, $summary->publicTypedAttributes());
-        $this->assertEquals(1, $summary->protectedFunctionCount());
-        $this->assertEquals(2, $summary->protectedAttributeCount());
-        $this->assertEquals(1, $summary->protectedTypedAttributes());
-        $this->assertEquals(1, $summary->privateFunctionCount());
-        $this->assertEquals(2, $summary->privateAttributeCount());
-        $this->assertEquals(1, $summary->privateTypedAttributes());
-        $this->assertEquals(6, $summary->functionCount());
-        $this->assertEquals(6, $summary->attributeCount());
-        $this->assertEquals(3, $summary->typedAttributeCount());
-        $this->assertEquals(3, $summary->attributesPerClass());
-        $this->assertEquals(3, $summary->functionsPerClass());
+        $this->assertSame(2, $summary->interfaceCount());
+        $this->assertSame(2, $summary->classCount());
+        $this->assertSame(4, $summary->publicFunctionCount());
+        $this->assertSame(2, $summary->publicAttributeCount());
+        $this->assertSame(1, $summary->publicTypedAttributes());
+        $this->assertSame(1, $summary->protectedFunctionCount());
+        $this->assertSame(2, $summary->protectedAttributeCount());
+        $this->assertSame(1, $summary->protectedTypedAttributes());
+        $this->assertSame(1, $summary->privateFunctionCount());
+        $this->assertSame(2, $summary->privateAttributeCount());
+        $this->assertSame(1, $summary->privateTypedAttributes());
+        $this->assertSame(6, $summary->functionCount());
+        $this->assertSame(6, $summary->attributeCount());
+        $this->assertSame(3, $summary->typedAttributeCount());
+        $this->assertSame(3.0, $summary->attributesPerClass());
+        $this->assertSame(3.0, $summary->functionsPerClass());
     }
 
     /** @test */
@@ -145,7 +145,7 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(3.33, $summary->attributesPerClass());
+        $this->assertSame(3.33, $summary->attributesPerClass());
     }
 
     /** @test */
@@ -174,6 +174,6 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(3.33, $summary->functionsPerClass());
+        $this->assertSame(3.33, $summary->functionsPerClass());
     }
 }

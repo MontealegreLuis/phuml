@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -30,7 +30,7 @@ final class TagType
     }
 
     /** @param string[] $types */
-    private function __construct(private array $types, private bool $isNullable = false)
+    private function __construct(private readonly array $types, private readonly bool $isNullable = false)
     {
     }
 

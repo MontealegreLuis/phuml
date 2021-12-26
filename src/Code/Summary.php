@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,8 +16,10 @@ use PhUml\Code\Modifiers\Visibility;
  */
 final class Summary
 {
+    /** @noRector \Rector\Php81\Rector\Property\ReadOnlyPropertyRector  */
     private int $interfaceCount;
 
+    /** @noRector \Rector\Php81\Rector\Property\ReadOnlyPropertyRector  */
     private int $classCount;
 
     private int $publicFunctionCount;

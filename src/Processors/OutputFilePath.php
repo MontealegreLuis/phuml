@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -27,7 +27,7 @@ final class OutputFilePath
         return new OutputFilePath(new SplFileInfo($directory . '/' . $path->getBasename()));
     }
 
-    private function __construct(private SplFileInfo $filePath)
+    private function __construct(private readonly SplFileInfo $filePath)
     {
     }
 

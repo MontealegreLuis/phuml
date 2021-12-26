@@ -1,4 +1,4 @@
-FROM php:8.0.8-cli-alpine3.13
+FROM php:8.1.1-cli-alpine3.15
 
 RUN apk add --update --no-cache autoconf g++ pkgconfig imagemagick imagemagick-dev make ttf-freefont graphviz \
     && printf "\n" | pecl install imagick \

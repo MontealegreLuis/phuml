@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -30,10 +30,10 @@ use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 final class MembersBuilder
 {
     public function __construct(
-        private ConstantsBuilder $constantsBuilder,
-        private AttributesBuilder $attributesBuilder,
-        private MethodsBuilder $methodsBuilder,
-        private VisibilityFilters $filters,
+        private readonly ConstantsBuilder $constantsBuilder,
+        private readonly AttributesBuilder $attributesBuilder,
+        private readonly MethodsBuilder $methodsBuilder,
+        private readonly VisibilityFilters $filters,
     ) {
     }
 

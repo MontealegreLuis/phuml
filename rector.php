@@ -23,13 +23,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
     $containerConfigurator->import(SetList::PRIVATIZATION);
     $containerConfigurator->import(SetList::EARLY_RETURN);
-    $containerConfigurator->import(SetList::PHP_80);
+    $containerConfigurator->import(SetList::PHP_81);
     $containerConfigurator->import(PHPUnitSetList::PHPUNIT_91);
     $containerConfigurator->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
     $containerConfigurator->import(PHPUnitSetList::PHPUNIT_EXCEPTION);
     $containerConfigurator->import(PHPUnitSetList::PHPUNIT_SPECIFIC_METHOD);
 
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_81);
 
     // Path to PHPStan with extensions, that PHPStan in Rector uses to determine types
     $parameters->set(Option::PHPSTAN_FOR_RECTOR_PATH, getcwd() . '/phpstan.neon');

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -26,15 +26,15 @@ final class CodeParserConfiguration
     /** @var string */
     private const HIDE_METHODS = 'hide-methods';
 
-    private bool $extractAssociations;
+    private readonly bool $extractAssociations;
 
-    private bool $hideProtected;
+    private readonly bool $hideProtected;
 
-    private bool $hidePrivate;
+    private readonly bool $hidePrivate;
 
-    private bool $hideAttributes;
+    private readonly bool $hideAttributes;
 
-    private bool $hideMethods;
+    private readonly bool $hideMethods;
 
     public static function defaultConfiguration(): CodeParserConfiguration
     {

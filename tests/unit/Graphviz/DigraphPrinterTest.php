@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -279,7 +279,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_fails_to_build_a_label_if_twig_fails()
     {
-        $templateEngine = new class() extends TemplateEngine {
+        $templateEngine = new class () extends TemplateEngine {
             public function render(string $template, array $context = []): string
             {
                 throw new TemplateFailure(new RuntimeException('Twig runtime error'));

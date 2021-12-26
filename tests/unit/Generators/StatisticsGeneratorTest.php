@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -47,7 +47,7 @@ STATS;
 
         $generator->generate($this->input);
 
-        $this->assertEquals($expectedStatistics, file_get_contents($this->statisticsFile));
+        $this->assertSame($expectedStatistics, file_get_contents($this->statisticsFile));
     }
 
     /** @test */
@@ -85,7 +85,7 @@ STATS;
 
         $generator->generate($this->input);
 
-        $this->assertEquals($expectedStatistics, file_get_contents($this->statisticsFile));
+        $this->assertSame($expectedStatistics, file_get_contents($this->statisticsFile));
     }
 
     /** @before */

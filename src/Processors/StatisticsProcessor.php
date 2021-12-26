@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,7 +17,7 @@ use PhUml\Templates\TemplateFailure;
  */
 final class StatisticsProcessor implements Processor
 {
-    public function __construct(private TemplateEngine $engine)
+    public function __construct(private readonly TemplateEngine $engine)
     {
     }
 

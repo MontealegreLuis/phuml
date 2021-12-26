@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -42,9 +42,9 @@ final class Edge implements HasDotRepresentation
     }
 
     private function __construct(
-        private HasNodeIdentifier $fromNode,
-        private HasNodeIdentifier $toNode,
-        private string $options
+        private readonly HasNodeIdentifier $fromNode,
+        private readonly HasNodeIdentifier $toNode,
+        private readonly string $options
     ) {
     }
 

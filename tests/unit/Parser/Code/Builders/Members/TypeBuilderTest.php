@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -47,7 +47,7 @@ final class TypeBuilderTest extends TestCase
 
         $this->assertEquals($expectedType, $typeA);
         $this->assertEquals($expectedType, $typeB);
-        $this->assertEquals('ClassDefinition', $typeC);
+        $this->assertSame('ClassDefinition', (string) $typeC);
         $this->assertEquals($expectedNullableType, $typeD);
     }
 
@@ -108,7 +108,7 @@ final class TypeBuilderTest extends TestCase
         );
 
         $this->assertEquals(TypeDeclaration::from('array'), $typeFromIdentifier);
-        $this->assertEquals('Name', (string) $typeFromName);
+        $this->assertSame('Name', (string) $typeFromName);
         $this->assertEquals(TypeDeclaration::fromNullable('string'), $typeFromNullableType);
     }
 

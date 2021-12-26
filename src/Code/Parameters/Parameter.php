@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -19,8 +19,8 @@ final class Parameter implements HasType, Stringable
 
     public function __construct(
         Variable $variable,
-        private bool $isVariadic = false,
-        private bool $isByReference = false
+        private readonly bool $isVariadic = false,
+        private readonly bool $isByReference = false
     ) {
         $this->variable = $variable;
     }

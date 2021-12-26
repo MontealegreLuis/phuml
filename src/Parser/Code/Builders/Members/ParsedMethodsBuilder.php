@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,18 +14,13 @@ use PhUml\Code\UseStatements;
 /**
  * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
  * `TraitDefinition`
- *
- * It can run one or more `VisibilityFilter`s
- *
- * @see PrivateVisibilityFilter
- * @see ProtectedVisibilityFilter
  */
 final class ParsedMethodsBuilder implements MethodsBuilder
 {
     public function __construct(
-        private ParametersBuilder $parametersBuilder,
-        private TypeBuilder $typeBuilder,
-        private VisibilityBuilder $visibilityBuilder,
+        private readonly ParametersBuilder $parametersBuilder,
+        private readonly TypeBuilder $typeBuilder,
+        private readonly VisibilityBuilder $visibilityBuilder,
     ) {
     }
 

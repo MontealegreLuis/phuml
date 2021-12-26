@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -29,7 +29,7 @@ final class ImageProcessor implements Processor
         return new ImageProcessor(new ImageProcessorName('dot'), $filesystem);
     }
 
-    private function __construct(private ImageProcessorName $name, private SmartFileSystem $fileSystem)
+    private function __construct(private readonly ImageProcessorName $name, private readonly SmartFileSystem $fileSystem)
     {
     }
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -18,7 +18,7 @@ use phpDocumentor\Reflection\Types\Object_;
 
 final class TagTypeFactory
 {
-    public function __construct(private DocBlockFactory $factory)
+    public function __construct(private readonly DocBlockFactory $factory)
     {
     }
 
@@ -26,13 +26,13 @@ final class TagTypeFactory
     {
         $docBlock = $this->factory->create($methodComment);
 
-        /** @var TagType[]|InvalidTag[] $parameterTags */
+        /** @var TagWithType[]|InvalidTag[] $parameterTags */
         $parameterTags = $docBlock->getTagsByName('param');
 
         /** @var Param[] $params */
         $params = array_values(array_filter(
             $parameterTags,
-            static fn (TagWithType|InvalidTag $parameter) =>
+            static fn (TagWithType|InvalidTag $parameter): bool =>
                $parameter instanceof Param && "\${$parameter->getVariableName()}" === $parameterName
         ));
 

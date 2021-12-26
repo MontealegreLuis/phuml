@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -29,7 +29,7 @@ final class SourceCodeFinder implements CodeFinder
         return new self($finder);
     }
 
-    private function __construct(private Finder $finder)
+    private function __construct(private readonly Finder $finder)
     {
     }
 

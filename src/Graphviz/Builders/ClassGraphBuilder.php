@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -28,7 +28,7 @@ final class ClassGraphBuilder
     /** @var HasDotRepresentation[] */
     private array $dotElements;
 
-    private AssociationsBuilder $associationsBuilder;
+    private readonly AssociationsBuilder $associationsBuilder;
 
     public function __construct(AssociationsBuilder $associationsBuilder = null)
     {

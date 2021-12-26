@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,23 +12,23 @@ use PhUml\Processors\OutputFilePath;
 
 final class GeneratorInput
 {
-    private CodebaseDirectory $directory;
+    private readonly CodebaseDirectory $directory;
 
-    private OutputFilePath $outputFile;
+    private readonly OutputFilePath $outputFile;
 
-    /** @param mixed[] $input */
+    /** @param string[] $input */
     public static function dotFile(array $input): GeneratorInput
     {
         return new GeneratorInput($input, 'gv');
     }
 
-    /** @param mixed[] $input */
+    /** @param string[] $input */
     public static function textFile(array $input): GeneratorInput
     {
         return new GeneratorInput($input, 'txt');
     }
 
-    /** @param mixed[] $input */
+    /** @param string[] $input */
     public static function pngFile(array $input): GeneratorInput
     {
         return new GeneratorInput($input, 'png');

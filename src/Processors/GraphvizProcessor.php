@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -38,10 +38,10 @@ final class GraphvizProcessor implements Processor
     }
 
     private function __construct(
-        private ClassGraphBuilder $classBuilder,
-        private InterfaceGraphBuilder $interfaceBuilder,
-        private TraitGraphBuilder $traitBuilder,
-        private DigraphPrinter $printer
+        private readonly ClassGraphBuilder $classBuilder,
+        private readonly InterfaceGraphBuilder $interfaceBuilder,
+        private readonly TraitGraphBuilder $traitBuilder,
+        private readonly DigraphPrinter $printer
     ) {
     }
 

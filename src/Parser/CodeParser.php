@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -32,7 +32,7 @@ final class CodeParser
         return new CodeParser(PhpCodeParser::fromConfiguration($configuration), $resolvers);
     }
 
-    private function __construct(private PhpCodeParser $parser, private RelationshipsResolvers $resolvers)
+    private function __construct(private readonly PhpCodeParser $parser, private readonly RelationshipsResolvers $resolvers)
     {
     }
 

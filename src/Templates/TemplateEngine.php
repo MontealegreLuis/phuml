@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,7 +17,7 @@ use Twig\TwigFilter as Filter;
 /** @noRector \Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector */
 class TemplateEngine
 {
-    private Twig $twig;
+    private readonly Twig $twig;
 
     public function __construct(Twig $twig = null)
     {

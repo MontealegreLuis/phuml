@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -32,7 +32,7 @@ final class ParsedMethodsBuilderTest extends TestCase
         $methods = $this->builder->build($parsedMethods, $this->useStatements);
 
         $this->assertCount(1, $methods);
-        $this->assertEquals('-privateMethodA(): int|float', (string) $methods[0]);
+        $this->assertSame('-privateMethodA(): int|float', (string) $methods[0]);
     }
 
     /** @test */
@@ -52,7 +52,7 @@ final class ParsedMethodsBuilderTest extends TestCase
 
         $this->assertCount(1, $methods);
         $this->assertCount(1, $methods[0]->parameters());
-        $this->assertEquals('$example: int|float', (string) $methods[0]->parameters()[0]);
+        $this->assertSame('$example: int|float', (string) $methods[0]->parameters()[0]);
     }
 
     /** @test */

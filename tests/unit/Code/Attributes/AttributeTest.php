@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -33,9 +33,9 @@ final class AttributeTest extends TestCase
         $public = $publicAttribute->__toString();
         $protected = $protectedAttribute->__toString();
 
-        $this->assertEquals('-$privateAttribute', $private);
-        $this->assertEquals('+$publicAttribute', $public);
-        $this->assertEquals('#$protectedAttribute', $protected);
+        $this->assertSame('-$privateAttribute', $private);
+        $this->assertSame('+$publicAttribute', $public);
+        $this->assertSame('#$protectedAttribute', $protected);
     }
 
     /** @test */
@@ -46,10 +46,10 @@ final class AttributeTest extends TestCase
         $array = A::attribute('$array')->public()->withType('array')->build();
         $typedArray = A::attribute('$directories')->public()->withType('Directory[]')->build();
 
-        $this->assertEquals('+$aString: string', $string->__toString());
-        $this->assertEquals('+$file: SplFileInfo', $object->__toString());
-        $this->assertEquals('+$array: array', $array->__toString());
-        $this->assertEquals('+$directories: Directory[]', $typedArray->__toString());
+        $this->assertSame('+$aString: string', $string->__toString());
+        $this->assertSame('+$file: SplFileInfo', $object->__toString());
+        $this->assertSame('+$array: array', $array->__toString());
+        $this->assertSame('+$directories: Directory[]', $typedArray->__toString());
     }
 
     /** @test */
