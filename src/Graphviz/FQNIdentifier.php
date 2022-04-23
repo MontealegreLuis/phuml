@@ -10,9 +10,11 @@ namespace PhUml\Graphviz;
 use PhUml\Code\WithName;
 
 /**
- * Both `ClassDefinition` and `InterfaceDefinition` objects identifiers are generated using their Fully Qualified Name
+ * `Definition`s are required to have unique identifiers, so we can determine relationships between them
+ *
+ * Definitions identifiers are generated using their Fully Qualified Name (FQN)
  */
-trait ObjectHashIdentifier
+trait FQNIdentifier
 {
     use WithName;
 

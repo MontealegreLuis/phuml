@@ -9,16 +9,15 @@ namespace PhUml\Code;
 
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Graphviz\FQNIdentifier;
 use PhUml\Graphviz\HasNodeIdentifier;
-use PhUml\Graphviz\ObjectHashIdentifier;
 
 /**
  * Base class for interfaces, classes and traits
  */
 abstract class Definition implements Named, HasNodeIdentifier
 {
-    use WithName;
-    use ObjectHashIdentifier;
+    use FQNIdentifier;
 
     /** @var Method[] */
     protected array $methods;
