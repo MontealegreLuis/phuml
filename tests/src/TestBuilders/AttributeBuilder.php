@@ -7,8 +7,8 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Properties\Property;
 use PhUml\Code\Variables\TypeDeclaration;
 
 final class AttributeBuilder
@@ -54,7 +54,7 @@ final class AttributeBuilder
         return $this;
     }
 
-    public function build(): Attribute
+    public function build(): Property
     {
         if ($this->type === null) {
             $type = null;
@@ -66,6 +66,6 @@ final class AttributeBuilder
             ->withType($type)
             ->build();
 
-        return new Attribute($variable, $this->visibility, $this->isStatic);
+        return new Property($variable, $this->visibility, $this->isStatic);
     }
 }

@@ -49,7 +49,7 @@ final class A
         return new ParameterBuilder($name);
     }
 
-    public static function attribute(string $name): AttributeBuilder
+    public static function property(string $name): AttributeBuilder
     {
         return new AttributeBuilder($name);
     }

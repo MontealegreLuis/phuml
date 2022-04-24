@@ -13,12 +13,12 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Code\UseStatements;
 use PhUml\TestBuilders\A;
 
-final class ParsedAttributesBuilderTest extends TestCase
+final class ParsedPropertiesBuilderTest extends TestCase
 {
     /** @test */
-    function it_extract_attributes_from_promoted_properties()
+    function it_extract_properties_from_promoted_properties()
     {
-        $builder = new ParsedAttributesBuilder(
+        $builder = new ParsedPropertiesBuilder(
             new VisibilityBuilder(),
             A::typeBuilderBuilder()->build(),
         );
@@ -31,12 +31,12 @@ final class ParsedAttributesBuilderTest extends TestCase
             $publicPromotedProperty,
         ];
 
-        $attributes = $builder->fromPromotedProperties($promotedProperties, $this->useStatements);
+        $properties = $builder->fromPromotedProperties($promotedProperties, $this->useStatements);
 
-        $this->assertCount(3, $attributes);
-        $this->assertEquals(A::attribute('$aString')->private()->withType('string')->build(), $attributes[0]);
-        $this->assertEquals(A::attribute('$aFloat')->protected()->withType('float')->build(), $attributes[1]);
-        $this->assertEquals(A::attribute('$aBoolean')->public()->withType('bool')->build(), $attributes[2]);
+        $this->assertCount(3, $properties);
+        $this->assertEquals(A::property('$aString')->private()->withType('string')->build(), $properties[0]);
+        $this->assertEquals(A::property('$aFloat')->protected()->withType('float')->build(), $properties[1]);
+        $this->assertEquals(A::property('$aBoolean')->public()->withType('bool')->build(), $properties[2]);
     }
 
     /** @before */

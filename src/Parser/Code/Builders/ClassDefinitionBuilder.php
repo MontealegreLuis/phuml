@@ -41,7 +41,7 @@ final class ClassDefinitionBuilder
             $this->membersBuilder->methods($class->getMethods(), $useStatements),
             $this->membersBuilder->constants($class->stmts),
             $class->extends !== null ? new ClassDefinitionName((string) $class->extends) : null,
-            $this->membersBuilder->attributes($class->stmts, $class->getMethod('__construct'), $useStatements),
+            $this->membersBuilder->properties($class->stmts, $class->getMethod('__construct'), $useStatements),
             $this->buildInterfaces($class->implements),
             $this->buildTraits($class->stmts),
             $this->analyzer->isAttribute($class)

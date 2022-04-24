@@ -15,7 +15,7 @@ final class ClassDiagramConfigurationBuilder
 {
     private bool $hideEmptyBlocks = false;
 
-    private bool $hideAttributes = false;
+    private bool $hideProperties = false;
 
     private bool $hideMethods = false;
 
@@ -33,9 +33,9 @@ final class ClassDiagramConfigurationBuilder
         return $this;
     }
 
-    public function withoutAttributes(): ClassDiagramConfigurationBuilder
+    public function withoutProperties(): ClassDiagramConfigurationBuilder
     {
-        $this->hideAttributes = true;
+        $this->hideProperties = true;
         return $this;
     }
 
@@ -77,7 +77,7 @@ final class ClassDiagramConfigurationBuilder
                 'associations' => $this->associations,
                 'hide-private' => false,
                 'hide-protected' => false,
-                'hide-attributes' => $this->hideAttributes,
+                'hide-attributes' => $this->hideProperties,
                 'hide-methods' => $this->hideMethods,
                 'theme' => $this->theme,
                 'hide-empty-blocks' => $this->hideEmptyBlocks,

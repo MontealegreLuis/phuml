@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 
 /**
- * It will exclude private methods or attributes
+ * It will exclude private methods or properties
  */
 final class ProtectedVisibilityFilter implements VisibilityFilter
 {

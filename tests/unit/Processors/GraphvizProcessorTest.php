@@ -37,7 +37,7 @@ final class GraphvizProcessorTest extends TestCase
         $parentClass = A::classNamed('ParentClass');
         $reference = A::classNamed('ReferencedClass');
         $trait = A::trait('ATrait')
-            ->withAProtectedAttribute('$variable')
+            ->withAProtectedProperty('$variable')
             ->withAPublicMethod('doSomething')
             ->build();
         $class = A::class('MyClass')

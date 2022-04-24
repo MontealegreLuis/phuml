@@ -38,7 +38,7 @@ final class GenerateClassDiagramWithoutEmptyBlocksTest extends TestCase
     function let()
     {
         $configuration = A::classDiagramConfiguration()
-            ->withoutAttributes()
+            ->withoutProperties()
             ->withoutMethods()
             ->withoutEmptyBlocks()
             ->build();

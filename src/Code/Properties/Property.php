@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code\Attributes;
+namespace PhUml\Code\Properties;
 
 use PhUml\Code\Modifiers\CanBeStatic;
 use PhUml\Code\Modifiers\HasVisibility;
@@ -21,7 +21,7 @@ use Stringable;
 /**
  * It represents an instance variable
  */
-final class Attribute implements HasType, HasVisibility, CanBeStatic, Stringable
+final class Property implements HasType, HasVisibility, CanBeStatic, Stringable
 {
     use WithVisibility;
     use WithStaticModifier;

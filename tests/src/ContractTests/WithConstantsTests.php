@@ -7,9 +7,9 @@
 
 namespace PhUml\ContractTests;
 
-use PhUml\Code\Attributes\Constant;
-use PhUml\Code\Attributes\HasConstants;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Properties\Constant;
+use PhUml\Code\Properties\HasConstants;
 use PhUml\Code\Variables\TypeDeclaration;
 
 trait WithConstantsTests

@@ -21,7 +21,7 @@ final class CodeParserConfiguration
     private const HIDE_PROTECTED = 'hide-protected';
 
     /** @var string */
-    private const HIDE_ATTRIBUTES = 'hide-attributes';
+    private const HIDE_PROPERTIES = 'hide-attributes';
 
     /** @var string */
     private const HIDE_METHODS = 'hide-methods';
@@ -42,7 +42,7 @@ final class CodeParserConfiguration
             self::ASSOCIATIONS => false,
             self::HIDE_PRIVATE => false,
             self::HIDE_PROTECTED => false,
-            self::HIDE_ATTRIBUTES => false,
+            self::HIDE_PROPERTIES => false,
             self::HIDE_METHODS => false,
         ]);
     }
@@ -56,8 +56,8 @@ final class CodeParserConfiguration
         $this->hidePrivate = $options[self::HIDE_PRIVATE];
         Assert::boolean($options[self::HIDE_PROTECTED], 'Hide protected members option must be a boolean value');
         $this->hideProtected = $options[self::HIDE_PROTECTED];
-        Assert::boolean($options[self::HIDE_ATTRIBUTES], 'Hide attributes option must be a boolean value');
-        $this->hideAttributes = $options[self::HIDE_ATTRIBUTES];
+        Assert::boolean($options[self::HIDE_PROPERTIES], 'Hide attributes option must be a boolean value');
+        $this->hideAttributes = $options[self::HIDE_PROPERTIES];
         Assert::boolean($options[self::HIDE_METHODS], 'Hide methods option must be a boolean value');
         $this->hideMethods = $options[self::HIDE_METHODS];
     }

@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code\Attributes;
+namespace PhUml\Code\Properties;
 
 use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;

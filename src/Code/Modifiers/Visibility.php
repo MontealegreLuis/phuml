@@ -11,7 +11,7 @@ use Stringable;
 use Webmozart\Assert\Assert;
 
 /**
- * It represents the visibility of either an attribute or a method
+ * It represents the visibility of either a property or a method
  */
 final class Visibility implements Stringable
 {

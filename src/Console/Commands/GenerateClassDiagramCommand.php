@@ -48,7 +48,7 @@ Example:
     php bin/phuml phuml:diagram -r -a -p neato ./src out.png
 
     This command will look for PHP files within the `./src` directory and its sub-directories.
-    It will extract associations from constructor parameters and attributes. 
+    It will extract associations from constructor parameters and properties. 
     It will generate the class diagram using the `neato` processor 
     It will save the diagram to the file `out.png`.
 HELP

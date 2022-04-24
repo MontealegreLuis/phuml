@@ -88,13 +88,13 @@ final class ClassGraphBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_extracts_the_elements_for_a_class_with_associations_in_the_attributes()
+    function it_extracts_the_elements_for_a_class_with_associations_in_their_properties()
     {
         $firstReference = A::classNamed('FirstClass');
         $secondReference = A::classNamed('SecondClass');
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', (string) $firstReference->name())
-            ->withAPrivateAttribute('$secondReference', (string) $secondReference->name())
+            ->withAPrivateProperty('$firstReference', (string) $firstReference->name())
+            ->withAPrivateProperty('$secondReference', (string) $secondReference->name())
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
@@ -111,13 +111,13 @@ final class ClassGraphBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_duplicate_associations_for_2_attributes_with_the_same_type()
+    function it_does_not_duplicate_associations_for_2_properties_with_the_same_type()
     {
         $reference = A::classNamed('FirstClass');
 
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', (string) $reference->name())
-            ->withAPrivateAttribute('$secondReference', (string) $reference->name())
+            ->withAPrivateProperty('$firstReference', (string) $reference->name())
+            ->withAPrivateProperty('$secondReference', (string) $reference->name())
             ->build();
         $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
@@ -156,15 +156,15 @@ final class ClassGraphBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_duplicate_associations_present_in_both_attributes_and_constructor()
+    function it_does_not_duplicate_associations_present_in_both_properties_and_constructor()
     {
         $firstReference = A::classNamed('FirstClass');
         $secondReference = A::classNamed('SecondClass');
         $thirdReference = A::classNamed('ThirdClass');
 
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', (string) $firstReference->name())
-            ->withAPrivateAttribute('$secondReference', (string) $secondReference->name())
+            ->withAPrivateProperty('$firstReference', (string) $firstReference->name())
+            ->withAPrivateProperty('$secondReference', (string) $secondReference->name())
             ->withAPublicMethod(
                 '__construct',
                 A::parameter('$secondReference')->withType((string) $secondReference->name())->build(),
@@ -199,8 +199,8 @@ final class ClassGraphBuilderTest extends TestCase
         $parent = A::classNamed('ParentClass');
 
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', (string) $firstReference->name())
-            ->withAPrivateAttribute('$secondReference', (string) $secondReference->name())
+            ->withAPrivateProperty('$firstReference', (string) $firstReference->name())
+            ->withAPrivateProperty('$secondReference', (string) $secondReference->name())
             ->withAPublicMethod(
                 '__construct',
                 A::parameter('$thirdReference')->withType((string) $thirdReference->name())->build(),
@@ -238,11 +238,11 @@ final class ClassGraphBuilderTest extends TestCase
     {
         $reference = A::classNamed('AReference');
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', (string) $reference->name())
+            ->withAPrivateProperty('$firstReference', (string) $reference->name())
             ->build()
         ;
         $anotherClass = A::class('AnotherClass')
-            ->withAPrivateAttribute('$firstReference', (string) $reference->name())
+            ->withAPrivateProperty('$firstReference', (string) $reference->name())
             ->build()
         ;
         $codebase = new Codebase();
@@ -264,8 +264,8 @@ final class ClassGraphBuilderTest extends TestCase
     function it_ignores_associations_if_specified()
     {
         $class = A::class('AClass')
-            ->withAPrivateAttribute('$firstReference', 'FirstClass')
-            ->withAPrivateAttribute('$secondReference', 'SecondClass')
+            ->withAPrivateProperty('$firstReference', 'FirstClass')
+            ->withAPrivateProperty('$secondReference', 'SecondClass')
             ->withAPublicMethod(
                 '__construct',
                 A::parameter('$thirdReference')->withType('ThirdClass')->build(),

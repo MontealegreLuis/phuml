@@ -8,7 +8,7 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Stmt\ClassConst;
-use PhUml\Code\Attributes\Constant;
+use PhUml\Code\Properties\Constant;
 
 /**
  * It builds an array of `Constants` for either a `ClassDefinition` or an `InterfaceDefinition`

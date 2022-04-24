@@ -18,7 +18,7 @@ use PhUml\Code\Codebase;
  */
 final class NoAssociationsBuilder implements AssociationsBuilder
 {
-    public function fromAttributes(ClassDefinition $class, Codebase $codebase): array
+    public function fromProperties(ClassDefinition $class, Codebase $codebase): array
     {
         return [];
     }

@@ -8,7 +8,7 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node\Stmt\ClassConst;
-use PhUml\Code\Attributes\Constant;
+use PhUml\Code\Properties\Constant;
 
 final class NoConstantsBuilder implements ConstantsBuilder
 {

@@ -14,7 +14,7 @@ use PhUml\TestBuilders\A;
 final class CodeParserTest extends TestCase
 {
     /** @test */
-    function it_parses_a_class_with_no_attributes_and_no_methods()
+    function it_parses_a_class_with_no_properties_and_no_methods()
     {
         $this->finder->add(
             <<<'CLASS'
@@ -34,7 +34,7 @@ CLASS
     }
 
     /** @test */
-    function it_parses_access_modifiers_for_attributes()
+    function it_parses_access_modifiers_for_properties()
     {
         $this->finder->add(
             <<<'CLASS'
@@ -52,16 +52,16 @@ CLASS
         $codebase = $this->parser->parse($sourceCode);
 
         $class = A::class('MyClass')
-            ->withAPrivateAttribute('$name')
-            ->withAProtectedAttribute('$age')
-            ->withAPublicAttribute('$phone')
+            ->withAPrivateProperty('$name')
+            ->withAProtectedProperty('$age')
+            ->withAPublicProperty('$phone')
             ->build();
         $this->assertTrue($codebase->has($class->name()));
         $this->assertEquals($class, $codebase->get($class->name()));
     }
 
     /** @test */
-    function it_parses_type_declarations_for_attributes_from_doc_blocks()
+    function it_parses_type_declarations_for_properties_from_doc_blocks()
     {
         $class = <<<'CLASS'
 <?php
@@ -89,9 +89,9 @@ CLASS;
         $codebase = $this->parser->parse($sourceCode);
 
         $class = A::class('MyClass')
-            ->withAPrivateAttribute('$names', 'string[]')
-            ->withAProtectedAttribute('$age', 'int')
-            ->withAPublicAttribute('$phones', 'string[]')
+            ->withAPrivateProperty('$names', 'string[]')
+            ->withAProtectedProperty('$age', 'int')
+            ->withAPublicProperty('$phones', 'string[]')
             ->build();
         $this->assertTrue($codebase->has($class->name()));
         $this->assertEquals($class, $codebase->get($class->name()));
@@ -442,7 +442,7 @@ CLASS;
         $codebase = $this->parser->parse($sourceCode);
 
         $user = A::class('User')
-            ->withAProtectedAttribute('$name', 'string')
+            ->withAProtectedProperty('$name', 'string')
             ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
             ->withAMethod(
                 A::method('isNamed')
@@ -466,13 +466,13 @@ CLASS;
             ->extending($pageable->name())
             ->build();
         $student = A::class('Student')
-            ->withAPrivateAttribute('$grades', 'string[]')
+            ->withAPrivateProperty('$grades', 'string[]')
             ->withAPublicMethod('__construct', A::parameter('$name')->withType('string')->build())
             ->extending($user->name())
             ->build();
         $inMemoryStudents = A::class('InMemoryStudents')
-            ->withAPrivateAttribute('$students', "{$student->name()}[]")
-            ->withAPrivateAttribute('$page')
+            ->withAPrivateProperty('$students', "{$student->name()}[]")
+            ->withAPrivateProperty('$page')
             ->withAPublicMethod('__construct', A::parameter('$page')->withType('Page')->build())
             ->withAMethod($currentMethod)
             ->withAMethod($namedMethod)

@@ -34,7 +34,7 @@ final class TraitDefinitionBuilder
         return new TraitDefinition(
             new Name((string) $trait->namespacedName),
             $this->membersBuilder->methods($trait->getMethods(), $useStatements),
-            $this->membersBuilder->attributes($trait->stmts, $trait->getMethod('__construct'), $useStatements),
+            $this->membersBuilder->properties($trait->stmts, $trait->getMethod('__construct'), $useStatements),
             $this->buildTraits($trait->stmts)
         );
     }

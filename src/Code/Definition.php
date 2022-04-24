@@ -46,13 +46,13 @@ abstract class Definition implements Named, HasNodeIdentifier
     /**
      * This method is used when the commands are called with the option `hide-empty-blocks`
      *
-     * For interfaces it counts the number of constants.
-     * For classes it counts both constants and attributes.
+     * For interfaces, it counts the number of constants.
+     * For classes, it counts both constants and properties.
      *
-     * @see ClassDefinition::hasAttributes() for more details
-     * @see InterfaceDefinition::hasAttributes() for more details
+     * @see ClassDefinition::hasProperties() for more details
+     * @see InterfaceDefinition::hasProperties() for more details
      */
-    abstract public function hasAttributes(): bool;
+    abstract public function hasProperties(): bool;
 
     /** @return Method[] */
     public function methods(): array

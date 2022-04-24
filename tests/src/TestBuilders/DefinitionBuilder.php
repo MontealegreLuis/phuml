@@ -7,10 +7,10 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\Attributes\Constant;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Properties\Constant;
 use PhUml\Code\Variables\TypeDeclaration;
 
 abstract class DefinitionBuilder

@@ -64,14 +64,14 @@ final class TypeBuilder
         return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
     }
 
-    public function fromAttributeType(
+    public function fromPropertyType(
         Identifier|Name|ComplexType|null $type,
         ?Doc $docBlock,
         UseStatements $useStatements
     ): TypeDeclaration {
-        $attributeComment = $docBlock?->getText();
+        $propertyComment = $docBlock?->getText();
         if ($type === null) {
-            return $this->typeResolver->resolveForAttribute($attributeComment, $useStatements);
+            return $this->typeResolver->resolveForProperty($propertyComment, $useStatements);
         }
 
         $typeDeclaration = $this->fromParsedType($type);
@@ -79,7 +79,7 @@ final class TypeBuilder
             return $typeDeclaration;
         }
 
-        $typeFromDocBlock = $this->typeResolver->resolveForAttribute($attributeComment, $useStatements);
+        $typeFromDocBlock = $this->typeResolver->resolveForProperty($propertyComment, $useStatements);
 
         return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
     }

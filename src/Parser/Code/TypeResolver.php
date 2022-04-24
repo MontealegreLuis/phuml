@@ -43,14 +43,14 @@ final class TypeResolver
         return $returnType instanceof TagType ? $returnType->resolve($useStatements) : TypeDeclaration::absent();
     }
 
-    public function resolveForAttribute(?string $attributeComment, UseStatements $useStatements): TypeDeclaration
+    public function resolveForProperty(?string $propertyComment, UseStatements $useStatements): TypeDeclaration
     {
-        if ($attributeComment === null) {
+        if ($propertyComment === null) {
             return TypeDeclaration::absent();
         }
 
-        $attributeType = $this->factory->attributeTypeFrom($attributeComment);
+        $propertyType = $this->factory->propertyTypeFrom($propertyComment);
 
-        return $attributeType instanceof TagType ? $attributeType->resolve($useStatements) : TypeDeclaration::absent();
+        return $propertyType instanceof TagType ? $propertyType->resolve($useStatements) : TypeDeclaration::absent();
     }
 }

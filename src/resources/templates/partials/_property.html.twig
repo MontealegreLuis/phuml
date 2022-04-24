@@ -1,4 +1,6 @@
 <FONT COLOR="{{ theme.properties.color }}" FACE="{{ theme.properties.font }}" POINT-SIZE="{{ theme.properties.fontSize }}">
-    <I>{{ constant }}</I>
+    {% if property.isStatic %}<U>{% endif %}
+        {{ property }}
+    {% if property.isStatic %}</U>{% endif %}
 </FONT>
 <BR ALIGN="LEFT"/>

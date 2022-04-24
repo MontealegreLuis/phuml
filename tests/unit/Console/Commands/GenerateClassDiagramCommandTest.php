@@ -88,7 +88,7 @@ final class GenerateClassDiagramCommandTest extends TestCase
     }
 
     /** @test */
-    function it_generates_a_class_diagram_excluding_attributes_and_methods()
+    function it_generates_a_class_diagram_excluding_properties_and_methods()
     {
         $status = $this->tester->execute([
             'command' => $this->command->getName(),

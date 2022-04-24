@@ -20,7 +20,7 @@ use PhUml\TestBuilders\A;
 final class MembersBuilderTest extends TestCase
 {
     /** @test */
-    function it_extracts_attributes_from_promoted_properties()
+    function it_extracts_properties_from_promoted_properties()
     {
         $membersBuilder = A::membersBuilder()->build();
         $constructor = new ClassMethod('__construct', [
@@ -33,19 +33,19 @@ final class MembersBuilderTest extends TestCase
             ],
         ]);
 
-        $attributes = $membersBuilder->attributes([], $constructor, new UseStatements([]));
+        $properties = $membersBuilder->properties([], $constructor, new UseStatements([]));
 
-        $this->assertCount(3, $attributes);
-        $this->assertEquals(A::attribute('$aString')->private()->withType('string')->build(), $attributes[0]);
-        $this->assertEquals(A::attribute('$aFloat')->protected()->withType('float')->build(), $attributes[1]);
-        $this->assertEquals(A::attribute('$aBoolean')->public()->withType('bool')->build(), $attributes[2]);
+        $this->assertCount(3, $properties);
+        $this->assertEquals(A::property('$aString')->private()->withType('string')->build(), $properties[0]);
+        $this->assertEquals(A::property('$aFloat')->protected()->withType('float')->build(), $properties[1]);
+        $this->assertEquals(A::property('$aBoolean')->public()->withType('bool')->build(), $properties[2]);
     }
 
     /** @test */
-    function it_extracts_both_regular_attributes_and_promoted_properties()
+    function it_extracts_both_regular_properties_and_promoted_properties()
     {
         $membersBuilder = A::membersBuilder()->build();
-        $attributes = [
+        $properties = [
             new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('privateProperty')]),
             new Property(Class_::MODIFIER_PROTECTED, [new PropertyProperty('protectedProperty')]),
             new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('publicProperty')]),
@@ -60,15 +60,15 @@ final class MembersBuilderTest extends TestCase
             ],
         ]);
 
-        $attributes = $membersBuilder->attributes($attributes, $constructor, new UseStatements([]));
+        $properties = $membersBuilder->properties($properties, $constructor, new UseStatements([]));
 
-        $this->assertCount(6, $attributes);
-        $this->assertEquals(A::attribute('$privateProperty')->private()->build(), $attributes[0]);
-        $this->assertEquals(A::attribute('$protectedProperty')->protected()->build(), $attributes[1]);
-        $this->assertEquals(A::attribute('$publicProperty')->public()->build(), $attributes[2]);
-        $this->assertEquals(A::attribute('$aString')->private()->withType('string')->build(), $attributes[3]);
-        $this->assertEquals(A::attribute('$aFloat')->protected()->withType('float')->build(), $attributes[4]);
-        $this->assertEquals(A::attribute('$aBoolean')->public()->withType('bool')->build(), $attributes[5]);
+        $this->assertCount(6, $properties);
+        $this->assertEquals(A::property('$privateProperty')->private()->build(), $properties[0]);
+        $this->assertEquals(A::property('$protectedProperty')->protected()->build(), $properties[1]);
+        $this->assertEquals(A::property('$publicProperty')->public()->build(), $properties[2]);
+        $this->assertEquals(A::property('$aString')->private()->withType('string')->build(), $properties[3]);
+        $this->assertEquals(A::property('$aFloat')->protected()->withType('float')->build(), $properties[4]);
+        $this->assertEquals(A::property('$aBoolean')->public()->withType('bool')->build(), $properties[5]);
     }
 
     /** @test */
@@ -85,9 +85,9 @@ final class MembersBuilderTest extends TestCase
             ],
         ]);
 
-        $attributes = $membersBuilder->attributes([], $constructor, new UseStatements([]));
+        $properties = $membersBuilder->properties([], $constructor, new UseStatements([]));
 
-        $this->assertCount(1, $attributes);
-        $this->assertEquals(A::attribute('$aBoolean')->public()->withType('bool')->build(), $attributes[0]);
+        $this->assertCount(1, $properties);
+        $this->assertEquals(A::property('$aBoolean')->public()->withType('bool')->build(), $properties[0]);
     }
 }

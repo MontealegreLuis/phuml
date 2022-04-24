@@ -21,7 +21,7 @@ use PhUml\Code\Modifiers\Visibility;
 final class VisibilityBuilderTest extends TestCase
 {
     /** @test */
-    function it_extracts_visibility_from_attributes()
+    function it_extracts_visibility_from_properties()
     {
         $public = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('name')]);
         $private = new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('address')]);

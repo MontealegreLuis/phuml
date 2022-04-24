@@ -7,7 +7,7 @@
 
 namespace PhUml\Code;
 
-use PhUml\Code\Attributes\HasConstants;
+use PhUml\Code\Properties\HasConstants;
 use PhUml\ContractTests\DefinitionTest;
 use PhUml\ContractTests\WithConstantsTests;
 use PhUml\TestBuilders\A;

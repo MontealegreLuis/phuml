@@ -10,28 +10,28 @@ namespace PhUml\Parser\Code\Builders;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
-use PhUml\Code\Attributes\Attribute;
-use PhUml\Code\Attributes\Constant;
+use PhpParser\Node\Stmt\Property as ParsedProperty;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Properties\Constant;
+use PhUml\Code\Properties\Property;
 use PhUml\Code\UseStatements;
-use PhUml\Parser\Code\Builders\Members\AttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\MethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\PropertiesBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 
 /**
- * It builds the constants, attributes and methods of a definition
+ * It builds the constants, properties and methods of a definition
  *
  * @see ConstantsBuilder for more details about the constants creation
- * @see AttributesBuilder for more details about the attributes creation
+ * @see PropertiesBuilder for more details about the properties creation
  * @see MethodsBuilder for more details about the methods creation
  */
 final class MembersBuilder
 {
     public function __construct(
         private readonly ConstantsBuilder $constantsBuilder,
-        private readonly AttributesBuilder $attributesBuilder,
+        private readonly PropertiesBuilder $propertiesBuilder,
         private readonly MethodsBuilder $methodsBuilder,
         private readonly VisibilityFilters $filters,
     ) {
@@ -44,7 +44,7 @@ final class MembersBuilder
     public function constants(array $members): array
     {
         /** @var ClassConst[] $constants */
-        $constants = array_filter($members, static fn ($attribute): bool => $attribute instanceof ClassConst);
+        $constants = array_filter($members, static fn ($property): bool => $property instanceof ClassConst);
 
         /** @var ClassConst[] $filteredConstants */
         $filteredConstants = $this->filters->apply($constants);
@@ -54,22 +54,22 @@ final class MembersBuilder
 
     /**
      * @param Node[] $members
-     * @return Attribute[]
+     * @return Property[]
      */
-    public function attributes(array $members, ?ClassMethod $constructor, UseStatements $useStatements): array
+    public function properties(array $members, ?ClassMethod $constructor, UseStatements $useStatements): array
     {
-        $attributes = [];
+        $properties = [];
         if ($constructor !== null) {
-            $attributes = $this->attributesFromPromotedProperties($constructor, $useStatements);
+            $properties = $this->fromPromotedProperties($constructor, $useStatements);
         }
 
-        /** @var Property[] $properties */
-        $properties = array_filter($members, static fn ($attribute): bool => $attribute instanceof Property);
+        /** @var ParsedProperty[] $parsedProperties */
+        $parsedProperties = array_filter($members, static fn ($property): bool => $property instanceof ParsedProperty);
 
-        /** @var Property[] $filteredAttributes */
-        $filteredAttributes = $this->filters->apply($properties);
+        /** @var ParsedProperty[] $filteredProperties */
+        $filteredProperties = $this->filters->apply($parsedProperties);
 
-        return array_merge($this->attributesBuilder->build($filteredAttributes, $useStatements), $attributes);
+        return array_merge($this->propertiesBuilder->build($filteredProperties, $useStatements), $properties);
     }
 
     /**
@@ -84,8 +84,8 @@ final class MembersBuilder
         return $this->methodsBuilder->build($filteredMethods, $useStatements);
     }
 
-    /** @return Attribute[] */
-    private function attributesFromPromotedProperties(ClassMethod $constructor, UseStatements $useStatements): array
+    /** @return Property[] */
+    private function fromPromotedProperties(ClassMethod $constructor, UseStatements $useStatements): array
     {
         $promotedProperties = array_filter(
             $constructor->getParams(),
@@ -95,6 +95,6 @@ final class MembersBuilder
         /** @var Node\Param[] $filteredPromotedProperties */
         $filteredPromotedProperties = $this->filters->apply($promotedProperties);
 
-        return $this->attributesBuilder->fromPromotedProperties($filteredPromotedProperties, $useStatements);
+        return $this->propertiesBuilder->fromPromotedProperties($filteredPromotedProperties, $useStatements);
     }
 }

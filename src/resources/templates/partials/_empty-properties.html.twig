@@ -1,0 +1,12 @@
+{% if definition.hasProperties %}
+<TR>
+    <TD BORDER="{{ theme.tableBorder }}" ALIGN="LEFT" BGCOLOR="{{ theme.properties.background }}">
+        {% for constant in definition.constants %}
+            {% include 'partials/_constant.html.twig' %}
+        {% endfor %}
+        {% for property in definition.properties %}
+            {% include 'partials/_property.html.twig' %}
+        {% endfor %}
+    </TD>
+</TR>
+{% endif %}

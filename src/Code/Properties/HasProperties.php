@@ -5,10 +5,10 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code\Attributes;
+namespace PhUml\Code\Properties;
 
-interface HasAttributes
+interface HasProperties
 {
-    /** @return Attribute[] */
-    public function attributes(): array;
+    /** @return Property[] */
+    public function properties(): array;
 }

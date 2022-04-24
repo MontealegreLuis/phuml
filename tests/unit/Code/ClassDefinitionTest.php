@@ -8,18 +8,18 @@
 namespace PhUml\Code;
 
 use BadMethodCallException;
-use PhUml\Code\Attributes\Attribute;
-use PhUml\Code\Attributes\HasAttributes;
-use PhUml\Code\Attributes\HasConstants;
+use PhUml\Code\Properties\HasConstants;
+use PhUml\Code\Properties\HasProperties;
+use PhUml\Code\Properties\Property;
 use PhUml\ContractTests\DefinitionTest;
-use PhUml\ContractTests\WithAttributesTests;
 use PhUml\ContractTests\WithConstantsTests;
+use PhUml\ContractTests\WithPropertiesTests;
 use PhUml\TestBuilders\A;
 
 final class ClassDefinitionTest extends DefinitionTest
 {
     use WithConstantsTests;
-    use WithAttributesTests;
+    use WithPropertiesTests;
 
     /** @test */
     function it_does_not_implement_any_interface_by_default()
@@ -127,9 +127,9 @@ final class ClassDefinitionTest extends DefinitionTest
         return new ClassDefinition(new Name('AnyClassDefinition'), [], $constants);
     }
 
-    /** @param Attribute[] $attributes */
-    protected function definitionWithAttributes(array $attributes = []): HasAttributes
+    /** @param Property[] $properties */
+    protected function definitionWithProperties(array $properties = []): HasProperties
     {
-        return new ClassDefinition(new Name('AClassWithAttributes'), [], [], null, $attributes);
+        return new ClassDefinition(new Name('AClassWithProperties'), [], [], null, $properties);
     }
 }

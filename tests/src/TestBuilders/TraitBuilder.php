@@ -33,7 +33,7 @@ final class TraitBuilder
         return new TraitDefinition(
             new Name($this->name),
             $this->methods,
-            $this->attributes,
+            $this->properties,
             $this->traits
         );
     }

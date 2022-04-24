@@ -7,46 +7,46 @@
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Parameters\Parameter;
+use PhUml\Code\Properties\Property;
 
 trait MembersBuilder
 {
-    /** @var Attribute[] */
-    protected $attributes = [];
+    /** @var Property[] */
+    protected array $properties = [];
 
     /** @var Method[] */
-    protected $methods = [];
+    protected array $methods = [];
 
     /** @return ClassBuilder|TraitBuilder */
-    public function withAPublicAttribute(string $name, string $type = null)
+    public function withAPublicProperty(string $name, string $type = null)
     {
-        $this->attributes[] = A::attribute($name)->public()->withType($type)->build();
+        $this->properties[] = A::property($name)->public()->withType($type)->build();
 
         return $this;
     }
 
     /** @return ClassBuilder|TraitBuilder */
-    public function withAProtectedAttribute(string $name, string $type = null)
+    public function withAProtectedProperty(string $name, string $type = null)
     {
-        $this->attributes[] = new Attribute(A::variable($name)->withType($type)->build(), Visibility::protected());
+        $this->properties[] = new Property(A::variable($name)->withType($type)->build(), Visibility::protected());
 
         return $this;
     }
 
     /** @return ClassBuilder|TraitBuilder */
-    public function withAPrivateAttribute(string $name, string $type = null)
+    public function withAPrivateProperty(string $name, string $type = null)
     {
-        $this->attributes[] = new Attribute(A::variable($name)->withType($type)->build(), Visibility::private());
+        $this->properties[] = new Property(A::variable($name)->withType($type)->build(), Visibility::private());
 
         return $this;
     }
 
-    public function withAnAttribute(Attribute $attribute)
+    public function withAProperty(Property $property)
     {
-        $this->attributes[] = $attribute;
+        $this->properties[] = $property;
 
         return $this;
     }

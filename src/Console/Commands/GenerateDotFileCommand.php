@@ -41,7 +41,7 @@ Example:
     php bin/phuml phuml:dot -r -a ./src dot.gv
 
     This command will look for PHP files within the `./src` directory and its sub-directories.
-    It will extract associations from constructor parameters and attributes.
+    It will extract associations from constructor parameters and properties.
     It will generate a digraph in DOT format and save it to the file `dot.gv`.
 HELP
             )

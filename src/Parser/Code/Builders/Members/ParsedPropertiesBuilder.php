@@ -8,15 +8,15 @@
 namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Property;
-use PhUml\Code\Attributes\Attribute;
+use PhpParser\Node\Stmt\Property as ParsedProperty;
+use PhUml\Code\Properties\Property;
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\Variable;
 
 /**
- * It builds an array of `Attributes` for a `ClassDefinition` or a `TraitDefinition`
+ * It builds an array of `Property` for a `ClassDefinition` or a `TraitDefinition`
  */
-final class ParsedAttributesBuilder implements AttributesBuilder
+final class ParsedPropertiesBuilder implements PropertiesBuilder
 {
     public function __construct(
         private readonly VisibilityBuilder $visibilityBuilder,
@@ -25,29 +25,29 @@ final class ParsedAttributesBuilder implements AttributesBuilder
     }
 
     /**
-     * @param Property[] $parsedAttributes
-     * @return Attribute[]
+     * @param ParsedProperty[] $parsedProperties
+     * @return Property[]
      */
-    public function build(array $parsedAttributes, UseStatements $useStatements): array
+    public function build(array $parsedProperties, UseStatements $useStatements): array
     {
-        return array_map(function (Property $attribute) use ($useStatements): Attribute {
+        return array_map(function (ParsedProperty $property) use ($useStatements): Property {
             $variable = new Variable(
-                "\${$attribute->props[0]->name}",
-                $this->typeBuilder->fromAttributeType($attribute->type, $attribute->getDocComment(), $useStatements)
+                "\${$property->props[0]->name}",
+                $this->typeBuilder->fromPropertyType($property->type, $property->getDocComment(), $useStatements)
             );
-            $visibility = $this->visibilityBuilder->build($attribute);
+            $visibility = $this->visibilityBuilder->build($property);
 
-            return new Attribute($variable, $visibility, $attribute->isStatic());
-        }, $parsedAttributes);
+            return new Property($variable, $visibility, $property->isStatic());
+        }, $parsedProperties);
     }
 
     /**
      * @param Node\Param[] $promotedProperties
-     * @return Attribute[]
+     * @return Property[]
      */
     public function fromPromotedProperties(array $promotedProperties, UseStatements $useStatements): array
     {
-        return array_map(function (Node\Param $param) use ($useStatements): Attribute {
+        return array_map(function (Node\Param $param) use ($useStatements): Property {
             /** @var Node\Expr\Variable $var */
             $var = $param->var;
 
@@ -62,7 +62,7 @@ final class ParsedAttributesBuilder implements AttributesBuilder
             );
             $visibility = $this->visibilityBuilder->fromFlags($param->flags);
 
-            return new Attribute(new Variable("\$${name}", $type), $visibility);
+            return new Property(new Variable("\$${name}", $type), $visibility);
         }, $promotedProperties);
     }
 }

@@ -10,7 +10,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\ClassConst;
-use PhUml\Code\Attributes\Constant;
+use PhUml\Code\Properties\Constant;
 use PhUml\Code\Variables\TypeDeclaration;
 
 /**

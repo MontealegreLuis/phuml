@@ -58,7 +58,7 @@ final class ClassBuilder extends DefinitionBuilder
             $this->methods,
             $this->constants,
             $this->parent,
-            $this->attributes,
+            $this->properties,
             $this->interfaces,
             $this->traits,
             $this->isAttribute

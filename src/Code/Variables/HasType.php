@@ -21,7 +21,7 @@ interface HasType
     /**
      * This is used to build the `Summary` of a `Structure`
      *
-     * @see \PhUml\Code\ClassDefinition::countTypedAttributesByVisibility() for more details
+     * @see \PhUml\Code\ClassDefinition::countTypedPropertiesByVisibility() for more details
      */
     public function hasTypeDeclaration(): bool;
 

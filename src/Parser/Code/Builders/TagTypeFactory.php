@@ -64,9 +64,9 @@ final class TagTypeFactory
         return $this->resolveType($return->getType());
     }
 
-    public function attributeTypeFrom(string $attributeComment): ?TagType
+    public function propertyTypeFrom(string $propertyComment): ?TagType
     {
-        $docBlock = $this->factory->create($attributeComment);
+        $docBlock = $this->factory->create($propertyComment);
 
         /** @var TagWithType[]|InvalidTag[] $varTags */
         $varTags = $docBlock->getTagsByName('var');

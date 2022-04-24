@@ -14,15 +14,15 @@ use PhUml\Graphviz\Edge;
 /**
  * It discovers associations between classes/interfaces by inspecting
  *
- * 1. The attributes of a class
- * 2. The parameters injected trough the constructor of a class
+ * 1. The properties of a class
+ * 2. The parameters injected through the constructor of a class
  *
  * It creates edges between the definitions when appropriate
  */
 interface AssociationsBuilder
 {
     /** @return Edge[]*/
-    public function fromAttributes(ClassDefinition $class, Codebase $codebase): array;
+    public function fromProperties(ClassDefinition $class, Codebase $codebase): array;
 
     /** @return Edge[] */
     public function fromConstructor(ClassDefinition $class, Codebase $codebase): array;

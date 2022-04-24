@@ -16,22 +16,25 @@ final class DigraphStyle
 
     public static function default(ThemeName $theme): DigraphStyle
     {
-        return new DigraphStyle($theme, 'partials/_attributes.html.twig', 'partials/_methods.html.twig');
+        return new DigraphStyle($theme, 'partials/_properties.html.twig', 'partials/_methods.html.twig');
     }
 
     public static function withoutEmptyBlocks(ThemeName $theme): DigraphStyle
     {
-        return new DigraphStyle($theme, 'partials/_empty-attributes.html.twig', 'partials/_empty-methods.html.twig');
+        return new DigraphStyle($theme, 'partials/_empty-properties.html.twig', 'partials/_empty-methods.html.twig');
     }
 
-    private function __construct(ThemeName $theme, private readonly string $attributes, private readonly string $methods)
-    {
+    private function __construct(
+        ThemeName $theme,
+        private readonly string $properties,
+        private readonly string $methods
+    ) {
         $this->theme = "{$theme->name()}.html.twig";
     }
 
-    public function attributes(): string
+    public function properties(): string
     {
-        return $this->attributes;
+        return $this->properties;
     }
 
     public function methods(): string

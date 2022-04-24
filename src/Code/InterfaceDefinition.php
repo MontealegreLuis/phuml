@@ -7,10 +7,10 @@
 
 namespace PhUml\Code;
 
-use PhUml\Code\Attributes\Constant;
-use PhUml\Code\Attributes\HasConstants;
-use PhUml\Code\Attributes\WithConstants;
 use PhUml\Code\Methods\Method;
+use PhUml\Code\Properties\Constant;
+use PhUml\Code\Properties\HasConstants;
+use PhUml\Code\Properties\WithConstants;
 
 /**
  * It represents an interface definition
@@ -64,11 +64,11 @@ final class InterfaceDefinition extends Definition implements HasConstants
      * This method is used when the commands are called with the option `hide-empty-blocks`
      *
      * It only counts the constants of an interface, since interfaces are not allowed to have
-     * attributes
+     * properties
      *
-     * @see Definition::hasAttributes() for more details
+     * @see Definition::hasProperties() for more details
      */
-    public function hasAttributes(): bool
+    public function hasProperties(): bool
     {
         return $this->constants !== [];
     }

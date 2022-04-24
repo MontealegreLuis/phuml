@@ -20,13 +20,13 @@ use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\NoPropertiesBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
-use PhUml\Parser\Code\Builders\Members\ParsedAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedPropertiesBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
@@ -56,7 +56,7 @@ final class PhpCodeParser
     {
         if ($configuration->hideAttributes()) {
             $constantsBuilder = new NoConstantsBuilder();
-            $attributesBuilder = new NoAttributesBuilder();
+            $propertiesBuilder = new NoPropertiesBuilder();
         }
         if ($configuration->hideMethods()) {
             $methodsBuilder = new NoMethodsBuilder();
@@ -76,9 +76,9 @@ final class PhpCodeParser
             $visibilityBuilder,
         );
         $constantsBuilder ??= new ParsedConstantsBuilder($visibilityBuilder);
-        $attributesBuilder ??= new ParsedAttributesBuilder($visibilityBuilder, $typeBuilder);
+        $propertiesBuilder ??= new ParsedPropertiesBuilder($visibilityBuilder, $typeBuilder);
         $filters = new VisibilityFilters($filters);
-        $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder, $filters);
+        $membersBuilder = new MembersBuilder($constantsBuilder, $propertiesBuilder, $methodsBuilder, $filters);
         $useStatementsBuilder = new UseStatementsBuilder();
         $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder, new AttributeAnalyzer());
         $interfaceBuilder = new InterfaceDefinitionBuilder($membersBuilder, $useStatementsBuilder);

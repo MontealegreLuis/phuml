@@ -14,7 +14,7 @@ namespace PhUml\Graphviz;
  * 2. Interface implementation
  * 3. Associations
  *      - Via constructor injection
- *      - Via class attributes
+ *      - Via class properties
  */
 final class Edge implements HasDotRepresentation
 {

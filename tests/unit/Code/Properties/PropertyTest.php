@@ -5,7 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code\Attributes;
+namespace PhUml\Code\Properties;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
@@ -17,7 +17,7 @@ use PhUml\ContractTests\WithTypeDeclarationTests;
 use PhUml\ContractTests\WithVisibilityTests;
 use PhUml\TestBuilders\A;
 
-final class AttributeTest extends TestCase
+final class PropertyTest extends TestCase
 {
     use WithTypeDeclarationTests;
     use WithVisibilityTests;
@@ -25,9 +25,9 @@ final class AttributeTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $privateAttribute = new Attribute(A::variable('$privateAttribute')->build(), Visibility::private());
-        $publicAttribute = new Attribute(A::variable('$publicAttribute')->build(), Visibility::public());
-        $protectedAttribute = new Attribute(A::variable('$protectedAttribute')->build(), Visibility::protected());
+        $privateAttribute = new Property(A::variable('$privateAttribute')->build(), Visibility::private());
+        $publicAttribute = new Property(A::variable('$publicAttribute')->build(), Visibility::public());
+        $protectedAttribute = new Property(A::variable('$protectedAttribute')->build(), Visibility::protected());
 
         $private = $privateAttribute->__toString();
         $public = $publicAttribute->__toString();
@@ -41,10 +41,10 @@ final class AttributeTest extends TestCase
     /** @test */
     function its_string_representation_includes_its_type()
     {
-        $string = A::attribute('$aString')->public()->withType('string')->build();
-        $object = A::attribute('$file')->public()->withType('SplFileInfo')->build();
-        $array = A::attribute('$array')->public()->withType('array')->build();
-        $typedArray = A::attribute('$directories')->public()->withType('Directory[]')->build();
+        $string = A::property('$aString')->public()->withType('string')->build();
+        $object = A::property('$file')->public()->withType('SplFileInfo')->build();
+        $array = A::property('$array')->public()->withType('array')->build();
+        $typedArray = A::property('$directories')->public()->withType('Directory[]')->build();
 
         $this->assertSame('+$aString: string', $string->__toString());
         $this->assertSame('+$file: SplFileInfo', $object->__toString());
@@ -55,9 +55,9 @@ final class AttributeTest extends TestCase
     /** @test */
     function it_can_be_static()
     {
-        $staticPublic = new Attribute(A::variable('$staticPublic')->build(), Visibility::public(), true);
-        $staticProtected = new Attribute(A::variable('$staticProtected')->build(), Visibility::protected(), true);
-        $staticPrivate = new Attribute(A::variable('$staticPrivate')->build(), Visibility::private(), true);
+        $staticPublic = new Property(A::variable('$staticPublic')->build(), Visibility::public(), true);
+        $staticProtected = new Property(A::variable('$staticProtected')->build(), Visibility::protected(), true);
+        $staticPrivate = new Property(A::variable('$staticPrivate')->build(), Visibility::private(), true);
 
         $this->assertTrue($staticPublic->isStatic());
         $this->assertTrue($staticProtected->isStatic());
@@ -67,7 +67,7 @@ final class AttributeTest extends TestCase
     /** @test */
     function it_knows_its_type()
     {
-        $string = A::attribute('$aString')->public()->withType('string')->build();
+        $string = A::property('$aString')->public()->withType('string')->build();
 
         $this->assertEquals(TypeDeclaration::from('string'), $string->type());
     }
@@ -75,7 +75,7 @@ final class AttributeTest extends TestCase
     /** @test */
     function it_knows_if_its_type_refers_to_another_declaration_in_the_current_codebase()
     {
-        $typedArray = A::attribute('$directories')->public()->withType('Directory[]')->build();
+        $typedArray = A::property('$directories')->public()->withType('Directory[]')->build();
 
         $this->assertCount(1, $typedArray->references());
         $this->assertEquals(new Name('Directory'), $typedArray->references()[0]);
@@ -83,31 +83,31 @@ final class AttributeTest extends TestCase
 
     protected function memberWithoutType(): HasType
     {
-        return A::attribute('$attribute')->public()->build();
+        return A::property('$property')->public()->build();
     }
 
     protected function typeDeclaration(): HasType
     {
-        return A::attribute('$reference')->public()->withType('AClass')->build();
+        return A::property('$reference')->public()->withType('AClass')->build();
     }
 
     protected function memberWithBuiltInType(): HasType
     {
-        return A::attribute('$builtInAttribute')->public()->withType('float')->build();
+        return A::property('$builtInProperty')->public()->withType('float')->build();
     }
 
     protected function publicMember(): HasVisibility
     {
-        return A::attribute('$attribute')->public()->build();
+        return A::property('$property')->public()->build();
     }
 
     protected function protectedMember(): HasVisibility
     {
-        return new Attribute(A::variable('$attribute')->build(), Visibility::protected());
+        return new Property(A::variable('$property')->build(), Visibility::protected());
     }
 
     protected function privateMember(): HasVisibility
     {
-        return new Attribute(A::variable('$attribute')->build(), Visibility::private());
+        return new Property(A::variable('$property')->build(), Visibility::private());
     }
 }
