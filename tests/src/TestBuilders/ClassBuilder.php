@@ -22,6 +22,8 @@ final class ClassBuilder extends DefinitionBuilder
     /** @var Name[] */
     private array $traits = [];
 
+    private bool $isAttribute = false;
+
     public function extending(Name $parent): ClassBuilder
     {
         $this->parent = $parent;
@@ -43,6 +45,12 @@ final class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
+    public function withIsAttribute(): ClassBuilder
+    {
+        $this->isAttribute = true;
+        return $this;
+    }
+
     public function build(): ClassDefinition
     {
         return new ClassDefinition(
@@ -52,7 +60,8 @@ final class ClassBuilder extends DefinitionBuilder
             $this->parent,
             $this->attributes,
             $this->interfaces,
-            $this->traits
+            $this->traits,
+            $this->isAttribute
         );
     }
 }

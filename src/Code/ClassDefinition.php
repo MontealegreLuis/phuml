@@ -28,9 +28,6 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
     use WithConstants;
     use WithTraits;
 
-    /** @var Name[] */
-    private readonly array $interfaces;
-
     /**
      * @param Method[] $methods
      * @param Constant[] $constants
@@ -42,15 +39,15 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
         Name $name,
         array $methods = [],
         array $constants = [],
-        protected ?Name $parent = null,
+        private readonly ?Name $parent = null,
         array $attributes = [],
-        array $interfaces = [],
-        array $traits = []
+        private readonly array $interfaces = [],
+        array $traits = [],
+        private readonly bool $isAttribute = false
     ) {
         parent::__construct($name, $methods);
         $this->constants = $constants;
         $this->attributes = $attributes;
-        $this->interfaces = $interfaces;
         $this->traits = $traits;
     }
 
@@ -150,5 +147,10 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
     public function isAbstract(): bool
     {
         return array_filter($this->methods(), static fn (Method $method): bool => $method->isAbstract()) !== [];
+    }
+
+    public function isAttribute(): bool
+    {
+        return $this->isAttribute;
     }
 }

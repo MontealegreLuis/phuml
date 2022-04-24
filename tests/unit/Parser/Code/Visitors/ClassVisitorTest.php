@@ -10,6 +10,7 @@ namespace PhUml\Parser\Code\Visitors;
 use PhpParser\Node\Stmt\Class_;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Codebase;
+use PhUml\Parser\Code\Builders\AttributeAnalyzer;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\UseStatementsBuilder;
 use PhUml\TestBuilders\A;
@@ -19,7 +20,11 @@ final class ClassVisitorTest extends TestCase
     /** @test */
     function it_ignores_anonymous_classes()
     {
-        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build(), new UseStatementsBuilder());
+        $builder = new ClassDefinitionBuilder(
+            A::membersBuilder()->build(),
+            new UseStatementsBuilder(),
+            new AttributeAnalyzer()
+        );
         $codebase = new Codebase();
         $visitor = new ClassVisitor($builder, $codebase);
         $anonymousClass = new Class_(null);

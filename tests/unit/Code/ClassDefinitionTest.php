@@ -40,8 +40,7 @@ final class ClassDefinitionTest extends DefinitionTest
             ->withAPublicMethod('notAConstructor')
             ->withAPublicMethod('__construct', $firstParameter, $secondParameter)
             ->withAPublicMethod('NotAConstructorEither')
-            ->build()
-        ;
+            ->build();
 
         $constructorParameters = $class->constructorParameters();
 
@@ -55,8 +54,7 @@ final class ClassDefinitionTest extends DefinitionTest
         $class = A::class('ClassWithoutConstructor')
             ->withAPublicMethod('notAConstructor')
             ->withAPublicMethod('notAConstructorEither')
-            ->build()
-        ;
+            ->build();
 
         $constructorParameters = $class->constructorParameters();
 
@@ -72,8 +70,7 @@ final class ClassDefinitionTest extends DefinitionTest
         ];
         $classWithInterfaces = A::class('ClassWithInterfaces')
             ->implementing(...$interfaces)
-            ->build()
-        ;
+            ->build();
 
         $classInterfaces = $classWithInterfaces->interfaces();
 
@@ -108,6 +105,16 @@ final class ClassDefinitionTest extends DefinitionTest
 
         $this->expectException(BadMethodCallException::class);
         $interfaceWithParent->parent();
+    }
+
+    /** @test */
+    function it_knows_if_it_is_an_attribute_class()
+    {
+        $attributeClass = new ClassDefinition(new Name('ADefinition'), isAttribute: true);
+        $regularClass = new ClassDefinition(new Name('ADefinition'));
+
+        $this->assertTrue($attributeClass->isAttribute());
+        $this->assertFalse($regularClass->isAttribute());
     }
 
     protected function definition(array $methods = []): Definition

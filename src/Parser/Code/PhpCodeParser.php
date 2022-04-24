@@ -15,6 +15,7 @@ use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhUml\Code\Codebase;
+use PhUml\Parser\Code\Builders\AttributeAnalyzer;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
@@ -79,7 +80,7 @@ final class PhpCodeParser
         $filters = new VisibilityFilters($filters);
         $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder, $filters);
         $useStatementsBuilder = new UseStatementsBuilder();
-        $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder);
+        $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder, new AttributeAnalyzer());
         $interfaceBuilder = new InterfaceDefinitionBuilder($membersBuilder, $useStatementsBuilder);
         $traitBuilder = new TraitDefinitionBuilder($membersBuilder, $useStatementsBuilder);
 

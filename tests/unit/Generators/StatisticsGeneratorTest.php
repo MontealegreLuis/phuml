@@ -60,7 +60,7 @@ phUML generated statistics
 General statistics
 ------------------
 
-Classes:    20
+Classes:    21
 Interfaces: 0
 
 Attributes: 24 (6 are typed)
@@ -76,8 +76,8 @@ Functions:  87
 Average statistics
 ------------------
 
-Attributes per class: 1.2
-Functions per class:  4.35
+Attributes per class: 1.14
+Functions per class:  4.14
 
 STATS;
         $configuration = A::statisticsGeneratorConfiguration()->recursive()->build();

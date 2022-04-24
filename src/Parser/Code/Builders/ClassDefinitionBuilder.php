@@ -27,7 +27,8 @@ final class ClassDefinitionBuilder
 
     public function __construct(
         private readonly MembersBuilder $membersBuilder,
-        private readonly UseStatementsBuilder $useStatementsBuilder
+        private readonly UseStatementsBuilder $useStatementsBuilder,
+        private readonly AttributeAnalyzer $analyzer
     ) {
     }
 
@@ -42,7 +43,8 @@ final class ClassDefinitionBuilder
             $class->extends !== null ? new ClassDefinitionName((string) $class->extends) : null,
             $this->membersBuilder->attributes($class->stmts, $class->getMethod('__construct'), $useStatements),
             $this->buildInterfaces($class->implements),
-            $this->buildTraits($class->stmts)
+            $this->buildTraits($class->stmts),
+            $this->analyzer->isAttribute($class)
         );
     }
 }
