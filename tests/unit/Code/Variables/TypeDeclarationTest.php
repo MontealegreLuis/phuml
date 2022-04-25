@@ -182,6 +182,7 @@ final class TypeDeclarationTest extends TestCase
             'iterable' => ['iterable'],
             'mixed' => ['mixed'],
             'object' => ['object'],
+            'never' => ['never'],
         ];
     }
 

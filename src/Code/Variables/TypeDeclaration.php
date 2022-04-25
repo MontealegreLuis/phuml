@@ -15,14 +15,14 @@ use Stringable;
  */
 final class TypeDeclaration implements Stringable
 {
-    /** @var string[] All valid types for PHP 8.0, pseudo-types, and aliases */
+    /** @var string[] All valid types for PHP 8.1, pseudo-types, and aliases */
     private const BUILT_IN_TYPES = [
         // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.base
         'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable', 'mixed', 'object',
         // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.union.nullable
         'null',
         // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.return-only
-        'void',
+        'void', 'never',
         // pseudo-types
         'resource',
         // aliases
