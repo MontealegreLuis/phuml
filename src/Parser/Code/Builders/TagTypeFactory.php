@@ -13,6 +13,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\TagWithType;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Compound;
+use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 
@@ -88,7 +89,8 @@ final class TagTypeFactory
         return match (true) {
             $type === null => null,
             $type instanceof Nullable => TagType::nullable((string) $type->getActualType()),
-            $type instanceof Compound => TagType::compound(array_map('strval', $type->getIterator()->getArrayCopy())),
+            $type instanceof Compound => TagType::union(array_map(strval(...), $type->getIterator()->getArrayCopy())),
+            $type instanceof Intersection => TagType::intersection(array_map(strval(...), $type->getIterator()->getArrayCopy())),
             default => $this->fromType($type)
         };
     }

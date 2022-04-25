@@ -7,6 +7,7 @@
 
 namespace PhUml\TestBuilders;
 
+use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Code\Variables\Variable;
 
@@ -24,7 +25,9 @@ final class VariableBuilder
         if ($type === null) {
             $this->type = TypeDeclaration::absent();
         } elseif (str_contains($type, '|')) {
-            $this->type = TypeDeclaration::fromUnionType(explode('|', $type));
+            $this->type = TypeDeclaration::fromCompositeType(explode('|', $type), CompositeType::UNION);
+        } elseif (str_contains($type, '&')) {
+            $this->type = TypeDeclaration::fromCompositeType(explode('&', $type), CompositeType::INTERSECTION);
         } else {
             $this->type = TypeDeclaration::from($type);
         }

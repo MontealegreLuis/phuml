@@ -9,6 +9,7 @@ namespace PhUml\Parser\Code\Builders;
 
 use PhUml\Code\Name;
 use PhUml\Code\UseStatements;
+use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
 
 final class TagType
@@ -19,9 +20,15 @@ final class TagType
     }
 
     /** @param string[] $types */
-    public static function compound(array $types): TagType
+    public static function union(array $types): TagType
     {
-        return new TagType($types, isNullable: false);
+        return new TagType($types, isNullable: false, compositeType: CompositeType::UNION);
+    }
+
+    /** @param string[] $types */
+    public static function intersection(array $types): TagType
+    {
+        return new TagType($types, isNullable: false, compositeType: CompositeType::INTERSECTION);
     }
 
     public static function named(string $type): TagType
@@ -30,8 +37,11 @@ final class TagType
     }
 
     /** @param string[] $types */
-    private function __construct(private readonly array $types, private readonly bool $isNullable = false)
-    {
+    private function __construct(
+        private readonly array $types,
+        private readonly bool $isNullable = false,
+        private readonly CompositeType $compositeType = CompositeType::NONE
+    ) {
     }
 
     public function resolve(UseStatements $useStatements): TypeDeclaration
@@ -39,17 +49,17 @@ final class TagType
         return match (true) {
             $this->isNullable => TypeDeclaration::fromNullable($useStatements->fullyQualifiedNameFor($this->types()[0])),
             count($this->types) === 1 => TypeDeclaration::from($useStatements->fullyQualifiedNameFor($this->types()[0])),
-            default => $this->resolveUnionTypes($useStatements),
+            default => $this->resolveCompositeTypes($useStatements),
         };
     }
 
-    private function resolveUnionTypes(UseStatements $useStatements): TypeDeclaration
+    private function resolveCompositeTypes(UseStatements $useStatements): TypeDeclaration
     {
         $withFullyQualifiedNames = array_map(
             static fn (Name $type) => $useStatements->fullyQualifiedNameFor($type),
             $this->types(),
         );
-        return TypeDeclaration::fromUnionType($withFullyQualifiedNames);
+        return TypeDeclaration::fromCompositeType($withFullyQualifiedNames, $this->compositeType);
     }
 
     /** @return Name[] */

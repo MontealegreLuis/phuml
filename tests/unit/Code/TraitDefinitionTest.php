@@ -17,7 +17,7 @@ final class TraitDefinitionTest extends DefinitionTest
 {
     use WithPropertiesTests;
 
-    /** @param Method[] */
+    /** @param Method[] $methods */
     protected function definition(array $methods = []): Definition
     {
         return new TraitDefinition(new Name('ADefinition'), $methods);

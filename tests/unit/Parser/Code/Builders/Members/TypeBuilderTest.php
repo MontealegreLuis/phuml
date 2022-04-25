@@ -9,11 +9,14 @@ namespace PhUml\Parser\Code\Builders\Members;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
+use PhpParser\Node\UnionType;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\UseStatements;
+use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\TestBuilders\A;
 
@@ -89,7 +92,7 @@ final class TypeBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_extracts_types_from_identifiers_names_and_union_types()
+    function it_extracts_types_from_identifiers_names()
     {
         $typeFromIdentifier = $this->typeBuilder->fromPropertyType(
             new Identifier('array'),
@@ -110,6 +113,30 @@ final class TypeBuilderTest extends TestCase
         $this->assertEquals(TypeDeclaration::from('array'), $typeFromIdentifier);
         $this->assertSame('Name', (string) $typeFromName);
         $this->assertEquals(TypeDeclaration::fromNullable('string'), $typeFromNullableType);
+    }
+
+    /** @test */
+    function it_extracts_types_from_parsed_type_for_intersection_and_union_types()
+    {
+        $unionTypeFromDocBlock = $this->typeBuilder->fromPropertyType(
+            new UnionType([new Name('TypeA'), new Name('TypeB')]),
+            null,
+            $this->useStatements,
+        );
+        $intersectionTypeFromDocBlock = $this->typeBuilder->fromPropertyType(
+            new IntersectionType([new Name('TypeA'), new Name('TypeB')]),
+            null,
+            $this->useStatements,
+        );
+
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(['TypeA', 'TypeB'], CompositeType::UNION),
+            $unionTypeFromDocBlock
+        );
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(['TypeA', 'TypeB'], CompositeType::INTERSECTION),
+            $intersectionTypeFromDocBlock
+        );
     }
 
     /** @before */

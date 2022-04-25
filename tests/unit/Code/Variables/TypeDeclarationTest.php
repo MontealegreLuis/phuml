@@ -55,7 +55,7 @@ final class TypeDeclarationTest extends TestCase
     {
         $type = TypeDeclaration::from('MyClass');
         $arrayOfObjects = TypeDeclaration::from('MyClass[]');
-        $unionType = TypeDeclaration::fromUnionType(['MyClass', 'AnotherClass', 'null']);
+        $unionType = TypeDeclaration::fromCompositeType(['MyClass', 'AnotherClass', 'null'], CompositeType::UNION);
 
         $isBuiltIn = $type->isBuiltIn();
         $isArrayOfObjects = $arrayOfObjects->isBuiltIn();
@@ -81,7 +81,7 @@ final class TypeDeclarationTest extends TestCase
     /** @test */
     function it_knows_it_is_a_nullable_type()
     {
-        $unionType = TypeDeclaration::fromUnionType(['string', 'int', 'null']);
+        $unionType = TypeDeclaration::fromCompositeType(['string', 'int', 'null'], CompositeType::UNION);
         $regularType = TypeDeclaration::from('string');
         $nullableType = TypeDeclaration::fromNullable('string');
 
@@ -94,27 +94,60 @@ final class TypeDeclarationTest extends TestCase
     /** @test */
     function it_represents_to_string_union_types()
     {
-        $unionTypeA = TypeDeclaration::fromUnionType(['string', 'int', 'null']);
-        $unionTypeB = TypeDeclaration::fromUnionType(['MyClass', 'AnotherClass']);
+        $unionTypeA = TypeDeclaration::fromCompositeType(['string', 'int', 'null'], CompositeType::UNION);
+        $unionTypeB = TypeDeclaration::fromCompositeType(['MyClass', 'AnotherClass'], CompositeType::UNION);
 
         $this->assertSame('string|int|null', (string) $unionTypeA);
         $this->assertSame('MyClass|AnotherClass', (string) $unionTypeB);
     }
 
     /** @test */
+    function it_represents_to_string_intersection_types()
+    {
+        $intersectionTypeA = TypeDeclaration::fromCompositeType(['string', 'int', 'null'], CompositeType::INTERSECTION);
+        $intersectionTypeB = TypeDeclaration::fromCompositeType(['MyClass', 'AnotherClass'], CompositeType::INTERSECTION);
+
+        $this->assertSame('string&int&null', (string) $intersectionTypeA);
+        $this->assertSame('MyClass&AnotherClass', (string) $intersectionTypeB);
+    }
+
+    /** @test */
     function it_extracts_reference_types_from_union_types()
     {
-        $unionType = TypeDeclaration::fromUnionType(
+        $unionType = TypeDeclaration::fromCompositeType(
             [
                 'string',
                 'AClass',
                 'null',
                 'AnotherClass[]',
                 'Class\\With\\Namespace',
-            ]
+            ],
+            CompositeType::UNION
         );
 
         $references = $unionType->references();
+
+        $this->assertCount(3, $references);
+        $this->assertSame('AClass', (string) $references[1]);
+        $this->assertSame('AnotherClass', (string) $references[3]);
+        $this->assertSame('Class\\With\\Namespace', $references[4]->fullName());
+    }
+
+    /** @test */
+    function it_extracts_reference_types_from_intersection_types()
+    {
+        $intersectionType = TypeDeclaration::fromCompositeType(
+            [
+                'string',
+                'AClass',
+                'null',
+                'AnotherClass[]',
+                'Class\\With\\Namespace',
+            ],
+            CompositeType::INTERSECTION
+        );
+
+        $references = $intersectionType->references();
 
         $this->assertCount(3, $references);
         $this->assertSame('AClass', (string) $references[1]);

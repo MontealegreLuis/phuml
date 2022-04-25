@@ -47,10 +47,28 @@ final class TypeDeclaration implements Stringable
         return new TypeDeclaration([new Name($type)], isNullable: true);
     }
 
-    /** @param string[] $types */
-    public static function fromUnionType(array $types): TypeDeclaration
+    /**
+     * A composite type can be either a union or an intersection type
+     *
+     * @param string[] $types
+     * @link https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.composite.union Union types documentation
+     * @link https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.composite.intersection Intersection types documentation
+     */
+    public static function fromCompositeType(array $types, CompositeType $compositeType): TypeDeclaration
     {
-        return new TypeDeclaration(array_map(static fn (string $type) => new Name($type), $types));
+        return new TypeDeclaration(
+            array_map(static fn (string $type) => new Name($type), $types),
+            compositeType: $compositeType
+        );
+    }
+
+    /** @param Name[] $names */
+    private function __construct(
+        array $names = [],
+        private readonly bool $isNullable = false,
+        private readonly CompositeType $compositeType = CompositeType::NONE
+    ) {
+        $this->names = $names;
     }
 
     public function isPresent(): bool
@@ -129,12 +147,6 @@ final class TypeDeclaration implements Stringable
 
     public function __toString(): string
     {
-        return ($this->isNullable ? '?' : '') . implode('|', $this->names);
-    }
-
-    /** @param Name[] $names */
-    private function __construct(array $names = [], private readonly bool $isNullable = false)
-    {
-        $this->names = $names;
+        return ($this->isNullable ? '?' : '') . implode($this->compositeType->value, $this->names);
     }
 }

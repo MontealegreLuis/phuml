@@ -10,12 +10,15 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\UnionType;
 use PhUml\Code\UseStatements;
+use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Parser\Code\TypeResolver;
+use RuntimeException;
 
 final class TypeBuilder
 {
@@ -90,13 +93,20 @@ final class TypeBuilder
             $type instanceof NullableType => TypeDeclaration::fromNullable((string) $type->type),
             $type instanceof Name, $type instanceof Identifier => TypeDeclaration::from((string) $type),
             $type === null => TypeDeclaration::absent(),
-            $type instanceof UnionType => TypeDeclaration::fromUnionType($this->fromUnionType($type)),
-            default => throw new \RuntimeException('yikes!'),
+            $type instanceof UnionType => TypeDeclaration::fromCompositeType(
+                $this->fromCompositeType($type),
+                CompositeType::UNION
+            ),
+            $type instanceof IntersectionType => TypeDeclaration::fromCompositeType(
+                $this->fromCompositeType($type),
+                CompositeType::INTERSECTION
+            ),
+            default => throw new RuntimeException(sprintf('%s is not supported', $type::class)),
         };
     }
 
     /** @return string[] */
-    private function fromUnionType(UnionType $type): array
+    private function fromCompositeType(UnionType|IntersectionType $type): array
     {
         return array_map(
             static fn (Identifier|Name $name): string => (string) $name,
