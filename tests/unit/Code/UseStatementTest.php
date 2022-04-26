@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -54,15 +54,15 @@ final class UseStatementTest extends TestCase
         $useStatementWithNamespace = new UseStatement($nameWithNamespace, alias: null);
         $useStatementWithoutNamespace = new UseStatement($nameWithoutNamespace, alias: null);
 
-        $this->assertEquals(
+        $this->assertSame(
             'PhUml\Code\Name',
             $useStatementWithNamespace->fullyQualifiedName($nameWithNamespace)
         );
-        $this->assertEquals(
+        $this->assertSame(
             'PhUml\Code\Name[]',
             $useStatementWithNamespace->fullyQualifiedName($nameForArray)
         );
-        $this->assertEquals(
+        $this->assertSame(
             'SplFileInfo',
             $useStatementWithoutNamespace->fullyQualifiedName($nameWithoutNamespace)
         );

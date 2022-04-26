@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use PhUml\Code\Name;
 use PhUml\Code\UseStatement;
 use PhUml\Code\UseStatements;
+use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
 use PhUml\Parser\Code\Builders\TagTypeFactory;
 
@@ -22,15 +23,15 @@ final class TypeResolverTest extends TestCase
     {
         $useStatements = new UseStatements([]);
 
-        $objectType = $this->resolver->resolveForAttribute('/** @var object */', $useStatements);
+        $objectType = $this->resolver->resolveForProperty('/** @var object */', $useStatements);
         $mixedType = $this->resolver->resolveForReturn('/** @return mixed */', $useStatements);
         $stringType = $this->resolver->resolveForParameter('/** @param string[] $test */', '$test', $useStatements);
-        $boolType = $this->resolver->resolveForAttribute('/** @var bool */', $useStatements);
+        $boolType = $this->resolver->resolveForProperty('/** @var bool */', $useStatements);
 
-        $this->assertEquals('object', (string) $objectType);
-        $this->assertEquals('mixed', (string) $mixedType);
-        $this->assertEquals('string[]', (string) $stringType);
-        $this->assertEquals('bool', (string) $boolType);
+        $this->assertSame('object', (string) $objectType);
+        $this->assertSame('mixed', (string) $mixedType);
+        $this->assertSame('string[]', (string) $stringType);
+        $this->assertSame('bool', (string) $boolType);
     }
 
     /** @test */
@@ -39,7 +40,7 @@ final class TypeResolverTest extends TestCase
         $useStatements = new UseStatements([]);
 
         $noReturnType = $this->resolver->resolveForReturn('/** @return */', $useStatements);
-        $noAttributeType = $this->resolver->resolveForAttribute('/** @var */', $useStatements);
+        $noAttributeType = $this->resolver->resolveForProperty('/** @var */', $useStatements);
         $noParameterType = $this->resolver->resolveForParameter('/** @param */', '$aParameter', $useStatements);
 
         $this->assertEquals(TypeDeclaration::absent(), $noReturnType);
@@ -52,14 +53,14 @@ final class TypeResolverTest extends TestCase
     {
         $useStatements = new UseStatements([]);
 
-        $noAttributeType = $this->resolver->resolveForAttribute('/** @var $attribute */', $useStatements);
+        $noPropertyType = $this->resolver->resolveForProperty('/** @var $property */', $useStatements);
         $noParameterType = $this->resolver->resolveForParameter(
             '/** @param $aParameter */',
             '$aParameter',
             $useStatements
         );
 
-        $this->assertEquals(TypeDeclaration::absent(), $noAttributeType);
+        $this->assertEquals(TypeDeclaration::absent(), $noPropertyType);
         $this->assertEquals(TypeDeclaration::absent(), $noParameterType);
     }
 
@@ -209,11 +210,46 @@ COMMENT;
         $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
 
         $this->assertEquals(
-            TypeDeclaration::fromUnionType([
-                'PhUml\Code\Variables\TypeDeclaration',
-                'PhUml\Code\Variables\NullableType',
-                'string',
-            ]),
+            TypeDeclaration::fromCompositeType(
+                [
+                    'PhUml\Code\Variables\TypeDeclaration',
+                    'PhUml\Code\Variables\NullableType',
+                    'string',
+                ],
+                CompositeType::UNION
+            ),
+            $typeDeclaration
+        );
+    }
+
+    /** @test */
+    function it_resolves_intersection_types_with_fqn_from_return_tag()
+    {
+        $useStatements = new UseStatements([
+            new UseStatement(new Name('PhUml\Code\Variables\TypeDeclaration'), alias: null),
+            new UseStatement(new Name('PhUml\Code\Variables\NullableType'), new Name('NullType')),
+        ]);
+        $methodComment = <<<'COMMENT'
+/**
+ * This is the short explanation of the method
+ *
+ * This is the long summary....
+ *
+ * @param string $name The name of the student
+ * @return  TypeDeclaration&NullType   
+ */
+COMMENT;
+
+        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(
+                [
+                    'PhUml\Code\Variables\TypeDeclaration',
+                    'PhUml\Code\Variables\NullableType',
+                ],
+                CompositeType::INTERSECTION
+            ),
             $typeDeclaration
         );
     }
@@ -303,7 +339,40 @@ COMMENT;
         $typeDeclaration = $this->resolver->resolveForParameter($comment, '$engine', $useStatements);
 
         $this->assertEquals(
-            TypeDeclaration::fromUnionType(['Twig\Environment', 'Phuml\Template\Engine', 'null']),
+            TypeDeclaration::fromCompositeType(
+                ['Twig\Environment', 'Phuml\Template\Engine', 'null'],
+                CompositeType::UNION
+            ),
+            $typeDeclaration
+        );
+    }
+
+    /** @test */
+    function it_resolves_intersection_types_with_fqn_from_param_tag()
+    {
+        $useStatements = new UseStatements([
+            new UseStatement(new Name('Twig\Environment'), alias: null),
+            new UseStatement(new Name('Phuml\Template\Engine'), new Name('TemplateEngine')),
+        ]);
+        $comment = <<<'COMMENT'
+/**
+ * This is the short explanation of the method
+ *
+ * This is the long summary....
+ *
+ * @param string $name The name of the student
+ * @param Environment&TemplateEngine $engine This one is here because of the underscore
+ * @param int[] $grades
+ */
+COMMENT;
+
+        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$engine', $useStatements);
+
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(
+                ['Twig\Environment', 'Phuml\Template\Engine'],
+                CompositeType::INTERSECTION
+            ),
             $typeDeclaration
         );
     }
@@ -314,28 +383,28 @@ COMMENT;
         $useStatements = new UseStatements([]);
         $multiLineDocBlock = <<<'COMMENT'
         /** 
-         * A description of the attribute
+         * A description of the property
          *
          * @var AnotherClass $testClass 
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForAttribute($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
 
         $this->assertEquals(TypeDeclaration::from('AnotherClass'), $typeDeclaration);
     }
 
     /** @test */
-    function it_resolves_to_absent_attribute_type_if_var_tag_is_not_present()
+    function it_resolves_to_absent_property_type_if_var_tag_is_not_present()
     {
         $useStatements = new UseStatements([]);
         $multiLineDocBlock = <<<'COMMENT'
         /** 
-         * A description of the attribute
+         * A description of the property
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForAttribute($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
 
         $this->assertEquals(TypeDeclaration::absent(), $typeDeclaration);
     }
@@ -348,13 +417,13 @@ COMMENT;
         ]);
         $multiLineDocBlock = <<<'COMMENT'
         /** 
-         * A description of the attribute
+         * A description of the property
          *
          * @var AnotherClass $testClass 
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForAttribute($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
 
         $this->assertEquals(TypeDeclaration::from('PhUml\Code\AnotherClass'), $typeDeclaration);
     }
@@ -368,16 +437,42 @@ COMMENT;
         ]);
         $multiLineDocBlock = <<<'COMMENT'
         /** 
-         * A description of the attribute
+         * A description of the property
          *
          * @var AnotherClass|OneClass $testClass 
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForAttribute($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
 
         $this->assertEquals(
-            TypeDeclaration::fromUnionType(['Phuml\AnotherClass', 'Phuml\Template\Engine']),
+            TypeDeclaration::fromCompositeType(['Phuml\AnotherClass', 'Phuml\Template\Engine'], CompositeType::UNION),
+            $typeDeclaration
+        );
+    }
+
+    /** @test */
+    function it_resolves_intersection_types_with_fqn_from_a_var_tag()
+    {
+        $useStatements = new UseStatements([
+            new UseStatement(new Name('Phuml\AnotherClass'), alias: null),
+            new UseStatement(new Name('Phuml\Template\Engine'), new Name('OneClass')),
+        ]);
+        $multiLineDocBlock = <<<'COMMENT'
+        /** 
+         * A description of the property
+         *
+         * @var AnotherClass&OneClass $testClass 
+         */'
+COMMENT;
+
+        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
+
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(
+                ['Phuml\AnotherClass', 'Phuml\Template\Engine'],
+                CompositeType::INTERSECTION
+            ),
             $typeDeclaration
         );
     }
@@ -388,7 +483,7 @@ COMMENT;
         $useStatements = new UseStatements([]);
         $methodComment = <<<'COMMENT'
 /**
- * This is the short explanation of the attribute
+ * This is the short explanation of the property
  *
  * This is the long summary....
  *
@@ -398,7 +493,29 @@ COMMENT;
 
         $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
 
-        $this->assertEquals(TypeDeclaration::fromUnionType(['ClassOne', 'ClassTwo', 'null']), $typeDeclaration);
+        $this->assertEquals(TypeDeclaration::fromCompositeType(['ClassOne', 'ClassTwo', 'null'], CompositeType::UNION), $typeDeclaration);
+    }
+
+    /** @test */
+    function it_resolves_intersection_types_from_a_return_tag()
+    {
+        $useStatements = new UseStatements([]);
+        $methodComment = <<<'COMMENT'
+/**
+ * This is the short explanation of the property
+ *
+ * This is the long summary....
+ *
+ * @return  ClassOne&ClassTwo   
+ */
+COMMENT;
+
+        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(['ClassOne', 'ClassTwo'], CompositeType::INTERSECTION),
+            $typeDeclaration
+        );
     }
 
     /** @test */
@@ -418,7 +535,33 @@ COMMENT;
 
         $typeDeclaration = $this->resolver->resolveForParameter($comment, '$grade', $useStatements);
 
-        $this->assertEquals(TypeDeclaration::fromUnionType(['int', 'string', 'float']), $typeDeclaration);
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(['int', 'string', 'float'], CompositeType::UNION),
+            $typeDeclaration
+        );
+    }
+
+    /** @test */
+    function it_resolves_intersection_type_from_param_tag()
+    {
+        $useStatements = new UseStatements([]);
+        $comment = <<<'COMMENT'
+/**
+ * This is the short explanation of the method
+ *
+ * This is the long summary....
+ *
+ * @param string $name The name of the student
+ * @param int&float $grade
+ */
+COMMENT;
+
+        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$grade', $useStatements);
+
+        $this->assertEquals(
+            TypeDeclaration::fromCompositeType(['int', 'float'], CompositeType::INTERSECTION),
+            $typeDeclaration
+        );
     }
 
     /** @before */

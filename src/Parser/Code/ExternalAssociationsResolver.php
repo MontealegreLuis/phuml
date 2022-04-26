@@ -1,20 +1,20 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code;
 
-use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
 use PhUml\Code\Name;
 use PhUml\Code\Parameters\Parameter;
+use PhUml\Code\Properties\Property;
 
 /**
- * It checks the attributes and the constructor parameters of a class looking for external definitions
+ * It checks the properties and the constructor parameters of a class looking for external definitions
  *
  * An external definition is either a class or interface from a third party library, or a built-in class or interface
  *
@@ -40,9 +40,9 @@ final class ExternalAssociationsResolver implements RelationshipsResolver
 
     private function resolveExternalAttributes(ClassDefinition $definition, Codebase $codebase): void
     {
-        array_map(function (Attribute $attribute) use ($codebase): void {
-            $this->resolveExternalAssociationsFromTypeNames($attribute->references(), $codebase);
-        }, $definition->attributes());
+        array_map(function (Property $property) use ($codebase): void {
+            $this->resolveExternalAssociationsFromTypeNames($property->references(), $codebase);
+        }, $definition->properties());
     }
 
     private function resolveExternalConstructorParameters(ClassDefinition $definition, Codebase $codebase): void

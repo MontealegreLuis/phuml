@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,13 +14,13 @@ use PhUml\TestBuilders\A;
 final class ExternalAssociationsResolverTest extends ExternalDefinitionsResolverTest
 {
     /** @test */
-    function it_adds_external_attributes()
+    function it_adds_external_properties()
     {
         $class = A::class('TestClass')
-            ->withAPrivateAttribute('$referenceA', 'ReferenceA')
-            ->withAPrivateAttribute('$referenceB', 'ReferenceB')
-            ->withAPrivateAttribute('$referenceC', 'ReferenceC')
-            ->withAPrivateAttribute('$notAReference', 'int')
+            ->withAPrivateProperty('$referenceA', 'ReferenceA')
+            ->withAPrivateProperty('$referenceB', 'ReferenceB')
+            ->withAPrivateProperty('$referenceC', 'ReferenceC')
+            ->withAPrivateProperty('$notAReference', 'int')
             ->build()
         ;
         $codebase = new Codebase();
@@ -35,13 +35,13 @@ final class ExternalAssociationsResolverTest extends ExternalDefinitionsResolver
     }
 
     /** @test */
-    function it_adds_external_associations_from_attributes_with_union_types()
+    function it_adds_external_associations_from_properties_with_union_types()
     {
         $class = A::class('TestClass')
-            ->withAPrivateAttribute('$unionReferences', 'ReferenceA|ReferenceB|ReferenceC|string|null')
-            ->withAPrivateAttribute('$referenceD', 'ReferenceD')
-            ->withAPrivateAttribute('$noType')
-            ->withAPrivateAttribute('$notAReference', 'int')
+            ->withAPrivateProperty('$unionReferences', 'ReferenceA|ReferenceB|ReferenceC|string|null')
+            ->withAPrivateProperty('$referenceD', 'ReferenceD')
+            ->withAPrivateProperty('$noType')
+            ->withAPrivateProperty('$notAReference', 'int')
             ->build();
         $codebase = new Codebase();
         $codebase->add($class);

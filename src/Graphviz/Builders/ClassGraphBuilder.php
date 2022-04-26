@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,10 +17,10 @@ use PhUml\Graphviz\Node;
  * It produces the collection of nodes and edges related to a class
  *
  * - It creates an edge with the class it extends, if any,
- * - It creates edges from the the interfaces it implements
+ * - It creates edges from the interfaces it implements
  * - It creates a node with the class itself
  * - It, optionally, discovers associations between classes/interfaces, by inspecting both:
- *   - The class attributes
+ *   - The class properties
  *   - The class constructor's parameters
  */
 final class ClassGraphBuilder
@@ -28,7 +28,7 @@ final class ClassGraphBuilder
     /** @var HasDotRepresentation[] */
     private array $dotElements;
 
-    private AssociationsBuilder $associationsBuilder;
+    private readonly AssociationsBuilder $associationsBuilder;
 
     public function __construct(AssociationsBuilder $associationsBuilder = null)
     {
@@ -39,7 +39,7 @@ final class ClassGraphBuilder
     /**
      * The order in which the nodes and edges are created is as follows
      *
-     * 1. The edges discovered via attributes inspection
+     * 1. The edges discovered via properties inspection
      * 2. The edges discovered via the constructor parameters
      * 3. The node representing the class itself
      * 4. The parent class, if any
@@ -51,7 +51,7 @@ final class ClassGraphBuilder
     {
         $this->dotElements = [];
 
-        $this->addAssociations($this->associationsBuilder->fromAttributes($class, $codebase));
+        $this->addAssociations($this->associationsBuilder->fromProperties($class, $codebase));
         $this->addAssociations($this->associationsBuilder->fromConstructor($class, $codebase));
 
         $this->dotElements[] = new Node($class);

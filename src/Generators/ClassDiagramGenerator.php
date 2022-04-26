@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -35,11 +35,11 @@ final class ClassDiagramGenerator
     }
 
     private function __construct(
-        private FindCode $findCode,
-        private ParseCode $parseCode,
-        private CreateDigraph $createDigraph,
-        private CreateClassDiagram $createClassDiagram,
-        private SaveFile $saveFile,
+        private readonly FindCode $findCode,
+        private readonly ParseCode $parseCode,
+        private readonly CreateDigraph $createDigraph,
+        private readonly CreateClassDiagram $createClassDiagram,
+        private readonly SaveFile $saveFile,
     ) {
     }
 

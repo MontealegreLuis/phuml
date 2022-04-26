@@ -10,7 +10,7 @@ phUML can extract type information from doc blocks
 * It can extract scalar type hints via the `@param` tag
 * It can extract types from attributes via the `@var` tag
 
-The class below will show type information for all of its attributes and methods
+The class below will show type information for all of its properties and methods
 
 ```php
 <?php

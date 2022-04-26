@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,16 +20,27 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DigraphConfiguration
 {
-    private CodeFinder $codeFinder;
+    private readonly CodeFinder $codeFinder;
 
-    private CodeParser $codeParser;
+    private readonly CodeParser $codeParser;
 
-    private GraphvizProcessor $graphvizProcessor;
+    private readonly GraphvizProcessor $graphvizProcessor;
 
-    private OutputWriter $writer;
+    private readonly OutputWriter $writer;
 
-    /** @param mixed[] $options */
-    public function __construct(array $options, private ProgressDisplay $display)
+    /**
+     * @param array{
+     *     recursive: bool,
+     *     associations: bool,
+     *     "hide-private": bool,
+     *     "hide-protected": bool,
+     *     "hide-methods": bool,
+     *     "hide-attributes": bool,
+     *     "hide-empty-blocks": bool,
+     *     theme: string
+     *  } $options
+     */
+    public function __construct(array $options, private readonly ProgressDisplay $display)
     {
         $this->codeFinder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration($options));
         $this->codeParser = CodeParser::fromConfiguration(new CodeParserConfiguration($options));

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -20,16 +20,16 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class StatisticsGeneratorConfiguration
 {
-    private CodeFinder $codeFinder;
+    private readonly CodeFinder $codeFinder;
 
-    private CodeParser $codeParser;
+    private readonly CodeParser $codeParser;
 
-    private StatisticsProcessor $statisticsProcessor;
+    private readonly StatisticsProcessor $statisticsProcessor;
 
-    private OutputWriter $writer;
+    private readonly OutputWriter $writer;
 
     /** @param mixed[] $options*/
-    public function __construct(array $options, private ProgressDisplay $display)
+    public function __construct(array $options, private readonly ProgressDisplay $display)
     {
         $this->codeFinder = SourceCodeFinder::fromConfiguration(new CodeFinderConfiguration($options));
         $this->codeParser = CodeParser::fromConfiguration(CodeParserConfiguration::defaultConfiguration());

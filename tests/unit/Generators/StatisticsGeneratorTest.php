@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -47,7 +47,7 @@ STATS;
 
         $generator->generate($this->input);
 
-        $this->assertEquals($expectedStatistics, file_get_contents($this->statisticsFile));
+        $this->assertSame($expectedStatistics, file_get_contents($this->statisticsFile));
     }
 
     /** @test */
@@ -60,7 +60,7 @@ phUML generated statistics
 General statistics
 ------------------
 
-Classes:    20
+Classes:    21
 Interfaces: 0
 
 Attributes: 24 (6 are typed)
@@ -76,8 +76,8 @@ Functions:  87
 Average statistics
 ------------------
 
-Attributes per class: 1.2
-Functions per class:  4.35
+Attributes per class: 1.14
+Functions per class:  4.14
 
 STATS;
         $configuration = A::statisticsGeneratorConfiguration()->recursive()->build();
@@ -85,7 +85,7 @@ STATS;
 
         $generator->generate($this->input);
 
-        $this->assertEquals($expectedStatistics, file_get_contents($this->statisticsFile));
+        $this->assertSame($expectedStatistics, file_get_contents($this->statisticsFile));
     }
 
     /** @before */

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code\Attributes;
+namespace PhUml\Code\Properties;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Modifiers\HasVisibility;
@@ -24,9 +24,9 @@ final class ConstantTest extends TestCase
         $protectedConstant = new Constant('CONSTANT_B', TypeDeclaration::from('string'), Visibility::protected());
         $privateConstant = new Constant('CONSTANT_C', TypeDeclaration::from('string'), Visibility::private());
 
-        $this->assertEquals('+CONSTANT_A: string', $publicConstant->__toString());
-        $this->assertEquals('#CONSTANT_B: string', $protectedConstant->__toString());
-        $this->assertEquals('-CONSTANT_C: string', $privateConstant->__toString());
+        $this->assertSame('+CONSTANT_A: string', $publicConstant->__toString());
+        $this->assertSame('#CONSTANT_B: string', $protectedConstant->__toString());
+        $this->assertSame('-CONSTANT_C: string', $privateConstant->__toString());
     }
 
     /** @test */

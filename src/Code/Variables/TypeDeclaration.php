@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,14 +15,14 @@ use Stringable;
  */
 final class TypeDeclaration implements Stringable
 {
-    /** @var string[] All valid types for PHP 8.0, pseudo-types, and aliases */
+    /** @var string[] All valid types for PHP 8.1, pseudo-types, and aliases */
     private const BUILT_IN_TYPES = [
         // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.base
         'int', 'bool', 'string', 'array', 'float', 'callable', 'iterable', 'mixed', 'object',
         // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.union.nullable
         'null',
         // https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.return-only
-        'void',
+        'void', 'never',
         // pseudo-types
         'resource',
         // aliases
@@ -30,7 +30,7 @@ final class TypeDeclaration implements Stringable
     ];
 
     /** @var Name[] */
-    private array $names;
+    private readonly array $names;
 
     public static function absent(): TypeDeclaration
     {
@@ -47,10 +47,28 @@ final class TypeDeclaration implements Stringable
         return new TypeDeclaration([new Name($type)], isNullable: true);
     }
 
-    /** @param string[] $types */
-    public static function fromUnionType(array $types): TypeDeclaration
+    /**
+     * A composite type can be either a union or an intersection type
+     *
+     * @param string[] $types
+     * @link https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.composite.union Union types documentation
+     * @link https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.composite.intersection Intersection types documentation
+     */
+    public static function fromCompositeType(array $types, CompositeType $compositeType): TypeDeclaration
     {
-        return new TypeDeclaration(array_map(static fn (string $type) => new Name($type), $types));
+        return new TypeDeclaration(
+            array_map(static fn (string $type) => new Name($type), $types),
+            compositeType: $compositeType
+        );
+    }
+
+    /** @param Name[] $names */
+    private function __construct(
+        array $names = [],
+        private readonly bool $isNullable = false,
+        private readonly CompositeType $compositeType = CompositeType::NONE
+    ) {
+        $this->names = $names;
     }
 
     public function isPresent(): bool
@@ -129,12 +147,6 @@ final class TypeDeclaration implements Stringable
 
     public function __toString(): string
     {
-        return ($this->isNullable ? '?' : '') . implode('|', $this->names);
-    }
-
-    /** @param Name[] $names */
-    private function __construct(array $names = [], private bool $isNullable = false)
-    {
-        $this->names = $names;
+        return ($this->isNullable ? '?' : '') . implode($this->compositeType->value, $this->names);
     }
 }

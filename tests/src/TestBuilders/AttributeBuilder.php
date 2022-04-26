@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\TestBuilders;
 
-use PhUml\Code\Attributes\Attribute;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Code\Properties\Property;
 use PhUml\Code\Variables\TypeDeclaration;
 
 final class AttributeBuilder
@@ -19,7 +19,7 @@ final class AttributeBuilder
 
     private bool $isStatic;
 
-    public function __construct(private string $name)
+    public function __construct(private readonly string $name)
     {
         $this->isStatic = false;
     }
@@ -54,7 +54,7 @@ final class AttributeBuilder
         return $this;
     }
 
-    public function build(): Attribute
+    public function build(): Property
     {
         if ($this->type === null) {
             $type = null;
@@ -66,6 +66,6 @@ final class AttributeBuilder
             ->withType($type)
             ->build();
 
-        return new Attribute($variable, $this->visibility, $this->isStatic);
+        return new Property($variable, $this->visibility, $this->isStatic);
     }
 }

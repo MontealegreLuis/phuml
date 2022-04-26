@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -21,7 +21,7 @@ abstract class DefinitionTest extends TestCase
 
         $name = $namedDefinition->name();
 
-        $this->assertEquals('ADefinition', $name);
+        $this->assertSame('ADefinition', (string) $name);
     }
 
     /** @test */
@@ -55,7 +55,7 @@ abstract class DefinitionTest extends TestCase
 
         $definitionId = $definition->identifier();
 
-        $this->assertEquals((string) $definition->name(), $definitionId);
+        $this->assertSame((string) $definition->name(), $definitionId);
     }
 
     /** @param Method[] $methods */

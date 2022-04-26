@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -22,7 +22,7 @@ final class UseStatementsTest extends TestCase
 
         $fullyQualifiedName = $useStatements->fullyQualifiedNameFor($alias);
 
-        $this->assertEquals('Package\\SubPackage\\AnotherClass', $fullyQualifiedName);
+        $this->assertSame('Package\\SubPackage\\AnotherClass', $fullyQualifiedName);
     }
 
     /** @test */
@@ -32,6 +32,6 @@ final class UseStatementsTest extends TestCase
         $fqn = 'Inline\\Fully\\Qualified\\Name';
         $name = new Name($fqn);
 
-        $this->assertEquals($fqn, $useStatements->fullyQualifiedNameFor($name));
+        $this->assertSame($fqn, $useStatements->fullyQualifiedNameFor($name));
     }
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -36,11 +36,11 @@ final class ParsedConstantsBuilderTest extends TestCase
         $constants = $builder->build($constants);
 
         $this->assertCount(5, $constants);
-        $this->assertEquals('+INTEGER: int', (string) $constants[0]);
-        $this->assertEquals('-FLOAT: float', (string) $constants[1]);
-        $this->assertEquals('#STRING: string', (string) $constants[2]);
-        $this->assertEquals('+IS_TRUE: bool', (string) $constants[3]);
-        $this->assertEquals('+IS_FALSE: bool', (string) $constants[4]);
+        $this->assertSame('+INTEGER: int', (string) $constants[0]);
+        $this->assertSame('-FLOAT: float', (string) $constants[1]);
+        $this->assertSame('#STRING: string', (string) $constants[2]);
+        $this->assertSame('+IS_TRUE: bool', (string) $constants[3]);
+        $this->assertSame('+IS_FALSE: bool', (string) $constants[4]);
     }
 
     /** @test */
@@ -69,7 +69,7 @@ final class ParsedConstantsBuilderTest extends TestCase
         $constants = $builder->build($parsedConstants);
 
         $this->assertCount(2, $constants);
-        $this->assertEquals('+GREETING', (string) $constants[0]);
-        $this->assertEquals('+IS_GREATER', (string) $constants[1]);
+        $this->assertSame('+GREETING', (string) $constants[0]);
+        $this->assertSame('+IS_GREATER', (string) $constants[1]);
     }
 }

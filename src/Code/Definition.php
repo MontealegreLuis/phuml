@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,16 +9,15 @@ namespace PhUml\Code;
 
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\Visibility;
+use PhUml\Graphviz\FQNIdentifier;
 use PhUml\Graphviz\HasNodeIdentifier;
-use PhUml\Graphviz\ObjectHashIdentifier;
 
 /**
  * Base class for interfaces, classes and traits
  */
 abstract class Definition implements Named, HasNodeIdentifier
 {
-    use WithName;
-    use ObjectHashIdentifier;
+    use FQNIdentifier;
 
     /** @var Method[] */
     protected array $methods;
@@ -47,13 +46,13 @@ abstract class Definition implements Named, HasNodeIdentifier
     /**
      * This method is used when the commands are called with the option `hide-empty-blocks`
      *
-     * For interfaces it counts the number of constants.
-     * For classes it counts both constants and attributes.
+     * For interfaces, it counts the number of constants.
+     * For classes, it counts both constants and properties.
      *
-     * @see ClassDefinition::hasAttributes() for more details
-     * @see InterfaceDefinition::hasAttributes() for more details
+     * @see ClassDefinition::hasProperties() for more details
+     * @see InterfaceDefinition::hasProperties() for more details
      */
-    abstract public function hasAttributes(): bool;
+    abstract public function hasProperties(): bool;
 
     /** @return Method[] */
     public function methods(): array

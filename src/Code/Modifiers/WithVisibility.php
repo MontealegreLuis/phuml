@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace PhUml\Code\Modifiers;
 
 trait WithVisibility
 {
-    private Visibility $modifier;
+    private readonly Visibility $modifier;
 
     public function isPublic(): bool
     {

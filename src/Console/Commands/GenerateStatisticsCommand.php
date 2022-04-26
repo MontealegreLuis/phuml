@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -69,10 +69,19 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $configuration = new StatisticsGeneratorConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        /** @var array{ recursive: bool } $options */
+        $options = $input->getOptions();
+        $configuration = new StatisticsGeneratorConfiguration($options, new ConsoleProgressDisplay($output));
         $generator = StatisticsGenerator::fromConfiguration($configuration);
 
-        $generator->generate(GeneratorInput::textFile($input->getArguments()));
+        /**
+         * @var array{
+         *      directory: string,
+         *      output: string
+         * } $arguments
+         */
+        $arguments = $input->getArguments();
+        $generator->generate(GeneratorInput::textFile($arguments));
 
         return self::SUCCESS;
     }

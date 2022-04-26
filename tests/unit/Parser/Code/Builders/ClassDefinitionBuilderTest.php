@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Parser\Code\Builders;
 
+use PhpParser\Node\Attribute;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
@@ -29,9 +31,8 @@ final class ClassDefinitionBuilderTest extends TestCase
             ],
         ]);
         $parsedClass->namespacedName = new Name('AClassWithTraits');
-        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build(), new UseStatementsBuilder());
 
-        $class = $builder->build($parsedClass);
+        $class = $this->builder->build($parsedClass);
 
         $expectedClassWithTraits = A::class('AClassWithTraits')
             ->using(new TraitName('ATrait'), new TraitName('AnotherTrait'))
@@ -54,9 +55,8 @@ final class ClassDefinitionBuilderTest extends TestCase
             ],
         ]);
         $parsedClass->namespacedName = new Name('AClassWithTraits');
-        $builder = new ClassDefinitionBuilder(A::membersBuilder()->build(), new UseStatementsBuilder());
 
-        $class = $builder->build($parsedClass);
+        $class = $this->builder->build($parsedClass);
 
         $classWithTwoUseTraitStatements = A::class('AClassWithTraits')
             ->using(
@@ -67,4 +67,34 @@ final class ClassDefinitionBuilderTest extends TestCase
             ->build();
         $this->assertEquals($classWithTwoUseTraitStatements, $class);
     }
+
+    /** @test */
+    function it_builds_an_attribute_class()
+    {
+        $attributeClass = new Class_(new Identifier('AnAttributeClass'), [
+            'attrGroups' => [
+                new AttributeGroup([
+                    new Attribute(new Name('Attribute')),
+                ]),
+            ],
+        ]);
+        $attributeClass->namespacedName = new Name('AnAttributeClass');
+
+        $class = $this->builder->build($attributeClass);
+
+        $expectedAttributeClass = A::class('AnAttributeClass')->withIsAttribute()->build();
+        $this->assertEquals($expectedAttributeClass, $class);
+    }
+
+    /** @before */
+    function let()
+    {
+        $this->builder = new ClassDefinitionBuilder(
+            A::membersBuilder()->build(),
+            new UseStatementsBuilder(),
+            new AttributeAnalyzer()
+        );
+    }
+
+    private ClassDefinitionBuilder $builder;
 }

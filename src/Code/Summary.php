@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,33 +10,35 @@ namespace PhUml\Code;
 use PhUml\Code\Modifiers\Visibility;
 
 /**
- * It creates a summary of the classes, interfaces, methods, and attributes of a codebase
+ * It creates a summary of the classes, interfaces, methods, and properties of a codebase
  *
  * The summary of a `Structure` does not include counts of constants
  */
 final class Summary
 {
+    /** @noRector \Rector\Php81\Rector\Property\ReadOnlyPropertyRector  */
     private int $interfaceCount;
 
+    /** @noRector \Rector\Php81\Rector\Property\ReadOnlyPropertyRector  */
     private int $classCount;
 
     private int $publicFunctionCount;
 
-    private int $publicAttributeCount;
+    private int $publicPropertyCount;
 
-    private int $publicTypedAttributes;
+    private int $publicTypedProperties;
 
     private int $protectedFunctionCount;
 
-    private int $protectedAttributeCount;
+    private int $protectedPropertyCount;
 
-    private int $protectedTypedAttributes;
+    private int $protectedTypedProperties;
 
     private int $privateFunctionCount;
 
-    private int $privateAttributeCount;
+    private int $privatePropertyCount;
 
-    private int $privateTypedAttributes;
+    private int $privateTypedProperties;
 
     public static function from(Codebase $codebase): Summary
     {
@@ -48,37 +50,37 @@ final class Summary
         $this->interfaceCount = 0;
         $this->classCount = 0;
         $this->publicFunctionCount = 0;
-        $this->publicAttributeCount = 0;
-        $this->publicTypedAttributes = 0;
+        $this->publicPropertyCount = 0;
+        $this->publicTypedProperties = 0;
         $this->protectedFunctionCount = 0;
-        $this->protectedAttributeCount = 0;
-        $this->protectedTypedAttributes = 0;
+        $this->protectedPropertyCount = 0;
+        $this->protectedTypedProperties = 0;
         $this->privateFunctionCount = 0;
-        $this->privateAttributeCount = 0;
-        $this->privateTypedAttributes = 0;
+        $this->privatePropertyCount = 0;
+        $this->privateTypedProperties = 0;
         foreach ($codebase->definitions() as $definition) {
             if ($definition instanceof InterfaceDefinition) {
                 $this->interfaceCount++;
             }
             if ($definition instanceof ClassDefinition) {
                 $this->classCount++;
-                $this->attributesSummary($definition);
+                $this->propertiesSummary($definition);
             }
             $this->methodsSummary($definition);
         }
     }
 
-    private function attributesSummary(ClassDefinition $definition): void
+    private function propertiesSummary(ClassDefinition $definition): void
     {
-        // Attributes count
-        $this->publicAttributeCount += $definition->countAttributesByVisibility(Visibility::public());
-        $this->protectedAttributeCount += $definition->countAttributesByVisibility(Visibility::protected());
-        $this->privateAttributeCount += $definition->countAttributesByVisibility(Visibility::private());
+        // Properties count
+        $this->publicPropertyCount += $definition->countPropertiesByVisibility(Visibility::public());
+        $this->protectedPropertyCount += $definition->countPropertiesByVisibility(Visibility::protected());
+        $this->privatePropertyCount += $definition->countPropertiesByVisibility(Visibility::private());
 
-        // Typed attributes count
-        $this->publicTypedAttributes += $definition->countTypedAttributesByVisibility(Visibility::public());
-        $this->protectedTypedAttributes += $definition->countTypedAttributesByVisibility(Visibility::protected());
-        $this->privateTypedAttributes += $definition->countTypedAttributesByVisibility(Visibility::private());
+        // Typed properties count
+        $this->publicTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::public());
+        $this->protectedTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::protected());
+        $this->privateTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::private());
     }
 
     private function methodsSummary(Definition $definition): void
@@ -103,14 +105,14 @@ final class Summary
         return $this->publicFunctionCount;
     }
 
-    public function publicAttributeCount(): int
+    public function publicPropertyCount(): int
     {
-        return $this->publicAttributeCount;
+        return $this->publicPropertyCount;
     }
 
-    public function publicTypedAttributes(): int
+    public function publicTypedProperties(): int
     {
-        return $this->publicTypedAttributes;
+        return $this->publicTypedProperties;
     }
 
     public function protectedFunctionCount(): int
@@ -118,14 +120,14 @@ final class Summary
         return $this->protectedFunctionCount;
     }
 
-    public function protectedAttributeCount(): int
+    public function protectedPropertyCount(): int
     {
-        return $this->protectedAttributeCount;
+        return $this->protectedPropertyCount;
     }
 
-    public function protectedTypedAttributes(): int
+    public function protectedTypedProperties(): int
     {
-        return $this->protectedTypedAttributes;
+        return $this->protectedTypedProperties;
     }
 
     public function privateFunctionCount(): int
@@ -133,14 +135,14 @@ final class Summary
         return $this->privateFunctionCount;
     }
 
-    public function privateAttributeCount(): int
+    public function privatePropertyCount(): int
     {
-        return $this->privateAttributeCount;
+        return $this->privatePropertyCount;
     }
 
-    public function privateTypedAttributes(): int
+    public function privateTypedProperties(): int
     {
-        return $this->privateTypedAttributes;
+        return $this->privateTypedProperties;
     }
 
     public function functionCount(): int
@@ -148,23 +150,23 @@ final class Summary
         return $this->publicFunctionCount + $this->protectedFunctionCount + $this->privateFunctionCount;
     }
 
-    public function attributeCount(): int
+    public function propertiesCount(): int
     {
-        return $this->publicAttributeCount + $this->protectedAttributeCount + $this->privateAttributeCount;
+        return $this->publicPropertyCount + $this->protectedPropertyCount + $this->privatePropertyCount;
     }
 
-    public function typedAttributeCount(): int
+    public function typedPropertiesCount(): int
     {
-        return $this->publicTypedAttributes + $this->protectedTypedAttributes + $this->privateTypedAttributes;
+        return $this->publicTypedProperties + $this->protectedTypedProperties + $this->privateTypedProperties;
     }
 
-    public function attributesPerClass(): float
+    public function propertiesPerClass(): float
     {
         if ($this->classCount === 0) {
             return 0;
         }
 
-        return round($this->attributeCount() / $this->classCount, 2);
+        return round($this->propertiesCount() / $this->classCount, 2);
     }
 
     public function functionsPerClass(): float

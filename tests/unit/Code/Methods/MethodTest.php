@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -72,7 +72,7 @@ final class MethodTest extends TestCase
 
         $methodAsString = $method->__toString();
 
-        $this->assertEquals('+method()', $methodAsString);
+        $this->assertSame('+method()', $methodAsString);
     }
 
     /** @test */
@@ -117,7 +117,7 @@ final class MethodTest extends TestCase
 
         $methodAsString = $method->__toString();
 
-        $this->assertEquals(
+        $this->assertSame(
             '#withParameters($parameterOne, $parameterTwoWithType: int): SplStack',
             $methodAsString
         );

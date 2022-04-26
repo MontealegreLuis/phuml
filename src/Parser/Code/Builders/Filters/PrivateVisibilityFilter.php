@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 
 /**
- * It will exclude private methods or attributes
+ * It will exclude private methods or properties
  */
 final class PrivateVisibilityFilter implements VisibilityFilter
 {

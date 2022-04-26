@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -28,44 +28,44 @@ use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 final class VisibilityFiltersTest extends TestCase
 {
     /** @test */
-    function it_excludes_private_attributes()
+    function it_excludes_private_properties()
     {
         $filters = new VisibilityFilters([new PrivateVisibilityFilter()]);
 
-        $attributes = $filters->apply($this->attributes);
+        $properties = $filters->apply($this->properties);
 
-        $this->assertCount(4, $attributes);
-        $this->assertTrue($attributes[1]->isPublic());
-        $this->assertTrue($attributes[2]->isPublic());
-        $this->assertTrue($attributes[4]->isProtected());
-        $this->assertTrue($attributes[5]->isProtected());
+        $this->assertCount(4, $properties);
+        $this->assertTrue($properties[1]->isPublic());
+        $this->assertTrue($properties[2]->isPublic());
+        $this->assertTrue($properties[4]->isProtected());
+        $this->assertTrue($properties[5]->isProtected());
     }
 
     /** @test */
-    function it_excludes_protected_attributes()
+    function it_excludes_protected_properties()
     {
         $filters = new VisibilityFilters([new ProtectedVisibilityFilter()]);
 
-        $attributes = $filters->apply($this->attributes);
+        $properties = $filters->apply($this->properties);
 
-        $this->assertCount(5, $attributes);
-        $this->assertTrue($attributes[0]->isPrivate());
-        $this->assertTrue($attributes[1]->isPublic());
-        $this->assertTrue($attributes[2]->isPublic());
-        $this->assertTrue($attributes[3]->isPrivate());
-        $this->assertTrue($attributes[6]->isPrivate());
+        $this->assertCount(5, $properties);
+        $this->assertTrue($properties[0]->isPrivate());
+        $this->assertTrue($properties[1]->isPublic());
+        $this->assertTrue($properties[2]->isPublic());
+        $this->assertTrue($properties[3]->isPrivate());
+        $this->assertTrue($properties[6]->isPrivate());
     }
 
     /** @test */
-    function it_excludes_both_protected_and_private_attributes()
+    function it_excludes_both_protected_and_private_properties()
     {
         $filters = new VisibilityFilters([new PrivateVisibilityFilter(), new ProtectedVisibilityFilter()]);
 
-        $attributes = $filters->apply($this->attributes);
+        $properties = $filters->apply($this->properties);
 
-        $this->assertCount(2, $attributes);
-        $this->assertTrue($attributes[1]->isPublic());
-        $this->assertTrue($attributes[2]->isPublic());
+        $this->assertCount(2, $properties);
+        $this->assertTrue($properties[1]->isPublic());
+        $this->assertTrue($properties[2]->isPublic());
     }
 
     /** @test */
@@ -136,7 +136,7 @@ final class VisibilityFiltersTest extends TestCase
     /** @before */
     function let()
     {
-        $this->attributes = [
+        $this->properties = [
             new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('willBeRemoved')]),
             new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('publicA')]),
             new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('publicB')]),
@@ -185,7 +185,7 @@ final class VisibilityFiltersTest extends TestCase
     }
 
     /** @var Property[]  */
-    private array $attributes;
+    private array $properties;
 
     /** @var ClassConst[] */
     private array $constants;

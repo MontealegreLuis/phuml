@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -26,8 +26,9 @@ final class ClassDefinitionBuilder
     use TraitNamesBuilder;
 
     public function __construct(
-        private MembersBuilder $membersBuilder,
-        private UseStatementsBuilder $useStatementsBuilder
+        private readonly MembersBuilder $membersBuilder,
+        private readonly UseStatementsBuilder $useStatementsBuilder,
+        private readonly AttributeAnalyzer $analyzer
     ) {
     }
 
@@ -40,9 +41,10 @@ final class ClassDefinitionBuilder
             $this->membersBuilder->methods($class->getMethods(), $useStatements),
             $this->membersBuilder->constants($class->stmts),
             $class->extends !== null ? new ClassDefinitionName((string) $class->extends) : null,
-            $this->membersBuilder->attributes($class->stmts, $class->getMethod('__construct'), $useStatements),
+            $this->membersBuilder->properties($class->stmts, $class->getMethod('__construct'), $useStatements),
             $this->buildInterfaces($class->implements),
-            $this->buildTraits($class->stmts)
+            $this->buildTraits($class->stmts),
+            $this->analyzer->isAttribute($class)
         );
     }
 }

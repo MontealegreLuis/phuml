@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -15,17 +15,18 @@ use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhUml\Code\Codebase;
+use PhUml\Parser\Code\Builders\AttributeAnalyzer;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
-use PhUml\Parser\Code\Builders\Members\NoAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\NoConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\NoMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\NoPropertiesBuilder;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
-use PhUml\Parser\Code\Builders\Members\ParsedAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedPropertiesBuilder;
 use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
@@ -55,7 +56,7 @@ final class PhpCodeParser
     {
         if ($configuration->hideAttributes()) {
             $constantsBuilder = new NoConstantsBuilder();
-            $attributesBuilder = new NoAttributesBuilder();
+            $propertiesBuilder = new NoPropertiesBuilder();
         }
         if ($configuration->hideMethods()) {
             $methodsBuilder = new NoMethodsBuilder();
@@ -75,11 +76,11 @@ final class PhpCodeParser
             $visibilityBuilder,
         );
         $constantsBuilder ??= new ParsedConstantsBuilder($visibilityBuilder);
-        $attributesBuilder ??= new ParsedAttributesBuilder($visibilityBuilder, $typeBuilder);
+        $propertiesBuilder ??= new ParsedPropertiesBuilder($visibilityBuilder, $typeBuilder);
         $filters = new VisibilityFilters($filters);
-        $membersBuilder = new MembersBuilder($constantsBuilder, $attributesBuilder, $methodsBuilder, $filters);
+        $membersBuilder = new MembersBuilder($constantsBuilder, $propertiesBuilder, $methodsBuilder, $filters);
         $useStatementsBuilder = new UseStatementsBuilder();
-        $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder);
+        $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder, new AttributeAnalyzer());
         $interfaceBuilder = new InterfaceDefinitionBuilder($membersBuilder, $useStatementsBuilder);
         $traitBuilder = new TraitDefinitionBuilder($membersBuilder, $useStatementsBuilder);
 
@@ -98,8 +99,8 @@ final class PhpCodeParser
     }
 
     private function __construct(
-        private Parser $parser,
-        private PhpTraverser $traverser,
+        private readonly Parser $parser,
+        private readonly PhpTraverser $traverser,
     ) {
     }
 

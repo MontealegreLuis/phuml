@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -27,20 +27,16 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic, Stringa
     use WithAbstractModifier;
     use WithStaticModifier;
 
-    /** @var Parameter[] */
-    private array $parameters;
-
     /** @param Parameter[] $parameters */
     public function __construct(
-        private string $name,
+        private readonly string $name,
         Visibility $modifier,
-        private TypeDeclaration $returnType,
-        array $parameters = [],
+        private readonly TypeDeclaration $returnType,
+        private readonly array $parameters = [],
         bool $isAbstract = false,
         bool $isStatic = false
     ) {
         $this->modifier = $modifier;
-        $this->parameters = $parameters;
         $this->isAbstract = $isAbstract;
         $this->isStatic = $isStatic;
     }

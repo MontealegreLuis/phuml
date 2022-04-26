@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,9 +16,9 @@ use Webmozart\Assert\Assert;
 
 final class GraphvizConfiguration
 {
-    private AssociationsBuilder $associationsBuilder;
+    private readonly AssociationsBuilder $associationsBuilder;
 
-    private DigraphStyle $digraphStyle;
+    private readonly DigraphStyle $digraphStyle;
 
     /** @param mixed[] $options */
     public function __construct(array $options)

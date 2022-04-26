@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -48,7 +48,7 @@ Example:
     php bin/phuml phuml:diagram -r -a -p neato ./src out.png
 
     This command will look for PHP files within the `./src` directory and its sub-directories.
-    It will extract associations from constructor parameters and attributes. 
+    It will extract associations from constructor parameters and properties. 
     It will generate the class diagram using the `neato` processor 
     It will save the diagram to the file `out.png`.
 HELP
@@ -75,10 +75,31 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $configuration = new ClassDiagramConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
+        /**
+         * @var array{
+         *     processor: string,
+         *     recursive: bool,
+         *     associations: bool,
+         *     "hide-private": bool,
+         *     "hide-protected": bool,
+         *     "hide-methods": bool,
+         *     "hide-attributes": bool,
+         *     "hide-empty-blocks": bool,
+         *     theme: string
+         *  } $options
+         */
+        $options = $input->getOptions();
+        $configuration = new ClassDiagramConfiguration($options, new ConsoleProgressDisplay($output));
         $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $generator->generate(GeneratorInput::pngFile($input->getArguments()));
+        /**
+         * @var array{
+         *      directory: string,
+         *      output: string
+         * } $arguments
+         */
+        $arguments = $input->getArguments();
+        $generator->generate(GeneratorInput::pngFile($arguments));
 
         return self::SUCCESS;
     }

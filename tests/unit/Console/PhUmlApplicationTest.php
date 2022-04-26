@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -16,7 +16,7 @@ final class PhUmlApplicationTest extends TestCase
     {
         $application = new PhUmlApplication();
 
-        $this->assertEquals('phUML', $application->getName());
-        $this->assertEquals('@package_version@', $application->getVersion());
+        $this->assertSame('phUML', $application->getName());
+        $this->assertSame('@package_version@', $application->getVersion());
     }
 }

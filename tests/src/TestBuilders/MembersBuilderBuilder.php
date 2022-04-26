@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,9 +11,9 @@ use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\VisibilityFilter;
 use PhUml\Parser\Code\Builders\Members\ParametersBuilder;
-use PhUml\Parser\Code\Builders\Members\ParsedAttributesBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedConstantsBuilder;
 use PhUml\Parser\Code\Builders\Members\ParsedMethodsBuilder;
+use PhUml\Parser\Code\Builders\Members\ParsedPropertiesBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder as DefinitionMembersBuilder;
@@ -41,7 +41,7 @@ final class MembersBuilderBuilder
         $typeBuilder = A::typeBuilderBuilder()->build();
         return new DefinitionMembersBuilder(
             new ParsedConstantsBuilder($visibilityBuilder),
-            new ParsedAttributesBuilder($visibilityBuilder, $typeBuilder),
+            new ParsedPropertiesBuilder($visibilityBuilder, $typeBuilder),
             new ParsedMethodsBuilder(
                 new ParametersBuilder($typeBuilder),
                 $typeBuilder,

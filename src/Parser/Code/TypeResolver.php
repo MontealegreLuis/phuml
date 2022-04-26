@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,7 +14,7 @@ use PhUml\Parser\Code\Builders\TagTypeFactory;
 
 final class TypeResolver
 {
-    public function __construct(private TagTypeFactory $factory)
+    public function __construct(private readonly TagTypeFactory $factory)
     {
     }
 
@@ -43,14 +43,14 @@ final class TypeResolver
         return $returnType instanceof TagType ? $returnType->resolve($useStatements) : TypeDeclaration::absent();
     }
 
-    public function resolveForAttribute(?string $attributeComment, UseStatements $useStatements): TypeDeclaration
+    public function resolveForProperty(?string $propertyComment, UseStatements $useStatements): TypeDeclaration
     {
-        if ($attributeComment === null) {
+        if ($propertyComment === null) {
             return TypeDeclaration::absent();
         }
 
-        $attributeType = $this->factory->attributeTypeFrom($attributeComment);
+        $propertyType = $this->factory->propertyTypeFrom($propertyComment);
 
-        return $attributeType instanceof TagType ? $attributeType->resolve($useStatements) : TypeDeclaration::absent();
+        return $propertyType instanceof TagType ? $propertyType->resolve($useStatements) : TypeDeclaration::absent();
     }
 }

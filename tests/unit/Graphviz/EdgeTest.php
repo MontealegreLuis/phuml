@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -55,8 +55,8 @@ final class EdgeTest extends TestCase
         $implementation = Edge::implementation(A::classNamed('A'), A::interfaceNamed('B'));
         $association = Edge::association(A::classNamed('A'), A::classNamed('B'));
 
-        $this->assertEquals('edge', $inheritance->dotTemplate());
-        $this->assertEquals('edge', $implementation->dotTemplate());
-        $this->assertEquals('edge', $association->dotTemplate());
+        $this->assertSame('edge', $inheritance->dotTemplate());
+        $this->assertSame('edge', $implementation->dotTemplate());
+        $this->assertSame('edge', $association->dotTemplate());
     }
 }

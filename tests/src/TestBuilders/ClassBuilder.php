@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -21,6 +21,8 @@ final class ClassBuilder extends DefinitionBuilder
 
     /** @var Name[] */
     private array $traits = [];
+
+    private bool $isAttribute = false;
 
     public function extending(Name $parent): ClassBuilder
     {
@@ -43,6 +45,12 @@ final class ClassBuilder extends DefinitionBuilder
         return $this;
     }
 
+    public function withIsAttribute(): ClassBuilder
+    {
+        $this->isAttribute = true;
+        return $this;
+    }
+
     public function build(): ClassDefinition
     {
         return new ClassDefinition(
@@ -50,9 +58,10 @@ final class ClassBuilder extends DefinitionBuilder
             $this->methods,
             $this->constants,
             $this->parent,
-            $this->attributes,
+            $this->properties,
             $this->interfaces,
-            $this->traits
+            $this->traits,
+            $this->isAttribute
         );
     }
 }

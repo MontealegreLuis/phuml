@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -34,12 +34,12 @@ mindist = 0.6;', $dotLanguage);
     }
 
     /** @test */
-    function it_builds_an_html_label_for_a_class_with_attributes()
+    function it_builds_an_html_label_for_a_class_with_properties()
     {
         $class = A::class('AClass')
-            ->withAPublicAttribute('name')
-            ->withAPrivateAttribute('age')
-            ->withAProtectedAttribute('category', 'string')
+            ->withAPublicProperty('name')
+            ->withAPrivateProperty('age')
+            ->withAProtectedProperty('category', 'string')
             ->build();
         $digraph = new Digraph();
         $digraph->add([new Node($class)]);
@@ -71,11 +71,11 @@ mindist = 0.6;', $dotLanguage);
     }
 
     /** @test */
-    function it_builds_an_html_label_for_a_class_with_constants_attributes_and_methods()
+    function it_builds_an_html_label_for_a_class_with_constants_properties_and_methods()
     {
         $class = A::class('AClass')
-            ->withAPrivateAttribute('age')
-            ->withAProtectedAttribute('category', 'string')
+            ->withAPrivateProperty('age')
+            ->withAProtectedProperty('category', 'string')
             ->withAPublicMethod('getAge')
             ->withAProtectedMethod(
                 'setCategory',
@@ -130,11 +130,11 @@ mindist = 0.6;', $dotLanguage);
     }
 
     /** @test */
-    function it_builds_an_html_label_for_a_trait_with_attributes_and_methods()
+    function it_builds_an_html_label_for_a_trait_with_properties_and_methods()
     {
         $trait = A::trait('ATrait')
-            ->withAPrivateAttribute('age')
-            ->withAProtectedAttribute('category', 'string')
+            ->withAPrivateProperty('age')
+            ->withAProtectedProperty('category', 'string')
             ->withAPublicMethod('getAge')
             ->withAProtectedMethod(
                 'setCategory',
@@ -255,11 +255,11 @@ mindist = 0.6;', $dotLanguage);
     }
 
     /** @test */
-    function it_represents_class_attributes_as_associations_in_dot_language()
+    function it_represents_class_properties_as_associations_in_dot_language()
     {
         $reference = A::classNamed('AReference');
         $class = A::class('TestClass')
-            ->withAPrivateAttribute('$aReference', 'AReference')
+            ->withAPrivateProperty('$aReference', 'AReference')
             ->build()
         ;
         $digraph = new Digraph();
@@ -279,7 +279,7 @@ mindist = 0.6;', $dotLanguage);
     /** @test */
     function it_fails_to_build_a_label_if_twig_fails()
     {
-        $templateEngine = new class() extends TemplateEngine {
+        $templateEngine = new class () extends TemplateEngine {
             public function render(string $template, array $context = []): string
             {
                 throw new TemplateFailure(new RuntimeException('Twig runtime error'));

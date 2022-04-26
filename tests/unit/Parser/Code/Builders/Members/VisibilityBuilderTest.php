@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -21,7 +21,7 @@ use PhUml\Code\Modifiers\Visibility;
 final class VisibilityBuilderTest extends TestCase
 {
     /** @test */
-    function it_extracts_visibility_from_attributes()
+    function it_extracts_visibility_from_properties()
     {
         $public = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('name')]);
         $private = new Property(Class_::MODIFIER_PRIVATE, [new PropertyProperty('address')]);

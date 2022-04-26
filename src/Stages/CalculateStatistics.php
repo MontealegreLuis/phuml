@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,7 +13,7 @@ use PhUml\Processors\StatisticsProcessor;
 
 final class CalculateStatistics
 {
-    public function __construct(private StatisticsProcessor $statisticsProcessor, private ProgressDisplay $display)
+    public function __construct(private readonly StatisticsProcessor $statisticsProcessor, private readonly ProgressDisplay $display)
     {
     }
 

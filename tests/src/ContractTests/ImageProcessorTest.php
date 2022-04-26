@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -33,8 +33,8 @@ abstract class ImageProcessorTest extends TestCase
 
         $pngDiagram = $this->processor()->process($digraph);
 
-        $this->assertEquals($pngDiagram->value(), file_get_contents($expectedImage));
-        $this->assertEquals(0, (new Finder())->contains('phuml')->in(sys_get_temp_dir())->count());
+        $this->assertSame($pngDiagram->value(), file_get_contents($expectedImage));
+        $this->assertSame(0, (new Finder())->contains('phuml')->in(sys_get_temp_dir())->count());
     }
 
     /** @test */

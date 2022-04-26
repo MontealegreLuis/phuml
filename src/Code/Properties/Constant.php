@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
-namespace PhUml\Code\Attributes;
+namespace PhUml\Code\Properties;
 
 use PhUml\Code\Modifiers\HasVisibility;
 use PhUml\Code\Modifiers\Visibility;
@@ -21,7 +21,7 @@ final class Constant implements HasType, HasVisibility, Stringable
     use WithTypeDeclaration;
     use WithVisibility;
 
-    public function __construct(private string $name, TypeDeclaration $type, Visibility $visibility)
+    public function __construct(private readonly string $name, TypeDeclaration $type, Visibility $visibility)
     {
         $this->type = $type;
         $this->modifier = $visibility;

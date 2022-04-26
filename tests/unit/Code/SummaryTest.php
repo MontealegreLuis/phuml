@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -19,59 +19,59 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(0, $summary->interfaceCount());
-        $this->assertEquals(0, $summary->classCount());
-        $this->assertEquals(0, $summary->publicFunctionCount());
-        $this->assertEquals(0, $summary->publicAttributeCount());
-        $this->assertEquals(0, $summary->publicTypedAttributes());
-        $this->assertEquals(0, $summary->protectedFunctionCount());
-        $this->assertEquals(0, $summary->protectedAttributeCount());
-        $this->assertEquals(0, $summary->protectedTypedAttributes());
-        $this->assertEquals(0, $summary->privateFunctionCount());
-        $this->assertEquals(0, $summary->privateAttributeCount());
-        $this->assertEquals(0, $summary->privateTypedAttributes());
-        $this->assertEquals(0, $summary->functionCount());
-        $this->assertEquals(0, $summary->attributeCount());
-        $this->assertEquals(0, $summary->typedAttributeCount());
-        $this->assertEquals(0, $summary->attributesPerClass());
-        $this->assertEquals(0, $summary->functionsPerClass());
+        $this->assertSame(0, $summary->interfaceCount());
+        $this->assertSame(0, $summary->classCount());
+        $this->assertSame(0, $summary->publicFunctionCount());
+        $this->assertSame(0, $summary->publicPropertyCount());
+        $this->assertSame(0, $summary->publicTypedProperties());
+        $this->assertSame(0, $summary->protectedFunctionCount());
+        $this->assertSame(0, $summary->protectedPropertyCount());
+        $this->assertSame(0, $summary->protectedTypedProperties());
+        $this->assertSame(0, $summary->privateFunctionCount());
+        $this->assertSame(0, $summary->privatePropertyCount());
+        $this->assertSame(0, $summary->privateTypedProperties());
+        $this->assertSame(0, $summary->functionCount());
+        $this->assertSame(0, $summary->propertiesCount());
+        $this->assertSame(0, $summary->typedPropertiesCount());
+        $this->assertSame(0.0, $summary->propertiesPerClass());
+        $this->assertSame(0.0, $summary->functionsPerClass());
     }
 
     /** @test */
-    function it_counts_protected_typed_attributes()
+    function it_counts_protected_typed_properties()
     {
         $codebase = new Codebase();
-        $classWith2TypedAttributes = A::class('ClassA')
-            ->withAProtectedAttribute('aString', 'string')
-            ->withAProtectedAttribute('aFloat', 'float')
-            ->withAProtectedAttribute('aMixed')
+        $classWith2TypedProperties = A::class('ClassA')
+            ->withAProtectedProperty('aString', 'string')
+            ->withAProtectedProperty('aFloat', 'float')
+            ->withAProtectedProperty('aMixed')
             ->build();
-        $classWith3TypedAttributes = A::class('ClassB')
-            ->withAProtectedAttribute('aString', 'string')
-            ->withAProtectedAttribute('aFloat', 'float')
-            ->withAProtectedAttribute('aBoolean', 'bool')
+        $classWith3TypedProperties = A::class('ClassB')
+            ->withAProtectedProperty('aString', 'string')
+            ->withAProtectedProperty('aFloat', 'float')
+            ->withAProtectedProperty('aBoolean', 'bool')
             ->build();
-        $classWith1TypedAttribute = A::class('ClassC')
-            ->withAProtectedAttribute('aString', 'string')
-            ->withAPrivateAttribute('aFloat', 'float')
-            ->withAPublicAttribute('aBoolean', 'bool')
+        $classWith1TypedProperty = A::class('ClassC')
+            ->withAProtectedProperty('aString', 'string')
+            ->withAPrivateProperty('aFloat', 'float')
+            ->withAPublicProperty('aBoolean', 'bool')
             ->build();
-        $codebase->add($classWith2TypedAttributes);
-        $codebase->add($classWith3TypedAttributes);
-        $codebase->add($classWith1TypedAttribute);
+        $codebase->add($classWith2TypedProperties);
+        $codebase->add($classWith3TypedProperties);
+        $codebase->add($classWith1TypedProperty);
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(6, $summary->protectedTypedAttributes());
+        $this->assertSame(6, $summary->protectedTypedProperties());
     }
 
     /** @test */
     function it_generates_a_summary_from_a_codebase()
     {
         $parentClass = A::class('ParentClass')
-            ->withAProtectedAttribute('$attribute')
-            ->withAPublicAttribute('$value', 'float')
-            ->withAPublicAttribute('isValid')
+            ->withAProtectedProperty('$property')
+            ->withAPublicProperty('$value', 'float')
+            ->withAPublicProperty('isValid')
             ->withAProtectedMethod('getAttribute')
             ->withAPrivateMethod('privateAction')
             ->withAConstant('TEST')
@@ -90,9 +90,9 @@ final class SummaryTest extends TestCase
         $codebase->add($parentInterface);
         $codebase->add($interface);
         $codebase->add(A::class('ChildClass')
-            ->withAPrivateAttribute('$name', 'string')
-            ->withAPrivateAttribute('$salary')
-            ->withAProtectedAttribute('$age', 'int')
+            ->withAPrivateProperty('$name', 'string')
+            ->withAPrivateProperty('$salary')
+            ->withAProtectedProperty('$age', 'int')
             ->withAPublicMethod('getName')
             ->withAPublicMethod('getAge')
             ->implementing($interface->name())
@@ -101,51 +101,51 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(2, $summary->interfaceCount());
-        $this->assertEquals(2, $summary->classCount());
-        $this->assertEquals(4, $summary->publicFunctionCount());
-        $this->assertEquals(2, $summary->publicAttributeCount());
-        $this->assertEquals(1, $summary->publicTypedAttributes());
-        $this->assertEquals(1, $summary->protectedFunctionCount());
-        $this->assertEquals(2, $summary->protectedAttributeCount());
-        $this->assertEquals(1, $summary->protectedTypedAttributes());
-        $this->assertEquals(1, $summary->privateFunctionCount());
-        $this->assertEquals(2, $summary->privateAttributeCount());
-        $this->assertEquals(1, $summary->privateTypedAttributes());
-        $this->assertEquals(6, $summary->functionCount());
-        $this->assertEquals(6, $summary->attributeCount());
-        $this->assertEquals(3, $summary->typedAttributeCount());
-        $this->assertEquals(3, $summary->attributesPerClass());
-        $this->assertEquals(3, $summary->functionsPerClass());
+        $this->assertSame(2, $summary->interfaceCount());
+        $this->assertSame(2, $summary->classCount());
+        $this->assertSame(4, $summary->publicFunctionCount());
+        $this->assertSame(2, $summary->publicPropertyCount());
+        $this->assertSame(1, $summary->publicTypedProperties());
+        $this->assertSame(1, $summary->protectedFunctionCount());
+        $this->assertSame(2, $summary->protectedPropertyCount());
+        $this->assertSame(1, $summary->protectedTypedProperties());
+        $this->assertSame(1, $summary->privateFunctionCount());
+        $this->assertSame(2, $summary->privatePropertyCount());
+        $this->assertSame(1, $summary->privateTypedProperties());
+        $this->assertSame(6, $summary->functionCount());
+        $this->assertSame(6, $summary->propertiesCount());
+        $this->assertSame(3, $summary->typedPropertiesCount());
+        $this->assertSame(3.0, $summary->propertiesPerClass());
+        $this->assertSame(3.0, $summary->functionsPerClass());
     }
 
     /** @test */
-    function it_calculates_average_of_attributes_per_class()
+    function it_calculates_average_of_properties_per_class()
     {
         $codebase = new Codebase();
-        $classWith3Attributes = A::class('ClassA')
-            ->withAProtectedAttribute('aString', 'string')
-            ->withAProtectedAttribute('aFloat', 'float')
-            ->withAProtectedAttribute('aMixed')
+        $classWith3Properties = A::class('ClassA')
+            ->withAProtectedProperty('aString', 'string')
+            ->withAProtectedProperty('aFloat', 'float')
+            ->withAProtectedProperty('aMixed')
             ->build();
-        $classWith2Attributes = A::class('ClassB')
-            ->withAProtectedAttribute('aString', 'string')
-            ->withAProtectedAttribute('aBoolean', 'bool')
+        $classWith2Properties = A::class('ClassB')
+            ->withAProtectedProperty('aString', 'string')
+            ->withAProtectedProperty('aBoolean', 'bool')
             ->build();
-        $classWith5Attributes = A::class('ClassC')
-            ->withAProtectedAttribute('aString', 'string')
-            ->withAPrivateAttribute('aFloat', 'float')
-            ->withAPublicAttribute('aBoolean', 'bool')
-            ->withAPublicAttribute('anArray')
-            ->withAPublicAttribute('anObject')
+        $classWith5Properties = A::class('ClassC')
+            ->withAProtectedProperty('aString', 'string')
+            ->withAPrivateProperty('aFloat', 'float')
+            ->withAPublicProperty('aBoolean', 'bool')
+            ->withAPublicProperty('anArray')
+            ->withAPublicProperty('anObject')
             ->build();
-        $codebase->add($classWith3Attributes);
-        $codebase->add($classWith2Attributes);
-        $codebase->add($classWith5Attributes);
+        $codebase->add($classWith3Properties);
+        $codebase->add($classWith2Properties);
+        $codebase->add($classWith5Properties);
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(3.33, $summary->attributesPerClass());
+        $this->assertSame(3.33, $summary->propertiesPerClass());
     }
 
     /** @test */
@@ -174,6 +174,6 @@ final class SummaryTest extends TestCase
 
         $summary = Summary::from($codebase);
 
-        $this->assertEquals(3.33, $summary->functionsPerClass());
+        $this->assertSame(3.33, $summary->functionsPerClass());
     }
 }

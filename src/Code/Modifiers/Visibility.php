@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,7 +11,7 @@ use Stringable;
 use Webmozart\Assert\Assert;
 
 /**
- * It represents the visibility of either an attribute or a method
+ * It represents the visibility of either a property or a method
  */
 final class Visibility implements Stringable
 {
@@ -22,7 +22,7 @@ final class Visibility implements Stringable
         'protected' => '#',
     ];
 
-    private string $modifier;
+    private readonly string $modifier;
 
     public function __construct(string $modifier)
     {

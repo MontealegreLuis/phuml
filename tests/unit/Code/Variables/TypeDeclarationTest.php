@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -55,7 +55,7 @@ final class TypeDeclarationTest extends TestCase
     {
         $type = TypeDeclaration::from('MyClass');
         $arrayOfObjects = TypeDeclaration::from('MyClass[]');
-        $unionType = TypeDeclaration::fromUnionType(['MyClass', 'AnotherClass', 'null']);
+        $unionType = TypeDeclaration::fromCompositeType(['MyClass', 'AnotherClass', 'null'], CompositeType::UNION);
 
         $isBuiltIn = $type->isBuiltIn();
         $isArrayOfObjects = $arrayOfObjects->isBuiltIn();
@@ -81,45 +81,78 @@ final class TypeDeclarationTest extends TestCase
     /** @test */
     function it_knows_it_is_a_nullable_type()
     {
-        $unionType = TypeDeclaration::fromUnionType(['string', 'int', 'null']);
+        $unionType = TypeDeclaration::fromCompositeType(['string', 'int', 'null'], CompositeType::UNION);
         $regularType = TypeDeclaration::from('string');
         $nullableType = TypeDeclaration::fromNullable('string');
 
         $this->assertFalse($unionType->isNullable());
         $this->assertFalse($regularType->isNullable());
         $this->assertTrue($nullableType->isNullable());
-        $this->assertEquals('?string', (string) $nullableType);
+        $this->assertSame('?string', (string) $nullableType);
     }
 
     /** @test */
     function it_represents_to_string_union_types()
     {
-        $unionTypeA = TypeDeclaration::fromUnionType(['string', 'int', 'null']);
-        $unionTypeB = TypeDeclaration::fromUnionType(['MyClass', 'AnotherClass']);
+        $unionTypeA = TypeDeclaration::fromCompositeType(['string', 'int', 'null'], CompositeType::UNION);
+        $unionTypeB = TypeDeclaration::fromCompositeType(['MyClass', 'AnotherClass'], CompositeType::UNION);
 
-        $this->assertEquals('string|int|null', (string) $unionTypeA);
-        $this->assertEquals('MyClass|AnotherClass', (string) $unionTypeB);
+        $this->assertSame('string|int|null', (string) $unionTypeA);
+        $this->assertSame('MyClass|AnotherClass', (string) $unionTypeB);
+    }
+
+    /** @test */
+    function it_represents_to_string_intersection_types()
+    {
+        $intersectionTypeA = TypeDeclaration::fromCompositeType(['string', 'int', 'null'], CompositeType::INTERSECTION);
+        $intersectionTypeB = TypeDeclaration::fromCompositeType(['MyClass', 'AnotherClass'], CompositeType::INTERSECTION);
+
+        $this->assertSame('string&int&null', (string) $intersectionTypeA);
+        $this->assertSame('MyClass&AnotherClass', (string) $intersectionTypeB);
     }
 
     /** @test */
     function it_extracts_reference_types_from_union_types()
     {
-        $unionType = TypeDeclaration::fromUnionType(
+        $unionType = TypeDeclaration::fromCompositeType(
             [
                 'string',
                 'AClass',
                 'null',
                 'AnotherClass[]',
                 'Class\\With\\Namespace',
-            ]
+            ],
+            CompositeType::UNION
         );
 
         $references = $unionType->references();
 
         $this->assertCount(3, $references);
-        $this->assertEquals('AClass', (string) $references[1]);
-        $this->assertEquals('AnotherClass', (string) $references[3]);
-        $this->assertEquals('Class\\With\\Namespace', $references[4]->fullName());
+        $this->assertSame('AClass', (string) $references[1]);
+        $this->assertSame('AnotherClass', (string) $references[3]);
+        $this->assertSame('Class\\With\\Namespace', $references[4]->fullName());
+    }
+
+    /** @test */
+    function it_extracts_reference_types_from_intersection_types()
+    {
+        $intersectionType = TypeDeclaration::fromCompositeType(
+            [
+                'string',
+                'AClass',
+                'null',
+                'AnotherClass[]',
+                'Class\\With\\Namespace',
+            ],
+            CompositeType::INTERSECTION
+        );
+
+        $references = $intersectionType->references();
+
+        $this->assertCount(3, $references);
+        $this->assertSame('AClass', (string) $references[1]);
+        $this->assertSame('AnotherClass', (string) $references[3]);
+        $this->assertSame('Class\\With\\Namespace', $references[4]->fullName());
     }
 
     /** @test */
@@ -149,6 +182,7 @@ final class TypeDeclarationTest extends TestCase
             'iterable' => ['iterable'],
             'mixed' => ['mixed'],
             'object' => ['object'],
+            'never' => ['never'],
         ];
     }
 

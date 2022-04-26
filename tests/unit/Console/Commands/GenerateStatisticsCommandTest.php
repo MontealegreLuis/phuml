@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -48,7 +48,7 @@ final class GenerateStatisticsCommandTest extends TestCase
             '--recursive' => true,
         ]);
 
-        $this->assertEquals(0, $status);
+        $this->assertSame(0, $status);
         $this->assertFileExists($this->statistics);
     }
 

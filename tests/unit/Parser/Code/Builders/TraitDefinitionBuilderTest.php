@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -56,7 +56,7 @@ final class TraitDefinitionBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_builds_a_trait_with_attributes()
+    function it_builds_a_trait_with_properties()
     {
         $parsedTrait = new Trait_('ATrait', [
             'stmts' => [
@@ -70,9 +70,9 @@ final class TraitDefinitionBuilderTest extends TestCase
         $trait = $this->builder->build($parsedTrait);
 
         $traitWithMultipleTypesOfAttributes = A::trait('ATrait')
-            ->withAPrivateAttribute('$privateAttribute')
-            ->withAProtectedAttribute('$protectedAttribute')
-            ->withAnAttribute(A::attribute('$staticAttribute')->public()->static()->build())
+            ->withAPrivateProperty('$privateAttribute')
+            ->withAProtectedProperty('$protectedAttribute')
+            ->withAProperty(A::property('$staticAttribute')->public()->static()->build())
             ->build();
         $this->assertEquals($traitWithMultipleTypesOfAttributes, $trait);
     }

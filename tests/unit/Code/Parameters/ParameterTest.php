@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -30,9 +30,9 @@ final class ParameterTest extends TestCase
             true
         );
 
-        $this->assertEquals('$parameter', $parameter->__toString());
-        $this->assertEquals('...$variadicParameter: string', $variadicParameter->__toString());
-        $this->assertEquals('&$byReferenceParameter: array', $byReferenceParameter->__toString());
+        $this->assertSame('$parameter', $parameter->__toString());
+        $this->assertSame('...$variadicParameter: string', $variadicParameter->__toString());
+        $this->assertSame('&$byReferenceParameter: array', $byReferenceParameter->__toString());
     }
 
     protected function memberWithoutType(): HasType

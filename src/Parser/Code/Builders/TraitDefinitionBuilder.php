@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -23,8 +23,8 @@ final class TraitDefinitionBuilder
     use TraitNamesBuilder;
 
     public function __construct(
-        private MembersBuilder $membersBuilder,
-        private UseStatementsBuilder $useStatementsBuilder
+        private readonly MembersBuilder $membersBuilder,
+        private readonly UseStatementsBuilder $useStatementsBuilder
     ) {
     }
 
@@ -34,7 +34,7 @@ final class TraitDefinitionBuilder
         return new TraitDefinition(
             new Name((string) $trait->namespacedName),
             $this->membersBuilder->methods($trait->getMethods(), $useStatements),
-            $this->membersBuilder->attributes($trait->stmts, $trait->getMethod('__construct'), $useStatements),
+            $this->membersBuilder->properties($trait->stmts, $trait->getMethod('__construct'), $useStatements),
             $this->buildTraits($trait->stmts)
         );
     }

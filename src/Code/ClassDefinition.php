@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,33 +8,30 @@
 namespace PhUml\Code;
 
 use BadMethodCallException;
-use PhUml\Code\Attributes\Attribute;
-use PhUml\Code\Attributes\Constant;
-use PhUml\Code\Attributes\HasAttributes;
-use PhUml\Code\Attributes\HasConstants;
-use PhUml\Code\Attributes\WithAttributes;
-use PhUml\Code\Attributes\WithConstants;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Modifiers\CanBeAbstract;
 use PhUml\Code\Modifiers\Visibility;
 use PhUml\Code\Parameters\Parameter;
+use PhUml\Code\Properties\Constant;
+use PhUml\Code\Properties\HasConstants;
+use PhUml\Code\Properties\HasProperties;
+use PhUml\Code\Properties\Property;
+use PhUml\Code\Properties\WithConstants;
+use PhUml\Code\Properties\WithProperties;
 
 /**
  * It represents a class definition
  */
-final class ClassDefinition extends Definition implements HasAttributes, HasConstants, CanBeAbstract, UseTraits
+final class ClassDefinition extends Definition implements HasProperties, HasConstants, CanBeAbstract, UseTraits
 {
-    use WithAttributes;
+    use WithProperties;
     use WithConstants;
     use WithTraits;
-
-    /** @var Name[] */
-    private array $interfaces;
 
     /**
      * @param Method[] $methods
      * @param Constant[] $constants
-     * @param Attribute[] $attributes
+     * @param Property[] $properties
      * @param Name[] $interfaces
      * @param Name[] $traits
      */
@@ -42,15 +39,15 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
         Name $name,
         array $methods = [],
         array $constants = [],
-        protected ?Name $parent = null,
-        array $attributes = [],
-        array $interfaces = [],
-        array $traits = []
+        private readonly ?Name $parent = null,
+        array $properties = [],
+        private readonly array $interfaces = [],
+        array $traits = [],
+        private readonly bool $isAttribute = false
     ) {
         parent::__construct($name, $methods);
         $this->constants = $constants;
-        $this->attributes = $attributes;
-        $this->interfaces = $interfaces;
+        $this->properties = $properties;
         $this->traits = $traits;
     }
 
@@ -59,7 +56,7 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
      * classes via the constructor
      *
      * @return Parameter[]
-     * @see \PhUml\Graphviz\Builders\AssociationsBuilder::fromAttributes() for more details
+     * @see \PhUml\Graphviz\Builders\AssociationsBuilder::fromProperties() for more details
      */
     public function constructorParameters(): array
     {
@@ -72,27 +69,27 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
     /**
      * This method is used to build the `Summary` of a `Codebase`
      *
-     * @see Summary::attributesSummary() for more details
+     * @see Summary::propertiesSummary() for more details
      */
-    public function countAttributesByVisibility(Visibility $modifier): int
+    public function countPropertiesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter(
-            $this->attributes,
-            static fn (Attribute $attribute): bool => $attribute->hasVisibility($modifier)
+            $this->properties,
+            static fn (Property $property): bool => $property->hasVisibility($modifier)
         ));
     }
 
     /**
      * This method is used to build the `Summary` of a `Codebase`
      *
-     * @see Summary::attributesSummary() for more details
+     * @see Summary::propertiesSummary() for more details
      */
-    public function countTypedAttributesByVisibility(Visibility $modifier): int
+    public function countTypedPropertiesByVisibility(Visibility $modifier): int
     {
         return \count(array_filter(
-            $this->attributes,
-            static fn (Attribute $attribute): bool =>
-                $attribute->hasTypeDeclaration() && $attribute->hasVisibility($modifier)
+            $this->properties,
+            static fn (Property $property): bool =>
+                $property->hasTypeDeclaration() && $property->hasVisibility($modifier)
         ));
     }
 
@@ -135,13 +132,13 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
     /**
      * This method is used when the commands are called with the option `hide-empty-blocks`
      *
-     * It counts both the attributes and the constants of a class
+     * It counts both the properties and the constants of a class
      *
-     * @see Definition::hasAttributes() for more details
+     * @see Definition::hasProperties() for more details
      */
-    public function hasAttributes(): bool
+    public function hasProperties(): bool
     {
-        return \count($this->constants) + \count($this->attributes) > 0;
+        return \count($this->constants) + \count($this->properties) > 0;
     }
 
     /**
@@ -150,5 +147,10 @@ final class ClassDefinition extends Definition implements HasAttributes, HasCons
     public function isAbstract(): bool
     {
         return array_filter($this->methods(), static fn (Method $method): bool => $method->isAbstract()) !== [];
+    }
+
+    public function isAttribute(): bool
+    {
+        return $this->isAttribute;
     }
 }

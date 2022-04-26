@@ -10,6 +10,11 @@ currentMenu: format
 * Static methods and functions are shown underlined
 * Abstract classes, abstract methods and interfaces names are shown in *italics*
 
+## Traits and Attributes
+
+[Traits](https://www.php.net/manual/en/language.oop5.traits.php) and class [attributes](https://www.php.net/manual/en/language.attributes.overview.php)(annotations) will be shown with a [UML stereotype](https://www.uml-diagrams.org/stereotype.html).
+Traits will be shown with the `<<trait>>` stereotype above its name, and attributes (annotations) will be shown with the `<<attribute>>` stereotype above its name. 
+
 ## Relationships
 
 * **Associations** are solid lines without arrows

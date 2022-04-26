@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -21,7 +21,7 @@ final class VariableTest extends TestCase
 
         $parameterAsString = $parameter->__toString();
 
-        $this->assertEquals('$parameterName: string', $parameterAsString);
+        $this->assertSame('$parameterName: string', $parameterAsString);
     }
 
     /** @test */

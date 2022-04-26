@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,18 +8,18 @@
 namespace PhUml\Code;
 
 use BadMethodCallException;
-use PhUml\Code\Attributes\Attribute;
-use PhUml\Code\Attributes\HasAttributes;
-use PhUml\Code\Attributes\HasConstants;
+use PhUml\Code\Properties\HasConstants;
+use PhUml\Code\Properties\HasProperties;
+use PhUml\Code\Properties\Property;
 use PhUml\ContractTests\DefinitionTest;
-use PhUml\ContractTests\WithAttributesTests;
 use PhUml\ContractTests\WithConstantsTests;
+use PhUml\ContractTests\WithPropertiesTests;
 use PhUml\TestBuilders\A;
 
 final class ClassDefinitionTest extends DefinitionTest
 {
     use WithConstantsTests;
-    use WithAttributesTests;
+    use WithPropertiesTests;
 
     /** @test */
     function it_does_not_implement_any_interface_by_default()
@@ -40,8 +40,7 @@ final class ClassDefinitionTest extends DefinitionTest
             ->withAPublicMethod('notAConstructor')
             ->withAPublicMethod('__construct', $firstParameter, $secondParameter)
             ->withAPublicMethod('NotAConstructorEither')
-            ->build()
-        ;
+            ->build();
 
         $constructorParameters = $class->constructorParameters();
 
@@ -55,8 +54,7 @@ final class ClassDefinitionTest extends DefinitionTest
         $class = A::class('ClassWithoutConstructor')
             ->withAPublicMethod('notAConstructor')
             ->withAPublicMethod('notAConstructorEither')
-            ->build()
-        ;
+            ->build();
 
         $constructorParameters = $class->constructorParameters();
 
@@ -72,8 +70,7 @@ final class ClassDefinitionTest extends DefinitionTest
         ];
         $classWithInterfaces = A::class('ClassWithInterfaces')
             ->implementing(...$interfaces)
-            ->build()
-        ;
+            ->build();
 
         $classInterfaces = $classWithInterfaces->interfaces();
 
@@ -110,6 +107,16 @@ final class ClassDefinitionTest extends DefinitionTest
         $interfaceWithParent->parent();
     }
 
+    /** @test */
+    function it_knows_if_it_is_an_attribute_class()
+    {
+        $attributeClass = new ClassDefinition(new Name('ADefinition'), isAttribute: true);
+        $regularClass = new ClassDefinition(new Name('ADefinition'));
+
+        $this->assertTrue($attributeClass->isAttribute());
+        $this->assertFalse($regularClass->isAttribute());
+    }
+
     protected function definition(array $methods = []): Definition
     {
         return new ClassDefinition(new Name('ADefinition'), $methods);
@@ -120,9 +127,9 @@ final class ClassDefinitionTest extends DefinitionTest
         return new ClassDefinition(new Name('AnyClassDefinition'), [], $constants);
     }
 
-    /** @param Attribute[] $attributes */
-    protected function definitionWithAttributes(array $attributes = []): HasAttributes
+    /** @param Property[] $properties */
+    protected function definitionWithProperties(array $properties = []): HasProperties
     {
-        return new ClassDefinition(new Name('AClassWithAttributes'), [], [], null, $attributes);
+        return new ClassDefinition(new Name('AClassWithProperties'), [], [], null, $properties);
     }
 }

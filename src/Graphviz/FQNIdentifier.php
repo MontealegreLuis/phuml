@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,9 +10,11 @@ namespace PhUml\Graphviz;
 use PhUml\Code\WithName;
 
 /**
- * Both `ClassDefinition` and `InterfaceDefinition` objects identifiers are generated using their Fully Qualified Name
+ * `Definition`s are required to have unique identifiers, so we can determine relationships between them
+ *
+ * Definitions identifiers are generated using their Fully Qualified Name (FQN)
  */
-trait ObjectHashIdentifier
+trait FQNIdentifier
 {
     use WithName;
 

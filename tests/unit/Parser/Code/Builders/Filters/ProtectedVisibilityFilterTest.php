@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 final class ProtectedVisibilityFilterTest extends TestCase
 {
     /** @test */
-    function it_excludes_statements_that_are_not_methods_or_constants_or_attributes()
+    function it_excludes_statements_that_are_not_methods_or_constants_or_properties()
     {
         $filter = new ProtectedVisibilityFilter();
 

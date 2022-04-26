@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,7 +13,7 @@ final class CodeParserConfigurationBuilder
 {
     private bool $hideMethods = false;
 
-    private bool $hideAttributes = false;
+    private bool $hideProperties = false;
 
     private bool $hideProtected = false;
 
@@ -27,7 +27,7 @@ final class CodeParserConfigurationBuilder
             'associations' => $this->associations,
             'hide-private' => $this->hidePrivate,
             'hide-protected' => $this->hideProtected,
-            'hide-attributes' => $this->hideAttributes,
+            'hide-attributes' => $this->hideProperties,
             'hide-methods' => $this->hideMethods,
         ]);
     }
@@ -40,7 +40,7 @@ final class CodeParserConfigurationBuilder
 
     public function withoutAttributes(): CodeParserConfigurationBuilder
     {
-        $this->hideAttributes = true;
+        $this->hideProperties = true;
         return $this;
     }
 

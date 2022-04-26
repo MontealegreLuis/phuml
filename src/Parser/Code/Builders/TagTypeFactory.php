@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,12 +13,13 @@ use phpDocumentor\Reflection\DocBlock\Tags\TagWithType;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\Types\Compound;
+use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 
 final class TagTypeFactory
 {
-    public function __construct(private DocBlockFactory $factory)
+    public function __construct(private readonly DocBlockFactory $factory)
     {
     }
 
@@ -26,13 +27,13 @@ final class TagTypeFactory
     {
         $docBlock = $this->factory->create($methodComment);
 
-        /** @var TagType[]|InvalidTag[] $parameterTags */
+        /** @var TagWithType[]|InvalidTag[] $parameterTags */
         $parameterTags = $docBlock->getTagsByName('param');
 
         /** @var Param[] $params */
         $params = array_values(array_filter(
             $parameterTags,
-            static fn (TagWithType|InvalidTag $parameter) =>
+            static fn (TagWithType|InvalidTag $parameter): bool =>
                $parameter instanceof Param && "\${$parameter->getVariableName()}" === $parameterName
         ));
 
@@ -64,9 +65,9 @@ final class TagTypeFactory
         return $this->resolveType($return->getType());
     }
 
-    public function attributeTypeFrom(string $attributeComment): ?TagType
+    public function propertyTypeFrom(string $propertyComment): ?TagType
     {
-        $docBlock = $this->factory->create($attributeComment);
+        $docBlock = $this->factory->create($propertyComment);
 
         /** @var TagWithType[]|InvalidTag[] $varTags */
         $varTags = $docBlock->getTagsByName('var');
@@ -88,7 +89,8 @@ final class TagTypeFactory
         return match (true) {
             $type === null => null,
             $type instanceof Nullable => TagType::nullable((string) $type->getActualType()),
-            $type instanceof Compound => TagType::compound(array_map('strval', $type->getIterator()->getArrayCopy())),
+            $type instanceof Compound => TagType::union(array_map(strval(...), $type->getIterator()->getArrayCopy())),
+            $type instanceof Intersection => TagType::intersection(array_map(strval(...), $type->getIterator()->getArrayCopy())),
             default => $this->fromType($type)
         };
     }

@@ -1,12 +1,11 @@
 {
     "name": "phuml/phuml",
-    "type": "library",
     "description": "phUML is a fully automatic UML class diagram generator for PHP code",
+    "license": "BSD-3-Clause",
+    "type": "library",
     "keywords": [
         "uml"
     ],
-    "homepage": "https://github.com/MontealegreLuis/phuml",
-    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Luis Montealegre",
@@ -14,49 +13,43 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/MontealegreLuis/phuml",
+    "support": {
+        "issues": "https://github.com/MontealegreLuis/phuml/issues",
+        "docs": "https://montealegreluis.com/phuml/"
+    },
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-tokenizer": "*",
-        "league/pipeline": "^1.0.0",
-        "nikic/php-parser": "4.11.0",
-        "phpdocumentor/reflection-docblock": "^5.2",
-        "phpdocumentor/type-resolver": "^1.4",
-        "symfony/console": "^5.3.2",
-        "symfony/finder": "^5.3.0",
-        "symfony/process": "^5.3.2",
-        "symplify/smart-file-system": "^9.4.22",
-        "twig/twig": "^3.3.2",
-        "webmozart/assert": "^1.10.0"
+        "league/pipeline": "~1.0.0",
+        "nikic/php-parser": "~4.13.2",
+        "phpdocumentor/reflection-docblock": "~5.3.0",
+        "phpdocumentor/type-resolver": "~1.6.1",
+        "symfony/console": "~6.0.7",
+        "symfony/finder": "~6.0.3",
+        "symfony/process": "~6.0.7",
+        "symplify/smart-file-system": "~10.2.2",
+        "twig/twig": "~3.3.10",
+        "webmozart/assert": "~1.10.0"
     },
     "require-dev": {
         "ext-imagick": "*",
-        "ergebnis/composer-normalize": "^2.15.0",
-        "friendsofphp/php-cs-fixer": "3.0.2",
-        "infection/infection": "^0.23.0",
-        "lupka/phpunit-compare-images": "^1.0.0",
-        "maglnet/composer-require-checker": "^3.3.0",
-        "phpro/grumphp": "^1.4.0",
-        "phpspec/prophecy-phpunit": "^2.0.1",
-        "phpstan/extension-installer": "^1.1.0",
-        "phpstan/phpstan": "^0.12.94",
-        "phpstan/phpstan-strict-rules": "^0.12.10",
-        "phpstan/phpstan-webmozart-assert": "^0.12.15",
-        "phpunit/phpunit": "^9.5.6",
-        "pyrech/composer-changelogs": "^1.7.1",
-        "rector/rector": "0.11.47"
+        "ergebnis/composer-normalize": "~2.25.2",
+        "friendsofphp/php-cs-fixer": "~3.8.0",
+        "infection/infection": "~0.26.8",
+        "lupka/phpunit-compare-images": "~1.0.0",
+        "maglnet/composer-require-checker": "~4.0.0",
+        "phpro/grumphp": "~1.11.0",
+        "phpspec/prophecy-phpunit": "~2.0.1",
+        "phpstan/extension-installer": "~1.1.0",
+        "phpstan/phpstan": "~1.5.7",
+        "phpstan/phpstan-strict-rules": "~1.1.0",
+        "phpstan/phpstan-webmozart-assert": "~1.1.2",
+        "phpunit/phpunit": "~9.5.20",
+        "pyrech/composer-changelogs": "~1.8.1",
+        "rector/rector": "~0.12.21"
     },
-    "config": {
-        "optimize-autoloader": true,
-        "platform": {
-            "php": "8.0.8"
-        },
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "6.0-dev"
-        }
-    },
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "PhUml\\": "src"
@@ -71,12 +64,19 @@
             ]
         }
     },
-    "prefer-stable": true,
     "bin": [
         "bin/phuml"
     ],
-    "support": {
-        "issues": "https://github.com/MontealegreLuis/phuml/issues",
-        "docs": "https://montealegreluis.com/phuml/"
+    "config": {
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.1.1"
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "6.0-dev"
+        }
     }
 }

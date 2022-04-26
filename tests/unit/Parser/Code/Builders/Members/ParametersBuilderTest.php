@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -27,8 +27,8 @@ final class ParametersBuilderTest extends TestCase
 
         $parameters = $builder->build($parsedParameters, null, new UseStatements([]));
 
-        $this->assertEquals('&$page: int', $parameters[0]->__toString());
-        $this->assertEquals('$size: int', $parameters[1]->__toString());
-        $this->assertEquals('...$items: int', $parameters[2]->__toString());
+        $this->assertSame('&$page: int', $parameters[0]->__toString());
+        $this->assertSame('$size: int', $parameters[1]->__toString());
+        $this->assertSame('...$items: int', $parameters[2]->__toString());
     }
 }

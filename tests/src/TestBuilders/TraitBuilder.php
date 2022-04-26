@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,7 +17,7 @@ final class TraitBuilder
     /** @var Name[] */
     private array $traits = [];
 
-    public function __construct(private string $name)
+    public function __construct(private readonly string $name)
     {
     }
 
@@ -33,7 +33,7 @@ final class TraitBuilder
         return new TraitDefinition(
             new Name($this->name),
             $this->methods,
-            $this->attributes,
+            $this->properties,
             $this->traits
         );
     }

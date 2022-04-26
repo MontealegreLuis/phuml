@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 /**
- * PHP version 8.0
+ * PHP version 8.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 namespace PhUml\Code;
 
-use PhUml\Code\Attributes\HasConstants;
+use PhUml\Code\Properties\HasConstants;
 use PhUml\ContractTests\DefinitionTest;
 use PhUml\ContractTests\WithConstantsTests;
 use PhUml\TestBuilders\A;
