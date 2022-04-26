@@ -21,7 +21,10 @@ class TemplateEngine
 
     public function __construct(Twig $twig = null)
     {
-        $this->twig = $twig ?? new Twig(new FilesystemLoader(__DIR__ . '/../resources/templates'));
+        $this->twig = $twig ?? new Twig(
+            new FilesystemLoader(__DIR__ . '/../resources/templates'),
+            ['strict_variables' => true]
+        );
         $this->twig->addFilter(new Filter(
             'whitespace',
             static fn (string $html): ?string => preg_replace('/\s\s+/', '', $html)
