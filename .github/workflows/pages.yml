@@ -1,13 +1,15 @@
 name: Documentation
 
 on:
-  push:
-    branches:
-      - master
+  workflow_run:
+    workflows: [ CI ]
+    types: [ completed ]
+    branches: [ master ]
 
 jobs:
   deploy:
     runs-on: ubuntu-18.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: "Checkout documentation"
         uses: actions/checkout@v1
