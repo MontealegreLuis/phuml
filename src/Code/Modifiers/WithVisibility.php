@@ -7,25 +7,25 @@ namespace PhUml\Code\Modifiers;
 
 trait WithVisibility
 {
-    private readonly Visibility $modifier;
+    private readonly Visibility $visibility;
 
     public function isPublic(): bool
     {
-        return $this->hasVisibility(Visibility::public());
+        return $this->visibility === Visibility::PUBLIC;
     }
 
     public function isPrivate(): bool
     {
-        return $this->hasVisibility(Visibility::private());
+        return $this->visibility === Visibility::PRIVATE;
     }
 
     public function isProtected(): bool
     {
-        return $this->hasVisibility(Visibility::protected());
+        return $this->visibility === Visibility::PROTECTED;
     }
 
-    public function hasVisibility(Visibility $modifier): bool
+    public function hasVisibility(Visibility $visibility): bool
     {
-        return $this->modifier->equals($modifier);
+        return $this->visibility === $visibility;
     }
 }

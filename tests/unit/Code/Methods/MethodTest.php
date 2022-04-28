@@ -78,7 +78,7 @@ final class MethodTest extends TestCase
     {
         $method = new Method(
             'aMethod',
-            Visibility::public(),
+            Visibility::PUBLIC,
             TypeDeclaration::absent(),
         );
 
@@ -92,7 +92,7 @@ final class MethodTest extends TestCase
     {
         $method = new Method(
             'aMethod',
-            Visibility::public(),
+            Visibility::PUBLIC,
             TypeDeclaration::absent(),
         );
 

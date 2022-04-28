@@ -28,13 +28,13 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic, Stringa
     /** @param Parameter[] $parameters */
     public function __construct(
         private readonly string $name,
-        Visibility $modifier,
+        Visibility $visibility,
         private readonly TypeDeclaration $returnType,
         private readonly array $parameters = [],
         bool $isAbstract = false,
         bool $isStatic = false
     ) {
-        $this->modifier = $modifier;
+        $this->visibility = $visibility;
         $this->isAbstract = $isAbstract;
         $this->isStatic = $isStatic;
     }
@@ -60,7 +60,7 @@ final class Method implements HasVisibility, CanBeAbstract, CanBeStatic, Stringa
     {
         return sprintf(
             '%s%s%s%s',
-            $this->modifier,
+            $this->visibility->value,
             $this->name,
             $this->parameters === [] ? '()' : '(' . implode(', ', $this->parameters) . ')',
             $this->returnType->isPresent() ? ": {$this->returnType}" : ''

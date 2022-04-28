@@ -71,21 +71,21 @@ final class Summary
     private function propertiesSummary(ClassDefinition $definition): void
     {
         // Properties count
-        $this->publicPropertyCount += $definition->countPropertiesByVisibility(Visibility::public());
-        $this->protectedPropertyCount += $definition->countPropertiesByVisibility(Visibility::protected());
-        $this->privatePropertyCount += $definition->countPropertiesByVisibility(Visibility::private());
+        $this->publicPropertyCount += $definition->countPropertiesByVisibility(Visibility::PUBLIC);
+        $this->protectedPropertyCount += $definition->countPropertiesByVisibility(Visibility::PROTECTED);
+        $this->privatePropertyCount += $definition->countPropertiesByVisibility(Visibility::PRIVATE);
 
         // Typed properties count
-        $this->publicTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::public());
-        $this->protectedTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::protected());
-        $this->privateTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::private());
+        $this->publicTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::PUBLIC);
+        $this->protectedTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::PROTECTED);
+        $this->privateTypedProperties += $definition->countTypedPropertiesByVisibility(Visibility::PRIVATE);
     }
 
     private function methodsSummary(Definition $definition): void
     {
-        $this->publicFunctionCount += $definition->countMethodsByVisibility(Visibility::public());
-        $this->protectedFunctionCount += $definition->countMethodsByVisibility(Visibility::protected());
-        $this->privateFunctionCount += $definition->countMethodsByVisibility(Visibility::private());
+        $this->publicFunctionCount += $definition->countMethodsByVisibility(Visibility::PUBLIC);
+        $this->protectedFunctionCount += $definition->countMethodsByVisibility(Visibility::PROTECTED);
+        $this->privateFunctionCount += $definition->countMethodsByVisibility(Visibility::PRIVATE);
     }
 
     public function interfaceCount(): int

@@ -69,11 +69,11 @@ final class ClassDefinition extends Definition implements HasProperties, HasCons
      *
      * @see Summary::propertiesSummary() for more details
      */
-    public function countPropertiesByVisibility(Visibility $modifier): int
+    public function countPropertiesByVisibility(Visibility $visibility): int
     {
         return \count(array_filter(
             $this->properties,
-            static fn (Property $property): bool => $property->hasVisibility($modifier)
+            static fn (Property $property): bool => $property->hasVisibility($visibility)
         ));
     }
 
@@ -82,12 +82,12 @@ final class ClassDefinition extends Definition implements HasProperties, HasCons
      *
      * @see Summary::propertiesSummary() for more details
      */
-    public function countTypedPropertiesByVisibility(Visibility $modifier): int
+    public function countTypedPropertiesByVisibility(Visibility $visibility): int
     {
         return \count(array_filter(
             $this->properties,
             static fn (Property $property): bool =>
-                $property->hasTypeDeclaration() && $property->hasVisibility($modifier)
+                $property->hasTypeDeclaration() && $property->hasVisibility($visibility)
         ));
     }
 

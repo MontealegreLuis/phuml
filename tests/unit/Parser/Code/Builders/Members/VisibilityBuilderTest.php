@@ -30,9 +30,9 @@ final class VisibilityBuilderTest extends TestCase
         $protectedVisibility = $builder->build($protected);
         $privateVisibility = $builder->build($private);
 
-        $this->assertEquals(Visibility::public(), $publicVisibility);
-        $this->assertEquals(Visibility::protected(), $protectedVisibility);
-        $this->assertEquals(Visibility::private(), $privateVisibility);
+        $this->assertEquals(Visibility::PUBLIC, $publicVisibility);
+        $this->assertEquals(Visibility::PROTECTED, $protectedVisibility);
+        $this->assertEquals(Visibility::PRIVATE, $privateVisibility);
     }
 
     /** @test */
@@ -54,9 +54,9 @@ final class VisibilityBuilderTest extends TestCase
         $protectedVisibility = $builder->build($protected);
         $privateVisibility = $builder->build($private);
 
-        $this->assertEquals(Visibility::public(), $publicVisibility);
-        $this->assertEquals(Visibility::protected(), $protectedVisibility);
-        $this->assertEquals(Visibility::private(), $privateVisibility);
+        $this->assertEquals(Visibility::PUBLIC, $publicVisibility);
+        $this->assertEquals(Visibility::PROTECTED, $protectedVisibility);
+        $this->assertEquals(Visibility::PRIVATE, $privateVisibility);
     }
 
     /** @test */
@@ -71,9 +71,9 @@ final class VisibilityBuilderTest extends TestCase
         $protectedVisibility = $builder->build($protected);
         $privateVisibility = $builder->build($private);
 
-        $this->assertEquals(Visibility::public(), $publicVisibility);
-        $this->assertEquals(Visibility::protected(), $protectedVisibility);
-        $this->assertEquals(Visibility::private(), $privateVisibility);
+        $this->assertEquals(Visibility::PUBLIC, $publicVisibility);
+        $this->assertEquals(Visibility::PROTECTED, $protectedVisibility);
+        $this->assertEquals(Visibility::PRIVATE, $privateVisibility);
     }
 
     /** @test */
@@ -85,9 +85,9 @@ final class VisibilityBuilderTest extends TestCase
         $protected = $builder->fromFlags(2);
         $public = $builder->fromFlags(1);
 
-        $this->assertEquals(Visibility::private(), $private);
-        $this->assertEquals(Visibility::protected(), $protected);
-        $this->assertEquals(Visibility::public(), $public);
+        $this->assertEquals(Visibility::PRIVATE, $private);
+        $this->assertEquals(Visibility::PROTECTED, $protected);
+        $this->assertEquals(Visibility::PUBLIC, $public);
         $this->expectException(UnknownVisibilityFlag::class);
         $builder->fromFlags(0);
     }

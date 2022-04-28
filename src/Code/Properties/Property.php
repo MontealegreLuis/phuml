@@ -25,10 +25,10 @@ final class Property implements HasType, HasVisibility, CanBeStatic, Stringable
     use WithStaticModifier;
     use WithVariable;
 
-    public function __construct(Variable $variable, Visibility $modifier, bool $isStatic = false)
+    public function __construct(Variable $variable, Visibility $visibility, bool $isStatic = false)
     {
         $this->variable = $variable;
-        $this->modifier = $modifier;
+        $this->visibility = $visibility;
         $this->isStatic = $isStatic;
     }
 
@@ -42,7 +42,7 @@ final class Property implements HasType, HasVisibility, CanBeStatic, Stringable
     {
         return sprintf(
             '%s%s',
-            $this->modifier,
+            $this->visibility->value,
             $this->variable
         );
     }

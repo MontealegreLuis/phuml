@@ -43,19 +43,19 @@ final class MethodBuilder
 
     public function private(): MethodBuilder
     {
-        $this->visibility = new Visibility('private');
+        $this->visibility = Visibility::PRIVATE;
         return $this;
     }
 
     public function public(): MethodBuilder
     {
-        $this->visibility = new Visibility('public');
+        $this->visibility = Visibility::PUBLIC;
         return $this;
     }
 
     public function protected(): MethodBuilder
     {
-        $this->visibility = new Visibility('protected');
+        $this->visibility = Visibility::PROTECTED;
         return $this;
     }
 

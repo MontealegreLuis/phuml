@@ -29,7 +29,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAProtectedProperty(string $name, string $type = null)
     {
-        $this->properties[] = new Property(A::variable($name)->withType($type)->build(), Visibility::protected());
+        $this->properties[] = new Property(A::variable($name)->withType($type)->build(), Visibility::PROTECTED);
 
         return $this;
     }
@@ -37,7 +37,7 @@ trait MembersBuilder
     /** @return ClassBuilder|TraitBuilder */
     public function withAPrivateProperty(string $name, string $type = null)
     {
-        $this->properties[] = new Property(A::variable($name)->withType($type)->build(), Visibility::private());
+        $this->properties[] = new Property(A::variable($name)->withType($type)->build(), Visibility::PRIVATE);
 
         return $this;
     }

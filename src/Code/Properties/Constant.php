@@ -22,14 +22,14 @@ final class Constant implements HasType, HasVisibility, Stringable
     public function __construct(private readonly string $name, TypeDeclaration $type, Visibility $visibility)
     {
         $this->type = $type;
-        $this->modifier = $visibility;
+        $this->visibility = $visibility;
     }
 
     public function __toString(): string
     {
         return sprintf(
             '%s%s%s',
-            $this->modifier,
+            $this->visibility->value,
             $this->name,
             $this->type->isPresent() ? ": {$this->type}" : ''
         );

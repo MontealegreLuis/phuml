@@ -26,8 +26,8 @@ trait WithConstantsTests
     function it_knows_its_constants()
     {
         $constants = [
-            new Constant('FIRST_CONSTANT', TypeDeclaration::absent(), Visibility::public()),
-            new Constant('SECOND_CONSTANT', TypeDeclaration::from('string'), Visibility::public()),
+            new Constant('FIRST_CONSTANT', TypeDeclaration::absent(), Visibility::PUBLIC),
+            new Constant('SECOND_CONSTANT', TypeDeclaration::from('string'), Visibility::PUBLIC),
         ];
         $definitionWithConstants = $this->definitionWithConstants($constants);
 

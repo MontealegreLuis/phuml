@@ -24,19 +24,19 @@ final class AttributeBuilder
 
     public function public(): AttributeBuilder
     {
-        $this->visibility = Visibility::public();
+        $this->visibility = Visibility::PUBLIC;
         return $this;
     }
 
     public function private(): AttributeBuilder
     {
-        $this->visibility = Visibility::private();
+        $this->visibility = Visibility::PRIVATE;
         return $this;
     }
 
     public function protected(): AttributeBuilder
     {
-        $this->visibility = Visibility::protected();
+        $this->visibility = Visibility::PROTECTED;
         return $this;
     }
 

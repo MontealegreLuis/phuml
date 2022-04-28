@@ -13,5 +13,5 @@ interface HasVisibility
 
     public function isProtected(): bool;
 
-    public function hasVisibility(Visibility $modifier): bool;
+    public function hasVisibility(Visibility $visibility): bool;
 }

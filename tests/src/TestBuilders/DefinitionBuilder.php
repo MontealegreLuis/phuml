@@ -24,7 +24,7 @@ abstract class DefinitionBuilder
     /** @return ClassBuilder|InterfaceBuilder */
     public function withAConstant(string $name, string $type = null): DefinitionBuilder
     {
-        $this->constants[] = new Constant($name, TypeDeclaration::from($type), Visibility::public());
+        $this->constants[] = new Constant($name, TypeDeclaration::from($type), Visibility::PUBLIC);
 
         return $this;
     }

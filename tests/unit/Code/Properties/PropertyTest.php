@@ -23,9 +23,9 @@ final class PropertyTest extends TestCase
     /** @test */
     function it_can_be_represented_as_string()
     {
-        $privateAttribute = new Property(A::variable('$privateAttribute')->build(), Visibility::private());
-        $publicAttribute = new Property(A::variable('$publicAttribute')->build(), Visibility::public());
-        $protectedAttribute = new Property(A::variable('$protectedAttribute')->build(), Visibility::protected());
+        $privateAttribute = new Property(A::variable('$privateAttribute')->build(), Visibility::PRIVATE);
+        $publicAttribute = new Property(A::variable('$publicAttribute')->build(), Visibility::PUBLIC);
+        $protectedAttribute = new Property(A::variable('$protectedAttribute')->build(), Visibility::PROTECTED);
 
         $private = $privateAttribute->__toString();
         $public = $publicAttribute->__toString();
@@ -53,9 +53,9 @@ final class PropertyTest extends TestCase
     /** @test */
     function it_can_be_static()
     {
-        $staticPublic = new Property(A::variable('$staticPublic')->build(), Visibility::public(), true);
-        $staticProtected = new Property(A::variable('$staticProtected')->build(), Visibility::protected(), true);
-        $staticPrivate = new Property(A::variable('$staticPrivate')->build(), Visibility::private(), true);
+        $staticPublic = new Property(A::variable('$staticPublic')->build(), Visibility::PUBLIC, true);
+        $staticProtected = new Property(A::variable('$staticProtected')->build(), Visibility::PROTECTED, true);
+        $staticPrivate = new Property(A::variable('$staticPrivate')->build(), Visibility::PRIVATE, true);
 
         $this->assertTrue($staticPublic->isStatic());
         $this->assertTrue($staticProtected->isStatic());
@@ -101,11 +101,11 @@ final class PropertyTest extends TestCase
 
     protected function protectedMember(): HasVisibility
     {
-        return new Property(A::variable('$property')->build(), Visibility::protected());
+        return new Property(A::variable('$property')->build(), Visibility::PROTECTED);
     }
 
     protected function privateMember(): HasVisibility
     {
-        return new Property(A::variable('$property')->build(), Visibility::private());
+        return new Property(A::variable('$property')->build(), Visibility::PRIVATE);
     }
 }

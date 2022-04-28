@@ -16,18 +16,18 @@ final class VisibilityBuilder
     public function build(Property|ClassMethod|ClassConst $member): Visibility
     {
         return match (true) {
-            $member->isPublic() => Visibility::public(),
-            $member->isPrivate() => Visibility::private(),
-            default => Visibility::protected(),
+            $member->isPublic() => Visibility::PUBLIC,
+            $member->isPrivate() => Visibility::PRIVATE,
+            default => Visibility::PROTECTED,
         };
     }
 
     public function fromFlags(int $flags): Visibility
     {
         return match (true) {
-            (bool) ($flags & Class_::MODIFIER_PUBLIC) => Visibility::public(),
-            (bool) ($flags & Class_::MODIFIER_PROTECTED) => Visibility::protected(),
-            (bool) ($flags & Class_::MODIFIER_PRIVATE) => Visibility::private(),
+            (bool) ($flags & Class_::MODIFIER_PUBLIC) => Visibility::PUBLIC,
+            (bool) ($flags & Class_::MODIFIER_PROTECTED) => Visibility::PROTECTED,
+            (bool) ($flags & Class_::MODIFIER_PRIVATE) => Visibility::PRIVATE,
             default => throw UnknownVisibilityFlag::withValue($flags)
         };
     }
