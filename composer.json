@@ -68,6 +68,13 @@
         "bin/phuml"
     ],
     "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "pyrech/composer-changelogs": true,
+            "ergebnis/composer-normalize": true,
+            "phpro/grumphp": true,
+            "phpstan/extension-installer": true
+        },
         "optimize-autoloader": true,
         "platform": {
             "php": "8.1.1"
