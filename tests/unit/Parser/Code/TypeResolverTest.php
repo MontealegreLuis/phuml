@@ -12,6 +12,8 @@ use PhUml\Code\UseStatement;
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
+use PhUml\Parser\Code\Builders\TagName;
 use PhUml\Parser\Code\Builders\TagTypeFactory;
 
 final class TypeResolverTest extends TestCase
@@ -21,10 +23,15 @@ final class TypeResolverTest extends TestCase
     {
         $useStatements = new UseStatements([]);
 
-        $objectType = $this->resolver->resolveForProperty('/** @var object */', $useStatements);
-        $mixedType = $this->resolver->resolveForReturn('/** @return mixed */', $useStatements);
-        $stringType = $this->resolver->resolveForParameter('/** @param string[] $test */', '$test', $useStatements);
-        $boolType = $this->resolver->resolveForProperty('/** @var bool */', $useStatements);
+        $objectType = $this->resolver->resolveFromDocBlock('/** @var object */', TagName::VAR, $useStatements);
+        $mixedType = $this->resolver->resolveFromDocBlock('/** @return mixed */', TagName::RETURN, $useStatements);
+        $stringType = $this->resolver->resolveFromDocBlock(
+            '/** @param string[] $test */',
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$test')
+        );
+        $boolType = $this->resolver->resolveFromDocBlock('/** @var bool */', TagName::VAR, $useStatements);
 
         $this->assertSame('object', (string) $objectType);
         $this->assertSame('mixed', (string) $mixedType);
@@ -37,9 +44,14 @@ final class TypeResolverTest extends TestCase
     {
         $useStatements = new UseStatements([]);
 
-        $noReturnType = $this->resolver->resolveForReturn('/** @return */', $useStatements);
-        $noAttributeType = $this->resolver->resolveForProperty('/** @var */', $useStatements);
-        $noParameterType = $this->resolver->resolveForParameter('/** @param */', '$aParameter', $useStatements);
+        $noReturnType = $this->resolver->resolveFromDocBlock('/** @return */', TagName::RETURN, $useStatements);
+        $noAttributeType = $this->resolver->resolveFromDocBlock('/** @var */', TagName::VAR, $useStatements);
+        $noParameterType = $this->resolver->resolveFromDocBlock(
+            '/** @param */',
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$aParameter')
+        );
 
         $this->assertEquals(TypeDeclaration::absent(), $noReturnType);
         $this->assertEquals(TypeDeclaration::absent(), $noAttributeType);
@@ -51,11 +63,12 @@ final class TypeResolverTest extends TestCase
     {
         $useStatements = new UseStatements([]);
 
-        $noPropertyType = $this->resolver->resolveForProperty('/** @var $property */', $useStatements);
-        $noParameterType = $this->resolver->resolveForParameter(
+        $noPropertyType = $this->resolver->resolveFromDocBlock('/** @var $property */', TagName::VAR, $useStatements);
+        $noParameterType = $this->resolver->resolveFromDocBlock(
             '/** @param $aParameter */',
-            '$aParameter',
-            $useStatements
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$aParameter')
         );
 
         $this->assertEquals(TypeDeclaration::absent(), $noPropertyType);
@@ -77,7 +90,7 @@ final class TypeResolverTest extends TestCase
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(TypeDeclaration::fromNullable('string'), $typeDeclaration);
     }
@@ -96,7 +109,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(TypeDeclaration::absent(), $typeDeclaration);
     }
@@ -118,7 +131,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(TypeDeclaration::from('PhUml\Code\Variables\TypeDeclaration'), $typeDeclaration);
     }
@@ -138,7 +151,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(TypeDeclaration::fromNullable('TypeResolver'), $typeDeclaration);
     }
@@ -160,7 +173,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(TypeDeclaration::fromNullable('PhUml\Code\Variables\TypeDeclaration'), $typeDeclaration);
     }
@@ -182,7 +195,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(TypeDeclaration::fromNullable('PhUml\Code\Variables\TypeDeclaration'), $typeDeclaration);
     }
@@ -205,7 +218,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(
@@ -238,7 +251,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(
@@ -268,7 +281,12 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$engine', $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock(
+            $comment,
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$engine')
+        );
 
         $this->assertEquals(TypeDeclaration::fromNullable('Twig_Environment'), $typeDeclaration);
     }
@@ -289,7 +307,12 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$unknown', $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock(
+            $comment,
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$unknown')
+        );
 
         $this->assertEquals(TypeDeclaration::absent(), $typeDeclaration);
     }
@@ -310,7 +333,12 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$engine', $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock(
+            $comment,
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$engine')
+        );
 
         $this->assertEquals(TypeDeclaration::fromNullable('Twig\Environment'), $typeDeclaration);
     }
@@ -334,7 +362,12 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$engine', $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock(
+            $comment,
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$engine')
+        );
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(
@@ -364,7 +397,12 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$engine', $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock(
+            $comment,
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$engine')
+        );
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(
@@ -387,7 +425,7 @@ COMMENT;
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($multiLineDocBlock, TagName::VAR, $useStatements);
 
         $this->assertEquals(TypeDeclaration::from('AnotherClass'), $typeDeclaration);
     }
@@ -402,7 +440,7 @@ COMMENT;
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($multiLineDocBlock, TagName::VAR, $useStatements);
 
         $this->assertEquals(TypeDeclaration::absent(), $typeDeclaration);
     }
@@ -421,7 +459,7 @@ COMMENT;
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($multiLineDocBlock, TagName::VAR, $useStatements);
 
         $this->assertEquals(TypeDeclaration::from('PhUml\Code\AnotherClass'), $typeDeclaration);
     }
@@ -441,7 +479,7 @@ COMMENT;
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($multiLineDocBlock, TagName::VAR, $useStatements);
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(['Phuml\AnotherClass', 'Phuml\Template\Engine'], CompositeType::UNION),
@@ -464,7 +502,7 @@ COMMENT;
          */'
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForProperty($multiLineDocBlock, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($multiLineDocBlock, TagName::VAR, $useStatements);
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(
@@ -489,7 +527,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(TypeDeclaration::fromCompositeType(['ClassOne', 'ClassTwo', 'null'], CompositeType::UNION), $typeDeclaration);
     }
@@ -508,7 +546,7 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForReturn($methodComment, $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock($methodComment, TagName::RETURN, $useStatements);
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(['ClassOne', 'ClassTwo'], CompositeType::INTERSECTION),
@@ -531,7 +569,12 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$grade', $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock(
+            $comment,
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$grade')
+        );
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(['int', 'string', 'float'], CompositeType::UNION),
@@ -554,7 +597,12 @@ COMMENT;
  */
 COMMENT;
 
-        $typeDeclaration = $this->resolver->resolveForParameter($comment, '$grade', $useStatements);
+        $typeDeclaration = $this->resolver->resolveFromDocBlock(
+            $comment,
+            TagName::PARAM,
+            $useStatements,
+            $this->filterFactory->filter('$grade')
+        );
 
         $this->assertEquals(
             TypeDeclaration::fromCompositeType(['int', 'float'], CompositeType::INTERSECTION),
@@ -566,7 +614,10 @@ COMMENT;
     function let()
     {
         $this->resolver = new TypeResolver(new TagTypeFactory(DocBlockFactory::createInstance()));
+        $this->filterFactory = new ParameterTagFilterFactory();
     }
 
     private TypeResolver $resolver;
+
+    private ParameterTagFilterFactory $filterFactory ;
 }

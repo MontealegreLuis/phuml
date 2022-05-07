@@ -15,6 +15,7 @@ use PhUml\Parser\Code\Builders\Members\ParsedPropertiesBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder as DefinitionMembersBuilder;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
 
 final class MembersBuilderBuilder
 {
@@ -37,11 +38,12 @@ final class MembersBuilderBuilder
     {
         $visibilityBuilder = new VisibilityBuilder();
         $typeBuilder = A::typeBuilderBuilder()->build();
+        $parameterFilter = new ParameterTagFilterFactory();
         return new DefinitionMembersBuilder(
             new ParsedConstantsBuilder($visibilityBuilder),
-            new ParsedPropertiesBuilder($visibilityBuilder, $typeBuilder),
+            new ParsedPropertiesBuilder($visibilityBuilder, $typeBuilder, $parameterFilter),
             new ParsedMethodsBuilder(
-                new ParametersBuilder($typeBuilder),
+                new ParametersBuilder($typeBuilder, $parameterFilter),
                 $typeBuilder,
                 $visibilityBuilder,
             ),

@@ -15,6 +15,7 @@ use PhpParser\Node\UnionType;
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Parser\Code\Builders\TagName;
 use PhUml\Parser\Code\TypeResolver;
 use RuntimeException;
 
@@ -24,15 +25,16 @@ final class TypeBuilder
     {
     }
 
-    public function fromMethodParameter(
+    public function fromType(
         Identifier|Name|ComplexType|null $type,
         ?Doc $docBlock,
-        string $name,
-        UseStatements $useStatements
+        TagName $tagName,
+        UseStatements $useStatements,
+        callable $filter = null,
     ): TypeDeclaration {
-        $methodComment = $docBlock?->getText();
+        $comment = $docBlock?->getText();
         if ($type === null) {
-            return $this->typeResolver->resolveForParameter($methodComment, $name, $useStatements);
+            return $this->typeResolver->resolveFromDocBlock($comment, $tagName, $useStatements, $filter);
         }
 
         $typeDeclaration = $this->fromParsedType($type);
@@ -40,47 +42,7 @@ final class TypeBuilder
             return $typeDeclaration;
         }
 
-        $typeFromDocBlock = $this->typeResolver->resolveForParameter($methodComment, $name, $useStatements);
-
-        return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
-    }
-
-    public function fromMethodReturnType(
-        Identifier|Name|ComplexType|null $type,
-        ?Doc $docBlock,
-        UseStatements $useStatements
-    ): TypeDeclaration {
-        $methodComment = $docBlock?->getText();
-        if ($type === null) {
-            return $this->typeResolver->resolveForReturn($methodComment, $useStatements);
-        }
-
-        $typeDeclaration = $this->fromParsedType($type);
-        if (! $typeDeclaration->isBuiltInArray()) {
-            return $typeDeclaration;
-        }
-
-        $typeFromDocBlock = $this->typeResolver->resolveForReturn($methodComment, $useStatements);
-
-        return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
-    }
-
-    public function fromPropertyType(
-        Identifier|Name|ComplexType|null $type,
-        ?Doc $docBlock,
-        UseStatements $useStatements
-    ): TypeDeclaration {
-        $propertyComment = $docBlock?->getText();
-        if ($type === null) {
-            return $this->typeResolver->resolveForProperty($propertyComment, $useStatements);
-        }
-
-        $typeDeclaration = $this->fromParsedType($type);
-        if (! $typeDeclaration->isBuiltInArray()) {
-            return $typeDeclaration;
-        }
-
-        $typeFromDocBlock = $this->typeResolver->resolveForProperty($propertyComment, $useStatements);
+        $typeFromDocBlock = $this->typeResolver->resolveFromDocBlock($comment, $tagName, $useStatements, $filter);
 
         return $typeFromDocBlock->isPresent() ? $typeFromDocBlock : $typeDeclaration;
     }

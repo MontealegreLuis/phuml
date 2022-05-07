@@ -6,7 +6,6 @@
 namespace PhUml\Parser\Code\Builders;
 
 use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\TagWithType;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Type;
@@ -21,65 +20,29 @@ final class TagTypeFactory
     {
     }
 
-    public function parameterTypeFrom(string $methodComment, string $parameterName): ?TagType
+    public function typeFromTag(string $comment, TagName $tagName, callable $filter = null): ?TagType
     {
-        $docBlock = $this->factory->create($methodComment);
+        $docBlock = $this->factory->create($comment);
 
-        /** @var TagWithType[]|InvalidTag[] $parameterTags */
-        $parameterTags = $docBlock->getTagsByName('param');
+        /** @var TagWithType[]|InvalidTag[] $tags */
+        $tags = $docBlock->getTagsByName($tagName->value);
 
-        /** @var Param[] $params */
-        $params = array_values(array_filter(
-            $parameterTags,
-            static fn (TagWithType|InvalidTag $parameter): bool =>
-               $parameter instanceof Param && "\${$parameter->getVariableName()}" === $parameterName
-        ));
+        // Parameter tags will return multiple values, we use the filter to find the one for a given parameter name
+        if ($filter !== null) {
+            /** @var TagWithType[]|InvalidTag[] $tags */
+            $tags = array_values(array_filter($tags, $filter));
+        }
 
-        if (count($params) < 1) {
+        if (count($tags) < 1) {
             return null;
         }
 
-        [$param] = $params;
-
-        return $this->resolveType($param->getType());
-    }
-
-    public function returnTypeFrom(string $methodComment): ?TagType
-    {
-        $docBlock = $this->factory->create($methodComment);
-
-        /** @var TagWithType[]|InvalidTag[] $returnTags */
-        $returnTags = $docBlock->getTagsByName('return');
-
-        if (count($returnTags) < 1) {
+        [$tagName] = $tags;
+        if ($tagName instanceof InvalidTag) {
             return null;
         }
 
-        [$return] = $returnTags;
-        if ($return instanceof InvalidTag) {
-            return null;
-        }
-
-        return $this->resolveType($return->getType());
-    }
-
-    public function propertyTypeFrom(string $propertyComment): ?TagType
-    {
-        $docBlock = $this->factory->create($propertyComment);
-
-        /** @var TagWithType[]|InvalidTag[] $varTags */
-        $varTags = $docBlock->getTagsByName('var');
-
-        if (count($varTags) < 1) {
-            return null;
-        }
-
-        [$var] = $varTags;
-        if ($var instanceof InvalidTag) {
-            return null;
-        }
-
-        return $this->resolveType($var->getType());
+        return $this->resolveType($tagName->getType());
     }
 
     private function resolveType(?Type $type): ?TagType

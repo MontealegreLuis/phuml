@@ -16,6 +16,8 @@ use PhUml\Code\ClassDefinition;
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\CompositeType;
 use PhUml\Code\Variables\TypeDeclaration;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
+use PhUml\Parser\Code\Builders\TagName;
 use PhUml\TestBuilders\A;
 
 final class TypeBuilderTest extends TestCase
@@ -25,24 +27,28 @@ final class TypeBuilderTest extends TestCase
     {
         $expectedType = TypeDeclaration::from('ClassDefinition');
         $expectedNullableType = TypeDeclaration::fromNullable('ClassDefinition');
-        $typeA = $this->typeBuilder->fromPropertyType(
+        $typeA = $this->typeBuilder->fromType(
             new Identifier('ClassDefinition'),
             null,
+            TagName::VAR,
             $this->useStatements
         );
-        $typeB = $this->typeBuilder->fromPropertyType(
+        $typeB = $this->typeBuilder->fromType(
             new Identifier('ClassDefinition'),
             new Doc('/** @var OutdatedTypeFromComment */'),
+            TagName::VAR,
             $this->useStatements,
         );
-        $typeC = $this->typeBuilder->fromPropertyType(
+        $typeC = $this->typeBuilder->fromType(
             new Name(ClassDefinition::class),
             new Doc('/** @var OutdatedTypeFromComment */'),
+            TagName::VAR,
             $this->useStatements,
         );
-        $typeD = $this->typeBuilder->fromPropertyType(
+        $typeD = $this->typeBuilder->fromType(
             new NullableType('ClassDefinition'),
             new Doc('/** @var AnotherTypeFromComment */'),
+            TagName::VAR,
             $this->useStatements,
         );
 
@@ -55,9 +61,10 @@ final class TypeBuilderTest extends TestCase
     /** @test */
     function it_uses_type_in_a_property_doc_block_instead_of_generic_array_type_from_declaration()
     {
-        $type = $this->typeBuilder->fromPropertyType(
+        $type = $this->typeBuilder->fromType(
             new Identifier('array'),
             new Doc('/** @var ClassDefinition[] */'),
+            TagName::VAR,
             $this->useStatements,
         );
 
@@ -67,9 +74,10 @@ final class TypeBuilderTest extends TestCase
     /** @test */
     function it_uses_type_in_method_return_dock_block_instead_generic_array_type_from_declaration()
     {
-        $type = $this->typeBuilder->fromMethodReturnType(
+        $type = $this->typeBuilder->fromType(
             new Identifier('array'),
             new Doc('/** @return ClassDefinition[] */'),
+            TagName::RETURN,
             $this->useStatements,
         );
 
@@ -79,11 +87,12 @@ final class TypeBuilderTest extends TestCase
     /** @test */
     function it_uses_type_in_method_parameter_dock_block_instead_generic_array_type_from_declaration()
     {
-        $type = $this->typeBuilder->fromMethodParameter(
+        $type = $this->typeBuilder->fromType(
             new Identifier('array'),
             new Doc('/** @param ClassDefinition[] $definitions */'),
-            '$definitions',
+            TagName::PARAM,
             $this->useStatements,
+            (new ParameterTagFilterFactory())->filter('$definitions')
         );
 
         $this->assertEquals(TypeDeclaration::from('ClassDefinition[]'), $type);
@@ -92,19 +101,22 @@ final class TypeBuilderTest extends TestCase
     /** @test */
     function it_extracts_types_from_identifiers_names()
     {
-        $typeFromIdentifier = $this->typeBuilder->fromPropertyType(
+        $typeFromIdentifier = $this->typeBuilder->fromType(
             new Identifier('array'),
             null,
+            TagName::VAR,
             $this->useStatements,
         );
-        $typeFromName = $this->typeBuilder->fromPropertyType(
+        $typeFromName = $this->typeBuilder->fromType(
             new Name(['PhpParser', 'Node', 'Name']),
             null,
+            TagName::VAR,
             $this->useStatements,
         );
-        $typeFromNullableType = $this->typeBuilder->fromPropertyType(
+        $typeFromNullableType = $this->typeBuilder->fromType(
             new NullableType(new Identifier('string')),
             null,
+            TagName::VAR,
             $this->useStatements,
         );
 
@@ -116,14 +128,16 @@ final class TypeBuilderTest extends TestCase
     /** @test */
     function it_extracts_types_from_parsed_type_for_intersection_and_union_types()
     {
-        $unionTypeFromDocBlock = $this->typeBuilder->fromPropertyType(
+        $unionTypeFromDocBlock = $this->typeBuilder->fromType(
             new UnionType([new Name('TypeA'), new Name('TypeB')]),
             null,
+            TagName::VAR,
             $this->useStatements,
         );
-        $intersectionTypeFromDocBlock = $this->typeBuilder->fromPropertyType(
+        $intersectionTypeFromDocBlock = $this->typeBuilder->fromType(
             new IntersectionType([new Name('TypeA'), new Name('TypeB')]),
             null,
+            TagName::VAR,
             $this->useStatements,
         );
 
