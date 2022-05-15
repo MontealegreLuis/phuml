@@ -25,7 +25,7 @@ final class GraphvizProcessor implements Processor
     public static function fromConfiguration(GraphvizConfiguration $configuration): GraphvizProcessor
     {
         $style = $configuration->digraphStyle();
-        $associationsBuilder = $configuration->associationsBuilder();
+        $associationsBuilder = $configuration->edgesBuilder();
 
         return new GraphvizProcessor(
             new ClassGraphBuilder($associationsBuilder),

@@ -29,6 +29,7 @@ final class TraitDefinitionBuilder
     public function build(Trait_ $trait): TraitDefinition
     {
         $useStatements = $this->useStatementsBuilder->build($trait);
+
         return new TraitDefinition(
             new Name((string) $trait->namespacedName),
             $this->membersBuilder->methods($trait->getMethods(), $useStatements),

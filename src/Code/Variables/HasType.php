@@ -26,8 +26,8 @@ interface HasType
     /**
      * It is used by the `EdgesBuilder` class to mark an association as resolved
      *
-     * @see \PhUml\Graphviz\Builders\EdgesBuilder::needAssociation() for more details
-     * @see \PhUml\Graphviz\Builders\EdgesBuilder::markAssociationResolvedFor() for more details
+     * @see \PhUml\Graphviz\Builders\DirectedEdgesBuilder::needAssociation() for more details
+     * @see \PhUml\Graphviz\Builders\DirectedEdgesBuilder::markAssociationResolvedFor() for more details
      */
     public function type(): TypeDeclaration;
 }

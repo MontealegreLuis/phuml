@@ -56,7 +56,7 @@ final class ClassDefinition extends Definition implements HasProperties, HasCons
      * classes via the constructor
      *
      * @return Parameter[]
-     * @see \PhUml\Graphviz\Builders\AssociationsBuilder::fromProperties() for more details
+     * @see \PhUml\Graphviz\Builders\EdgesBuilder::fromProperties() for more details
      */
     public function constructorParameters(): array
     {
