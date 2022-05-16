@@ -11,7 +11,7 @@ use Stringable;
 
 final class EdgeKey implements Stringable
 {
-    private string $key;
+    private readonly string $key;
 
     public static function from(Name $name, TypeDeclaration $type): EdgeKey
     {
@@ -21,11 +21,6 @@ final class EdgeKey implements Stringable
     private function __construct(string $key)
     {
         $this->key = $key;
-    }
-
-    public function equals(EdgeKey $anotherKey): bool
-    {
-        return $this->key === $anotherKey->key;
     }
 
     public function __toString(): string

@@ -12,7 +12,7 @@ use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 
 /**
- * It extracts an `TraitDefinition` and adds it to the `Codebase`
+ * It builds a `TraitDefinition` and adds it to the `Codebase`
  */
 final class TraitVisitor extends NodeVisitorAbstract
 {
@@ -20,7 +20,8 @@ final class TraitVisitor extends NodeVisitorAbstract
     {
     }
 
-    public function leaveNode(Node $node)
+    /** @return null|int|Node|Node[]  */
+    public function leaveNode(Node $node): null|int|Node|array
     {
         if ($node instanceof Trait_) {
             $this->codebase->add($this->builder->build($node));

@@ -10,10 +10,16 @@ currentMenu: format
 * Static methods and functions are shown underlined
 * Abstract classes, abstract methods and interfaces names are shown in *italics*
 
-## Traits and Attributes
+## Traits, Attributes, and Enums
 
-[Traits](https://www.php.net/manual/en/language.oop5.traits.php) and class [attributes](https://www.php.net/manual/en/language.attributes.overview.php)(annotations) will be shown with a [UML stereotype](https://www.uml-diagrams.org/stereotype.html).
-Traits will be shown with the `<<trait>>` stereotype above its name, and attributes (annotations) will be shown with the `<<attribute>>` stereotype above its name. 
+[Traits](https://www.php.net/manual/en/language.oop5.traits.php), class [attributes](https://www.php.net/manual/en/language.attributes.overview.php)(annotations), and [enumerations](https://www.php.net/manual/en/language.enumerations.php) will be shown with a [UML stereotype](https://www.uml-diagrams.org/stereotype.html) above its name.
+Traits will be shown with the `<<trait>>` stereotype, attributes (annotations) will be shown with the `<<attribute>>` stereotype, and enumerations will be shown with the `<<enum>>` stereotype. 
+
+## Enumerations
+
+Case definitions in enumerations will be shown without a visibility modifier (`+`, `-`, `#`) and to differentiate them from constants, cases won't be in italics.
+
+If an enum defines constants, they will be shown above its cases.
 
 ## Relationships
 

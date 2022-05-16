@@ -7,6 +7,9 @@
         {% for property in definition.properties %}
             {% include 'partials/_property.html.twig' %}
         {% endfor %}
+        {% for case in definition.cases|default([]) %}
+            {% include 'partials/_case.html.twig' %}
+        {% endfor %}
     </TD>
 </TR>
 {% endif %}

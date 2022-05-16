@@ -42,6 +42,11 @@ final class A
         return new TraitBuilder($name);
     }
 
+    public static function enum(string $name): EnumBuilder
+    {
+        return new EnumBuilder($name);
+    }
+
     public static function parameter(string $name): ParameterBuilder
     {
         return new ParameterBuilder($name);
@@ -105,5 +110,10 @@ final class A
     public static function codeFinderConfiguration(): CodeFinderConfigurationBuilder
     {
         return new CodeFinderConfigurationBuilder();
+    }
+
+    public static function constant(string $name): ConstantBuilder
+    {
+        return new ConstantBuilder($name);
     }
 }

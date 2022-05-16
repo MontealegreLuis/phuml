@@ -12,7 +12,7 @@ use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
 
 /**
- * It extracts a `ClassDefinition` and adds it to the `Codebase`
+ * It builds a `ClassDefinition` and adds it to the `Codebase`
  */
 final class ClassVisitor extends NodeVisitorAbstract
 {
@@ -20,7 +20,8 @@ final class ClassVisitor extends NodeVisitorAbstract
     {
     }
 
-    public function leaveNode(Node $node)
+    /** @return null|int|Node|Node[]  */
+    public function leaveNode(Node $node): null|int|Node|array
     {
         if (! $node instanceof Class_) {
             return null;
@@ -28,7 +29,9 @@ final class ClassVisitor extends NodeVisitorAbstract
         if ($node->isAnonymous()) {
             return null;
         }
+
         $this->codebase->add($this->builder->build($node));
+
         return null;
     }
 }

@@ -78,7 +78,7 @@ final class DirectedEdgesBuilder implements EdgesBuilder
 
     private function isAssociationResolved(EdgeKey $key): bool
     {
-        return array_key_exists((string) $key, $this->edges) && $this->edges[(string) $key] === true;
+        return array_key_exists((string) $key, $this->edges) && $this->edges[(string) $key];
     }
 
     private function markAssociationResolvedFor(EdgeKey $key): void

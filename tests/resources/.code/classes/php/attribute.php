@@ -1,10 +1,14 @@
 <?php
 
+use phuml\plVisibility;
+
 class plPhpAttribute
 {
+    private plVisibility $modifier;
+
     private $properties;
 
-    public function __construct($name, $modifier = 'public', $type = null)
+    public function __construct($name, $modifier = plVisibility::PUBLIC, $type = null)
     {
     }
 

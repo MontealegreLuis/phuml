@@ -54,23 +54,14 @@ final class TypeBuilder
             $type instanceof Name, $type instanceof Identifier => TypeDeclaration::from((string) $type),
             $type === null => TypeDeclaration::absent(),
             $type instanceof UnionType => TypeDeclaration::fromCompositeType(
-                $this->fromCompositeType($type),
+                array_map(strval(...), $type->types),
                 CompositeType::UNION
             ),
             $type instanceof IntersectionType => TypeDeclaration::fromCompositeType(
-                $this->fromCompositeType($type),
+                array_map(strval(...), $type->types),
                 CompositeType::INTERSECTION
             ),
             default => throw new RuntimeException(sprintf('%s is not supported', $type::class)),
         };
-    }
-
-    /** @return string[] */
-    private function fromCompositeType(UnionType|IntersectionType $type): array
-    {
-        return array_map(
-            static fn (Identifier|Name $name): string => (string) $name,
-            $type->types
-        );
     }
 }

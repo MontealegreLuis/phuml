@@ -8,7 +8,7 @@ namespace PhUml\Code;
 trait WithInterfaces
 {
     /** @var Name[] */
-    private array $interfaces;
+    private readonly array $interfaces;
 
     /** @return Name[] */
     public function interfaces(): array

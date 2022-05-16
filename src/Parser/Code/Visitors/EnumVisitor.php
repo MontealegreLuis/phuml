@@ -6,24 +6,24 @@
 namespace PhUml\Parser\Code\Visitors;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Interface_;
+use PhpParser\Node\Stmt\Enum_;
 use PhpParser\NodeVisitorAbstract;
 use PhUml\Code\Codebase;
-use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
+use PhUml\Parser\Code\Builders\EnumDefinitionBuilder;
 
 /**
- * It builds an `InterfaceDefinition` and adds it to the `Codebase`
+ * It builds an `EnumDefinition` and adds it to the `Codebase`
  */
-final class InterfaceVisitor extends NodeVisitorAbstract
+final class EnumVisitor extends NodeVisitorAbstract
 {
-    public function __construct(private readonly InterfaceDefinitionBuilder $builder, private readonly Codebase $codebase)
+    public function __construct(private readonly EnumDefinitionBuilder $builder, private readonly Codebase $codebase)
     {
     }
 
     /** @return null|int|Node|Node[]  */
     public function leaveNode(Node $node): null|int|Node|array
     {
-        if ($node instanceof Interface_) {
+        if ($node instanceof Enum_) {
             $this->codebase->add($this->builder->build($node));
         }
         return null;

@@ -7,6 +7,7 @@ namespace PhUml\Parser\Code\Builders;
 
 use PhpParser\Node\Name as ParsedName;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Enum_;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Trait_;
@@ -18,7 +19,7 @@ use PhUml\Code\UseStatements;
 
 final class UseStatementsBuilder
 {
-    public function build(Class_|Interface_|Trait_ $definition): UseStatements
+    public function build(Class_|Interface_|Trait_|Enum_ $definition): UseStatements
     {
         $uses = [];
 

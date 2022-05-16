@@ -7,10 +7,11 @@ namespace PhUml\Processors;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
-use PhUml\Code\Definition;
+use PhUml\Code\EnumDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\TraitDefinition;
 use PhUml\Graphviz\Builders\ClassGraphBuilder;
+use PhUml\Graphviz\Builders\EnumGraphBuilder;
 use PhUml\Graphviz\Builders\InterfaceGraphBuilder;
 use PhUml\Graphviz\Builders\TraitGraphBuilder;
 use PhUml\Graphviz\Digraph;
@@ -18,7 +19,7 @@ use PhUml\Graphviz\DigraphPrinter;
 use PhUml\Templates\TemplateEngine;
 
 /**
- * It creates a digraph from a `Structure` and returns it as a string in DOT format
+ * It creates a digraph from a `Codebase` and returns it as a string in DOT format
  */
 final class GraphvizProcessor implements Processor
 {
@@ -31,6 +32,7 @@ final class GraphvizProcessor implements Processor
             new ClassGraphBuilder($associationsBuilder),
             new InterfaceGraphBuilder(),
             new TraitGraphBuilder(),
+            new EnumGraphBuilder(),
             new DigraphPrinter(new TemplateEngine(), $style)
         );
     }
@@ -39,6 +41,7 @@ final class GraphvizProcessor implements Processor
         private readonly ClassGraphBuilder $classBuilder,
         private readonly InterfaceGraphBuilder $interfaceBuilder,
         private readonly TraitGraphBuilder $traitBuilder,
+        private readonly EnumGraphBuilder $enumBuilder,
         private readonly DigraphPrinter $printer
     ) {
     }
@@ -51,6 +54,7 @@ final class GraphvizProcessor implements Processor
     public function process(Codebase $codebase): OutputContent
     {
         $digraph = new Digraph();
+        /** @var ClassDefinition|InterfaceDefinition|TraitDefinition|EnumDefinition $definition */
         foreach ($codebase->definitions() as $definition) {
             $this->extractElements($definition, $codebase, $digraph);
         }
@@ -58,16 +62,15 @@ final class GraphvizProcessor implements Processor
     }
 
     private function extractElements(
-        Definition $definition,
+        ClassDefinition|InterfaceDefinition|TraitDefinition|EnumDefinition $definition,
         Codebase $codebase,
         Digraph $digraph
     ): void {
-        if ($definition instanceof ClassDefinition) {
-            $digraph->add($this->classBuilder->extractFrom($definition, $codebase));
-        } elseif ($definition instanceof InterfaceDefinition) {
-            $digraph->add($this->interfaceBuilder->extractFrom($definition, $codebase));
-        } elseif ($definition instanceof TraitDefinition) {
-            $digraph->add($this->traitBuilder->extractFrom($definition, $codebase));
-        }
+        match ($definition::class) {
+            ClassDefinition::class => $digraph->add($this->classBuilder->extractFrom($definition, $codebase)),
+            InterfaceDefinition::class => $digraph->add($this->interfaceBuilder->extractFrom($definition, $codebase)),
+            TraitDefinition::class => $digraph->add($this->traitBuilder->extractFrom($definition, $codebase)),
+            default => $digraph->add($this->enumBuilder->extractFrom($definition, $codebase)),
+        };
     }
 }

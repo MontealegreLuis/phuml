@@ -47,11 +47,14 @@ final class TagTypeFactory
 
     private function resolveType(?Type $type): ?TagType
     {
-        return match (true) {
-            $type === null => null,
-            $type instanceof Nullable => TagType::nullable((string) $type->getActualType()),
-            $type instanceof Compound => TagType::union(array_map(strval(...), $type->getIterator()->getArrayCopy())),
-            $type instanceof Intersection => TagType::intersection(array_map(strval(...), $type->getIterator()->getArrayCopy())),
+        if ($type === null) {
+            return null;
+        }
+
+        return match ($type::class) {
+            Nullable::class => TagType::nullable((string) $type->getActualType()),
+            Compound::class => TagType::union(array_map(strval(...), $type->getIterator()->getArrayCopy())),
+            Intersection::class => TagType::intersection(array_map(strval(...), $type->getIterator()->getArrayCopy())),
             default => $this->fromType($type)
         };
     }

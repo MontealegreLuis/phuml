@@ -22,23 +22,23 @@ General statistics
 ------------------
 
 Classes:    2
-Interfaces: 0
+Interfaces: 1
 
 Attributes: 5 (3 are typed)
     * private:   4
     * protected: 1
     * public:    0
 
-Functions:  11
+Functions:  15
     * private:   1
     * protected: 0
-    * public:    10
+    * public:    14
 
 Average statistics
 ------------------
 
 Attributes per class: 2.5
-Functions per class:  5.5
+Functions per class:  7.5
 
 STATS;
         $generator = StatisticsGenerator::fromConfiguration(A::statisticsGeneratorConfiguration()->build());
@@ -59,23 +59,23 @@ General statistics
 ------------------
 
 Classes:    21
-Interfaces: 0
+Interfaces: 1
 
-Attributes: 24 (6 are typed)
-    * private:   18
+Attributes: 25 (7 are typed)
+    * private:   19
     * protected: 2
     * public:    4
 
-Functions:  87
+Functions:  91
     * private:   36
     * protected: 0
-    * public:    51
+    * public:    55
 
 Average statistics
 ------------------
 
-Attributes per class: 1.14
-Functions per class:  4.14
+Attributes per class: 1.19
+Functions per class:  4.33
 
 STATS;
         $configuration = A::statisticsGeneratorConfiguration()->recursive()->build();

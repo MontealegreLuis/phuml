@@ -17,17 +17,17 @@ final class EdgeKeyTest extends TestCase
         $keyA = EdgeKey::from(new Name('AClass'), TypeDeclaration::from('AnotherClass'));
         $keyB = EdgeKey::from(new Name('ThirdClass'), TypeDeclaration::from('FourthClass'));
 
-        $this->assertEquals('AClassAnotherClass', $keyA);
-        $this->assertEquals('ThirdClassFourthClass', $keyB);
-        $this->assertEquals((string) $keyA, (string) $keyA);
-        $this->assertEquals(
+        $this->assertSame('AClassAnotherClass', (string) $keyA);
+        $this->assertSame('ThirdClassFourthClass', (string) $keyB);
+        $this->assertSame((string) $keyA, (string) $keyA);
+        $this->assertSame(
             (string) $keyB,
             (string) EdgeKey::from(
                 new Name('ThirdClass'),
                 TypeDeclaration::from('FourthClass')
             )
         );
-        $this->assertNotEquals((string) $keyA, (string) $keyB);
-        $this->assertNotEquals((string) $keyB, (string) $keyA);
+        $this->assertNotSame((string) $keyA, (string) $keyB);
+        $this->assertNotSame((string) $keyB, (string) $keyA);
     }
 }

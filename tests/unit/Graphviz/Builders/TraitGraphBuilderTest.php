@@ -17,9 +17,8 @@ final class TraitGraphBuilderTest extends TestCase
     function it_extracts_the_node_for_a_trait()
     {
         $trait = A::traitNamed('ATrait');
-        $builders = new TraitGraphBuilder();
 
-        $nodes = $builders->extractFrom($trait, new Codebase());
+        $nodes = $this->builder->extractFrom($trait, new Codebase());
 
         $this->assertCount(1, $nodes);
         $this->assertEquals([new Node($trait)], $nodes);
@@ -32,14 +31,12 @@ final class TraitGraphBuilderTest extends TestCase
         $thirdTrait = A::traitNamed('ThirdTrait');
         $trait = A::trait('ATrait')
             ->using($anotherTrait->name(), $thirdTrait->name())
-            ->build()
-        ;
+            ->build();
         $codebase = new Codebase();
         $codebase->add($anotherTrait);
         $codebase->add($thirdTrait);
-        $builders = new TraitGraphBuilder();
 
-        $nodes = $builders->extractFrom($trait, $codebase);
+        $nodes = $this->builder->extractFrom($trait, $codebase);
 
         $this->assertEquals([
             new Node($trait),
@@ -47,4 +44,12 @@ final class TraitGraphBuilderTest extends TestCase
             Edge::use($thirdTrait, $trait),
         ], $nodes);
     }
+
+    /** @before */
+    function let()
+    {
+        $this->builder = new TraitGraphBuilder();
+    }
+
+    private TraitGraphBuilder $builder;
 }

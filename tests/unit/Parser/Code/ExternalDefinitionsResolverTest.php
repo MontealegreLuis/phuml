@@ -31,56 +31,62 @@ class ExternalDefinitionsResolverTest extends TestCase
     /** @test */
     function it_adds_external_interfaces()
     {
-        $codebase = new Codebase();
-        $resolver = new ExternalDefinitionsResolver();
-
-        $codebase->add(A::class('AClass')
+        $this->codebase->add(A::class('AClass')
             ->implementing(new Name('AnExternalInterface'), new Name('AnExistingInterface'))
             ->build());
-        $codebase->add(A::interface('AnInterface')
+        $this->codebase->add(A::interface('AnInterface')
             ->extending(new Name('AnotherExternalInterface'))->build());
-        $codebase->add(A::interface('AnExistingInterface')->build());
+        $this->codebase->add(A::interface('AnExistingInterface')->build());
+        $this->codebase->add(A::enum('AnEnum')->implementing(new Name('ThirdExternalInterface'))->build());
 
-        $resolver->resolve($codebase);
+        $this->resolver->resolve($this->codebase);
 
-        $this->assertCount(5, $codebase->definitions());
-        $this->assertArrayHasKey('AnExternalInterface', $codebase->definitions());
-        $this->assertArrayHasKey('AnotherExternalInterface', $codebase->definitions());
+        $this->assertCount(7, $this->codebase->definitions());
+        $this->assertArrayHasKey('AnExternalInterface', $this->codebase->definitions());
+        $this->assertArrayHasKey('AnotherExternalInterface', $this->codebase->definitions());
+        $this->assertArrayHasKey('ThirdExternalInterface', $this->codebase->definitions());
     }
 
     /** @test */
     function it_adds_external_classes()
     {
-        $codebase = new Codebase();
-        $resolver = new ExternalDefinitionsResolver();
+        $this->codebase->add(A::class('AClass')->extending(new Name('AnExternalClass'))->build());
+        $this->codebase->add(A::class('AnotherClass')->extending(new Name('AnotherExternalClass'))->build());
 
-        $codebase->add(A::class('AClass')->extending(new Name('AnExternalClass'))->build());
-        $codebase->add(A::class('AnotherClass')->extending(new Name('AnotherExternalClass'))->build());
+        $this->resolver->resolve($this->codebase);
 
-        $resolver->resolve($codebase);
-
-        $this->assertCount(4, $codebase->definitions());
-        $this->assertArrayHasKey('AnExternalClass', $codebase->definitions());
-        $this->assertArrayHasKey('AnotherExternalClass', $codebase->definitions());
+        $this->assertCount(4, $this->codebase->definitions());
+        $this->assertArrayHasKey('AnExternalClass', $this->codebase->definitions());
+        $this->assertArrayHasKey('AnotherExternalClass', $this->codebase->definitions());
     }
 
     /** @test */
     function it_adds_external_traits()
     {
-        $codebase = new Codebase();
-        $resolver = new ExternalDefinitionsResolver();
-
-        $codebase->add(A::class('AClass')
+        $this->codebase->add(A::class('AClass')
             ->using(new Name('AnExternalTrait'), new Name('AnExistingTrait'))
             ->build());
-        $codebase->add(A::trait('ATrait')
+        $this->codebase->add(A::trait('ATrait')
             ->using(new Name('AnotherExternalTrait'))->build());
-        $codebase->add(A::trait('AnExistingTrait')->build());
+        $this->codebase->add(A::trait('AnExistingTrait')->build());
+        $this->codebase->add(A::enum('AnEnum')->using(new Name('ThirdExternalTrait'))->build());
 
-        $resolver->resolve($codebase);
+        $this->resolver->resolve($this->codebase);
 
-        $this->assertCount(5, $codebase->definitions());
-        $this->assertArrayHasKey('AnExternalTrait', $codebase->definitions());
-        $this->assertArrayHasKey('AnotherExternalTrait', $codebase->definitions());
+        $this->assertCount(7, $this->codebase->definitions());
+        $this->assertArrayHasKey('AnExternalTrait', $this->codebase->definitions());
+        $this->assertArrayHasKey('AnotherExternalTrait', $this->codebase->definitions());
+        $this->assertArrayHasKey('ThirdExternalTrait', $this->codebase->definitions());
     }
+
+    /** @before */
+    function let()
+    {
+        $this->codebase = new Codebase();
+        $this->resolver = new ExternalDefinitionsResolver();
+    }
+
+    private Codebase $codebase;
+
+    private ExternalDefinitionsResolver $resolver;
 }
