@@ -16,9 +16,12 @@ final class CodeFinderTest extends TestCase
 
         $sourceCode = $finder->find(new CodebaseDirectory("{$this->pathToCode}/classes"));
 
-        $this->assertCount(2, $sourceCode->fileContents());
+        $this->assertCount(5, $sourceCode->fileContents());
         $this->assertMatchesRegularExpression('/class plBase/', $sourceCode->fileContents()[0]);
-        $this->assertMatchesRegularExpression('/class plPhuml/', $sourceCode->fileContents()[1]);
+        $this->assertMatchesRegularExpression('/interface plHasValue/', $sourceCode->fileContents()[1]);
+        $this->assertMatchesRegularExpression('/class plPhuml/', $sourceCode->fileContents()[2]);
+        $this->assertMatchesRegularExpression('/enum plVisibility/', $sourceCode->fileContents()[3]);
+        $this->assertMatchesRegularExpression('/trait plWithValue/', $sourceCode->fileContents()[4]);
     }
 
     /** @test */

@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhUml\Code\Properties\Constant;
 
 /**
- * It builds an array of `Constants` for either a `ClassDefinition` or an `InterfaceDefinition`
+ * It builds an array of `Constant`s for either a `ClassDefinition` or an `InterfaceDefinition`
  */
 interface ConstantsBuilder
 {

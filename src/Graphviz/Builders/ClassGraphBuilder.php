@@ -26,12 +26,12 @@ final class ClassGraphBuilder
     /** @var HasDotRepresentation[] */
     private array $dotElements;
 
-    private readonly AssociationsBuilder $associationsBuilder;
+    private readonly EdgesBuilder $associationsBuilder;
 
-    public function __construct(AssociationsBuilder $associationsBuilder = null)
+    public function __construct(EdgesBuilder $associationsBuilder)
     {
         $this->dotElements = [];
-        $this->associationsBuilder = $associationsBuilder ?? new NoAssociationsBuilder();
+        $this->associationsBuilder = $associationsBuilder;
     }
 
     /**

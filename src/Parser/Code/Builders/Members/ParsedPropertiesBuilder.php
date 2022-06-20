@@ -10,6 +10,8 @@ use PhpParser\Node\Stmt\Property as ParsedProperty;
 use PhUml\Code\Properties\Property;
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\Variable;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
+use PhUml\Parser\Code\Builders\TagName;
 
 /**
  * It builds an array of `Property` for a `ClassDefinition` or a `TraitDefinition`
@@ -19,6 +21,7 @@ final class ParsedPropertiesBuilder implements PropertiesBuilder
     public function __construct(
         private readonly VisibilityBuilder $visibilityBuilder,
         private readonly TypeBuilder $typeBuilder,
+        private readonly ParameterTagFilterFactory $filterFactory
     ) {
     }
 
@@ -31,7 +34,7 @@ final class ParsedPropertiesBuilder implements PropertiesBuilder
         return array_map(function (ParsedProperty $property) use ($useStatements): Property {
             $variable = new Variable(
                 "\${$property->props[0]->name}",
-                $this->typeBuilder->fromPropertyType($property->type, $property->getDocComment(), $useStatements)
+                $this->typeBuilder->fromType($property->type, $property->getDocComment(), TagName::VAR, $useStatements)
             );
             $visibility = $this->visibilityBuilder->build($property);
 
@@ -52,11 +55,12 @@ final class ParsedPropertiesBuilder implements PropertiesBuilder
             /** @var string $name */
             $name = $var->name;
 
-            $type = $this->typeBuilder->fromMethodParameter(
+            $type = $this->typeBuilder->fromType(
                 $param->type,
                 $param->getDocComment(),
-                $name,
-                $useStatements
+                TagName::PARAM,
+                $useStatements,
+                $this->filterFactory->filter($name)
             );
             $visibility = $this->visibilityBuilder->fromFlags($param->flags);
 

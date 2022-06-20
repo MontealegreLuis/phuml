@@ -8,6 +8,7 @@ namespace PhUml\Parser\Code\Builders\Members;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\UseStatements;
+use PhUml\Parser\Code\Builders\TagName;
 
 /**
  * It builds an array with `Method`s for a `ClassDefinition`, an `InterfaceDefinition` or a
@@ -39,7 +40,7 @@ final class ParsedMethodsBuilder implements MethodsBuilder
         $name = $method->name->name;
         $visibility = $this->visibilityBuilder->build($method);
         $docBlock = $method->getDocComment();
-        $returnType = $this->typeBuilder->fromMethodReturnType($method->returnType, $docBlock, $useStatements);
+        $returnType = $this->typeBuilder->fromType($method->returnType, $docBlock, TagName::RETURN, $useStatements);
         $parameters = $this->parametersBuilder->build($method->params, $docBlock, $useStatements);
         return match (true) {
             $method->isAbstract() => new Method($name, $visibility, $returnType, $parameters, isAbstract: true),

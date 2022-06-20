@@ -14,7 +14,7 @@ use PhUml\Code\Codebase;
  * This class is used when the user ran the `phuml:diagram` command without the `associations` option.
  * Which means that no associations should be discovered
  */
-final class NoAssociationsBuilder implements AssociationsBuilder
+final class NoEdgesBuilder implements EdgesBuilder
 {
     public function fromProperties(ClassDefinition $class, Codebase $codebase): array
     {

@@ -10,19 +10,19 @@ use Webmozart\Assert\Assert;
 
 final class CodebaseDirectory
 {
-    private SplFileInfo $directory;
+    private readonly string $directory;
 
     public function __construct(string $path)
     {
-        $this->setDirectory($path);
+        $this->directory = $this->getAbsolutePath($path);
     }
 
     public function absolutePath(): string
     {
-        return (string) $this->directory->getRealPath();
+        return $this->directory;
     }
 
-    private function setDirectory(string $path): void
+    private function getAbsolutePath(string $path): string
     {
         Assert::stringNotEmpty(
             $path,
@@ -32,6 +32,6 @@ final class CodebaseDirectory
         if (! $directory->isDir()) {
             throw InvalidDirectory::notFoundAt($directory);
         }
-        $this->directory = $directory;
+        return $directory->getRealPath();
     }
 }

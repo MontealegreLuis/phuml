@@ -10,11 +10,15 @@ use PhpParser\Node\Param;
 use PhUml\Code\Parameters\Parameter;
 use PhUml\Code\UseStatements;
 use PhUml\Code\Variables\Variable;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
+use PhUml\Parser\Code\Builders\TagName;
 
 final class ParametersBuilder
 {
-    public function __construct(private readonly TypeBuilder $typeBuilder)
-    {
+    public function __construct(
+        private readonly TypeBuilder $typeBuilder,
+        private readonly ParameterTagFilterFactory $filterFactory
+    ) {
     }
 
     /**
@@ -33,7 +37,13 @@ final class ParametersBuilder
             $name = "\${$parameterName}";
             $type = $parameter->type;
 
-            $typeDeclaration = $this->typeBuilder->fromMethodParameter($type, $methodDocBlock, $name, $useStatements);
+            $typeDeclaration = $this->typeBuilder->fromType(
+                $type,
+                $methodDocBlock,
+                TagName::PARAM,
+                $useStatements,
+                $this->filterFactory->filter($name)
+            );
 
             return new Parameter(new Variable($name, $typeDeclaration), $parameter->variadic, $parameter->byRef);
         }, $parameters);

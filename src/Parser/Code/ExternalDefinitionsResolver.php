@@ -7,13 +7,14 @@ namespace PhUml\Parser\Code;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Codebase;
+use PhUml\Code\EnumDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\Name;
 use PhUml\Code\TraitDefinition;
 
 /**
- * It checks the parent of a definition, the interfaces it implements, and the traits it uses
- * looking for external definitions
+ * It looks for external definitions from the parent of a definition, the interfaces it implements, and the traits it
+ * uses
  *
  * An external definition is a class, trait or interface from a third party library, or a built-in class or interface
  */
@@ -21,11 +22,12 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
 {
     public function resolve(Codebase $codebase): void
     {
-        /** @var ClassDefinition|InterfaceDefinition|TraitDefinition $definition */
+        /** @var ClassDefinition|InterfaceDefinition|TraitDefinition|EnumDefinition $definition */
         foreach ($codebase->definitions() as $definition) {
-            match (true) {
-                $definition instanceof ClassDefinition => $this->resolveForClass($definition, $codebase),
-                $definition instanceof InterfaceDefinition => $this->resolveInterfaces($definition->parents(), $codebase),
+            match ($definition::class) {
+                ClassDefinition::class => $this->resolveForClass($definition, $codebase),
+                EnumDefinition::class => $this->resolveForEnum($definition, $codebase),
+                InterfaceDefinition::class => $this->resolveInterfaces($definition->parents(), $codebase),
                 default => $this->resolveTraits($definition->traits(), $codebase),
             };
         }
@@ -39,6 +41,12 @@ final class ExternalDefinitionsResolver implements RelationshipsResolver
         $this->resolveInterfaces($definition->interfaces(), $codebase);
         $this->resolveTraits($definition->traits(), $codebase);
         $this->resolveExternalParentClass($definition, $codebase);
+    }
+
+    private function resolveForEnum(EnumDefinition $definition, Codebase $codebase): void
+    {
+        $this->resolveInterfaces($definition->interfaces(), $codebase);
+        $this->resolveTraits($definition->traits(), $codebase);
     }
 
     /** @param Name[] $interfaces */

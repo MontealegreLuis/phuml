@@ -12,7 +12,7 @@ use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
 
 /**
- * It extracts an `InterfaceDefinition` and adds it to the `Codebase`
+ * It builds an `InterfaceDefinition` and adds it to the `Codebase`
  */
 final class InterfaceVisitor extends NodeVisitorAbstract
 {
@@ -20,7 +20,8 @@ final class InterfaceVisitor extends NodeVisitorAbstract
     {
     }
 
-    public function leaveNode(Node $node)
+    /** @return null|int|Node|Node[]  */
+    public function leaveNode(Node $node): null|int|Node|array
     {
         if ($node instanceof Interface_) {
             $this->codebase->add($this->builder->build($node));

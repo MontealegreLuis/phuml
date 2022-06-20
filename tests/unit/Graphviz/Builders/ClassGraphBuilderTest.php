@@ -17,9 +17,8 @@ final class ClassGraphBuilderTest extends TestCase
     function it_extracts_the_elements_for_a_simple_class()
     {
         $class = A::classNamed('ClassName');
-        $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, new Codebase());
+        $dotElements = $this->classGraphBuilder->extractFrom($class, new Codebase());
 
         $this->assertEquals([new Node($class)], $dotElements);
     }
@@ -31,9 +30,8 @@ final class ClassGraphBuilderTest extends TestCase
         $class = A::class('ChildClass')->extending($parent->name())->build();
         $codebase = new Codebase();
         $codebase->add($parent);
-        $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             new Node($class),
@@ -52,9 +50,8 @@ final class ClassGraphBuilderTest extends TestCase
         $codebase = new Codebase();
         $codebase->add($firstInterface);
         $codebase->add($secondInterface);
-        $graphElements = new ClassGraphBuilder();
 
-        $dotElements = $graphElements->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             new Node($class),
@@ -73,11 +70,10 @@ final class ClassGraphBuilderTest extends TestCase
                 A::parameter('$reference')->withType((string) $reference->name())->build()
             )
             ->build();
-        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
         $codebase->add($reference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             Edge::association($reference, $class),
@@ -94,12 +90,11 @@ final class ClassGraphBuilderTest extends TestCase
             ->withAPrivateProperty('$firstReference', (string) $firstReference->name())
             ->withAPrivateProperty('$secondReference', (string) $secondReference->name())
             ->build();
-        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
         $codebase->add($firstReference);
         $codebase->add($secondReference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             Edge::association($firstReference, $class),
@@ -112,16 +107,14 @@ final class ClassGraphBuilderTest extends TestCase
     function it_does_not_duplicate_associations_for_2_properties_with_the_same_type()
     {
         $reference = A::classNamed('FirstClass');
-
         $class = A::class('AClass')
             ->withAPrivateProperty('$firstReference', (string) $reference->name())
             ->withAPrivateProperty('$secondReference', (string) $reference->name())
             ->build();
-        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
         $codebase->add($reference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             Edge::association($reference, $class),
@@ -133,7 +126,6 @@ final class ClassGraphBuilderTest extends TestCase
     function it_does_not_duplicate_associations_for_2_constructor_parameters_with_the_same_type()
     {
         $reference = A::classNamed('FirstClass');
-
         $class = A::class('AClass')
             ->withAPublicMethod(
                 '__construct',
@@ -141,11 +133,10 @@ final class ClassGraphBuilderTest extends TestCase
                 A::parameter('$referenceB')->withType((string) $reference->name())->build()
             )
             ->build();
-        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
         $codebase->add($reference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             Edge::association($reference, $class),
@@ -159,7 +150,6 @@ final class ClassGraphBuilderTest extends TestCase
         $firstReference = A::classNamed('FirstClass');
         $secondReference = A::classNamed('SecondClass');
         $thirdReference = A::classNamed('ThirdClass');
-
         $class = A::class('AClass')
             ->withAPrivateProperty('$firstReference', (string) $firstReference->name())
             ->withAPrivateProperty('$secondReference', (string) $secondReference->name())
@@ -169,13 +159,12 @@ final class ClassGraphBuilderTest extends TestCase
                 A::parameter('$thirdReference')->withType((string) $thirdReference->name())->build()
             )
             ->build();
-        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
         $codebase->add($firstReference);
         $codebase->add($secondReference);
         $codebase->add($thirdReference);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             Edge::association($firstReference, $class),
@@ -195,7 +184,6 @@ final class ClassGraphBuilderTest extends TestCase
         $firstInterface = A::interfaceNamed('FirstInterface');
         $secondInterface = A::interfaceNamed('FirstInterface');
         $parent = A::classNamed('ParentClass');
-
         $class = A::class('AClass')
             ->withAPrivateProperty('$firstReference', (string) $firstReference->name())
             ->withAPrivateProperty('$secondReference', (string) $secondReference->name())
@@ -207,7 +195,6 @@ final class ClassGraphBuilderTest extends TestCase
             ->implementing($firstInterface->name(), $secondInterface->name())
             ->extending($parent->name())
             ->build();
-        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
         $codebase = new Codebase();
         $codebase->add($firstReference);
         $codebase->add($secondReference);
@@ -217,7 +204,7 @@ final class ClassGraphBuilderTest extends TestCase
         $codebase->add($firstInterface);
         $codebase->add($secondInterface);
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
 
         $this->assertEquals([
             Edge::association($firstReference, $class),
@@ -232,23 +219,20 @@ final class ClassGraphBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_extracts_association_to_same_class_from_different_classes()
+    function it_extracts_association_to_the_same_class_from_different_classes()
     {
         $reference = A::classNamed('AReference');
         $class = A::class('AClass')
             ->withAPrivateProperty('$firstReference', (string) $reference->name())
-            ->build()
-        ;
+            ->build();
         $anotherClass = A::class('AnotherClass')
             ->withAPrivateProperty('$firstReference', (string) $reference->name())
-            ->build()
-        ;
+            ->build();
         $codebase = new Codebase();
         $codebase->add($reference);
-        $classGraphBuilder = new ClassGraphBuilder(new EdgesBuilder());
 
-        $dotElements = $classGraphBuilder->extractFrom($class, $codebase);
-        $dotElements = array_merge($dotElements, $classGraphBuilder->extractFrom($anotherClass, $codebase));
+        $dotElements = $this->classGraphBuilder->extractFrom($class, $codebase);
+        $dotElements = array_merge($dotElements, $this->classGraphBuilder->extractFrom($anotherClass, $codebase));
 
         $this->assertEquals([
             Edge::association($reference, $class),
@@ -270,10 +254,18 @@ final class ClassGraphBuilderTest extends TestCase
                 A::parameter('$fourthReference')->withType('FourthClass')->build()
             )
             ->build();
-        $graphElements = new ClassGraphBuilder();
+        $classGraphBuilder = new ClassGraphBuilder(new NoEdgesBuilder());
 
-        $dotElements = $graphElements->extractFrom($class, new Codebase());
+        $dotElements = $classGraphBuilder->extractFrom($class, new Codebase());
 
         $this->assertEquals([new Node($class)], $dotElements);
     }
+
+    /** @before */
+    function let()
+    {
+        $this->classGraphBuilder = new ClassGraphBuilder(new DirectedEdgesBuilder());
+    }
+
+    private ClassGraphBuilder $classGraphBuilder;
 }

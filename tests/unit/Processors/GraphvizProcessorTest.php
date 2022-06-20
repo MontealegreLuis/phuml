@@ -7,6 +7,7 @@ namespace PhUml\Processors;
 
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\Codebase;
+use PhUml\Code\Name;
 use PhUml\Fakes\WithDotLanguageAssertions;
 use PhUml\TestBuilders\A;
 
@@ -25,7 +26,7 @@ final class GraphvizProcessorTest extends TestCase
     }
 
     /** @test */
-    function it_turns_a_code_structure_into_dot_language()
+    function it_turns_a_codebase_into_dot_language()
     {
         $processor = A::graphvizProcessor()->withAssociations()->build();
         $parentInterface = A::interfaceNamed('ParentInterface');
@@ -47,6 +48,10 @@ final class GraphvizProcessorTest extends TestCase
             ->extending($parentClass->name())
             ->using($trait->name())
             ->build();
+        $enum = A::enum('AnEnum')
+            ->implementing(new Name('ImplementedInterface'))
+            ->using(new Name('ATrait'))
+            ->build();
         $codebase = new Codebase();
         $codebase->add($parentClass);
         $codebase->add($reference);
@@ -54,19 +59,23 @@ final class GraphvizProcessorTest extends TestCase
         $codebase->add($interface);
         $codebase->add($class);
         $codebase->add($trait);
+        $codebase->add($enum);
 
         $dotLanguage = $processor->process($codebase);
 
         $this->assertNode($parentClass, $dotLanguage->value());
         $this->assertNode($reference, $dotLanguage->value());
         $this->assertNode($class, $dotLanguage->value());
+        $this->assertNode($enum, $dotLanguage->value());
         $this->assertInheritance($class, $parentClass, $dotLanguage->value());
         $this->assertAssociation($reference, $class, $dotLanguage->value());
         $this->assertImplementation($class, $interface, $dotLanguage->value());
+        $this->assertImplementation($enum, $interface, $dotLanguage->value());
         $this->assertNode($parentInterface, $dotLanguage->value());
         $this->assertNode($interface, $dotLanguage->value());
         $this->assertInheritance($interface, $parentInterface, $dotLanguage->value());
         $this->assertNode($trait, $dotLanguage->value());
         $this->assertUseTrait($class, $trait, $dotLanguage->value());
+        $this->assertUseTrait($enum, $trait, $dotLanguage->value());
     }
 }

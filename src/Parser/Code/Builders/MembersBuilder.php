@@ -8,9 +8,11 @@ namespace PhUml\Parser\Code\Builders;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\EnumCase as ParsedEnumCase;
 use PhpParser\Node\Stmt\Property as ParsedProperty;
 use PhUml\Code\Methods\Method;
 use PhUml\Code\Properties\Constant;
+use PhUml\Code\Properties\EnumCase;
 use PhUml\Code\Properties\Property;
 use PhUml\Code\UseStatements;
 use PhUml\Parser\Code\Builders\Members\ConstantsBuilder;
@@ -70,18 +72,6 @@ final class MembersBuilder
         return array_merge($this->propertiesBuilder->build($filteredProperties, $useStatements), $properties);
     }
 
-    /**
-     * @param ClassMethod[] $methods
-     * @return Method[]
-     */
-    public function methods(array $methods, UseStatements $useStatements): array
-    {
-        /** @var ClassMethod[] $filteredMethods */
-        $filteredMethods = $this->filters->apply($methods);
-
-        return $this->methodsBuilder->build($filteredMethods, $useStatements);
-    }
-
     /** @return Property[] */
     private function fromPromotedProperties(ClassMethod $constructor, UseStatements $useStatements): array
     {
@@ -94,5 +84,29 @@ final class MembersBuilder
         $filteredPromotedProperties = $this->filters->apply($promotedProperties);
 
         return $this->propertiesBuilder->fromPromotedProperties($filteredPromotedProperties, $useStatements);
+    }
+
+    /**
+     * @param ClassMethod[] $methods
+     * @return Method[]
+     */
+    public function methods(array $methods, UseStatements $useStatements): array
+    {
+        /** @var ClassMethod[] $filteredMethods */
+        $filteredMethods = $this->filters->apply($methods);
+
+        return $this->methodsBuilder->build($filteredMethods, $useStatements);
+    }
+
+    /**
+     * @param Node[] $members
+     * @return EnumCase[]
+     */
+    public function enumCases(array $members): array
+    {
+        /** @var ParsedEnumCase[] $cases */
+        $cases = array_filter($members, static fn ($member): bool => $member instanceof ParsedEnumCase);
+
+        return array_map(static fn (ParsedEnumCase $case) => new EnumCase((string) $case->name), $cases);
     }
 }

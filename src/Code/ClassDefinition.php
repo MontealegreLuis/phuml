@@ -20,11 +20,12 @@ use PhUml\Code\Properties\WithProperties;
 /**
  * It represents a class definition
  */
-final class ClassDefinition extends Definition implements HasProperties, HasConstants, CanBeAbstract, UseTraits
+final class ClassDefinition extends Definition implements HasProperties, HasConstants, CanBeAbstract, UseTraits, ImplementsInterfaces
 {
     use WithProperties;
     use WithConstants;
     use WithTraits;
+    use WithInterfaces;
 
     /**
      * @param Method[] $methods
@@ -39,13 +40,14 @@ final class ClassDefinition extends Definition implements HasProperties, HasCons
         array $constants = [],
         private readonly ?Name $parent = null,
         array $properties = [],
-        private readonly array $interfaces = [],
+        array $interfaces = [],
         array $traits = [],
         private readonly bool $isAttribute = false
     ) {
         parent::__construct($name, $methods);
         $this->constants = $constants;
         $this->properties = $properties;
+        $this->interfaces = $interfaces;
         $this->traits = $traits;
     }
 
@@ -54,7 +56,7 @@ final class ClassDefinition extends Definition implements HasProperties, HasCons
      * classes via the constructor
      *
      * @return Parameter[]
-     * @see \PhUml\Graphviz\Builders\AssociationsBuilder::fromProperties() for more details
+     * @see \PhUml\Graphviz\Builders\EdgesBuilder::fromProperties() for more details
      */
     public function constructorParameters(): array
     {
@@ -89,18 +91,6 @@ final class ClassDefinition extends Definition implements HasProperties, HasCons
             static fn (Property $property): bool =>
                 $property->hasTypeDeclaration() && $property->hasVisibility($visibility)
         ));
-    }
-
-    /**
-     * It is used by the `ClassGraphBuilder` to create the edges to represent implementation
-     * associations
-     *
-     * @return Name[]
-     * @see \PhUml\Graphviz\Builders\ClassGraphBuilder::extractFrom() for more details
-     */
-    public function interfaces(): array
-    {
-        return $this->interfaces;
     }
 
     /**

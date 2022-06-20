@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\UseStatements;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
 use PhUml\TestBuilders\A;
 
 final class ParsedPropertiesBuilderTest extends TestCase
@@ -19,6 +20,7 @@ final class ParsedPropertiesBuilderTest extends TestCase
         $builder = new ParsedPropertiesBuilder(
             new VisibilityBuilder(),
             A::typeBuilderBuilder()->build(),
+            new ParameterTagFilterFactory()
         );
         $privatePromotedProperty = new Param(new Variable('aString'), type: 'string', flags: 4);
         $protectedPromotedProperty = new Param(new Variable('aFloat'), type: 'float', flags: 2);

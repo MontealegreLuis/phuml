@@ -15,6 +15,7 @@ use PhpParser\ParserFactory;
 use PhUml\Code\Codebase;
 use PhUml\Parser\Code\Builders\AttributeAnalyzer;
 use PhUml\Parser\Code\Builders\ClassDefinitionBuilder;
+use PhUml\Parser\Code\Builders\EnumDefinitionBuilder;
 use PhUml\Parser\Code\Builders\Filters\PrivateVisibilityFilter;
 use PhUml\Parser\Code\Builders\Filters\ProtectedVisibilityFilter;
 use PhUml\Parser\Code\Builders\InterfaceDefinitionBuilder;
@@ -29,10 +30,12 @@ use PhUml\Parser\Code\Builders\Members\TypeBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityBuilder;
 use PhUml\Parser\Code\Builders\Members\VisibilityFilters;
 use PhUml\Parser\Code\Builders\MembersBuilder;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
 use PhUml\Parser\Code\Builders\TagTypeFactory;
 use PhUml\Parser\Code\Builders\TraitDefinitionBuilder;
 use PhUml\Parser\Code\Builders\UseStatementsBuilder;
 use PhUml\Parser\Code\Visitors\ClassVisitor;
+use PhUml\Parser\Code\Visitors\EnumVisitor;
 use PhUml\Parser\Code\Visitors\InterfaceVisitor;
 use PhUml\Parser\Code\Visitors\TraitVisitor;
 use PhUml\Parser\CodeParserConfiguration;
@@ -68,19 +71,21 @@ final class PhpCodeParser
         }
         $visibilityBuilder = new VisibilityBuilder();
         $typeBuilder = new TypeBuilder(new TypeResolver(new TagTypeFactory(DocBlockFactory::createInstance())));
+        $parameterFilter = new ParameterTagFilterFactory();
         $methodsBuilder ??= new ParsedMethodsBuilder(
-            new ParametersBuilder($typeBuilder),
+            new ParametersBuilder($typeBuilder, $parameterFilter),
             $typeBuilder,
             $visibilityBuilder,
         );
         $constantsBuilder ??= new ParsedConstantsBuilder($visibilityBuilder);
-        $propertiesBuilder ??= new ParsedPropertiesBuilder($visibilityBuilder, $typeBuilder);
+        $propertiesBuilder ??= new ParsedPropertiesBuilder($visibilityBuilder, $typeBuilder, $parameterFilter);
         $filters = new VisibilityFilters($filters);
         $membersBuilder = new MembersBuilder($constantsBuilder, $propertiesBuilder, $methodsBuilder, $filters);
         $useStatementsBuilder = new UseStatementsBuilder();
         $classBuilder = new ClassDefinitionBuilder($membersBuilder, $useStatementsBuilder, new AttributeAnalyzer());
         $interfaceBuilder = new InterfaceDefinitionBuilder($membersBuilder, $useStatementsBuilder);
         $traitBuilder = new TraitDefinitionBuilder($membersBuilder, $useStatementsBuilder);
+        $enumBuilder = new EnumDefinitionBuilder($membersBuilder, $useStatementsBuilder);
 
         $codebase = new Codebase();
 
@@ -91,6 +96,7 @@ final class PhpCodeParser
         $traverser->addVisitor(new ClassVisitor($classBuilder, $codebase));
         $traverser->addVisitor(new InterfaceVisitor($interfaceBuilder, $codebase));
         $traverser->addVisitor(new TraitVisitor($traitBuilder, $codebase));
+        $traverser->addVisitor(new EnumVisitor($enumBuilder, $codebase));
         $traverser = new PhpTraverser($traverser, $codebase);
 
         return new self($parser, $traverser);
@@ -105,7 +111,7 @@ final class PhpCodeParser
     public function parse(SourceCode $sourceCode): Codebase
     {
         foreach ($sourceCode->fileContents() as $code) {
-            /** @var Stmt[] $nodes Since the parser is run in throw errors mode */
+            /** @var Stmt[] $nodes Since the parser is configured to throw in case of errors */
             $nodes = $this->parser->parse($code);
             $this->traverser->traverse($nodes);
         }

@@ -13,6 +13,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\UseStatements;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
 use PhUml\TestBuilders\A;
 
 final class ParsedMethodsBuilderTest extends TestCase
@@ -80,7 +81,7 @@ final class ParsedMethodsBuilderTest extends TestCase
         $this->useStatements = new UseStatements([]);
         $typeBuilder = A::typeBuilderBuilder()->build();
         $this->builder = new ParsedMethodsBuilder(
-            new ParametersBuilder($typeBuilder),
+            new ParametersBuilder($typeBuilder, new ParameterTagFilterFactory()),
             $typeBuilder,
             new VisibilityBuilder(),
         );

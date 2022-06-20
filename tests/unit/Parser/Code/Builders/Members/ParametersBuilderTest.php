@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PHPUnit\Framework\TestCase;
 use PhUml\Code\UseStatements;
+use PhUml\Parser\Code\Builders\ParameterTagFilterFactory;
 use PhUml\TestBuilders\A;
 
 final class ParametersBuilderTest extends TestCase
@@ -21,7 +22,7 @@ final class ParametersBuilderTest extends TestCase
             new Param(new Variable('size'), null, 'int'),
             new Param(new Variable('items'), null, 'int', false, true),
         ];
-        $builder = new ParametersBuilder(A::typeBuilderBuilder()->build());
+        $builder = new ParametersBuilder(A::typeBuilderBuilder()->build(), new ParameterTagFilterFactory());
 
         $parameters = $builder->build($parsedParameters, null, new UseStatements([]));
 

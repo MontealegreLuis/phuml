@@ -7,7 +7,7 @@ namespace PhUml\Parser\Code\Builders;
 
 use PhpParser\Node\Stmt\Interface_;
 use PhUml\Code\InterfaceDefinition;
-use PhUml\Code\Name as InterfaceDefinitionName;
+use PhUml\Code\Name;
 use PhUml\Parser\Code\Builders\Names\InterfaceNamesBuilder;
 
 /**
@@ -29,8 +29,9 @@ final class InterfaceDefinitionBuilder
     public function build(Interface_ $interface): InterfaceDefinition
     {
         $useStatements = $this->useStatementsBuilder->build($interface);
+
         return new InterfaceDefinition(
-            new InterfaceDefinitionName((string) $interface->namespacedName),
+            new Name((string) $interface->namespacedName),
             $this->membersBuilder->methods($interface->getMethods(), $useStatements),
             $this->membersBuilder->constants($interface->stmts),
             $this->buildInterfaces($interface->extends)

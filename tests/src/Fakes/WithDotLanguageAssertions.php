@@ -7,6 +7,7 @@ namespace PhUml\Fakes;
 
 use PhUml\Code\ClassDefinition;
 use PhUml\Code\Definition;
+use PhUml\Code\EnumDefinition;
 use PhUml\Code\InterfaceDefinition;
 use PhUml\Code\TraitDefinition;
 
@@ -37,16 +38,16 @@ trait WithDotLanguageAssertions
     }
 
     public function assertImplementation(
-        ClassDefinition $class,
+        ClassDefinition|EnumDefinition $classOrEnum,
         InterfaceDefinition $interface,
         string $dotLanguage
     ): void {
         $interfaceIdentifier = str_replace('\\', '\\\\', $interface->identifier());
-        $identifier = str_replace('\\', '\\\\', $class->identifier());
+        $identifier = str_replace('\\', '\\\\', $classOrEnum->identifier());
         $this->assertMatchesRegularExpression(
             "/\"{$interfaceIdentifier}\" -> \"{$identifier}\" \\[dir=back arrowtail=empty style=dashed color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
-            "{$class->name()} does not implements {$interface->name()}"
+            "{$classOrEnum->name()} does not implements {$interface->name()}"
         );
     }
 
@@ -63,14 +64,14 @@ trait WithDotLanguageAssertions
     }
 
     public function assertUseTrait(
-        ClassDefinition $class,
+        ClassDefinition|EnumDefinition $classOrEnum,
         TraitDefinition $trait,
         string $dotLanguage
     ): void {
         $this->assertMatchesRegularExpression(
-            "/\"{$trait->identifier()}\" -> \"{$class->identifier()}\" \\[dir=back arrowtail=normal style=solid color=\"#[0-9a-f]{6}\"\\]/",
+            "/\"{$trait->identifier()}\" -> \"{$classOrEnum->identifier()}\" \\[dir=back arrowtail=normal style=solid color=\"#[0-9a-f]{6}\"\\]/",
             $dotLanguage,
-            "Class {$class->name()} does not use trait {$trait->name()}"
+            "{$classOrEnum->name()} does not use trait {$trait->name()}"
         );
     }
 }

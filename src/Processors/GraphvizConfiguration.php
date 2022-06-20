@@ -5,16 +5,16 @@
 
 namespace PhUml\Processors;
 
-use PhUml\Graphviz\Builders\AssociationsBuilder;
+use PhUml\Graphviz\Builders\DirectedEdgesBuilder;
 use PhUml\Graphviz\Builders\EdgesBuilder;
-use PhUml\Graphviz\Builders\NoAssociationsBuilder;
+use PhUml\Graphviz\Builders\NoEdgesBuilder;
 use PhUml\Graphviz\Styles\DigraphStyle;
 use PhUml\Graphviz\Styles\ThemeName;
 use Webmozart\Assert\Assert;
 
 final class GraphvizConfiguration
 {
-    private readonly AssociationsBuilder $associationsBuilder;
+    private readonly EdgesBuilder $associationsBuilder;
 
     private readonly DigraphStyle $digraphStyle;
 
@@ -22,7 +22,7 @@ final class GraphvizConfiguration
     public function __construct(array $options)
     {
         Assert::boolean($options['associations'], 'Generate digraph associations option must be a boolean value');
-        $this->associationsBuilder = $options['associations'] ? new EdgesBuilder() : new NoAssociationsBuilder();
+        $this->associationsBuilder = $options['associations'] ? new DirectedEdgesBuilder() : new NoEdgesBuilder();
         Assert::string($options['theme'], 'Theme option must be a string value');
         $theme = new ThemeName($options['theme']);
         Assert::boolean($options['hide-empty-blocks'], 'Hide digraph empty blocks option must be a boolean value');
@@ -32,7 +32,7 @@ final class GraphvizConfiguration
             : DigraphStyle::default($theme);
     }
 
-    public function associationsBuilder(): AssociationsBuilder
+    public function edgesBuilder(): EdgesBuilder
     {
         return $this->associationsBuilder;
     }
